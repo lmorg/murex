@@ -1,4 +1,4 @@
-# `f` - Command Reference
+# `f`
 
 > Lists or filters file system objects (eg files)
 

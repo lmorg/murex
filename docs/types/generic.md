@@ -1,4 +1,4 @@
-# `*` (generic)  - Data-Type Reference
+# `*` (generic) 
 
 > generic (primitive)
 

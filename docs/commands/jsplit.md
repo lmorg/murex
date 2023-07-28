@@ -1,4 +1,4 @@
-# `jsplit`  - Command Reference
+# `jsplit` 
 
 > Splits STDIN into a JSON array based on a regex parameter
 

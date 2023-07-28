@@ -1,4 +1,4 @@
-# `suffix` - Command Reference
+# `suffix`
 
 > Prefix a string to every item in a list
 

@@ -1,4 +1,4 @@
-# `set` - Command Reference
+# `set`
 
 > Define a local variable and set it's value
 

@@ -1,4 +1,4 @@
-# `null` - Command Reference
+# `null`
 
 > null function. Similar to /dev/null
 

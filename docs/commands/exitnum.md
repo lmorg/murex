@@ -1,4 +1,4 @@
-# `exitnum` - Command Reference
+# `exitnum`
 
 > Output the exit number of the previous process
 

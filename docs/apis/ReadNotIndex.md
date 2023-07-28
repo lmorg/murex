@@ -1,4 +1,4 @@
-# `ReadNotIndex()` (type) - API Reference
+# `ReadNotIndex()` (type)
 
 > Data type handler for the bang-prefixed index, `![`, builtin
 

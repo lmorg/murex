@@ -1,4 +1,4 @@
-# `base64`  - Optional Command Reference
+# `base64` 
 
 > Encode or decode a base64 string
 

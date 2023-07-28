@@ -1,4 +1,4 @@
-# `private` - Command Reference
+# `private`
 
 > Define a private function block
 

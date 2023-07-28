@@ -1,4 +1,4 @@
-# `commonlog`  - Data-Type Reference
+# `commonlog` 
 
 > Apache httpd "common" log format
 

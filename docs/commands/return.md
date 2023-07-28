@@ -1,4 +1,4 @@
-# `return` - Command Reference
+# `return`
 
 > Exits current function scope
 

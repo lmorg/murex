@@ -1,4 +1,4 @@
-# `fexec`  - Command Reference
+# `fexec` 
 
 > Execute a command or function, bypassing the usual order of precedence.
 

@@ -1,4 +1,4 @@
-# `json`  - Data-Type Reference
+# `json` 
 
 > JavaScript Object Notation (JSON)
 

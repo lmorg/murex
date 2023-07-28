@@ -1,4 +1,4 @@
-# `openagent` - Command Reference
+# `openagent`
 
 > Creates a handler function for `open`
 

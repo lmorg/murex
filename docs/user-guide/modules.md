@@ -1,4 +1,4 @@
-# Modules and Packages - User Guide
+# Modules and Packages
 
 > An introduction to Murex modules and packages
 

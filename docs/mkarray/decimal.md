@@ -1,4 +1,4 @@
-# Decimal Ranges - mkarray
+# Decimal Ranges
 
 > Create arrays of decimal integers
 

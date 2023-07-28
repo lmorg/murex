@@ -1,4 +1,4 @@
-# `onFileSystemChange` - events
+# `onFileSystemChange`
 
 > Add a filesystem watch
 

@@ -1,4 +1,4 @@
-# Or (`||`) Logical Operator - Parser Reference
+# Or (`||`) Logical Operator
 
 > Continues next operation only if previous operation fails
 

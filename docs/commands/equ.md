@@ -1,4 +1,4 @@
-# `=` (arithmetic evaluation) - Command Reference
+# `=` (arithmetic evaluation)
 
 > Evaluate a mathematical function (deprecated)
 

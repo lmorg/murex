@@ -1,4 +1,4 @@
-# `open` - Command Reference
+# `open`
 
 > Open a file with a preferred handler
 

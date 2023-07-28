@@ -1,4 +1,4 @@
-# `break` - Command Reference
+# `break`
 
 > Terminate execution of a block within your processes scope
 

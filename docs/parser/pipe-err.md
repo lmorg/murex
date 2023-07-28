@@ -1,4 +1,4 @@
-# STDERR Pipe (`?`) Token - Parser Reference
+# STDERR Pipe (`?`) Token
 
 > Pipes STDERR from the left hand command to STDIN of the right hand command
 

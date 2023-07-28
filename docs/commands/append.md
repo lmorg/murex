@@ -1,4 +1,4 @@
-# `append` - Command Reference
+# `append`
 
 > Add data to the end of an array
 

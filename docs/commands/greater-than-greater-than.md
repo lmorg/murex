@@ -1,4 +1,4 @@
-# `>>` (append file) - Command Reference
+# `>>` (append file)
 
 > Writes STDIN to disk - appending contents if file already exists
 

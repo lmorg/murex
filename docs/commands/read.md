@@ -1,4 +1,4 @@
-# `read` - Command Reference
+# `read`
 
 > `read` a line of input from the user and store as a variable
 

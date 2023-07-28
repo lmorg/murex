@@ -1,4 +1,4 @@
-# `@g` (autoglob)  - Command Reference
+# `@g` (autoglob) 
 
 > Command prefix to expand globbing (deprecated)
 

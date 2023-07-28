@@ -1,4 +1,4 @@
-# `for` - Command Reference
+# `for`
 
 > A more familiar iteration loop to existing developers
 

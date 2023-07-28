@@ -1,4 +1,4 @@
-# Schedulers - User Guide
+# Schedulers
 
 > Overview of the different schedulers (or 'run modes') in Murex
 

@@ -1,4 +1,4 @@
-# `2darray`  - Command Reference
+# `2darray` 
 
 > Create a 2D JSON array from multiple input sources
 

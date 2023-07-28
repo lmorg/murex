@@ -1,4 +1,4 @@
-# `runtime` - Command Reference
+# `runtime`
 
 > Returns runtime information on the internal state of Murex
 

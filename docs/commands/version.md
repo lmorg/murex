@@ -1,4 +1,4 @@
-# `version`  - Command Reference
+# `version` 
 
 > Get Murex version
 

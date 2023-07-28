@@ -1,4 +1,4 @@
-# Arrow Pipe (`->`) Token - Parser Reference
+# Arrow Pipe (`->`) Token
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 

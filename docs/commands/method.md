@@ -1,4 +1,4 @@
-# `method` - Command Reference
+# `method`
 
 > Define a methods supported data-types
 

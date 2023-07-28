@@ -1,4 +1,4 @@
-# `qr`  - Optional Command Reference
+# `qr` 
 
 > Creates a QR code from STDIN
 

@@ -1,4 +1,4 @@
-# `eschtml` - Command Reference
+# `eschtml`
 
 > Encode or decodes text for HTML
 

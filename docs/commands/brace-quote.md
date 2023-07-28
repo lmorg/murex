@@ -1,4 +1,4 @@
-# `(` (brace quote) - Command Reference
+# `(` (brace quote)
 
 > Write a string to the STDOUT without new line
 

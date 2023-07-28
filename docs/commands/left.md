@@ -1,4 +1,4 @@
-# `left` - Command Reference
+# `left`
 
 > Left substring every item in a list
 

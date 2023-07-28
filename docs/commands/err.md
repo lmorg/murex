@@ -1,4 +1,4 @@
-# `err` - Command Reference
+# `err`
 
 > Print a line to the STDERR
 

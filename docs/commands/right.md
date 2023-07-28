@@ -1,4 +1,4 @@
-# `right` - Command Reference
+# `right`
 
 > Right substring every item in a list
 

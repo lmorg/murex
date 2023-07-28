@@ -1,4 +1,4 @@
-# `struct-keys` - Command Reference
+# `struct-keys`
 
 > Outputs all the keys in a structure as a file path
 

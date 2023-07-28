@@ -1,4 +1,4 @@
-# `gz`  - Optional Command Reference
+# `gz` 
 
 > Compress or decompress a gzip file
 

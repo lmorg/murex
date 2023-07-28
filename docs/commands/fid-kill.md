@@ -1,4 +1,4 @@
-# `fid-kill` - Command Reference
+# `fid-kill`
 
 > Terminate a running Murex function
 

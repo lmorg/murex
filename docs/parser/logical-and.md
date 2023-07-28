@@ -1,4 +1,4 @@
-# And (`&&`) Logical Operator - Parser Reference
+# And (`&&`) Logical Operator
 
 > Continues next operation if previous operation passes
 

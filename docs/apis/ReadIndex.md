@@ -1,4 +1,4 @@
-# `ReadIndex()` (type) - API Reference
+# `ReadIndex()` (type)
 
 > Data type handler for the index, `[`, builtin
 

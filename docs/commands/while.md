@@ -1,4 +1,4 @@
-# `while` - Command Reference
+# `while`
 
 > Loop until condition false
 

@@ -1,4 +1,4 @@
-# `ReadArray()` (type) - API Reference
+# `ReadArray()` (type)
 
 > Read from a data type one array element at a time
 

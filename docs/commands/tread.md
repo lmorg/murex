@@ -1,4 +1,4 @@
-# `tread` - Command Reference
+# `tread`
 
 > `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 

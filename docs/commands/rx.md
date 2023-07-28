@@ -1,4 +1,4 @@
-# `rx` - Command Reference
+# `rx`
 
 > Regexp pattern matching for file system objects (eg `.*\\.txt`)
 

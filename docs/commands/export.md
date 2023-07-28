@@ -1,4 +1,4 @@
-# `export` - Command Reference
+# `export`
 
 > Define an environmental variable and set it's value
 

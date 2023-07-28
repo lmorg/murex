@@ -1,4 +1,4 @@
-# `[` (index) - Command Reference
+# `[` (index)
 
 > Outputs an element from an array, map or table
 

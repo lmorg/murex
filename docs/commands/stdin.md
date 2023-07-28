@@ -1,4 +1,4 @@
-# `<stdin>`  - Command Reference
+# `<stdin>` 
 
 > Read the STDIN belonging to the parent code block
 

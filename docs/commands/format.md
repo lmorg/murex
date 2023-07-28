@@ -1,4 +1,4 @@
-# `format` - Command Reference
+# `format`
 
 > Reformat one data-type into another data-type
 

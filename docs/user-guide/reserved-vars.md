@@ -1,4 +1,4 @@
-# Reserved Variables - User Guide
+# Reserved Variables
 
 > Special variables reserved by Murex
 

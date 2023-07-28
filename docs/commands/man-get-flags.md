@@ -1,4 +1,4 @@
-# `man-get-flags`  - Command Reference
+# `man-get-flags` 
 
 > Parses man page files for command line flags 
 

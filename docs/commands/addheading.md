@@ -1,4 +1,4 @@
-# `addheading`  - Command Reference
+# `addheading` 
 
 > Adds headings to a table
 

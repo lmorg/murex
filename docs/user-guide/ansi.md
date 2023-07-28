@@ -1,4 +1,4 @@
-# ANSI Constants - User Guide
+# ANSI Constants
 
 > Infixed constants that return ANSI escape sequences
 

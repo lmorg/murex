@@ -1,4 +1,4 @@
-# `event` - Command Reference
+# `event`
 
 > Event driven programming for shell scripts
 

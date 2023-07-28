@@ -1,4 +1,4 @@
-# `match` - Command Reference
+# `match`
 
 > Match an exact value in an array
 

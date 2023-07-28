@@ -1,4 +1,4 @@
-# `jsonc`  - Data-Type Reference
+# `jsonc` 
 
 > Concatenated JSON
 

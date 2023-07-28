@@ -1,4 +1,4 @@
-# `onSecondsElapsed` - events
+# `onSecondsElapsed`
 
 > Events triggered by time intervals
 

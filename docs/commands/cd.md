@@ -1,4 +1,4 @@
-# `cd` - Command Reference
+# `cd`
 
 > Change (working) directory
 

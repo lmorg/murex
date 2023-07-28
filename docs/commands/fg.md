@@ -1,4 +1,4 @@
-# `fg` - Command Reference
+# `fg`
 
 > Sends a background process into the foreground
 

@@ -1,4 +1,4 @@
-# `tabulate` - Command Reference
+# `tabulate`
 
 > Table transformation tools
 

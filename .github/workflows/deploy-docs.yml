@@ -52,13 +52,21 @@ jobs:
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
 
-      - name: Push to S3
+      - name: Push To S3
         env:
           AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
           AWS_DEFAULT_REGION: eu-west-1
           AWS_DEFAULT_OUTPUT: json
         run: aws s3 sync docs/.vuepress/dist s3://murex.rocks/vuepress/
+
+      - name: Invalidate CloudFront
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
+          AWS_DEFAULT_REGION: eu-west-1
+          AWS_DEFAULT_OUTPUT: json
+        run: aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/*"
 
 #      - name: Deploy Docs
 #        uses: JamesIves/github-pages-deploy-action@v4

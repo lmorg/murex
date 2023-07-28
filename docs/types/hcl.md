@@ -1,4 +1,4 @@
-# `hcl`  - Data-Type Reference
+# `hcl` 
 
 > HashiCorp Configuration Language (HCL)
 

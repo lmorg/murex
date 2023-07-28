@@ -1,4 +1,4 @@
-# `<>` / `read-named-pipe` - Command Reference
+# `<>` / `read-named-pipe`
 
 > Reads from a Murex named pipe
 

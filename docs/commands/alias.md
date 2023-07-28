@@ -1,4 +1,4 @@
-# `alias` - Command Reference
+# `alias`
 
 > Create an alias for a command
 

@@ -1,4 +1,4 @@
-# Brace Quote (`%(`, `)`) Tokens - Parser Reference
+# Brace Quote (`%(`, `)`) Tokens
 
 > Initiates or terminates a string (variables expanded)
 

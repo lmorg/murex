@@ -1,4 +1,4 @@
-# Single Quote (`'`) Token - Parser Reference
+# Single Quote (`'`) Token
 
 > Initiates or terminates a string (variables not expanded)
 

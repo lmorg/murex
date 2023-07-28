@@ -1,4 +1,4 @@
-# `murex-update-exe-list` - Command Reference
+# `murex-update-exe-list`
 
 > Forces Murex to rescan $PATH looking for executables
 

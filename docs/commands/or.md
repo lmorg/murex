@@ -1,4 +1,4 @@
-# `or` - Command Reference
+# `or`
 
 > Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 

@@ -1,4 +1,4 @@
-# `post` - Command Reference
+# `post`
 
 > HTTP POST request with a JSON-parsable return
 

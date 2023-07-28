@@ -1,4 +1,4 @@
-# `summary`  - Command Reference
+# `summary` 
 
 > Defines a summary help text for a command
 

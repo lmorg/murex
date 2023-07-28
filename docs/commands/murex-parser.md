@@ -1,4 +1,4 @@
-# `murex-parser`  - Command Reference
+# `murex-parser` 
 
 > Runs the Murex parser against a block of code 
 

@@ -1,4 +1,4 @@
-# Create object (`%{}`) constructor - Parser Reference
+# Create object (`%{}`) constructor
 
 > Quickly generate objects and maps
 

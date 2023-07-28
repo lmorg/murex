@@ -1,4 +1,4 @@
-# Special Ranges - mkarray
+# Special Ranges
 
 > Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 

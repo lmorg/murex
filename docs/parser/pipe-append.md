@@ -1,4 +1,4 @@
-# Append Pipe (`>>`) Token - Parser Reference
+# Append Pipe (`>>`) Token
 
 > Redirects STDOUT to a file and append its contents
 

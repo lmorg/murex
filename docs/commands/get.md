@@ -1,4 +1,4 @@
-# `get` - Command Reference
+# `get`
 
 > Makes a standard HTTP request and returns the result as a JSON object
 

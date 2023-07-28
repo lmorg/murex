@@ -1,4 +1,4 @@
-# `time`  - Command Reference
+# `time` 
 
 > Returns the execution run time of a command or block
 

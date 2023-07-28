@@ -1,4 +1,4 @@
-# `foreach` - Command Reference
+# `foreach`
 
 > Iterate through an array
 

@@ -1,4 +1,4 @@
-# `count` - Command Reference
+# `count`
 
 > Count items in a map, list or array
 

@@ -1,4 +1,4 @@
-# `getfile` - Command Reference
+# `getfile`
 
 > Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 

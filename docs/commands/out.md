@@ -1,4 +1,4 @@
-# `out` - Command Reference
+# `out`
 
 > Print a string to the STDOUT with a trailing new line character
 

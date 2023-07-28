@@ -1,4 +1,4 @@
-# `regexp` - Command Reference
+# `regexp`
 
 > Regexp tools for arrays / lists of strings
 

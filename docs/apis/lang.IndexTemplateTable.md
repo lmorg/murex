@@ -1,4 +1,4 @@
-# `lang.IndexTemplateTable()` (template API) - API Reference
+# `lang.IndexTemplateTable()` (template API)
 
 > Returns element(s) from a table
 

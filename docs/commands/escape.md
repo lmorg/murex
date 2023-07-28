@@ -1,4 +1,4 @@
-# `escape` - Command Reference
+# `escape`
 
 > Escape or unescape input 
 

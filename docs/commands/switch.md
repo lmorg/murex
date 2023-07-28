@@ -1,4 +1,4 @@
-# `switch` - Command Reference
+# `switch`
 
 > Blocks of cascading conditionals
 

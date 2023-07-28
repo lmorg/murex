@@ -1,4 +1,4 @@
-# Tilde (`~`) Token - Parser Reference
+# Tilde (`~`) Token
 
 > Home directory path variable
 

@@ -1,4 +1,4 @@
-# Reading Lists From The Command Line - Blog
+# Reading Lists From The Command Line
 
 > How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
 

@@ -1,4 +1,4 @@
-# Array (`@`) Token - Parser Reference
+# Array (`@`) Token
 
 > Expand values as an array
 

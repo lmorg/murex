@@ -1,4 +1,4 @@
-# String (`$`) Token - Parser Reference
+# String (`$`) Token
 
 > Expand values as a string
 

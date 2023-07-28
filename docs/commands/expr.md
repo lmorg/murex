@@ -1,4 +1,4 @@
-# `expr` - Command Reference
+# `expr`
 
 > Expressions: mathematical, string comparisons, logical operators
 

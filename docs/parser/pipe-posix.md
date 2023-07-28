@@ -1,4 +1,4 @@
-# POSIX Pipe (`|`) Token - Parser Reference
+# POSIX Pipe (`|`) Token
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 

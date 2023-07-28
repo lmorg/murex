@@ -1,4 +1,4 @@
-# `cast` - Command Reference
+# `cast`
 
 > Alters the data type of the previous function without altering it's output
 

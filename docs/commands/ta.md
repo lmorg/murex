@@ -1,4 +1,4 @@
-# `ta` (mkarray) - Command Reference
+# `ta` (mkarray)
 
 > A sophisticated yet simple way to build an array of a user defined data-type
 

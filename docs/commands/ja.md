@@ -1,4 +1,4 @@
-# `ja` (mkarray) - Command Reference
+# `ja` (mkarray)
 
 > A sophisticated yet simply way to build a JSON array
 

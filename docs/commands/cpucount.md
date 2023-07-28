@@ -1,4 +1,4 @@
-# `cpucount` - Command Reference
+# `cpucount`
 
 > Output the number of CPU cores available on your host
 

@@ -1,4 +1,4 @@
-# Terminal Hotkeys - User Guide
+# Terminal Hotkeys
 
 > A list of all the terminal hotkeys and their uses
 

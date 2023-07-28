@@ -1,4 +1,4 @@
-# Double Quote (`"`) Token - Parser Reference
+# Double Quote (`"`) Token
 
 > Initiates or terminates a string (variables expanded)
 

@@ -1,4 +1,4 @@
-# Create array (`%[]`) constructor - Parser Reference
+# Create array (`%[]`) constructor
 
 > Quickly generate arrays
 

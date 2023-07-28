@@ -1,4 +1,4 @@
-# Spellcheck - User Guide
+# Spellcheck
 
 > How to enable inline spellchecking
 

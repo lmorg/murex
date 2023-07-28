@@ -1,4 +1,4 @@
-# `exec` - Command Reference
+# `exec`
 
 > Runs an executable
 

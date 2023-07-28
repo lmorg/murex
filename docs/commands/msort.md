@@ -1,4 +1,4 @@
-# `msort`  - Command Reference
+# `msort` 
 
 > Sorts an array - data type agnostic
 

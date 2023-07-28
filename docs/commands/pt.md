@@ -1,4 +1,4 @@
-# `pt` - Command Reference
+# `pt`
 
 > Pipe telemetry. Writes data-types and bytes written
 

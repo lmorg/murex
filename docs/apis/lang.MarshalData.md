@@ -1,4 +1,4 @@
-# `lang.MarshalData()` (system API) - API Reference
+# `lang.MarshalData()` (system API)
 
 > Converts structured memory into a Murex data-type (eg for stdio)
 

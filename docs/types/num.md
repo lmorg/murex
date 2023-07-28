@@ -1,4 +1,4 @@
-# `num` (number) - Data-Type Reference
+# `num` (number)
 
 > Floating point number (primitive)
 

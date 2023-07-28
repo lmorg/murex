@@ -1,4 +1,4 @@
-# `sleep`  - Optional Command Reference
+# `sleep` 
 
 > Suspends the shell for a number of seconds
 

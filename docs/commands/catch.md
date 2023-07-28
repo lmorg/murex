@@ -1,4 +1,4 @@
-# `catch` - Command Reference
+# `catch`
 
 > Handles the exception code raised by `try` or `trypipe` 
 

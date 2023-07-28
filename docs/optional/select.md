@@ -1,4 +1,4 @@
-# `select`  - Optional Command Reference
+# `select` 
 
 > Inlining SQL into shell pipelines
 

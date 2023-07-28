@@ -1,4 +1,4 @@
-# `int`  - Data-Type Reference
+# `int` 
 
 > Whole number (primitive)
 

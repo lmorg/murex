@@ -1,4 +1,4 @@
-# `open-image`  - Command Reference
+# `open-image` 
 
 > Renders bitmap image data on your terminal
 

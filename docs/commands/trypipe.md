@@ -1,4 +1,4 @@
-# `trypipe` - Command Reference
+# `trypipe`
 
 > Checks state of each function in a pipeline and exits block on error
 

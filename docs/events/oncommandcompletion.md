@@ -1,4 +1,4 @@
-# `onCommandCompletion` - events
+# `onCommandCompletion`
 
 > Trigger an event upon a command's completion
 

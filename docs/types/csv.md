@@ -1,4 +1,4 @@
-# `csv`  - Data-Type Reference
+# `csv` 
 
 > CSV files (and other character delimited tables)
 

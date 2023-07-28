@@ -1,4 +1,4 @@
-# Curly Brace (`{`, `}`) Tokens - Parser Reference
+# Curly Brace (`{`, `}`) Tokens
 
 > Initiates or terminates a code block
 

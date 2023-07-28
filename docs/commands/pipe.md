@@ -1,4 +1,4 @@
-# `pipe` - Command Reference
+# `pipe`
 
 > Manage Murex named pipes
 

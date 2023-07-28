@@ -1,4 +1,4 @@
-# Generic Pipe (`=>`) Token - Parser Reference
+# Generic Pipe (`=>`) Token
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 

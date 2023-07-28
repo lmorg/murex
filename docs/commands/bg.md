@@ -1,4 +1,4 @@
-# `bg` - Command Reference
+# `bg`
 
 > Run processes in the background
 

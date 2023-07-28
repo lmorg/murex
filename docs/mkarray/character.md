@@ -1,4 +1,4 @@
-# Character arrays - mkarray
+# Character arrays
 
 > Making character arrays (a to z)
 

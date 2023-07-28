@@ -1,4 +1,4 @@
-# `false` - Command Reference
+# `false`
 
 > Returns a `false` value
 

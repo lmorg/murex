@@ -1,4 +1,4 @@
-# `datetime`  - Command Reference
+# `datetime` 
 
 > A date and/or time conversion tool (like `printf` but for date and time values)
 

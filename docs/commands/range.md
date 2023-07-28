@@ -1,4 +1,4 @@
-# `[` (range)  - Command Reference
+# `[` (range) 
 
 > Outputs a ranged subset of data from STDIN
 

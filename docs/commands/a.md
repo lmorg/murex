@@ -1,4 +1,4 @@
-# `a` (mkarray) - Command Reference
+# `a` (mkarray)
 
 > A sophisticated yet simple way to build an array or list
 

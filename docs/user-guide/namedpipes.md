@@ -1,4 +1,4 @@
-# Murex Named Pipes - User Guide
+# Murex Named Pipes
 
 > A detailed breakdown of named pipes in Murex
 

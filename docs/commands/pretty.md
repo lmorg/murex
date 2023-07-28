@@ -1,4 +1,4 @@
-# `pretty` - Command Reference
+# `pretty`
 
 > Prettifies JSON to make it human readable
 

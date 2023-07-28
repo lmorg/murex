@@ -1,4 +1,4 @@
-# `bexists` - Command Reference
+# `bexists`
 
 > Check which builtins exist
 

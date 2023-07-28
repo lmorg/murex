@@ -1,4 +1,4 @@
-# `map`  - Command Reference
+# `map` 
 
 > Creates a map from two data sources
 

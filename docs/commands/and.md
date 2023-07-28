@@ -1,4 +1,4 @@
-# `and` - Command Reference
+# `and`
 
 > Returns `true` or `false` depending on whether multiple conditions are met
 

@@ -1,4 +1,4 @@
-# `cpuarch` - Command Reference
+# `cpuarch`
 
 > Output the hosts CPU architecture
 

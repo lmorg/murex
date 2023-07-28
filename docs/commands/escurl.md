@@ -1,4 +1,4 @@
-# `escurl` - Command Reference
+# `escurl`
 
 > Encode or decodes text for the URL
 

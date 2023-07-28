@@ -1,4 +1,4 @@
-# `config` - Command Reference
+# `config`
 
 > Query or define Murex runtime settings
 

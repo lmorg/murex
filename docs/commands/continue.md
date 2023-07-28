@@ -1,4 +1,4 @@
-# `continue` - Command Reference
+# `continue`
 
 > Terminate process of a block within a caller function
 

@@ -1,4 +1,4 @@
-# `global` - Command Reference
+# `global`
 
 > Define a global variable and set it's value
 

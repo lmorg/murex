@@ -1,4 +1,4 @@
-# `args`  - Command Reference
+# `args` 
 
 > Command line flag parser for Murex shell scripting
 

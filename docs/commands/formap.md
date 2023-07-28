@@ -1,4 +1,4 @@
-# `formap` - Command Reference
+# `formap`
 
 > Iterate through a map or other collection of data
 

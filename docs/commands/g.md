@@ -1,4 +1,4 @@
-# `g` - Command Reference
+# `g`
 
 > Glob pattern matching for file system objects (eg `*.txt`)
 

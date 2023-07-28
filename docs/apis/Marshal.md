@@ -1,4 +1,4 @@
-# `Marshal()` (type) - API Reference
+# `Marshal()` (type)
 
 > Converts structured memory into a structured file format (eg for stdio)
 

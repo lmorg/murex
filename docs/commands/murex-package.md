@@ -1,4 +1,4 @@
-# `murex-package` - Command Reference
+# `murex-package`
 
 > Murex's package manager
 

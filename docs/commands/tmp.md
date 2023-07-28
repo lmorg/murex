@@ -1,4 +1,4 @@
-# `tmp` - Command Reference
+# `tmp`
 
 > Create a temporary file and write to it
 

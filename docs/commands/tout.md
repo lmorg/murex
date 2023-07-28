@@ -1,4 +1,4 @@
-# `tout` - Command Reference
+# `tout`
 
 > Print a string to the STDOUT and set it's data-type
 

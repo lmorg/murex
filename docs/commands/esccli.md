@@ -1,4 +1,4 @@
-# `esccli` - Command Reference
+# `esccli`
 
 > Escapes an array so output is valid shell code
 

@@ -1,4 +1,4 @@
-# `fid-list` - Command Reference
+# `fid-list`
 
 > Lists all running functions within the current Murex session
 

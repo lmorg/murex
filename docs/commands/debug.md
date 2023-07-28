@@ -1,4 +1,4 @@
-# `debug` - Command Reference
+# `debug`
 
 > Debugging information
 

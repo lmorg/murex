@@ -1,4 +1,4 @@
-# `[[` (element) - Command Reference
+# `[[` (element)
 
 > Outputs an element from a nested structure
 

@@ -1,4 +1,4 @@
-# `exit` - Command Reference
+# `exit`
 
 > Exit murex
 

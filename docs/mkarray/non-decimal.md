@@ -1,4 +1,4 @@
-# Non-Decimal Ranges - mkarray
+# Non-Decimal Ranges
 
 > Create arrays of integers from non-decimal number bases
 

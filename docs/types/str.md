@@ -1,4 +1,4 @@
-# `str` (string)  - Data-Type Reference
+# `str` (string) 
 
 > string (primitive)
 

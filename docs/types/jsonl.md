@@ -1,4 +1,4 @@
-# `jsonl`  - Data-Type Reference
+# `jsonl` 
 
 > JSON Lines
 

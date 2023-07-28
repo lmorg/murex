@@ -1,4 +1,4 @@
-# `get-type` - Command Reference
+# `get-type`
 
 > Returns the data-type of a variable or pipe
 

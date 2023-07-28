@@ -1,4 +1,4 @@
-# mxjson - Data-Type Reference
+# mxjson
 
 > Murex-flavoured JSON (deprecated)
 

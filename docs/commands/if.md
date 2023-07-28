@@ -1,4 +1,4 @@
-# `if` - Command Reference
+# `if`
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 

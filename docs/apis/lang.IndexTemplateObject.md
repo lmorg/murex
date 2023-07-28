@@ -1,4 +1,4 @@
-# `lang.IndexTemplateObject()` (template API) - API Reference
+# `lang.IndexTemplateObject()` (template API)
 
 > Returns element(s) from a data structure
 

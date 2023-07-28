@@ -1,4 +1,4 @@
-# `toml`  - Data-Type Reference
+# `toml` 
 
 > Tom's Obvious, Minimal Language (TOML)
 

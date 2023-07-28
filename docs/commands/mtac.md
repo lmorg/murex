@@ -1,4 +1,4 @@
-# `mtac` - Command Reference
+# `mtac`
 
 > Reverse the order of an array
 

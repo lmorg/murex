@@ -1,4 +1,4 @@
-# `fid-killall` - Command Reference
+# `fid-killall`
 
 > Terminate _all_ running Murex functions
 

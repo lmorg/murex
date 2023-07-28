@@ -1,4 +1,4 @@
-# `true` - Command Reference
+# `true`
 
 > Returns a `true` value
 

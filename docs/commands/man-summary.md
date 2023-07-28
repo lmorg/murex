@@ -1,4 +1,4 @@
-# `man-summary` - Command Reference
+# `man-summary`
 
 > Outputs a man page summary of a command
 

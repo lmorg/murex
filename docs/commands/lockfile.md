@@ -1,4 +1,4 @@
-# `lockfile` - Command Reference
+# `lockfile`
 
 > Create and manage lock files
 

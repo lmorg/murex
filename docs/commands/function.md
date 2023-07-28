@@ -1,4 +1,4 @@
-# `function` - Command Reference
+# `function`
 
 > Define a function block
 

@@ -1,4 +1,4 @@
-# `let` - Command Reference
+# `let`
 
 > Evaluate a mathematical function and assign to variable (deprecated)
 

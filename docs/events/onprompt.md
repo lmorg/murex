@@ -1,4 +1,4 @@
-# `onPrompt` - events
+# `onPrompt`
 
 > Events triggered by changes in state of the interactive shell
 

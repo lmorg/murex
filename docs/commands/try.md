@@ -1,4 +1,4 @@
-# `try` - Command Reference
+# `try`
 
 > Handles errors inside a block of code
 

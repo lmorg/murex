@@ -1,4 +1,4 @@
-# `yaml`  - Data-Type Reference
+# `yaml` 
 
 > YAML Ain't Markup Language (YAML)
 

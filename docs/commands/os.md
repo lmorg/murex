@@ -1,4 +1,4 @@
-# `os` - Command Reference
+# `os`
 
 > Output the auto-detected OS name
 

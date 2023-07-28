@@ -1,4 +1,4 @@
-# `history` - Command Reference
+# `history`
 
 > Outputs murex's command history
 

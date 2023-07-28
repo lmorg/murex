@@ -1,4 +1,4 @@
-# `murex-docs` - Command Reference
+# `murex-docs`
 
 > Displays the man pages for Murex builtins
 

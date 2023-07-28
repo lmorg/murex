@@ -1,4 +1,4 @@
-# `rand` - Command Reference
+# `rand`
 
 > Random field generator
 

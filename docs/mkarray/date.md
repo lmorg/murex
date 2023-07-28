@@ -1,4 +1,4 @@
-# Calendar Date Ranges - mkarray
+# Calendar Date Ranges
 
 > Create arrays of dates
 

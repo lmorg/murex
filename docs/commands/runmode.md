@@ -1,4 +1,4 @@
-# `runmode` - Command Reference
+# `runmode`
 
 > Alter the scheduler's behaviour at higher scoping level
 

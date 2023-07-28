@@ -1,4 +1,4 @@
-# `!bz2`  - Optional Command Reference
+# `!bz2` 
 
 > Decompress a bz2 file
 
