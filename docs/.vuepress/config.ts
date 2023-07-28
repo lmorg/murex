@@ -46,8 +46,8 @@ const config = {
   ],
 };
 
-if (environment === "DEV") {
+//if (environment === "DEV") {
   config.base = "/";
-}
+//}
 //@ts-ignore
 export default defineUserConfig(config);
