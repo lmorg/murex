@@ -7,6 +7,9 @@ on:
   
   workflow_dispatch:
 
+env:
+  GO_VERSION: "1.20"
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -17,6 +20,19 @@ jobs:
           fetch-depth: 0
           # if your docs needs submodules, uncomment the following line
           # submodules: true
+
+      - name: Setup Go ${{ ENV.GO_VERSION }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ ENV.GO_VERSION }}
+
+      - name: Install Docgen
+        run: |
+          go build -v github.com/lmorg/murex/utils/docgen
+
+      - name: Compile markdown docs
+        run: |
+          ./docgen -panic -warning -config gen/docgen.yaml
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
