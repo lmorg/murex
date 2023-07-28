@@ -30,9 +30,13 @@ jobs:
         run: |
           go build -v github.com/lmorg/murex/utils/docgen
 
-      - name: Compile markdown docs
+      - name: Compile Markdown Docs
         run: |
           ./docgen -panic -config gen/docgen.yaml
+
+      - name: Reformat Docs For Vuepress
+        run: |
+          find . -name "*.md" -exec .github/workflows/vuepress/reformat.sh {} \;
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
