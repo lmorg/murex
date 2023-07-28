@@ -8,7 +8,7 @@
 a code block for each iteration with the value of the iterated element passed
 to it.
 
-By default `foreach`'s output data type is inherieted from its input data type.
+By default `foreach`'s output data type is inherited from its input data type.
 For example is STDIN is `yaml` then so will STDOUT. The only exception to this
 is if STDIN is `json` in which case STDOUT will be jsonlines (`jsonl`), or when
 additional flags are used such as `--jmap`.
