@@ -12,13 +12,13 @@ not ready to ship with Murex.
 
 ### Language Guides
 
-1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
+1. [Core Builtins](/commands/), for docs
    on the core builtins.
 
-2. [Language Tour](tour.md), which is an introduction into
+2. [Language Tour](/tour.md), which is an introduction into
    the Murex language.
 
-3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
+3. [Rosetta Stone](/user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to Murex's.
 
 ### Murex's Source Code
@@ -38,15 +38,15 @@ murex-docs trypipe
 
 ## Pages
 
-* [`!bz2` ](optional/bz2.md):
+* [`!bz2` ](../optional/bz2.md):
   Decompress a bz2 file
-* [`base64` ](optional/base64.md):
+* [`base64` ](../optional/base64.md):
   Encode or decode a base64 string
-* [`gz` ](optional/gz.md):
+* [`gz` ](../optional/gz.md):
   Compress or decompress a gzip file
-* [`qr` ](optional/qr.md):
+* [`qr` ](../optional/qr.md):
   Creates a QR code from STDIN
-* [`select` ](optional/select.md):
+* [`select` ](../optional/select.md):
   Inlining SQL into shell pipelines
-* [`sleep` ](optional/sleep.md):
+* [`sleep` ](../optional/sleep.md):
   Suspends the shell for a number of seconds

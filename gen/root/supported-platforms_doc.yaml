@@ -1,0 +1,10 @@
+- DocumentID: /docs/supported-platforms
+  Title: >-
+    Supported Platforms
+  CategoryID: Murex
+  Summary: >-
+    Operating systems and CPU architectures supported by Murex
+  Description: |-
+    {{ include "gen/root/supported-platforms.inc.md" }}
+  Synonyms:
+  Related:

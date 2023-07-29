@@ -2,7 +2,7 @@
   "name": "murex-docs",
   "version": "2.0.0",
   "description": "The documentation for Murex shell",
-  "license": "MIT",
+  "license": "GPLv2",
   "type": "module",
   "scripts": {
     "docs:build": "vuepress build docs",

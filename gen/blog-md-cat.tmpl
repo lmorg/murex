@@ -1,11 +1,19 @@
-# {{ md .Title }}{{ if .Description }}
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+title: {{ .Title }}
+index: false
+icon: comment
+category:
+  - Murex
+---
+
+{{ end }}# {{ md .Title }}{{ if .Description }}
 
 {{ md .Description }}{{ end }}
 
 ## Articles
 
 {{ if .Documents }}{{ range $i,$a := .DateTime }}{{ if gt $i 0 }}
-{{ end }}### {{ date .DateTime }} - [{{ md .Title }}]({{ md .Hierarchy }}.md)
+{{ end }}### {{ date .DateTime }} - [{{ md .Title }}](../{{ md .Hierarchy }}.md)
 
 > {{ md .Summary }}
 

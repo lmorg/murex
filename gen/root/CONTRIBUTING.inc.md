@@ -1,8 +1,13 @@
-<h1>Contributing to Murex</h1>
+{{ if env "DOCGEN_TARGET=vuepress" }}
+{{ if env "DOCGEN_TARGET=ignore-prefix" }}
+### {{ end }}icon: plus
+
+---
+{{ end }}<h1>Contributing to Murex</h1>
 
 Murex is community project. We gratefully accept contributions.
 
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -17,7 +22,7 @@ Murex is community project. We gratefully accept contributions.
 - [Licensing](#licensing)
 
 </div>
-
+{{ end }}
 ## Ways To Contribute
 
 You don't have to be a software developer to support this project, there are

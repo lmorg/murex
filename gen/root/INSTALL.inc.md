@@ -1,6 +1,11 @@
-<h1>Install Murex</h1>
+{{ if env "DOCGEN_TARGET=vuepress" }}
+{{ if env "DOCGEN_TARGET=ignore-prefix" }}
+### {{ end }}icon: arrow-down
 
-<h2>Table of Contents</h2>
+---
+{{ end }}<h1>Install Murex</h1>
+
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -19,7 +24,7 @@
 
 </div>
 
-## Supported Platforms
+{{ end }}## Supported Platforms
 
 Linux, BSD and macOS are fully supported, with other platforms considered
 experimental and/or having known limitations.
@@ -29,7 +34,7 @@ So, depending on your required use case, you may need additional 3rd party
 software to provide those utilities.
 
 There is a more detailed breakdown of known compatibility issues at
-[docs/supported-platforms](docs/supported-platforms.md).
+[{{ if env "DOCGEN_TARGET=" }}docs/{{ end }}supported-platforms]({{ if env "DOCGEN_TARGET=" }}docs{{ end }}/supported-platforms.md).
 
 ## Pre-Compiled Binaries (HTTPS download)
 

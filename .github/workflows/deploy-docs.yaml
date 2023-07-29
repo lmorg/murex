@@ -31,12 +31,12 @@ jobs:
           go build -v github.com/lmorg/murex/utils/docgen
 
       - name: Compile Markdown Docs
+        env:
+          DOCGEN_TARGET: vuepress
         run: |
-          ./docgen -panic -config gen/docgen.yaml
-
-      - name: Reformat Docs For Vuepress
-        run: |
-          find . -name "*.md" -exec .github/workflows/vuepress/reformat.sh {} \;
+          ./docgen -panic -warning -config gen/docgen.yaml
+          mv -v *.md *.svg docs/
+          mv -v gen/vuepress docs/.vuepress
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -63,7 +63,8 @@ jobs:
           AWS_DEFAULT_REGION: eu-west-1
           AWS_DEFAULT_OUTPUT: json
         run: |
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/vuepress/
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/vuepress/ --exclude "*.md" --no-progress --delete
+          aws s3 cp LICENSE s3://murex.rocks/vuepress/LICENSE.txt
           aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/*"
 
 #      - name: Deploy Docs

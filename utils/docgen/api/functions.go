@@ -9,6 +9,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/lmorg/murex/utils/envvars"
 )
 
 var funcMap = template.FuncMap{
@@ -19,11 +21,11 @@ var funcMap = template.FuncMap{
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
 	"file":       funcFile,
-	"include":    funcInclude,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
 	"otherdocs":  funcOtherDocs,
+	"env":        funcEnv,
 }
 
 /************
@@ -182,12 +184,25 @@ func funcInclude(s string) string {
 
 	match := rx.FindAllStringSubmatch(s, -1)
 	for i := range match {
-		f := fileReader(match[i][1])
+		path := match[i][1]
+		f := fileReader(path)
 		b := bytes.TrimSpace(readAll(f))
-		s = strings.Replace(s, match[i][0], string(b), -1)
+
+		w := bytes.NewBuffer([]byte{})
+
+		t := template.Must(template.New(path).Funcs(funcMap).Parse(string(b)))
+		if err := t.Execute(w, nil); err != nil {
+			panic(err.Error())
+		}
+
+		s = strings.Replace(s, match[i][0], w.String(), -1)
 	}
 
 	return s
+}
+
+func init() {
+	funcMap["include"] = funcInclude
 }
 
 /************
@@ -235,4 +250,18 @@ func funcOtherDocs(id string) (d documents) {
 
 	sort.Sort(d)
 	return
+}
+
+/************
+ *    Env   *
+ ************/
+
+// Takes: string (env, formatted: `key=val`)
+// Returns: true or false if the env matches systems env
+func funcEnv(env string) bool {
+	key, value := envvars.Split(env)
+	v := make(map[string]interface{})
+	envvars.All(v)
+	s, _ := v[key].(string)
+	return s == value
 }

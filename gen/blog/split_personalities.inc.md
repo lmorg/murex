@@ -1,7 +1,3 @@
-# The Split Personalities of Shell Usage
-
-> Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
-
 ## A Very Brief History
 
 ![Thompson (sitting) and Ritchie working together at a PDP-11](https://murex.rocks/images/blog/split_personalities/thompson.jpg)
@@ -221,18 +217,3 @@ shells like [Oil](https://www.oilshell.org/), [Elfish](https://elv.sh/) and
 [Murex](https://github.com/lmorg/murex) seem to be putting a lot more thought
 into this problem and it is really exciting seeing the different ideas that are
 being produced.
-
-<hr>
-
-Published: 02.10.2021 at 22:42
-
-## See Also
-
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about Murex's interactive shell?
-* [Reading Lists From The Command Line](../blog/reading_lists.md):
-  How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
-* [Rosetta Stone](../user-guide/rosetta-stone.md):
-  A tabulated list of Bashism's and their equivalent Murex syntax
-* [`if`](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition

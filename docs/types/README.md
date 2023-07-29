@@ -6,7 +6,7 @@ Most of the time you will not need to worry about typing in Murex as the
 shell is designed around productivity as opposed to strictness despite
 generally following a strictly typed design.
 
-Read the [Language Tour](tour.md) for more detail on this topic.
+Read the [Language Tour](/tour.md) for more detail on this topic.
 
 ## Definitions
 
@@ -36,33 +36,33 @@ details about specific hooks.
 
 ## Pages
 
-* [`*` (generic) ](types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [`bool` ](types/bool.md):
+* [`bool` ](../types/bool.md):
   Boolean (primitive)
-* [`commonlog` ](types/commonlog.md):
+* [`commonlog` ](../types/commonlog.md):
   Apache httpd "common" log format
-* [`csv` ](types/csv.md):
+* [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
-* [`float` (floating point number)](types/float.md):
+* [`float` (floating point number)](../types/float.md):
   Floating point number (primitive)
-* [`hcl` ](types/hcl.md):
+* [`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`int` ](types/int.md):
+* [`int` ](../types/int.md):
   Whole number (primitive)
-* [`json` ](types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonc` ](types/jsonc.md):
+* [`jsonc` ](../types/jsonc.md):
   Concatenated JSON
-* [`jsonl` ](types/jsonl.md):
+* [`jsonl` ](../types/jsonl.md):
   JSON Lines
-* [`num` (number)](types/num.md):
+* [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [`str` (string) ](types/str.md):
+* [`str` (string) ](../types/str.md):
   string (primitive)
-* [`toml` ](types/toml.md):
+* [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](types/yaml.md):
+* [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [mxjson](types/mxjson.md):
+* [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

@@ -9,7 +9,6 @@ shell and Murex's numerous features.
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
-- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
@@ -21,7 +20,7 @@ shell and Murex's numerous features.
 
 ## Language Tour
 
-The [Language Tour](tour.md) is a great introduction into the Murex language.
+The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## User Guides
 

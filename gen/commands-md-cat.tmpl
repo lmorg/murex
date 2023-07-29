@@ -1,15 +1,22 @@
-# {{ md .Title }}{{ if .Description }}
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+title: {{ md .Title }}
+index: true
+category:
+  - {{ .ID }}
+---
+
+{{ end }}# {{ md .Title }}{{ if .Description }}
 
 {{ md .Description }}{{ end }}
 
 ## Pages
 
 {{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 ## Optional Builtins
 
 {{ if otherdocs "optional" }}{{ range $i,$a := otherdocs "optional" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}

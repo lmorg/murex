@@ -1,8 +1,13 @@
-<h1>Download Murex</h1>
+{{ if env "DOCGEN_TARGET=vuepress" }}
+{{ if env "DOCGEN_TARGET=ignore-prefix" }}
+### {{ end }}icon: terminal
+
+---
+{{ end }}<h1>Download Murex</h1>
 
 [![Version](version.svg)](DOWNLOAD.md)
 
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -22,7 +27,7 @@
   - [Windows Instructions](#windows-instructions)
 
 </div>
-
+{{ end }}
 ## Download Links
 
 Below are the instructions to download a pre-compiled binary via HTTPS. If you

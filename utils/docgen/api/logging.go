@@ -30,10 +30,10 @@ func log(v ...interface{}) {
 
 func warning(file string, v ...interface{}) {
 	if Warning || Verbose {
-		ExitStatus++
+		/*ExitStatus++
 		if ExitStatus > 254 {
 			ExitStatus = 254
-		}
+		}*/
 
 		warning := fmt.Sprintf("[WARNING] %s:", file)
 		golog.Println(append([]interface{}{warning}, v...)...)

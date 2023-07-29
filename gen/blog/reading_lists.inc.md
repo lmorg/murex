@@ -1,4 +1,4 @@
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -11,7 +11,7 @@
 - [Conclusion](#conclusion)
 
 </div>
-
+{{ end }}
 ## Preface
 
 A common problem we resort to shell scripting for is iterating through lists. This was easy in the days of old when most data was `\n` (new line) delimited but these days structured data is common place with formats like JSON, YAML, TOML, XML and even S-Expressions appearing commonly throughout developer and DevOps tooling.

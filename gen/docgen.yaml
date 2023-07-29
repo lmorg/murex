@@ -2,6 +2,16 @@ SourcePath: .
 SourceExt: _doc.yaml
 
 Categories:
+  - ID: Murex
+    Title: Murex
+    Description:
+    Templates:
+    - OutputPath: .
+      CategoryFile:
+      OutputExt: .md
+      CategoryTemplate:
+      DocumentTemplate: gen/root-md-doc.tmpl
+
   - ID: commands
     Title: Command Reference
     Description: |-
@@ -18,7 +28,7 @@ Categories:
 
       ### Language Guides
 
-      1. [Language Tour](tour.md), which is an introduction into
+      1. [Language Tour](/tour.md), which is an introduction into
          the Murex language.
 
       2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
@@ -83,13 +93,13 @@ Categories:
 
       ### Language Guides
 
-      1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
+      1. [Core Builtins](/commands/), for docs
          on the core builtins.
 
-      2. [Language Tour](tour.md), which is an introduction into
+      2. [Language Tour](/tour.md), which is an introduction into
          the Murex language.
 
-      3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
+      3. [Rosetta Stone](/user-guide/rosetta-stone.md), which is a reference
          table comparing Bash syntax to Murex's.
 
       ### Murex's Source Code
@@ -128,13 +138,13 @@ Categories:
 
       ### Language Guides
 
-      1. [Language Tour](tour.md), which is an introduction into
+      1. [Language Tour](/tour.md), which is an introduction into
          the Murex language.
 
-      2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
+      2. [Rosetta Stone](/user-guide/rosetta-stone.md), which is a reference
          table comparing Bash syntax to Murex's.
 
-      3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
+      3. [Builtins](/commands/), for docs on the core builtins.
 
       ### Murex's Source Code
 
@@ -169,7 +179,7 @@ Categories:
       shell is designed around productivity as opposed to strictness despite
       generally following a strictly typed design.
 
-      Read the [Language Tour](tour.md) for more detail on this topic.
+      Read the [Language Tour](/tour.md) for more detail on this topic.
 
       ## Definitions
       
@@ -204,18 +214,6 @@ Categories:
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/types-md-doc.tmpl
 
-    #- OutputPath: builtins/docs
-    #  CategoryFile: 000_summaries_commands_docgen.go
-    #  OutputExt: _commands_docgen.go
-    #  CategoryTemplate: gen/commands-go-cat.tmpl
-    #  DocumentTemplate: gen/commands-go-doc.tmpl
-
-    #- OutputPath: builtins
-    #  CategoryFile: docgen_test.go
-    #  OutputExt: _commands_docgen.go
-    #  CategoryTemplate: gen/commands-go_test-cat.tmpl
-    #  DocumentTemplate: 
-
   # pipes:
 
   # apis:
@@ -244,7 +242,7 @@ Categories:
       shell and Murex's numerous features.
     Templates:
     - OutputPath: docs/user-guide
-      CategoryFile: ../user-guide.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
@@ -268,7 +266,7 @@ Categories:
       Track new features, any breaking changes, and the release history here.
     Templates:
     - OutputPath: docs/changelog
-      CategoryFile: ../CHANGELOG.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/changelog-md-cat.tmpl
       DocumentTemplate: gen/changelog-md-doc.tmpl

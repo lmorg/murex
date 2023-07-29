@@ -6,7 +6,7 @@ const environment = process.env.NODE_ENV;
 
 const config = {
   // this must be replace with the context path in PROD
-  base: "/murex-docs/",
+  base: "/",
   lang: "en-US",
   title: "",
   description: "Murex, a typed, content aware shell from the 2020s",
@@ -46,8 +46,8 @@ const config = {
   ],
 };
 
-//if (environment === "DEV") {
+if (environment === "DEV") {
   config.base = "/";
-//}
+}
 //@ts-ignore
 export default defineUserConfig(config);

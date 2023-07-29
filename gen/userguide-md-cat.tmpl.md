@@ -1,14 +1,20 @@
-<h1>{{ md .Title }}</h1>{{ if .Description }}
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+title: {{ md .Title }}
+index: true
+category:
+  - {{ md .ID }}
+---
+
+{{ end }}<h1>{{ md .Title }}</h1>{{ if .Description }}
 
 {{ md .Description }}{{ end }}
 
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
-- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
@@ -17,10 +23,10 @@
 - [API Reference](#api-reference)
 
 </div>
-
+{{ end }}
 ## Language Tour
 
-The [Language Tour](tour.md) is a great introduction into the Murex language.
+The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## User Guides
 
@@ -28,7 +34,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
-## Operators And Tokens
+{{ if env "DOCGEN_TARGET=" }}## Operators And Tokens
 
 {{ if otherdocs "parser" }}{{ range $i,$a := otherdocs "parser" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
@@ -71,3 +77,4 @@ These API docs are provided for any developers wishing to write their own builti
 {{ if otherdocs "apis" }}{{ range $i,$a := otherdocs "apis" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+{{ end }}

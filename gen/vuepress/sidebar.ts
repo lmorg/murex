@@ -5,7 +5,14 @@ export default sidebar({
     {
       text: "Murex",
       icon: "house",
-      children: ["/install", "/changelog", "/blog", "/tour", "/rosetta"],
+      children: [
+        "/install/",
+        "/changelog/",
+        "/blog/",
+        { text: "Language Tour", link: "tour.html", icon: "life-ring" }, 
+        { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
+        "/contributing",
+      ],
       collapsible: true,
     },
     {
