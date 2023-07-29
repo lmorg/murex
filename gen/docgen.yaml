@@ -41,7 +41,7 @@ Categories:
   
     Templates:
     - OutputPath: docs/commands
-      CategoryFile: ../GUIDE.builtin-functions.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
@@ -108,7 +108,7 @@ Categories:
       ```
     Templates:
     - OutputPath: docs/optional
-      CategoryFile: ../GUIDE.optional-commands.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
@@ -143,7 +143,7 @@ Categories:
   
     Templates:
     - OutputPath: docs/parser
-      CategoryFile: ../GUIDE.parser.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/parser-md-doc.tmpl
@@ -199,7 +199,7 @@ Categories:
 
     Templates:
     - OutputPath: docs/types
-      CategoryFile: ../GUIDE.type-system.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/types-md-doc.tmpl
@@ -231,7 +231,7 @@ Categories:
 
     Templates:
     - OutputPath: docs/apis
-      CategoryFile: ../GUIDE.apis.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/apis-md-doc.tmpl
@@ -256,7 +256,7 @@ Categories:
       Collection of Murex related documents and personal thoughts.
     Templates:
     - OutputPath: docs/blog
-      CategoryFile: ../BLOG.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/blog-md-cat.tmpl
       DocumentTemplate: gen/blog-md-doc.tmpl

@@ -1,11 +1,3 @@
----
-title: README
-icon: eye
-index: true
-category:
-  - Builtins
----
-
 # Optional Command Reference
 
 This section is a glossary of Murex optional builtins.
@@ -20,13 +12,13 @@ not ready to ship with Murex.
 
 ### Language Guides
 
-1. [Builtins](./commands), for docs
+1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
    on the core builtins.
 
-2. [Language Tour](/tour), which is an introduction into
+2. [Language Tour](tour.md), which is an introduction into
    the Murex language.
 
-3. [Rosetta Stone](/rosetta), which is a reference
+3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to Murex's.
 
 ### Murex's Source Code
@@ -40,19 +32,21 @@ From the shell itself: run `builtins` to list the builtin command.
 If you require a manual on any of those commands, you can run `murex-docs`
 to return the same markdown-formatted document as those listed below. eg
 
-    murex-docs trypipe
+```
+murex-docs trypipe
+```
 
 ## Pages
 
-- [`!bz2` ](./bz2.md):
+* [`!bz2` ](optional/bz2.md):
   Decompress a bz2 file
-- [`base64` ](./base64.md):
+* [`base64` ](optional/base64.md):
   Encode or decode a base64 string
-- [`gz` ](./gz.md):
+* [`gz` ](optional/gz.md):
   Compress or decompress a gzip file
-- [`qr` ](./qr.md):
+* [`qr` ](optional/qr.md):
   Creates a QR code from STDIN
-- [`select` ](./select.md):
+* [`select` ](optional/select.md):
   Inlining SQL into shell pipelines
-- [`sleep` ](./sleep.md):
+* [`sleep` ](optional/sleep.md):
   Suspends the shell for a number of seconds
