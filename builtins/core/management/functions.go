@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/cd"
+	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"
@@ -113,14 +114,13 @@ func cmdBuiltinExists(p *lang.Process) error {
 
 func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
-	path, err := p.Parameters.String(0)
-	if err != nil {
-		return err
+	path, _ := p.Parameters.String(0)
+
+	if path == "" {
+		return cd.Chdir(p, home.MyDir)
 	}
 
-	err = cd.Chdir(p, path)
-
-	return err
+	return cd.Chdir(p, path)
 }
 
 func cmdOs(p *lang.Process) error {
