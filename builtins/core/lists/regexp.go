@@ -104,12 +104,6 @@ func cmdRegexp(p *lang.Process) (err error) {
 		}
 		return regexFind(p, rx, dt)
 
-	case 'j':
-		if p.IsNot {
-			return fmt.Errorf("cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
-		}
-		return regexJoin(p, rx, dt)
-
 	default:
 		return errors.New("invalid regexp. Please use either match (m), substitute (s) or find (f)")
 	}
@@ -236,37 +230,6 @@ func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt str
 }
 
 func regexFind(p *lang.Process, rx *regexp.Regexp, dt string) error {
-	aw, err := p.Stdout.WriteArray(dt)
-	if err != nil {
-		return err
-	}
-
-	p.Stdin.ReadArray(p.Context, func(b []byte) {
-		match := rx.FindAllStringSubmatch(string(b), -1)
-		for _, found := range match {
-			if len(found) > 1 {
-
-				for i := 1; i < len(found); i++ {
-					err = aw.WriteString(found[i])
-					if err != nil {
-						p.Stdin.ForceClose()
-						p.Done()
-					}
-
-				}
-
-			}
-		}
-	})
-
-	if p.HasCancelled() {
-		return err
-	}
-
-	return aw.Close()
-}
-
-func regexJoin(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
