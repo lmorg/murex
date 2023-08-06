@@ -1,6 +1,8 @@
 package expressions
 
 import (
+	"fmt"
+
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
@@ -212,7 +214,29 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 			prev := tree.prevChar()
 			if prev == ' ' || prev == '\t' {
-				// quotes
+				// parenthesis quotes
+				if exec {
+					pos := tree.charPos
+					expr, err := tree.parseParen(false)
+					if err != nil {
+						return err
+					}
+					dt, err := ExecuteExpr(tree.p, expr)
+					if err == nil {
+						// parenthesis is an expression
+						r, err := dt.Marshal()
+						if err != nil {
+							return fmt.Errorf("cannot marshal output of inlined expression in `%s`: %s",
+								string(tree.statement.command), err.Error())
+						}
+						appendToParam(tree, r...)
+						continue
+					}
+
+					tree.charPos = pos
+				}
+
+				// parenthesis is a string
 				value, err := tree.parseParen(exec)
 				if err != nil {
 					return err
