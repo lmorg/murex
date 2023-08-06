@@ -373,7 +373,17 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				case "null":
 					tree.appendAst(symbols.Null, value...)
 				default:
-					tree.appendAst(symbols.Bareword, value...)
+					if len(tree.expression) > tree.charPos && tree.expression[tree.charPos] == '(' {
+						runes, v, mxDt, err := tree.parseFunction(exec, value)
+						if err != nil {
+							return err
+						}
+						dt := scalar2Primitive(mxDt)
+						dt.Value = v
+						tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+					} else {
+						tree.appendAst(symbols.Bareword, value...)
+					}
 				}
 				tree.charPos--
 
