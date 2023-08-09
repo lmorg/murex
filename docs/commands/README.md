@@ -13,11 +13,11 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [Language Tour](/tour.md), which is an introduction into
-   the Murex language.
+1. [Language Tour](/docs/tour.md), which is an introduction into
+    the Murex language.
 
-2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-   table comparing Bash syntax to Murex's.
+2. [Rosetta Stone](/docs/user-guide/rosetta-stone.md), which is a reference
+    table comparing Bash syntax to Murex's.
 
 ### Murex's Source Code
 
@@ -32,7 +32,7 @@ to return the same markdown-formatted document as those listed below. eg
 
 ```
 murex-docs trypipe
-```
+```  
 
 ## Pages
 

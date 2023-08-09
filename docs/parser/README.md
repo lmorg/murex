@@ -6,13 +6,13 @@ This section is a glossary of Murex tokens and parser behavior.
 
 ### Language Guides
 
-1. [Language Tour](/tour.md), which is an introduction into
-   the Murex language.
+1. [Language Tour](/docs/tour.md), which is an introduction into
+    the Murex language.
 
-2. [Rosetta Stone](/user-guide/rosetta-stone.md), which is a reference
-   table comparing Bash syntax to Murex's.
+2. [Rosetta Stone](/docs/user-guide/rosetta-stone.md), which is a reference
+    table comparing Bash syntax to Murex's.
 
-3. [Builtins](/commands/), for docs on the core builtins.
+3. [Builtins](/docs/commands/), for docs on the core builtins.
 
 ### Murex's Source Code
 

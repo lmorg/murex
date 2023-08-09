@@ -7,7 +7,7 @@ category:
 
 {{ end }}# {{ md .Title }}{{ if .Description }}
 
-{{ md .Description }}{{ end }}
+{{ md (include .Description) }}{{ end }}
 
 ## Pages
 

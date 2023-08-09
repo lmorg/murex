@@ -10,7 +10,7 @@ export default navbar([
         text: "Shortcuts",
         prefix: "/",
         children: [
-          { text: "Install", link: "install.html", icon: "terminal" },
+          { text: "Install", link: "install.html", icon: "arrow-down" },
           { text: "Getting Started", link: "tour.html", icon: "life-ring" },
           { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
           { text: "User Guide", link: "user-guide/", icon: "book" },

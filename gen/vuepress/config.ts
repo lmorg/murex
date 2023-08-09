@@ -19,7 +19,8 @@ const config = {
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap",
+        //href: "https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css?family=Lato:wght@300|Jura:wght@700|Source+Code+Pro&display=swap",
         rel: "stylesheet",
       },
     ],
