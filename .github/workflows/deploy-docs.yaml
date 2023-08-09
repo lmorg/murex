@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - new-website-pipeline
+      - website
   
   workflow_dispatch:
 
@@ -63,13 +64,5 @@ jobs:
           AWS_DEFAULT_REGION: eu-west-1
           AWS_DEFAULT_OUTPUT: json
         run: |
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/vuepress/ --exclude "*.md" --no-progress --delete
-          aws s3 cp LICENSE s3://murex.rocks/vuepress/LICENSE.txt
-          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/*"
-
-#      - name: Deploy Docs
-#        uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          # This is the branch where the docs are deployed to
-#          branch: gh-pages
-#          folder: docs/.vuepress/dist
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/dev/ --exclude "*.md" --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"
