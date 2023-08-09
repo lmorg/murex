@@ -19,6 +19,7 @@ type StatementT struct {
 	possibleGlob      bool // to signal to NextParameter of a possible glob
 	asStatement       bool // force murex to parse expression as statement
 	ignoreCrLf        bool // allow '\' to escape a new line
+	validFunction     bool // allow function(parameters...) in statement
 }
 
 func (st *StatementT) String() string {
@@ -51,11 +52,14 @@ func (tree *ParserT) nextParameter() error {
 		// no command yet so this must be a command
 		st.command = st.paramTemp
 		st.possibleGlob = false
+		st.validFunction = true
 
 	case st.possibleGlob:
 		// glob
 		st.possibleGlob = false
 		st.canHaveZeroLenStr = false
+		st.validFunction = true
+
 		if !tree.ExpandGlob() || lists.Match(noglob.GetNoGlobCmds(), st.String()) {
 			st.parameters = append(st.parameters, st.paramTemp)
 			break
@@ -76,6 +80,7 @@ func (tree *ParserT) nextParameter() error {
 		// variable, possibly zero length
 		st.parameters = append(st.parameters, st.paramTemp)
 		st.canHaveZeroLenStr = false
+		st.validFunction = true
 
 	case len(st.paramTemp) == 0:
 		// just empty space. Nothing to do
@@ -84,6 +89,7 @@ func (tree *ParserT) nextParameter() error {
 	default:
 		// just a regular old parameter
 		st.parameters = append(st.parameters, st.paramTemp)
+		st.validFunction = true
 	}
 
 	st.paramTemp = []rune{}
