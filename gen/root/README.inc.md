@@ -13,7 +13,7 @@ actions:
     link: tour/
     type: primary
   - text: Rosetta Stone 🪨
-    link: rosetta/
+    link: user-guide/rosetta-stone/
   - text: Built-ins 📔
     link: commands/
 
