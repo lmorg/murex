@@ -81,14 +81,14 @@ These can be raised on our [Github issue tracker](github.com/lmorg/murex/issues)
 ### Committing Code
 
 Murex is written in a language called Go. Not a lot of Murex's code is well
-documented however that was is document can be found in the [API section](/apis) of the
+documented however that was is document can be found in the [API section](/docs/apis) of the
 user guide.
 
 ### Blogging
 
 If you want to share some shell tips, be it for Murex or any of the more
 traditional shells like Bash, then we welcome them as short articles for the
-[blog section](/blog). We want the website to be a
+[blog section](/docs/blog). We want the website to be a
 valuable resource for shells and scripting regardless for the platform and
 language.
 
@@ -115,7 +115,7 @@ whether a contribution fits, then you're welcome to [start a discussion ](https:
 ## Licensing
 
 By contributing, you agree to license your code under the same license as the
-existing source code (see the [LICENSE](LICENSE.txt) file) and that @lmorg has the
+existing source code (see the [LICENSE](https://github.com/lmorg/murex/blob/master/LICENSE) file) and that @lmorg has the
 right to relicense Murex under an alternative _open source_ license in the,
 future should the need arise.
 
