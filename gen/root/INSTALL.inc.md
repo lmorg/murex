@@ -66,7 +66,7 @@ Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 ## Compiling From Source
 
-[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
+[![Tests](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml/badge.svg?branch=master)](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml)
 
 **Prerequisites:**
 

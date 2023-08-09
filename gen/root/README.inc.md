@@ -1,7 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 home: true
 icon: home
-heroImage: favicon.svg
+heroImage: murex-logo-shell.svg
 # bgImage: bluebg.jpg
 # bgImageDark: https://theme-hope-assets.vuejs.press/bg/4-dark.svg
 # bgImageStyle:
@@ -213,7 +213,7 @@ Take your your first steps with `Murex` by following our [Language Tutorial](tou
 
 [![Version](version.svg)](DOWNLOAD.md)
 [![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
-[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
+[![Tests](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml/badge.svg?branch=master)](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml)
 
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.
