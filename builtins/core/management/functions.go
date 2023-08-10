@@ -112,15 +112,34 @@ func cmdBuiltinExists(p *lang.Process) error {
 	return err
 }
 
+const cdErrMsg = "cannot find previous directory"
+
 func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	path, _ := p.Parameters.String(0)
 
-	if path == "" {
+	switch path {
+	case "":
 		return cd.Chdir(p, home.MyDir)
+	case "-":
+		pwdHist, err := p.Variables.GetValue("PWDHIST")
+		if err != nil {
+			return fmt.Errorf("%s: %s", cdErrMsg, err.Error())
+		}
+		v, ok := pwdHist.([]string)
+		switch {
+		case !ok:
+			return fmt.Errorf("%s: $PWDHIST doesn't appear to be a valid array", cdErrMsg)
+		case len(v) == 0:
+			return fmt.Errorf("%s: $PWDHIST is an empty array", cdErrMsg)
+		case len(v) == 1:
+			return errors.New("already at first directory in $PWDHIST")
+		default:
+			return cd.Chdir(p, v[len(v)-2])
+		}
+	default:
+		return cd.Chdir(p, path)
 	}
-
-	return cd.Chdir(p, path)
 }
 
 func cmdOs(p *lang.Process) error {
