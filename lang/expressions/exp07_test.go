@@ -74,6 +74,15 @@ func TestExpEqualToWeak(t *testing.T) {
 		},
 		///
 		{
+			Expression: `1.0 == "1"`,
+			Expected:   true,
+		},
+		{
+			Expression: `1.0 == "2"`,
+			Expected:   false,
+		},
+		///
+		{
 			Expression: `$variable == ""`,
 			Expected:   true,
 		},
@@ -108,11 +117,11 @@ func TestExpNotEqualToStrong(t *testing.T) {
 		///
 		{
 			Expression: `1 != "1"`,
-			Error:   true,
+			Error:      true,
 		},
 		{
 			Expression: `1 != "2"`,
-			Error:   true,
+			Error:      true,
 		},
 	}
 
@@ -145,6 +154,15 @@ func TestExpNotEqualToWeak(t *testing.T) {
 		},
 		{
 			Expression: `1 != "2"`,
+			Expected:   true,
+		},
+		///
+		{
+			Expression: `1.0 != "1"`,
+			Expected:   false,
+		},
+		{
+			Expression: `1.0 != "2"`,
 			Expected:   true,
 		},
 	}

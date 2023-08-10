@@ -61,25 +61,39 @@ func expLike(tree *ParserT, eq bool) error {
 		return err
 	}
 
-	leftL, err := types.ConvertGoType(left.dt.Value, types.String)
+	lv, rv := left.dt.Value, right.dt.Value
+	// convert to number, if possible
+	if left.dt.Primitive == primitives.String {
+		if v, err := types.ConvertGoType(left.dt.Value, types.Number); err == nil {
+			lv = v
+		}
+	}
+	if right.dt.Primitive == primitives.String {
+		if v, err := types.ConvertGoType(right.dt.Value, types.Number); err == nil {
+			rv = v
+		}
+	}
+
+	// convert to string
+	lv, err = types.ConvertGoType(lv, types.String)
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}
+	rv, err = types.ConvertGoType(rv, types.String)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
 
-	rightL, err := types.ConvertGoType(right.dt.Value, types.String)
-	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-	}
-
-	leftL = strings.TrimSpace(strings.ToLower(leftL.(string)))
-	rightL = strings.TrimSpace(strings.ToLower(rightL.(string)))
+	// trim and lowercase string
+	lv = strings.TrimSpace(strings.ToLower(lv.(string)))
+	rv = strings.TrimSpace(strings.ToLower(rv.(string)))
 
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			Value:     (leftL == rightL) == eq,
+			Value:     (lv == rv) == eq,
 		},
 	})
 }

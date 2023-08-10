@@ -71,6 +71,14 @@ func compareTypes(tree *ParserT, left *astNodeT, right *astNodeT) (interface{}, 
 		return left.dt.Value, right.dt.Value, nil
 	}
 
+	if left.dt.Primitive == primitives.Number || right.dt.Primitive == primitives.Number {
+		lv, lErr := types.ConvertGoType(left.dt.Value, types.Number)
+		rv, rErr := types.ConvertGoType(right.dt.Value, types.Number)
+		if lErr == nil && rErr == nil {
+			return lv, rv, nil
+		}
+	}
+
 	lv, err := types.ConvertGoType(left.dt.Value, types.String)
 	if err != nil {
 		return nil, nil, err

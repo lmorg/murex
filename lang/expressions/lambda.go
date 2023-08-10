@@ -122,14 +122,14 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 		if err != nil {
 			return nil, nil, err
 		}
-		switch item.(type) {
+		switch t := item.(type) {
 		case string:
-			if len(item.(string)) > 0 {
+			if len(t) > 0 {
 				array[j] = item
 				j++
 			}
 		case bool:
-			if item.(bool) {
+			if t {
 				array[j] = split[i]
 				j++
 			}
@@ -230,10 +230,10 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 			newKey string
 			newVal interface{}
 		)
-		switch kv.(type) {
+		switch t := kv.(type) {
 		case map[string]interface{}:
-			newKey = fmt.Sprint(kv.(map[string]interface{})["key"])
-			newVal = kv.(map[string]interface{})["val"]
+			newKey = fmt.Sprint(t["key"])
+			newVal = t["val"]
 		default:
 			if err != nil {
 				return nil, nil, fmt.Errorf("$. is not %T not an object", kv)
