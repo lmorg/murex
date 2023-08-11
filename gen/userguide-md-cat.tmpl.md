@@ -31,7 +31,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 ## User Guides
 
 {{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 {{ if env "DOCGEN_TARGET=" }}## Operators And Tokens
@@ -45,7 +45,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 ### Standard Builtins
 
 {{ if otherdocs "commands" }}{{ range $i,$a := otherdocs "commands" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 ### Optional Builtins
@@ -55,19 +55,19 @@ but can be disabled without breaking functionality. The other optional builtins
 are only included by default on Windows.
 
 {{ if otherdocs "optional" }}{{ range $i,$a := otherdocs "optional" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 ## Data Types
 
 {{ if otherdocs "types" }}{{ range $i,$a := otherdocs "types" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 ## Events
 
 {{ if otherdocs "events" }}{{ range $i,$a := otherdocs "events" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 
 ## API Reference
@@ -75,6 +75,6 @@ are only included by default on Windows.
 These API docs are provided for any developers wishing to write their own builtins.
 
 {{ if otherdocs "apis" }}{{ range $i,$a := otherdocs "apis" }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 {{ end }}
