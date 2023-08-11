@@ -30,6 +30,30 @@ const config = {
         rel: "stylesheet",
       },
     ],
+    [
+      "link",
+      {
+        href: "/favicon.ico",
+        rel: "icon",
+        type: "image/png",
+      },
+    ],
+    [
+      "link",
+      {
+        href: "/favicon-16x16.png",
+        rel: "icon",
+        type: "image/png",
+      },
+    ],
+    [
+      "link",
+      {
+        href: "/favicon-32x32.png",
+        rel: "icon",
+        type: "image/png",
+      },
+    ],
   ],
   theme,
   plugins: [
