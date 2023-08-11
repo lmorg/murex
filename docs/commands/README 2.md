@@ -1,98 +1,40 @@
-<h1>User Guide</h1>
+# Command Reference
 
-This section contains miscellaneous documents on using and configuring the
-shell and Murex's numerous features.
+This section is a glossary of Murex builtin commands.
 
-<h2>Table of Contents</h2>
+Because Murex is loosely modelled on the functional paradigm, it means
+all language constructs are exposed via functions and those are typically
+builtins because they can share the Murex runtime virtual machine.
+However any executable command can also be called from within Murex;
+be that either via the `exec` builtin or natively like you would from any
+Linux, UNIX, or even Windows command prompt.
 
-<div id="toc">
+## Other Reference Material
 
-- [Language Tour](#language-tour)
-- [User Guides](#user-guides)
-- [Builtin Commands](#builtin-commands)
-  - [Standard Builtins](#standard-builtins)
-  - [Optional Builtins](#optional-builtins)
-- [Data Types](#data-types)
-- [Events](#events)
-- [API Reference](#api-reference)
+### Language Guides
 
-</div>
+1. [Language Tour](/docs/tour.md), which is an introduction into
+    the Murex language.
 
-## Language Tour
+2. [Rosetta Stone](/docs/user-guide/rosetta-stone.md), which is a reference
+    table comparing Bash syntax to Murex's.
 
-The [Language Tour](/tour.md) is a great introduction into the Murex language.
+### Murex's Source Code
 
-## User Guides
+The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
 
-* [ANSI Constants](../user-guide/ansi.md):
-  Infixed constants that return ANSI escape sequences
-* [Bang Prefix](../user-guide/bang-prefix.md):
-  Bang prefixing to reverse default actions
-* [Code Block Parsing](../user-guide/code-block.md):
-  Overview of how code blocks are parsed
-* [FileRef](../user-guide/fileref.md):
-  How to track what code was loaded and from where
-* [Modules and Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
-* [Murex Named Pipes](../user-guide/namedpipes.md):
-  A detailed breakdown of named pipes in Murex
-* [Murex Profile Files](../user-guide/profile.md):
-  A breakdown of the different files loaded on start up
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about Murex's interactive shell?
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [Rosetta Stone](../user-guide/rosetta-stone.md):
-  A tabulated list of Bashism's and their equivalent Murex syntax
-* [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in Murex
-* [Spellcheck](../user-guide/spellcheck.md):
-  How to enable inline spellchecking
-* [Terminal Hotkeys](../user-guide/terminal-keys.md):
-  A list of all the terminal hotkeys and their uses
-* [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within Murex
+### Shell Commands For Querying Builtins
 
-## Operators And Tokens
+From the shell itself: run `builtins` to list the builtin command.
 
-* [And (`&&`) Logical Operator](parser/logical-and.md):
-  Continues next operation if previous operation passes
-* [Append Pipe (`>>`) Token](parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
-* [Array (`@`) Token](parser/array.md):
-  Expand values as an array
-* [Arrow Pipe (`->`) Token](parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Brace Quote (`%(`, `)`) Tokens](parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Create array (`%[]`) constructor](parser/create-array.md):
-  Quickly generate arrays
-* [Create object (`%{}`) constructor](parser/create-object.md):
-  Quickly generate objects and maps
-* [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
-  Initiates or terminates a code block
-* [Double Quote (`"`) Token](parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Generic Pipe (`=>`) Token](parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [Or (`||`) Logical Operator](parser/logical-or.md):
-  Continues next operation only if previous operation fails
-* [POSIX Pipe (`|`) Token](parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [STDERR Pipe (`?`) Token](parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [Single Quote (`'`) Token](parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](parser/string.md):
-  Expand values as a string
-* [Tilde (`~`) Token](parser/tilde.md):
-  Home directory path variable
+If you require a manual on any of those commands, you can run `murex-docs`
+to return the same markdown-formatted document as those listed below. eg
 
-## Builtin Commands
+```
+murex-docs trypipe
+```  
 
-### Standard Builtins
+## Pages
 
 * [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
@@ -337,11 +279,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`while`](../commands/while.md):
   Loop until condition false
 
-### Optional Builtins
-
-These builtins are optional. `select` is included as part of the default build
-but can be disabled without breaking functionality. The other optional builtins
-are only included by default on Windows.
+## Optional Builtins
 
 * [`!bz2` ](../optional/bz2.md):
   Decompress a bz2 file
@@ -355,80 +293,3 @@ are only included by default on Windows.
   Inlining SQL into shell pipelines
 * [`sleep` ](../optional/sleep.md):
   Suspends the shell for a number of seconds
-
-## Data Types
-
-* [`*` (generic) ](../types/generic.md):
-  generic (primitive)
-* [`bool` ](../types/bool.md):
-  Boolean (primitive)
-* [`commonlog` ](../types/commonlog.md):
-  Apache httpd "common" log format
-* [`csv` ](../types/csv.md):
-  CSV files (and other character delimited tables)
-* [`float` (floating point number)](../types/float.md):
-  Floating point number (primitive)
-* [`hcl` ](../types/hcl.md):
-  HashiCorp Configuration Language (HCL)
-* [`int` ](../types/int.md):
-  Whole number (primitive)
-* [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON)
-* [`jsonc` ](../types/jsonc.md):
-  Concatenated JSON
-* [`jsonl` ](../types/jsonl.md):
-  JSON Lines
-* [`num` (number)](../types/num.md):
-  Floating point number (primitive)
-* [`str` (string) ](../types/str.md):
-  string (primitive)
-* [`toml` ](../types/toml.md):
-  Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
-  YAML Ain't Markup Language (YAML)
-* [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (deprecated)
-
-## Events
-
-* [`onCommandCompletion`](../events/oncommandcompletion.md):
-  Trigger an event upon a command's completion
-* [`onFileSystemChange`](../events/onfilesystemchange.md):
-  Add a filesystem watch
-* [`onPrompt`](../events/onprompt.md):
-  Events triggered by changes in state of the interactive shell
-* [`onSecondsElapsed`](../events/onsecondselapsed.md):
-  Events triggered by time intervals
-
-## API Reference
-
-These API docs are provided for any developers wishing to write their own builtins.
-
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` (type)](../apis/ReadArray.md):
-  Read from a data type one array element at a time
-* [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
-  Read from a data type one array element at a time and return the elements contents and data type
-* [`ReadIndex()` (type)](../apis/ReadIndex.md):
-  Data type handler for the index, `[`, builtin
-* [`ReadMap()` (type)](../apis/ReadMap.md):
-  Treat data type as a key/value structure and read its contents
-* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
-  Data type handler for the bang-prefixed index, `![`, builtin
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
-* [`WriteArray()` (type)](../apis/WriteArray.md):
-  Write a data type, one array element at a time
-* [`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
-  Unmarshals a data type into a Go struct and returns the results as an array
-* [`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
-  Unmarshals a data type into a Go struct and returns the results as an array with data type included
-* [`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
-  Returns element(s) from a data structure
-* [`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
-  Returns element(s) from a table
-* [`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
-  Converts structured memory into a Murex data-type (eg for stdio)
-* [`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
-  Converts a Murex data-type into structured memory
