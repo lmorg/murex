@@ -587,3 +587,8 @@ session. Which is a handy escape hatch if your shell code starts misbehaving.
 ### Signal: SIGTSTP
 
 This can be invoked by pressing `Ctrl` + `z`
+
+## See Also
+
+* [Install](/INSTALL.md):
+  Installation instructions

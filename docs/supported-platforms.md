@@ -90,3 +90,10 @@ Several CPU architectures are supported:
 * AMD64 (x86 64bit)
 * ARMv7 (32bit)
 * ARMv8 (64bit)
+
+## See Also
+
+* [Download](/DOWNLOAD.md):
+  Murex download links
+* [Install](/INSTALL.md):
+  Installation instructions

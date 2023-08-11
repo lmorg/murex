@@ -2,6 +2,8 @@
 
 > Overview of what a "pipeline" is
 
+## Description
+
 In the Murex docs you'll often see the term "pipeline". This refers to any
 commands sequenced together.
 

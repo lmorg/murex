@@ -64,7 +64,7 @@
 
     * Minor website tweaks
 
-    ### Non-User Facing / Maintenance Changes
+    ### Non-User Facing / Maintenance Changes:
 
     * All dependencies have been updated, pinned and the `vendors` directory
       rebuilt

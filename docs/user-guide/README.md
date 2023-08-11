@@ -32,16 +32,16 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
+* [Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [Murex Named Pipes](../user-guide/namedpipes.md):
+* [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [Murex Profile Files](../user-guide/profile.md):
-  A breakdown of the different files loaded on start up
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about Murex's interactive shell?
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Rosetta Stone](../user-guide/rosetta-stone.md):

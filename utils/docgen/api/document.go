@@ -12,6 +12,9 @@ type document struct {
 	// DocumentID is the identifier for the document and name to write the document to disk as (excluding extension)
 	DocumentID string `yaml:"DocumentID"`
 
+	// WriteTo is the path to write to, if different from the category path
+	WriteTo string `yaml:"WriteTo"`
+
 	// Title of the document
 	Title string `yaml:"Title"`
 
@@ -76,7 +79,11 @@ func (t templates) DocumentFileName(d *document) string {
 
 // DocumentFilePath is the file name and path to write documents to
 func (t templates) DocumentFilePath(d *document) string {
-	return t.OutputPath + t.DocumentFileName(d)
+	path := d.WriteTo
+	if path == "" {
+		path = t.OutputPath
+	}
+	return path + t.DocumentFileName(d)
 }
 
 const dateTimeParse = `2006-01-02 15:04`
@@ -98,6 +105,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 	dv := &documentValues{
 		ID:                  d.DocumentID,
+		WriteTo:             d.WriteTo,
 		Title:               d.Title,
 		FileName:            t.DocumentFileName(d),
 		FilePath:            t.DocumentFilePath(d),
@@ -168,6 +176,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 type documentValues struct {
 	ID                  string
+	WriteTo             string
 	Title               string
 	FileName            string
 	FilePath            string

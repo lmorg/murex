@@ -1,6 +1,8 @@
-# Murex Profile Files
+# Profile Files
 
 > A breakdown of the different files loaded on start up
+
+## Description
 
 Murex has several profile files which are loaded in the following order of
 execution:

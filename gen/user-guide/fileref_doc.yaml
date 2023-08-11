@@ -5,6 +5,8 @@
   Summary: >-
     How to track what code was loaded and from where
   Description: |-
+    ## Description
+
     Every function, event, autocompletion and even variable is stored with which
     file it was sourced, when it was loaded and what module it was loaded from.
     This makes it trivial to identify buggy 3rd party code, malicious libraries, or

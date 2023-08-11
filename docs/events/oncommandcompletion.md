@@ -113,7 +113,7 @@ prompt itself and three extra lines for the hint text.
 
 ## See Also
 
-* [Murex Named Pipes](../user-guide/namedpipes.md):
+* [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block

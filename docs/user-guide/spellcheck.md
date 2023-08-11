@@ -2,6 +2,8 @@
 
 > How to enable inline spellchecking
 
+## Description
+
 Murex supports inline spellchecking, where errors are underlined. For example
 
 [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
@@ -159,10 +161,10 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Overview of how code blocks are parsed
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [Murex Profile Files](../user-guide/profile.md):
-  A breakdown of the different files loaded on start up
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):

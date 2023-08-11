@@ -8,11 +8,11 @@
     includes updates several new run modes to make error handling easier in
     larger scripts.
   Description: |-
-    Breaking Changes:
+    ### Breaking Changes:
 
     * None
 
-    Features:
+    ### Features:
 
     * `>>` redirect (append to file) operator added. This is just syntactic sugar for `-> >>`. To redirect and overwrite/truncate a file use `|>` rather than `>`
 
@@ -30,7 +30,7 @@
 
     * Binaries now produced for ARM64 Windows
 
-    Minor Changes:
+    ### Minor Changes:
 
     * The order in which namespaces are looked up has been altered since `private`s should be resolved before `function`s
 
@@ -54,7 +54,7 @@
 
     * Lots of improvements to the docs
 
-    Bug Fixes:
+    ### Bug Fixes:
 
     * FileRef module string for functions forked from the REPL changed to `murex/shell` to bring it inline with the naming convention of other modules
 

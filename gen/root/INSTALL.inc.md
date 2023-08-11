@@ -33,8 +33,8 @@ Windows is a supported platform however Murex doesn't aim to replace coreutils.
 So, depending on your required use case, you may need additional 3rd party
 software to provide those utilities.
 
-There is a more detailed breakdown of known compatibility issues at
-[{{ if env "DOCGEN_TARGET=" }}docs/{{ end }}supported-platforms]({{ if env "DOCGEN_TARGET=" }}docs{{ end }}/supported-platforms.md).
+There is a more detailed breakdown of known compatibility issues in the
+[{{ if env "DOCGEN_TARGET=" }}docs/{{ end }}supported platforms]({{ if env "DOCGEN_TARGET=" }}docs{{ end }}/supported-platforms.md) document.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -43,6 +43,12 @@ There is a more detailed breakdown of known compatibility issues at
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
+
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<a href="DOWNLOAD.html" alt="download murex"><img src="/download.png" class="centre-image"/></a>
+<!-- markdownlint-restore -->
+{{ end }}
 
 ## Installing From A Package Manager
 

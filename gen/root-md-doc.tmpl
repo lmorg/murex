@@ -6,4 +6,10 @@ tag:
   - {{ md .Hierarchy }}{{ end }}
 {{ end }}
 
-{{ end }}{{ md (include .Description) }}
+{{ end }}{{ md (include .Description) }}{{ if .Related }}
+
+## See Also
+
+{{ range $i,$a := .Related }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}]({{ if env "DOCGEN_TARGET=" }}{{ md .WriteTo }}/{{ end }}{{ md .ID }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}

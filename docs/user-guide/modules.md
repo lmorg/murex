@@ -2,6 +2,8 @@
 
 > An introduction to Murex modules and packages
 
+## Description
+
 Murex has it's own module system with namespacing and a package manager. But
 why should a shell need all this?
 

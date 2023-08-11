@@ -272,7 +272,7 @@ Pressing `ctrl`+`l` will clear the screen.
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax

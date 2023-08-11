@@ -1,4 +1,4 @@
-# Murex's Interactive Shell
+# Interactive Shell
 
 > What's different about Murex's interactive shell?
 

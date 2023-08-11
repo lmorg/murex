@@ -1,3 +1,11 @@
+{{ if env "DOCGEN_TARGET=vuepress" }}## Rosetta stone{{ end }}
+
+Below is a reference table of common Bash code and how it could be written in
+Murex.
+
+It is also recommended that you read the language [tour](../tour.md)
+if you want to learn more about shell scripting in Murex.
+
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">

@@ -1,4 +1,5 @@
-- DocumentID: /docs/supported-platforms
+- DocumentID: supported-platforms
+  WriteTo: docs/
   Title: >-
     Supported Platforms
   CategoryID: Murex
@@ -8,3 +9,5 @@
     {{ include "gen/root/supported-platforms.inc.md" }}
   Synonyms:
   Related:
+    - DOWNLOAD
+    - INSTALL

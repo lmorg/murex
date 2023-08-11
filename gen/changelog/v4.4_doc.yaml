@@ -94,7 +94,7 @@
 
     * readline: new word jump hotkeys `option`+`left` / `option`+`right` (Mac)
 
-    ### Bug Fixes:
+    ### Bug Fixes
 
     * `test` would always run first in any block, regardless of the preferred order of execution. This was because `test (unit|state|config)` required altering the execution state of the shell. The drawback was that `test (run|define|report)` would also run unexpectedly. This lead to hacks like `try { test run * }` to force the correct order of operations. Now the parameters of `test` are checked to determine when to execute the builtin.
 

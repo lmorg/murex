@@ -128,7 +128,7 @@ highlights:
         link: /
 
 copyright: false
-footer: GPL Licensed, Copyright © 2017-present Laurence Morgan
+footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
 
 ## 👁‍🗨 Screenshots
@@ -156,13 +156,13 @@ footer: GPL Licensed, Copyright © 2017-present Laurence Morgan
      border-radius: 16px;
   }
 
-  @media (max-width: 719px){
+  @media (max-width: 719px) {
     .image-preview > img {
       width: 50% !important;
     }
   }
 
-  @media (max-width: 419px){
+  @media (max-width: 419px) {
     .image-preview > img {
       width: 100% !important;
     }

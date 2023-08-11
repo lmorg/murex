@@ -28,8 +28,8 @@ Windows is a supported platform however Murex doesn't aim to replace coreutils.
 So, depending on your required use case, you may need additional 3rd party
 software to provide those utilities.
 
-There is a more detailed breakdown of known compatibility issues at
-[docs/supported-platforms](docs/supported-platforms.md).
+There is a more detailed breakdown of known compatibility issues in the
+[docs/supported platforms](docs/supported-platforms.md) document.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -38,6 +38,8 @@ There is a more detailed breakdown of known compatibility issues at
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
+
+
 
 ## Installing From A Package Manager
 
@@ -167,3 +169,10 @@ would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean typeface
 based off Source Code Pro but with a few added ligatures - albeit subtle ones
 designed to make Haskell more readable. Those ligatures also suite Murex
 pretty well. So the overall experience is a clean and readable terminal.
+
+## See Also
+
+* [Download](/DOWNLOAD.md):
+  Murex download links
+* [Supported Platforms](docs//supported-platforms.md):
+  Operating systems and CPU architectures supported by Murex

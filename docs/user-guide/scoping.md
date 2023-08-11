@@ -2,6 +2,8 @@
 
 > How scoping works within Murex
 
+## Description
+
 A 'scope' in Murex is a collection of code blocks to which variables and
 config are persistent within. In Murex, a variable declared inside an `if` or
 `foreach` block will be persistent outside of their blocks as long as you're

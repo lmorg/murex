@@ -21,10 +21,10 @@
       pipeline to fail. Currently this is opt in, a future release of Murex will
       flip that and make it opt out. So take this opportunity to enable it in your
       `~/.murex_profile` and test your scripts. Enable this via `config`:
-
-          <pre><code>config: set proc strict-vars true</code></pre>
-
-          This feature was requested in [issue #380](https://github.com/lmorg/murex/issues/380).
+      ```
+      config: set proc strict-vars true
+      ```
+      This feature was requested in [issue #380](https://github.com/lmorg/murex/issues/380).
     
     * New builtin: `datetime`. This builtin allows you to convert date and/or time
       strings of one format into strings of another format. `datetime` is a
@@ -46,15 +46,16 @@
 
     * Prompt now defaults to only displaying current directory rather than the full
       path. You can revert this change by adding your own prompt in `config`. eg:
+      ```
+      config: set shell prompt {
+          out "{RESET}{YELLOW}${pwd_short} {RESET}» "
+      }
 
-          <pre><code>config: set shell prompt {
-              out "{RESET}{YELLOW}${pwd_short} {RESET}» "
-          }
-
-          config: set shell prompt-multiline {
-              let len = ${pwd_short -> wc -c} - 1
-              printf "%${$len}s » " $linenum
-          }</code></pre>
+      config: set shell prompt-multiline {
+          let len = ${pwd_short -> wc -c} - 1
+          printf "%${$len}s » " $linenum
+      }
+      ```
 
     * Parser updated to better support multiline pipelines where the newline is
       escaped and a comment exists after [issue #379](https://github.com/lmorg/murex/issues/379).
@@ -80,7 +81,7 @@
 
     * Several `readline` bug fixes.
 
-    ### Non-User Facing / Maintenance Changes
+    ### Non-User Facing / Maintenance Changes:
 
     * Thread safe copying of parameters upon fork. The previous code never actually
       generated any race conditions and I don't think ever could. However it was

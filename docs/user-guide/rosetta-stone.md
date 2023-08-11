@@ -2,6 +2,8 @@
 
 > A tabulated list of Bashism's and their equivalent Murex syntax
 
+
+
 Below is a reference table of common Bash code and how it could be written in
 Murex.
 
@@ -132,7 +134,7 @@ if you want to learn more about shell scripting in Murex.
   Redirects STDOUT to a file and append its contents
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Murex Named Pipes](../user-guide/namedpipes.md):
+* [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Or (`||`) Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails

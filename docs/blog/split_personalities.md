@@ -228,7 +228,7 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Reading Lists From The Command Line](../blog/reading_lists.md):
   How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
