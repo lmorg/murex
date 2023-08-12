@@ -192,8 +192,7 @@ sudo port install murex
 ```bash
 # From AUR: https://aur.archlinux.org/packages/murex
 wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-makepkg --syncdeps
-makepkg --install 
+makepkg --syncdeps --install 
 ```
 
 @tab FreeBSD

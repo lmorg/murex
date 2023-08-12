@@ -47,7 +47,11 @@ page to select your platform.
 
 ### ArchLinux
 
-Available as an [AUR package](https://aur.archlinux.org/packages/murex).
+From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/packages/murex)
+
+    wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
+    makepkg --syncdeps --install 
+
 
 ### FreeBSD Ports
 
@@ -124,7 +128,7 @@ optional as Murex attempts to ship with sane defaults.
 
 **Test the executable (optional stage):**
 
-    ./murex -c 'g: behavioural/*.mx -> foreach: f { source: $f }; test: run *'
+    ./murex -c 'g: behavioural/*.mx -> foreach: f { source: $f }; test: run *
 
 **Start the shell:**
 
