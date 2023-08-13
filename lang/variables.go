@@ -52,6 +52,7 @@ func errVarCannotStoreVariable(name string, err error) error {
 const (
 	DOT        = ""
 	SELF       = "SELF"
+	ARGV       = "ARGV"
 	ARGS       = "ARGS"
 	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
@@ -139,7 +140,7 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	case SELF:
 		return getVarSelf(v.process), nil
 
-	case ARGS:
+	case ARGV, ARGS:
 		return getVarArgs(v.process), nil
 
 	case PARAMS:
@@ -267,7 +268,7 @@ func (v *Variables) getString(name string) (string, error) {
 		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case ARGS:
+	case ARGV, ARGS:
 		b, err := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
@@ -393,7 +394,7 @@ func (v *Variables) getDataType(name string) string {
 	case SELF:
 		return types.Json
 
-	case ARGS:
+	case ARGV, ARGS:
 		return types.Json
 
 	case PARAMS:
@@ -488,7 +489,7 @@ func (v *Variables) getNestedDataType(name string, dataType string) string {
 // Set writes a variable
 func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
 	switch name {
-	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
+	case SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
 	case ENV:
 		return setEnvVar(value, changePath)
@@ -743,7 +744,7 @@ func DumpVariables(p *Process) map[string]interface{} {
 	p.Variables.mutex.Unlock()
 
 	m[SELF], _ = p.Variables.GetValue(SELF)
-	m[ARGS], _ = p.Variables.GetValue(ARGS)
+	m[ARGV], _ = p.Variables.GetValue(ARGS)
 	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
 	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
