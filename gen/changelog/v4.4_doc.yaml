@@ -2,10 +2,28 @@
   Title: >-
     v4.4
   CategoryID: changelog
-  DateTime: 2023-07-18 22:58
+  DateTime: 2023-07-27 23:12
   Summary: >-
     v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness
   Description: |-
+    ## v4.4.9500
+
+    ### Breaking Changes
+
+    None
+
+    ### Features
+
+    * autocompletion: `su` integration for Linux
+
+    * `$GOPATH` is no longer required to run unit tests
+
+    ### Bug Fixes
+
+    * readline: paths wouldn't autocomplete on scalars (eg `cd $GOPATH/...`)
+
+    * readline: previews wouldn't work against variables (eg `vi ~/file.txt`)
+
     ## v4.4.9000
 
     ### Breaking Changes

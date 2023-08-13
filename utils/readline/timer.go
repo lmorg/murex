@@ -60,6 +60,10 @@ func (dtc *DelayedTabContext) AppendSuggestions(suggestions []string) {
 
 	max := dtc.rl.MaxTabCompleterRows * 20
 
+	if len(dtc.rl.tcSuggestions) == 0 {
+		dtc.rl.ForceHintTextUpdate(" ")
+	}
+
 	dtc.rl.tabMutex.Lock()
 
 	if dtc.rl.tcDescriptions == nil {
@@ -101,6 +105,10 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 	}
 
 	max := dtc.rl.MaxTabCompleterRows * 20
+
+	if len(dtc.rl.tcSuggestions) == 0 {
+		dtc.rl.ForceHintTextUpdate(" ")
+	}
 
 	dtc.rl.tabMutex.Lock()
 

@@ -133,7 +133,7 @@ func matchLocal(s string, includeColon bool) (items []string) {
 }
 
 func matchFilesAndDirsOnce(s string, rx *regexp.Regexp) (items []string) {
-	s = variables.ExpandString(s)
+	//s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
 	var item []string

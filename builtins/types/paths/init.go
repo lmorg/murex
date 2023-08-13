@@ -22,6 +22,6 @@ func init() {
 	stdio.RegisterReadArrayWithType(types.Path, readArrayWithTypePath)
 	stdio.RegisterReadArrayWithType(types.Paths, readArrayWithTypePaths)
 	//stdio.RegisterReadMap(types.Json, readMap)
-	//stdio.RegisterWriteArray(typePaths, newArrayWriterPath)
+	stdio.RegisterWriteArray(types.Path, newArrayWriterPath)
 	stdio.RegisterWriteArray(types.Paths, newArrayWriterPaths)
 }

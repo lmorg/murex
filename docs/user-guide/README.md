@@ -380,6 +380,8 @@ are only included by default on Windows.
   JSON Lines
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
+* [`path` ](../types/path.md):
+  Structured object for working with file and directory paths
 * [`str` (string) ](../types/str.md):
   string (primitive)
 * [`toml` ](../types/toml.md):

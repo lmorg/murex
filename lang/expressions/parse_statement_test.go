@@ -126,14 +126,14 @@ func TestParseStatement(t *testing.T) {
 		{
 			Statement: `echo h(ello worl)d`,
 			Args: []string{
-				"echo", "h(ello", "worl)d",
+				"echo", "h(ello worl)", "d",
 			},
 			Exec: false,
 		},
 		{
-			Statement: `echo h(ello worl)d`,
+			Statement: `echo echo(hello worl)d`,
 			Args: []string{
-				"echo", "h(ello", "worl)d",
+				"echo", "hello worl", "d",
 			},
 			Exec: true,
 		},
