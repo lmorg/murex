@@ -1,0 +1,44 @@
+- DocumentID: ARGV
+  Title: >-
+    `ARGV` (json)
+  CategoryID: variables
+  Summary: >-
+    Array of the command name and parameters within a given
+    scope
+  Description: |-
+    Returns an array of the command name and parameters within a given scope. eg
+    `function`, `private`, `autocomplete` or shell script.
+
+    Unlike `$PARAMS`, `$ARGV` includes the function name.
+
+    This is a reserved variable so it cannot be changed.
+  Examples: |-
+    ```
+    » function example { out $ARGV }
+    » example abc 1 2 3
+    [
+        "example",
+        "abc",
+        "1",
+        "2",
+        "3"
+    ]
+    ```
+
+  Synonyms:
+  - ARGV
+  - ARGS
+  Related:
+  - PARAMS
+  - types/json
+  - parser/string
+  - parser/array
+  - commands/set
+  - commands/function
+  - commands/private
+  - commands/autocomplete
+  - commands/out
+  - user-guide/scoping
+  - user-guide/pipeline
+  - user-guide/modules
+  - user-guide/reserved-vars

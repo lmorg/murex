@@ -1,0 +1,39 @@
+- DocumentID: PARAMS
+  Title: >-
+    `PARAMS` (json)
+  CategoryID: variables
+  Summary: >-
+    Array of the parameters within a given scope
+  Description: |-
+    Returns an array of the parameters within a given scope. eg `function`,
+    `private`, `autocomplete` or shell script.
+
+    Unlike `$ARGV`, `$PARAMS` does not include the function name.
+
+    This is a reserved variable so it cannot be changed.
+  Examples: |-
+    ```
+    » function example { out $PARAMS }
+    » example abc 1 2 3
+    [
+        "abc",
+        "1",
+        "2",
+        "3"
+    ]
+    ```
+  Synonyms:
+  Related:
+  - ARGV
+  - commands/set
+  - types/json
+  - parser/string
+  - parser/array
+  - commands/function
+  - commands/private
+  - commands/autocomplete
+  - commands/out
+  - user-guide/scoping
+  - user-guide/pipeline
+  - user-guide/modules
+  - user-guide/reserved-vars

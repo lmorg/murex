@@ -3,7 +3,7 @@ name: Deploy Dev Docs
 on:
   push:
     branches:
-      - dev
+      - develop
       - website
   
   workflow_dispatch:

@@ -58,6 +58,13 @@ export default sidebar({
       collapsible: true,
     },
     {
+      text: "Variables",
+      icon: "dollar",
+      prefix: "variables/",
+      children: "structure",
+      collapsible: true,
+    },
+    {
       text: "API Reference",
       icon: "gears",
       prefix: "apis/",
