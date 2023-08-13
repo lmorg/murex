@@ -4,7 +4,53 @@
 
 ## Description
 
-The `path` type Turns file and directory paths into structured objects
+The `path` type Turns file and directory paths into structured objects.
+
+The root directory (typically `/`) is counted as a directory. If a path is
+relative rather than absolute then `/` will be excluded from outputted string.
+
+## Examples
+
+**Return the first two elements in a path:**
+
+```
+» $PWD[..2]
+/Users/
+```
+
+**Check if path exists:**
+
+```
+» set path foobar="/dev/foobar"
+» $foobar.2.Exists
+```
+
+**Example of `path` data structure:**
+
+```
+» set path foobar="/dev/foobar"
+» $foobar -> format json
+[
+    {
+        "Exists": true,
+        "IsDir": true,
+        "IsRelative": false,
+        "Value": "/"
+    },
+    {
+        "Exists": true,
+        "IsDir": true,
+        "IsRelative": false,
+        "Value": "dev"
+    },
+    {
+        "Exists": false,
+        "IsDir": false,
+        "IsRelative": false,
+        "Value": "foobar"
+    }
+]
+```
 
 ## Supported Hooks
 
@@ -31,6 +77,8 @@ The `path` type Turns file and directory paths into structured objects
   
 * [PWDHIST](../variables/PWDHIST.md):
   
+* [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
+  Absolute path to running shell
 * [`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [`ReadArray()` (type)](../apis/ReadArray.md):

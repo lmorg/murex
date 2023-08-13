@@ -752,5 +752,6 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[PWD], _ = p.Variables.GetValue(PWD)
 	m[ENV], _ = p.Variables.GetValue(ENV)
 	m[GLOBAL] = nil
+
 	return m
 }
