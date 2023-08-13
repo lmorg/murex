@@ -3,8 +3,7 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - new-website-pipeline
-      - website
+      - master
   
   workflow_dispatch:
 
@@ -31,7 +30,7 @@ jobs:
         run: |
           go build -v github.com/lmorg/murex/utils/docgen
 
-      - name: Compile Markdown Docs
+      - name: Build Markdown Docs
         env:
           DOCGEN_TARGET: vuepress
         run: |
@@ -57,12 +56,10 @@ jobs:
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
 
-      - name: Deploy
-        env:
-          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
-          AWS_DEFAULT_REGION: eu-west-1
-          AWS_DEFAULT_OUTPUT: json
-        run: |
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/dev/ --exclude "*.md" --no-progress --delete
-          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"
+      - name: Deploy Docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # This is the branch where the docs are deployed to
+          branch: gh-pages
+          folder: docs/.vuepress/dist
+        
