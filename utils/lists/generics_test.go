@@ -10,7 +10,7 @@ import (
 
 func TestGenericToString(t *testing.T) {
 	tests := []struct {
-		Source   []any
+		Source   any
 		Expected []string
 		Error    bool
 	}{
@@ -20,7 +20,17 @@ func TestGenericToString(t *testing.T) {
 			Error:    false,
 		},
 		{
+			Source:   []int{1, 2, 3},
+			Expected: nil,
+			Error:    true,
+		},
+		{
 			Source:   []interface{}{"1", "2", "3"},
+			Expected: []string{"1", "2", "3"},
+			Error:    false,
+		},
+		{
+			Source:   []string{"1", "2", "3"},
 			Expected: []string{"1", "2", "3"},
 			Error:    false,
 		},
