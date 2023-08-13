@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"
 )
@@ -126,10 +127,10 @@ func cmdCd(p *lang.Process) error {
 		if err != nil {
 			return fmt.Errorf("%s: %s", cdErrMsg, err.Error())
 		}
-		v, ok := pwdHist.([]string)
+		v, err := lists.GenericToString(pwdHist)
 		switch {
-		case !ok:
-			return fmt.Errorf("%s: $PWDHIST doesn't appear to be a valid array", cdErrMsg)
+		case err != nil:
+			return fmt.Errorf("%s: $PWDHIST doesn't appear to be a valid array: %s", cdErrMsg, err.Error())
 		case len(v) == 0:
 			return fmt.Errorf("%s: $PWDHIST is an empty array", cdErrMsg)
 		case len(v) == 1:
