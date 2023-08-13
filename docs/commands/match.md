@@ -1,4 +1,4 @@
-# `match` - Command Reference
+# `match`
 
 > Match an exact value in an array
 
@@ -10,41 +10,51 @@ contain an exact match of the parameters supplied.
 When multiple parameters are supplied they are concatenated into the search
 string and white space delimited. eg all three of the below are the same:
 
-    match "a b c"
-    match a\sb\sc
-    match a b c
-    match a    b    c
-    
-If you want to return everything except the search string then use `!match
+```
+match "a b c"
+match a\sb\sc
+match a b c
+match a    b    c
+```
+
+If you want to return everything except the search string then use `!match`
 
 ## Usage
 
 Match every occurrence of search string
 
-    <stdin> -> match search string -> <stdout>
-    
+```
+<stdin> -> match search string -> <stdout>
+```
+
 Match everything except search string
 
-    <stdin> -> !match search string -> <stdout>
+```
+<stdin> -> !match search string -> <stdout>
+```
 
 ## Examples
 
 Match **Wed**
 
-    » ja: [Monday..Friday] -> match Wed
-    [
-        "Wednesday"
-    ]
-    
+```
+» ja: [Monday..Friday] -> match Wed
+[
+    "Wednesday"
+]
+```
+
 Match everything except **Wed**
 
-    » ja: [Monday..Friday] -> !match Wed
-    [
-        "Monday",
-        "Tuesday",
-        "Thursday",
-        "Friday"
-    ] 
+```
+» ja: [Monday..Friday] -> !match Wed
+[
+    "Monday",
+    "Tuesday",
+    "Thursday",
+    "Friday"
+] 
+```
 
 ## Detail
 

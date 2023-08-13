@@ -1,0 +1,10 @@
+- DocumentID: README
+  Title: >-
+    Murex
+  CategoryID: Murex
+  Summary:
+    A smarter shell and scripting environment with advanced features designed for safety and productivity
+  Description: |-
+    {{ include "gen/root/README.inc.md" }}
+  Synonyms:
+  Related:

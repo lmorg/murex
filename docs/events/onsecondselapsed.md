@@ -1,4 +1,4 @@
-# `onSecondsElapsed` - events
+# `onSecondsElapsed`
 
 > Events triggered by time intervals
 
@@ -8,9 +8,11 @@
 
 ## Usage
 
-    event: onSecondsElapsed name=seconds { code block }
-    
-    !event: onSecondsElapsed name
+```
+event: onSecondsElapsed name=seconds { code block }
+
+!event: onSecondsElapsed name
+```
 
 ## Valid Interrupts
 
@@ -19,9 +21,11 @@
 
 ## Examples
 
-    event: onSecondsElapsed example=60 {
-        out: "60 seconds has passed"
-    }
+```
+event: onSecondsElapsed example=60 {
+    out: "60 seconds has passed"
+}
+```
 
 ## Detail
 
@@ -29,11 +33,13 @@
 
 The following payload is passed to the function via STDIN:
 
-    {
-        "Name": "",
-        "Interrupt": 0
-    }
-    
+```
+{
+    "Name": "",
+    "Interrupt": 0
+}
+```
+
 #### Name
 
 This is the name you specified when defining the event.

@@ -1,4 +1,4 @@
-# `str` (string)  - Data-Type Reference
+# `str` (string) 
 
 > string (primitive)
 
@@ -36,8 +36,6 @@ This type is modelled closely on generic but is more tailored for textual
   Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
@@ -50,3 +48,5 @@ This type is modelled closely on generic but is more tailored for textual
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

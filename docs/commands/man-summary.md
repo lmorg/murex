@@ -1,4 +1,4 @@
-# `man-summary` - Command Reference
+# `man-summary`
 
 > Outputs a man page summary of a command
 
@@ -9,12 +9,16 @@ summary (if one exists).
 
 ## Usage
 
-    man-summary command -> <stdout>
+```
+man-summary command -> <stdout>
+```
 
 ## Examples
 
-    » man-summary: man 
-    man - an interface to the on-line reference manuals
+```
+» man-summary: man 
+man - an interface to the on-line reference manuals
+```
 
 ## See Also
 

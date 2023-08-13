@@ -1,4 +1,4 @@
-# `yaml`  - Data-Type Reference
+# `yaml` 
 
 > YAML Ain't Markup Language (YAML)
 
@@ -57,8 +57,6 @@ external source packages for the shell to compile.
   Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
@@ -75,3 +73,5 @@ external source packages for the shell to compile.
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -1,4 +1,4 @@
-# `<>` / `read-named-pipe` - Command Reference
+# `<>` / `read-named-pipe`
 
 > Reads from a Murex named pipe
 
@@ -6,29 +6,37 @@
 
 Sometimes you will need to start a command line with a Murex named pipe, eg
 
-    » <namedpipe> -> match: foobar
-    
+```
+» <namedpipe> -> match: foobar
+```
+
 > See the documentation on `pipe` for more details about Murex named pipes.
 
 ## Usage
 
 Read from pipe
 
-    <namedpipe> -> <stdout>
-    
+```
+<namedpipe> -> <stdout>
+```
+
 Write to pipe
 
-    <stdin> -> <namedpipe>
+```
+<stdin> -> <namedpipe>
+```
 
 ## Examples
 
 The follow two examples function the same
 
-    » pipe: example
-    » bg { <example> -> match: 2 }
-    » a: <example> [1..3]
-    2
-    » !pipe: example
+```
+» pipe: example
+» bg { <example> -> match: 2 }
+» a: <example> [1..3]
+2
+» !pipe: example
+```
 
 ## Detail
 
@@ -49,35 +57,39 @@ data along asynchronously.
 
 For example
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: "foobar"        -> <example>
-    out: "Hello, world!" -> <example>
-    out: "foobar"        -> <example>
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: "foobar"        -> <example>
+out: "Hello, world!" -> <example>
+out: "foobar"        -> <example>
+
+!pipe: example
+```
+
 This returns `Hello, world!` because `out` is writing to the **example** named
 pipe and `match` is also reading from it in the background (`bg`).
 
 Named pipes can also be inlined into the command parameters with `<>` tags
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: <example> "foobar"
-    out: <example> "Hello, world!"
-    out: <example> "foobar"
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: <example> "foobar"
+out: <example> "Hello, world!"
+out: <example> "foobar"
+
+!pipe: example
+```
+
 > Please note this is also how `test` works.
 
 Murex named pipes can also represent network sockets, files on a disk or any
@@ -87,8 +99,10 @@ or write endpoints transparently.
 
 To see the different supported types run
 
-    runtime --pipes
-    
+```
+runtime --pipes
+```
+
 ### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes

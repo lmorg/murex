@@ -1,4 +1,4 @@
-# Special Ranges - mkarray
+# Special Ranges
 
 > Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 
@@ -18,25 +18,33 @@ Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarr
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+```
+a: [start..end] -> <stdout>
+a: [start..end,start..end] -> <stdout>
+a: [start..end][start..end] -> <stdout>
+```
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+```
+ja: [start..end] -> <stdout>
+ta: data-type [start..end] -> <stdout>
+```
+
 You can also inline arrays with the `%[]` syntax, eg:
 
-    %[start..end]
+```
+%[start..end]
+```
 
 ## Examples
 
-    » a: [summer..winter]
-    summer
-    autumn
-    winter
+```
+» a: [summer..winter]
+summer
+autumn
+winter
+```
 
 ## Detail
 
@@ -48,60 +56,72 @@ return will be in title case.
 
 #### lower case
 
-    » a: [monday..wednesday]
-    monday
-    tuesday
-    wednesday
-    
+```
+» a: [monday..wednesday]
+monday
+tuesday
+wednesday
+```
+
 #### Title Case
 
-    » a: [Monday..Wednesday]
-    Monday
-    Tuesday
-    Wednesday
-    
+```
+» a: [Monday..Wednesday]
+Monday
+Tuesday
+Wednesday
+```
+
 #### UPPER CASE
 
-    » a: [MONDAY..WEDNESDAY]
-    MONDAY
-    TUESDAY
-    WEDNESDAY
-    
+```
+» a: [MONDAY..WEDNESDAY]
+MONDAY
+TUESDAY
+WEDNESDAY
+```
+
 ### Looping vs Negative Ranges
 
 Where the special ranges differ from a regular range is they cannot
 cannot down. eg `a: [3..1]` would output
 
-    » a: [3..1]
-    3
-    2
-    1
-    
+```
+» a: [3..1]
+3
+2
+1
+```
+
 however a negative range in special ranges will cycle through to the end
 of the range and then loop back from the start:
 
-    » a: [Thursday..Wednesday]
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    Monday
-    Tuesday
-    Wednesday
-    
+```
+» a: [Thursday..Wednesday]
+Thursday
+Friday
+Saturday
+Sunday
+Monday
+Tuesday
+Wednesday
+```
+
 This decision was made because generally with ranges of this type, you
 would more often prefer to cycle through values rather than iterate
 backwards through the list.
 
 If you did want to reverse then pipe the output into another tool:
 
-    » a: [Monday..Friday] -> mtac
-    Friday
-    Thursday
-    Wednesday
-    Tuesday
-    Monday
-    
+```
+» a: [Monday..Friday] -> mtac
+Friday
+Thursday
+Wednesday
+Tuesday
+Monday
+```
+
 There are other UNIX tools which aren't data type aware but would work in
 this specific scenario:
 
@@ -202,8 +222,6 @@ var rangeMoon = map[string]int{
   Create arrays of dates
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -218,3 +236,5 @@ var rangeMoon = map[string]int{
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -1,4 +1,4 @@
-# `bool`  - Data-Type Reference
+# `bool` 
 
 > Boolean (primitive)
 

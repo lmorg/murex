@@ -1,4 +1,4 @@
-# `jsonl`  - Data-Type Reference
+# `jsonl` 
 
 > JSON Lines
 
@@ -18,20 +18,24 @@ Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/exa
 
 ### Tabulated data
 
-    ["Name", "Session", "Score", "Completed"]
-    ["Gilbert", "2013", 24, true]
-    ["Alexa", "2013", 29, true]
-    ["May", "2012B", 14, false]
-    ["Deloise", "2012A", 19, true] 
-    
+```
+["Name", "Session", "Score", "Completed"]
+["Gilbert", "2013", 24, true]
+["Alexa", "2013", 29, true]
+["May", "2012B", 14, false]
+["Deloise", "2012A", 19, true] 
+```
+
 This format is equatable to `generic` and `csv`.
 
 ### Nested objects
 
-    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
-    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
-    {"name": "May", "wins": []}
-    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
+{"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+{"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+{"name": "May", "wins": []}
+{"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
 
 ## Detail
 
@@ -155,8 +159,6 @@ cases for JSON lines.
   Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`csv` ](../types/csv.md):
@@ -181,5 +183,7 @@ cases for JSON lines.
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

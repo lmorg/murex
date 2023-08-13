@@ -1,4 +1,4 @@
-# `man-get-flags`  - Command Reference
+# `man-get-flags` 
 
 > Parses man page files for command line flags 
 
@@ -19,24 +19,28 @@ page for anything that looks like a flag (ie no descriptions or other detail).
 
 ## Usage
 
-    <stdin> -> man-get-flags [--descriptions] -> <stdout>
-    
-    man-get-flags command [--descriptions] -> <stdout>
+```
+<stdin> -> man-get-flags [--descriptions] -> <stdout>
+
+man-get-flags command [--descriptions] -> <stdout>
+```
 
 ## Examples
 
-    » man-get-flags --descriptions find -> [{$.key =~ 'regex'}]
-    {
-        "-iregex": "eg: pattern -- Like -regex, but the match is case insensitive.",
-        "-regex": "eg: pattern -- True if the whole path of the file matches pattern using regular expression.  To match a file named “./foo/xyzzy”, you can use the regular expression “.*/[xyz]*” or “.*/foo/.*”, but not “xyzzy” or “/foo/”."
-    }
+```
+» man-get-flags --descriptions find -> [{$.key =~ 'regex'}]
+{
+    "-iregex": "eg: pattern -- Like -regex, but the match is case insensitive.",
+    "-regex": "eg: pattern -- True if the whole path of the file matches pattern using regular expression.  To match a file named “./foo/xyzzy”, you can use the regular expression “.*/[xyz]*” or “.*/foo/.*”, but not “xyzzy” or “/foo/”."
+}
+```
 
 ## Flags
 
 * `--descriptions`
     return a map of flags with their described usage
 * `-d`
-    shorthand for `--descriptions
+    shorthand for `--descriptions`
 
 ## Detail
 

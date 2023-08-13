@@ -1,4 +1,4 @@
-# And (`&&`) Logical Operator - Parser Reference
+# And (`&&`) Logical Operator
 
 > Continues next operation if previous operation passes
 
@@ -15,23 +15,29 @@ apply stricter error handling.
 
 Second command runs because the first command doesn't error:
 
-    » out: one && out: two
-    one
-    two
-    
+```
+» out: one && out: two
+one
+two
+```
+
 Second command does not run because the first command produces an error:
 
-    » err: one && out: two
-    one
+```
+» err: one && out: two
+one
+```
 
 ## Detail
 
 This is equivelent to a `try` block:
 
-    try {
-        err: one
-        out: two
-    }
+```
+try {
+    err: one
+    out: two
+}
+```
 
 ## See Also
 

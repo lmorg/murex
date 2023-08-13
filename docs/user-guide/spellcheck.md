@@ -1,6 +1,8 @@
-# Spellcheck - User Guide
+# Spellcheck
 
 > How to enable inline spellchecking
+
+## Description
 
 Murex supports inline spellchecking, where errors are underlined. For example
 
@@ -16,8 +18,10 @@ might already be installed by default with your OS or has been included as a
 dependency with another application. You can check if `aspell` is installed by
 running the following:
 
-    which: aspell
-    
+```
+which: aspell
+```
+
 If that returns no data, then you will need to install `aspell` yourself.
 Please consult your OS docs for how to install software.
 
@@ -31,8 +35,10 @@ document.
 ANSI escape sequences need to be enabled (which they are by default). This
 option is found in `config` under **shell**, **color**.
 
-    config: set shell color true
-    
+```
+config: set shell color true
+```
+
 ### Spellcheck Enable
 
 Spellcheck needs to be enabled. This option can be found in `config` under
@@ -40,8 +46,10 @@ Spellcheck needs to be enabled. This option can be found in `config` under
 
 To enable this run:
 
-    config: set shell spellcheck-enabled true
-    
+```
+config: set shell spellcheck-enabled true
+```
+
 ...or add the above line to your Murex profile, `~/.murex_profile` to make
 the change persistent.
 
@@ -53,9 +61,11 @@ the change persistent.
 This shouldn't need tweaking if you're running `aspell` but other spellcheckers
 will require updated code. The default will look something like this:
 
-    » config: get shell spellcheck-func
-    { -> aspell list }
-    
+```
+» config: get shell spellcheck-func
+{ -> aspell list }
+```
+
 The default should be good enough for most people but should you want to run an
 alternative spellchecker then follow the instructions in the next section:
 
@@ -68,38 +78,48 @@ The function reads the command line from STDIN, if the spellchecker reads lines
 from parameters rather than STDIN you'll need to write something equivalent to
 the following
 
-    {
-        # This is a theoretical example. It will not work generically.
-        -> set: line
-        newspellchecker --check "$line"
-    }
-    
+```
+{
+    # This is a theoretical example. It will not work generically.
+    -> set: line
+    newspellchecker --check "$line"
+}
+```
+
 The output of the function must me an array containing the misspelt words only.
 That array can be JSON just as long as you have set STDOUT's data type to
 `json`. Similarly, other supported Murex data types can be used too. However
 in general you might just want to go with a misspelling per line as it's pretty
 POSIX friendly and thus most spellcheckers are likely to support it. eg
 
-    » out "a list of misspelt words: qwert fuubar madeupword" -> aspell: list
-    qwert
-    fuubar
-    madeupword
-    
+```
+» out "a list of misspelt words: qwert fuubar madeupword" -> aspell: list
+qwert
+fuubar
+madeupword
+```
+
 ## User Dictionary
 
 Murex has it's own user dictionary, which is held as a JSON array:
 
-    » config: get shell spellcheck-user-dictionary
-    ["murex"]
-    
+```
+» config: get shell spellcheck-user-dictionary
+["murex"]
+```
+
 You can add words to a user dictionary via:
 
-    » config: eval shell spellcheck-user-dictionary { -> append "myword" }
-    
+```
+» config: eval shell spellcheck-user-dictionary { -> append "myword" }
+```
+
 or
 
-    » config: eval shell spellcheck-user-dictionary { -> alter: --merge / (["word1", "word2", "word3"]) }
-    
+```
+» config: eval shell spellcheck-user-dictionary { -> alter: --merge / (["word1", "word2", "word3"]) }
+```
+
 > Don't forget to record these in your Murex profile, `~/.murex_profile` to
 > make the changes persistent.
 
@@ -124,8 +144,10 @@ If this error arises then it means `aspell` is installed but it doesn't have
 the dictionary for your language. This is an easy fix in most OSs. For example
 in Ubuntu:
 
-    apt install aspell-en
-    
+```
+apt install aspell-en
+```
+
 (you may need to change `-en` with your specific language code)
 
 Please consult your operating systems documentation for how to install software
@@ -139,10 +161,10 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Overview of how code blocks are parsed
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [Murex Profile Files](../user-guide/profile.md):
-  A breakdown of the different files loaded on start up
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):

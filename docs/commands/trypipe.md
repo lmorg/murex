@@ -1,4 +1,4 @@
-# `trypipe` - Command Reference
+# `trypipe`
 
 > Checks state of each function in a pipeline and exits block on error
 
@@ -12,22 +12,28 @@ no longer run in parallel.
 
 ## Usage
 
-    trypipe { code-block } -> <stdout>
-    
-    <stdin> -> trypipe { -> code-block } -> <stdout>
+```
+trypipe { code-block } -> <stdout>
+
+<stdin> -> trypipe { -> code-block } -> <stdout>
+```
 
 ## Examples
 
-    trypipe {
-        out: "Hello, World!" -> grep: "non-existent string" -> cat
-        out: "This command will be ignored"
-    }
-    
+```
+trypipe {
+    out: "Hello, World!" -> grep: "non-existent string" -> cat
+    out: "This command will be ignored"
+}
+```
+
 Formated pager (`less`) where the pager isn't called if the formatter (`pretty`) fails (eg input isn't valid JSON):
 
-    func pless {
-        -> trypipe { -> pretty -> less }
-    }
+```
+func pless {
+    -> trypipe { -> pretty -> less }
+}
+```
 
 ## Detail
 

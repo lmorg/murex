@@ -1,4 +1,4 @@
-# `bg` - Command Reference
+# `bg`
 
 > Run processes in the background
 
@@ -12,27 +12,35 @@ them.
 
 Any operating system:
 
-    bg { code block }
-    
-    <stdin> -> bg
-    
+```
+bg { code block }
+
+<stdin> -> bg
+```
+
 POSIX only:
 
-    bg { code block }
-    
-    <stdin> -> bg
-    
-    bg fid
+```
+bg { code block }
+
+<stdin> -> bg
+
+bg fid
+```
 
 ## Examples
 
 As a function:
 
-    bg { sleep 5; out "Morning" }
-    
+```
+bg { sleep 5; out "Morning" }
+```
+
 As a method:
 
-    » ({ sleep 5; out "Morning" }) -> bg
+```
+» ({ sleep 5; out "Morning" }) -> bg
+```
 
 ## Detail
 

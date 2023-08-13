@@ -1,4 +1,4 @@
-# `Unmarshal()` (type) - API Reference
+# `Unmarshal()` (type)
 
 > Converts a structured file format into structured memory
 

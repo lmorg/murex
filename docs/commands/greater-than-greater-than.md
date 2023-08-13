@@ -1,4 +1,4 @@
-# `>>` (append file) - Command Reference
+# `>>` (append file)
 
 > Writes STDIN to disk - appending contents if file already exists
 
@@ -11,11 +11,15 @@ Otherwise a new file is created.
 
 ## Usage
 
-    <stdin> >> filename
+```
+<stdin> >> filename
+```
 
 ## Examples
 
-    g * >> files.txt
+```
+g * >> files.txt
+```
 
 ## Synonyms
 

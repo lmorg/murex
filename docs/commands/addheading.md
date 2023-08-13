@@ -1,4 +1,4 @@
-# `addheading`  - Command Reference
+# `addheading` 
 
 > Adds headings to a table
 
@@ -10,20 +10,22 @@ prepend to tables.
 
 ## Usage
 
-    <stdin> -> addheading: value value value ... -> <stdout>
+```
+<stdin> -> addheading: value value value ... -> <stdout>
+```
 
 ## Examples
 
-    » tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
-    ["name","age","active"]
-    ["Bob","23","true"]
+```
+» tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
+["name","age","active"]
+["Bob","23","true"]
+```
 
 ## See Also
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
@@ -44,3 +46,5 @@ prepend to tables.
   Add data to the start of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

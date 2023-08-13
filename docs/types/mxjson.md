@@ -1,4 +1,4 @@
-# mxjson - Data-Type Reference
+# mxjson
 
 > Murex-flavoured JSON (deprecated)
 
@@ -29,20 +29,24 @@ code.
 Code blocks are quoted with `(`, `)`. For example, below "ExampleFunction"
 uses the `({ block quote })` method.
 
-    {
-        "ExampleFunction": ({
-            out: "This is an example Murex function"
-            if { =1==2 } then {
-                err: "The laws of the universe are broken"
-            }
-        })
-    }
-    
+```
+{
+    "ExampleFunction": ({
+        out: "This is an example Murex function"
+        if { =1==2 } then {
+            err: "The laws of the universe are broken"
+        }
+    })
+}
+```
+
 Any block quoted by this method will be converted to the following valid JSON:
 
-    {
-        "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
-    }
+```
+{
+    "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
+}
+```
 
 ## See Also
 
@@ -60,8 +64,6 @@ Any block quoted by this method will be converted to the following valid JSON:
   Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`cast`](../commands/cast.md):
@@ -90,3 +92,5 @@ Any block quoted by this method will be converted to the following valid JSON:
   YAML Ain't Markup Language (YAML)
 * [create-objects](../parser/create-objects.md):
   
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

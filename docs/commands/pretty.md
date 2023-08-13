@@ -1,4 +1,4 @@
-# `pretty` - Command Reference
+# `pretty`
 
 > Prettifies JSON to make it human readable
 
@@ -9,22 +9,26 @@ outputs that to STDOUT.
 
 ## Usage
 
-    <stdin> -> pretty -> <stdout>
+```
+<stdin> -> pretty -> <stdout>
+```
 
 ## Examples
 
-    » tout: json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
-    {
-        "Array": [
-            1,
-            2,
-            3
-        ],
-        "Map": {
-            "String": "Foobar",
-            "Number": 123.456
-        }
+```
+» tout: json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
+{
+    "Array": [
+        1,
+        2,
+        3
+    ],
+    "Map": {
+        "String": "Foobar",
+        "Number": 123.456
     }
+}
+```
 
 ## See Also
 

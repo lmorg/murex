@@ -1,4 +1,4 @@
-# `ReadArrayWithType()` (type) - API Reference
+# `ReadArrayWithType()` (type)
 
 > Read from a data type one array element at a time and return the elements contents and data type
 

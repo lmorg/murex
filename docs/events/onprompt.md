@@ -1,4 +1,4 @@
-# `onPrompt` - events
+# `onPrompt`
 
 > Events triggered by changes in state of the interactive shell
 
@@ -10,16 +10,18 @@ section below.
 
 ## Usage
 
-    event: onPrompt name=[before|after|abort|eof] { code block }
-    
-    !event: onPrompt [before_|after_|abort_|eof_]name
+```
+event: onPrompt name=[before|after|abort|eof] { code block }
+
+!event: onPrompt [before_|after_|abort_|eof_]name
+```
 
 ## Valid Interrupts
 
 * `abort`
     Triggered if `ctrl`+`c` pressed while in the interactive prompt
 * `after`
-    Triggered after user has written a command into the interactive prompt and then hit `enter
+    Triggered after user has written a command into the interactive prompt and then hit `enter`
 * `before`
     Triggered before readline displays the interactive prompt
 * `eof`
@@ -29,23 +31,29 @@ section below.
 
 **Interrupt 'before':**
 
-    event: onPrompt example=before {
-        out: "This will appear before your command prompt"
-    }
-    
+```
+event: onPrompt example=before {
+    out: "This will appear before your command prompt"
+}
+```
+
 **Interrupt 'after':**
 
-    event: onPrompt example=after {
-        out: "This will appear after you've hit [enter] on your command prompt"
-        out: "...but before the command executes"
-    }
-    
+```
+event: onPrompt example=after {
+    out: "This will appear after you've hit [enter] on your command prompt"
+    out: "...but before the command executes"
+}
+```
+
 **Echo the command line:**
 
-    » event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
-    » echo hello world
-    echo hello world
-    hello world
+```
+» event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
+» echo hello world
+echo hello world
+hello world
+```
 
 ## Detail
 
@@ -53,15 +61,17 @@ section below.
 
 The following payload is passed to the function via STDIN:
 
-    {
+```
+{
+    "Name": "",
+    "Interrupt": {
         "Name": "",
-        "Interrupt": {
-            "Name": "",
-            "Operation": "",
-            "CmdLine": ""
-        }
+        "Operation": "",
+        "CmdLine": ""
     }
-    
+}
+```
+
 #### Name
 
 This is the **namespaced** name -- ie the name and operation.
@@ -108,7 +118,7 @@ that has elements triggered from different interrupts).
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses

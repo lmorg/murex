@@ -1,4 +1,4 @@
-# `source`  - Command Reference
+# `source` 
 
 > Import Murex code from another file of code block
 
@@ -12,33 +12,45 @@ Python, Perl, etc).
 
 Execute source from STDIN
 
-    <stdin> -> source
-    
+```
+<stdin> -> source
+```
+
 Execute source from a file
 
-    source: filename.mx
-    
+```
+source: filename.mx
+```
+
 Execute a code block from parameter
 
-    source: { code-block }
+```
+source: { code-block }
+```
 
 ## Examples
 
 Execute source from stdin:
 
-    » tout: block { out: "Hello, world!" } -> source
-    Hello, world!
-    
+```
+» tout: block { out: "Hello, world!" } -> source
+Hello, world!
+```
+
 Execute source from file:
 
-    » tout: block { out: "Hello, world!" } |> example.mx
-    » source: example.mx
-    Hello, world!
-    
+```
+» tout: block { out: "Hello, world!" } |> example.mx
+» source: example.mx
+Hello, world!
+```
+
 Execute a code block from parameter
 
-    » source { out: "Hello, world!" }
-    Hello, world!
+```
+» source { out: "Hello, world!" }
+Hello, world!
+```
 
 ## Synonyms
 

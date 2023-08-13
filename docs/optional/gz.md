@@ -1,4 +1,4 @@
-# `gz`  - Optional Command Reference
+# `gz` 
 
 > Compress or decompress a gzip file
 
@@ -8,9 +8,11 @@ An optional builtin for compressing or decompressing a gzip stream from STDIN.
 
 ## Usage
 
-    <stdin> -> gz -> <stdout>
-    
-    <stdin> -> !gz -> <stdout>
+```
+<stdin> -> gz -> <stdout>
+
+<stdin> -> !gz -> <stdout>
+```
 
 ## Synonyms
 

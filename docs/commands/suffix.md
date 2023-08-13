@@ -1,4 +1,4 @@
-# `suffix` - Command Reference
+# `suffix`
 
 > Prefix a string to every item in a list
 
@@ -8,23 +8,29 @@ Takes a list from STDIN and returns that same list with each element suffixed.
 
 ## Usage
 
-    <stdin> -> suffix str -> <stdout>
+```
+<stdin> -> suffix str -> <stdout>
+```
 
 ## Examples
 
-    » ja: [Monday..Wednesday] -> suffix foobar
-    [
-        "Mondayfoobar",
-        "Tuesdayfoobar",
-        "Wednesdayfoobar"
-    ]
+```
+» ja: [Monday..Wednesday] -> suffix foobar
+[
+    "Mondayfoobar",
+    "Tuesdayfoobar",
+    "Wednesdayfoobar"
+]
+```
 
 ## Detail
 
 Supported data types can queried via `runtime`
 
-    runtime: --marshallers
-    runtime: --unmarshallers
+```
+runtime: --marshallers
+runtime: --unmarshallers
+```
 
 ## Synonyms
 

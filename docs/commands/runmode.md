@@ -1,4 +1,4 @@
-# `runmode` - Command Reference
+# `runmode`
 
 > Alter the scheduler's behaviour at higher scoping level
 
@@ -16,21 +16,25 @@ needs be the first command in a block.
 
 ## Usage
 
-    runmode try|trypipe function|module
+```
+runmode try|trypipe function|module
+```
 
 ## Examples
 
-    function hello {
-        # Short conversation, exit on error
-        
-        runmode: try function
+```
+function hello {
+    # Short conversation, exit on error
     
-        read: name "What is your name? "
-        out: "Hello $name, pleased to meet you"
-        
-        read: mood "How are you feeling? "
-        out: "I'm feeling $mood too"
-    }
+    runmode: try function
+
+    read: name "What is your name? "
+    out: "Hello $name, pleased to meet you"
+    
+    read: mood "How are you feeling? "
+    out: "I'm feeling $mood too"
+}
+```
 
 ## Detail
 

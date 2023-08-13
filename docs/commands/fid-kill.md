@@ -1,4 +1,4 @@
-# `fid-kill` - Command Reference
+# `fid-kill`
 
 > Terminate a running Murex function
 
@@ -9,7 +9,9 @@ that the POSIX `kill` (superficially speaking).
 
 ## Usage
 
-    fid-kill fid
+```
+fid-kill fid
+```
 
 ## Detail
 

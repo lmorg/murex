@@ -1,4 +1,4 @@
-# `fg` - Command Reference
+# `fg`
 
 > Sends a background process into the foreground
 
@@ -10,7 +10,9 @@
 
 POSIX only:
 
-    fg fid
+```
+fg fid
+```
 
 ## Detail
 

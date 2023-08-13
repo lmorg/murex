@@ -1,0 +1,12 @@
+- DocumentID: DOWNLOAD
+  Title: >-
+    Download
+  CategoryID: Murex
+  Summary: >-
+    Murex download links
+  Description: |-
+    {{ include "gen/root/DOWNLOAD.inc.md" }}
+  Synonyms:
+  Related:
+    - INSTALL
+    - supported-platforms

@@ -1,4 +1,4 @@
-# `break` - Command Reference
+# `break`
 
 > Terminate execution of a block within your processes scope
 
@@ -14,47 +14,55 @@ loop, then it will be `if` or `foreach` (respectively).
 
 ## Usage
 
-    break block-name
+```
+break block-name
+```
 
 ## Examples
 
 **Exiting an iteration block:**
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                break foo
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            break foo
+            out "ended"
         }
     }
-    
+}
+```
+
 Running the above code would output:
 
-    » foo
-    1
-    2
-    3
-    4
-    5
-    exit running function
-    
+```
+» foo
+1
+2
+3
+4
+5
+exit running function
+```
+
 **Exiting a function:**
 
 `break` can be considered to exhibit the behavior of _return_ (from other
 languages) too
 
-    function example {
-        if { $USER == "root" } then {
-            err "Don't run this as root"
-            break example
-        }
-        
-        # ... do something ...
+```
+function example {
+    if { $USER == "root" } then {
+        err "Don't run this as root"
+        break example
     }
     
+    # ... do something ...
+}
+```
+
 Though in this particular use case it is recommended that you use `return`
 instead, the above code does illustrate how `break` behaves.
 
@@ -64,25 +72,29 @@ instead, the above code does illustrate how `break` behaves.
 running inside). For example, in the following code we are calling `break
 bar` (which is a different function) inside of the function `foo`:
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                break bar
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            break bar
+            out "ended"
         }
     }
-    
-    function bar {
-        foo
-    }
-    
+}
+
+function bar {
+    foo
+}
+```
+
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
-    Error in `break` (7,17): no block found named `bar` within the scope of `foo`
+```
+Error in `break` (7,17): no block found named `bar` within the scope of `foo`
+```
 
 ## See Also
 

@@ -1,4 +1,4 @@
-# `csv`  - Data-Type Reference
+# `csv` 
 
 > CSV files (and other character delimited tables)
 
@@ -12,25 +12,27 @@ or any other exotic characters used as a delimiter.
 The CSV parser is configurable via `config` (see link below for docs on how to
 use `config`)
 
-    » config: -> [csv]      
-    {
-        "comment": {
-            "Data-Type": "str",
-            "Default": "#",
-            "Description": "The prefix token for comments in a CSV table.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": "#"
-        },
-        "separator": {
-            "Data-Type": "str",
-            "Default": ",",
-            "Description": "The delimiter for records in a CSV file.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": ","
-        }
+```
+» config: -> [csv]      
+{
+    "comment": {
+        "Data-Type": "str",
+        "Default": "#",
+        "Description": "The prefix token for comments in a CSV table.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": "#"
+    },
+    "separator": {
+        "Data-Type": "str",
+        "Default": ",",
+        "Description": "The delimiter for records in a CSV file.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": ","
     }
+}
+```
 
 ## Default Associations
 
@@ -70,8 +72,6 @@ use `config`)
   Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
@@ -86,3 +86,5 @@ use `config`)
   Inlining SQL into shell pipelines
 * [`str` (string) ](../types/str.md):
   string (primitive)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

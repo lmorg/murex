@@ -1,4 +1,4 @@
-# `mtac` - Command Reference
+# `mtac`
 
 > Reverse the order of an array
 
@@ -15,28 +15,32 @@ Murex.
 
 ## Usage
 
-    <stdin> -> mtac -> <stdout>
+```
+<stdin> -> mtac -> <stdout>
+```
 
 ## Examples
 
-    » ja: [Monday..Friday] -> mtac
-    [
-        "Friday",
-        "Thursday",
-        "Wednesday",
-        "Tuesday",
-        "Monday"
-    ]
-    
-    # Normal output (without mtac)
-    » ja: [Monday..Friday]
-    [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-    ]
+```
+» ja: [Monday..Friday] -> mtac
+[
+    "Friday",
+    "Thursday",
+    "Wednesday",
+    "Tuesday",
+    "Monday"
+]
+
+# Normal output (without mtac)
+» ja: [Monday..Friday]
+[
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+]
+```
 
 ## Detail
 

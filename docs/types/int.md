@@ -1,4 +1,4 @@
-# `int`  - Data-Type Reference
+# `int` 
 
 > Whole number (primitive)
 
@@ -34,8 +34,6 @@ AMD64 or other 64bit built of Murex would see the range from
   Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
@@ -48,3 +46,5 @@ AMD64 or other 64bit built of Murex would see the range from
   Returns runtime information on the internal state of Murex
 * [`str` (string) ](../types/str.md):
   string (primitive)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

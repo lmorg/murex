@@ -1,4 +1,4 @@
-# `runtime` - Command Reference
+# `runtime`
 
 > Returns runtime information on the internal state of Murex
 
@@ -9,129 +9,141 @@ will be JSON dumps.
 
 ## Usage
 
-    runtime: flags -> <stdout>
-    
+```
+runtime: flags -> <stdout>
+```
+
 `builtins` is an alias for `runtime: --builtins`:
 
-    builtins -> <stdout>
+```
+builtins -> <stdout>
+```
 
 ## Examples
 
 List all the builtin data-types that support WriteArray()
 
-    » runtime: --writearray
-    [
-        "*",
-        "commonlog",
-        "csexp",
-        "hcl",
-        "json",
-        "jsonl",
-        "qs",
-        "sexp",
-        "str",
-        "toml",
-        "yaml"
-    ]
-    
+```
+» runtime: --writearray
+[
+    "*",
+    "commonlog",
+    "csexp",
+    "hcl",
+    "json",
+    "jsonl",
+    "qs",
+    "sexp",
+    "str",
+    "toml",
+    "yaml"
+]
+```
+
 List all the functions
 
-    » runtime: --functions -> [ agent aliases ]
-    [
-        {
-            "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
-            "FileRef": {
-                "Column": 1,
-                "Line": 149,
-                "Source": {
-                    "DateTime": "2019-07-07T14:06:11.05581+01:00",
-                    "Filename": "/home/lau/.murex_profile",
-                    "Module": "profile/.murex_profile"
-                }
-            },
-            "Summary": "Launch ssh-agent"
+```
+» runtime: --functions -> [ agent aliases ]
+[
+    {
+        "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
+        "FileRef": {
+            "Column": 1,
+            "Line": 149,
+            "Source": {
+                "DateTime": "2019-07-07T14:06:11.05581+01:00",
+                "Filename": "/home/lau/.murex_profile",
+                "Module": "profile/.murex_profile"
+            }
         },
-        {
-            "Block": "\n\t# Output the aliases in human readable format\n\truntime: --aliases -\u003e formap name alias {\n        $name -\u003e sprintf: \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
-            "FileRef": {
-                "Column": 1,
-                "Line": 6,
-                "Source": {
-                    "DateTime": "2019-07-07T14:06:10.886706796+01:00",
-                    "Filename": "(builtin)",
-                    "Module": "source/builtin"
-                }
-            },
-            "Summary": "Output the aliases in human readable format"
-        }
-    ]
-    
+        "Summary": "Launch ssh-agent"
+    },
+    {
+        "Block": "\n\t# Output the aliases in human readable format\n\truntime: --aliases -\u003e formap name alias {\n        $name -\u003e sprintf: \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
+        "FileRef": {
+            "Column": 1,
+            "Line": 6,
+            "Source": {
+                "DateTime": "2019-07-07T14:06:10.886706796+01:00",
+                "Filename": "(builtin)",
+                "Module": "source/builtin"
+            }
+        },
+        "Summary": "Output the aliases in human readable format"
+    }
+]
+```
+
 To get a list of every flag supported by `runtime`
 
-    » runtime: --help
-    [
-        "--aliases",
-        "--astcache",
-        "--config",
-        "--debug",
-        "--events",
-        "--fids",
-        "--flags",
-        "--functions",
-        "--help",
-        "--indexes",
-        "--marshallers",
-        "--memstats",
-        "--modules",
-        "--named-pipes",
-        "--open-agents",
-        "--pipes",
-        "--privates",
-        "--readarray",
-        "--readmap",
-        "--sources",
-        "--test-results",
-        "--tests",
-        "--unmarshallers",
-        "--variables",
-        "--writearray"
-    ]
-    
+```
+» runtime: --help
+[
+    "--aliases",
+    "--astcache",
+    "--config",
+    "--debug",
+    "--events",
+    "--fids",
+    "--flags",
+    "--functions",
+    "--help",
+    "--indexes",
+    "--marshallers",
+    "--memstats",
+    "--modules",
+    "--named-pipes",
+    "--open-agents",
+    "--pipes",
+    "--privates",
+    "--readarray",
+    "--readmap",
+    "--sources",
+    "--test-results",
+    "--tests",
+    "--unmarshallers",
+    "--variables",
+    "--writearray"
+]
+```
+
 Please also note that you can supply more than one flag. However when you
 do use multiple flags the top level of the JSON output will be a map of the
 flag names. eg
 
-    » runtime: --pipes --tests
-    {
-        "pipes": [
-            "file",
-            "std",
-            "tcp-dial",
-            "tcp-listen",
-            "udp-dial",
-            "udp-listen"
-        ],
-        "tests": {
-            "state": {},
-            "test": []
-        }
-    }
-    
-    » runtime: --pipes
-    [
+```
+» runtime: --pipes --tests
+{
+    "pipes": [
         "file",
         "std",
         "tcp-dial",
         "tcp-listen",
         "udp-dial",
         "udp-listen"
-    ]
-    
-    » runtime: --tests
-    {
+    ],
+    "tests": {
         "state": {},
         "test": []
     }
+}
+
+» runtime: --pipes
+[
+    "file",
+    "std",
+    "tcp-dial",
+    "tcp-listen",
+    "udp-dial",
+    "udp-listen"
+]
+
+» runtime: --tests
+{
+    "state": {},
+    "test": []
+}
+```
 
 ## Flags
 
@@ -144,13 +156,13 @@ flag names. eg
 * `--builtins`
     Lists all builtin commands, compiled into Murex
 * `--config`
-    Lists all properties available to `config
+    Lists all properties available to `config`
 * `--debug`
     Outputs the state of debug and inspect mode
 * `--events`
     Lists all builtin event types and any defined events
 * `--exports`
-    Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables
+    Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables`
 * `--fids`
     Lists all running processes / functions
 * `--functions`
@@ -166,7 +178,7 @@ flag names. eg
 * `--memstats`
     Outputs the running state of Go's runtime
 * `--methods`
-    Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->
+    Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->`
 * `--modules`
     Lists all installed modules
 * `--named-pipes`
@@ -214,51 +226,53 @@ command line tool. For example `fid-list` instead of `runtime --fids`. Some
 tools will provide a human readable output when STDOUT is a TTY but output
 a script parsable version when STDOUT is not a terminal.
 
-    » fid-list
-        FID   Parent    Scope  State         Run Mode  BG   Out Pipe    Err Pipe    Command     Parameters
-          0        0        0  Executing     Shell     no                           -murex
-     265499        0        0  Executing     Normal    no   out         err         fid-list
-    
-    » fid-list -> pretty
-    [
-        {
-            "FID": 0,
-            "Parent": 0,
-            "Scope": 0,
-            "State": "Executing",
-            "Run Mode": "Shell",
-            "BG": false,
-            "Out Pipe": "",
-            "Err Pipe": "",
-            "Command": "-murex",
-            "Parameters": ""
-        },
-        {
-            "FID": 265540,
-            "Parent": 0,
-            "Scope": 0,
-            "State": "Executing",
-            "Run Mode": "Normal",
-            "BG": false,
-            "Out Pipe": "out",
-            "Err Pipe": "err",
-            "Command": "fid-list",
-            "Parameters": ""
-        },
-        {
-            "FID": 265541,
-            "Parent": 0,
-            "Scope": 0,
-            "State": "Executing",
-            "Run Mode": "Normal",
-            "BG": false,
-            "Out Pipe": "out",
-            "Err Pipe": "err",
-            "Command": "pretty",
-            "Parameters": ""
-        }
-    ]
-    
+```
+» fid-list
+    FID   Parent    Scope  State         Run Mode  BG   Out Pipe    Err Pipe    Command     Parameters
+      0        0        0  Executing     Shell     no                           -murex
+ 265499        0        0  Executing     Normal    no   out         err         fid-list
+
+» fid-list -> pretty
+[
+    {
+        "FID": 0,
+        "Parent": 0,
+        "Scope": 0,
+        "State": "Executing",
+        "Run Mode": "Shell",
+        "BG": false,
+        "Out Pipe": "",
+        "Err Pipe": "",
+        "Command": "-murex",
+        "Parameters": ""
+    },
+    {
+        "FID": 265540,
+        "Parent": 0,
+        "Scope": 0,
+        "State": "Executing",
+        "Run Mode": "Normal",
+        "BG": false,
+        "Out Pipe": "out",
+        "Err Pipe": "err",
+        "Command": "fid-list",
+        "Parameters": ""
+    },
+    {
+        "FID": 265541,
+        "Parent": 0,
+        "Scope": 0,
+        "State": "Executing",
+        "Run Mode": "Normal",
+        "BG": false,
+        "Out Pipe": "out",
+        "Err Pipe": "err",
+        "Command": "pretty",
+        "Parameters": ""
+    }
+]
+```
+
 ### File reference
 
 Some of the JSON dumps produced from `runtime` will include a map called
@@ -282,8 +296,6 @@ functions.
 
 ## See Also
 
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
@@ -313,7 +325,7 @@ functions.
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open
+  Creates a handler function for `open`
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`pretty`](../commands/pretty.md):
@@ -326,3 +338,5 @@ functions.
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

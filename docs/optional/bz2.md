@@ -1,4 +1,4 @@
-# `!bz2`  - Optional Command Reference
+# `!bz2` 
 
 > Decompress a bz2 file
 
@@ -8,7 +8,9 @@
 
 ## Usage
 
-    <stdin> -> !bz2 -> <stdout>
+```
+<stdin> -> !bz2 -> <stdout>
+```
 
 ## Detail
 

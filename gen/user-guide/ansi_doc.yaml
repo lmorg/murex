@@ -5,6 +5,8 @@
   Summary: >-
     Infixed constants that return ANSI escape sequences
   Description: |-
+    ## Description
+
     ANSI Constants is a Murex convention of passing ANSI escape sequences into
     strings. It uses the `{}` notation with the constant name placed in between two
     curly braces. eg `{GREEN}`. 

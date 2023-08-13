@@ -1,4 +1,4 @@
-# `alias` - Command Reference
+# `alias`
 
 > Create an alias for a command
 
@@ -8,25 +8,29 @@
 
 ## Usage
 
-    alias: alias=command parameter parameter
-    
-    !alias: command
+```
+alias: alias=command parameter parameter
+
+!alias: command
+```
 
 ## Examples
 
 Because aliases are parsed into an array of parameters, you cannot put the
 entire alias within quotes. For example:
 
-    # bad :(
-    » alias hw="out Hello, World!"
-    » hw
-    exec: "out\\ Hello,\\ World!": executable file not found in $PATH
-    
-    # good :)
-    » alias hw=out "Hello, World!"
-    » hw
-    Hello, World!
-    
+```
+# bad :(
+» alias hw="out Hello, World!"
+» hw
+exec: "out\\ Hello,\\ World!": executable file not found in $PATH
+
+# good :)
+» alias hw=out "Hello, World!"
+» hw
+Hello, World!
+```
+
 Notice how only the command `out "Hello, World!"` is quoted in `alias` the
 same way you would have done if you'd run that command "naked" in the command
 line? This is how `alias` expects it's parameters and where `alias` on Murex
@@ -50,14 +54,16 @@ The following regex is used to validate the `alias`'s parameters:
 Like all other definable states in Murex, you can delete an alias with the
 bang prefix:
 
-    » alias hw=out "Hello, World!"
-    » hw
-    Hello, World!
-    
-    » !alias hw
-    » hw
-    exec: "hw": executable file not found in $PATH
-    
+```
+» alias hw=out "Hello, World!"
+» hw
+Hello, World!
+
+» !alias hw
+» hw
+exec: "hw": executable file not found in $PATH
+```
+
 ### Order of preference
 
 There is an order of precedence for which commands are looked up:

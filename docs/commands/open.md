@@ -1,4 +1,4 @@
-# `open` - Command Reference
+# `open`
 
 > Open a file with a preferred handler
 
@@ -18,11 +18,15 @@
 
 ## Usage
 
-    open filename[.gz]|uri -> <stdout>
+```
+open filename[.gz]|uri -> <stdout>
+```
 
 ## Examples
 
-    » open https://api.github.com/repos/lmorg/murex/issues -> foreach issue { out: "$issue[number]: $issue[title]" }
+```
+» open https://api.github.com/repos/lmorg/murex/issues -> foreach issue { out: "$issue[number]: $issue[title]" }
+```
 
 ## Detail
 
@@ -100,94 +104,96 @@ func MimeToMurex(mimeType string) string {
 `open`'s user agent is the same as `get` and `post` and is configurable via
 `config` under they app **http**
 
-    » config -> [http]
-    {
-        "cookies": {
-            "Data-Type": "json",
-            "Default": {
-                "example.com": {
-                    "name": "value"
-                },
-                "www.example.com": {
-                    "name": "value"
-                }
+```
+» config -> [http]
+{
+    "cookies": {
+        "Data-Type": "json",
+        "Default": {
+            "example.com": {
+                "name": "value"
             },
-            "Description": "Defined cookies to send, ordered by domain.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": {
-                "example.com": {
-                    "name": "value"
-                },
-                "www.example.com": {
-                    "name": "value"
-                }
+            "www.example.com": {
+                "name": "value"
             }
         },
-        "default-https": {
-            "Data-Type": "bool",
-            "Default": false,
-            "Description": "If true then when no protocol is specified (`http://` nor `https://`) then default to `https://`.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": false
-        },
-        "headers": {
-            "Data-Type": "json",
-            "Default": {
-                "example.com": {
-                    "name": "value"
-                },
-                "www.example.com": {
-                    "name": "value"
-                }
+        "Description": "Defined cookies to send, ordered by domain.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": {
+            "example.com": {
+                "name": "value"
             },
-            "Description": "Defined HTTP request headers to send, ordered by domain.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": {
-                "example.com": {
-                    "name": "value"
-                },
-                "www.example.com": {
-                    "name": "value"
-                }
+            "www.example.com": {
+                "name": "value"
             }
-        },
-        "insecure": {
-            "Data-Type": "bool",
-            "Default": false,
-            "Description": "Ignore certificate errors.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": false
-        },
-        "redirect": {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "Automatically follow redirects.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": true
-        },
-        "timeout": {
-            "Data-Type": "int",
-            "Default": 10,
-            "Description": "Timeout in seconds for `get` and `getfile`.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": 10
-        },
-        "user-agent": {
-            "Data-Type": "str",
-            "Default": "murex/1.7.0000 BETA",
-            "Description": "User agent string for `get` and `getfile`.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": "murex/1.7.0000 BETA"
         }
+    },
+    "default-https": {
+        "Data-Type": "bool",
+        "Default": false,
+        "Description": "If true then when no protocol is specified (`http://` nor `https://`) then default to `https://`.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": false
+    },
+    "headers": {
+        "Data-Type": "json",
+        "Default": {
+            "example.com": {
+                "name": "value"
+            },
+            "www.example.com": {
+                "name": "value"
+            }
+        },
+        "Description": "Defined HTTP request headers to send, ordered by domain.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": {
+            "example.com": {
+                "name": "value"
+            },
+            "www.example.com": {
+                "name": "value"
+            }
+        }
+    },
+    "insecure": {
+        "Data-Type": "bool",
+        "Default": false,
+        "Description": "Ignore certificate errors.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": false
+    },
+    "redirect": {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "Automatically follow redirects.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": true
+    },
+    "timeout": {
+        "Data-Type": "int",
+        "Default": 10,
+        "Description": "Timeout in seconds for `get` and `getfile`.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": 10
+    },
+    "user-agent": {
+        "Data-Type": "str",
+        "Default": "murex/1.7.0000 BETA",
+        "Description": "User agent string for `get` and `getfile`.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": "murex/1.7.0000 BETA"
     }
-    
+}
+```
+
 ### Open Flags
 
 If the `open` builtin falls back to using the systems default (like `open-xdg`)
@@ -196,7 +202,9 @@ stdin then a temporary file will be created. If you want to pass command line
 flags to `open-xdg` (for example), then you need to call that command directly.
 In the case of macOS and some Linux systems, that might look like:
 
-    exec open --flags filename
+```
+exec open --flags filename
+```
 
 ## See Also
 
@@ -215,7 +223,7 @@ In the case of macOS and some Linux systems, that might look like:
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open
+  Creates a handler function for `open`
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`post`](../commands/post.md):

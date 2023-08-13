@@ -1,13 +1,15 @@
-# Reserved Variables - User Guide
+# Reserved Variables
 
 > Special variables reserved by Murex
+
+## Description
 
 Murex reserves a few special variables which cannot be assigned via `set` nor
 `let`.
 
 The following is a list of reserved variables, their data type, and its usage:
 
-## `SELF` (json)
+### `SELF` (json)
 
 This returns meta information about the running scope.
 
@@ -18,18 +20,20 @@ still inside the same function.
 
 Please see scoping document (link below) for more information on scoping.
 
-    » function example { out $SELF }
-    » example
-    {
-        "Parent": 11357,
-        "Scope": 11357,
-        "TTY": true,
-        "Method": false,
-        "Not": false,
-        "Background": false,
-        "Module": "murex"
-    }
-    
+```
+» function example { out $SELF }
+» example
+{
+    "Parent": 11357,
+    "Scope": 11357,
+    "TTY": true,
+    "Method": false,
+    "Not": false,
+    "Background": false,
+    "Module": "murex"
+}
+```
+
 #### Parent (num)
 
 This is the function ID of the parent function that created the scope. In
@@ -72,31 +76,35 @@ scope.
 
 Unlike `$PARAMS`, `$ARGS` includes the function name.
 
-    » function example { out $ARGS }
-    » example abc 1 2 3
-    [
-        "example",
-        "abc",
-        "1",
-        "2",
-        "3"
-    ]
-    
+```
+» function example { out $ARGS }
+» example abc 1 2 3
+[
+    "example",
+    "abc",
+    "1",
+    "2",
+    "3"
+]
+```
+
 ### `PARAMS` (json)
 
 This returns a JSON array of the parameters within a given scope.
 
 Unlike `$ARGS`, `$PARAMS` does not include the function name.
 
-    » function example { out $PARAMS }
-    » example abc 1 2 3
-    [
-        "abc",
-        "1",
-        "2",
-        "3"
-    ]
-    
+```
+» function example { out $PARAMS }
+» example abc 1 2 3
+[
+    "abc",
+    "1",
+    "2",
+    "3"
+]
+```
+
 ### `MUREX_EXE` (str)
 
 This is very similar to the `$SHELL` environmental variable in that it holds

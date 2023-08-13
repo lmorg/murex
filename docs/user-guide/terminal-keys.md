@@ -1,4 +1,4 @@
-# Terminal Hotkeys - User Guide
+# Terminal Hotkeys
 
 > A list of all the terminal hotkeys and their uses
 
@@ -25,6 +25,7 @@
   - [Clear Screen](#clear-screen)
 
 </div>
+
 
 ## Command Prompt
 
@@ -225,10 +226,12 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 In the following example, code inside square brackets represent key presses
 rather than text:
 
-    » echo two three four five six seven eight nine
-    two three four five six seven eight nine
-    » [shift+f1]echo [shift+f5]five
-    
+```
+» echo two three four five six seven eight nine
+two three four five six seven eight nine
+» [shift+f1]echo [shift+f5]five
+```
+
 ## Job Control
 
 While processes are running, the following keys are assigned roles:
@@ -269,7 +272,7 @@ Pressing `ctrl`+`l` will clear the screen.
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax

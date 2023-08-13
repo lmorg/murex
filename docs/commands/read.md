@@ -1,4 +1,4 @@
-# `read` - Command Reference
+# `read`
 
 > `read` a line of input from the user and store as a variable
 
@@ -10,38 +10,48 @@ A readline function to allow a line of data inputed from the terminal.
 
 Classic usage:
 
-    read: "prompt" var_name
-    
-    <stdin> -> read: var_name
-    
+```
+read: "prompt" var_name
+
+<stdin> -> read: var_name
+```
+
 Script usage:
 
-    read: [ --prompt "prompt"         ]
-          [ --variable var_name       ]
-          [ --default "default value" ]
-          [ --datatype data-type      ]
-          [ --autocomplete { json }   ]
-          [ --mask character          ]
+```
+read: [ --prompt "prompt"         ]
+      [ --variable var_name       ]
+      [ --default "default value" ]
+      [ --datatype data-type      ]
+      [ --autocomplete { json }   ]
+      [ --mask character          ]
+```
 
 ## Examples
 
 **Classic usage:**
 
-    read: "What is your name? " name
-    out: "Hello $name"
-    
-    out: What is your name? -> read: name
-    out: "Hello $name"
-    
+```
+read: "What is your name? " name
+out: "Hello $name"
+
+out: What is your name? -> read: name
+out: "Hello $name"
+```
+
 **Script usage:**
 
-    read: --prompt "Are you sure? [Y/n]" \
-          --variable yn \
-          --default Y
-    
+```
+read: --prompt "Are you sure? [Y/n]" \
+      --variable yn \
+      --default Y
+```
+
 **Secrets:**
 
-    read: --prompt "Password: " --variable pw --mask *
+```
+read: --prompt "Password: " --variable pw --mask *
+```
 
 ## Flags
 

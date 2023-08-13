@@ -1,4 +1,4 @@
-# `sleep`  - Optional Command Reference
+# `sleep` 
 
 > Suspends the shell for a number of seconds
 
@@ -9,12 +9,16 @@ of seconds.
 
 ## Usage
 
-    sleep: integer
+```
+sleep: integer
+```
 
 ## Examples
 
-    » sleep 5
-    # murex sleeps for 5 seconds
+```
+» sleep 5
+# murex sleeps for 5 seconds
+```
 
 ## Detail
 
@@ -22,7 +26,9 @@ of seconds.
 (for example) counterpart. If you want to use the `sleep` binary on Linux
 or similar platforms then you will need to launch with the `exec` builtin:
 
-    » exec: sleep 5
+```
+» exec: sleep 5
+```
 
 ## See Also
 

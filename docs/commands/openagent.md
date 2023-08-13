@@ -1,6 +1,6 @@
-# `openagent` - Command Reference
+# `openagent`
 
-> Creates a handler function for `open
+> Creates a handler function for `open`
 
 ## Description
 
@@ -11,15 +11,21 @@ terminal when accessed via `open` and STDOUT is a TTY.
 
 Display code block for an associated data-type:
 
-    openagent get data-type
-    
+```
+openagent get data-type
+```
+
 Define an `open` handler function:
 
-    openagent set data-type { code-block }
-    
+```
+openagent set data-type { code-block }
+```
+
 Undefine an `open` handler:
 
-    !openagent data-type
+```
+!openagent data-type
+```
 
 ## Detail
 

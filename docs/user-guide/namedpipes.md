@@ -1,4 +1,4 @@
-# Murex Named Pipes - User Guide
+# Named Pipes
 
 > A detailed breakdown of named pipes in Murex
 
@@ -31,15 +31,21 @@ You can call a named pipe as either a method, function, or parameter.
 
 **As a method:**
 
-    <in> -> command parameter1 parameter2 parameter3
-    
+```
+<in> -> command parameter1 parameter2 parameter3
+```
+
 **As a function:**
 
-    command parameter1 parameter2 parameter3 -> <out>
-    
+```
+command parameter1 parameter2 parameter3 -> <out>
+```
+
 **As a parameter:**
 
-    command <out> <!err> parameter1 parameter2 parameter3
+```
+command <out> <!err> parameter1 parameter2 parameter3
+```
 
 ## See Also
 

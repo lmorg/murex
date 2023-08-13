@@ -1,4 +1,4 @@
-# `lang.IndexTemplateObject()` (template API) - API Reference
+# `lang.IndexTemplateObject()` (template API)
 
 > Returns element(s) from a data structure
 
@@ -388,7 +388,7 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
   Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
-* [commands/`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
+* [commands/index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -13,7 +13,7 @@ func init() {
 		">":                     "greater-than_commands_docgen.go",
 		"autoglob":              "autoglob_commands_docgen.go",
 		"[[":                    "element_commands_docgen.go",
-		"[":                     "index_commands_docgen.go",
+		"[":                     "item-index_commands_docgen.go",
 		"@[":                    "range_commands_docgen.go",
 		"a":                     "a_commands_docgen.go",
 		"addheading":            "addheading_commands_docgen.go",

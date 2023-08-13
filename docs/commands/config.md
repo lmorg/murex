@@ -1,4 +1,4 @@
-# `config` - Command Reference
+# `config`
 
 > Query or define Murex runtime settings
 
@@ -13,37 +13,49 @@ centralised and discoverable.
 
 List all settings:
 
-    config -> <stdout>
-    
+```
+config -> <stdout>
+```
+
 Get a setting:
 
-    config get app key -> <stdout>
-    
+```
+config get app key -> <stdout>
+```
+
 Set a setting:
 
-    config set app key value
-    
-    <stdin> -> config set app key
-    
-    config eval app key { -> code-block }
-    
+```
+config set app key value
+
+<stdin> -> config set app key
+
+config eval app key { -> code-block }
+```
+
 Define a new config setting:
 
-    config define app key { mxjson }
-    
+```
+config define app key { mxjson }
+```
+
 Reset a setting to it's default value:
 
-    !config app key
-    
-    config default app key
+```
+!config app key
+
+config default app key
+```
 
 ## Examples
 
 Using `eval` to append to an array (in this instance, adding a function
 name to the list of "safe" commands)
 
-    » function: foobar { -> match foobar }
-    » config: eval shell safe-commands { -> append foobar }
+```
+» function: foobar { -> match foobar }
+» config: eval shell safe-commands { -> append foobar }
+```
 
 ## Detail
 
@@ -74,9 +86,11 @@ value for how long any HTTP user agents might wait before timing out.
 Value is the actual value of a setting. So the value for "app": `http`, "key":
 `timeout` might be `10`. eg
 
-    » config get http timeout
-    10
-    
+```
+» config get http timeout
+10
+```
+
 ### "scope" / "scoped"
 
 Settings in `config`, by default, are scoped per function and module. Any
@@ -96,8 +110,10 @@ another executing function (same concept as global variables).
 The directives for `config define` are listed below. Headings are formatted
 as follows: 
 
-    "DirectiveName": json data-type (default value)
-    
+```
+"DirectiveName": json data-type (default value)
+```
+
 Where "default value" is what will be auto-populated if you don't include that
 directive (or "required" if the directive must be included).
 
@@ -134,26 +150,28 @@ inside Murex's runtime. Using **Dynamic** means `autocomplete get app key`
 and `autocomplete set app key value` will spawn off a subshell running a code
 block defined from the `Read` and `Write` mapped values. eg
 
-    # Create the example config file
-    (this is the default value) -> > example.conf
-    
-    # mxjson format, so we can have comments and block quotes: #, (, )
-    config define example test ({
-        "Description": "This is only an example",
-        "DataType": "str",
-        "Global": true,
-        "Dynamic": {
-            "Read": ({
-                open example.conf
-            }),
-            "Write": ({
-                -> > example.conf
-            })
-        },
-        # read the config file to get the default value
-        "Default": "${open example.conf}"
-    })
-    
+```
+# Create the example config file
+(this is the default value) -> > example.conf
+
+# mxjson format, so we can have comments and block quotes: #, (, )
+config define example test ({
+    "Description": "This is only an example",
+    "DataType": "str",
+    "Global": true,
+    "Dynamic": {
+        "Read": ({
+            open example.conf
+        }),
+        "Write": ({
+            -> > example.conf
+        })
+    },
+    # read the config file to get the default value
+    "Default": "${open example.conf}"
+})
+```
+
 It's also worth noting the different syntax between **Read** and **Default**.
 The **Read** code block is being executed when the **Read** directive is being
 requested, whereas the **Default** code block is being executed when the JSON
@@ -186,8 +204,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`event`](../commands/event.md):
@@ -206,5 +222,7 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   HTTP POST request with a JSON-parsable return
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

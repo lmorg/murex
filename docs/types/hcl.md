@@ -1,4 +1,4 @@
-# `hcl`  - Data-Type Reference
+# `hcl` 
 
 > HashiCorp Configuration Language (HCL)
 
@@ -23,32 +23,34 @@ external source packages for the shell to compile.
 
 ## Examples
 
-    terraform {
-      required_version = "~> 0.11.5"
+```
+terraform {
+  required_version = "~> 0.11.5"
+}
+
+data "aws_availability_zones" "available" {}
+
+data "aws_vpc" "vpc" {
+  id = "${var.vpc_id}"
+}
+
+data "aws_route53_zone" "external" {
+  zone_id = "${var.external_hosted_zone_id}"
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      identifiers = ["ec2.amazonaws.com"]
+      type        = "Service"
     }
-    
-    data "aws_availability_zones" "available" {}
-    
-    data "aws_vpc" "vpc" {
-      id = "${var.vpc_id}"
-    }
-    
-    data "aws_route53_zone" "external" {
-      zone_id = "${var.external_hosted_zone_id}"
-    }
-    
-    data "aws_iam_policy_document" "assume_role_policy" {
-      statement {
-        actions = ["sts:AssumeRole"]
-        effect  = "Allow"
-    
-        principals {
-          identifiers = ["ec2.amazonaws.com"]
-          type        = "Service"
-        }
-      }
-    }
-    
+  }
+}
+```
+
 See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
 
 ## Default Associations
@@ -99,8 +101,6 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
@@ -117,5 +117,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Returns runtime information on the internal state of Murex
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

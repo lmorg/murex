@@ -1,9 +1,9 @@
 <h1>Install Murex</h1>
 
 <h2>Table of Contents</h2>
+
 <div id="toc">
 
-- [Supported Platforms](#supported-platforms)
 - [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Installing From A Package Manager](#installing-from-a-package-manager)
   - [ArchLinux](#archlinux)
@@ -28,8 +28,8 @@ Windows is a supported platform however Murex doesn't aim to replace coreutils.
 So, depending on your required use case, you may need additional 3rd party
 software to provide those utilities.
 
-There is a more detailed breakdown of known compatibility issues at
-[docs/FAQ.supported-platforms.md](docs/FAQ.supported-platforms.md).
+There is a more detailed breakdown of known compatibility issues in the
+[docs/supported platforms](docs/supported-platforms.md) document.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -39,13 +39,19 @@ There is a more detailed breakdown of known compatibility issues at
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
 
+
+
 ## Installing From A Package Manager
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
 
 ### ArchLinux
 
-Available as an [AUR package](https://aur.archlinux.org/packages/murex).
+From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/packages/murex)
+
+    wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
+    makepkg --syncdeps --install 
+
 
 ### FreeBSD Ports
 
@@ -61,7 +67,7 @@ Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 ## Compiling From Source
 
-[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
+[![Tests](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml/badge.svg?branch=master)](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml)
 
 **Prerequisites:**
 
@@ -122,7 +128,7 @@ optional as Murex attempts to ship with sane defaults.
 
 **Test the executable (optional stage):**
 
-    ./murex -c 'g: behavioural/*.mx -> foreach: f { source: $f }; test: run *'
+    ./murex -c 'g: behavioural/*.mx -> foreach: f { source: $f }; test: run *
 
 **Start the shell:**
 
@@ -167,3 +173,10 @@ would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean typeface
 based off Source Code Pro but with a few added ligatures - albeit subtle ones
 designed to make Haskell more readable. Those ligatures also suite Murex
 pretty well. So the overall experience is a clean and readable terminal.
+
+## See Also
+
+* [Download](/DOWNLOAD.md):
+  Murex download links
+* [Supported Platforms](docs//supported-platforms.md):
+  Operating systems and CPU architectures supported by Murex

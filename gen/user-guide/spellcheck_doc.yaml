@@ -5,6 +5,8 @@
   Summary: >-
     How to enable inline spellchecking
   Description: |-
+    ## Description
+    
     Murex supports inline spellchecking, where errors are underlined. For example
 
     [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)

@@ -1,6 +1,8 @@
-# Modules and Packages - User Guide
+# Modules and Packages
 
 > An introduction to Murex modules and packages
+
+## Description
 
 Murex has it's own module system with namespacing and a package manager. But
 why should a shell need all this?
@@ -33,8 +35,10 @@ single package.
 
 The way packages and modules are represented is as a path:
     
-    package/module
-        
+```
+package/module
+```
+    
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
@@ -51,8 +55,10 @@ the database.
 For example the command I run on any new dev machine to import all of my DevOps
 tools and terminal preferences is the following:
 
-    murex-package: import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
-    
+```
+murex-package: import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
+```
+
 ### Extendability
 
 Namespacing allows for `private` functions which allows you to write smaller
@@ -64,14 +70,18 @@ has an inbuilt testing and debugging tools).
 Packages can be hosted via HTTP(S) or git. Anyone can import anyone elses
 packages using `murex-package`. 
 
-    murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
-    
+```
+murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
+```
+
 ### Updating Packages
 
 Updating packages is easy:
 
-    murex-package: update
-    
+```
+murex-package: update
+```
+
 ### Tracking Code
 
 All code loaded in Murex, every function, variable and event (etc) is stored

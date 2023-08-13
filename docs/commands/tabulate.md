@@ -1,4 +1,4 @@
-# `tabulate` - Command Reference
+# `tabulate`
 
 > Table transformation tools
 
@@ -14,7 +14,9 @@ into machine readable data structure.
 
 ## Usage
 
-    <stdin> -> tabulate [ flags ] -> <stdout>
+```
+<stdin> -> tabulate [ flags ] -> <stdout>
+```
 
 ## Flags
 
@@ -45,17 +47,19 @@ Because `tabulate` is designed to parse human readable tables, it is used a lot
 for dynamically turning command like program help output into JSON maps for
 `autocomplete`'s **DynamicDesc** blocks:
 
-    rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column-wraps --key-inc-hint
+```
+rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column-wraps --key-inc-hint
+```
 
 ## See Also
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

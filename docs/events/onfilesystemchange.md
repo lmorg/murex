@@ -1,4 +1,4 @@
-# `onFileSystemChange` - events
+# `onFileSystemChange`
 
 > Add a filesystem watch
 
@@ -11,14 +11,16 @@ watched path or file.
 
 The following payload is passed to the function via STDIN:
 
-    {
-        "Name": "",
-        "Interrupt": {
-            "Path": "",
-            "Operation": ""
-        }
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Path": "",
+        "Operation": ""
     }
-    
+}
+```
+
 #### Name
 
 This is the name you specified when defining the event
@@ -39,13 +41,15 @@ strings could be present in the **Operation** field:
 * `chmod`:  filesystem object has had its POSIX permissions updated
 
 Sometimes you might see more than one operation per interrupt. If that happens
-the operation will be pipe delimited. For example `create|chmod
+the operation will be pipe delimited. For example `create|chmod`
 
 ## Usage
 
-    event: onFileSystemChange name=path { code block }
-    
-    !event: onFileSystemChange name
+```
+event: onFileSystemChange name=path { code block }
+
+!event: onFileSystemChange name
+```
 
 ## Valid Interrupts
 
@@ -57,12 +61,14 @@ the operation will be pipe delimited. For example `create|chmod
 This will automatically add any new files in your current working directory to
 git upon file creation:
 
-    event: onFileSystemChange example=. {
-        -> set event
-        if { $event.Interrupt.Operation =~ "create" } then {
-            git add $event.Interrupt.Path
-        }
+```
+event: onFileSystemChange example=. {
+    -> set event
+    if { $event.Interrupt.Operation =~ "create" } then {
+        git add $event.Interrupt.Path
     }
+}
+```
 
 ## Detail
 

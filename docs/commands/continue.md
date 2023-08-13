@@ -1,4 +1,4 @@
-# `continue` - Command Reference
+# `continue`
 
 > Terminate process of a block within a caller function
 
@@ -11,32 +11,38 @@ like `foreach` and `formap` this will result in behavior similar to the
 
 ## Usage
 
-    continue block-name
+```
+continue block-name
+```
 
 ## Examples
 
-    %[1..10] -> foreach i {
-        if { $i == 5 } then {
-            out "continue"
-            continue foreach
-            out "skip this code"
-        }
-        out $i
+```
+%[1..10] -> foreach i {
+    if { $i == 5 } then {
+        out "continue"
+        continue foreach
+        out "skip this code"
     }
-    
+    out $i
+}
+```
+
 Running the above code would output:
 
-    » foo
-    1
-    2
-    3
-    4
-    continue
-    6
-    7
-    8
-    9
-    10
+```
+» foo
+1
+2
+3
+4
+continue
+6
+7
+8
+9
+10
+```
 
 ## Detail
 
@@ -44,25 +50,29 @@ Running the above code would output:
 running inside). For example, in the following code we are calling `continue
 bar` (which is a different function) inside of the function `foo`:
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                continue bar
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            continue bar
+            out "ended"
         }
     }
-    
-    function bar {
-        foo
-    }
-    
+}
+
+function bar {
+    foo
+}
+```
+
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
-    Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
+```
+Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
+```
 
 ## See Also
 

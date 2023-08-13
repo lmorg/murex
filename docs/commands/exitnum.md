@@ -1,4 +1,4 @@
-# `exitnum` - Command Reference
+# `exitnum`
 
 > Output the exit number of the previous process
 
@@ -8,12 +8,16 @@ Output the exit number of the previous process.
 
 ## Usage
 
-    exitnum -> <stdout>
+```
+exitnum -> <stdout>
+```
 
 ## Examples
 
-    » exitnum
-    0
+```
+» exitnum
+0
+```
 
 ## See Also
 

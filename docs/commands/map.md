@@ -1,4 +1,4 @@
-# `map`  - Command Reference
+# `map` 
 
 > Creates a map from two data sources
 
@@ -10,23 +10,25 @@ The first block is the key and the second is the value.
 
 ## Usage
 
-    map { code-block } { code-block } -> <stdout>
+```
+map { code-block } { code-block } -> <stdout>
+```
 
 ## Examples
 
-    » map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
-    {
-        "key 1": "value 1",
-        "key 2": "value 2",
-        "key 3": "value 3"
-    }
+```
+» map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
+{
+    "key 1": "value 1",
+    "key 2": "value 2",
+    "key 3": "value 3"
+}
+```
 
 ## See Also
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -43,3 +45,5 @@ The first block is the key and the second is the value.
   Splits STDIN into a JSON array based on a regex parameter
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

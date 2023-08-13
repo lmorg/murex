@@ -1,4 +1,4 @@
-# `out` - Command Reference
+# `out`
 
 > Print a string to the STDOUT with a trailing new line character
 
@@ -8,17 +8,23 @@ Write parameters to STDOUT with a trailing new line character.
 
 ## Usage
 
-    out: string to write -> <stdout>
+```
+out: string to write -> <stdout>
+```
 
 ## Examples
 
-    » out Hello, World!
-    Hello, World!
-    
+```
+» out Hello, World!
+Hello, World!
+```
+
 For compatibility with other shells, `echo` is also supported:
 
-    » echo Hello, World!
-    Hello, World!
+```
+» echo Hello, World!
+Hello, World!
+```
 
 ## Detail
 

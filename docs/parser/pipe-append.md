@@ -1,4 +1,4 @@
-# Append Pipe (`>>`) Token - Parser Reference
+# Append Pipe (`>>`) Token
 
 > Redirects STDOUT to a file and append its contents
 
@@ -13,24 +13,30 @@ you will need to use named pipes to achieve the same effect in Murex.
 
 ## Examples
 
-    » out: "Hello" >> example.txt
-    » out: "World!" >> example.txt
-    » open: example.txt
-    Hello
-    World!
+```
+» out: "Hello" >> example.txt
+» out: "World!" >> example.txt
+» open: example.txt
+Hello
+World!
+```
 
 ## Detail
 
 This is just syntactic sugar for `-> >>`. Thus when the parser reads code like
 the following:
 
-    echo "foobar" >> example.txt
-    
+```
+echo "foobar" >> example.txt
+```
+
 it will compile an abstract syntax tree which would reflect the following code
 instead:
 
-    echo "foobar" | >> example.txt
-    
+```
+echo "foobar" | >> example.txt
+```
+
 ### Truncating a file
 
 To truncate a file (ie overwrite its contents) use `|>` instead.

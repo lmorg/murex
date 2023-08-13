@@ -1,4 +1,4 @@
-# `float` (floating point number) - Data-Type Reference
+# `float` (floating point number)
 
 > Floating point number (primitive)
 
@@ -8,7 +8,7 @@ Any number. To be precise, a full set of all IEEE-754 64-bit floating-point
 numbers.
 
 > This data-type is going to be deprecated in favour of `num` (since it is
-> literally the same underlying data-type anyway). Please do not use `float
+> literally the same underlying data-type anyway). Please do not use `float`
 
 ## Supported Hooks
 

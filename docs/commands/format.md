@@ -1,4 +1,4 @@
-# `format` - Command Reference
+# `format`
 
 > Reformat one data-type into another data-type
 
@@ -9,14 +9,18 @@ specified data-type
 
 ## Usage
 
-    <stdin> -> format data-type -> <stdout>
+```
+<stdin> -> format data-type -> <stdout>
+```
 
 ## Examples
 
-    » tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
-    One: 1
-    Three: 3
-    Two: 2
+```
+» tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
+One: 1
+Three: 3
+Two: 2
+```
 
 ## See Also
 

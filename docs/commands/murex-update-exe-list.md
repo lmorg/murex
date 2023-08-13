@@ -1,4 +1,4 @@
-# `murex-update-exe-list` - Command Reference
+# `murex-update-exe-list`
 
 > Forces Murex to rescan $PATH looking for executables
 
@@ -11,11 +11,15 @@ program and you want it to appear in tab completion) then you can run `murex-upd
 
 ## Usage
 
-    murex-update-exe-list
+```
+murex-update-exe-list
+```
 
 ## Examples
 
-    » murex-update-exe-list
+```
+» murex-update-exe-list
+```
 
 ## Detail
 

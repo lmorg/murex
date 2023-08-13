@@ -1,4 +1,4 @@
-# `cd` - Command Reference
+# `cd`
 
 > Change (working) directory
 
@@ -8,27 +8,37 @@ Changes current working directory.
 
 ## Usage
 
-    cd [path]
+```
+cd [path]
+```
 
 ## Examples
 
 **Home directory:**
 
-    » cd: ~
-    
+```
+» cd: ~
+```
+
 Including `cd` without a parameter will also change to the current user's home
 directory:
 
-    » cd
-    
+```
+» cd
+```
+
 **Absolute path:**
 
-    » cd: /etc/
-    
+```
+» cd: /etc/
+```
+
 **Relative path:**
 
-    » cd: Documents
-    » cd: ./Documents
+```
+» cd: Documents
+» cd: ./Documents
+```
 
 ## Detail
 
@@ -37,19 +47,25 @@ You can then use that to change to a previous directory.
 
 **View the working directory history:**
 
-    » $PWDHIST
-    
+```
+» $PWDHIST
+```
+
 **Change to a previous directory:**
 
-    » cd $PWDHIST[-1]
-    
+```
+» cd $PWDHIST[-1]
+```
+
 ### auto-cd
 
 Some people prefer to omit `cd` and just write the path, with their shell
 automatically changing to that directory if the "command" is just a directory.
 In Murex you can enable this behaviour by turning on "auto-cd":
 
-    config: set shell auto-cd true
+```
+config: set shell auto-cd true
+```
 
 ## See Also
 
