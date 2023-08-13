@@ -1,0 +1,44 @@
+- DocumentID: path
+  Title: >-
+    `path` 
+  CategoryID: types
+  Summary: >-
+    Structured object for working with file and directory paths
+  Description: |-
+    The `path` type Turns file and directory paths into structured objects
+  Usage:
+  Examples: |-
+    
+  Hooks:
+    ReadArray(): >-
+      Each element is a directory branch. Root, `/`, is treated as it's own element
+    ReadArrayWithType(): >-
+      Same as `ReadArray()`
+    ReadMap(): >-
+      Not currently supported
+    WriteArray(): >-
+      Each element is a directory branch
+    ReadIndex(): >-
+      Returns a directory branch or filename if last element is a file
+    ReadNotIndex(): >-
+      Supported
+    Marshal(): >-
+      Supported
+    Unmarshal(): >-
+      Supported
+  Detail: |-
+   
+  Associations:
+    Mimes:
+    Extensions:
+  Related:
+  - paths
+  - variables/PWD
+  - variables/PWDHIST
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal
