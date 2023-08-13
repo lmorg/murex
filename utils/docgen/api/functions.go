@@ -24,6 +24,7 @@ var funcMap = template.FuncMap{
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
+	"doct":       funcDocT,
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
 	//"file":       funcFile,
@@ -171,6 +172,16 @@ func funcDate(dt time.Time) string {
 // Returns: Time as string
 func funcTime(dt time.Time) string {
 	return dt.Format("15:04")
+}
+
+/************
+ *   doct   *
+ ************/
+
+// Takes: string (category, document ID)
+// Returns: document type
+func funcDocT(cat, doc string) *document {
+	return Documents.ByID("!!!", cat, doc)
 }
 
 /************

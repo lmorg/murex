@@ -5,8 +5,8 @@
   Summary: >-
     Hostname of the current machine
   Description: |-
-    This returns the hostname of the machine (host / server / virtual machine / et
-    al) that Murex is running from.
+    `hostname` returns the hostname of the machine (host / server / virtual machine
+    / et al) that Murex is running from.
 
     This is a reserved variable so it cannot be changed.
   Synonyms:

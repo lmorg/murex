@@ -58,10 +58,6 @@ Any block quoted by this method will be converted to the following valid JSON:
   Quickly generate arrays
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [`autocomplete`](../commands/autocomplete.md):
@@ -94,3 +90,13 @@ Any block quoted by this method will be converted to the following valid JSON:
   
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory

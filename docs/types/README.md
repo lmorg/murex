@@ -60,6 +60,8 @@ details about specific hooks.
   Floating point number (primitive)
 * [`path` ](../types/path.md):
   Structured object for working with file and directory paths
+* [`paths` ](../types/paths.md):
+  Structured array for working with `$PATH` style data
 * [`str` (string) ](../types/str.md):
   string (primitive)
 * [`toml` ](../types/toml.md):

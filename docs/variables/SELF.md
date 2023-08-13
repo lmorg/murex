@@ -4,6 +4,10 @@
 
 ## Description
 
+`SELF` returns information about the functional scope that the code is running
+inside. Such as whether that functions STDOUT is a TTY, running in the
+background or a method.
+
 A 'scope' in Murex is a collection of code blocks to which variables and
 config are persistent within. In Murex, a variable declared inside an `if` or
 `foreach` block will be persistent outside of their blocks as long as you're

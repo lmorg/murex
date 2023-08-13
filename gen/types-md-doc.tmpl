@@ -45,3 +45,13 @@ tag:
 {{ range $i,$a := .Related }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ end }}
+
+### Read more about type hooks
+
+- [{{ (doct "apis" "ReadIndex").Title }}](../apis/ReadIndex.md): {{ (doct "apis" "ReadIndex").Summary }}
+- [{{ (doct "apis" "ReadNotIndex").Title }}](../apis/ReadNotIndex.md): {{ (doct "apis" "ReadNotIndex").Summary }}
+- [{{ (doct "apis" "ReadArray").Title }}](../apis/ReadArray.md): {{ (doct "apis" "ReadArray").Summary }}
+- [{{ (doct "apis" "WriteArray").Title }}](../apis/WriteArray.md): {{ (doct "apis" "WriteArray").Summary }}
+- [{{ (doct "apis" "ReadMap").Title }}](../apis/ReadMap.md): {{ (doct "apis" "ReadMap").Summary }}
+- [{{ (doct "apis" "Marshal").Title }}](../apis/Marshal.md): {{ (doct "apis" "Marshal").Summary }}
+- [{{ (doct "apis" "Unmarshal").Title }}](../apis/Unmarshal.md): {{ (doct "apis" "Unmarshal").Summary }}

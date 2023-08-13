@@ -4,9 +4,9 @@
 
 ## Description
 
-This is very similar to the `$SHELL` environmental variable in that it holds
-the full path to the running shell. The reason for defining a reserved variable
-is so that the shell path cannot be overridden.
+`MUREX_EXE` is very similar to the `$SHELL` environmental variable in that it
+holds the full path to the running shell. The reason for defining a reserved
+variable is so that the shell path cannot be overridden.
 
 This is a reserved variable so it cannot be changed.
 

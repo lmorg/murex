@@ -75,13 +75,4 @@
   - commands/format
   - commands/runtime
   - commands/pretty
-  - apis/ReadArray
-  - apis/ReadArrayWithType
-  - apis/ReadMap
-  - apis/WriteArray
-  - apis/ReadIndex
-  - apis/ReadNotIndex
-  - apis/Marshal
-  - apis/Unmarshal
-  - apis/lang.ArrayTemplate
-  - apis/lang.ArrayWithTypeTemplate
+

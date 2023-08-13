@@ -4,8 +4,8 @@
 
 ## Description
 
-Returns an array of the command name and parameters within a given scope. eg
-`function`, `private`, `autocomplete` or shell script.
+`ARGV` returns an array of the command name and parameters within a given
+scope. eg `function`, `private`, `autocomplete` or shell script.
 
 Unlike `$PARAMS`, `$ARGV` includes the function name.
 

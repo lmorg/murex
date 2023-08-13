@@ -69,8 +69,6 @@
   - commands/pretty
   - commands/config
   - commands/autocomplete
-  - apis/Marshal
-  - apis/Unmarshal
   - parser/curly-brace
   - parser/brace-quote
   - parser/create-array

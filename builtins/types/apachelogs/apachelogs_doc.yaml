@@ -31,9 +31,3 @@
   - commands/element
   - commands/cast
   - commands/format
-  - apis/ReadArray
-  - apis/ReadMap
-  - apis/ReadIndex
-  - apis/ReadNotIndex
-  - apis/Marshal
-  - apis/Unmarshal

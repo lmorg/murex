@@ -1,6 +1,6 @@
-# `path` 
+# `paths` 
 
-> Structured object for working with file and directory paths
+> Structured array for working with `$PATH` style data
 
 ## Description
 
@@ -11,45 +11,30 @@ relative rather than absolute then `/` will be excluded from outputted string.
 
 ## Examples
 
-**Return the first two elements in a path:**
+**Creating a PATH:**
 
 ```
-» $PWD[..2]
-/Users/
+» %[/bin, /usr/bin, "$JAVA_HOME/bin"] -> format paths
+/bin:/usr/bin:/opt/java/bin
 ```
 
-**Check if path exists:**
+**Splitting a PATH:**
 
 ```
-» set path foobar="/dev/foobar"
-» $foobar.2.Exists
-```
-
-**Example of `path` data structure:**
-
-```
-» set path foobar="/dev/foobar"
-» $foobar -> format json
+» $PATH -> :paths: format json
 [
-    {
-        "Exists": true,
-        "IsDir": true,
-        "IsRelative": false,
-        "Value": "/"
-    },
-    {
-        "Exists": true,
-        "IsDir": true,
-        "IsRelative": false,
-        "Value": "dev"
-    },
-    {
-        "Exists": false,
-        "IsDir": false,
-        "IsRelative": false,
-        "Value": "foobar"
-    }
+    "/bin",
+    "/usr/bin",
+    "/opt/java/bin"
 ]
+```
+
+**Appending to `$PATH`:**
+
+```
+» $PATH -> :paths: append /sbin -> export PATH
+» $PATH
+/bin:/usr/bin:/opt/java/bin:/sbin
 ```
 
 ## Supported Hooks
@@ -79,8 +64,8 @@ relative rather than absolute then `/` will be excluded from outputted string.
   Absolute path to running shell
 * [`PWDHIST` (json)](../variables/PWDHIST.md):
   History of each change to the sessions working directory
-* [`paths` ](../types/paths.md):
-  Structured array for working with `$PATH` style data
+* [`path` ](../types/path.md):
+  Structured object for working with file and directory paths
 
 ### Read more about type hooks
 

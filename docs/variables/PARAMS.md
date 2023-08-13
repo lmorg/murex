@@ -4,8 +4,8 @@
 
 ## Description
 
-Returns an array of the parameters within a given scope. eg `function`,
-`private`, `autocomplete` or shell script.
+`PARAMS` returns an array of the parameters within a given scope.
+eg `function`, `private`, `autocomplete` or shell script.
 
 Unlike `$ARGV`, `$PARAMS` does not include the function name.
 

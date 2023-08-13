@@ -132,20 +132,6 @@ parser is still in beta), it is shipped as an additional data-type.
 
 * [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` (type)](../apis/ReadArray.md):
-  Read from a data type one array element at a time
-* [`ReadIndex()` (type)](../apis/ReadIndex.md):
-  Data type handler for the index, `[`, builtin
-* [`ReadMap()` (type)](../apis/ReadMap.md):
-  Treat data type as a key/value structure and read its contents
-* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
-  Data type handler for the bang-prefixed index, `![`, builtin
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
-* [`WriteArray()` (type)](../apis/WriteArray.md):
-  Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
@@ -176,3 +162,13 @@ parser is still in beta), it is shipped as an additional data-type.
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory

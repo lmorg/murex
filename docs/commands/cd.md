@@ -20,11 +20,17 @@ cd [path]
 » cd: ~
 ```
 
-Including `cd` without a parameter will also change to the current user's home
+Running `cd` without a parameter will also change to the current user's home
 directory:
 
 ```
 » cd
+```
+
+**Navigating to the previous directory:**
+
+```
+» cd -
 ```
 
 **Absolute path:**
@@ -56,6 +62,8 @@ You can then use that to change to a previous directory.
 ```
 » cd $PWDHIST[-1]
 ```
+
+> `cd -` is syntactic sugar for `$PWDHIST[-1]`
 
 ### auto-cd
 
