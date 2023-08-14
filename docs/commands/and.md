@@ -10,9 +10,9 @@ code-blocks included as parameters are successful or not.
 ## Usage
 
 ```
-and: { code-block } { code-block } -> <stdout>
+and { code-block } { code-block } -> <stdout>
 
-!and: { code-block } { code-block } -> <stdout>
+!and { code-block } { code-block } -> <stdout>
 ```
 
 `and` supports as many or as few code-blocks as you wish.
@@ -21,7 +21,7 @@ and: { code-block } { code-block } -> <stdout>
 
 ```
 if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
-    out: The laws of mathematics still exist in this universe.
+    out The laws of mathematics still exist in this universe.
 }
 ```
 

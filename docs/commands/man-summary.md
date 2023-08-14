@@ -16,7 +16,7 @@ man-summary command -> <stdout>
 ## Examples
 
 ```
-» man-summary: man 
+» man-summary man 
 man - an interface to the on-line reference manuals
 ```
 

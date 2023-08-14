@@ -1,4 +1,4 @@
-# `round` 
+# `round`
 
 > Round a number by a user defined precision
 

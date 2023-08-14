@@ -8,8 +8,8 @@ When making arrays you can specify ranges of an alternative number base by
 using an `x` or `.` in the end range:
 
 ```
-a: [00..ffx16]
-a: [00..ff.16]
+a [00..ffx16]
+a [00..ff.16]
 ```
 
 All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
@@ -45,7 +45,7 @@ You can also inline arrays with the `%[]` syntax, eg:
 ## Examples
 
 ```
-» a: [08..10x16]
+» a [08..10x16]
 08
 09
 0a
@@ -58,7 +58,7 @@ You can also inline arrays with the `%[]` syntax, eg:
 ```
 
 ```
-» a: [10..08x16]
+» a [10..08x16]
 10
 f
 e
@@ -78,7 +78,7 @@ If you do need a range of fixed floating point numbers generated then you can
 do so by merging two decimal integer ranges together. For example
 
 ```
-» a: [05..10x8].[0..7]
+» a [05..10x8].[0..7]
 05.0
 05.1
 05.2
@@ -129,7 +129,7 @@ arrays such as JSON (`ja`).
   Create arrays of decimal integers
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

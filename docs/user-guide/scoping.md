@@ -73,7 +73,7 @@ scope. Subshells also do not create a new scoping either.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals

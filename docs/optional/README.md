@@ -38,15 +38,15 @@ murex-docs trypipe
 
 ## Pages
 
-* [`!bz2` ](../optional/bz2.md):
+* [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
 * [`base64` ](../optional/base64.md):
   Encode or decode a base64 string
-* [`gz` ](../optional/gz.md):
+* [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
-* [`qr` ](../optional/qr.md):
+* [`qr`](../optional/qr.md):
   Creates a QR code from STDIN
-* [`select` ](../optional/select.md):
+* [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
-* [`sleep` ](../optional/sleep.md):
+* [`sleep`](../optional/sleep.md):
   Suspends the shell for a number of seconds

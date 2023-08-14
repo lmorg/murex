@@ -1,4 +1,4 @@
-# `commonlog` 
+# `commonlog`
 
 > Apache httpd "common" log format
 
@@ -33,7 +33,7 @@ the following:
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -41,7 +41,7 @@ the following:
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`str` (string) ](../types/str.md):
+* [`str` (string)](../types/str.md):
   string (primitive)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

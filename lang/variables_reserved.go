@@ -8,14 +8,15 @@ import (
 )
 
 func getVarSelf(p *Process) interface{} {
+	bg := p.Scope.Background.Get()
 	return map[string]interface{}{
 		"Parent":      int(p.Scope.Parent.Id),
 		"Scope":       int(p.Scope.Id),
 		"TTY":         p.Scope.Stdout.IsTTY(),
 		"Method":      p.Scope.IsMethod,
-		"Interactive": Interactive,
+		"Interactive": Interactive && !bg,
 		"Not":         p.Scope.IsNot,
-		"Background":  p.Scope.Background.Get(),
+		"Background":  bg,
 		"Module":      p.Scope.FileRef.Source.Module,
 	}
 }

@@ -33,9 +33,9 @@ another.
 ## Usage
 
 ```
-event: event-type name=interrupt { code block }
+event event-type name=interrupt { code block }
 
-!event: event-type name
+!event event-type name
 ```
 
 ## Examples
@@ -43,7 +43,7 @@ event: event-type name=interrupt { code block }
 Create an event:
 
 ```
-event: onSecondsElapsed autoquit=60 {
+event onSecondsElapsed autoquit=60 {
     out "You're 60 second timeout has elapsed. Quitting murex"
     exit 1
 }
@@ -73,8 +73,8 @@ Destroy an event:
 The `interrupt` field in the CLI supports ANSI constants. eg
 
 ```
-event: onKeyPress f1={F1-VT100} {
-    tout: qs HintText="Key F1 Pressed"
+event onKeyPress f1={F1-VT100} {
+    tout qs HintText="Key F1 Pressed"
 }
 ```
 

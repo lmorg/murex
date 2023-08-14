@@ -17,7 +17,7 @@ the pipeline are preserved however the reported data type is altered.
 ## Examples
 
 ```
-» out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+» out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
 {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
 ```
 

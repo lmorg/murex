@@ -25,7 +25,7 @@ open filename[.gz]|uri -> <stdout>
 ## Examples
 
 ```
-» open https://api.github.com/repos/lmorg/murex/issues -> foreach issue { out: "$issue[number]: $issue[title]" }
+» open https://api.github.com/repos/lmorg/murex/issues -> foreach issue { out "$issue[number]: $issue[title]" }
 ```
 
 ## Detail
@@ -208,7 +208,7 @@ exec open --flags filename
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings

@@ -22,19 +22,19 @@ let var_name--
 ## Examples
 
 ```
-» let: age=18
+» let age=18
 » $age
 18
 
-» let: age++
+» let age++
 » $age
 19
 
-» let: under18=age<18
+» let under18=age<18
 » $under18
 false
 
-» let: under21 = age < 21
+» let under21 = age < 21
 » $under21
 true
 ```
@@ -56,16 +56,16 @@ variable name, and **NUM** with a number):
 eg
 
 ```
-» let: i=0
-» let: i++
+» let i=0
+» let i++
 » $i
 1
 
-» let: i+=8
+» let i+=8
 » $i
 9
 
-» let: i/=3
+» let i/=3
 3
 ```
 

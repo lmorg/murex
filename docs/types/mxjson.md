@@ -32,9 +32,9 @@ uses the `({ block quote })` method.
 ```
 {
     "ExampleFunction": ({
-        out: "This is an example Murex function"
+        out "This is an example Murex function"
         if { =1==2 } then {
-            err: "The laws of the universe are broken"
+            err "The laws of the universe are broken"
         }
     })
 }
@@ -44,7 +44,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ```
 {
-    "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
+    "ExampleFunction": "\n    out \"This is an example Murex function\"\n    if { =1==2 } then {\n        err \"The laws of the universe are broken\"\n    }"
 }
 ```
 
@@ -68,13 +68,13 @@ Any block quoted by this method will be converted to the following valid JSON:
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+* [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonc` ](../types/jsonc.md):
+* [`jsonc`](../types/jsonc.md):
   Concatenated JSON
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -82,9 +82,9 @@ Any block quoted by this method will be converted to the following valid JSON:
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+* [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [create-objects](../parser/create-objects.md):
   

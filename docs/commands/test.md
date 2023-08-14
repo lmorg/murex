@@ -11,25 +11,25 @@
 Define an inlined test
 
 ```
-test: define test-name { json-properties }
+test define test-name { json-properties }
 ```
 
 Define a state report
 
 ```
-test: state name { code block }
+test state name { code block }
 ```
 
 Define a unit test
 
 ```
-test: unit function|private|open|event test-name { json-properties }
+test unit function|private|open|event test-name { json-properties }
 ```
 
 Enable or disable boolean test states (more options available in `config`)
 
 ```
-test: config [ enable|!enable ] [ verbose|!verbose ] [ auto-report|!auto-report ]
+test config [ enable|!enable ] [ verbose|!verbose ] [ auto-report|!auto-report ]
 ```
 
 Disable test mode
@@ -41,19 +41,19 @@ Disable test mode
 Execute a function with testing enabled
 
 ```
-test: run { code-block }
+test run { code-block }
 ```
 
 Execute unit test(s)
 
 ```
-test: run package/module/test-name|*
+test run package/module/test-name|*
 ```
 
 Write report
 
 ```
-test: report
+test report
 ```
 
 ## Examples
@@ -61,21 +61,21 @@ test: report
 Inlined test
 
 ```
-function: hello-world {
-    test: define example {
+function hello-world {
+    test define example {
         "StdoutRegex": (^Hello World$)
     }
 
-    out: <test_example> "Hello Earth"
+    out <test_example> "Hello Earth"
 }
 
-test: run { hello-world }
+test run { hello-world }
 ```
 
 Unit test
 
 ```
-test: unit function aliases {
+test unit function aliases {
     "PreBlock": ({
         alias ALIAS_UNIT_TEST=example param1 param2 param3
     }),
@@ -86,22 +86,22 @@ test: unit function aliases {
     })
 }
 
-function: aliases {
+function aliases {
     # Output the aliases in human readable format
-    runtime: --aliases -> formap: name alias {
-        $name -> sprintf: "%10s => ${esccli @alias}\n"
-    } -> cast: str
+    runtime --aliases -> formap name alias {
+        $name -> sprintf "%10s => ${esccli @alias}\n"
+    } -> cast str
 }
 
-test: run aliases
+test run aliases
 ```
 
 ## Detail
 
 ### Report
 
-`test: report` is only needed if `config: test auto-report` is set false.
-However `test: run` automatically enables **auto-report**.
+`test report` is only needed if `config test auto-report` is set false.
+However `test run` automatically enables **auto-report**.
 
 When the report is generated, be it automatically or manually triggered, it
 flushes the table of pending reports.

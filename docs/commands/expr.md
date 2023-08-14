@@ -9,7 +9,7 @@
 ## Usage
 
 ```
-expr: expression -> <stdout>
+expr expression -> <stdout>
 ```
 
 ## Examples

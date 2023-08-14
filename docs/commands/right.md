@@ -20,7 +20,7 @@ the parameter is a negative then `right` counts from the left.
 Count from the right
 
 ```
-» ja: [Monday..Wednesday] -> right 4
+» ja [Monday..Wednesday] -> right 4
 [
     "nday",
     "sday",
@@ -31,7 +31,7 @@ Count from the right
 Count from the left
 
 ```
-» ja: [Monday..Wednesday] -> left -3
+» ja [Monday..Wednesday] -> left -3
 [
     "day",
     "sday",
@@ -44,8 +44,8 @@ Count from the left
 Supported data types can queried via `runtime`
 
 ```
-runtime: --marshallers
-runtime: --unmarshallers
+runtime --marshallers
+runtime --unmarshallers
 ```
 
 ## Synonyms

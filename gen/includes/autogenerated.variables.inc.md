@@ -10,3 +10,5 @@
   History of each change to the sessions working directory
 * [`SELF` (json)](../variables/SELF.md):
   Meta information about the running scope.
+* [`hostname` (str)](../variables/hostname.md):
+  Hostname of the current machine

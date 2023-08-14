@@ -59,13 +59,13 @@ parameter specifying the Content-Type MIME.
 standard `config` tool:
 
 ```
-config: -> [ http ]
+config -> [ http ]
 ```
 
 To change a default, for example the user agent string:
 
 ```
-config: set http user-agent "bob"
+config set http user-agent "bob"
 get: google.com
 ```
 

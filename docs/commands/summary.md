@@ -30,15 +30,15 @@ Undefine a summary
 Define a commands summary
 
 ```
-» summary: foobar "Hello, world!"
-» runtime: --summaries -> [ foobar ]
+» summary foobar "Hello, world!"
+» runtime --summaries -> [ foobar ]
 Hello, world! 
 ```
 
 Undefine a summary
 
 ```
-» !summary: foobar
+» !summary foobar
 ```
 
 ## Synonyms

@@ -19,7 +19,7 @@ numbers.
 
 ## See Also
 
-* [`int` ](../types/int.md):
+* [`int`](../types/int.md):
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)

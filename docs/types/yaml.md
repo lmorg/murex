@@ -1,4 +1,4 @@
-# `yaml` 
+# `yaml`
 
 > YAML Ain't Markup Language (YAML)
 
@@ -47,9 +47,9 @@ external source packages for the shell to compile.
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler

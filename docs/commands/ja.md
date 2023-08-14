@@ -14,16 +14,16 @@ been superseded by the `%[]` tokens.** ([read more](../parser/create-array.md))
 ## Usage
 
 ```
-ja: [start..end] -> <stdout>
-ja: [start..end.base] -> <stdout>
-ja: [start..end,start..end] -> <stdout>
-ja: [start..end][start..end] -> <stdout>
+ja [start..end] -> <stdout>
+ja [start..end.base] -> <stdout>
+ja [start..end,start..end] -> <stdout>
+ja [start..end][start..end] -> <stdout>
 ```
 
 ## Examples
 
 ```
-» ja: [1..5]
+» ja [1..5]
 [
     "1",
     "2",
@@ -34,7 +34,7 @@ ja: [start..end][start..end] -> <stdout>
 ```
 
 ```
-» ja: [Monday..Sunday]
+» ja [Monday..Sunday]
 [
     "Monday",
     "Tuesday",
@@ -60,13 +60,13 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Quickly generate arrays
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
   Count items in a map, list or array
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array

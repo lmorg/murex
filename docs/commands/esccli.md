@@ -34,10 +34,10 @@ out foo\$b\@r
 As a function
 
 ```
-» alias -> [foobar] -> set: fb
+» alias -> [foobar] -> set fb
 » $fb
 ["out","foo$b@r"]
-» esccli: @fb
+» esccli @fb
 out foo\$b\@r
 ```
 
@@ -46,7 +46,7 @@ out foo\$b\@r
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`escape`](../commands/escape.md):
-  Escape or unescape input 
+  Escape or unescape input
 * [`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
 * [`escurl`](../commands/escurl.md):

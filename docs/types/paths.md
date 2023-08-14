@@ -1,4 +1,4 @@
-# `paths` 
+# `paths`
 
 > Structured array for working with `$PATH` style data
 
@@ -64,7 +64,7 @@ relative rather than absolute then `/` will be excluded from outputted string.
   Absolute path to running shell
 * [`PWDHIST` (json)](../variables/PWDHIST.md):
   History of each change to the sessions working directory
-* [`path` ](../types/path.md):
+* [`path`](../types/path.md):
   Structured object for working with file and directory paths
 
 ### Read more about type hooks

@@ -9,9 +9,9 @@
 ## Usage
 
 ```
-event: onSecondsElapsed name=seconds { code block }
+event onSecondsElapsed name=seconds { code block }
 
-!event: onSecondsElapsed name
+!event onSecondsElapsed name
 ```
 
 ## Valid Interrupts
@@ -22,8 +22,8 @@ event: onSecondsElapsed name=seconds { code block }
 ## Examples
 
 ```
-event: onSecondsElapsed example=60 {
-    out: "60 seconds has passed"
+event onSecondsElapsed example=60 {
+    out "60 seconds has passed"
 }
 ```
 

@@ -34,8 +34,8 @@ json
 Get the data-type of a functions STDIN
 
 ```
-» function: example { get-type stdin }
-» tout: json {[1,2,3]} -> example
+» function example { get-type stdin }
+» tout json {[1,2,3]} -> example
 json
 ```
 
@@ -43,7 +43,7 @@ Get the data-type of a Murex named pipe
 
 ```
 » pipe: example
-» tout: <example> json {[1,2,3]}
+» tout <example> json {[1,2,3]}
 » get-type: example
 » !pipe: example
 json

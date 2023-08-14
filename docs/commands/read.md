@@ -11,15 +11,15 @@ A readline function to allow a line of data inputed from the terminal.
 Classic usage:
 
 ```
-read: "prompt" var_name
+read "prompt" var_name
 
-<stdin> -> read: var_name
+<stdin> -> read var_name
 ```
 
 Script usage:
 
 ```
-read: [ --prompt "prompt"         ]
+read [ --prompt "prompt"         ]
       [ --variable var_name       ]
       [ --default "default value" ]
       [ --datatype data-type      ]
@@ -32,17 +32,17 @@ read: [ --prompt "prompt"         ]
 **Classic usage:**
 
 ```
-read: "What is your name? " name
-out: "Hello $name"
+read "What is your name? " name
+out "Hello $name"
 
-out: What is your name? -> read: name
-out: "Hello $name"
+out What is your name? -> read name
+out "Hello $name"
 ```
 
 **Script usage:**
 
 ```
-read: --prompt "Are you sure? [Y/n]" \
+read --prompt "Are you sure? [Y/n]" \
       --variable yn \
       --default Y
 ```
@@ -50,7 +50,7 @@ read: --prompt "Are you sure? [Y/n]" \
 **Secrets:**
 
 ```
-read: --prompt "Password: " --variable pw --mask *
+read --prompt "Password: " --variable pw --mask *
 ```
 
 ## Flags

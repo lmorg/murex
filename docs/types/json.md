@@ -1,4 +1,4 @@
-# `json` 
+# `json`
 
 > JavaScript Object Notation (JSON)
 
@@ -217,11 +217,11 @@ jsonl
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+* [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`jsonc` ](../types/jsonc.md):
+* [`jsonc`](../types/jsonc.md):
   Concatenated JSON
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -229,9 +229,9 @@ jsonl
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+* [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

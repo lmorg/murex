@@ -16,9 +16,9 @@ from the prompt can trigger this event.
 ## Usage
 
 ```
-event: onCommandCompletion name=command { code block }
+event onCommandCompletion name=command { code block }
 
-!event: onCommandCompletion name
+!event onCommandCompletion name
 ```
 
 ## Valid Interrupts
@@ -36,7 +36,7 @@ the STDERR contains a message saying you are no root, then this event function
 will re-run `pacman` with `sudo`.
 
 ```
-event: onCommandCompletion sudo-pacman=pacman {
+event onCommandCompletion sudo-pacman=pacman {
     <stdin> -> set event
     read-named-pipe: $event.Interrupt.Stderr \
     -> regexp 'm/error: you cannot perform this operation unless you are root/' \
@@ -115,7 +115,7 @@ prompt itself and three extra lines for the hint text.
 
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`alias`](../commands/alias.md):
   Create an alias for a command

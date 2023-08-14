@@ -7,7 +7,7 @@
 Sometimes you will need to start a command line with a Murex named pipe, eg
 
 ```
-» <namedpipe> -> match: foobar
+» <namedpipe> -> match foobar
 ```
 
 > See the documentation on `pipe` for more details about Murex named pipes.
@@ -32,8 +32,8 @@ The follow two examples function the same
 
 ```
 » pipe: example
-» bg { <example> -> match: 2 }
-» a: <example> [1..3]
+» bg { <example> -> match 2 }
+» a <example> [1..3]
 2
 » !pipe: example
 ```
@@ -119,7 +119,7 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

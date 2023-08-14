@@ -1,4 +1,4 @@
-# `open-image` 
+# `open-image`
 
 > Renders bitmap image data on your terminal
 
@@ -38,5 +38,5 @@ As a function
 
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [`qr` ](../optional/qr.md):
+* [`qr`](../optional/qr.md):
   Creates a QR code from STDIN

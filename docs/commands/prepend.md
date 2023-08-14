@@ -1,4 +1,4 @@
-# `prepend` 
+# `prepend`
 
 > Add data to the start of an array
 
@@ -15,7 +15,7 @@
 ## Examples
 
 ```
-» a: [January..December] -> prepend: 'New Year'
+» a [January..December] -> prepend: 'New Year'
 New Year
 January
 February
@@ -64,7 +64,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
   A sophisticated yet simply way to build a JSON array
 * [`match`](../commands/match.md):
   Match an exact value in an array
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array

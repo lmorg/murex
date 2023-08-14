@@ -148,7 +148,7 @@ if you want to learn more about shell scripting in Murex.
   Writes STDIN to disk - overwriting contents if file already exists
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level

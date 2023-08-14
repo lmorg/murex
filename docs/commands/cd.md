@@ -17,7 +17,7 @@ cd [path]
 **Home directory:**
 
 ```
-» cd: ~
+» cd ~
 ```
 
 Running `cd` without a parameter will also change to the current user's home
@@ -36,14 +36,14 @@ directory:
 **Absolute path:**
 
 ```
-» cd: /etc/
+» cd /etc/
 ```
 
 **Relative path:**
 
 ```
-» cd: Documents
-» cd: ./Documents
+» cd Documents
+» cd ./Documents
 ```
 
 ## Detail
@@ -72,12 +72,12 @@ automatically changing to that directory if the "command" is just a directory.
 In Murex you can enable this behaviour by turning on "auto-cd":
 
 ```
-config: set shell auto-cd true
+config set shell auto-cd true
 ```
 
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

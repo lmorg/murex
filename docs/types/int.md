@@ -1,4 +1,4 @@
-# `int` 
+# `int`
 
 > Whole number (primitive)
 
@@ -40,7 +40,7 @@ AMD64 or other 64bit built of Murex would see the range from
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`str` (string) ](../types/str.md):
+* [`str` (string)](../types/str.md):
   string (primitive)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

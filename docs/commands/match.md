@@ -38,7 +38,7 @@ Match everything except search string
 Match **Wed**
 
 ```
-» ja: [Monday..Friday] -> match Wed
+» ja [Monday..Friday] -> match Wed
 [
     "Wednesday"
 ]
@@ -47,7 +47,7 @@ Match **Wed**
 Match everything except **Wed**
 
 ```
-» ja: [Monday..Friday] -> !match Wed
+» ja [Monday..Friday] -> !match Wed
 [
     "Monday",
     "Tuesday",
@@ -83,13 +83,13 @@ same data-type.
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable

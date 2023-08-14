@@ -1,4 +1,4 @@
-# `source` 
+# `source`
 
 > Import Murex code from another file of code block
 
@@ -19,13 +19,13 @@ Execute source from STDIN
 Execute source from a file
 
 ```
-source: filename.mx
+source filename.mx
 ```
 
 Execute a code block from parameter
 
 ```
-source: { code-block }
+source { code-block }
 ```
 
 ## Examples
@@ -33,22 +33,22 @@ source: { code-block }
 Execute source from stdin:
 
 ```
-» tout: block { out: "Hello, world!" } -> source
+» tout block { out "Hello, world!" } -> source
 Hello, world!
 ```
 
 Execute source from file:
 
 ```
-» tout: block { out: "Hello, world!" } |> example.mx
-» source: example.mx
+» tout block { out "Hello, world!" } |> example.mx
+» source example.mx
 Hello, world!
 ```
 
 Execute a code block from parameter
 
 ```
-» source { out: "Hello, world!" }
+» source { out "Hello, world!" }
 Hello, world!
 ```
 
@@ -78,5 +78,5 @@ Hello, world!
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`version` ](../commands/version.md):
+* [`version`](../commands/version.md):
   Get Murex version

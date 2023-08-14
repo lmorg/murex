@@ -18,7 +18,7 @@ This is a reserved variable so it cannot be changed.
   Special variables reserved by Murex
 * [SHELL](../variables/SHELL.md):
   
-* [`path` ](../types/path.md):
+* [`path`](../types/path.md):
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):
   Define a local variable and set it's value

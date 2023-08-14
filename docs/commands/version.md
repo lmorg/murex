@@ -1,4 +1,4 @@
-# `version` 
+# `version`
 
 > Get Murex version
 
@@ -58,5 +58,5 @@ Ran with the `--short` parameter
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

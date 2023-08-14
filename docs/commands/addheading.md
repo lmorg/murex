@@ -11,13 +11,13 @@ prepend to tables.
 ## Usage
 
 ```
-<stdin> -> addheading: value value value ... -> <stdout>
+<stdin> -> addheading value value value ... -> <stdout>
 ```
 
 ## Examples
 
 ```
-» tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
+» tout jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
 ["name","age","active"]
 ["Bob","23","true"]
 ```
@@ -38,11 +38,11 @@ prepend to tables.
   A sophisticated yet simply way to build a JSON array
 * [`match`](../commands/match.md):
   Match an exact value in an array
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings

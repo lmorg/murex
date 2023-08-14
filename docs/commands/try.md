@@ -27,8 +27,8 @@ try { code-block } -> <stdout>
 
 ```
 try {
-    out: "Hello, World!" -> grep: "non-existent string"
-    out: "This command will be ignored"
+    out "Hello, World!" -> grep: "non-existent string"
+    out "This command will be ignored"
 }
 ```
 

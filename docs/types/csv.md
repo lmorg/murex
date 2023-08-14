@@ -1,4 +1,4 @@
-# `csv` 
+# `csv`
 
 > CSV files (and other character delimited tables)
 
@@ -13,7 +13,7 @@ The CSV parser is configurable via `config` (see link below for docs on how to
 use `config`)
 
 ```
-» config: -> [csv]      
+» config -> [csv]      
 {
     "comment": {
         "Data-Type": "str",
@@ -64,7 +64,7 @@ use `config`)
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -74,13 +74,13 @@ use `config`)
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`int` ](../types/int.md):
+* [`int`](../types/int.md):
   Whole number (primitive)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`select` ](../optional/select.md):
+* [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
-* [`str` (string) ](../types/str.md):
+* [`str` (string)](../types/str.md):
   string (primitive)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

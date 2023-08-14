@@ -19,14 +19,14 @@ An optional builtin to encode or decode a base64 string.
 Encode base64 string
 
 ```
-» out: "Hello, World!" -> base64
+» out "Hello, World!" -> base64
 SGVsbG8sIFdvcmxkIQo=
 ```
 
 Decode base64 string
 
 ```
-» out: "SGVsbG8sIFdvcmxkIQo=" -> !base64
+» out "SGVsbG8sIFdvcmxkIQo=" -> !base64
 Hello, World!
 ```
 
@@ -37,10 +37,10 @@ Hello, World!
 or similar platforms then you will need to launch with the `exec` builtin:
 
 ```
-» out: "Hello, World!" -> exec: base64
+» out "Hello, World!" -> exec base64
 SGVsbG8sIFdvcmxkIQo=
 
-» out: "SGVsbG8sIFdvcmxkIQo=" -> exec: base64 -d
+» out "SGVsbG8sIFdvcmxkIQo=" -> exec base64 -d
 Hello, World!
 ```
 
@@ -55,15 +55,15 @@ it doesn't require the OS fork processes.
 
 ## See Also
 
-* [`!bz2` ](../optional/bz2.md):
+* [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
 * [`escape`](../commands/escape.md):
-  Escape or unescape input 
+  Escape or unescape input
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
-* [`gz` ](../optional/gz.md):
+* [`gz`](../optional/gz.md):
   Compress or decompress a gzip file

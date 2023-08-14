@@ -1,4 +1,4 @@
-# `toml` 
+# `toml`
 
 > Tom's Obvious, Minimal Language (TOML)
 
@@ -82,15 +82,15 @@ hosts = [
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

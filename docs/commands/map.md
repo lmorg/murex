@@ -1,4 +1,4 @@
-# `map` 
+# `map`
 
 > Creates a map from two data sources
 
@@ -17,7 +17,7 @@ map { code-block } { code-block } -> <stdout>
 ## Examples
 
 ```
-» map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
+» map { tout json (["key 1", "key 2", "key 3"]) } { tout json (["value 1", "value 2", "value 3"]) } 
 {
     "key 1": "value 1",
     "key 2": "value 2",
@@ -29,7 +29,7 @@ map { code-block } { code-block } -> <stdout>
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -43,7 +43,7 @@ map { code-block } { code-block } -> <stdout>
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

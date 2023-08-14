@@ -171,7 +171,7 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Add data to the end of an array
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter

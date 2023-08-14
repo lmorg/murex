@@ -528,7 +528,7 @@ flags.
 
 ## See Also
 
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`alias`](../commands/alias.md):
   Create an alias for a command

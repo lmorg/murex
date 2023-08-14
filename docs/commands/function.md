@@ -11,14 +11,14 @@
 Define a function:
 
 ```
-function: name { code-block }
+function name { code-block }
 ```
 
 Define a function with variable names defined (**default value** and
 **description** are optional parameters):
 
 ```
-function: name (
+function name (
     variable1: data-type [default-value] "description",
     variable2: data-type [default-value] "description"
 ) {
@@ -29,7 +29,7 @@ function: name (
 Undefine a function:
 
 ```
-!function: command
+!function command
 ```
 
 ## Examples
@@ -41,7 +41,7 @@ Hello, World!
 
 » !function hw
 » hw
-exec: "hw": executable file not found in $PATH
+exec "hw": executable file not found in $PATH
 ```
 
 ## Detail
@@ -73,7 +73,7 @@ Starting from Murex `2.7.x` it's been possible to declare parameters from
 within the function declaration:
 
 ```
-function: name (
+function name (
     variable1: data-type [default-value] "description",
     variable2: data-type [default-value] "description"
 ) {
@@ -121,7 +121,7 @@ your function body as a local variable. For example:
 
 ```
 function: hello (name: str) {
-    out: "Hello $name, pleased to meet you."
+    out "Hello $name, pleased to meet you."
 }
 ```
 
@@ -130,8 +130,8 @@ running in the foreground (ie not part of `autocomplete`, `event`, `bg`, etc)
 then you will be prompted for it's value. That could look something like this:
 
 ```
-» function: hello (name: str) {
-»     out: "Hello $name, pleased to meet you."
+» function hello (name: str) {
+»     out "Hello $name, pleased to meet you."
 » }
 
 » hello
@@ -150,7 +150,7 @@ The advantage of setting this field is that values are type checked and the
 function will fail early if an incorrect value is presented. For example:
 
 ```
-» function: age (age: int) { out: "$age is a great age." }
+» function age (age: int) { out "$age is a great age." }
 
 » age
 Please enter a value for 'age': ten
@@ -173,7 +173,7 @@ Default values are only relevant when functions are run interactively. It
 allows the user to press enter without inputting a value:
 
 ```
-» function: hello (name: str [John]) { out: "Hello $name, pleased to meet you." }
+» function hello (name: str [John]) { out "Hello $name, pleased to meet you." }
 
 » hello
 Please enter a value for 'name' [John]: 
@@ -270,7 +270,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
-* [`version` ](../commands/version.md):
+* [`version`](../commands/version.md):
   Get Murex version

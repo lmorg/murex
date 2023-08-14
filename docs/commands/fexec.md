@@ -10,13 +10,13 @@ of precedence.
 ## Usage
 
 ```
-fexec: flag command [ parameters... ] -> <stdout>
+fexec flag command [ parameters... ] -> <stdout>
 ```
 
 ## Examples
 
 ```
-fexec: private /source/builtin/autocomplete.alias
+fexec private /source/builtin/autocomplete.alias
 ```
 
 ## Flags
@@ -99,5 +99,5 @@ alias to `fexec builtin`
   Open a file with a preferred handler
 * [`private`](../commands/private.md):
   Define a private function block
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

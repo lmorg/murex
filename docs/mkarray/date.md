@@ -7,9 +7,9 @@
 Unlike bash, Murex also supports date ranges:
 
 ```  
-» a: [25-dec-2020..05-jan-2021]
-» a: [..25-dec-2020]
-» a: [25-dec-2020..]
+» a [25-dec-2020..05-jan-2021]
+» a [..25-dec-2020]
+» a [25-dec-2020..]
 ```
 
 Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
@@ -38,7 +38,7 @@ You can also inline arrays with the `%[]` syntax, eg:
 ## Examples
 
 ```
-» a: [25-Dec-2020..01-Jan-2021]
+» a [25-Dec-2020..01-Jan-2021]
 25-Dec-2020
 26-Dec-2020
 27-Dec-2020
@@ -50,7 +50,7 @@ You can also inline arrays with the `%[]` syntax, eg:
 ```
 
 ```
-» a: [31-Dec..25-Dec]
+» a [31-Dec..25-Dec]
 31-Dec
 30-Dec
 29-Dec
@@ -73,14 +73,14 @@ the start value, as usual, and count up or down to the current date.
 For example, if today was 25th December 2020:
 
 ```
-» a: [23-December-2020..]
+» a [23-December-2020..]
 23-December-2020
 24-December-2020
 25-December-2020
 ```
 
 ```
-» a: [..23-December-2020]
+» a [..23-December-2020]
 25-December-2020
 24-December-2020
 23-December-2020
@@ -89,7 +89,7 @@ For example, if today was 25th December 2020:
 This can lead so some fun like countdowns:
 
 ```
-» out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
+» out "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
 7 days until the new year!
 ```
 
@@ -102,7 +102,7 @@ will be in title case.
 #### lower case
 
 ```
-» a: [01-jan..03-jan]
+» a [01-jan..03-jan]
 01-jan
 02-jan
 03-jan
@@ -111,7 +111,7 @@ will be in title case.
 #### Title Case
 
 ```
-» a: [01-Jan..03-Jan]
+» a [01-Jan..03-Jan]
 01-Jan
 02-Jan
 03-Jan
@@ -120,7 +120,7 @@ will be in title case.
 #### UPPER CASE
 
 ```
-» a: [01-JAN..03-JAN]
+» a [01-JAN..03-JAN]
 01-JAN
 02-JAN
 03-JAN
@@ -185,7 +185,7 @@ If you do need any other formatting options not supported there, you can use
 `datetime` to convert the output of `a`. eg:
 
 ```
-» a: [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
+» a [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
 Wednesday, 01 January
 Thursday, 02 January
 Friday, 03 January
@@ -197,13 +197,13 @@ Friday, 03 January
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
   Count items in a map, list or array
-* [`datetime` ](../commands/datetime.md):
+* [`datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array

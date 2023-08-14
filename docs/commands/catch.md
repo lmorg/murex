@@ -21,16 +21,16 @@ catch { code-block } -> <stdout>
 
 ```
 try {
-    out: "Hello, World!" -> grep: "non-existent string"
-    out: "This command will be ignored"
+    out "Hello, World!" -> grep: "non-existent string"
+    out "This command will be ignored"
 }
 
 catch {
-    out: "An error was caught"
+    out "An error was caught"
 }
 
 !catch {
-    out: "No errors were raised"
+    out "No errors were raised"
 }
 ```
 

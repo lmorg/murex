@@ -9,7 +9,7 @@ Write parameters to STDERR with a trailing new line character.
 ## Usage
 
 ```
-err: string to write -> <stderr>
+err string to write -> <stderr>
 ```
 
 ## Examples
@@ -37,7 +37,7 @@ a new Murex named pipe.
 ```
 » pipe: --create messages
 » bg { <messages> -> pretty }
-» tout: <messages> json { "Code": 404, "Message": "Page not found" }
+» tout <messages> json { "Code": 404, "Message": "Page not found" }
 » pipe: --close messages
 {
     "Code": 404,

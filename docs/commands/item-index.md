@@ -43,7 +43,7 @@ Return the data-type and description of **config shell syntax-highlighting**:
 Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th):
 
 ```
-» a: [0..9]-> ![ 1 3 5 ]
+» a [0..9]-> ![ 1 3 5 ]
 0
 2
 4
@@ -132,7 +132,7 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

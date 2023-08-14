@@ -1,4 +1,4 @@
-# `jsonc` 
+# `jsonc`
 
 > Concatenated JSON
 
@@ -130,23 +130,23 @@ parser is still in beta), it is shipped as an additional data-type.
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`csv` ](../types/csv.md):
+* [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+* [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -154,9 +154,9 @@ parser is still in beta), it is shipped as an additional data-type.
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+* [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

@@ -39,7 +39,7 @@ Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 ```
 pipe example --tcp-dial google.com:80
 bg { <example> }
-out: "GET /" -> <example>
+out "GET /" -> <example>
 ```
 
 ## Detail
@@ -128,7 +128,7 @@ that pipes created in modules should be prefixed with the name of its package.
   Reads from a Murex named pipe
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`bg`](../commands/bg.md):
   Run processes in the background

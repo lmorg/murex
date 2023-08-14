@@ -16,13 +16,13 @@ The *value* must always be supplied as JSON however
 ## Usage
 
 ```
-<stdin> -> alter: [ -m | --merge | -s | --sum ] /path value -> <stdout>
+<stdin> -> alter [ -m | --merge | -s | --sum ] /path value -> <stdout>
 ```
 
 ## Examples
 
 ```
-» config: -> [ shell ] -> [ prompt ] -> alter: /Value moo
+» config -> [ shell ] -> [ prompt ] -> alter /Value moo
 {
     "Data-Type": "block",
     "Default": "{ out 'murex » ' }",
@@ -34,7 +34,7 @@ The *value* must always be supplied as JSON however
 `alter` also accepts JSON as a parameter for adding structured data:
 
 ```
-config: -> [ shell ] -> [ prompt ] -> alter: /Example { "Foo": "Bar" }
+config -> [ shell ] -> [ prompt ] -> alter /Example { "Foo": "Bar" }
 {
     "Data-Type": "block",
     "Default": "{ out 'murex » ' }",
@@ -50,7 +50,7 @@ However it is also data type aware so if they key you're updating holds a string
 (for example) then the JSON data a will be stored as a string:
 
 ```
-» config: -> [ shell ] -> [ prompt ] -> alter: /Value { "Foo": "Bar" }
+» config -> [ shell ] -> [ prompt ] -> alter /Value { "Foo": "Bar" }
 {
     "Data-Type": "block",
     "Default": "{ out 'murex » ' }",
@@ -62,7 +62,7 @@ However it is also data type aware so if they key you're updating holds a string
 Numbers will also follow the same transparent conversion treatment:
 
 ```
-» tout: json { "one": 1, "two": 2 } -> alter: /two "3"
+» tout json { "one": 1, "two": 2 } -> alter /two "3"
 {
     "one": 1,
     "two": 3
@@ -83,7 +83,7 @@ alter a structure by appending to an array or a merging two maps together. You
 do this with the `--merge` (or `-m`) flag.
 
 ```
-» out: a\nb\nc -> alter: --merge / ([ "d", "e", "f" ])
+» out a\nb\nc -> alter --merge / ([ "d", "e", "f" ])
 a
 b
 c
@@ -126,15 +126,15 @@ The path parameter can take any character as node separators. The separator is
 assigned via the first character in the path. For example
 
 ```
-config -> alter: .shell.prompt.Value moo
-config -> alter: >shell>prompt>Value moo
+config -> alter .shell.prompt.Value moo
+config -> alter >shell>prompt>Value moo
 ```
 
 Just make sure you quote or escape any characters used as shell tokens. eg
 
 ```
-config -> alter: '#shell#prompt#Value' moo
-config -> alter: ' shell prompt Value' moo
+config -> alter '#shell#prompt#Value' moo
+config -> alter ' shell prompt Value' moo
 ```
 
 ### Supported data-types
@@ -162,7 +162,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex

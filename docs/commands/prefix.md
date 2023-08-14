@@ -15,7 +15,7 @@ Takes a list from STDIN and returns that same list with each element prefixed.
 ## Examples
 
 ```
-» ja: [Monday..Wednesday] -> prefix foobar
+» ja [Monday..Wednesday] -> prefix foobar
 [
     "foobarMonday",
     "foobarTuesday",
@@ -28,8 +28,8 @@ Takes a list from STDIN and returns that same list with each element prefixed.
 Supported data types can queried via `runtime`
 
 ```
-runtime: --marshallers
-runtime: --unmarshallers
+runtime --marshallers
+runtime --unmarshallers
 ```
 
 ## Synonyms

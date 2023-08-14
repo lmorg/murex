@@ -1,4 +1,4 @@
-# `<stdin>` 
+# `<stdin>`
 
 > Read the STDIN belonging to the parent code block
 
@@ -19,7 +19,7 @@ When writing more complex scripts, you cannot always invoke your read as the
 first command in a code block. For example a simple pipeline might be:
 
 ```
-» function: example { -> match: 2 }
+» function example { -> match 2 }
 ```
 
 But this only works if `->` is the very first command. The following would
@@ -27,8 +27,8 @@ fail:
 
 ```
 # Incorrect code
-function: example {
-    out: "only match 2"
+function example {
+    out "only match 2"
     -> match 2
 }
 ```
@@ -36,8 +36,8 @@ function: example {
 This is where `<stdin>` comes to our rescue:
 
 ```
-function: example {
-    out: "only match 2"
+function example {
+    out "only match 2"
     <stdin> -> match 2
 }
 ```
@@ -45,7 +45,7 @@ function: example {
 This could also be written as:
 
 ```
-function: example { out: "only match 2"; <stdin> -> match 2 }
+function example { out "only match 2"; <stdin> -> match 2 }
 ```
 
 ## Detail

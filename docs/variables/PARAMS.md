@@ -46,7 +46,7 @@ This is a reserved variable so it cannot be changed.
   Set definitions for tab-completion in the command line
 * [`function`](../commands/function.md):
   Define a function block
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character

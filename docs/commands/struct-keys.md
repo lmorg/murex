@@ -23,7 +23,7 @@ representation of the input structure's node.
 The source for these examples will be defined in the variable `$example`:
 
 ```
-» set: json example={
+» set json example={
       "firstName": "John",
       "lastName": "Smith",
       "isAlive": true,

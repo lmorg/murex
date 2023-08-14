@@ -33,14 +33,14 @@ Unescape
 Escape
 
 ```
-» out: "<h1>foo & bar</h1>" -> eschtml
+» out "<h1>foo & bar</h1>" -> eschtml
 &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
 ```
 
 Unescape
 
 ```
-» out: '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
+» out '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
 <h1>foo & bar</h1>
 ```
 
@@ -53,7 +53,7 @@ Unescape
 ## See Also
 
 * [`escape`](../commands/escape.md):
-  Escape or unescape input 
+  Escape or unescape input
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`escurl`](../commands/escurl.md):

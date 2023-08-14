@@ -28,11 +28,11 @@ function hello {
     
     runmode: try function
 
-    read: name "What is your name? "
-    out: "Hello $name, pleased to meet you"
+    read name "What is your name? "
+    out "Hello $name, pleased to meet you"
     
-    read: mood "How are you feeling? "
-    out: "I'm feeling $mood too"
+    read mood "How are you feeling? "
+    out "I'm feeling $mood too"
 }
 ```
 

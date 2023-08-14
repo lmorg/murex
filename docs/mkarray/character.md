@@ -7,10 +7,10 @@
 You can create arrays from a range of letters (a to z):
 
 ```
-» a: [a..z]
-» a: [z..a]
-» a: [A..Z]
-» a: [Z..A]
+» a [a..z]
+» a [z..a]
+» a [A..Z]
+» a [Z..A]
 ```
 
 ...or any characters within that range.
@@ -41,14 +41,14 @@ You can also inline arrays with the `%[]` syntax, eg:
 ## Examples
 
 ```
-» a: [a..c]
+» a [a..c]
 a
 b
 c
 ```
 
 ```
-» a: [c..a]
+» a [c..a]
 c
 b
 a
@@ -62,7 +62,7 @@ a
   Create arrays of integers from non-decimal number bases
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

@@ -9,7 +9,7 @@ Write parameters to STDOUT with a trailing new line character.
 ## Usage
 
 ```
-out: string to write -> <stdout>
+out string to write -> <stdout>
 ```
 
 ## Examples

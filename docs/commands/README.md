@@ -44,7 +44,7 @@ murex-docs trypipe
   Create a 2D JSON array from multiple input sources
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function (deprecated)
@@ -58,7 +58,7 @@ murex-docs trypipe
   Outputs an element from a nested structure
 * [`[` (index)](../commands/item-index.md):
   Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -98,7 +98,7 @@ murex-docs trypipe
   Output the hosts CPU architecture
 * [`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [`datetime` ](../commands/datetime.md):
+* [`datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [`debug`](../commands/debug.md):
   Debugging information
@@ -107,7 +107,7 @@ murex-docs trypipe
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`escape`](../commands/escape.md):
-  Escape or unescape input 
+  Escape or unescape input
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`eschtml`](../commands/eschtml.md):
@@ -178,13 +178,13 @@ murex-docs trypipe
   Parses man page files for command line flags 
 * [`man-summary`](../commands/man-summary.md):
   Outputs a man page summary of a command
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`match`](../commands/match.md):
   Match an exact value in an array
 * [`method`](../commands/method.md):
   Define a methods supported data-types
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
@@ -198,7 +198,7 @@ murex-docs trypipe
   Forces Murex to rescan $PATH looking for executables
 * [`null`](../commands/devnull.md):
   null function. Similar to /dev/null
-* [`open-image` ](../commands/open-image.md):
+* [`open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -216,7 +216,7 @@ murex-docs trypipe
   HTTP POST request with a JSON-parsable return
 * [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
@@ -234,7 +234,7 @@ murex-docs trypipe
   Exits current function scope
 * [`right`](../commands/right.md):
   Right substring every item in a list
-* [`round` ](../commands/round.md):
+* [`round`](../commands/round.md):
   Round a number by a user defined precision
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
@@ -244,7 +244,7 @@ murex-docs trypipe
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`struct-keys`](../commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
@@ -260,7 +260,7 @@ murex-docs trypipe
   Table transformation tools
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [`time` ](../commands/time.md):
+* [`time`](../commands/time.md):
   Returns the execution run time of a command or block
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
@@ -274,22 +274,22 @@ murex-docs trypipe
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [`version` ](../commands/version.md):
+* [`version`](../commands/version.md):
   Get Murex version
 * [`while`](../commands/while.md):
   Loop until condition false
 
 ## Optional Builtins
 
-* [`!bz2` ](../optional/bz2.md):
+* [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
 * [`base64` ](../optional/base64.md):
   Encode or decode a base64 string
-* [`gz` ](../optional/gz.md):
+* [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
-* [`qr` ](../optional/qr.md):
+* [`qr`](../optional/qr.md):
   Creates a QR code from STDIN
-* [`select` ](../optional/select.md):
+* [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
-* [`sleep` ](../optional/sleep.md):
+* [`sleep`](../optional/sleep.md):
   Suspends the shell for a number of seconds

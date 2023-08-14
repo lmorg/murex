@@ -10,10 +10,10 @@ will be JSON dumps.
 ## Usage
 
 ```
-runtime: flags -> <stdout>
+runtime flags -> <stdout>
 ```
 
-`builtins` is an alias for `runtime: --builtins`:
+`builtins` is an alias for `runtime --builtins`:
 
 ```
 builtins -> <stdout>
@@ -24,7 +24,7 @@ builtins -> <stdout>
 List all the builtin data-types that support WriteArray()
 
 ```
-» runtime: --writearray
+» runtime --writearray
 [
     "*",
     "commonlog",
@@ -43,7 +43,7 @@ List all the builtin data-types that support WriteArray()
 List all the functions
 
 ```
-» runtime: --functions -> [ agent aliases ]
+» runtime --functions -> [ agent aliases ]
 [
     {
         "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
@@ -59,7 +59,7 @@ List all the functions
         "Summary": "Launch ssh-agent"
     },
     {
-        "Block": "\n\t# Output the aliases in human readable format\n\truntime: --aliases -\u003e formap name alias {\n        $name -\u003e sprintf: \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
+        "Block": "\n\t# Output the aliases in human readable format\n\truntime --aliases -\u003e formap name alias {\n        $name -\u003e sprintf \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
         "FileRef": {
             "Column": 1,
             "Line": 6,
@@ -77,7 +77,7 @@ List all the functions
 To get a list of every flag supported by `runtime`
 
 ```
-» runtime: --help
+» runtime --help
 [
     "--aliases",
     "--astcache",
@@ -112,7 +112,7 @@ do use multiple flags the top level of the JSON output will be a map of the
 flag names. eg
 
 ```
-» runtime: --pipes --tests
+» runtime --pipes --tests
 {
     "pipes": [
         "file",
@@ -128,7 +128,7 @@ flag names. eg
     }
 }
 
-» runtime: --pipes
+» runtime --pipes
 [
     "file",
     "std",
@@ -138,7 +138,7 @@ flag names. eg
     "udp-listen"
 ]
 
-» runtime: --tests
+» runtime --tests
 {
     "state": {},
     "test": []
@@ -334,7 +334,7 @@ functions.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

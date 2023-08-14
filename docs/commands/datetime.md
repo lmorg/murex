@@ -1,4 +1,4 @@
-# `datetime` 
+# `datetime`
 
 > A date and/or time conversion tool (like `printf` but for date and time values)
 
@@ -30,21 +30,21 @@ Read date/time value from STDIN:
 Output current date and time:
 
 ```
-» datetime: --in "{now}" --out "{go}01/02/06 15:04:05"
+» datetime --in "{now}" --out "{go}01/02/06 15:04:05"
 12/08/21 22:32:30
 ```
 
 Convert STDIN into epoch:
 
 ```
-» echo "12/08/21 22:32:30" -> datetime: --in "{go}01/02/06 15:04:05" --out "{unix}"
+» echo "12/08/21 22:32:30" -> datetime --in "{go}01/02/06 15:04:05" --out "{unix}"
 1639002750
 ```
 
 Convert value passed as a command line argument:
 
 ```
-» datetime: --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
+» datetime --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
 1639002750
 ```
 
@@ -83,7 +83,7 @@ required.
 
 ## See Also
 
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

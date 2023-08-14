@@ -62,5 +62,5 @@ empty Filename string.
   Murex's package manager
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

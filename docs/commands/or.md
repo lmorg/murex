@@ -10,9 +10,9 @@ code-blocks included as parameters are successful or not.
 ## Usage
 
 ```
-or: { code-block } { code-block } -> <stdout>
+or { code-block } { code-block } -> <stdout>
 
-!or: { code-block } { code-block } -> <stdout>
+!or { code-block } { code-block } -> <stdout>
 ```
 
 `or` supports as many or as few code-blocks as you wish.
@@ -21,7 +21,7 @@ or: { code-block } { code-block } -> <stdout>
 
 ```
 if { or { = 1+1==2 } { = 2+2==5 } { = 3+3==6 } } then {
-    out: At least one of those equations are correct
+    out At least one of those equations are correct
 }
 ```
 

@@ -22,8 +22,8 @@ trypipe { code-block } -> <stdout>
 
 ```
 trypipe {
-    out: "Hello, World!" -> grep: "non-existent string" -> cat
-    out: "This command will be ignored"
+    out "Hello, World!" -> grep: "non-existent string" -> cat
+    out "This command will be ignored"
 }
 ```
 

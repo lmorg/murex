@@ -21,30 +21,30 @@
 As a method:
 
 ```
-» let: age=18
+» let age=18
 » $age -> = < 21
 true
 
-» $age -> = < 21 -> if { out: "Under 21" } else { out: "Over 21" }
+» $age -> = < 21 -> if { out "Under 21" } else { out "Over 21" }
 Under 21
 ```
 
 As a function:
 
 ```
-» let: age=18
+» let age=18
 » = age < 21
 true
 
-» = age < 21 -> if { out: "Under 21" } else { out: "Over 21" }
+» = age < 21 -> if { out "Under 21" } else { out "Over 21" }
 Under 21
 ```
 
 Inlining as a function:
 
 ```
-» let: age=18
-» if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
+» let age=18
+» if { = age < 21 } then { out "Under 21" } else { out "Over 21" }
 Under 21
 ```
 

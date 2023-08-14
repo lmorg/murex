@@ -16,7 +16,7 @@ outputs that to STDOUT.
 ## Examples
 
 ```
-» tout: json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
+» tout json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
 {
     "Array": [
         1,

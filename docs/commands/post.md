@@ -60,14 +60,14 @@ parameter specifying the Content-Type MIME.
 standard `config` tool:
 
 ```
-config: -> [ http ]
+config -> [ http ]
 ```
 
 To change a default, for example the user agent string:
 
 ```
-config: set http user-agent "bob"
-post: google.com
+config set http user-agent "bob"
+post google.com
 ```
 
 This enables sane, repeatable and readable defaults. Read the documents on

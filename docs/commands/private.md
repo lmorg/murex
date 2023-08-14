@@ -114,5 +114,5 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a methods supported data-types
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

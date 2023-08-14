@@ -1,4 +1,4 @@
-# `str` (string) 
+# `str` (string)
 
 > string (primitive)
 
@@ -28,7 +28,7 @@ This type is modelled closely on generic but is more tailored for textual
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -36,7 +36,7 @@ This type is modelled closely on generic but is more tailored for textual
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`int` ](../types/int.md):
+* [`int`](../types/int.md):
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)

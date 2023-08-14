@@ -7,7 +7,7 @@
 This `for` loop is fills a small niche where `foreach` or `formap` are
 inappropiate in your script. It's generally not recommended to use `for`
 because it performs slower and doesn't adhere to Murex's design
-philosophy. However it does offer additional flexibility around recursion. 
+philosophy. However it does offer additional flexibility around recursion.
 
 ## Usage
 
@@ -58,7 +58,7 @@ to achieve the same thing...most of the time at least.
 For example:
 
 ```
-a: [1..5] -> foreach: i { echo $i }
+a [1..5] -> foreach i { echo $i }
 1
 2
 3
@@ -69,20 +69,20 @@ a: [1..5] -> foreach: i { echo $i }
 The different in performance can be measured. eg:
 
 ```
-» time { a: [1..9999] -> foreach: i { out: <null> $i } }
+» time { a [1..9999] -> foreach i { out <null> $i } }
 0.097643108
 
-» time { for ( i=1; i<10000; i=i+1 ) { out: <null> $i } }
+» time { for ( i=1; i<10000; i=i+1 ) { out <null> $i } }
 0.663812496
 ```
 
 You can also do step ranges with `foreach`:
 
 ```
-» time { for ( i=10; i<10001; i=i+2 ) { out: <null> $i } }
+» time { for ( i=10; i<10001; i=i+2 ) { out <null> $i } }
 0.346254973
 
-» time { a: [1..999][0,2,4,6,8],10000 -> foreach i { out: <null> $i } }
+» time { a [1..999][0,2,4,6,8],10000 -> foreach i { out <null> $i } }
 0.053924326
 ```
 

@@ -65,7 +65,7 @@ foo=bar
 » set: foo=rab
 » env -> grep: foo
 foo=bar
-» out: $foo
+» out $foo
 rab
 ```
 

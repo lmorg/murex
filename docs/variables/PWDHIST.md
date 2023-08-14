@@ -45,9 +45,9 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   How scoping works within Murex
 * [`cd`](../commands/cd.md):
   Change (working) directory
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`path` ](../types/path.md):
+* [`path`](../types/path.md):
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):
   Define a local variable and set it's value

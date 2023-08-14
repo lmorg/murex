@@ -1,4 +1,4 @@
-# `sleep` 
+# `sleep`
 
 > Suspends the shell for a number of seconds
 
@@ -10,7 +10,7 @@ of seconds.
 ## Usage
 
 ```
-sleep: integer
+sleep integer
 ```
 
 ## Examples
@@ -27,14 +27,14 @@ sleep: integer
 or similar platforms then you will need to launch with the `exec` builtin:
 
 ```
-» exec: sleep 5
+» exec sleep 5
 ```
 
 ## See Also
 
 * [`exec`](../commands/exec.md):
   Runs an executable
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
-* [`time` ](../commands/time.md):
+* [`time`](../commands/time.md):
   Returns the execution run time of a command or block

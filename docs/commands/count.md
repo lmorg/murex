@@ -9,7 +9,7 @@
 ## Usage
 
 ```
-<stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
+<stdin> -> count [ --duplications | --unique | --total ] -> <stdout>
 ```
 
 ## Examples
@@ -17,7 +17,7 @@
 Count number of items in a map, list or array:
 
 ```
-» tout: json (["a", "b", "c"]) -> count 
+» tout json (["a", "b", "c"]) -> count 
 3
 ```
 
@@ -62,19 +62,19 @@ running POSIX (eg Linux / BSD / OSX) then it is recommended to use `wc`
 instead. But be mindful that `wc` will also count new line characters.
 
 ```
-» out: "foobar" -> count
+» out "foobar" -> count
 1
 
-» out: "foo\nbar" -> count
+» out "foo\nbar" -> count
 2
 
-» out: "foobar" -> wc: -c
+» out "foobar" -> wc: -c
 7
 
-» out: "foo\nbar" -> wc: -c
+» out "foo\nbar" -> wc: -c
 8
 
-» printf: "foobar" -> wc: -c
+» printf "foobar" -> wc: -c
 6
 # (printf does not print a trailing new line)
 ```
@@ -89,7 +89,7 @@ will have a value of `2` while ever other entry has a value of `1` because they
 only appear once in the quote.
 
 ```
-» out: "the quick brown fox jumped over the lazy dog" -> jsplit: \s -> count: --duplications
+» out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --duplications
 {
     "brown": 1,
     "dog": 1,
@@ -126,7 +126,7 @@ unique count should be one less than the total count:
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -138,13 +138,13 @@ unique count should be one less than the total count:
   Splits STDIN into a JSON array based on a regex parameter
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

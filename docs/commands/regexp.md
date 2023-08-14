@@ -18,7 +18,7 @@ array or list of strings - thus `regexp` is Murex data-type aware.
 ### Find elements
 
 ```
-» ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
+» ja [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
 [
     "mon",
     "fri",
@@ -35,7 +35,7 @@ characters because those are inside the parenthesis.
 Elements containing
 
 ```
-» ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
+» ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
 [
     "monday",
     "friday",
@@ -46,7 +46,7 @@ Elements containing
 Elements excluding
 
 ```
-» ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
+» ja [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
 [
     "tuesday",
     "wednesday",
@@ -58,7 +58,7 @@ Elements excluding
 ### Substitute expression
 
 ```
-» ja: [monday..sunday] -> regexp 's/day/night/'
+» ja [monday..sunday] -> regexp 's/day/night/'
 [
     "monnight",
     "tuesnight",
@@ -106,15 +106,15 @@ same data-type.
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`match`](../commands/match.md):
   Match an exact value in an array
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable

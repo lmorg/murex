@@ -19,7 +19,7 @@ This will enable or disable debugging mode.
 ```
 <stdin> -> debug -> <stdout>
 
-debug: boolean -> <stdout>
+debug boolean -> <stdout>
 
 debug -> <stdout>
 ```
@@ -29,7 +29,7 @@ debug -> <stdout>
 Return debugging information on the previous function:
 
 ```
-» echo: "hello, world!" -> debug 
+» out "hello, world!" -> debug 
 {
     "DataType": {
         "Go": "[]string",
@@ -106,10 +106,10 @@ Return debugging information on the previous function:
 Enable or disable debug mode:
 
 ```
-» debug: on
+» debug on
 true
 
-» debug: off
+» debug off
 false
 ```
 

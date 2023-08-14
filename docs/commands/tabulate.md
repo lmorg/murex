@@ -48,7 +48,7 @@ for dynamically turning command like program help output into JSON maps for
 `autocomplete`'s **DynamicDesc** blocks:
 
 ```
-rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column-wraps --key-inc-hint
+rsync --help -> @[^Options$..--help]re -> tabulate --map --split-comma --column-wraps --key-inc-hint
 ```
 
 ## See Also

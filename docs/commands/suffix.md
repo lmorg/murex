@@ -15,7 +15,7 @@ Takes a list from STDIN and returns that same list with each element suffixed.
 ## Examples
 
 ```
-» ja: [Monday..Wednesday] -> suffix foobar
+» ja [Monday..Wednesday] -> suffix foobar
 [
     "Mondayfoobar",
     "Tuesdayfoobar",
@@ -28,8 +28,8 @@ Takes a list from STDIN and returns that same list with each element suffixed.
 Supported data types can queried via `runtime`
 
 ```
-runtime: --marshallers
-runtime: --unmarshallers
+runtime --marshallers
+runtime --unmarshallers
 ```
 
 ## Synonyms

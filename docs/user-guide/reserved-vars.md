@@ -42,7 +42,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Define an environmental variable and set it's value
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
+* [`hostname` (str)](../variables/hostname.md):
+  Hostname of the current machine
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [hostname](../variables/hostname.md):
-  

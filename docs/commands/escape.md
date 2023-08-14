@@ -1,6 +1,6 @@
 # `escape`
 
-> Escape or unescape input 
+> Escape or unescape input
 
 ## Description
 

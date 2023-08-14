@@ -7,11 +7,11 @@
 Unlike bash, Murex also supports some special ranges:
 
 ```  
-» a: [mon..sun]
-» a: [monday..sunday]
-» a: [jan..dec]
-» a: [january..december]
-» a: [spring..winter]
+» a [mon..sun]
+» a [monday..sunday]
+» a [jan..dec]
+» a [january..december]
+» a [spring..winter]
 ```
 
 Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
@@ -40,7 +40,7 @@ You can also inline arrays with the `%[]` syntax, eg:
 ## Examples
 
 ```
-» a: [summer..winter]
+» a [summer..winter]
 summer
 autumn
 winter
@@ -57,7 +57,7 @@ return will be in title case.
 #### lower case
 
 ```
-» a: [monday..wednesday]
+» a [monday..wednesday]
 monday
 tuesday
 wednesday
@@ -66,7 +66,7 @@ wednesday
 #### Title Case
 
 ```
-» a: [Monday..Wednesday]
+» a [Monday..Wednesday]
 Monday
 Tuesday
 Wednesday
@@ -75,7 +75,7 @@ Wednesday
 #### UPPER CASE
 
 ```
-» a: [MONDAY..WEDNESDAY]
+» a [MONDAY..WEDNESDAY]
 MONDAY
 TUESDAY
 WEDNESDAY
@@ -87,7 +87,7 @@ Where the special ranges differ from a regular range is they cannot
 cannot down. eg `a: [3..1]` would output
 
 ```
-» a: [3..1]
+» a [3..1]
 3
 2
 1
@@ -97,7 +97,7 @@ however a negative range in special ranges will cycle through to the end
 of the range and then loop back from the start:
 
 ```
-» a: [Thursday..Wednesday]
+» a [Thursday..Wednesday]
 Thursday
 Friday
 Saturday
@@ -114,7 +114,7 @@ backwards through the list.
 If you did want to reverse then pipe the output into another tool:
 
 ```
-» a: [Monday..Friday] -> mtac
+» a [Monday..Friday] -> mtac
 Friday
 Thursday
 Wednesday
@@ -222,13 +222,13 @@ var rangeMoon = map[string]int{
   Create arrays of dates
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
   Count items in a map, list or array
-* [`datetime` ](../commands/datetime.md):
+* [`datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array

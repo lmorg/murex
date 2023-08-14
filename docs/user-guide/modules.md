@@ -117,7 +117,7 @@ empty Filename string.
   Murex's package manager
 * [`private`](../commands/private.md):
   Define a private function block
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

@@ -28,10 +28,10 @@ Output an array of editors installed:
 
 ```
 switch {
-    if { which: vi    } { out: vi    }
-    if { which: vim   } { out: vim   }
-    if { which: nano  } { out: nano  }
-    if { which: emacs } { out: emacs }
+    if { which vi    } { out vi    }
+    if { which vim   } { out vim   }
+    if { which nano  } { out nano  }
+    if { which emacs } { out emacs }
 } -> format: json
 ```
 
@@ -40,22 +40,22 @@ A higher/lower game written using `switch`:
 ```
 function higherlower {
   try {
-    rand: int 100 -> set rand
+    rand int 100 -> set rand
     while { $rand } {
-      read: guess "Guess a number between 1 and 100: "
+      read guess "Guess a number between 1 and 100: "
 
       switch {
         case: { = $guess < $rand } then {
-          out: "Too low"
+          out "Too low"
         }
 
         case: { = $guess > $rand } then {
-          out: "Too high"
+          out "Too high"
         }
 
         default: {
-          out: "Correct"
-          let: rand=0
+          out "Correct"
+          let rand=0
         }
       }
     }
@@ -66,12 +66,12 @@ function higherlower {
 String matching with `switch`:
 
 ```
-read: name "What is your name? "
+read name "What is your name? "
 switch $name {
-    case "Tom"   { out: "I have a brother called Tom" }
-    case "Dick"  { out: "I have an uncle called Dick" }
-    case "Sally" { out: "I have a sister called Sally" }
-    default      { err: "That is an odd name" }
+    case "Tom"   { out "I have a brother called Tom" }
+    case "Dick"  { out "I have an uncle called Dick" }
+    case "Sally" { out "I have a sister called Sally" }
+    default      { err "That is an odd name" }
 }
 ```
 
@@ -104,10 +104,10 @@ You can use code blocks to return strings too
 
 ```
 switch foo {
-    case {out: bar} then {
+    case {out bar} then {
         # not executed because foo != bar
     }
-    case {out: foo} then {
+    case {out foo} then {
         # executed because foo != foo
     }
 }

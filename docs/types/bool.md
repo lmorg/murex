@@ -1,4 +1,4 @@
-# `bool` 
+# `bool`
 
 > Boolean (primitive)
 
@@ -17,7 +17,7 @@ A true or false value.
 
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [`str` (string) ](../types/str.md):
+* [`str` (string)](../types/str.md):
   string (primitive)
 
 ### Read more about type hooks

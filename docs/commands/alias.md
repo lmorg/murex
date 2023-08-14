@@ -23,7 +23,7 @@ entire alias within quotes. For example:
 # bad :(
 » alias hw="out Hello, World!"
 » hw
-exec: "out\\ Hello,\\ World!": executable file not found in $PATH
+exec "out\\ Hello,\\ World!": executable file not found in $PATH
 
 # good :)
 » alias hw=out "Hello, World!"
@@ -61,7 +61,7 @@ Hello, World!
 
 » !alias hw
 » hw
-exec: "hw": executable file not found in $PATH
+exec "hw": executable file not found in $PATH
 ```
 
 ### Order of preference
@@ -124,5 +124,5 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block

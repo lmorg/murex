@@ -11,9 +11,9 @@ section below.
 ## Usage
 
 ```
-event: onPrompt name=[before|after|abort|eof] { code block }
+event onPrompt name=[before|after|abort|eof] { code block }
 
-!event: onPrompt [before_|after_|abort_|eof_]name
+!event onPrompt [before_|after_|abort_|eof_]name
 ```
 
 ## Valid Interrupts
@@ -32,24 +32,24 @@ event: onPrompt name=[before|after|abort|eof] { code block }
 **Interrupt 'before':**
 
 ```
-event: onPrompt example=before {
-    out: "This will appear before your command prompt"
+event onPrompt example=before {
+    out "This will appear before your command prompt"
 }
 ```
 
 **Interrupt 'after':**
 
 ```
-event: onPrompt example=after {
-    out: "This will appear after you've hit [enter] on your command prompt"
-    out: "...but before the command executes"
+event onPrompt example=after {
+    out "This will appear after you've hit [enter] on your command prompt"
+    out "...but before the command executes"
 }
 ```
 
 **Echo the command line:**
 
 ```
-» event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
+» event onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
 » echo hello world
 echo hello world
 hello world

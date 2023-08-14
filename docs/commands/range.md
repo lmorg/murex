@@ -1,4 +1,4 @@
-# `[` (range) 
+# `[` (range)
 
 > Outputs a ranged subset of data from STDIN
 
@@ -25,7 +25,7 @@ instead**
 **Range over all months after March:**
 
 ```
-» a: [January..December] -> [March..]se
+» a [January..December] -> [March..]se
 April
 May
 June
@@ -42,7 +42,7 @@ December
 By default, ranges start from one, `1`
 
 ```
-» a: [January..December] -> [5..9]
+» a [January..December] -> [5..9]
 May
 June
 July
@@ -55,7 +55,7 @@ September
 This usage is similar to `head -n3`
 
 ```
-» a: [January..December] -> [..3]
+» a [January..December] -> [..3]
 October
 November
 December
@@ -66,7 +66,7 @@ December
 This usage is similar to `tail -n3`
 
 ```
-» a: [January..December] -> [-3..]
+» a [January..December] -> [-3..]
 October
 November
 December
@@ -110,7 +110,7 @@ December
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table

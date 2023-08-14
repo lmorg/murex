@@ -53,8 +53,8 @@ Using `eval` to append to an array (in this instance, adding a function
 name to the list of "safe" commands)
 
 ```
-» function: foobar { -> match foobar }
-» config: eval shell safe-commands { -> append foobar }
+» function foobar { -> match foobar }
+» config eval shell safe-commands { -> append foobar }
 ```
 
 ## Detail

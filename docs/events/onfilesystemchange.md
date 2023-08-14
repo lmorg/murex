@@ -46,9 +46,9 @@ the operation will be pipe delimited. For example `create|chmod`
 ## Usage
 
 ```
-event: onFileSystemChange name=path { code block }
+event onFileSystemChange name=path { code block }
 
-!event: onFileSystemChange name
+!event onFileSystemChange name
 ```
 
 ## Valid Interrupts
@@ -62,7 +62,7 @@ This will automatically add any new files in your current working directory to
 git upon file creation:
 
 ```
-event: onFileSystemChange example=. {
+event onFileSystemChange example=. {
     -> set event
     if { $event.Interrupt.Operation =~ "create" } then {
         git add $event.Interrupt.Path

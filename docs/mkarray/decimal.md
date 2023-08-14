@@ -33,21 +33,21 @@ You can also inline arrays with the `%[]` syntax, eg:
 ## Examples
 
 ```
-» a: [1..3]
+» a [1..3]
 1
 2
 3
 ```
 
 ```
-» a: [3..1]
+» a [3..1]
 3
 2
 1
 ```
 
 ```
-» a: [01..03]
+» a [01..03]
 01
 02
 03
@@ -116,7 +116,7 @@ arrays such as JSON (`ja`).
   Create arrays of integers from non-decimal number bases
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
