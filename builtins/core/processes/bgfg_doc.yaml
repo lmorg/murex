@@ -13,7 +13,7 @@
 
     ```
     bg { code block }
-    
+
     <stdin> -> bg
     ```
 
@@ -21,7 +21,7 @@
 
     ```
     bg { code block }
-    
+
     <stdin> -> bg
 
     bg fid
@@ -47,12 +47,12 @@
     cross platform while `bg int` currently does not work on Windows nor Plan 9.
   Synonyms:
   Related:
-  - fid-list
-  - fid-kill
-  - fid-killall
-  - fg
-  - jobs
-  - exec
+    - fid-list
+    - fid-kill
+    - fid-killall
+    - fg
+    - jobs
+    - exec
 
 - DocumentID: fg
   Title: >+
@@ -64,7 +64,7 @@
     `fg` resumes a stopped process and sends it into the foreground.
   Usage: |-
     POSIX only:
-    
+
     ```
     fg fid
     ```
@@ -75,9 +75,9 @@
     for Windows (due to the kernel not supporting the right signals) nor Plan 9.
   Synonyms:
   Related:
-  - fid-list
-  - fid-kill
-  - fid-killall
-  - bg
-  - jobs
-  - exec
+    - fid-list
+    - fid-kill
+    - fid-killall
+    - bg
+    - jobs
+    - exec

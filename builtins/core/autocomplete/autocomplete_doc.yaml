@@ -19,7 +19,7 @@
 
     Currently there is no support for undefining an autocompletion rule however
     you can overwrite existing rules.
-    
+
     ## Directives
 
     {{ include "builtins/core/autocomplete/autocomplete_doc.inc.md" }}
@@ -28,15 +28,13 @@
     set: define a new autocompletion schema
   Synonyms:
   Related:
-  - config
-  - private
-  - function
-  - alias
-  - summary
-  - types/mxjson
-  - index
-  - get-type
-  - switch
-  - stdin
-
-  
+    - config
+    - private
+    - function
+    - alias
+    - summary
+    - types/mxjson
+    - index
+    - get-type
+    - switch
+    - stdin

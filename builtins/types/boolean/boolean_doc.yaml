@@ -1,6 +1,6 @@
 - DocumentID: bool
   Title: >-
-    `bool` 
+    `bool`
   CategoryID: types
   Summary: >-
     Boolean (primitive)
@@ -14,7 +14,5 @@
   Detail:
   Associations:
   Related:
-  - str
-  - num
-
-
+    - str
+    - num

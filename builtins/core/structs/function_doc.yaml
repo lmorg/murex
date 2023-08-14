@@ -20,7 +20,7 @@
     # bad :(
     » alias hw="out Hello, World!"
     » hw
-    exec: "out\\ Hello,\\ World!": executable file not found in $PATH
+    exec "out\\ Hello,\\ World!": executable file not found in $PATH
     
     # good :)
     » alias hw=out "Hello, World!"
@@ -57,7 +57,7 @@
 
     » !alias hw
     » hw
-    exec: "hw": executable file not found in $PATH
+    exec "hw": executable file not found in $PATH
     ```
 
     ### Order of preference
@@ -92,14 +92,14 @@
     Define a function:
     
     ```
-    function: name { code-block }
+    function name { code-block }
     ```
 
     Define a function with variable names defined (**default value** and
     **description** are optional parameters):
 
     ```
-    function: name (
+    function name (
         variable1: data-type [default-value] "description",
         variable2: data-type [default-value] "description"
     ) {
@@ -110,7 +110,7 @@
     Undefine a function:
 
     ```
-    !function: command
+    !function command
     ```
   Examples: |-
     ```
@@ -120,7 +120,7 @@
 
     » !function hw
     » hw
-    exec: "hw": executable file not found in $PATH
+    exec "hw": executable file not found in $PATH
     ```
   Flags:
   Detail: |-
@@ -151,7 +151,7 @@
     within the function declaration:
 
     ```
-    function: name (
+    function name (
         variable1: data-type [default-value] "description",
         variable2: data-type [default-value] "description"
     ) {
@@ -199,7 +199,7 @@
 
     ```
     function: hello (name: str) {
-        out: "Hello $name, pleased to meet you."
+        out "Hello $name, pleased to meet you."
     }
     ```
 
@@ -208,8 +208,8 @@
     then you will be prompted for it's value. That could look something like this:
 
     ```
-    » function: hello (name: str) {
-    »     out: "Hello $name, pleased to meet you."
+    » function hello (name: str) {
+    »     out "Hello $name, pleased to meet you."
     » }
 
     » hello
@@ -228,7 +228,7 @@
     function will fail early if an incorrect value is presented. For example:
 
     ```
-    » function: age (age: int) { out: "$age is a great age." }
+    » function age (age: int) { out "$age is a great age." }
     
     » age
     Please enter a value for 'age': ten
@@ -251,7 +251,7 @@
     allows the user to press enter without inputting a value:
 
     ```
-    » function: hello (name: str [John]) { out: "Hello $name, pleased to meet you." }
+    » function hello (name: str [John]) { out "Hello $name, pleased to meet you." }
     
     » hello
     Please enter a value for 'name' [John]: 

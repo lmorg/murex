@@ -1,6 +1,6 @@
 - DocumentID: toml
   Title: >-
-    `toml` 
+    `toml`
   CategoryID: types
   Summary: >-
     Tom's Obvious, Minimal Language (TOML)
@@ -13,7 +13,7 @@
   Usage:
   Examples: |-
     Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
-    
+
     ```
     # This is a TOML document.
 
@@ -50,7 +50,7 @@
     ]
     ```
   Hooks:
-#    ReadMap(): Works with TOML maps
+    #    ReadMap(): Works with TOML maps
     ReadArray(): Hook supported albeit TOML doesn't support naked arrays
     ReadArrayWithType(): Hook supported albeit TOML doesn't support naked arrays
     ReadIndex(): Works against all properties in TOML
@@ -60,19 +60,19 @@
   Detail:
   Associations:
     Mimes:
-    - application/toml
-    - application/x-toml
-    - text/toml
-    - text/x-toml
+      - application/toml
+      - application/x-toml
+      - text/toml
+      - text/x-toml
     Extensions:
-    - toml
+      - toml
   Related:
-  - yaml
-  - json
-  - jsonl
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
+    - yaml
+    - json
+    - jsonl
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime

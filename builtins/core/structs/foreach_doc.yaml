@@ -38,7 +38,7 @@
   Examples: |-
     There are two basic ways you can write a `foreach` loop depending on how you
     want the iterated element passed to the code block.
-    
+
     The first option is to specify a temporary variable which can be read by the
     code block:
 
@@ -175,24 +175,24 @@
 
     The output is the same but now it's defined as `yaml` so any further pipelined
     processes will now automatically use YAML marshallers when reading that data.
-    
+
     {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Synonyms:
   Related:
-  - formap
-  - for
-  - while
-  - if
-  - format
-  - cast
-  - a
-  - ja
-  - types/json
-  - types/jsonl
-  - types/yaml
-  - out
-  - left
-  - debug
-  - element
-  - apis/ReadArrayWithType
-  - break
+    - formap
+    - for
+    - while
+    - if
+    - format
+    - cast
+    - a
+    - ja
+    - types/json
+    - types/jsonl
+    - types/yaml
+    - out
+    - left
+    - debug
+    - element
+    - apis/ReadArrayWithType
+    - break

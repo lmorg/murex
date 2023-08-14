@@ -1,6 +1,6 @@
 - DocumentID: version
   Title: >+
-    `version` 
+    `version`
   CategoryID: commands
   Summary: >-
     Get Murex version
@@ -39,11 +39,11 @@
   Detail:
   Synonyms:
   Related:
-  - config
-  - runtime
-  - function
-  - private
-  - murex-parser
-  - source
-  - autocomplete
-  - args
+    - config
+    - runtime
+    - function
+    - private
+    - murex-parser
+    - source
+    - autocomplete
+    - args

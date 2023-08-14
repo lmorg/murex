@@ -1,6 +1,6 @@
 - DocumentID: path
   Title: >-
-    `path` 
+    `path`
   CategoryID: types
   Summary: >-
     Structured object for working with file and directory paths
@@ -19,7 +19,7 @@
     ```
 
     **Check if path exists:**
-    
+
     ```
     » set path foobar="/dev/foobar"
     » $foobar.2.Exists
@@ -69,12 +69,12 @@
     Unmarshal(): >-
       Supported
   Detail: |-
-   
+
   Associations:
     Mimes:
     Extensions:
   Related:
-  - paths
-  - variables/PWD
-  - variables/PWDHIST
-  - variables/MUREX_EXE
+    - paths
+    - variables/PWD
+    - variables/PWDHIST
+    - variables/MUREX_EXE

@@ -12,14 +12,14 @@
     with the `mtac` builtin is that it is data-type aware. So it doesn't just
     function as a replacement for `tac` but it also works on JSON arrays,
     s-expressions, and any other data-type supporting arrays compiled into
-    Murex. 
+    Murex.
   Usage: |-
     ```
     <stdin> -> mtac -> <stdout>
     ```
   Examples: |-
     ```
-    » ja: [Monday..Friday] -> mtac
+    » ja [Monday..Friday] -> mtac
     [
         "Friday",
         "Thursday",
@@ -29,7 +29,7 @@
     ]
 
     # Normal output (without mtac)
-    » ja: [Monday..Friday]
+    » ja [Monday..Friday]
     [
         "Monday",
         "Tuesday",
@@ -48,19 +48,19 @@
     In practical terms you shouldn't notice any difference except for when
     STDIN is a long running process or non-standard stream (eg network pipe).
   Synonyms:
-  - mtac
-  - list.reverse
+    - mtac
+    - list.reverse
   Related:
-  - a
-  - ja
-  - ta
-  - count
-  - 2darray
-  - append
-  - prepend
-  - suffix
-  - prefix
-  - jsplit
-  - msort
-  - pretty
-  - map
+    - a
+    - ja
+    - ta
+    - count
+    - 2darray
+    - append
+    - prepend
+    - suffix
+    - prefix
+    - jsplit
+    - msort
+    - pretty
+    - map
