@@ -355,6 +355,14 @@ func (v *Variables) GetDataType(path string) string {
 		return ""
 	case 1:
 		return v.getDataType(split[0])
+	case 2:
+		switch split[0] {
+		case GLOBAL:
+			return getGlobalDataType(split[1])
+		case ENV:
+			return getEnvVarDataType(split[1])
+		}
+		fallthrough
 	default:
 		val, err := v.getValue(split[0])
 		if err != nil {
@@ -435,19 +443,10 @@ func (v *Variables) getDataType(name string) string {
 	// variable not found so lets fallback to the environmental variables
 	value := os.Getenv(name)
 	if value != "" {
-		return envVarTypes(name)
+		return getEnvVarDataType(name)
 	}
 
 	return types.Null
-}
-
-func envVarTypes(name string) string {
-	switch name {
-	case "PATH", "LD_LIBRARY_PATH":
-		return types.Paths
-	default:
-		return types.String
-	}
 }
 
 func (v *Variables) getDataTypeValue(name string) (string, bool) {
@@ -461,6 +460,25 @@ func (v *Variables) getDataTypeValue(name string) (string, bool) {
 	dt := variable.DataType
 	v.mutex.Unlock()
 	return dt, true
+}
+
+func getGlobalDataType(name string) (dt string) {
+	GlobalVariables.mutex.Lock()
+	v := GlobalVariables.vars[name]
+	if v != nil {
+		dt = v.DataType
+	}
+	GlobalVariables.mutex.Unlock()
+	return
+}
+
+func getEnvVarDataType(name string) string {
+	switch name {
+	case "PATH", "LD_LIBRARY_PATH":
+		return types.Paths
+	default:
+		return types.String
+	}
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
@@ -481,6 +499,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 			return errVarCannotUpdateNested(split[0], err)
 		}
 		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
+		//err = v.set(p, split[0], variable, v.getNestedDataType(split[0], split[1]), split[1:])
 		if err != nil {
 			return errVarCannotUpdateNested(split[0], err)
 		}
@@ -493,6 +512,14 @@ func (v *Variables) getNestedDataType(name string, dataType string) string {
 		return dataType
 	}
 	return v.GetDataType(name)
+	/*switch name {
+	case GLOBAL:
+		return getGlobalDataType(branch1)
+	case ENV:
+		return getEnvVarDataType(branch1)
+	default:
+		return v.GetDataType(name)
+	}*/
 }
 
 // Set writes a variable

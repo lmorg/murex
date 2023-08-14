@@ -78,7 +78,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.Assign:
 			err = expAssign(tree, true)
 		case symbols.AssignUpdate:
-			err = expAssign(tree, false)
+			err = expAssign(tree, true)
 		case symbols.AssignAndAdd:
 			err = expAssignAdd(tree)
 		case symbols.AssignAndSubtract:
