@@ -13,7 +13,7 @@
     previous function succeeds then the condition is `true`).
   Usage: |-
     ### Function `if`:
-    
+
     ```
     if { code-block } then {
         # true
@@ -21,9 +21,9 @@
         # false
     }
     ```
-    
+
     ### Method `if`:
-    
+
     ```
     command -> if {
         # true
@@ -33,15 +33,15 @@
     ```
 
     ### Negative Function `if`:
-    
+
     ```
     !if { code-block } then {
         # false
     }
     ```
-    
+
     ### Negative Method `if`:
-    
+
     ```
     command -> !if {
         # false
@@ -97,17 +97,17 @@
     (depending on your use case) if you only need to occasionally inspect the
     conditionals output.
   Synonyms:
-  - if
-  - "!if"
+    - if
+    - "!if"
   Related:
-  - trypipe
-  - try
-  - catch
-  - "true"
-  - "false"
-  - "not"
-  - and
-  - or
-  - test
-  - debug
-  - switch
+    - trypipe
+    - try
+    - catch
+    - "true"
+    - "false"
+    - "not"
+    - and
+    - or
+    - test
+    - debug
+    - switch

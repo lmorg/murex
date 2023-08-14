@@ -1,6 +1,6 @@
 - DocumentID: json
   Title: >-
-    `json` 
+    `json`
   CategoryID: types
   Summary: >-
     JavaScript Object Notation (JSON)
@@ -11,7 +11,7 @@
   Usage: |-
   Examples: |-
     Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
-    
+
     ```
     {
       "firstName": "John",
@@ -55,24 +55,23 @@
     {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Associations:
     Mimes:
-    - application/json
-    - application/x-json
-    - text/json
-    - text/x-json
+      - application/json
+      - application/x-json
+      - text/json
+      - text/x-json
     Extensions:
-    - json
+      - json
   Related:
-  - yaml
-  - toml
-  - hcl
-  - jsonl
-  - jsonc
-  - mxjson
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-  - commands/pretty
-
+    - yaml
+    - toml
+    - hcl
+    - jsonl
+    - jsonc
+    - mxjson
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime
+    - commands/pretty

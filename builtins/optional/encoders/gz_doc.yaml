@@ -1,6 +1,6 @@
 - DocumentID: "gz"
   Title: >-
-    `gz` 
+    `gz`
   CategoryID: optional
   Summary: >-
     Compress or decompress a gzip file
@@ -9,18 +9,18 @@
   Usage: |-
     ```
     <stdin> -> gz -> <stdout>
-    
+
     <stdin> -> !gz -> <stdout>
     ```
   Examples: |-
   Detail: |-
   Synonyms:
-  - "gz"
-  - "!gz"
+    - "gz"
+    - "!gz"
   Related:
-  - base64
-  - bz2
-  - commands/escape
-  - commands/eschtml
-  - commands/escurl
-  - commands/esccli
+    - base64
+    - bz2
+    - commands/escape
+    - commands/eschtml
+    - commands/escurl
+    - commands/esccli

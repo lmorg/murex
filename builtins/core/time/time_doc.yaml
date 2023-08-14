@@ -1,6 +1,6 @@
 - DocumentID: time
   Title: >-
-    `time` 
+    `time`
   CategoryID: commands
   Summary: >-
     Returns the execution run time of a command or block
@@ -9,13 +9,13 @@
     returns it's running time.
   Usage: |-
     ```
-    time: command parameters -> <stderr>
+    time command parameters -> <stderr>
 
-    time: { code-block } -> <stderr>
+    time { code-block } -> <stderr>
     ```
   Examples: |-
     ```
-    » time: sleep 5
+    » time sleep 5
     5.000151513
 
     » time { out "Going to sleep"; sleep 5; out "Waking up" }
@@ -29,6 +29,6 @@
     and STDERR as usual.
   Synonyms:
   Related:
-  - optional/sleep
-  - source
-  - exec
+    - optional/sleep
+    - source
+    - exec

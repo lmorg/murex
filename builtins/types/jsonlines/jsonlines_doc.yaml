@@ -1,6 +1,6 @@
 - DocumentID: jsonl
   Title: >-
-    `jsonl` 
+    `jsonl`
   CategoryID: types
   Summary: >-
     JSON Lines
@@ -15,7 +15,7 @@
   Usage:
   Examples: |-
     Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
-    
+
     ### Tabulated data
 
     ```
@@ -27,9 +27,9 @@
     ```
 
     This format is equatable to `generic` and `csv`.
-    
+
     ### Nested objects
-    
+
     ```
     {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
     {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
@@ -98,52 +98,52 @@
     cases for JSON lines.
   Associations:
     Mimes:
-    - application/jsonl
-    - application/x-jsonl
-    - text/jsonl
-    - text/x-jsonl
+      - application/jsonl
+      - application/x-jsonl
+      - text/jsonl
+      - text/x-jsonl
 
-    - application/jsonlines
-    - application/x-jsonlines
-    - text/jsonlines
-    - text/x-jsonlines
+      - application/jsonlines
+      - application/x-jsonlines
+      - text/jsonlines
+      - text/x-jsonlines
 
-    - application/json-lines
-    - application/x-json-lines
-    - text/json-lines
-    - text/x-json-lines
+      - application/json-lines
+      - application/x-json-lines
+      - text/json-lines
+      - text/x-json-lines
 
-    - application/ldjson
-    - application/x-ldjson
-    - text/ldjson
-    - text/x-ldjson
+      - application/ldjson
+      - application/x-ldjson
+      - text/ldjson
+      - text/x-ldjson
 
-    - application/ndjson
-    - application/x-ndjson
-    - text/ndjson
-    - text/x-ndjson
+      - application/ndjson
+      - application/x-ndjson
+      - text/ndjson
+      - text/x-ndjson
 
     Extensions:
-    - "jsonl"
-    - "jsonlines"
-    - "json-lines"
-    - "ldjson"
-    - "ndjson"
-    - "murex_history"
+      - "jsonl"
+      - "jsonlines"
+      - "json-lines"
+      - "ldjson"
+      - "ndjson"
+      - "murex_history"
   Related:
-  - yaml
-  - toml
-  - hcl
-  - mxjson
-  - json
-  - jsonc
-  - generic
-  - csv
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/foreach
-  - commands/runtime
-  - commands/pretty
+    - yaml
+    - toml
+    - hcl
+    - mxjson
+    - json
+    - jsonc
+    - generic
+    - csv
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/foreach
+    - commands/runtime
+    - commands/pretty

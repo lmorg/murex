@@ -15,9 +15,9 @@
     from the prompt can trigger this event.
   Usage: |-
     ```
-    event: onCommandCompletion name=command { code block }
+    event onCommandCompletion name=command { code block }
 
-    !event: onCommandCompletion name
+    !event onCommandCompletion name
     ```
   Flags:
     <command>: >-
@@ -31,7 +31,7 @@
     will re-run `pacman` with `sudo`.
 
     ```
-    event: onCommandCompletion sudo-pacman=pacman {
+    event onCommandCompletion sudo-pacman=pacman {
         <stdin> -> set event
         read-named-pipe: $event.Interrupt.Stderr \
         -> regexp 'm/error: you cannot perform this operation unless you are root/' \

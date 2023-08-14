@@ -13,21 +13,21 @@
     {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
-    » a: [1..3]
+    » a [1..3]
     1
     2
     3
     ```
 
     ```
-    » a: [3..1]
+    » a [3..1]
     3
     2
     1
     ```
 
     ```
-    » a: [01..03]
+    » a [01..03]
     01
     02
     03
@@ -88,16 +88,15 @@
     ```
   Synonyms:
   Related:
-  - non-decimal
-  - character
-  - commands/a
-  - commands/ja
-  - commands/ta
-  - commands/range
-  - commands/count
-  - commands/index
-  - commands/element
-
+    - non-decimal
+    - character
+    - commands/a
+    - commands/ja
+    - commands/ta
+    - commands/range
+    - commands/count
+    - commands/index
+    - commands/element
 
 - DocumentID: non-decimal
   Title: >+
@@ -110,8 +109,8 @@
     using an `x` or `.` in the end range:
 
     ```
-    a: [00..ffx16]
-    a: [00..ff.16]
+    a [00..ffx16]
+    a [00..ff.16]
     ```
 
     All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
@@ -126,7 +125,7 @@
     {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
-    » a: [08..10x16]
+    » a [08..10x16]
     08
     09
     0a
@@ -139,7 +138,7 @@
     ```
 
     ```
-    » a: [10..08x16]
+    » a [10..08x16]
     10
     f
     e
@@ -158,7 +157,7 @@
     do so by merging two decimal integer ranges together. For example
 
     ```
-    » a: [05..10x8].[0..7]
+    » a [05..10x8].[0..7]
     05.0
     05.1
     05.2
@@ -202,16 +201,15 @@
     ```
   Synonyms:
   Related:
-  - decimal
-  - character
-  - commands/a
-  - commands/ja
-  - commands/ta
-  - commands/range
-  - commands/count
-  - commands/index
-  - commands/element
-
+    - decimal
+    - character
+    - commands/a
+    - commands/ja
+    - commands/ta
+    - commands/range
+    - commands/count
+    - commands/index
+    - commands/element
 
 - DocumentID: character
   Title: >+
@@ -223,10 +221,10 @@
     You can create arrays from a range of letters (a to z):
 
     ```
-    » a: [a..z]
-    » a: [z..a]
-    » a: [A..Z]
-    » a: [Z..A]
+    » a [a..z]
+    » a [z..a]
+    » a [A..Z]
+    » a [Z..A]
     ```
 
     ...or any characters within that range.
@@ -236,14 +234,14 @@
     {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
-    » a: [a..c]
+    » a [a..c]
     a
     b
     c
     ```
 
     ```
-    » a: [c..a]
+    » a [c..a]
     c
     b
     a
@@ -252,16 +250,15 @@
   Detail:
   Synonyms:
   Related:
-  - decimal
-  - non-decimal
-  - commands/a
-  - commands/ja
-  - commands/ta
-  - commands/range
-  - commands/count
-  - commands/index
-  - commands/element
-
+    - decimal
+    - non-decimal
+    - commands/a
+    - commands/ja
+    - commands/ta
+    - commands/range
+    - commands/count
+    - commands/index
+    - commands/element
 
 - DocumentID: special
   Title: >+
@@ -273,11 +270,11 @@
     Unlike bash, Murex also supports some special ranges:
 
     ```  
-    » a: [mon..sun]
-    » a: [monday..sunday]
-    » a: [jan..dec]
-    » a: [january..december]
-    » a: [spring..winter]
+    » a [mon..sun]
+    » a [monday..sunday]
+    » a [jan..dec]
+    » a [january..december]
+    » a [spring..winter]
     ```
 
     {{ include "gen/includes/mkarray-range-description.inc.md" }}
@@ -285,7 +282,7 @@
     {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
-    » a: [summer..winter]
+    » a [summer..winter]
     summer
     autumn
     winter
@@ -301,7 +298,7 @@
     #### lower case
 
     ```
-    » a: [monday..wednesday]
+    » a [monday..wednesday]
     monday
     tuesday
     wednesday
@@ -310,16 +307,16 @@
     #### Title Case
 
     ```
-    » a: [Monday..Wednesday]
+    » a [Monday..Wednesday]
     Monday
     Tuesday
     Wednesday
     ```
 
     #### UPPER CASE
-  
+
     ```
-    » a: [MONDAY..WEDNESDAY]
+    » a [MONDAY..WEDNESDAY]
     MONDAY
     TUESDAY
     WEDNESDAY
@@ -331,7 +328,7 @@
     cannot down. eg `a: [3..1]` would output
 
     ```
-    » a: [3..1]
+    » a [3..1]
     3
     2
     1
@@ -341,7 +338,7 @@
     of the range and then loop back from the start:
 
     ```
-    » a: [Thursday..Wednesday]
+    » a [Thursday..Wednesday]
     Thursday
     Friday
     Saturday
@@ -358,7 +355,7 @@
     If you did want to reverse then pipe the output into another tool:
 
     ```
-    » a: [Monday..Friday] -> mtac
+    » a [Monday..Friday] -> mtac
     Friday
     Thursday
     Wednesday
@@ -368,11 +365,11 @@
 
     There are other UNIX tools which aren't data type aware but would work in
     this specific scenario:
-    
+
     * `tac` (Linux),
-    
+
     * `tail -r` (BSD / OS X)
-    
+
     * `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
     ### Supported Dictionary Terms
@@ -384,17 +381,16 @@
     ```
   Synonyms:
   Related:
-  - date
-  - commands/a
-  - commands/ja
-  - commands/ta
-  - commands/datetime
-  - commands/mtac
-  - commands/range
-  - commands/count
-  - commands/index
-  - commands/element
-
+    - date
+    - commands/a
+    - commands/ja
+    - commands/ta
+    - commands/datetime
+    - commands/mtac
+    - commands/range
+    - commands/count
+    - commands/index
+    - commands/element
 
 - DocumentID: date
   Title: >+
@@ -406,9 +402,9 @@
     Unlike bash, Murex also supports date ranges:
 
     ```  
-    » a: [25-dec-2020..05-jan-2021]
-    » a: [..25-dec-2020]
-    » a: [25-dec-2020..]
+    » a [25-dec-2020..05-jan-2021]
+    » a [..25-dec-2020]
+    » a [25-dec-2020..]
     ```
 
     {{ include "gen/includes/mkarray-range-description.inc.md" }}
@@ -416,7 +412,7 @@
     {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
-    » a: [25-Dec-2020..01-Jan-2021]
+    » a [25-Dec-2020..01-Jan-2021]
     25-Dec-2020
     26-Dec-2020
     27-Dec-2020
@@ -428,7 +424,7 @@
     ```
 
     ```
-    » a: [31-Dec..25-Dec]
+    » a [31-Dec..25-Dec]
     31-Dec
     30-Dec
     29-Dec
@@ -450,14 +446,14 @@
     For example, if today was 25th December 2020:
 
     ```
-    » a: [23-December-2020..]
+    » a [23-December-2020..]
     23-December-2020
     24-December-2020
     25-December-2020
     ```
 
     ```
-    » a: [..23-December-2020]
+    » a [..23-December-2020]
     25-December-2020
     24-December-2020
     23-December-2020
@@ -466,7 +462,7 @@
     This can lead so some fun like countdowns:
 
     ```
-    » out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
+    » out "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
     7 days until the new year!
     ```
 
@@ -479,7 +475,7 @@
     #### lower case
 
     ```
-    » a: [01-jan..03-jan]
+    » a [01-jan..03-jan]
     01-jan
     02-jan
     03-jan
@@ -488,16 +484,16 @@
     #### Title Case
 
     ```
-    » a: [01-Jan..03-Jan]
+    » a [01-Jan..03-Jan]
     01-Jan
     02-Jan
     03-Jan
     ```
 
     #### UPPER CASE
-  
+
     ```
-    » a: [01-JAN..03-JAN]
+    » a [01-JAN..03-JAN]
     01-JAN
     02-JAN
     03-JAN
@@ -515,20 +511,20 @@
     `datetime` to convert the output of `a`. eg:
 
     ```
-    » a: [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
+    » a [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
     Wednesday, 01 January
     Thursday, 02 January
     Friday, 03 January
     ```
   Synonyms:
   Related:
-  - special
-  - commands/a
-  - commands/ja
-  - commands/ta
-  - commands/datetime
-  - commands/mtac
-  - commands/range
-  - commands/count
-  - commands/index
-  - commands/element
+    - special
+    - commands/a
+    - commands/ja
+    - commands/ta
+    - commands/datetime
+    - commands/mtac
+    - commands/range
+    - commands/count
+    - commands/index
+    - commands/element

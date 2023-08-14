@@ -1,6 +1,6 @@
 - DocumentID: sleep
   Title: >-
-    `sleep` 
+    `sleep`
   CategoryID: optional
   Summary: >-
     Suspends the shell for a number of seconds
@@ -9,7 +9,7 @@
     of seconds.
   Usage: |-
     ```
-    sleep: integer
+    sleep integer
     ```
   Examples: |-
     ```
@@ -22,10 +22,10 @@
     or similar platforms then you will need to launch with the `exec` builtin:
 
     ```
-    » exec: sleep 5
+    » exec sleep 5
     ```
   Synonyms:
   Related:
-  - commands/time
-  - commands/source
-  - commands/exec
+    - commands/time
+    - commands/source
+    - commands/exec

@@ -1,12 +1,12 @@
 - DocumentID: range
   Title: >-
-    `[` (range) 
+    `[` (range)
   CategoryID: commands
   Summary: >-
     Outputs a ranged subset of data from STDIN
   Description: |-
     This will read from STDIN and output a subset of data in a defined range.
-    
+
     The range can be defined as a number of different range types - such as the
     content of the array or it's index / row number. You can also omit either
     the start or the end of the search criteria to cover all items before or
@@ -22,7 +22,7 @@
     **Range over all months after March:**
 
     ```
-    » a: [January..December] -> [March..]se
+    » a [January..December] -> [March..]se
     April
     May
     June
@@ -39,7 +39,7 @@
     By default, ranges start from one, `1`
 
     ```
-    » a: [January..December] -> [5..9]
+    » a [January..December] -> [5..9]
     May
     June
     July
@@ -52,7 +52,7 @@
     This usage is similar to `head -n3`
 
     ```
-    » a: [January..December] -> [..3]
+    » a [January..December] -> [..3]
     October
     November
     December
@@ -63,7 +63,7 @@
     This usage is similar to `tail -n3`
 
     ```
-    » a: [January..December] -> [-3..]
+    » a [January..December] -> [-3..]
     October
     November
     December
@@ -78,14 +78,14 @@
     8: handles backspace characters (char 8) instead of treating it like a printable character
   Detail: |-
   Synonyms:
-  - "@["
+    - "@["
   Related:
-  - prepend
-  - append
-  - index
-  - element
-  - a
-  - ja
-  - jsplit
-  - count
-  - alter
+    - prepend
+    - append
+    - index
+    - element
+    - a
+    - ja
+    - jsplit
+    - count
+    - alter

@@ -1,6 +1,6 @@
 - DocumentID: int
   Title: >-
-    `int` 
+    `int`
   CategoryID: types
   Summary: >-
     Whole number (primitive)
@@ -10,7 +10,7 @@
 
     Integers in Murex are sized based on the bit (or word) size of the target
     CPU.
-    
+
     A 386, ARMv6 or other 32bit build of Murex would see the range of from
     `-2147483648` (negative) through `2147483647` (positive).
 
@@ -27,16 +27,14 @@
   Detail:
   Associations:
   Related:
-  - str
-  - num
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-
-
+    - str
+    - num
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime
 
 - DocumentID: num
   Title: >-
@@ -58,16 +56,14 @@
   Detail:
   Associations:
   Related:
-  - str
-  - int
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-
-
+    - str
+    - int
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime
 
 - DocumentID: float
   Title: >-
@@ -89,5 +85,5 @@
   Detail:
   Associations:
   Related:
-  - num
-  - int
+    - num
+    - int

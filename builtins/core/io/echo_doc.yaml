@@ -8,7 +8,7 @@
     Write parameters to STDOUT with a trailing new line character.
   Usage: |-
     ```
-    out: string to write -> <stdout>
+    out string to write -> <stdout>
     ```
   Examples: |-
     ```
@@ -17,7 +17,7 @@
     ```
 
     For compatibility with other shells, `echo` is also supported:
-    
+
     ```
     » echo Hello, World!
     Hello, World!
@@ -33,16 +33,16 @@
     - out
     - echo
   Related:
-  - tout
-  - err
-  - brace-quote
-  - cast
-  - greater-than
-  - greater-than-greater-than
-  - pt
-  - read
-  - tread
-  - user-guide/ansi
+    - tout
+    - err
+    - brace-quote
+    - cast
+    - greater-than
+    - greater-than-greater-than
+    - pt
+    - read
+    - tread
+    - user-guide/ansi
 
 - DocumentID: tout
   Title: >+
@@ -55,11 +55,11 @@
     output's data-type to the value of the first parameter.
   Usage: |-
     ```
-    tout: data-type "string to write" -> <stdout>
+    tout data-type "string to write" -> <stdout>
     ```
   Examples: |-
     ```
-    » tout: json { "Code": 404, "Message": "Page not found" } -> pretty
+    » tout json { "Code": 404, "Message": "Page not found" } -> pretty
     {
         "Code": 404,
         "Message": "Page not found"
@@ -71,14 +71,13 @@
     Unlike `out`, `tout` does not append a carriage return / line feed.
   Synonyms:
   Related:
-  - out
-  - err
-  - brace-quote
-  - cast
-  - pretty
-  - format
-  - user-guide/ansi
-
+    - out
+    - err
+    - brace-quote
+    - cast
+    - pretty
+    - format
+    - user-guide/ansi
 
 - DocumentID: brace-quote
   Title: >+
@@ -118,17 +117,16 @@
 
     `(` supports ANSI constants.
   Synonyms:
-  - (
+    - (
   Related:
-  - tout
-  - err
-  - out
-  - cast
-  - greater-than
-  - greater-than-greater-than
-  - pt
-  - user-guide/ansi
-
+    - tout
+    - err
+    - out
+    - cast
+    - greater-than
+    - greater-than-greater-than
+    - pt
+    - user-guide/ansi
 
 - DocumentID: err
   Title: >+
@@ -140,7 +138,7 @@
     Write parameters to STDERR with a trailing new line character.
   Usage: |-
     ```
-    err: string to write -> <stderr>
+    err string to write -> <stderr>
     ```
   Examples: |-
     ```
@@ -164,7 +162,7 @@
     ```
     » pipe: --create messages
     » bg { <messages> -> pretty }
-    » tout: <messages> json { "Code": 404, "Message": "Page not found" }
+    » tout <messages> json { "Code": 404, "Message": "Page not found" }
     » pipe: --close messages
     {
         "Code": 404,
@@ -177,15 +175,15 @@
     `err` supports ANSI constants.
   Synonyms:
   Related:
-  - tout
-  - out
-  - brace-quote
-  - cast
-  - bg
-  - pipe
-  - pretty
-  - greater-than
-  - greater-than-greater-than
-  - pt
-  - user-guide/ansi
-  - namedpipe
+    - tout
+    - out
+    - brace-quote
+    - cast
+    - bg
+    - pipe
+    - pretty
+    - greater-than
+    - greater-than-greater-than
+    - pt
+    - user-guide/ansi
+    - namedpipe

@@ -1,6 +1,6 @@
 - DocumentID: yaml
   Title: >-
-    `yaml` 
+    `yaml`
   CategoryID: types
   Summary: >-
     YAML Ain't Markup Language (YAML)
@@ -24,19 +24,19 @@
   Detail:
   Associations:
     Mimes:
-    - application/yaml
-    - application/x-yaml
-    - text/yaml
-    - text/x-yaml
+      - application/yaml
+      - application/x-yaml
+      - text/yaml
+      - text/x-yaml
     Extensions:
-    - yaml
-    - yml
+      - yaml
+      - yml
   Related:
-  - json
-  - jsonl
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
+    - json
+    - jsonl
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime

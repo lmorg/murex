@@ -36,7 +36,7 @@
     ```
     pipe example --tcp-dial google.com:80
     bg { <example> }
-    out: "GET /" -> <example>
+    out "GET /" -> <example>
     ```
   Flags:
   Detail: |-

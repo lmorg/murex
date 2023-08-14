@@ -16,7 +16,7 @@
     ```
     while { condition } { code-block } -> <stdout>
     ```
-    
+
     ```
     while { code-block } -> <stdout>
     ```
@@ -82,14 +82,14 @@
 
     * `i`: iteration number
   Synonyms:
-  - while
-  - "!while"
+    - while
+    - "!while"
   Related:
-  - formap
-  - foreach
-  - for
-  - let
-  - set
-  - global
-  - out
-  - err
+    - formap
+    - foreach
+    - for
+    - let
+    - set
+    - global
+    - out
+    - err

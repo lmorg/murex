@@ -5,10 +5,10 @@
   Summary: >-
     Expressions: mathematical, string comparisons, logical operators
   Description: |-
-    
+
   Usage: |-
     ```
-    expr: expression -> <stdout>
+    expr expression -> <stdout>
     ```
   Examples: |-
     Order of operations:
@@ -30,10 +30,8 @@
     ```
   Detail: |-
 
-  
   Synonyms:
   Related:
-  - equ
-  - set
-  - let
-
+    - equ
+    - set
+    - let

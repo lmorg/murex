@@ -3,7 +3,7 @@
     `escape`
   CategoryID: commands
   Summary: >-
-    Escape or unescape input 
+    Escape or unescape input
   Description: |-
     `escape` takes input from either STDIN or the parameters and returns the same
     data, escaped.
@@ -15,7 +15,7 @@
 
     ```
     <stdin> -> escape -> <stdout>
-    
+
     escape string to escape -> <stdout>
     ```
 
@@ -23,7 +23,7 @@
 
     ```
     <stdin> -> !escape -> <stdout>
-    
+
     !escape string to unescape -> <stdout>
     ```
   Examples: |-
@@ -38,14 +38,12 @@
   Flags:
   Detail:
   Synonyms:
-  - escape
-  - "!escape"
+    - escape
+    - "!escape"
   Related:
-  - esccli
-  - eschtml
-  - escurl
-
-
+    - esccli
+    - eschtml
+    - escurl
 
 - DocumentID: eschtml
   Title: >+
@@ -64,7 +62,7 @@
 
     ```
     <stdin> -> eschtml -> <stdout>
-    
+
     eschtml string to escape -> <stdout>
     ```
 
@@ -72,37 +70,35 @@
 
     ```
     <stdin> -> !eschtml -> <stdout>
-    
+
     !eschtml string to unescape -> <stdout>
     ```
   Examples: |-
     Escape
 
     ```
-    » out: "<h1>foo & bar</h1>" -> eschtml
+    » out "<h1>foo & bar</h1>" -> eschtml
     &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
     ```
 
     Unescape
 
     ```
-    » out: '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
+    » out '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
     <h1>foo & bar</h1>
     ```
   Flags:
   Detail:
   Synonyms:
-  - eschtml
-  - "!eschtml"
+    - eschtml
+    - "!eschtml"
   Related:
-  - esccli
-  - escape
-  - escurl
-  - get
-  - post
-  - getfile
-
-
+    - esccli
+    - escape
+    - escurl
+    - get
+    - post
+    - getfile
 
 - DocumentID: escurl
   Title: >+
@@ -121,7 +117,7 @@
 
     ```
     <stdin> -> escurl -> <stdout>
-    
+
     escurl string to escape -> <stdout>
     ```
 
@@ -129,37 +125,35 @@
 
     ```
     <stdin> -> !escurl -> <stdout>
-    
+
     !escurl string to unescape -> <stdout>
     ```
   Examples: |-
     Escape
 
     ```
-    » out: "!? <>" -> escurl
+    » out "!? <>" -> escurl
     %21%3F%20%3C%3E%0A 
     ```
 
     Unescape
 
     ```
-    out: '%21%3F%20%3C%3E%0A' -> !escurl
+    out '%21%3F%20%3C%3E%0A' -> !escurl
     !? <>
     ```
   Flags:
   Detail:
   Synonyms:
-  - escurl
-  - "!escurl"
+    - escurl
+    - "!escurl"
   Related:
-  - esccli
-  - escape
-  - eschtml
-  - get
-  - post
-  - getfile
-
-
+    - esccli
+    - escape
+    - eschtml
+    - get
+    - post
+    - getfile
 
 - DocumentID: esccli
   Title: >+
@@ -194,19 +188,19 @@
     As a function
 
     ```
-    » alias -> [foobar] -> set: fb
+    » alias -> [foobar] -> set fb
     » $fb
     ["out","foo$b@r"]
-    » esccli: @fb
+    » esccli @fb
     out foo\$b\@r
     ```
   Flags:
   Detail:
   Synonyms:
   Related:
-  - alias
-  - out
-  - index
-  - escape
-  - eschtml
-  - escurl
+    - alias
+    - out
+    - index
+    - escape
+    - eschtml
+    - escurl
