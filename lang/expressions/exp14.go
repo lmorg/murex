@@ -1,7 +1,6 @@
 package expressions
 
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -30,7 +29,7 @@ func convertScalarToBareword(node *astNodeT) {
 	}
 }
 
-func expAssign(tree *ParserT) error {
+func expAssign(tree *ParserT, overwriteType bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -50,17 +49,45 @@ func expAssign(tree *ParserT) error {
 			tree.currentSymbol().key, right.key))
 	}
 
-	var v interface{}
+	var (
+		v  interface{}
+		dt string
+	)
+
 	switch right.dt.Primitive {
 	case primitives.Array, primitives.Object:
-		b, err := json.Marshal(right.dt.Value)
+		if overwriteType {
+			dt = types.Json
+		} else {
+			dt = tree.p.Variables.GetDataType(left.Value())
+			if dt == "" {
+				dt = types.Json
+			}
+			right.dt.MxDT = dt
+			right.dt.Primitive = primitives.Other
+		}
+		b, err := lang.MarshalData(tree.p, dt, right.dt.Value)
 		if err != nil {
-			return err
+			raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 		}
 		v = string(b)
 
 	default:
-		v = right.dt.Value
+		if overwriteType {
+			v = right.dt.Value
+		} else {
+			dt = tree.p.Variables.GetDataType(left.Value())
+			if dt == "" {
+				dt = right.dt.DataType()
+			}
+			right.dt.MxDT = dt
+			right.dt.Primitive = primitives.Other
+			v, err = types.ConvertGoType(right.dt.Value, dt)
+			if err != nil {
+				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+			}
+		}
+
 	}
 
 	err = tree.setVar(left.value, v, right.dt.DataType())

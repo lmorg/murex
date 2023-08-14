@@ -435,10 +435,19 @@ func (v *Variables) getDataType(name string) string {
 	// variable not found so lets fallback to the environmental variables
 	value := os.Getenv(name)
 	if value != "" {
-		return types.String
+		return envVarTypes(name)
 	}
 
 	return types.Null
+}
+
+func envVarTypes(name string) string {
+	switch name {
+	case "PATH", "LD_LIBRARY_PATH":
+		return types.Paths
+	default:
+		return types.String
+	}
 }
 
 func (v *Variables) getDataTypeValue(name string) (string, bool) {

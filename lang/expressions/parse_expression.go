@@ -56,7 +56,18 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				return nil
 			default:
 				// assign value
+				tree.appendAst(symbols.AssignUpdate)
+			}
+
+		case ':':
+			switch tree.nextChar() {
+			case '=':
+				// update variable
 				tree.appendAst(symbols.Assign)
+				tree.charPos++
+			default:
+				// less than
+				tree.appendAst(symbols.LessThan)
 			}
 
 		case '!':
