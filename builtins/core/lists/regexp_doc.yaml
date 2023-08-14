@@ -10,7 +10,7 @@
 
     When multiple parameters are supplied they are concatenated into the search
     string and white space delimited. eg all three of the below are the same:
-    
+
     ```
     match "a b c"
     match a\sb\sc
@@ -35,7 +35,7 @@
     Match **Wed**
 
     ```
-    » ja: [Monday..Friday] -> match Wed
+    » ja [Monday..Friday] -> match Wed
     [
         "Wednesday"
     ]
@@ -44,7 +44,7 @@
     Match everything except **Wed**
 
     ```
-    » ja: [Monday..Friday] -> !match Wed
+    » ja [Monday..Friday] -> !match Wed
     [
         "Monday",
         "Tuesday",
@@ -58,26 +58,24 @@
     Murex data-type is passed to it via STDIN and return the output in the
     same data-type.
   Synonyms:
-  - match
-  - "!match"
-  - list.string
+    - match
+    - "!match"
+    - list.string
   Related:
-  - a
-  - ja
-  - ta
-  - count
-  - 2darray
-  - append
-  - prepend
-  - suffix
-  - prefix
-  - jsplit
-  - msort
-  - pretty
-  - map
-  - regexp
-
-
+    - a
+    - ja
+    - ta
+    - count
+    - 2darray
+    - append
+    - prepend
+    - suffix
+    - prefix
+    - jsplit
+    - msort
+    - pretty
+    - map
+    - regexp
 
 - DocumentID: regexp
   Title: >+
@@ -96,14 +94,14 @@
     ### Find elements
 
     ```
-    » ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
+    » ja [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
     [
         "mon",
         "fri",
         "sun"
     ]
     ```
-    
+
     This returns only 3 days because only 3 days match the expression (where
     the days have to be 6 characters long) and then it only returns the first 3
     characters because those are inside the parenthesis.
@@ -113,7 +111,7 @@
     Elements containing
 
     ```
-    » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
+    » ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
     [
         "monday",
         "friday",
@@ -124,7 +122,7 @@
     Elements excluding
 
     ```
-    » ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
+    » ja [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
     [
         "tuesday",
         "wednesday",
@@ -136,7 +134,7 @@
     ### Substitute expression
 
     ```
-    » ja: [monday..sunday] -> regexp 's/day/night/'
+    » ja [monday..sunday] -> regexp 's/day/night/'
     [
         "monnight",
         "tuesnight",
@@ -148,35 +146,32 @@
     ]
     ```
   Flags:
-    f:
-      output found expressions
+    f: output found expressions
       (doesn't support bang prefix)
-    m:
-      output elements that match expression
+    m: output elements that match expression
       (supports bang prefix)
-    s:
-      output all elements - substituting elements that match expression
+    s: output all elements - substituting elements that match expression
       (doesn't support bang prefix)
   Detail: |-
     `regexp` is data-type aware so will work against lists or arrays of whichever
     Murex data-type is passed to it via STDIN and return the output in the
     same data-type.
   Synonyms:
-  - regexp
-  - "!regexp"
-  - list.regex
+    - regexp
+    - "!regexp"
+    - list.regex
   Related:
-  - a
-  - ja
-  - ta
-  - count
-  - 2darray
-  - append
-  - prepend
-  - suffix
-  - prefix
-  - jsplit
-  - msort
-  - pretty
-  - map
-  - match
+    - a
+    - ja
+    - ta
+    - count
+    - 2darray
+    - append
+    - prepend
+    - suffix
+    - prefix
+    - jsplit
+    - msort
+    - pretty
+    - map
+    - match

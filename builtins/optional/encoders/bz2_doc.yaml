@@ -1,6 +1,6 @@
 - DocumentID: "bz2"
   Title: >-
-    `!bz2` 
+    `!bz2`
   CategoryID: optional
   Summary: >-
     Decompress a bz2 file
@@ -14,11 +14,11 @@
   Detail: |-
     Currently there is no support for compressing a stream using bz2.
   Synonyms:
-  - "!bz2"
+    - "!bz2"
   Related:
-  - base64
-  - gz
-  - commands/escape
-  - commands/eschtml
-  - commands/escurl
-  - commands/esccli
+    - base64
+    - gz
+    - commands/escape
+    - commands/eschtml
+    - commands/escurl
+    - commands/esccli

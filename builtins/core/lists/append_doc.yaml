@@ -1,6 +1,6 @@
 - DocumentID: prepend
   Title: >-
-    `prepend` 
+    `prepend`
   CategoryID: commands
   Summary: >-
     Add data to the start of an array
@@ -12,7 +12,7 @@
     ```
   Examples: |-
     ```
-    » a: [January..December] -> prepend: 'New Year'
+    » a [January..December] -> prepend: 'New Year'
     New Year
     January
     February
@@ -35,22 +35,21 @@
     Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
     ```
   Synonyms:
-  - prepend
-  - list.prepend
+    - prepend
+    - list.prepend
   Related:
-  - index
-  - element
-  - cast
-  - append
-  - addheading
-  - a
-  - ja
-  - count
-  - mtac
-  - msort
-  - match
-  - regexp
-
+    - index
+    - element
+    - cast
+    - append
+    - addheading
+    - a
+    - ja
+    - count
+    - mtac
+    - msort
+    - match
+    - regexp
 
 - DocumentID: append
   Title: >+
@@ -66,7 +65,7 @@
     ```
   Examples: |-
     ```
-    » a: [Monday..Sunday] -> append: Funday
+    » a [Monday..Sunday] -> append: Funday
     Monday
     Tuesday
     Wednesday
@@ -84,20 +83,20 @@
     Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
     ```
   Synonyms:
-  - append
-  - list.append
+    - append
+    - list.append
   Related:
-  - index
-  - element
-  - cast
-  - prepend
-  - addheading
-  - a
-  - ja
-  - count
-  - index
-  - range
-  - mtac
-  - msort
-  - match
-  - regexp
+    - index
+    - element
+    - cast
+    - prepend
+    - addheading
+    - a
+    - ja
+    - count
+    - index
+    - range
+    - mtac
+    - msort
+    - match
+    - regexp

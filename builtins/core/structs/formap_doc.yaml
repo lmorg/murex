@@ -96,11 +96,11 @@
     * `i`: iteration number
   Synonyms:
   Related:
-  - foreach
-  - for
-  - while
-  - types/json
-  - set
-  - index
-  - tabulate
-  - break
+    - foreach
+    - for
+    - while
+    - types/json
+    - set
+    - index
+    - tabulate
+    - break

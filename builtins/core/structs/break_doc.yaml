@@ -16,7 +16,7 @@
     ```
   Examples: |-
     **Setting an exit number:**
-    
+
     ```
     function example {
         out foo
@@ -35,7 +35,7 @@
     ```
 
     **Returning withing an exit number:**
-    
+
     If we were to run the same code as above but with `return` written without any
     parameters (ie instead of `return 13` it would be just `return`), then you
     would see the following output:
@@ -51,14 +51,13 @@
     was passed).
   Synonyms:
   Related:
-  - exit
-  - function
-  - private
-  - out
-  - break
-  - continue
-  - exitnum
-
+    - exit
+    - function
+    - private
+    - out
+    - break
+    - continue
+    - exitnum
 
 - DocumentID: break
   Title: >+
@@ -149,22 +148,21 @@
 
     Regardless of whether we run `foo` or `bar`, both of those functions will
     raise the following error:
-    
+
     ```
     Error in `break` (7,17): no block found named `bar` within the scope of `foo`
     ```
   Synonyms:
   Related:
-  - exit
-  - foreach
-  - formap
-  - if
-  - function
-  - private
-  - out
-  - continue
-  - return
-
+    - exit
+    - foreach
+    - formap
+    - if
+    - function
+    - private
+    - out
+    - continue
+    - return
 
 - DocumentID: continue
   Title: >+
@@ -233,18 +231,18 @@
 
     Regardless of whether we run `foo` or `bar`, both of those functions will
     raise the following error:
-    
+
     ```
     Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
     ```
   Synonyms:
   Related:
-  - exit
-  - foreach
-  - formap
-  - if
-  - function
-  - private
-  - out
-  - break
-  - return
+    - exit
+    - foreach
+    - formap
+    - if
+    - function
+    - private
+    - out
+    - break
+    - return

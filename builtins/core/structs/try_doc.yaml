@@ -24,8 +24,8 @@
   Examples: |-
     ```
     try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string"
+        out "This command will be ignored"
     }
     ```
   Flags:
@@ -70,8 +70,8 @@
   Examples: |-
     ```
     trypipe {
-        out: "Hello, World!" -> grep: "non-existent string" -> cat
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string" -> cat
+        out "This command will be ignored"
     }
     ```
 
@@ -123,16 +123,16 @@
   Examples: |-
     ```
     try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string"
+        out "This command will be ignored"
     }
 
     catch {
-        out: "An error was caught"
+        out "An error was caught"
     }
 
     !catch {
-        out: "No errors were raised"
+        out "No errors were raised"
     }
     ```
   Flags:
@@ -179,11 +179,11 @@
         
         runmode: try function
 
-        read: name "What is your name? "
-        out: "Hello $name, pleased to meet you"
+        read name "What is your name? "
+        out "Hello $name, pleased to meet you"
         
-        read: mood "How are you feeling? "
-        out: "I'm feeling $mood too"
+        read mood "How are you feeling? "
+        out "I'm feeling $mood too"
     }
     ```
   Flags:

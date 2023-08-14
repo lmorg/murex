@@ -1,6 +1,6 @@
 - DocumentID: csv
   Title: >-
-    `csv` 
+    `csv`
   CategoryID: types
   Summary: >-
     CSV files (and other character delimited tables)
@@ -23,7 +23,7 @@
     use `config`)
 
     ```
-    » config: -> [csv]      
+    » config -> [csv]      
     {
         "comment": {
             "Data-Type": "str",
@@ -45,23 +45,21 @@
     ```
   Associations:
     Mimes:
-    - application/csv
-    - application/x-csv
-    - text/csv
-    - text/x-csv
+      - application/csv
+      - application/x-csv
+      - text/csv
+      - text/x-csv
     Extensions:
-    - csv
+      - csv
   Synonyms:
   Related:
-  - generic
-  - str
-  - int
-  - jsonl
-  - optional/select
-  - commands/config
-  - commands/element
-  - commands/index
-  - commands/format
-  - commands/cast
-
-
+    - generic
+    - str
+    - int
+    - jsonl
+    - optional/select
+    - commands/config
+    - commands/element
+    - commands/index
+    - commands/format
+    - commands/cast

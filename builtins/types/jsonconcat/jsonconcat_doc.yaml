@@ -1,6 +1,6 @@
 - DocumentID: jsonc
   Title: >-
-    `jsonc` 
+    `jsonc`
   CategoryID: types
   Summary: >-
     Concatenated JSON
@@ -43,7 +43,7 @@
     separator. So the examples below could all be concatenated into one long line.
 
     Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
-    
+
     ### Tabulated data
 
     ```
@@ -55,9 +55,9 @@
     ```
 
     This format is equatable to `generic` and `csv`.
-    
+
     ### Nested objects
-    
+
     ```
     {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
     {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
@@ -75,7 +75,7 @@
     Unmarshal(): Supported
   Detail: |-
     ### Similarities with `jsonl`
-    
+
     The advantage of concatenated JSON is that it supports everything jsonlines
     supports but without the dependency of a new line as a separator.
 
@@ -119,19 +119,19 @@
       - "jsonseq"
       - "json-seq"
   Related:
-  - yaml
-  - toml
-  - hcl
-  - mxjson
-  - json
-  - jsonl
-  - generic
-  - csv
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/foreach
-  - commands/runtime
-  - commands/pretty
+    - yaml
+    - toml
+    - hcl
+    - mxjson
+    - json
+    - jsonl
+    - generic
+    - csv
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/foreach
+    - commands/runtime
+    - commands/pretty

@@ -17,7 +17,7 @@
     Count from the left
 
     ```
-    » ja: [Monday..Wednesday] -> left 2
+    » ja [Monday..Wednesday] -> left 2
     [
         "Mo",
         "Tu",
@@ -26,9 +26,9 @@
     ```
 
     Count from the right
-    
+
     ```
-    » ja: [Monday..Wednesday] -> left -3
+    » ja [Monday..Wednesday] -> left -3
     [
         "Mon",
         "Tues",
@@ -40,24 +40,22 @@
     Supported data types can queried via `runtime`
 
     ```
-    runtime: --marshallers
-    runtime: --unmarshallers
+    runtime --marshallers
+    runtime --unmarshallers
     ```
   Synonyms:
-  - left
-  - list.left
+    - left
+    - list.left
   Related:
-  - right
-  - prefix
-  - suffix
-  - ja
-  - a
-  - count
-  - runtime
-  - apis/lang.MarshalData
-  - apis/lang.UnmarshalData
-
-
+    - right
+    - prefix
+    - suffix
+    - ja
+    - a
+    - count
+    - runtime
+    - apis/lang.MarshalData
+    - apis/lang.UnmarshalData
 
 - DocumentID: right
   Title: >+
@@ -78,7 +76,7 @@
     Count from the right
 
     ```
-    » ja: [Monday..Wednesday] -> right 4
+    » ja [Monday..Wednesday] -> right 4
     [
         "nday",
         "sday",
@@ -87,9 +85,9 @@
     ```
 
     Count from the left
-    
+
     ```
-    » ja: [Monday..Wednesday] -> left -3
+    » ja [Monday..Wednesday] -> left -3
     [
         "day",
         "sday",
@@ -101,23 +99,22 @@
     Supported data types can queried via `runtime`
 
     ```
-    runtime: --marshallers
-    runtime: --unmarshallers
+    runtime --marshallers
+    runtime --unmarshallers
     ```
   Synonyms:
-  - right
-  - list.right
+    - right
+    - list.right
   Related:
-  - right
-  - prefix
-  - suffix
-  - ja
-  - a
-  - count
-  - runtime
-  - apis/lang.MarshalData
-  - apis/lang.UnmarshalData
-
+    - right
+    - prefix
+    - suffix
+    - ja
+    - a
+    - count
+    - runtime
+    - apis/lang.MarshalData
+    - apis/lang.UnmarshalData
 
 - DocumentID: prefix
   Title: >+
@@ -133,7 +130,7 @@
     ```
   Examples: |-
     ```
-    » ja: [Monday..Wednesday] -> prefix foobar
+    » ja [Monday..Wednesday] -> prefix foobar
     [
         "foobarMonday",
         "foobarTuesday",
@@ -145,24 +142,22 @@
     Supported data types can queried via `runtime`
 
     ```
-    runtime: --marshallers
-    runtime: --unmarshallers
+    runtime --marshallers
+    runtime --unmarshallers
     ```
   Synonyms:
-  - prefix
-  - list.prefix
+    - prefix
+    - list.prefix
   Related:
-  - left
-  - right
-  - suffix
-  - ja
-  - a
-  - count
-  - runtime
-  - apis/lang.MarshalData
-  - apis/lang.UnmarshalData
-
-
+    - left
+    - right
+    - suffix
+    - ja
+    - a
+    - count
+    - runtime
+    - apis/lang.MarshalData
+    - apis/lang.UnmarshalData
 
 - DocumentID: suffix
   Title: >+
@@ -178,7 +173,7 @@
     ```
   Examples: |-
     ```
-    » ja: [Monday..Wednesday] -> suffix foobar
+    » ja [Monday..Wednesday] -> suffix foobar
     [
         "Mondayfoobar",
         "Tuesdayfoobar",
@@ -190,19 +185,19 @@
     Supported data types can queried via `runtime`
 
     ```
-    runtime: --marshallers
-    runtime: --unmarshallers
+    runtime --marshallers
+    runtime --unmarshallers
     ```
   Synonyms:
-  - suffix
-  - list.suffix
+    - suffix
+    - list.suffix
   Related:
-  - left
-  - right
-  - prefix
-  - ja
-  - a
-  - count
-  - runtime
-  - apis/lang.MarshalData
-  - apis/lang.UnmarshalData
+    - left
+    - right
+    - prefix
+    - ja
+    - a
+    - count
+    - runtime
+    - apis/lang.MarshalData
+    - apis/lang.UnmarshalData

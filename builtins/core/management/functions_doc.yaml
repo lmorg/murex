@@ -19,7 +19,7 @@
     ```
     <stdin> -> debug -> <stdout>
     
-    debug: boolean -> <stdout>
+    debug boolean -> <stdout>
     
     debug -> <stdout>
     ```
@@ -27,7 +27,7 @@
     Return debugging information on the previous function:
 
     ```
-    » echo: "hello, world!" -> debug 
+    » out "hello, world!" -> debug 
     {
         "DataType": {
             "Go": "[]string",
@@ -104,10 +104,10 @@
     Enable or disable debug mode:
 
     ```
-    » debug: on
+    » debug on
     true
 
-    » debug: off
+    » debug off
     false
     ```
 
@@ -324,7 +324,7 @@
     ```
   Examples: |-
     ```
-    » man-summary: man 
+    » man-summary man 
     man - an interface to the on-line reference manuals
     ```
   Flags:
@@ -353,7 +353,7 @@
     **Home directory:**
     
     ```
-    » cd: ~
+    » cd ~
     ```
 
     Running `cd` without a parameter will also change to the current user's home
@@ -372,14 +372,14 @@
     **Absolute path:**
     
     ```
-    » cd: /etc/
+    » cd /etc/
     ```
 
     **Relative path:**
 
     ```
-    » cd: Documents
-    » cd: ./Documents
+    » cd Documents
+    » cd ./Documents
     ```
   Flags:
   Detail: |-
@@ -407,7 +407,7 @@
     In Murex you can enable this behaviour by turning on "auto-cd":
 
     ```
-    config: set shell auto-cd true
+    config set shell auto-cd true
     ```
   Synonyms:
   Related:

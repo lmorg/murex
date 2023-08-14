@@ -31,8 +31,8 @@
     Get the data-type of a functions STDIN
 
     ```
-    » function: example { get-type stdin }
-    » tout: json {[1,2,3]} -> example
+    » function example { get-type stdin }
+    » tout json {[1,2,3]} -> example
     json
     ```
 
@@ -40,7 +40,7 @@
 
     ```
     » pipe: example
-    » tout: <example> json {[1,2,3]}
+    » tout <example> json {[1,2,3]}
     » get-type: example
     » !pipe: example
     json
@@ -49,11 +49,11 @@
   Detail:
   Synonyms:
   Related:
-  - set
-  - tout
-  - function
-  - pipe
-  - debug
-  - runtime
-  - user-guide/scoping
-  - user-guide/reserved-vars
+    - set
+    - tout
+    - function
+    - pipe
+    - debug
+    - runtime
+    - user-guide/scoping
+    - user-guide/reserved-vars

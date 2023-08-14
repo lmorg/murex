@@ -148,7 +148,7 @@
     ```
   Examples: |-
     ```
-    » out: "Hello, world!" -> null
+    » out "Hello, world!" -> null
     ```
   Flags:
   Detail: |-
@@ -156,7 +156,7 @@
     use the named pipe property rather than piping to null:
 
     ```
-    » out: <null> "Hello, world!"
+    » out <null> "Hello, world!"
     ```
   Synonyms:
   - "null"
@@ -290,7 +290,7 @@
     ```
   Examples: |-
     ```
-    » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+    » out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
     {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
     ```
   Flags:

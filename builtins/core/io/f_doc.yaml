@@ -18,29 +18,29 @@
     Output is a JSON array as this format preserves whitespace in file names.
   Usage: |-
     ```
-    f: options -> <stdout>
+    f options -> <stdout>
 
-    <stdin> -> f: options -> <stdout>
+    <stdin> -> f options -> <stdout>
     ```
   Examples: |-
     Return only directories:
-    
+
     ```
-    f: +d
+    f +d
     ```
 
     Return file and directories but exclude symlinks:
-    
+
     ```
-    f: +fd -s
+    f +fd -s
     ```
 
     Filter out files in a list (eg created by `g`) using conditions set by `f`:
 
     ```
-    g: '*.go' -> f: +f
+    g '*.go' -> f +f
 
-    rx: '\.(txt|md)' -> f: +fw
+    rx '\.(txt|md)' -> f +fw
     ```
   Flags:
     -: "exclude files (pair this with any other flag apart from `+`)"
@@ -57,8 +57,8 @@
     S: sockets
     p: POSIX named pipes (FIFO)
     i: irregular files (nothing else is known about these files)
-    '?': deprecated -- use `i` instead
-    
+    "?": deprecated -- use `i` instead
+
     r: read permissions (user, group, or other)
     R: user read permissions
     e: group read permissions
@@ -79,6 +79,6 @@
     any matches from the `+` flags.
   Synonyms:
   Related:
-  - g
-  - rx
-  - types/json
+    - g
+    - rx
+    - types/json

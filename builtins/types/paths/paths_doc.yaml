@@ -1,6 +1,6 @@
 - DocumentID: paths
   Title: >-
-    `paths` 
+    `paths`
   CategoryID: types
   Summary: >-
     Structured array for working with `$PATH` style data
@@ -19,7 +19,7 @@
     ```
 
     **Splitting a PATH:**
-    
+
     ```
     » $PATH -> :paths: format json
     [
@@ -54,12 +54,12 @@
     Unmarshal(): >-
       Supported
   Detail: |-
-   
+
   Associations:
     Mimes:
     Extensions:
   Related:
-  - path
-  - variables/PWD
-  - variables/PWDHIST
-  - variables/MUREX_EXE
+    - path
+    - variables/PWD
+    - variables/PWDHIST
+    - variables/MUREX_EXE

@@ -17,17 +17,16 @@
     {{ include "gen/includes/fid-kill.inc.md" }}
   Synonyms:
   Related:
-  - fid-list
-  - fid-killall
-  - bg
-  - fg
-  - jobs
-  - exec
-  - murex-update-exe-list
-  - builtins
-  - bexists
-  - fexec
-
+    - fid-list
+    - fid-killall
+    - bg
+    - fg
+    - jobs
+    - exec
+    - murex-update-exe-list
+    - builtins
+    - bexists
+    - fexec
 
 - DocumentID: fid-killall
   Title: >+
@@ -49,13 +48,13 @@
     {{ include "gen/includes/fid-kill.inc.md" }}
   Synonyms:
   Related:
-  - fid-list
-  - fid-kill
-  - bg
-  - fg
-  - jobs
-  - exec
-  - fexec
-  - murex-update-exe-list
-  - builtins
-  - bexists
+    - fid-list
+    - fid-kill
+    - bg
+    - fg
+    - jobs
+    - exec
+    - fexec
+    - murex-update-exe-list
+    - builtins
+    - bexists
