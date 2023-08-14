@@ -131,14 +131,16 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 
 	default:
 		if overwriteType {
-			v = right.dt.Value
 			dt = right.dt.DataType()
+			v = right.dt.Value
 		} else {
 			dt = tree.p.Variables.GetDataType(left.Value())
-			if dt == "" {
+			//panic("-->" + dt + "<--")
+			if dt == "" || dt == types.Null {
 				dt = right.dt.DataType()
 				v = right.dt.Value
 			} else {
+				//panic(fmt.Sprintf("-->%s||%v<--", dt, right.dt.Value))
 				v, err = types.ConvertGoType(right.dt.Value, dt)
 				if err != nil {
 					raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
