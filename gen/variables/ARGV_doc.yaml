@@ -14,7 +14,7 @@
     This is a reserved variable so it cannot be changed.
   Examples: |-
     ```
-    » function example { out $ARGV }
+    » function example { $ARGV }
     » example abc 1 2 3
     [
         "example",

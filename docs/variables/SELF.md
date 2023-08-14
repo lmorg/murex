@@ -22,7 +22,7 @@ This is a reserved variable so it cannot be changed.
 ## Examples
 
 ```
-» function example { out $SELF }
+» function example { $SELF }
 » example
 {
     "Background": false,

@@ -13,7 +13,7 @@
     This is a reserved variable so it cannot be changed.
   Examples: |-
     ```
-    » function example { out $PARAMS }
+    » function example { $PARAMS }
     » example abc 1 2 3
     [
         "abc",
