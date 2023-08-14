@@ -27,6 +27,17 @@ This is a reserved variable so it cannot be changed.
 ]
 ```
 
+## Detail
+
+### Deprecation of `ARGS`
+
+In Murex versions 4.x and below, this variable was named `ARGS` (with an 'S').
+However in Murex 5.x and above it was renamed to `ARGV` (with a 'V') to unify
+the name with other languages.
+
+`ARGS` will remain available for compatibility reasons but is considered
+deprecated and may be removed from future releases.
+
 ## Synonyms
 
 * `ARGV`

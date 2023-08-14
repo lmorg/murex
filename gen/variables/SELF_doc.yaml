@@ -32,7 +32,7 @@
         "TTY": true
     }
     ```
-  Details: |-
+  Detail: |-
     ### Background (bool)
 
     A boolean value to identify whether the current scope is running in the

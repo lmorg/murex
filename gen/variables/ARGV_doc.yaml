@@ -24,7 +24,7 @@
         "3"
     ]
     ```
-  Details: |-
+  Detail: |-
     ### Deprecation of `ARGS`
 
     In Murex versions 4.x and below, this variable was named `ARGS` (with an 'S').

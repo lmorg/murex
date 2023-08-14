@@ -36,6 +36,52 @@ This is a reserved variable so it cannot be changed.
 }
 ```
 
+## Detail
+
+### Background (bool)
+
+A boolean value to identify whether the current scope is running in the
+background for foreground.
+
+### Interactive (bool)
+
+A boolean value to describe whether the current scope is running interactively
+or not.
+
+An interactive scope is one where the shell prompt is running _and_ the scope
+isn't running in the background. Shell scripts are not considered interactive
+terminals even though they might have interactive element in their code.
+
+### Method (bool)
+
+A boolean value to describe whether the current scope is a method (ie being
+called mid-way or at the end of a pipeline).
+
+### Module (str)
+
+This will be the module string for the current scope.
+
+### Not (bool)
+
+A boolean value which represents whether the function was called with a bang-
+prefix or not.
+
+### Parent (num)
+
+This is the function ID of the parent function that created the scope. In
+some instances this will be the same value as scope FID. However if in doubt
+then please using **Scope** instead.
+
+### Scope (num)
+
+The scope value here returns the function ID of the top level function in the
+scope.
+
+### TTY (bool)
+
+A boolean value as to whether STDOUT is a TTY (ie are we printing to the
+terminal (TTY) or a pipe?)
+
 ## See Also
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
