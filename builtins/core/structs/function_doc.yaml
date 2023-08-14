@@ -8,9 +8,9 @@
     `alias` defines an alias for global usage
   Usage: |-
     ```
-    alias: alias=command parameter parameter
+    alias alias=command parameter parameter
 
-    !alias: command
+    !alias command
     ```
   Examples: |-
     Because aliases are parsed into an array of parameters, you cannot put the
@@ -21,7 +21,7 @@
     » alias hw="out Hello, World!"
     » hw
     exec "out\\ Hello,\\ World!": executable file not found in $PATH
-    
+
     # good :)
     » alias hw=out "Hello, World!"
     » hw
@@ -64,21 +64,20 @@
 
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
-  - alias
-  - "!alias"
+    - alias
+    - "!alias"
   Related:
-  - function
-  - private
-  - source
-  - g
-  - let
-  - set
-  - global
-  - export
-  - exec
-  - fexec
-  - method
-
+    - function
+    - private
+    - source
+    - g
+    - let
+    - set
+    - global
+    - export
+    - exec
+    - fexec
+    - method
 
 - DocumentID: function
   Title: >+
@@ -90,7 +89,7 @@
     `function` defines a block of code as a function
   Usage: |-
     Define a function:
-    
+
     ```
     function name { code-block }
     ```
@@ -139,9 +138,9 @@
 
     By default, if you wanted to query the parameters passed to a Murex function
     you would have to use either:
-    
+
     * the Bash syntax where of `$2` style numbered reserved variables,
-    
+
     * and/or the Murex convention of `$PARAM` / `$ARGS` arrays (see **reserved-vars**
       document below),
       
@@ -229,7 +228,7 @@
 
     ```
     » function age (age: int) { out "$age is a great age." }
-    
+
     » age
     Please enter a value for 'age': ten
     Error in `age` ( 2,1): cannot convert parameter 1 'ten' to data type 'int'
@@ -252,7 +251,7 @@
 
     ```
     » function hello (name: str [John]) { out "Hello $name, pleased to meet you." }
-    
+
     » hello
     Please enter a value for 'name' [John]: 
     Hello John, pleased to meet you.
@@ -276,7 +275,7 @@
 
     ```
     » function hello (name: str "What is your name?") { out "Hello $name" }
-    
+
     » hello
     What is your name?: Sally
     Hello Sally
@@ -286,25 +285,24 @@
 
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
-  - function
-  - "!function"
+    - function
+    - "!function"
   Related:
-  - args
-  - alias
-  - private
-  - source
-  - g
-  - let
-  - set
-  - global
-  - export
-  - exec
-  - fexec
-  - method
-  - user-guide/reserved-vars
-  - version
-  - break
-
+    - args
+    - alias
+    - private
+    - source
+    - g
+    - let
+    - set
+    - global
+    - export
+    - exec
+    - fexec
+    - method
+    - user-guide/reserved-vars
+    - version
+    - break
 
 - DocumentID: private
   Title: >+
@@ -315,7 +313,7 @@
   Description: |-
     `private` defines a function who's scope is limited to that module or source
     file.
-    
+
     Privates cannot be called from one module to another (unless they're wrapped
     around a global `function`) and nor can they be called from the interactive
     command line. The purpose of a `private` is to reduce repeated code inside
@@ -332,7 +330,7 @@
     private hw {
         out "Hello, World!"
     }
-    
+
     function tom {
         hw
         out "My name is Tom."
@@ -367,19 +365,18 @@
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
   Related:
-  - function
-  - alias
-  - source
-  - g
-  - let
-  - set
-  - global
-  - export
-  - exec
-  - fexec
-  - method
-  - break
-
+    - function
+    - alias
+    - source
+    - g
+    - let
+    - set
+    - global
+    - export
+    - exec
+    - fexec
+    - method
+    - break
 
 - DocumentID: method
   Title: >+
@@ -407,16 +404,16 @@
 
     You can define a Murex data type or use a type group. The following type
     groups are available to use:
-    
+
     ```go
     {{ include "lang/types/groups.go" }}
     ```
   Synonyms:
   Related:
-  - function
-  - alias
-  - private
-  - autocomplete
-  - runtime
-  - parser/pipe-arrow
-  - user-guide/interactive-shell
+    - function
+    - alias
+    - private
+    - autocomplete
+    - runtime
+    - parser/pipe-arrow
+    - user-guide/interactive-shell
