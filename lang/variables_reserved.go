@@ -9,13 +9,14 @@ import (
 
 func getVarSelf(p *Process) interface{} {
 	return map[string]interface{}{
-		"Parent":     int(p.Scope.Parent.Id),
-		"Scope":      int(p.Scope.Id),
-		"TTY":        p.Scope.Stdout.IsTTY(),
-		"Method":     p.Scope.IsMethod,
-		"Not":        p.Scope.IsNot,
-		"Background": p.Scope.Background.Get(),
-		"Module":     p.Scope.FileRef.Source.Module,
+		"Parent":      int(p.Scope.Parent.Id),
+		"Scope":       int(p.Scope.Id),
+		"TTY":         p.Scope.Stdout.IsTTY(),
+		"Method":      p.Scope.IsMethod,
+		"Interactive": Interactive,
+		"Not":         p.Scope.IsNot,
+		"Background":  p.Scope.Background.Get(),
+		"Module":      p.Scope.FileRef.Source.Module,
 	}
 }
 
