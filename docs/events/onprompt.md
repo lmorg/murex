@@ -16,6 +16,41 @@ event onPrompt name=[before|after|abort|eof] { code block }
 !event onPrompt [before_|after_|abort_|eof_]name
 ```
 
+## Payload
+
+The following payload is passed to the function via STDIN:
+
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Name": "",
+        "Operation": "",
+        "CmdLine": ""
+    }
+}
+```
+
+### Name
+
+This is the **namespaced** name -- ie the name and operation.
+
+### Interrupt/Name
+
+This is the name you specified when defining the event.
+
+### Operation
+
+This is the interrupt you specified when defining the event.
+
+Valid interrupt operation values are specified below.
+
+### CmdLine
+
+This is the commandline you typed in the prompt.
+
+Please note this is only populated if the interrupt is **after**.
+
 ## Valid Interrupts
 
 * `abort`
@@ -56,41 +91,6 @@ hello world
 ```
 
 ## Detail
-
-### Payload
-
-The following payload is passed to the function via STDIN:
-
-```
-{
-    "Name": "",
-    "Interrupt": {
-        "Name": "",
-        "Operation": "",
-        "CmdLine": ""
-    }
-}
-```
-
-#### Name
-
-This is the **namespaced** name -- ie the name and operation.
-
-#### Interrupt/Name
-
-This is the name you specified when defining the event.
-
-#### Operation
-
-This is the interrupt you specified when defining the event.
-
-Valid interrupt operation values are specified below.
-
-#### CmdLine
-
-This is the commandline you typed in the prompt.
-
-Please note this is only populated if the interrupt is **after**.
 
 ### Stdout
 

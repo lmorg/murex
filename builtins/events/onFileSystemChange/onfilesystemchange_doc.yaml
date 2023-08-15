@@ -8,8 +8,7 @@
     `onFileSystemChange` events are triggered whenever there is a change to a
     watched path or file.
 
-    ### Payload
-
+  Payload: |-
     The following payload is passed to the function via STDIN:
 
     ```
@@ -22,15 +21,15 @@
     }
     ```
 
-    #### Name
+    ### Name
 
     This is the name you specified when defining the event
 
-    #### Path
+    ### Path
 
     The path of the file that has triggered the event
 
-    #### Operation
+    ### Operation
 
     This is the filesystem operation that triggered the event. The following
     strings could be present in the **Operation** field:

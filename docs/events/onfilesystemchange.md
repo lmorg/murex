@@ -7,7 +7,15 @@
 `onFileSystemChange` events are triggered whenever there is a change to a
 watched path or file.
 
-### Payload
+## Usage
+
+```
+event onFileSystemChange name=path { code block }
+
+!event onFileSystemChange name
+```
+
+## Payload
 
 The following payload is passed to the function via STDIN:
 
@@ -21,15 +29,15 @@ The following payload is passed to the function via STDIN:
 }
 ```
 
-#### Name
+### Name
 
 This is the name you specified when defining the event
 
-#### Path
+### Path
 
 The path of the file that has triggered the event
 
-#### Operation
+### Operation
 
 This is the filesystem operation that triggered the event. The following
 strings could be present in the **Operation** field:
@@ -42,14 +50,6 @@ strings could be present in the **Operation** field:
 
 Sometimes you might see more than one operation per interrupt. If that happens
 the operation will be pipe delimited. For example `create|chmod`
-
-## Usage
-
-```
-event onFileSystemChange name=path { code block }
-
-!event onFileSystemChange name
-```
 
 ## Valid Interrupts
 

@@ -8,7 +8,7 @@ Where "default value" is what will be auto-populated at run time if you don't
 define an autocomplete schema manually. **zls** stands for zero-length string
 (ie: "").
 
-<div id="toc">
+{{ if env "DOCGEN_TARGET=" }}<div id="toc">
 
 - ["Alias": string (zls)](#alias-string-zls)
 - ["AllowAny": boolean (false)](#allowany-boolean-false)
@@ -38,7 +38,7 @@ define an autocomplete schema manually. **zls** stands for zero-length string
 
 
 </div>
-
+{{ end }}
 ### "Alias": string (zls)
 
 Aliases are used inside **FlagValues** as a way of pointing one flag to another

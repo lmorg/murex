@@ -33,6 +33,9 @@ type document struct {
 	// Description is the contents of the document
 	Description string `yaml:"Description"`
 
+	// Payload is a document describing an APIs payload
+	Payload string `yaml:"Payload"`
+
 	// Flags is a map of supported flags
 	Flags map[string]string `yaml:"Flags"`
 
@@ -116,6 +119,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Summary:             d.Summary,
 		Description:         d.Description,
 		Usage:               d.Usage,
+		Payload:             d.Payload,
 		Examples:            d.Examples,
 		Detail:              d.Detail,
 		Synonyms:            d.Synonyms,
@@ -186,6 +190,7 @@ type documentValues struct {
 	CategoryDescription string
 	Summary             string
 	Description         string
+	Payload             string
 	Usage               string
 	Examples            string
 	Flags               sortableFlagValues

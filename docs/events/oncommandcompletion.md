@@ -20,6 +20,62 @@ event onCommandCompletion name=command { code block }
 
 !event onCommandCompletion name
 ```
+The following payload is passed to the function via STDIN:
+
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Command": "",
+        "Parameters": [],
+        "Stdout": "",
+        "Stderr": "",
+        "ExitNum": 0
+    }
+}
+```
+
+## Payload
+
+### Name
+
+This is the name you specified when defining the event.
+
+### Command
+
+Name of command executed prior to this event being triggered
+
+### Operation
+
+The commandline parameters of the aforementioned command
+
+### Stdout
+
+This is the name of the Murex named pipe which contains a copy of the STDOUT
+from the command which executed prior to this event.
+
+You can read this with `read-named-pipe`. eg
+
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stdout -> ...
+```
+
+### Stderr
+
+This is the name of the Murex named pipe which contains a copy of the STDERR
+from the command which executed prior to this event.
+
+You can read this with `read-named-pipe`. eg
+
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stderr -> ...
+```
+
+### ExitNum
+
+This is the exit number returned from the executed command.
 
 ## Valid Interrupts
 
@@ -47,63 +103,6 @@ event onCommandCompletion sudo-pacman=pacman {
 ```
 
 ## Detail
-
-### Payload
-
-The following payload is passed to the function via STDIN:
-
-```
-{
-    "Name": "",
-    "Interrupt": {
-        "Command": "",
-        "Parameters": [],
-        "Stdout": "",
-        "Stderr": "",
-        "ExitNum": 0
-    }
-}
-```
-
-#### Name
-
-This is the name you specified when defining the event.
-
-#### Command
-
-Name of command executed prior to this event being triggered
-
-#### Operation
-
-The commandline parameters of the aforementioned command
-
-#### Stdout
-
-This is the name of the Murex named pipe which contains a copy of the STDOUT
-from the command which executed prior to this event.
-
-You can read this with `read-named-pipe`. eg
-
-```
-» <stdin> -> set: event
-» read-named-pipe: $event.Interrupt.Stdout -> ...
-```
-
-#### Stderr
-
-This is the name of the Murex named pipe which contains a copy of the STDERR
-from the command which executed prior to this event.
-
-You can read this with `read-named-pipe`. eg
-
-```
-» <stdin> -> set: event
-» read-named-pipe: $event.Interrupt.Stderr -> ...
-```
-
-#### ExitNum
-
-This is the exit number returned from the executed command.
 
 ### Stdout
 

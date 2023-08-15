@@ -16,7 +16,11 @@ tag:
 
 {{ if .Usage }}## Usage
 
-{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
+{{ md (include .Usage) }}{{ end }}{{ if .Payload }}
+
+## Payload
+
+{{ md (include .Payload) }}{{ end }}{{ if .Flags }}
 
 ## Valid Interrupts
 

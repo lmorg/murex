@@ -14,6 +14,25 @@ event onSecondsElapsed name=seconds { code block }
 !event onSecondsElapsed name
 ```
 
+## Payload
+
+The following payload is passed to the function via STDIN:
+
+```
+{
+    "Name": "",
+    "Interrupt": 0
+}
+```
+
+### Name
+
+This is the name you specified when defining the event.
+
+### Interrupt
+
+This is the duration you defined the event to wait for.
+
 ## Valid Interrupts
 
 * `<seconds>`
@@ -26,27 +45,6 @@ event onSecondsElapsed example=60 {
     out "60 seconds has passed"
 }
 ```
-
-## Detail
-
-### Payload
-
-The following payload is passed to the function via STDIN:
-
-```
-{
-    "Name": "",
-    "Interrupt": 0
-}
-```
-
-#### Name
-
-This is the name you specified when defining the event.
-
-#### Interrupt
-
-This is the duration you defined the event to wait for.
 
 ## See Also
 
