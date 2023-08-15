@@ -10,11 +10,11 @@ reading the data from it.
 ## Usage
 
 ```
-get-type: \$variable -> <stdout>
+get-type \$variable -> <stdout>
 
-get-type: stdin -> <stdout>
+get-type stdin -> <stdout>
 
-get-type: pipe -> <stdout>
+get-type pipe -> <stdout>
 ```
 
 ## Examples
@@ -22,8 +22,8 @@ get-type: pipe -> <stdout>
 Get the data-type of a variable
 
 ```
-» set: json example={[1,2,3]}
-» get-type: \$example
+» set json example={[1,2,3]}
+» get-type \$example
 json
 ```
 
@@ -42,10 +42,10 @@ json
 Get the data-type of a Murex named pipe
 
 ```
-» pipe: example
+» pipe example
 » tout <example> json {[1,2,3]}
-» get-type: example
-» !pipe: example
+» get-type example
+» !pipe example
 json
 ```
 

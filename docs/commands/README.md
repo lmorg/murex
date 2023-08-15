@@ -85,7 +85,7 @@ murex-docs trypipe
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`cd`](../commands/cd.md):
   Change (working) directory
 * [`config`](../commands/config.md):

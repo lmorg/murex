@@ -11,16 +11,16 @@ features and the output format is user defined.
 ## Usage
 
 ```
-ta: data-type [start..end] -> <stdout>
-ta: data-type [start..end.base] -> <stdout>
-ta: data-type [start..end,start..end] -> <stdout>
-ta: data-type [start..end][start..end] -> <stdout>
+ta data-type [start..end] -> <stdout>
+ta data-type [start..end.base] -> <stdout>
+ta data-type [start..end,start..end] -> <stdout>
+ta data-type [start..end][start..end] -> <stdout>
 ```
 
 ## Examples
 
 ```
-» ta: json [1..5]
+» ta json [1..5]
 [
     "1",
     "2",
@@ -31,7 +31,7 @@ ta: data-type [start..end][start..end] -> <stdout>
 ```
 
 ```
-» ta: json [Monday..Sunday]
+» ta json [Monday..Sunday]
 [
     "Monday",
     "Tuesday",

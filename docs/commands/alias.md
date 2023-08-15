@@ -9,9 +9,9 @@
 ## Usage
 
 ```
-alias: alias=command parameter parameter
+alias alias=command parameter parameter
 
-!alias: command
+!alias command
 ```
 
 ## Examples

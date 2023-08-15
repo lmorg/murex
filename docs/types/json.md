@@ -165,7 +165,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 #### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
 
 ```
-» ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
+» ja [Tom,Dick,Sally] -> foreach name { out Hello $name }
 Hello Tom
 Hello Dick
 Hello Sally
@@ -173,7 +173,7 @@ Hello Sally
 » ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
 jsonl
 
-» ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
+» ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> format json
 [
     "Hello Tom",
     "Hello Dick",

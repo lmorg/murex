@@ -52,7 +52,7 @@ are unsuccessful.
 * [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`if`](../commands/if.md):

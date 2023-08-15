@@ -94,7 +94,7 @@ will re-run `pacman` with `sudo`.
 ```
 event onCommandCompletion sudo-pacman=pacman {
     <stdin> -> set event
-    read-named-pipe: $event.Interrupt.Stderr \
+    read-named-pipe $event.Interrupt.Stderr \
     -> regexp 'm/error: you cannot perform this operation unless you are root/' \
     -> if {
           sudo pacman @event.Interrupt.Parameters

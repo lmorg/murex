@@ -31,11 +31,11 @@ Write to pipe
 The follow two examples function the same
 
 ```
-» pipe: example
+» pipe example
 » bg { <example> -> match 2 }
 » a <example> [1..3]
 2
-» !pipe: example
+» !pipe example
 ```
 
 ## Detail

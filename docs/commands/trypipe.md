@@ -50,7 +50,7 @@ command.
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 * [`if`](../commands/if.md):

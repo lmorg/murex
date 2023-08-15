@@ -113,7 +113,7 @@ conditionals output.
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`false`](../commands/false.md):

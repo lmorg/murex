@@ -23,7 +23,7 @@ func init() {
 	lang.DefineMethod("select", cmdSelect, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
-		config: eval shell safe-commands { -> append select }
+		config eval shell safe-commands { -> append select }
 
 		autocomplete set select { [{ 
 			"Dynamic": ({ -> select --autocomplete @{$ARGS->@[1..] } }),

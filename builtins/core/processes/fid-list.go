@@ -15,16 +15,16 @@ func init() {
 	lang.DefineFunction("fid-list", cmdFidList, types.JsonLines)
 
 	defaults.AppendProfile(`
-		autocomplete: set fid-list { [{
+		autocomplete set fid-list { [{
 			"DynamicDesc": ({ fid-list --help })
 		}] }
 
-		alias: jobs=fid-list --jobs
-		method: define jobs {
+		alias jobs=fid-list --jobs
+		method define jobs {
 			"in": "null",
 			"out": "*"
 		}
-		config: eval shell safe-commands { -> append jobs }`)
+		config eval shell safe-commands { -> append jobs }`)
 }
 
 func getParams(p *lang.Process) string {

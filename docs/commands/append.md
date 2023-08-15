@@ -9,13 +9,13 @@
 ## Usage
 
 ```
-<stdin> -> append: value -> <stdout>
+<stdin> -> append value -> <stdout>
 ```
 
 ## Examples
 
 ```
-» a [Monday..Sunday] -> append: Funday
+» a [Monday..Sunday] -> append Funday
 Monday
 Tuesday
 Wednesday

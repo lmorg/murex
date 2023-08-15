@@ -15,7 +15,7 @@ a module or source file without cluttering up the global namespace.
 ## Usage
 
 ```
-private: name { code-block }
+private name { code-block }
 ```
 
 ## Examples
