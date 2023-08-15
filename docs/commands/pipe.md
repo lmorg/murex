@@ -11,13 +11,13 @@
 Create pipe
 
 ```
-pipe: name [ pipe-type ]
+pipe name [ pipe-type ]
 ```
 
 Destroy pipe
 
 ```
-!pipe: name
+!pipe name
 ```
 
 ## Examples
@@ -25,13 +25,13 @@ Destroy pipe
 Create a standard pipe:
 
 ```
-pipe: example
+pipe example
 ```
 
 Delete a pipe:
 
 ```
-!pipe: example
+!pipe example
 ```
 
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):

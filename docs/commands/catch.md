@@ -1,6 +1,6 @@
 # `catch`
 
-> Handles the exception code raised by `try` or `trypipe` 
+> Handles the exception code raised by `try` or `trypipe`
 
 ## Description
 

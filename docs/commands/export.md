@@ -53,7 +53,7 @@ that variable name without a following value. For example
 
 ```
 # Create a local variable called 'foo':
-» set: foo=bar
+» set foo=bar
 » env -> grep: foo
 
 # Export that local variable as an environmental variable:
@@ -62,7 +62,7 @@ that variable name without a following value. For example
 foo=bar
 
 # Changing the value of the local variable doesn't alter the value of the environmental variable:
-» set: foo=rab
+» set foo=rab
 » env -> grep: foo
 foo=bar
 » out $foo
@@ -76,12 +76,13 @@ string which means the variables are defined as a `str`. If you wish to define
 them as an alternate data type then you should add type annotations:
 
 ```
-» set: int age = 30
+» set int age = 30
 ```
+
 (`$age` is an integer, `int`)
 
 ```
-» global: bool dark_theme = true
+» global bool dark_theme = true
 ```
 
 (`$dark_theme` is a boolean, `bool`)
@@ -90,7 +91,7 @@ When using `set` or `global` as a method, by default they will define the
 variable as the data type of the pipe:
 
 ```
-» open: example.json -> set: file
+» open example.json -> set: file
 ```
 
 (`$file` is defined a `json` type because `open` wrote to `set`'s pipe with a
@@ -99,7 +100,7 @@ variable as the data type of the pipe:
 You can also annotate `set` and `global` when used as a method too:
 
 ```
-out: 30 -> set: int age
+out 30 -> set: int age
 ```
 
 (`$age` is an integer, `int`, despite `out` writing a string, `str, to the pipe)
@@ -119,10 +120,10 @@ Variables are looked up in that order of too. For example a the following
 code where `set` overrides both the global and environmental variable:
 
 ```
-» set:    foobar=1
-» global: foobar=2
-» export: foobar=3
-» out: $foobar
+» set    foobar=1
+» global foobar=2
+» export foobar=3
+» out $foobar
 1
 ```
 
@@ -157,10 +158,10 @@ treated as part of the same part of the same scope as the parent function:
 » function example {
 »     try {
 »         # set 'foobar' inside a `try` block
-»         set: foobar=example
+»         set foobar=example
 »     }
 »     # 'foobar' exists outside of `try` because it is scoped to `function`
-»     out: $foobar
+»     out $foobar
 » }
 example
 ```
@@ -177,16 +178,16 @@ local variables are not inherited but the child functions:
 ```
 » function parent {
 »     # set a local variable
-»     set: foobar=example
+»     set foobar=example
 »     child
 » }
-» 
+»
 » function child {
 »     # returns the `global` value, "not set", because the local `set` isn't inherited
-»     out: $foobar
+»     out $foobar
 » }
-» 
-» global: $foobar="not set"
+»
+» global $foobar="not set"
 » parent
 not set
 ```
@@ -234,7 +235,7 @@ function name, then call that function via `exec`:
 
 ```
 » set cmd=grep
-» ls -> exec: $cmd main.go
+» ls -> exec $cmd main.go
 main.go
 ```
 

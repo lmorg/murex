@@ -210,7 +210,7 @@ switch {
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`if`](../commands/if.md):

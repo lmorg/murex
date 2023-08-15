@@ -26,7 +26,7 @@ runmode try|trypipe function|module
 function hello {
     # Short conversation, exit on error
     
-    runmode: try function
+    runmode try function
 
     read name "What is your name? "
     out "Hello $name, pleased to meet you"
@@ -75,7 +75,7 @@ if `runmode ... module` is set.
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`fid-list`](../commands/fid-list.md):

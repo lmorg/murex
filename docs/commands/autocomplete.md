@@ -69,7 +69,6 @@ define an autocomplete schema manually. **zls** stands for zero-length string
 - ["NestedCommand": boolean (false)](#nestedcommand-boolean-false)
 - ["Optional": boolean (false)](#optional-boolean-false)
 
-
 </div>
 
 ### "Alias": string (zls)
@@ -172,12 +171,12 @@ mirror the same as those parameters entered in the interactive terminal.
 
 Two variables are created for each **Dynamic** function:
 
-* `ISMETHOD`: `true` if the command being autocompleted is going to run as a
-              pipelined method. `false` if it isn't.
+- `ISMETHOD`: `true` if the command being autocompleted is going to run as a
+  pipelined method. `false` if it isn't.
 
-* `PREFIX`: contains the partial term. For example if you typed `hello wor[tab]`
-            then `$PREFIX` would be set to **wor** for **hello**'s
-            autocompletion.
+- `PREFIX`: contains the partial term. For example if you typed `hello wor[tab]`
+  then `$PREFIX` would be set to **wor** for **hello**'s
+  autocompletion.
 
 The expected STDOUT should be an array (list) of any data type. For example:
 
@@ -194,11 +193,11 @@ The expected STDOUT should be an array (list) of any data type. For example:
 You can additionally include suggestions if any of the array items exactly
 matches any of the following strings:
 
-* `@IncFiles`   ([read more]((#incfiles-boolean-false)))
-* `@IncDirs`    ([read more]((#incdirs-boolean-false)))
-* `@IncExePath` ([read more]((#incexepath-boolean-false)))
-* `@IncExeAll`  ([read more]((#incexeall-boolean-false)))
-* `@IncManPage` ([read more]((#incmanpage-boolean-false)))
+- `@IncFiles` ([read more](<(#incfiles-boolean-false)>))
+- `@IncDirs` ([read more](<(#incdirs-boolean-false)>))
+- `@IncExePath` ([read more](<(#incexepath-boolean-false)>))
+- `@IncExeAll` ([read more](<(#incexeall-boolean-false)>))
+- `@IncManPage` ([read more](<(#incmanpage-boolean-false)>))
 
 ### "DynamicDesc": string (zls)
 
@@ -212,12 +211,12 @@ suggestion - depending on which suggestion "popup" you define (see
 
 Two variables are created for each **Dynamic** function:
 
-* `ISMETHOD`: `true` if the command being autocompleted is going to run as a
-              pipelined method. `false` if it isn't.
+- `ISMETHOD`: `true` if the command being autocompleted is going to run as a
+  pipelined method. `false` if it isn't.
 
-* `PREFIX`: contains the partial term. For example if you typed `hello wor[tab]`
-            then `$PREFIX` would be set to **wor** for **hello**'s
-            autocompletion.
+- `PREFIX`: contains the partial term. For example if you typed `hello wor[tab]`
+  then `$PREFIX` would be set to **wor** for **hello**'s
+  autocompletion.
 
 The expected STDOUT should be an object (map) of any data type. The key is the
 autocompletion suggestion, with the value being the description. For example:
@@ -250,14 +249,14 @@ commands **Dynamic** or **DynamicDesc** code block.
 Because this is a dangerous feature, your partial commandline will only
 execute if the following conditions are met:
 
-* the commandline must be one pipeline (eg `;` tokens are not allowed)
-* the commandline must not have any new line characters
-* there must not be any redirection, including named pipes
-    (eg `cmd <namedpipe>`) and the STDOUT/STDERR switch token (`?`)
-* the commandline doesn't inline any variables (`$strings`, `@arrays`) or
-    functions (`${subshell}`, `$[index]`)
-* lastly all commands are whitelisted in "safe-commands"
-    (`config get shell safe-commands`)
+- the commandline must be one pipeline (eg `;` tokens are not allowed)
+- the commandline must not have any new line characters
+- there must not be any redirection, including named pipes
+  (eg `cmd <namedpipe>`) and the STDOUT/STDERR switch token (`?`)
+- the commandline doesn't inline any variables (`$strings`, `@arrays`) or
+  functions (`${subshell}`, `$[index]`)
+- lastly all commands are whitelisted in "safe-commands"
+  (`config get shell safe-commands`)
 
 If these criteria are met, the commandline is considered "safe"; if any of
 those conditions fail then the commandline is considered "unsafe".
@@ -266,8 +265,8 @@ Murex will come with a number of sane commands already included in its
 `safe-commands` whitelist however you can add or remove them using `config`
 
 ```
-» function: foobar { -> match foobar }
-» config: eval shell safe-commands { -> append foobar }
+» function foobar { -> match foobar }
+» config eval shell safe-commands { -> append foobar }
 ```
 
 Remember that **ExecCmdline** is designed to be included with either
@@ -280,11 +279,11 @@ autocomplete set "[" { [{
     "AllowMultiple": true,
     "ExecCmdline": true,
     "Dynamic": ({
-        switch ${ get-type: stdin } {
+        switch ${ get-type stdin } {
             case * {
                 <stdin> -> [ 0: ] -> format json -> [ 0 ]
             }
-            
+
             catch {
                 <stdin> -> formap k v { out $k } -> cast str -> append "]"
             }
@@ -405,7 +404,7 @@ automatically populated with any flags identified from an a quick parse of
 the man page. However because man pages are written to be human readable
 rather than machine parsable, there may not be a 100% success rate with the
 automatic man page parsing.
-    
+
 ### "FlagsDesc": map of strings (null)
 
 This is the same concept as **Flags** except it is a map with the suggestion
@@ -425,18 +424,18 @@ autocomplete in code.
 of that autocomplete definition. The path should look something like:
 `/int/string/int/string....` where
 
-* the first character is the separator,
+- the first character is the separator,
 
-* the first value is an integer that relates to the index in your autocomplete
-    array,
+- the first value is an integer that relates to the index in your autocomplete
+  array,
 
-* the second value is a string which points to the flag value map (if you
-    defined **FlagValues**),
+- the second value is a string which points to the flag value map (if you
+  defined **FlagValues**),
 
-* the third value is the integer of the autocomplete array inside that
-**FlagValues** map,
+- the third value is the integer of the autocomplete array inside that
+  **FlagValues** map,
 
-* ...and so on as necessary.
+- ...and so on as necessary.
 
 An example of a really simple **Goto**:
 
@@ -445,10 +444,10 @@ autocomplete set dd { [
     {
         "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
         "FlagValues": {
-            "if": [{ 
+            "if": [{
                 "IncFiles": true
             }],
-            "of": [{ 
+            "of": [{
                 "IncFiles": true
             }],
             "*": [{

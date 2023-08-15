@@ -246,7 +246,7 @@ autocomplete set "[" { [{
     "AllowMultiple": true,
     "ExecCmdline": true,
     "Dynamic": ({
-        switch ${ get-type: stdin } {
+        switch ${ get-type stdin } {
             case * {
                 <stdin> -> [ 0: ] -> format json -> [ 0 ]
             }

@@ -35,10 +35,10 @@ messages like these which you want separate from your STDOUT stream is to create
 a new Murex named pipe.
 
 ```
-» pipe: --create messages
+» pipe --create messages
 » bg { <messages> -> pretty }
 » tout <messages> json { "Code": 404, "Message": "Page not found" }
-» pipe: --close messages
+» pipe --close messages
 {
     "Code": 404,
     "Message": "Page not found"
