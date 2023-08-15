@@ -35,6 +35,11 @@ The following payload is passed to the function via STDIN:
 }
 ```
 
+## Valid Interrupts
+
+* `<command>`
+    Name of command that triggers this event
+
 ## Payload
 
 ### Name
@@ -76,11 +81,6 @@ You can read this with `read-named-pipe`. eg
 ### ExitNum
 
 This is the exit number returned from the executed command.
-
-## Valid Interrupts
-
-* `<command>`
-    Name of command that triggers this event
 
 ## Examples
 

@@ -16,6 +16,17 @@ event onPrompt name=[before|after|abort|eof] { code block }
 !event onPrompt [before_|after_|abort_|eof_]name
 ```
 
+## Valid Interrupts
+
+* `abort`
+    Triggered if `ctrl`+`c` pressed while in the interactive prompt
+* `after`
+    Triggered after user has written a command into the interactive prompt and then hit `enter`
+* `before`
+    Triggered before readline displays the interactive prompt
+* `eof`
+    Triggered if `ctrl`+`d` pressed while in the interactive prompt
+
 ## Payload
 
 The following payload is passed to the function via STDIN:
@@ -50,17 +61,6 @@ Valid interrupt operation values are specified below.
 This is the commandline you typed in the prompt.
 
 Please note this is only populated if the interrupt is **after**.
-
-## Valid Interrupts
-
-* `abort`
-    Triggered if `ctrl`+`c` pressed while in the interactive prompt
-* `after`
-    Triggered after user has written a command into the interactive prompt and then hit `enter`
-* `before`
-    Triggered before readline displays the interactive prompt
-* `eof`
-    Triggered if `ctrl`+`d` pressed while in the interactive prompt
 
 ## Examples
 

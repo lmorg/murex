@@ -16,17 +16,17 @@ tag:
 
 {{ if .Usage }}## Usage
 
-{{ md (include .Usage) }}{{ end }}{{ if .Payload }}
-
-## Payload
-
-{{ md (include .Payload) }}{{ end }}{{ if .Flags }}
+{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
 
 ## Valid Interrupts
 
 {{ range $i,$a := .Flags }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Examples }}
+    {{ md .Description }}{{ end }}{{ end }}{{ if .Payload }}
+
+## Payload
+
+{{ md (include .Payload) }}{{ end }}{{ if .Examples }}
 
 ## Examples
 
