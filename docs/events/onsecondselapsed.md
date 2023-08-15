@@ -14,6 +14,11 @@ event onSecondsElapsed name=seconds { code block }
 !event onSecondsElapsed name
 ```
 
+## Valid Interrupts
+
+* `<seconds>`
+    Duration in seconds. eg `60` would be 60 seconds / 1 minute
+
 ## Payload
 
 The following payload is passed to the function via STDIN:
@@ -32,11 +37,6 @@ This is the name you specified when defining the event.
 ### Interrupt
 
 This is the duration you defined the event to wait for.
-
-## Valid Interrupts
-
-* `<seconds>`
-    Duration in seconds. eg `60` would be 60 seconds / 1 minute
 
 ## Examples
 

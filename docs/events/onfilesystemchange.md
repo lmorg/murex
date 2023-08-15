@@ -15,6 +15,11 @@ event onFileSystemChange name=path { code block }
 !event onFileSystemChange name
 ```
 
+## Valid Interrupts
+
+* `<path>`
+    Path of directory or file to watch for filesystem events
+
 ## Payload
 
 The following payload is passed to the function via STDIN:
@@ -50,11 +55,6 @@ strings could be present in the **Operation** field:
 
 Sometimes you might see more than one operation per interrupt. If that happens
 the operation will be pipe delimited. For example `create|chmod`
-
-## Valid Interrupts
-
-* `<path>`
-    Path of directory or file to watch for filesystem events
 
 ## Examples
 

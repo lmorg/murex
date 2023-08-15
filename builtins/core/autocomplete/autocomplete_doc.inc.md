@@ -161,11 +161,11 @@ The expected STDOUT should be an array (list) of any data type. For example:
 You can additionally include suggestions if any of the array items exactly
 matches any of the following strings:
 
-* `@IncFiles`   ([read more]((#incfiles-boolean-false)))
-* `@IncDirs`    ([read more]((#incdirs-boolean-false)))
-* `@IncExePath` ([read more]((#incexepath-boolean-false)))
-* `@IncExeAll`  ([read more]((#incexeall-boolean-false)))
-* `@IncManPage` ([read more]((#incmanpage-boolean-false)))
+* `@IncFiles`   ([read more](#incfiles-boolean-false))
+* `@IncDirs`    ([read more](#incdirs-boolean-false))
+* `@IncExePath` ([read more](#incexepath-boolean-false))
+* `@IncExeAll`  ([read more](#incexeall-boolean-false))
+* `@IncManPage` ([read more](#incmanpage-boolean-false))
 
 ### "DynamicDesc": string (zls)
 
