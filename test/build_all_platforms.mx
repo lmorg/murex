@@ -21,8 +21,8 @@ go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/' -> set num goversion
 # not existing on earlier versions of `go`
 
 if { $args->[[/Flags/--no-colour]] } then {
-    config: set shell color false
-    config: set proc force-tty true
+    config set shell color false
+    config set proc force-tty true
 }
 
 function compress {

@@ -11,7 +11,7 @@
     of the parsed string.
 
     ```
-    » out: {example}
+    » out {example}
     {example}
     ```
 
@@ -27,7 +27,7 @@
     Curly braces can work over multiple lines
 
     ```
-    » out: {foo
+    » out {foo
     » bar}
     {foo
     bar}
@@ -41,10 +41,10 @@
 
     ```
     # Valid
-    if{true} {out: "Yipee"}
+    if{true} {out "Yipee"}
 
     # Invalid
-    if{true}{out: "Yipee"}
+    if{true}{out "Yipee"}
     ```
 
     ### ANSI Constants
@@ -52,7 +52,7 @@
     Some builtins (like `out`) also support infixing using the curly brace. eg
 
     ```
-    out: "{GREEN}PASSED{RESET}"
+    out "{GREEN}PASSED{RESET}"
     ```
 
     This is a separate layer of parsing and happens at the parameter level for
@@ -61,21 +61,19 @@
     constants are available.
 
   Related:
-  - tilde
-  - string
-  - array
-  - single-quote
-  - double-quote
-  - brace-quote
-  - user-guide/code-block
-  - commands/out
-  - commands/tout
-  - commands/err
-  - commands/set
-  - commands/brace-quote
-  - user-guide/ansi
-
-
+    - tilde
+    - string
+    - array
+    - single-quote
+    - double-quote
+    - brace-quote
+    - user-guide/code-block
+    - commands/out
+    - commands/tout
+    - commands/err
+    - commands/set
+    - commands/brace-quote
+    - user-guide/ansi
 
 - DocumentID: code-block
   Title: >-
@@ -91,9 +89,9 @@
     function example {
         # An example function
         if { $ENVVAR } then {
-            out: 'foobar'
+            out 'foobar'
         }
-        out: 'Finished!'
+        out 'Finished!'
     }
     ```
 
@@ -112,7 +110,7 @@
             "Parameters": [
                 "{ $ENVVAR }",
                 "then",
-                "{\n        out: 'foobar'\n    }"
+                "{\n        out 'foobar'\n    }"
             ]
         },
         {
@@ -133,7 +131,7 @@
     So when `if` executes, the conditional (the first parameter) is then parsed and
     turned into ASTs and executed. Then the last parameter (the **then** block) is
     parsed and turned into ASTs, if the first conditional is true.
-    
+
     This sequence of parsing is defined within the `if` builtin rather than
     Murex's parser. That means any code blocks are parsed only when a builtin
     specifically requests that they are executed.
@@ -144,7 +142,7 @@
   Examples:
   Detail:
   Related:
-  - schedulers
-  - pipeline
-  - parser/curly-brace
-  - ansi
+    - schedulers
+    - pipeline
+    - parser/curly-brace
+    - ansi
