@@ -41,11 +41,11 @@
 
     ```
     # Green spelt correctly
-    » out: "{GREEN}PASSED{RESET}"
+    » out "{GREEN}PASSED{RESET}"
     PASSED
     
     # Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
-    » out: "{GREEEEN}PASSED{RESET}"
+    » out "{GREEEEN}PASSED{RESET}"
     {GREEEEN}PASSED
     ```
 
@@ -54,7 +54,7 @@
     These sequences are enabled by default. To disable run the following:
 
     ```
-    » config: set shell color false
+    » config set shell color false
     ```
 
     You will need to add this to your Murex profile, `~/.murex_profile` to make

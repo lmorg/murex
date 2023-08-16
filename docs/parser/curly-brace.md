@@ -10,7 +10,7 @@ Also unlike any other quotation tokens, the curly brace is included as part
 of the parsed string.
 
 ```
-» out: {example}
+» out {example}
 {example}
 ```
 
@@ -29,7 +29,7 @@ inlining JSON.
 Curly braces can work over multiple lines
 
 ```
-» out: {foo
+» out {foo
 » bar}
 {foo
 bar}
@@ -43,10 +43,10 @@ to be separated by whitespace:
 
 ```
 # Valid
-if{true} {out: "Yipee"}
+if{true} {out "Yipee"}
 
 # Invalid
-if{true}{out: "Yipee"}
+if{true}{out "Yipee"}
 ```
 
 ### ANSI Constants
@@ -54,7 +54,7 @@ if{true}{out: "Yipee"}
 Some builtins (like `out`) also support infixing using the curly brace. eg
 
 ```
-out: "{GREEN}PASSED{RESET}"
+out "{GREEN}PASSED{RESET}"
 ```
 
 This is a separate layer of parsing and happens at the parameter level for

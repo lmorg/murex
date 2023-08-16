@@ -20,7 +20,6 @@
 
 </div>
 
-
 ## Overview
 
 Aside from Murex being carefully designed with scripting in mind, the
@@ -32,20 +31,20 @@ we wrote our own readline library. Below is an example of that library in use:
 The above demo includes the following features of Murex's bespoke readline
 library:
 
-* hint text - blue status text below the prompt (the colour is configurable)
-* syntax highlighting (albeit there isn’t much syntax to highlight in the
-    example). This can also be turned off if your preference is to have colours
-    disabled
-* tab-completion in gridded mode (seen when typing `cd`)
-* tab-completion in list view (seen when selecting a process name to `kill`
-    where the process ID was substituted when selected)
-* searching through the tab-completion suggestions (seen in both `cd` and
-    `kill` - enabled by pressing `[ctrl]`+`[f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
-    followed by `[v]`)
-* readline’s warning before pasting multiple lines of data into the buffer and
-    the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[esc]`)
+- hint text - blue status text below the prompt (the colour is configurable)
+- syntax highlighting (albeit there isn’t much syntax to highlight in the
+  example). This can also be turned off if your preference is to have colours
+  disabled
+- tab-completion in gridded mode (seen when typing `cd`)
+- tab-completion in list view (seen when selecting a process name to `kill`
+  where the process ID was substituted when selected)
+- searching through the tab-completion suggestions (seen in both `cd` and
+  `kill` - enabled by pressing `[ctrl]`+`[f]`)
+- line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
+  followed by `[v]`)
+- readline’s warning before pasting multiple lines of data into the buffer and
+  the preview option that’s available as part of the aforementioned warning
+- and VIM keys (enabled by pressing `[esc]`)
 
 ## readline
 
@@ -97,7 +96,7 @@ Syntax highlighting can be disabled by running:
 
 ```
 
-config: set shell syntax-highlighting off
+config set shell syntax-highlighting off
 ```
 
 ### Spellchecker
@@ -131,7 +130,7 @@ It is also worth noting that if colour is disabled then the **hint text** will
 not be coloured even if **hint-text-formatting** includes colour codes:
 
 ```
-» config: set shell color false
+» config set shell color false
 ```
 
 (please note that **syntax highlighting** is unaffected by the above config)
@@ -145,7 +144,7 @@ default is a user defined function. At time of writing this document the author
 has the following function defined:
 
 ```
-config: set shell hint-text-func {
+config set shell hint-text-func {
     trypipe <!null> {
         git status --porcelain -b -> set gitstatus
         $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
@@ -168,30 +167,30 @@ It is enabled by default but can be disabled if you prefer a more minimal
 prompt:
 
 ```
-» config: set shell hint-text-enabled false
+» config set shell hint-text-enabled false
 ```
 
 ## See Also
 
-* [ANSI Constants](../user-guide/ansi.md):
+- [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Code Block Parsing](../user-guide/code-block.md):
+- [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+- [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Spellcheck](../user-guide/spellcheck.md):
+- [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
-* [Terminal Hotkeys](../user-guide/terminal-keys.md):
+- [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
+- [`config`](../commands/config.md):
   Query or define Murex runtime settings
-* [`method`](../commands/method.md):
+- [`method`](../commands/method.md):
   Define a methods supported data-types
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex

@@ -6,7 +6,7 @@
 
 ANSI Constants is a Murex convention of passing ANSI escape sequences into
 strings. It uses the `{}` notation with the constant name placed in between two
-curly braces. eg `{GREEN}`. 
+curly braces. eg `{GREEN}`.
 
 ## Constants
 
@@ -194,11 +194,11 @@ unedited.
 
 ```
 # Green spelt correctly
-» out: "{GREEN}PASSED{RESET}"
+» out "{GREEN}PASSED{RESET}"
 PASSED
 
 # Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
-» out: "{GREEEEN}PASSED{RESET}"
+» out "{GREEEEN}PASSED{RESET}"
 {GREEEEN}PASSED
 ```
 
@@ -207,7 +207,7 @@ PASSED
 These sequences are enabled by default. To disable run the following:
 
 ```
-» config: set shell color false
+» config set shell color false
 ```
 
 You will need to add this to your Murex profile, `~/.murex_profile` to make
@@ -215,13 +215,13 @@ it persistent.
 
 ## See Also
 
-* [Profile Files](../user-guide/profile.md):
+- [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`(` (brace quote)](../commands/brace-quote.md):
+- [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`err`](../commands/err.md):
+- [`err`](../commands/err.md):
   Print a line to the STDERR
-* [`out`](../commands/out.md):
+- [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`tout`](../commands/tout.md):
+- [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
