@@ -18,7 +18,7 @@ import (
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
-func parseDescriptions(command string, fMap *map[string]string) {
+func GetManPage(command string, width int) stdio.Io {
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name.Set("(man)")
 	err := fork.Variables.Set(fork.Process, "command", command, types.String)
@@ -26,17 +26,23 @@ func parseDescriptions(command string, fMap *map[string]string) {
 		if debug.Enabled {
 			panic(err)
 		}
-		return
+		return nil
 	}
-	_, err = fork.Execute(manBlock)
+
+	_, err = fork.Execute(ManPageExecBlock(width))
 	if err != nil {
 		if debug.Enabled {
 			panic(err)
 		}
-		return
+		return nil
 	}
 
-	parseDescriptionsLines(fork.Stdout, fMap)
+	return fork.Stdout
+}
+
+func parseDescriptions(command string, fMap *map[string]string) {
+	stdout := GetManPage(command, 1000)
+	parseDescriptionsLines(stdout, fMap)
 }
 
 var rxHeading = regexp.MustCompile(`^[A-Z]+$`)
