@@ -1,4 +1,4 @@
-# `!` (not) - Command Reference
+# `!` (not)
 
 > Reads the STDIN and exit number from previous process and not's it's condition
 
@@ -8,15 +8,21 @@ Reads the STDIN and exit number from previous process and not's it's condition.
 
 ## Usage
 
-    <stdin> -> ! -> <stdout>
+```
+<stdin> -> ! -> <stdout>
+```
 
 ## Examples
 
-    » echo "Hello, world!" -> !
-    false
-    
-    » false -> !
-    true
+```
+» echo "Hello, world!" -> !
+false
+```
+
+```
+» false -> !
+true
+```
 
 ## Synonyms
 

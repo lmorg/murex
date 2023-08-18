@@ -8,22 +8,11 @@
     `onSecondsElapsed` events are triggered every _n_ seconds.
   Usage: |-
     ```
-    event: onSecondsElapsed name=seconds { code block }
+    event onSecondsElapsed name=seconds { code block }
 
-    !event: onSecondsElapsed name
+    !event onSecondsElapsed name
     ```
-  Flags:
-    <seconds>: >-
-      Duration in seconds. eg `60` would be 60 seconds / 1 minute
-  Examples: |-
-    ```
-    event: onSecondsElapsed example=60 {
-        out: "60 seconds has passed"
-    }
-    ```
-  Detail: |-
-    ### Payload
-
+  Payload: |-
     The following payload is passed to the function via STDIN:
 
     ```
@@ -33,13 +22,23 @@
     }
     ```
 
-    #### Name
+    ### Name
 
     This is the name you specified when defining the event.
 
-    #### Interrupt
+    ### Interrupt
 
     This is the duration you defined the event to wait for.
+  Flags:
+    <seconds>: >-
+      Duration in seconds. eg `60` would be 60 seconds / 1 minute
+  Examples: |-
+    ```
+    event onSecondsElapsed example=60 {
+        out "60 seconds has passed"
+    }
+    ```
+  Detail:
   Synonyms:
   - onsecondselapsed
   - onSecondsElapsed

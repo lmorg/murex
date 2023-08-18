@@ -8,13 +8,13 @@
 
   Usage: |-
     ```
-    <stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
+    <stdin> -> count [ --duplications | --unique | --total ] -> <stdout>
     ```
   Examples: |-
     Count number of items in a map, list or array:
 
     ```
-    » tout: json (["a", "b", "c"]) -> count 
+    » tout json (["a", "b", "c"]) -> count 
     3
     ```
   Detail: |-
@@ -42,19 +42,19 @@
     instead. But be mindful that `wc` will also count new line characters.
 
     ```
-    » out: "foobar" -> count
+    » out "foobar" -> count
     1
 
-    » out: "foo\nbar" -> count
+    » out "foo\nbar" -> count
     2
 
-    » out: "foobar" -> wc: -c
+    » out "foobar" -> wc: -c
     7
 
-    » out: "foo\nbar" -> wc: -c
+    » out "foo\nbar" -> wc: -c
     8
 
-    » printf: "foobar" -> wc: -c
+    » printf "foobar" -> wc: -c
     6
     # (printf does not print a trailing new line)
     ```
@@ -69,7 +69,7 @@
     only appear once in the quote.
 
     ```
-    » out: "the quick brown fox jumped over the lazy dog" -> jsplit: \s -> count: --duplications
+    » out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --duplications
     {
         "brown": 1,
         "dog": 1,
@@ -97,26 +97,26 @@
     ```
   Flags:
     "--duplications": Output a JSON map of items and the number of their occurrences in a list or array
-    "-d"            : Alias for `--duplications`
-    "--unique"      : Print the number of unique elements in a list or array
-    "-u"            : Alias for `--unique`
-    "--total"       : Read an array, list or map from STDIN and output the length for that array (default behaviour)
-    "-t"            : Alias for `--total`
+    "-d": Alias for `--duplications`
+    "--unique": Print the number of unique elements in a list or array
+    "-u": Alias for `--unique`
+    "--total": Read an array, list or map from STDIN and output the length for that array (default behaviour)
+    "-t": Alias for `--total`
   Synonyms:
-  - count
-  - len
+    - count
+    - len
   Related:
-  - prepend
-  - append
-  - map
-  - a
-  - ja
-  - ta
-  - jsplit
-  - index
-  - element
-  - range
-  - mtac
-  - msort
-  - tout
-  - jsplit
+    - prepend
+    - append
+    - map
+    - a
+    - ja
+    - ta
+    - jsplit
+    - index
+    - element
+    - range
+    - mtac
+    - msort
+    - tout
+    - jsplit

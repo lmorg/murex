@@ -1,6 +1,6 @@
 - DocumentID: datetime
   Title: >+
-    `datetime` 
+    `datetime`
   CategoryID: commands
   Summary: >-
     A date and/or time conversion tool (like `printf` but for date and time values)
@@ -13,7 +13,7 @@
     popular programming languages.
   Usage: |-
     Pass date/time value as a parameter:
-    
+
     ```
     datetime --in "format" --out "format" --value "date/time" -> <stdout>
     ```
@@ -27,28 +27,29 @@
     Output current date and time:
 
     ```
-    » datetime: --in "{now}" --out "{go}01/02/06 15:04:05"
+    » datetime --in "{now}" --out "{go}01/02/06 15:04:05"
     12/08/21 22:32:30
     ```
 
     Convert STDIN into epoch:
 
     ```
-    » echo "12/08/21 22:32:30" -> datetime: --in "{go}01/02/06 15:04:05" --out "{unix}"
+    » echo "12/08/21 22:32:30" -> datetime --in "{go}01/02/06 15:04:05" --out "{unix}"
     1639002750
     ```
 
     Convert value passed as a command line argument:
 
     ```
-    » datetime: --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
+    » datetime --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
     1639002750
     ```
   Flags:
-    "--in":    Defines the date/time string is formatted in `--value`
-    "--out":   Defined how the date/time string should be formatted in STDOUT
-    "--value": Date/time value to convert (if omitted and the input format is not set to `{now}`
-               then date/time is read from STDIN)
+    "--in": Defines the date/time string is formatted in `--value`
+    "--out": Defined how the date/time string should be formatted in STDOUT
+    "--value":
+      Date/time value to convert (if omitted and the input format is not set to `{now}`
+      then date/time is read from STDIN)
   Detail: |-
     ### Date Time Format Code Parsers
 
@@ -66,13 +67,12 @@
     Murex has full support for Go's date/time parsing.
 
     Documentation regarding these format codes can be found on [pkg.go.dev](https://pkg.go.dev/time#pkg-constants).
-  
+
     #### `{now}`: Current date and time
 
     This is only supported as an input. When it is used `--value` flag is not
     required.
   Synonyms:
   Related:
-  - range
-  - a
-
+    - range
+    - a

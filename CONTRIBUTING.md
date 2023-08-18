@@ -16,7 +16,6 @@ Murex is community project. We gratefully accept contributions.
 - [Etiquette](#etiquette)
 - [Licensing](#licensing)
 
-
 </div>
 
 ## Ways To Contribute
@@ -37,12 +36,13 @@ grammatical error, spelling mistakes or even just a confusing sentence, then
 please do raise a pull request.
 
 All documentation is written in markdown. Even the website is HTML generated
-from the original markdown documents. Some markdown documents are themselves
-generated from files with the extension `_doc.yaml`. This is the backbone of
-the documentation's pseudo-CMS.
+from the original markdown documents. And all markdown documents are themselves
+generated from files with the extension `_doc.yaml`. These template files are
+the backbone of the documentation's pseudo-CMS.
 
 If you are unsure where to find a document, you can either `grep` the source
-repository for a known phrase, or ask in the Github discussions.
+repository for a known phrase, or ask in the [Github discussions](https://github.com/lmorg/murex/discussions)
+group.
 
 ### Writing Integrations
 
@@ -81,14 +81,14 @@ These can be raised on our [Github issue tracker](github.com/lmorg/murex/issues)
 ### Committing Code
 
 Murex is written in a language called Go. Not a lot of Murex's code is well
-documented however that was is document can be found in the [API section](https://murex.rocks/docs/GUIDE.apis.html) of the
+documented however that was is document can be found in the [API section](/docs/apis) of the
 user guide.
 
 ### Blogging
 
 If you want to share some shell tips, be it for Murex or any of the more
 traditional shells like Bash, then we welcome them as short articles for the
-[blog section](https://murex.rocks/docs/BLOG.html). We want the website to be a
+[blog section](/docs/blog). We want the website to be a
 valuable resource for shells and scripting regardless for the platform and
 language.
 
@@ -115,7 +115,7 @@ whether a contribution fits, then you're welcome to [start a discussion ](https:
 ## Licensing
 
 By contributing, you agree to license your code under the same license as the
-existing source code (see the [LICENSE](LICENSE) file) and that @lmorg has the
+existing source code (see the [LICENSE](https://github.com/lmorg/murex/blob/master/LICENSE) file) and that @lmorg has the
 right to relicense Murex under an alternative _open source_ license in the,
 future should the need arise.
 

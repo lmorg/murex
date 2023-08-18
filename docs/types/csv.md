@@ -1,4 +1,4 @@
-# `csv`  - Data-Type Reference
+# `csv`
 
 > CSV files (and other character delimited tables)
 
@@ -12,25 +12,27 @@ or any other exotic characters used as a delimiter.
 The CSV parser is configurable via `config` (see link below for docs on how to
 use `config`)
 
-    » config: -> [csv]      
-    {
-        "comment": {
-            "Data-Type": "str",
-            "Default": "#",
-            "Description": "The prefix token for comments in a CSV table.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": "#"
-        },
-        "separator": {
-            "Data-Type": "str",
-            "Default": ",",
-            "Description": "The delimiter for records in a CSV file.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": ","
-        }
+```
+» config -> [csv]      
+{
+    "comment": {
+        "Data-Type": "str",
+        "Default": "#",
+        "Description": "The prefix token for comments in a CSV table.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": "#"
+    },
+    "separator": {
+        "Data-Type": "str",
+        "Default": ",",
+        "Description": "The delimiter for records in a CSV file.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": ","
     }
+}
+```
 
 ## Default Associations
 
@@ -62,27 +64,33 @@ use `config`)
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`int` ](../types/int.md):
+* [`int`](../types/int.md):
   Whole number (primitive)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`select` ](../optional/select.md):
+* [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
-* [`str` (string) ](../types/str.md):
+* [`str` (string)](../types/str.md):
   string (primitive)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory

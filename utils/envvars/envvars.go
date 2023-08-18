@@ -10,26 +10,30 @@ func All(m map[string]interface{}) {
 }
 
 func all(envs []string, m map[string]interface{}) {
-	for _, s := range envs {
-		if s == "" || s == "=" {
-			m[""] = ""
-			continue
-		}
+	for _, env := range envs {
+		key, val := Split(env)
+		m[key] = val
+	}
+}
 
-		var i int
-		for ; i < len(s); i++ {
-			if s[i] == '=' {
-				break
-			}
-		}
+func Split(env string) (string, string) {
+	if env == "" || env == "=" {
+		return "", ""
+	}
 
-		switch i {
-		case 0:
-			m[""] = s[1:]
-		case len(s):
-			m[s] = ""
-		default:
-			m[s[:i]] = s[i+1:]
+	var i int
+	for ; i < len(env); i++ {
+		if env[i] == '=' {
+			break
 		}
+	}
+
+	switch i {
+	case 0:
+		return "", env[1:]
+	case len(env):
+		return env, ""
+	default:
+		return env[:i], env[i+1:]
 	}
 }

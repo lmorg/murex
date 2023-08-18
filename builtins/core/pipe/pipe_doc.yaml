@@ -10,25 +10,25 @@
     Create pipe
 
     ```
-    pipe: name [ pipe-type ]
+    pipe name [ pipe-type ]
     ```
 
     Destroy pipe
 
     ```
-    !pipe: name
+    !pipe name
     ```
   Examples: |-
     Create a standard pipe:
 
     ```
-    pipe: example
+    pipe example
     ```
 
     Delete a pipe:
 
     ```
-    !pipe: example
+    !pipe example
     ```
     
     Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
@@ -36,7 +36,7 @@
     ```
     pipe example --tcp-dial google.com:80
     bg { <example> }
-    out: "GET /" -> <example>
+    out "GET /" -> <example>
     ```
   Flags:
   Detail: |-

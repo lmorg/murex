@@ -1,4 +1,4 @@
-# Or (`||`) Logical Operator - Parser Reference
+# Or (`||`) Logical Operator
 
 > Continues next operation only if previous operation fails
 
@@ -15,14 +15,18 @@ apply stricter error handling. See detail below.
 
 Second command does not run because the first command doesn't error:
 
-    » out: one || out: two
-    one
-    
+```
+» out: one || out: two
+one
+```
+
 Second command does run because the first command produces an error:
 
-    » err: one || out: two
-    one
-    two
+```
+» err: one || out: two
+one
+two
+```
 
 ## Detail
 
@@ -30,10 +34,12 @@ This has no effect in `try` nor `trypipe` run modes because they automatically
 apply stricter error handling. You can achive a similiar behavior in `try` with
 the following code:
 
-    try {
-        err: one -> !if { out: two }
-    }
-    
+```
+try {
+    err: one -> !if { out: two }
+}
+```
+
 There is no workaround for `trypipe`.
 
 ## See Also

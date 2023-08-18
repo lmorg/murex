@@ -1,0 +1,52 @@
+- DocumentID: ARGV
+  Title: >-
+    `ARGV` (json)
+  CategoryID: variables
+  Summary: >-
+    Array of the command name and parameters within a given
+    scope
+  Description: |-
+    `ARGV` returns an array of the command name and parameters within a given
+    scope. eg `function`, `private`, `autocomplete` or shell script.
+
+    Unlike `$PARAMS`, `$ARGV` includes the function name.
+
+    This is a reserved variable so it cannot be changed.
+  Examples: |-
+    ```
+    » function example { $ARGV }
+    » example abc 1 2 3
+    [
+        "example",
+        "abc",
+        "1",
+        "2",
+        "3"
+    ]
+    ```
+  Detail: |-
+    ### Deprecation of `ARGS`
+
+    In Murex versions 4.x and below, this variable was named `ARGS` (with an 'S').
+    However in Murex 5.x and above it was renamed to `ARGV` (with a 'V') to unify
+    the name with other languages.
+
+    `ARGS` will remain available for compatibility reasons but is considered
+    deprecated and may be removed from future releases.
+  Synonyms:
+  - ARGV
+  - ARGS
+  Related:
+  - PARAMS
+  - types/json
+  - parser/string
+  - parser/array
+  - commands/set
+  - commands/function
+  - commands/private
+  - commands/autocomplete
+  - commands/out
+  - user-guide/scoping
+  - user-guide/pipeline
+  - user-guide/modules
+  - user-guide/reserved-vars

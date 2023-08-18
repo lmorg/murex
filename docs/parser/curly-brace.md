@@ -1,4 +1,4 @@
-# Curly Brace (`{`, `}`) Tokens - Parser Reference
+# Curly Brace (`{`, `}`) Tokens
 
 > Initiates or terminates a code block
 
@@ -9,9 +9,11 @@ the single quotation marks (`'`), any code inside a curly brace is not parsed.
 Also unlike any other quotation tokens, the curly brace is included as part
 of the parsed string.
 
-    » out: {example}
-    {example}
-    
+```
+» out {example}
+{example}
+```
+
 Also like the brace quote (`(`, `)`), the curly brace character is only
 recognized as a curly brace token if it is the start of a parameter.
 
@@ -26,29 +28,35 @@ inlining JSON.
 
 Curly braces can work over multiple lines
 
-    » out: {foo
-    » bar}
-    {foo
-    bar}
-    
+```
+» out {foo
+» bar}
+{foo
+bar}
+```
+
 ### Code Golfing
 
 Curly braces can be used to terminate the parsing of the command name / start
 the parsing of the first parameter however each new parameter would still need
 to be separated by whitespace:
 
-    # Valid
-    if{true} {out: "Yipee"}
-    
-    # Invalid
-    if{true}{out: "Yipee"}
-    
+```
+# Valid
+if{true} {out "Yipee"}
+
+# Invalid
+if{true}{out "Yipee"}
+```
+
 ### ANSI Constants
 
 Some builtins (like `out`) also support infixing using the curly brace. eg
 
-    out: "{GREEN}PASSED{RESET}"
-    
+```
+out "{GREEN}PASSED{RESET}"
+```
+
 This is a separate layer of parsing and happens at the parameter level for
 specific builtins which opt to support ANSI constants. See the ANSI Constant
 user guide (link below) for more information on supporting builtins and which

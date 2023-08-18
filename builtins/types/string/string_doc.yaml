@@ -1,6 +1,6 @@
 - DocumentID: str
   Title: >-
-    `str` (string) 
+    `str` (string)
   CategoryID: types
   Summary: >-
     string (primitive)
@@ -21,18 +21,15 @@
   Detail:
   Associations:
   Synonyms:
-  - str
-  - string
+    - str
+    - string
   Related:
-  - generic
-  - num
-  - int
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-  - apis/Marshal
-  - apis/Unmarshal
-
+    - generic
+    - num
+    - int
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime

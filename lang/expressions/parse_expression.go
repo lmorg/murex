@@ -59,6 +59,17 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.appendAst(symbols.Assign)
 			}
 
+		case ':':
+			switch tree.nextChar() {
+			case '=':
+				// update variable
+				tree.appendAst(symbols.AssignUpdate)
+				tree.charPos++
+			default:
+				// less than
+				tree.appendAst(symbols.LessThan)
+			}
+
 		case '!':
 			switch tree.nextChar() {
 			case '=':
@@ -74,8 +85,21 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.appendAst(symbols.NotLike)
 				tree.charPos++
 			default:
-				// unexpected symbol
-				tree.appendAst(symbols.Unexpected)
+				//  might be a function
+				if !isBareChar(tree.nextChar()) {
+					// unexpected symbol
+					tree.appendAst(symbols.Unexpected)
+				}
+				value := tree.parseBareword()
+				if len(tree.expression) <= tree.charPos || tree.expression[tree.charPos] != '(' {
+					tree.appendAst(symbols.Unexpected)
+					continue
+				}
+				runes, dt, err := tree.parseFunction(exec, value, varAsValue)
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			}
 
 		case '~':
@@ -373,7 +397,15 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				case "null":
 					tree.appendAst(symbols.Null, value...)
 				default:
-					tree.appendAst(symbols.Bareword, value...)
+					if len(tree.expression) > tree.charPos && tree.expression[tree.charPos] == '(' {
+						runes, dt, err := tree.parseFunction(exec, value, varAsValue)
+						if err != nil {
+							return err
+						}
+						tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+					} else {
+						tree.appendAst(symbols.Bareword, value...)
+					}
 				}
 				tree.charPos--
 

@@ -1,4 +1,4 @@
-# `onCommandCompletion` - events
+# `onCommandCompletion`
 
 > Trigger an event upon a command's completion
 
@@ -15,14 +15,72 @@ from the prompt can trigger this event.
 
 ## Usage
 
-    event: onCommandCompletion name=command { code block }
-    
-    !event: onCommandCompletion name
+```
+event onCommandCompletion name=command { code block }
+
+!event onCommandCompletion name
+```
+The following payload is passed to the function via STDIN:
+
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Command": "",
+        "Parameters": [],
+        "Stdout": "",
+        "Stderr": "",
+        "ExitNum": 0
+    }
+}
+```
 
 ## Valid Interrupts
 
 * `<command>`
     Name of command that triggers this event
+
+## Payload
+
+### Name
+
+This is the name you specified when defining the event.
+
+### Command
+
+Name of command executed prior to this event being triggered
+
+### Operation
+
+The commandline parameters of the aforementioned command
+
+### Stdout
+
+This is the name of the Murex named pipe which contains a copy of the STDOUT
+from the command which executed prior to this event.
+
+You can read this with `read-named-pipe`. eg
+
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stdout -> ...
+```
+
+### Stderr
+
+This is the name of the Murex named pipe which contains a copy of the STDERR
+from the command which executed prior to this event.
+
+You can read this with `read-named-pipe`. eg
+
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stderr -> ...
+```
+
+### ExitNum
+
+This is the exit number returned from the executed command.
 
 ## Examples
 
@@ -33,67 +91,18 @@ management tool, to see if you have accidentally ran it as a non-root user. If
 the STDERR contains a message saying you are no root, then this event function
 will re-run `pacman` with `sudo`.
 
-    event: onCommandCompletion sudo-pacman=pacman {
-        <stdin> -> set event
-        read-named-pipe: $event.Interrupt.Stderr \
-        -> regexp 'm/error: you cannot perform this operation unless you are root/' \
-        -> if {
-              sudo pacman @event.Interrupt.Parameters
-           }
-    }
+```
+event onCommandCompletion sudo-pacman=pacman {
+    <stdin> -> set event
+    read-named-pipe $event.Interrupt.Stderr \
+    -> regexp 'm/error: you cannot perform this operation unless you are root/' \
+    -> if {
+          sudo pacman @event.Interrupt.Parameters
+       }
+}
+```
 
 ## Detail
-
-### Payload
-
-The following payload is passed to the function via STDIN:
-
-    {
-        "Name": "",
-        "Interrupt": {
-            "Command": "",
-            "Parameters": [],
-            "Stdout": "",
-            "Stderr": "",
-            "ExitNum": 0
-        }
-    }
-    
-#### Name
-
-This is the name you specified when defining the event.
-
-#### Command
-
-Name of command executed prior to this event being triggered
-
-#### Operation
-
-The commandline parameters of the aforementioned command
-
-#### Stdout
-
-This is the name of the Murex named pipe which contains a copy of the STDOUT
-from the command which executed prior to this event.
-
-You can read this with `read-named-pipe`. eg
-
-    » <stdin> -> set: event
-    » read-named-pipe: $event.Interrupt.Stdout -> ...
-    
-#### Stderr
-
-This is the name of the Murex named pipe which contains a copy of the STDERR
-from the command which executed prior to this event.
-
-You can read this with `read-named-pipe`. eg
-
-    » <stdin> -> set: event
-    » read-named-pipe: $event.Interrupt.Stderr -> ...
-    
-#### ExitNum
-
-This is the exit number returned from the executed command.
 
 ### Stdout
 
@@ -103,9 +112,9 @@ prompt itself and three extra lines for the hint text.
 
 ## See Also
 
-* [Murex Named Pipes](../user-guide/namedpipes.md):
+* [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`alias`](../commands/alias.md):
   Create an alias for a command

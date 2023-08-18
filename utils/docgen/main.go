@@ -11,7 +11,7 @@ import (
 
 const (
 	// Version is the release ID of docgen
-	Version = "2.2.0"
+	Version = "2.5.0"
 
 	// Copyright is the copyright owner string
 	Copyright = "(c) 2018-2023 Laurence Morgan"

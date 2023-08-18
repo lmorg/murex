@@ -1,4 +1,4 @@
-# `summary`  - Command Reference
+# `summary` 
 
 > Defines a summary help text for a command
 
@@ -15,23 +15,31 @@ if neither exist or if you wish to override their text, then you can use
 
 Define a commands summary
 
-    summary command description
-    
+```
+summary command description
+```
+
 Undefine a summary
 
-    !summary command
+```
+!summary command
+```
 
 ## Examples
 
 Define a commands summary
 
-    » summary: foobar "Hello, world!"
-    » runtime: --summaries -> [ foobar ]
-    Hello, world! 
-    
+```
+» summary foobar "Hello, world!"
+» runtime --summaries -> [ foobar ]
+Hello, world! 
+```
+
 Undefine a summary
 
-    » !summary: foobar
+```
+» !summary foobar
+```
 
 ## Synonyms
 

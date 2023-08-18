@@ -16,7 +16,7 @@
   Usage: |-
     ```
     <stdin> -> [[ element ]] -> <stdout>
-    
+
     $variable[[ element ]] -> <stdout>
     ```
   Examples: |-
@@ -53,7 +53,7 @@
 
     » config -> [[ >shell>syntax-highlighting>Data-Type ]]
     bool
-    
+
     » config -> [[ \|shell\|syntax-highlighting\|Data-Type ]]
     bool
 
@@ -80,7 +80,7 @@
     3. Please also make sure you don't use a character that is also used inside
        key names because keys _cannot_ be escaped. For example both of the
        following would fail:
-    
+
     ```
         # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
         # the separator character
@@ -106,13 +106,13 @@
     bool
     ```
   Synonyms:
-  - "[["
-  - element
+    - "[["
+    - element
   Related:
-  - range
-  - count
-  - a
-  - ja
-  - mtac
-  - index
-  - config
+    - range
+    - count
+    - a
+    - ja
+    - mtac
+    - index
+    - config

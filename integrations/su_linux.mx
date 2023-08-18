@@ -1,0 +1,21 @@
+private autocomplete.su {
+    # Autocomplete suggestion for `su`
+    test define getent {
+        "ExitNum": 0
+    }
+
+    trypipe {
+        getent <test_getent> passwd -> cut -d: -f1 -> sed -e "/^${ whoami }$/d" -> jsplit \n
+    }
+}
+
+test unit private autocomplete.su {
+    "StdoutType": "json",
+    "StdoutRegex": "\\[\\\".*?\\\"(,|)\\]"
+}
+
+autocomplete set su {
+    [{
+        "Dynamic": ({ autocomplete.su })
+    }]
+}

@@ -24,12 +24,9 @@ var (
 	rxMatchFlagsQuoted  = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsDarwin  = regexp.MustCompile(`\.It Fl ([a-zA-Z0-9])`)
 	rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)`)
-	//rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)\\fR`)
-	rxMatchFlagsNoFmt = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)=([_\-a-zA-Z0-9]+)`)
-
-	rxMatchGetFlag = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
-
-	rxReplaceMarkup = regexp.MustCompile(`\.[a-zA-Z]+(\s|)`)
+	rxMatchFlagsNoFmt   = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)=([_\-a-zA-Z0-9]+)`)
+	rxMatchGetFlag      = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
+	rxReplaceMarkup     = regexp.MustCompile(`\.[a-zA-Z]+(\s|)`)
 )
 
 // GetManPages executes `man -w` to locate the manual files
@@ -56,11 +53,6 @@ func GetManPages(exe string) []string {
 	return paths
 }
 
-func invalidMan(path string) bool {
-	return !rxMatchManSection.MatchString(path) &&
-		!strings.HasSuffix(path, "test/cat.1.gz") // suppress errors when running a unit test
-}
-
 // ParseByPaths runs the parser to locate any flags with hyphen prefixes
 func ParseByPaths(command string, paths []string) ([]string, map[string]string) {
 	f := Flags.Get(command)
@@ -71,7 +63,7 @@ func ParseByPaths(command string, paths []string) ([]string, map[string]string) 
 	fMap := make(map[string]string)
 
 	for i := range paths {
-		if invalidMan(paths[i]) {
+		if !rxMatchManSection.MatchString(paths[i]) {
 			continue
 		}
 
@@ -133,10 +125,7 @@ func createScanner(filename string) (*bufio.Scanner, func() error, error) {
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
 func ParseByStdio(io stdio.Io) ([]string, map[string]string) {
-	//scanner := bufio.NewScanner(io)
-
 	fMap := make(map[string]string)
-	//parseFlags(&fMap, scanner)
 
 	parseDescriptionsLines(io, &fMap)
 

@@ -1,4 +1,4 @@
-# Single Quote (`'`) Token - Parser Reference
+# Single Quote (`'`) Token
 
 > Initiates or terminates a string (variables not expanded)
 
@@ -12,19 +12,23 @@ contain a space character in it's name)
 
 ## Examples
 
-    » set: example='World!'
-    
-    » out: 'Hello $example'
-    Hello $example
+```
+» set: example='World!'
+
+» out: 'Hello $example'
+Hello $example
+```
 
 ## Detail
 
 Quotes can also work over multiple lines
 
-    » out: 'foo
-    » bar'
-    foo
-    bar
+```
+» out: 'foo
+» bar'
+foo
+bar
+```
 
 ## See Also
 

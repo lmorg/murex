@@ -187,7 +187,7 @@
 
     ```
     # Create a local variable called 'foo':
-    » set: foo=bar
+    » set foo=bar
     » env -> grep: foo
     
     # Export that local variable as an environmental variable:
@@ -196,10 +196,10 @@
     foo=bar
 
     # Changing the value of the local variable doesn't alter the value of the environmental variable:
-    » set: foo=rab
+    » set foo=rab
     » env -> grep: foo
     foo=bar
-    » out: $foo
+    » out $foo
     rab
     ```
 

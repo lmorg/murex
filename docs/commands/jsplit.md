@@ -1,4 +1,4 @@
-# `jsplit`  - Command Reference
+# `jsplit` 
 
 > Splits STDIN into a JSON array based on a regex parameter
 
@@ -8,16 +8,20 @@
 
 ## Usage
 
-    <STDIN> -> jsplit: regex -> <stdout>
+```
+<STDIN> -> jsplit regex -> <stdout>
+```
 
 ## Examples
 
-    » (hello, world) -> jsplit: l+ 
-    [
-        "he",
-        "o, wor",
-        "d"
-    ]
+```
+» (hello, world) -> jsplit l+ 
+[
+    "he",
+    "o, wor",
+    "d"
+]
+```
 
 ## Detail
 
@@ -43,9 +47,7 @@ unwanted "noise" is stripped from the output.
   Create a 2D JSON array from multiple input sources
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -55,11 +57,13 @@ unwanted "noise" is stripped from the output.
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -1,4 +1,4 @@
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 <div id="toc">
 
 - [Command Prompt](#command-prompt)
@@ -22,6 +22,7 @@
 
 </div>
 
+{{ end }}
 ## Command Prompt
 
 ### Autocomplete

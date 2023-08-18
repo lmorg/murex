@@ -1,4 +1,4 @@
-# `pipe` - Command Reference
+# `pipe`
 
 > Manage Murex named pipes
 
@@ -10,27 +10,37 @@
 
 Create pipe
 
-    pipe: name [ pipe-type ]
-    
+```
+pipe name [ pipe-type ]
+```
+
 Destroy pipe
 
-    !pipe: name
+```
+!pipe name
+```
 
 ## Examples
 
 Create a standard pipe:
 
-    pipe: example
-    
+```
+pipe example
+```
+
 Delete a pipe:
 
-    !pipe: example
-    
+```
+!pipe example
+```
+
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
-    pipe example --tcp-dial google.com:80
-    bg { <example> }
-    out: "GET /" -> <example>
+```
+pipe example --tcp-dial google.com:80
+bg { <example> }
+out "GET /" -> <example>
+```
 
 ## Detail
 
@@ -51,35 +61,39 @@ data along asynchronously.
 
 For example
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: "foobar"        -> <example>
-    out: "Hello, world!" -> <example>
-    out: "foobar"        -> <example>
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: "foobar"        -> <example>
+out: "Hello, world!" -> <example>
+out: "foobar"        -> <example>
+
+!pipe: example
+```
+
 This returns `Hello, world!` because `out` is writing to the **example** named
 pipe and `match` is also reading from it in the background (`bg`).
 
 Named pipes can also be inlined into the command parameters with `<>` tags
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: <example> "foobar"
-    out: <example> "Hello, world!"
-    out: <example> "foobar"
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: <example> "foobar"
+out: <example> "Hello, world!"
+out: <example> "foobar"
+
+!pipe: example
+```
+
 > Please note this is also how `test` works.
 
 Murex named pipes can also represent network sockets, files on a disk or any
@@ -89,8 +103,10 @@ or write endpoints transparently.
 
 To see the different supported types run
 
-    runtime --pipes
-    
+```
+runtime --pipes
+```
+
 ### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes
@@ -112,7 +128,7 @@ that pipes created in modules should be prefixed with the name of its package.
   Reads from a Murex named pipe
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`bg`](../commands/bg.md):
   Run processes in the background

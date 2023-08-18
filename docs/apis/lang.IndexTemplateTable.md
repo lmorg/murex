@@ -1,4 +1,4 @@
-# `lang.IndexTemplateTable()` (template API) - API Reference
+# `lang.IndexTemplateTable()` (template API)
 
 > Returns element(s) from a table
 
@@ -473,7 +473,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
   Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
-* [commands/`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure
+* [commands/index](../commands/item-index.md):
+  Outputs an element from an array, map or table

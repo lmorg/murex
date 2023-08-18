@@ -1,0 +1,12 @@
+- DocumentID: INSTALL
+  Title: >-
+    Install
+  CategoryID: Murex
+  Summary: >-
+    Installation instructions
+  Description: |-
+    {{ include "gen/root/INSTALL.inc.md" }}
+  Synonyms:
+  Related:
+    - DOWNLOAD
+    - supported-platforms

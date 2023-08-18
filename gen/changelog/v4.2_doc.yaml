@@ -48,7 +48,7 @@
 
     * `builtin` alias for `fexec builtin` (for familiarity with Bash)
 
-    ### Bug Fixes:
+    ### Bug Fixes
 
     * brace encapsulated variables, eg `$(foobar)`, now autocomplete as expected
 

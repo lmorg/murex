@@ -1,4 +1,4 @@
-# `onFileSystemChange` - events
+# `onFileSystemChange`
 
 > Add a filesystem watch
 
@@ -7,27 +7,42 @@
 `onFileSystemChange` events are triggered whenever there is a change to a
 watched path or file.
 
-### Payload
+## Usage
+
+```
+event onFileSystemChange name=path { code block }
+
+!event onFileSystemChange name
+```
+
+## Valid Interrupts
+
+* `<path>`
+    Path of directory or file to watch for filesystem events
+
+## Payload
 
 The following payload is passed to the function via STDIN:
 
-    {
-        "Name": "",
-        "Interrupt": {
-            "Path": "",
-            "Operation": ""
-        }
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Path": "",
+        "Operation": ""
     }
-    
-#### Name
+}
+```
+
+### Name
 
 This is the name you specified when defining the event
 
-#### Path
+### Path
 
 The path of the file that has triggered the event
 
-#### Operation
+### Operation
 
 This is the filesystem operation that triggered the event. The following
 strings could be present in the **Operation** field:
@@ -39,30 +54,21 @@ strings could be present in the **Operation** field:
 * `chmod`:  filesystem object has had its POSIX permissions updated
 
 Sometimes you might see more than one operation per interrupt. If that happens
-the operation will be pipe delimited. For example `create|chmod
-
-## Usage
-
-    event: onFileSystemChange name=path { code block }
-    
-    !event: onFileSystemChange name
-
-## Valid Interrupts
-
-* `<path>`
-    Path of directory or file to watch for filesystem events
+the operation will be pipe delimited. For example `create|chmod`
 
 ## Examples
 
 This will automatically add any new files in your current working directory to
 git upon file creation:
 
-    event: onFileSystemChange example=. {
-        -> set event
-        if { $event.Interrupt.Operation =~ "create" } then {
-            git add $event.Interrupt.Path
-        }
+```
+event onFileSystemChange example=. {
+    -> set event
+    if { $event.Interrupt.Operation =~ "create" } then {
+        git add $event.Interrupt.Path
     }
+}
+```
 
 ## Detail
 

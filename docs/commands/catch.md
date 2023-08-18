@@ -1,6 +1,6 @@
-# `catch` - Command Reference
+# `catch`
 
-> Handles the exception code raised by `try` or `trypipe` 
+> Handles the exception code raised by `try` or `trypipe`
 
 ## Description
 
@@ -9,26 +9,30 @@ handles the exceptions raised by the aforementioned.
 
 ## Usage
 
-    [ try | trypipe ] { code-block } -> <stdout>
-    
-    catch { code-block } -> <stdout>
-    
-    !catch { code-block } -> <stdout>
+```
+[ try | trypipe ] { code-block } -> <stdout>
+
+catch { code-block } -> <stdout>
+
+!catch { code-block } -> <stdout>
+```
 
 ## Examples
 
-    try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
-    }
-    
-    catch {
-        out: "An error was caught"
-    }
-    
-    !catch {
-        out: "No errors were raised"
-    }
+```
+try {
+    out "Hello, World!" -> grep: "non-existent string"
+    out "This command will be ignored"
+}
+
+catch {
+    out "An error was caught"
+}
+
+!catch {
+    out "No errors were raised"
+}
+```
 
 ## Detail
 

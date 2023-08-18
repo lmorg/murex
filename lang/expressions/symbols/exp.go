@@ -46,6 +46,7 @@ const (
 	// 15. Comma operator
 	// 14. Assignment operators (right to left)
 	Assign
+	AssignUpdate
 	AssignAndAdd
 	AssignAndSubtract
 	AssignAndDivide

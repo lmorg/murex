@@ -19,18 +19,17 @@
     ```
   Detail:
   Synonyms:
-  - ">"
-  - "fwrite"
+    - ">"
+    - "fwrite"
   Related:
-  - greater-than-greater-than
-  - pipe
-  - g
-  - tmp
-  - parser/pipe-arrow
-  - parser/pipe-posix
-  - commands/namedpipe
-  - parser/pipe-err
-
+    - greater-than-greater-than
+    - pipe
+    - g
+    - tmp
+    - parser/pipe-arrow
+    - parser/pipe-posix
+    - commands/namedpipe
+    - parser/pipe-err
 
 - DocumentID: greater-than-greater-than
   Title: >+
@@ -53,18 +52,17 @@
     ```
   Detail:
   Synonyms:
-  - ">>"
-  - "fappend"
+    - ">>"
+    - "fappend"
   Related:
-  - greater-than
-  - pipe
-  - g
-  - tmp
-  - parser/pipe-arrow
-  - parser/pipe-posix
-  - commands/namedpipe
-  - parser/pipe-err
-
+    - greater-than
+    - pipe
+    - g
+    - tmp
+    - parser/pipe-arrow
+    - parser/pipe-posix
+    - commands/namedpipe
+    - parser/pipe-err
 
 - DocumentID: pt
   Title: >+
@@ -94,5 +92,3 @@
     - get
     - post
     - getfile
-
-

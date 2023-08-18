@@ -1,4 +1,4 @@
-# `return` - Command Reference
+# `return`
 
 > Exits current function scope
 
@@ -12,33 +12,41 @@ as a parameter and you can specify the exit number rather than defaulting to 0.
 
 ## Usage
 
-    return [ exit-number ]
+```
+return [ exit-number ]
+```
 
 ## Examples
 
 **Setting an exit number:**
 
-    function example {
-        out foo
-        return 13
-        out bar
-    }
-    example
-    exitnum
-    
+```
+function example {
+    out foo
+    return 13
+    out bar
+}
+example
+exitnum
+```
+
 Running the above code would output:
 
-    foo
-    13
-    
+```
+foo
+13
+```
+
 **Returning withing an exit number:**
 
 If we were to run the same code as above but with `return` written without any
 parameters (ie instead of `return 13` it would be just `return`), then you
 would see the following output:
 
-    foo
-    0
+```
+foo
+0
+```
 
 ## Detail
 

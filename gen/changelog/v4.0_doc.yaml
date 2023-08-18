@@ -42,13 +42,13 @@
 
     * readline prompts are now buffered to reduce cursor flickering
 
-    ### Non-User Facing / Maintenance Changes:
+    ### Non-User Facing / Maintenance Changes
 
     * backend support added for data types to be dynamic objects
 
     * updated autocompletion code for `docker` and `git`
 
-    ### Bug Fixes:
+    ### Bug Fixes
 
     * better wide character support in auto completion suggestions
 

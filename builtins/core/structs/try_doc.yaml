@@ -24,8 +24,8 @@
   Examples: |-
     ```
     try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string"
+        out "This command will be ignored"
     }
     ```
   Flags:
@@ -39,20 +39,18 @@
     command.
   Synonyms:
   Related:
-  - trypipe
-  - catch
-  - runmode
-  - fid-list
-  - if
-  - switch
-  - user-guide/schedulers
-
-
+    - trypipe
+    - catch
+    - runmode
+    - fid-list
+    - if
+    - switch
+    - user-guide/schedulers
 
 - DocumentID: trypipe
   Title: >+
     `trypipe`
-  CategoryID: commands 
+  CategoryID: commands
   Summary: >-
     Checks state of each function in a pipeline and exits block on error
   Description: |-
@@ -70,8 +68,8 @@
   Examples: |-
     ```
     trypipe {
-        out: "Hello, World!" -> grep: "non-existent string" -> cat
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string" -> cat
+        out "This command will be ignored"
     }
     ```
 
@@ -93,22 +91,20 @@
     command.
   Synonyms:
   Related:
-  - try
-  - catch
-  - runmode
-  - fid-list
-  - if
-  - switch
-  - user-guide/schedulers
-
-
+    - try
+    - catch
+    - runmode
+    - fid-list
+    - if
+    - switch
+    - user-guide/schedulers
 
 - DocumentID: catch
   Title: >+
     `catch`
   CategoryID: commands
   Summary: >-
-    Handles the exception code raised by `try` or `trypipe` 
+    Handles the exception code raised by `try` or `trypipe`
   Description: |-
     `catch` is designed to be used in conjunction with `try` and `trypipe` as it
     handles the exceptions raised by the aforementioned.
@@ -117,22 +113,22 @@
     [ try | trypipe ] { code-block } -> <stdout>
 
     catch { code-block } -> <stdout>
-    
+
     !catch { code-block } -> <stdout>
     ```
   Examples: |-
     ```
     try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
+        out "Hello, World!" -> grep: "non-existent string"
+        out "This command will be ignored"
     }
 
     catch {
-        out: "An error was caught"
+        out "An error was caught"
     }
 
     !catch {
-        out: "No errors were raised"
+        out "No errors were raised"
     }
     ```
   Flags:
@@ -141,16 +137,15 @@
 
     `catch` forwards on the STDIN and exit number of the calling function.
   Synonyms:
-  - catch
-  - "!catch"
+    - catch
+    - "!catch"
   Related:
-  - trypipe
-  - try
-  - runmode
-  - if
-  - switch
-  - user-guide/schedulers
-
+    - trypipe
+    - try
+    - runmode
+    - if
+    - switch
+    - user-guide/schedulers
 
 - DocumentID: runmode
   Title: >+
@@ -177,13 +172,13 @@
     function hello {
         # Short conversation, exit on error
         
-        runmode: try function
+        runmode try function
 
-        read: name "What is your name? "
-        out: "Hello $name, pleased to meet you"
+        read name "What is your name? "
+        out "Hello $name, pleased to meet you"
         
-        read: mood "How are you feeling? "
-        out: "I'm feeling $mood too"
+        read mood "How are you feeling? "
+        out "I'm feeling $mood too"
     }
     ```
   Flags:
@@ -217,15 +212,15 @@
     if `runmode ... module` is set.
   Synonyms:
   Related:
-  - try
-  - trypipe
-  - catch
-  - read
-  - out
-  - user-guide/schedulers
-  - user-guide/pipeline
-  - fid-list
-  - function
-  - private
-  - autocomplete
-  - event
+    - try
+    - trypipe
+    - catch
+    - read
+    - out
+    - user-guide/schedulers
+    - user-guide/pipeline
+    - fid-list
+    - function
+    - private
+    - autocomplete
+    - event

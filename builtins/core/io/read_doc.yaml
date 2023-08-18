@@ -10,15 +10,15 @@
     Classic usage:
 
     ```
-    read: "prompt" var_name
+    read "prompt" var_name
 
-    <stdin> -> read: var_name
+    <stdin> -> read var_name
     ```
 
     Script usage:
 
     ```
-    read: [ --prompt "prompt"         ]
+    read [ --prompt "prompt"         ]
           [ --variable var_name       ]
           [ --default "default value" ]
           [ --datatype data-type      ]
@@ -29,17 +29,17 @@
     **Classic usage:**
 
     ```
-    read: "What is your name? " name
-    out: "Hello $name"
+    read "What is your name? " name
+    out "Hello $name"
 
-    out: What is your name? -> read: name
-    out: "Hello $name"
+    out What is your name? -> read name
+    out "Hello $name"
     ```
 
     **Script usage:**
 
     ```
-    read: --prompt "Are you sure? [Y/n]" \
+    read --prompt "Are you sure? [Y/n]" \
           --variable yn \
           --default Y
     ```
@@ -47,7 +47,7 @@
     **Secrets:**
 
     ```
-    read: --prompt "Password: " --variable pw --mask *
+    read --prompt "Password: " --variable pw --mask *
     ```
   Detail: |-
     ### Classic Usage
@@ -98,18 +98,18 @@
     **This builtin is now deprecated. Please use `read --datatype ...` instead**
   Usage: |-
     ```
-    tread: data-type "prompt" var_name
+    tread data-type "prompt" var_name
 
-    <stdin> -> tread: data-type var_name
+    <stdin> -> tread data-type var_name
     ```
   Examples: |-
     ```
-    tread: qs "Please paste a URL: " url
-    out: "The query string values included were:"
+    tread qs "Please paste a URL: " url
+    out "The query string values included were:"
     $url -> format json
 
-    out: Please paste a URL: -> tread: qs url
-    out: "The query string values included were:"
+    out Please paste a URL: -> tread qs url
+    out "The query string values included were:"
     $url -> format json
     ```
   Detail: |-

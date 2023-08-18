@@ -1,4 +1,4 @@
-# `msort`  - Command Reference
+# `msort`
 
 > Sorts an array - data type agnostic
 
@@ -19,26 +19,32 @@ existing UNIX name, `sort`.
 
 ## Usage
 
-    <stdin> -> msort -> <stdout>
+```
+<stdin> -> msort -> <stdout>
+```
 
 ## Examples
 
-    » tout: json (["c", "b", "a"]) -> msort   
-    [
-        "a",
-        "b",
-        "c"
-    ]
-    
+```
+» tout json (["c", "b", "a"]) -> msort   
+[
+    "a",
+    "b",
+    "c"
+]
+```
+
 Since `msort` does not support reversed order, you will need to pipe the
 output of `msort` into another builtin:
 
-    » tout: json (["c", "b", "a"]) -> msort -> mtac 
-    [
-        "c",
-        "b",
-        "a"
-    ]
+```
+» tout json (["c", "b", "a"]) -> msort -> mtac 
+[
+    "c",
+    "b",
+    "a"
+]
+```
 
 ## Synonyms
 
@@ -50,9 +56,7 @@ output of `msort` into another builtin:
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -68,5 +72,7 @@ output of `msort` into another builtin:
   Splits STDIN into a JSON array based on a regex parameter
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

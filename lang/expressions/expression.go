@@ -76,7 +76,9 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		// 15. Comma operator
 		// 14. Assignment operators (right to left)
 		case symbols.Assign:
-			err = expAssign(tree)
+			err = expAssign(tree, true)
+		case symbols.AssignUpdate:
+			err = expAssign(tree, false)
 		case symbols.AssignAndAdd:
 			err = expAssignAdd(tree)
 		case symbols.AssignAndSubtract:

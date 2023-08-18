@@ -1,4 +1,4 @@
-# `lang.ArrayTemplate()` (template API) - API Reference
+# `lang.ArrayTemplate()` (template API)
 
 > Unmarshals a data type into a Go struct and returns the results as an array
 

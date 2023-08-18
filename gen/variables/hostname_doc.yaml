@@ -1,0 +1,18 @@
+- DocumentID: hostname
+  Title: >-
+    `hostname` (str)
+  CategoryID: variables
+  Summary: >-
+    Hostname of the current machine
+  Description: |-
+    `hostname` returns the hostname of the machine (host / server / virtual machine
+    / et al) that Murex is running from.
+
+    This is a reserved variable so it cannot be changed.
+  Synonyms:
+  Related:
+  - types/str
+  - commands/set
+  - parser/string
+  - user-guide/reserved-vars
+

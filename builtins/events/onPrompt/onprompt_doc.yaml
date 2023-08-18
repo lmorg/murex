@@ -10,48 +10,11 @@
     section below.
   Usage: |-
     ```
-    event: onPrompt name=[before|after|abort|eof] { code block }
+    event onPrompt name=[before|after|abort|eof] { code block }
 
-    !event: onPrompt [before_|after_|abort_|eof_]name
+    !event onPrompt [before_|after_|abort_|eof_]name
     ```
-  Flags:
-    before: >-
-      Triggered before readline displays the interactive prompt
-    after: >-
-      Triggered after user has written a command into the interactive prompt and then hit `enter`
-    abort: >-
-      Triggered if `ctrl`+`c` pressed while in the interactive prompt
-    eof: >-
-      Triggered if `ctrl`+`d` pressed while in the interactive prompt
-  Examples: |-
-    **Interrupt 'before':**
-
-    ```
-    event: onPrompt example=before {
-        out: "This will appear before your command prompt"
-    }
-    ```
-
-    **Interrupt 'after':**
-
-    ```
-    event: onPrompt example=after {
-        out: "This will appear after you've hit [enter] on your command prompt"
-        out: "...but before the command executes"
-    }
-    ```
-
-    **Echo the command line:**
-
-    ```
-    » event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
-    » echo hello world
-    echo hello world
-    hello world
-    ```
-  Detail: |-
-    ### Payload
-
+  Payload: |-
     The following payload is passed to the function via STDIN:
 
     ```
@@ -65,26 +28,61 @@
     }
     ```
 
-    #### Name
+    ### Name
 
     This is the **namespaced** name -- ie the name and operation.
 
-    #### Interrupt/Name
+    ### Interrupt/Name
 
     This is the name you specified when defining the event.
 
-    #### Operation
+    ### Operation
 
     This is the interrupt you specified when defining the event.
 
     Valid interrupt operation values are specified below.
 
-    #### CmdLine
+    ### CmdLine
 
     This is the commandline you typed in the prompt.
 
     Please note this is only populated if the interrupt is **after**.
-    
+  Flags:
+    before: >-
+      Triggered before readline displays the interactive prompt
+    after: >-
+      Triggered after user has written a command into the interactive prompt and then hit `enter`
+    abort: >-
+      Triggered if `ctrl`+`c` pressed while in the interactive prompt
+    eof: >-
+      Triggered if `ctrl`+`d` pressed while in the interactive prompt
+  Examples: |-
+    **Interrupt 'before':**
+
+    ```
+    event onPrompt example=before {
+        out "This will appear before your command prompt"
+    }
+    ```
+
+    **Interrupt 'after':**
+
+    ```
+    event onPrompt example=after {
+        out "This will appear after you've hit [enter] on your command prompt"
+        out "...but before the command executes"
+    }
+    ```
+
+    **Echo the command line:**
+
+    ```
+    » event onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
+    » echo hello world
+    echo hello world
+    hello world
+    ```
+  Detail: |-
     ### Stdout
 
     Stdout is written to the terminal. So this can be used to provide multiple

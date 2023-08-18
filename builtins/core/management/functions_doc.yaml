@@ -19,7 +19,7 @@
     ```
     <stdin> -> debug -> <stdout>
     
-    debug: boolean -> <stdout>
+    debug boolean -> <stdout>
     
     debug -> <stdout>
     ```
@@ -27,7 +27,7 @@
     Return debugging information on the previous function:
 
     ```
-    » echo: "hello, world!" -> debug 
+    » out "hello, world!" -> debug 
     {
         "DataType": {
             "Go": "[]string",
@@ -104,10 +104,10 @@
     Enable or disable debug mode:
 
     ```
-    » debug: on
+    » debug on
     true
 
-    » debug: off
+    » debug off
     false
     ```
 
@@ -324,7 +324,7 @@
     ```
   Examples: |-
     ```
-    » man-summary: man 
+    » man-summary man 
     man - an interface to the on-line reference manuals
     ```
   Flags:
@@ -347,32 +347,58 @@
     Changes current working directory.
   Usage: |-
     ```
-    cd path
+    cd [path]
     ```
   Examples: |-
+    **Home directory:**
+    
     ```
-    # Home directory
-    » cd: ~ 
+    » cd ~
+    ```
 
-    # Absolute path
-    » cd: /etc/
+    Running `cd` without a parameter will also change to the current user's home
+    directory:
 
-    # Relative path
-    » cd: Documents
-    » cd: ./Documents
+    ```
+    » cd
+    ```
+
+    **Navigating to the previous directory:**
+
+    ```
+    » cd -
+    ```
+
+    **Absolute path:**
+    
+    ```
+    » cd /etc/
+    ```
+
+    **Relative path:**
+
+    ```
+    » cd Documents
+    » cd ./Documents
     ```
   Flags:
   Detail: |-
     `cd` updates an environmental variable, `$PWDHIST` with an array of paths.
-    You can then use that to change to a previous directory
+    You can then use that to change to a previous directory.
 
+    **View the working directory history:**
+    
     ```
-    # View the working directory history
     » $PWDHIST
-
-    # Change to a previous directory
-    » cd $PWDHIST[0]
     ```
+
+    **Change to a previous directory:**
+    
+    ```
+    » cd $PWDHIST[-1]
+    ```
+
+    > `cd -` is syntactic sugar for `$PWDHIST[-1]`
 
     ### auto-cd
 
@@ -381,7 +407,7 @@
     In Murex you can enable this behaviour by turning on "auto-cd":
 
     ```
-    config: set shell auto-cd true
+    config set shell auto-cd true
     ```
   Synonyms:
   Related:

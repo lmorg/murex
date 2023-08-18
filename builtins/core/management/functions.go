@@ -11,7 +11,9 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/cd"
+	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"
 )
@@ -111,16 +113,34 @@ func cmdBuiltinExists(p *lang.Process) error {
 	return err
 }
 
+const cdErrMsg = "cannot find previous directory"
+
 func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
-	path, err := p.Parameters.String(0)
-	if err != nil {
-		return err
+	path, _ := p.Parameters.String(0)
+
+	switch path {
+	case "":
+		return cd.Chdir(p, home.MyDir)
+	case "-":
+		pwdHist, err := p.Variables.GetValue("PWDHIST")
+		if err != nil {
+			return fmt.Errorf("%s: %s", cdErrMsg, err.Error())
+		}
+		v, err := lists.GenericToString(pwdHist)
+		switch {
+		case err != nil:
+			return fmt.Errorf("%s: $PWDHIST doesn't appear to be a valid array: %s", cdErrMsg, err.Error())
+		case len(v) == 0:
+			return fmt.Errorf("%s: $PWDHIST is an empty array", cdErrMsg)
+		case len(v) == 1:
+			return errors.New("already at first directory in $PWDHIST")
+		default:
+			return cd.Chdir(p, v[len(v)-2])
+		}
+	default:
+		return cd.Chdir(p, path)
 	}
-
-	err = cd.Chdir(p, path)
-
-	return err
 }
 
 func cmdOs(p *lang.Process) error {

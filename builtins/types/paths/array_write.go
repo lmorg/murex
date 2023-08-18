@@ -6,13 +6,13 @@ import (
 
 // path
 
-/*type arrayWriterPath struct {
+type arrayWriterPath struct {
 	array  []string
 	writer stdio.Io
 }
 
 func newArrayWriterPath(writer stdio.Io) (stdio.ArrayWriter, error) {
-	w := &arrayWriterPaths{writer: writer}
+	w := &arrayWriterPath{writer: writer}
 	return w, nil
 }
 
@@ -27,14 +27,14 @@ func (w *arrayWriterPath) WriteString(s string) error {
 }
 
 func (w *arrayWriterPath) Close() error {
-	b, err := marshalPaths(nil, w.array)
+	b, err := marshalPath(nil, w.array)
 	if err != nil {
 		return err
 	}
 
 	_, err = w.writer.Write(b)
 	return err
-}*/
+}
 
 // paths
 

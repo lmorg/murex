@@ -6,6 +6,7 @@ package man
 import (
 	"bufio"
 	"compress/gzip"
+	"io"
 	"os"
 	"strings"
 )
@@ -13,7 +14,7 @@ import (
 // ParseSummary runs the parser to locate a summary
 func ParseSummary(paths []string) string {
 	for i := range paths {
-		if invalidMan(paths[i]) {
+		if !rxMatchManSection.MatchString(paths[i]) {
 			continue
 		}
 		desc := SummaryCache.Get(paths[i])
@@ -37,8 +38,6 @@ func parseSummary(filename string) string {
 	}
 	defer file.Close()
 
-	var scanner *bufio.Scanner
-
 	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
 		gz, err := gzip.NewReader(file)
 		if err != nil {
@@ -46,10 +45,14 @@ func parseSummary(filename string) string {
 		}
 		defer gz.Close()
 
-		scanner = bufio.NewScanner(gz)
-	} else {
-		scanner = bufio.NewScanner(file)
+		return parseSummaryFile(gz)
 	}
+
+	return parseSummaryFile(file)
+}
+
+func parseSummaryFile(file io.Reader) string {
+	scanner := bufio.NewScanner(file)
 
 	var (
 		read bool

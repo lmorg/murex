@@ -1,4 +1,4 @@
-# `exec` - Command Reference
+# `exec`
 
 > Runs an executable
 
@@ -9,30 +9,38 @@ name of that executable directly. While this is suitable 99% of the time,
 occasionally you might run into an edge case where that wouldn't work. The
 primary reason being if you needed to launch a process from a variable, eg
 
-    » set exe=uname
-    » $exe
-    uname
-    
+```
+» set exe=uname
+» $exe
+uname
+```
+
 As you can see here, Murex's behavior here is to output the contents of
 the variable rather then executing the contents of the variable. This is
 done for safety reasons, however if you wanted to override that behavior
 then you could prefix the variable with exec:
 
-    » set exe=uname
-    » exec $exe
-    Linux
+```
+» set exe=uname
+» exec $exe
+Linux
+```
 
 ## Usage
 
-    <stdin> -> exec
-    <stdin> -> exec -> <stdout>
-               exec -> <stdout>
+```
+<stdin> -> exec
+<stdin> -> exec -> <stdout>
+           exec -> <stdout>
+```
 
 ## Examples
 
-    » exec printf "Hello, world!"
-    Hello, world!
-    
+```
+» exec printf "Hello, world!"
+Hello, world!
+```
+
 **Working around aliases:**
 
 If you have an alias like `alias ls=ls --color=auto` and you wanted to run `ls`

@@ -1,4 +1,4 @@
-# Non-Decimal Ranges - mkarray
+# Non-Decimal Ranges
 
 > Create arrays of integers from non-decimal number bases
 
@@ -7,9 +7,11 @@
 When making arrays you can specify ranges of an alternative number base by
 using an `x` or `.` in the end range:
 
-    a: [00..ffx16]
-    a: [00..ff.16]
-    
+```
+a [00..ffx16]
+a [00..ff.16]
+```
+
 All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
 Please note that the start and end range are written in the target base
 while the base identifier is written in decimal: `[hex..hex.dec]`
@@ -21,42 +23,52 @@ Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarr
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+```
+a: [start..end] -> <stdout>
+a: [start..end,start..end] -> <stdout>
+a: [start..end][start..end] -> <stdout>
+```
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+```
+ja: [start..end] -> <stdout>
+ta: data-type [start..end] -> <stdout>
+```
+
 You can also inline arrays with the `%[]` syntax, eg:
 
-    %[start..end]
+```
+%[start..end]
+```
 
 ## Examples
 
-    » a: [08..10x16]
-    08
-    09
-    0a
-    0b
-    0c
-    0d
-    0e
-    0f
-    10
-    
-    » a: [10..08x16]
-    10
-    f
-    e
-    d
-    c
-    b
-    a
-    9
-    8
+```
+» a [08..10x16]
+08
+09
+0a
+0b
+0c
+0d
+0e
+0f
+10
+```
+
+```
+» a [10..08x16]
+10
+f
+e
+d
+c
+b
+a
+9
+8
+```
 
 ## Detail
 
@@ -65,45 +77,49 @@ You can also inline arrays with the `%[]` syntax, eg:
 If you do need a range of fixed floating point numbers generated then you can
 do so by merging two decimal integer ranges together. For example
 
-    » a: [05..10x8].[0..7]
-    05.0
-    05.1
-    05.2
-    05.3
-    05.4
-    05.5
-    05.6
-    05.7
-    06.0
-    06.1
-    06.2
-    ...
-    07.5
-    07.6
-    07.7
-    10.0
-    10.1
-    10.2
-    10.3
-    10.4
-    10.5
-    10.6
-    10.7
-    
+```
+» a [05..10x8].[0..7]
+05.0
+05.1
+05.2
+05.3
+05.4
+05.5
+05.6
+05.7
+06.0
+06.1
+06.2
+...
+07.5
+07.6
+07.7
+10.0
+10.1
+10.2
+10.3
+10.4
+10.5
+10.6
+10.7
+```
+
 ### Everything Is A String
 
 Please note that all arrays are created as strings. Even when using typed
 arrays such as JSON (`ja`).
 
-    » ja [0..5]
-    [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5"
-    ] 
+```
+» ja [0..5]
+[
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+] 
+```
 
 ## See Also
 
@@ -113,9 +129,7 @@ arrays such as JSON (`ja`).
   Create arrays of decimal integers
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+* [`[` (range)](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
@@ -125,3 +139,5 @@ arrays such as JSON (`ja`).
   A sophisticated yet simply way to build a JSON array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

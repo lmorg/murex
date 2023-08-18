@@ -1,4 +1,4 @@
-# `method` - Command Reference
+# `method`
 
 > Define a methods supported data-types
 
@@ -9,14 +9,18 @@ and STDOUT.
 
 ## Usage
 
-    method: define name { json }
+```
+method: define name { json }
+```
 
 ## Examples
 
-    method: define name {
-        "Stdin":  "@Any",
-        "Stdout": "json"
-    }
+```
+method: define name {
+    "Stdin":  "@Any",
+    "Stdout": "json"
+}
+```
 
 ## Detail
 
@@ -64,7 +68,7 @@ var GroupMath = []string{
 
 * [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [`alias`](../commands/alias.md):
   Create an alias for a command

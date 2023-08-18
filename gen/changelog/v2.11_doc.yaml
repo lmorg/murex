@@ -6,11 +6,11 @@
   Summary: >-
     This release mainly focuses on refinements in performance and usability, rather than introducing new features
   Description: |-
-    Breaking Changes:
+    ### Breaking Changes:
 
     * None
 
-    Features:
+    ### Features:
 
     * File index caching for faster completions (eg on mechanical drives). This happens upon shell start up (except on Darwin for security reasons) and after every `cd`
 
@@ -30,7 +30,7 @@
 
     * website: updates to docs
 
-    Bug Fixes:
+    ### Bug Fixes:
 
     * readline: max field size adjusted for autocompletes so more completions are visible at one time
 

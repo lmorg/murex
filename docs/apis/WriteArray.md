@@ -1,4 +1,4 @@
-# `WriteArray()` (type) - API Reference
+# `WriteArray()` (type)
 
 > Write a data type, one array element at a time
 

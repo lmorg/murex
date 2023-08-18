@@ -1,6 +1,6 @@
 - DocumentID: map
   Title: >-
-    `map` 
+    `map`
   CategoryID: commands
   Summary: >-
     Creates a map from two data sources
@@ -14,7 +14,7 @@
     ```
   Examples: |-
     ```
-    » map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
+    » map { tout json (["key 1", "key 2", "key 3"]) } { tout json (["value 1", "value 2", "value 3"]) } 
     {
         "key 1": "value 1",
         "key 2": "value 2",
@@ -24,13 +24,13 @@
   Detail: |-
   Synonyms:
   Related:
-  - prepend
-  - append
-  - count
-  - a
-  - ja
-  - jsplit
-  - range
-  - alter
-  - index
-  - element
+    - prepend
+    - append
+    - count
+    - a
+    - ja
+    - jsplit
+    - range
+    - alter
+    - index
+    - element

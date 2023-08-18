@@ -1,4 +1,4 @@
-# `formap` - Command Reference
+# `formap`
 
 > Iterate through a map or other collection of data
 
@@ -16,50 +16,60 @@ used with `foreach`, such as `--jmap`.
 
 `formap` writes a list:
 
-    <stdin> -> foreach variable { code-block } -> <stdout>
-    
+```
+<stdin> -> foreach variable { code-block } -> <stdout>
+```
+
 `formap` writes to a buffered JSON map:
 
-    <stdin> -> formap --jmap key value { code-block (map key) } { code-block (map value) } -> <stdout>
+```
+<stdin> -> formap --jmap key value { code-block (map key) } { code-block (map value) } -> <stdout>
+```
 
 ## Examples
 
 First of all lets assume the following dataset:
 
-    set json people={
-        "Tom": {
-            "Age": 32,
-            "Gender": "Male"
-        },
-        "Dick": {
-            "Age": 43,
-            "Gender": "Male"
-        },
-        "Sally": {
-            "Age": 54,
-            "Gender": "Female"
-        }
+```
+set json people={
+    "Tom": {
+        "Age": 32,
+        "Gender": "Male"
+    },
+    "Dick": {
+        "Age": 43,
+        "Gender": "Male"
+    },
+    "Sally": {
+        "Age": 54,
+        "Gender": "Female"
     }
-    
+}
+```
+
 We can create human output from this:
 
-    » $people -> formap key value { out "$key is $value[Age] years old" }
-    Sally is 54 years old
-    Tom is 32 years old
-    Dick is 43 years old
-    
+```
+» $people -> formap key value { out "$key is $value[Age] years old" }
+Sally is 54 years old
+Tom is 32 years old
+Dick is 43 years old
+```
+
 > Please note that maps are intentionally unsorted so you cannot guarantee the
 > order of the output produced even if the input has been superficially set in
 > a specific order.
 
 With `--jmap` we can turn that structure into a new structure:
 
-    » $people -> formap --jmap key value { $key } { $value[Age] }
-    {
-        "Dick": "43",
-        "Sally": "54",
-        "Tom": "32"
-    } 
+```
+» $people -> formap --jmap key value { $key } { $value[Age] }
+{
+    "Dick": "43",
+    "Sally": "54",
+    "Tom": "32"
+} 
+```
 
 ## Flags
 
@@ -79,28 +89,28 @@ Meta values are a JSON object stored as the variable `$.`. The meta variable
 will get overwritten by any other block which invokes meta values. So if you
 wish to persist meta values across blocks you will need to reassign `$.`, eg
 
-    %[1..3] -> foreach {
-        meta_parent = $.
-        %[7..9] -> foreach {
-            out "$(meta_parent.i): $.i"
-        }
+```
+%[1..3] -> foreach {
+    meta_parent = $.
+    %[7..9] -> foreach {
+        out "$(meta_parent.i): $.i"
     }
-    
+}
+```
+
 The following meta values are defined:
 
 * `i`: iteration number
 
 ## See Also
 
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
@@ -108,3 +118,5 @@ The following meta values are defined:
   Table transformation tools
 * [`while`](../commands/while.md):
   Loop until condition false
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

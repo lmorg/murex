@@ -1,0 +1,65 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - master
+  
+  workflow_dispatch:
+
+env:
+  GO_VERSION: "1.21"
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # if your docs needs submodules, uncomment the following line
+          # submodules: true
+
+      - name: Setup Go ${{ ENV.GO_VERSION }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ ENV.GO_VERSION }}
+
+      - name: Install Docgen
+        run: |
+          go build -v github.com/lmorg/murex/utils/docgen
+
+      - name: Build Markdown Docs
+        env:
+          DOCGEN_TARGET: vuepress
+        run: |
+          ./docgen -panic -warning -config gen/docgen.yaml
+          mv -v *.md *.svg docs/
+          mv -v gen/vuepress docs/.vuepress
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Build Docs
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          pnpm run docs:build
+          > docs/.vuepress/dist/.nojekyll
+
+      - name: Deploy Docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # This is the branch where the docs are deployed to
+          branch: gh-pages
+          folder: docs/.vuepress/dist
+        

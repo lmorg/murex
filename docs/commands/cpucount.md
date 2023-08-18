@@ -1,4 +1,4 @@
-# `cpucount` - Command Reference
+# `cpucount`
 
 > Output the number of CPU cores available on your host
 
@@ -8,12 +8,16 @@ Output the number of CPU cores available on your host.
 
 ## Usage
 
-    cpucount -> <stdout>
+```
+cpucount -> <stdout>
+```
 
 ## Examples
 
-    » cpucount
-    4
+```
+» cpucount
+4
+```
 
 ## See Also
 

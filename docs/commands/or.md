@@ -1,4 +1,4 @@
-# `or` - Command Reference
+# `or`
 
 > Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 
@@ -9,17 +9,21 @@ code-blocks included as parameters are successful or not.
 
 ## Usage
 
-    or: { code-block } { code-block } -> <stdout>
-    
-    !or: { code-block } { code-block } -> <stdout>
-    
+```
+or { code-block } { code-block } -> <stdout>
+
+!or { code-block } { code-block } -> <stdout>
+```
+
 `or` supports as many or as few code-blocks as you wish.
 
 ## Examples
 
-    if { or { = 1+1==2 } { = 2+2==5 } { = 3+3==6 } } then {
-        out: At least one of those equations are correct
-    }
+```
+if { or { = 1+1==2 } { = 2+2==5 } { = 3+3==6 } } then {
+    out At least one of those equations are correct
+}
+```
 
 ## Detail
 
@@ -50,7 +54,7 @@ code-blocks are unsuccessful (ie the opposite of `or`).
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`if`](../commands/if.md):

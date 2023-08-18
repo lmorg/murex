@@ -1,4 +1,4 @@
-# `ReadMap()` (type) - API Reference
+# `ReadMap()` (type)
 
 > Treat data type as a key/value structure and read its contents
 

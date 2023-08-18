@@ -1,6 +1,8 @@
-# Bang Prefix - User Guide
+# Bang Prefix
 
 > Bang prefixing to reverse default actions
+
+## Description
 
 Some builtins support a bang prefix, `!`, which provides a shorthand negative
 action to default behavior. For example, `set` defines a variable where as

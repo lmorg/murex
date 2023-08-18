@@ -137,3 +137,10 @@ If you do experience some wonky behavior then our recommendation is to run the
 `linux-amd64` build for Linux on top of WSL. The instructions above will guide
 you through installing on Linux, WSL install instructions can be found at the
 following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+
+## See Also
+
+* [Install](/INSTALL.md):
+  Installation instructions
+* [Supported Platforms](docs//supported-platforms.md):
+  Operating systems and CPU architectures supported by Murex

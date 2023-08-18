@@ -1,4 +1,4 @@
-# Generic Pipe (`=>`) Token - Parser Reference
+# Generic Pipe (`=>`) Token
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 
@@ -11,32 +11,38 @@ example they might expect arrays as lists rather than JSON objects).
 
 ## Examples
 
-    » ja: [Mon..Wed] => cat
-    Mon
-    Tue
-    Wed
-    
+```
+» ja: [Mon..Wed] => cat
+Mon
+Tue
+Wed
+```
+
 The above is literally the same as typing:
 
-    » ja: [Mon..Wed] -> format generic -> cat
-    Mon
-    Tue
-    Wed
-    
+```
+» ja: [Mon..Wed] -> format generic -> cat
+Mon
+Tue
+Wed
+```
+
 To demonstrate how the previous pipeline might look without a formatted pipe:
 
-    » ja: [Mon..Wed] -> cat
-    ["Mon","Tue","Wed"]
-    
-    » ja: [Mon..Wed] | cat
-    ["Mon","Tue","Wed"]
-    
-    » ja: [Mon..Wed]
-    [
-        "Mon",
-        "Tue",
-        "Wed"
-    ]
+```
+» ja: [Mon..Wed] -> cat
+["Mon","Tue","Wed"]
+
+» ja: [Mon..Wed] | cat
+["Mon","Tue","Wed"]
+
+» ja: [Mon..Wed]
+[
+    "Mon",
+    "Tue",
+    "Wed"
+]
+```
 
 ## See Also
 

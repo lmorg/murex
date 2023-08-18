@@ -20,10 +20,7 @@ func TestPipeTelemetry(t *testing.T) {
 }
 
 func TestWriteFile(t *testing.T) {
-	file, err := test.TempDir()
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	file := t.TempDir()
 	file += "/TestWriteFile.txt"
 
 	tests := []test.MurexTest{
@@ -37,10 +34,7 @@ func TestWriteFile(t *testing.T) {
 }
 
 func TestAppendFile(t *testing.T) {
-	file, err := test.TempDir()
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	file := t.TempDir()
 	file += "/TestAppendFile.txt"
 
 	tests := []test.MurexTest{

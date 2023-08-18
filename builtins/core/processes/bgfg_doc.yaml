@@ -9,35 +9,18 @@
     execute in the background, or it can take stopped processes and daemonize
     them.
   Usage: |-
-    Any operating system:
-
-    ```
-    bg { code block }
-    
-    <stdin> -> bg
-    ```
-
     POSIX only:
+     ```
+     bg { code block }
 
-    ```
-    bg { code block }
-    
-    <stdin> -> bg
-
-    bg fid
-    ```
+     bg fid
+     ```
   Examples: |-
-    As a function:
 
     ```
     bg { sleep 5; out "Morning" }
     ```
 
-    As a method:
-
-    ```
-    » ({ sleep 5; out "Morning" }) -> bg
-    ```
   Flags:
   Detail: |-
     The examples above will work on any system (Windows included). However the
@@ -47,12 +30,12 @@
     cross platform while `bg int` currently does not work on Windows nor Plan 9.
   Synonyms:
   Related:
-  - fid-list
-  - fid-kill
-  - fid-killall
-  - fg
-  - jobs
-  - exec
+    - fid-list
+    - fid-kill
+    - fid-killall
+    - fg
+    - jobs
+    - exec
 
 - DocumentID: fg
   Title: >+
@@ -64,7 +47,7 @@
     `fg` resumes a stopped process and sends it into the foreground.
   Usage: |-
     POSIX only:
-    
+
     ```
     fg fid
     ```
@@ -75,9 +58,9 @@
     for Windows (due to the kernel not supporting the right signals) nor Plan 9.
   Synonyms:
   Related:
-  - fid-list
-  - fid-kill
-  - fid-killall
-  - bg
-  - jobs
-  - exec
+    - fid-list
+    - fid-kill
+    - fid-killall
+    - bg
+    - jobs
+    - exec

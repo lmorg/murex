@@ -1,4 +1,4 @@
-# `murex-docs` - Command Reference
+# `murex-docs`
 
 > Displays the man pages for Murex builtins
 
@@ -8,12 +8,16 @@ Displays the man pages for Murex builtins.
 
 ## Usage
 
-    murex-docs: [ flag ] command -> <stdout>
+```
+murex-docs [ flag ] command -> <stdout>
+```
 
 ## Examples
 
-    # Output this man page
-    murex-docs: murex-docs
+```
+# Output this man page
+murex-docs murex-docs
+```
 
 ## Flags
 

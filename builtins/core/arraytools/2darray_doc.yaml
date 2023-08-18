@@ -8,11 +8,11 @@
     `2darray` merges multiple input sources to create a two dimensional array in JSON
   Usage: |-
     ```
-    2darray: { code-block } { code-block } -> <stdout>
+    2darray { code-block } { code-block } -> <stdout>
     ```
   Examples: |-
     ```
-    » ps: -fe -> head: -n 10 -> set: ps 
+    » ps -fe -> head -n 10 -> set ps 
     » 2darray { $ps[UID] } { $ps[PID] } { $ps[TTY] } { $ps[TIME] }
     [
         [

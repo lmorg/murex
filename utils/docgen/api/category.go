@@ -64,6 +64,7 @@ func (t templates) CategoryValues(docs documents) *categoryValues {
 	sort.Sort(dt)
 
 	return &categoryValues{
+		ID:          t.ref.ID,
 		Title:       t.ref.Title,
 		Description: t.ref.Description,
 		Documents:   dv,
@@ -72,6 +73,7 @@ func (t templates) CategoryValues(docs documents) *categoryValues {
 }
 
 type categoryValues struct {
+	ID          string
 	Title       string
 	Description string
 	Documents   []*documentValues

@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	rxVars = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+	rxVars = regexp.MustCompile(`(\$[_.a-zA-Z0-9]+)`)
 	rxHome = regexp.MustCompile(`(~[_\-.a-zA-Z0-9]+)`)
 )
 

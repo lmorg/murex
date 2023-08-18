@@ -9,10 +9,10 @@
     will be JSON dumps.
   Usage: |-
     ```
-    runtime: flags -> <stdout>
+    runtime flags -> <stdout>
     ```
 
-    `builtins` is an alias for `runtime: --builtins`:
+    `builtins` is an alias for `runtime --builtins`:
 
     ```
     builtins -> <stdout>
@@ -21,7 +21,7 @@
     List all the builtin data-types that support WriteArray()
     
     ```
-    » runtime: --writearray
+    » runtime --writearray
     [
         "*",
         "commonlog",
@@ -40,7 +40,7 @@
     List all the functions
 
     ```
-    » runtime: --functions -> [ agent aliases ]
+    » runtime --functions -> [ agent aliases ]
     [
         {
             "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
@@ -56,7 +56,7 @@
             "Summary": "Launch ssh-agent"
         },
         {
-            "Block": "\n\t# Output the aliases in human readable format\n\truntime: --aliases -\u003e formap name alias {\n        $name -\u003e sprintf: \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
+            "Block": "\n\t# Output the aliases in human readable format\n\truntime --aliases -\u003e formap name alias {\n        $name -\u003e sprintf \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
             "FileRef": {
                 "Column": 1,
                 "Line": 6,
@@ -74,7 +74,7 @@
     To get a list of every flag supported by `runtime`
 
     ```
-    » runtime: --help
+    » runtime --help
     [
         "--aliases",
         "--astcache",
@@ -109,7 +109,7 @@
     flag names. eg
 
     ```
-    » runtime: --pipes --tests
+    » runtime --pipes --tests
     {
         "pipes": [
             "file",
@@ -125,7 +125,7 @@
         }
     }
 
-    » runtime: --pipes
+    » runtime --pipes
     [
         "file",
         "std",
@@ -135,7 +135,7 @@
         "udp-listen"
     ]
 
-    » runtime: --tests
+    » runtime --tests
     {
         "state": {},
         "test": []

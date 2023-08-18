@@ -23,7 +23,7 @@ const (
 
 type DataType struct {
 	Primitive Primitive
-	Value     interface{}
+	Value     any
 	MxDT      string
 }
 

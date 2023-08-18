@@ -1,4 +1,4 @@
-# `eschtml` - Command Reference
+# `eschtml`
 
 > Encode or decodes text for HTML
 
@@ -14,27 +14,35 @@ and returns its unescaped counterpart.
 
 Escape
 
-    <stdin> -> eschtml -> <stdout>
-    
-    eschtml string to escape -> <stdout>
-    
+```
+<stdin> -> eschtml -> <stdout>
+
+eschtml string to escape -> <stdout>
+```
+
 Unescape
 
-    <stdin> -> !eschtml -> <stdout>
-    
-    !eschtml string to unescape -> <stdout>
+```
+<stdin> -> !eschtml -> <stdout>
+
+!eschtml string to unescape -> <stdout>
+```
 
 ## Examples
 
 Escape
 
-    » out: "<h1>foo & bar</h1>" -> eschtml
-    &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
-    
+```
+» out "<h1>foo & bar</h1>" -> eschtml
+&lt;h1&gt;foo &amp; bar&lt;/h1&gt;
+```
+
 Unescape
 
-    » out: '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
-    <h1>foo & bar</h1>
+```
+» out '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
+<h1>foo & bar</h1>
+```
 
 ## Synonyms
 
@@ -45,7 +53,7 @@ Unescape
 ## See Also
 
 * [`escape`](../commands/escape.md):
-  Escape or unescape input 
+  Escape or unescape input
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`escurl`](../commands/escurl.md):

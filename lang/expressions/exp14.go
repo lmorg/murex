@@ -30,7 +30,7 @@ func convertScalarToBareword(node *astNodeT) {
 	}
 }
 
-func expAssign(tree *ParserT) error {
+/*func expAssign(tree *ParserT, _ bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -64,6 +64,92 @@ func expAssign(tree *ParserT) error {
 	}
 
 	err = tree.setVar(left.value, v, right.dt.DataType())
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}
+
+	return tree.foldAst(&astNodeT{
+		key: symbols.Calculated,
+		pos: tree.ast[tree.astPos].pos,
+		dt: &primitives.DataType{
+			Primitive: primitives.Null,
+			Value:     nil,
+		},
+	})
+}*/
+
+func expAssign(tree *ParserT, overwriteType bool) error {
+	left, right, err := tree.getLeftAndRightSymbols()
+	if err != nil {
+		return err
+	}
+
+	convertScalarToBareword(left)
+
+	if left.key != symbols.Bareword {
+		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+			"left side of %s should be a bareword, instead got %s",
+			tree.currentSymbol().key, left.key))
+	}
+
+	if right.key <= symbols.Bareword {
+		return raiseError(tree.expression, right, 0, fmt.Sprintf(
+			"right side of %s should not be a %s",
+			tree.currentSymbol().key, right.key))
+	}
+
+	var (
+		v  interface{}
+		dt string
+	)
+
+	switch right.dt.Primitive {
+	case primitives.Array, primitives.Object:
+		if overwriteType {
+			dt = types.Json
+		} else {
+			dt = tree.p.Variables.GetDataType(left.Value())
+			if dt == "" {
+				dt = types.Json
+			}
+		}
+
+		// this is ugly but Go's JSON marshaller is better behaved than Murexes on with empty values
+		if dt == types.Json {
+			b, err := json.Marshal(right.dt.Value)
+			if err != nil {
+				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+			}
+			v = string(b)
+		} else {
+			b, err := lang.MarshalData(tree.p, dt, right.dt.Value)
+			if err != nil {
+				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+			}
+			v = string(b)
+		}
+
+	default:
+		if overwriteType {
+			dt = right.dt.DataType()
+			v = right.dt.Value
+		} else {
+			dt = tree.p.Variables.GetDataType(left.Value())
+			//panic("-->" + dt + "<--")
+			if dt == "" || dt == types.Null {
+				dt = right.dt.DataType()
+				v = right.dt.Value
+			} else {
+				//panic(fmt.Sprintf("-->%s||%v<--", dt, right.dt.Value))
+				v, err = types.ConvertGoType(right.dt.Value, dt)
+				if err != nil {
+					raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+				}
+			}
+		}
+	}
+
+	err = tree.setVar(left.value, v, dt)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}

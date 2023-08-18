@@ -78,7 +78,7 @@ func (rl *Instance) echo() {
 	if x > 0 {
 		line += fmt.Sprintf(cursorBackf, x)
 	}
-	print(line + moveCursorForwardsStr(1))
+	print(line)
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {

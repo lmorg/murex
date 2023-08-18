@@ -1,4 +1,12 @@
-# {{ md .Title }} - {{ md .CategoryTitle }}
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+tag:
+  - {{ md .CategoryID }}
+{{ if .Related }}{{ range $i,$a := .Related }}{{ if gt $i 0 }}{{ end }}
+  - {{ md .Hierarchy }}{{ end }}
+{{ end }}
+---
+
+{{ end }}# {{ md .Title }}
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
@@ -14,7 +22,11 @@
 
 {{ range $i,$a := .Flags }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Examples }}
+    {{ md .Description }}{{ end }}{{ end }}{{ if .Payload }}
+
+## Payload
+
+{{ md (include .Payload) }}{{ end }}{{ if .Examples }}
 
 ## Examples
 

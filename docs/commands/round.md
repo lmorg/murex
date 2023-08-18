@@ -1,4 +1,4 @@
-# `round`  - Command Reference
+# `round`
 
 > Round a number by a user defined precision
 
@@ -45,14 +45,18 @@ match in either direction.
 
 ## Usage
 
-    round value precision -> <stdout>
+```
+round value precision -> <stdout>
+```
 
 ## Examples
 
 **Rounding to the nearest multiple of `20`:**
 
-    » round 15 20
-    20
+```
+» round 15 20
+20
+```
 
 ## Flags
 
@@ -61,9 +65,9 @@ match in either direction.
 * `--up`
     Rounds up to the nearest multiple (not supported when precision is to decimal places)
 * `-d`
-    shorthand for `--down
+    shorthand for `--down`
 * `-u`
-    shorthand for `--up
+    shorthand for `--up`
 
 ## See Also
 
