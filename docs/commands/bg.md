@@ -10,23 +10,15 @@ them.
 
 ## Usage
 
-Any operating system:
-
-```
-bg { code block }
-```
-
 POSIX only:
+ ```
+ bg { code block }
 
-```
-bg { code block }
-
-bg fid
-```
+ bg fid
+ ```
 
 ## Examples
 
-As a function:
 
 ```
 bg { sleep 5; out "Morning" }
@@ -42,15 +34,15 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
 
 ## See Also
 
-- [`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-- [`fg`](../commands/fg.md):
+* [`fg`](../commands/fg.md):
   Sends a background process into the foreground
-- [`fid-kill`](../commands/fid-kill.md):
+* [`fid-kill`](../commands/fid-kill.md):
   Terminate a running Murex function
-- [`fid-killall`](../commands/fid-killall.md):
+* [`fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running Murex functions
-- [`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-- [`jobs`](../commands/fid-list.md):
+* [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session

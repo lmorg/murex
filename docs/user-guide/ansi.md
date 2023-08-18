@@ -6,7 +6,7 @@
 
 ANSI Constants is a Murex convention of passing ANSI escape sequences into
 strings. It uses the `{}` notation with the constant name placed in between two
-curly braces. eg `{GREEN}`.
+curly braces. eg `{GREEN}`. 
 
 ## Constants
 
@@ -215,13 +215,13 @@ it persistent.
 
 ## See Also
 
-- [Profile Files](../user-guide/profile.md):
+* [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-- [`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-- [`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-- [`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-- [`tout`](../commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

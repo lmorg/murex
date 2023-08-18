@@ -57,11 +57,18 @@ const (
 	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
+	MUREX_ARGV = "MUREX_ARGV"
 	HOSTNAME   = "HOSTNAME"
 	PWD        = "PWD"
 	ENV        = "ENV"
 	GLOBAL     = "GLOBAL"
+	COLUMNS    = "COLUMNS"
 )
+
+var ReservedVariableNames = []string{
+	SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV,
+	HOSTNAME, PWD, ENV, GLOBAL, COLUMNS,
+}
 
 // Variables is a table of all the variables. This will be local to the scope's
 // process
@@ -149,11 +156,17 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	case MUREX_EXE:
 		return getVarMurexExeValue()
 
+	case MUREX_ARGV, MUREX_ARGS:
+		return getVarMurexArgs(), nil
+
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
 		return getPwdValue()
+
+	case COLUMNS:
+		return getVarColumnsValue(), nil
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -279,11 +292,18 @@ func (v *Variables) getString(name string) (string, error) {
 	case MUREX_EXE:
 		return os.Executable()
 
+	case MUREX_ARGV, MUREX_ARGS:
+		b, err := json.Marshal(getVarMurexArgs(), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
 		return os.Getwd()
+
+	case COLUMNS:
+		return strconv.Itoa(getVarColumnsValue()), nil
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -411,8 +431,14 @@ func (v *Variables) getDataType(name string) string {
 	case MUREX_EXE:
 		return types.Path
 
+	case MUREX_ARGV, MUREX_ARGS:
+		return types.String
+
 	case PWD:
 		return types.Path
+
+	case COLUMNS:
+		return types.Integer
 
 	case "0":
 		return types.String
@@ -525,7 +551,7 @@ func (v *Variables) getNestedDataType(name string, dataType string) string {
 // Set writes a variable
 func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
 	switch name {
-	case SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
+	case SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV, HOSTNAME, PWD, COLUMNS, "_":
 		return errVariableReserved(name)
 	case ENV:
 		return setEnvVar(value, changePath)
@@ -780,14 +806,15 @@ func DumpVariables(p *Process) map[string]interface{} {
 	p.Variables.mutex.Unlock()
 
 	m[SELF], _ = p.Variables.GetValue(SELF)
-	m[ARGV], _ = p.Variables.GetValue(ARGS)
+	m[ARGV], _ = p.Variables.GetValue(ARGV)
 	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
-	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
+	m[MUREX_ARGV], _ = p.Variables.GetValue(MUREX_ARGV)
 	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
 	m[PWD], _ = p.Variables.GetValue(PWD)
 	m[ENV], _ = p.Variables.GetValue(ENV)
-	m[GLOBAL] = nil
+	m[GLOBAL] = ".."
+	m[COLUMNS], _ = p.Variables.GetValue(COLUMNS)
 
 	return m
 }

@@ -1,10 +1,10 @@
-# `hostname` (str)
+# `HOSTNAME` (str)
 
 > Hostname of the current machine
 
 ## Description
 
-`hostname` returns the hostname of the machine (host / server / virtual machine
+`HOSTNAME` returns the hostname of the machine (host / server / virtual machine
 / et al) that Murex is running from.
 
 This is a reserved variable so it cannot be changed.
