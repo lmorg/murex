@@ -92,6 +92,10 @@ compare:
 
 	} else {
 		tests.AddResult(test, p, TestInfo, tMsgExitNumMatch())
+		// don't carry non-zero exit numbers forward if test was successful
+		if !failed {
+			p.ExitNum = 0
+		}
 	}
 
 	// if not failed, log a success result
