@@ -171,7 +171,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		fStdin = F_CREATE_STDIN
 	}
 
-	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+	fork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | fStdin | F_CREATE_STDOUT | F_CREATE_STDERR)
 	fork.FileRef = fileRef
 	fork.Parameters.DefineParsed(plan.Parameters)
 
