@@ -10,7 +10,7 @@ This makes it trivial to identify buggy 3rd party code, malicious libraries, or
 even just bugs in your own profiles and/or modules.
 
 ```
-» runtime: --functions -> [[ /agent/FileRef/ ]]
+» runtime --functions -> [[ /agent/FileRef/ ]]
 {
     "Column": 5,
     "Line": 5,

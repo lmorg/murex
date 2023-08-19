@@ -20,6 +20,8 @@
 
 </div>
 
+
+
 ## Overview
 
 Aside from Murex being carefully designed with scripting in mind, the
@@ -96,7 +98,7 @@ Syntax highlighting can be disabled by running:
 
 ```
 
-config set shell syntax-highlighting off
+config: set shell syntax-highlighting off
 ```
 
 ### Spellchecker
@@ -172,25 +174,25 @@ prompt:
 
 ## See Also
 
-- [ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-- [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-- [Code Block Parsing](../user-guide/code-block.md):
+* [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-- [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-- [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-- [Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
-- [Terminal Hotkeys](../user-guide/terminal-keys.md):
+* [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-- [`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-- [`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define Murex runtime settings
-- [`method`](../commands/method.md):
+* [`method`](../commands/method.md):
   Define a methods supported data-types
-- [`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex

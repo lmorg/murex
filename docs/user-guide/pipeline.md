@@ -15,7 +15,7 @@ for the sake of documentation, a pipeline might even be a solitary command.
 Typical Murex pipeline:
 
 ```
-open: example.json -> [[ /node/0 ]]
+open example.json -> [[ /node/0 ]]
 ```
 
 Example of a single command pipeline:
@@ -33,7 +33,7 @@ cat names.txt | sort | uniq
 Pipeline filtering out a specific error from `example-cmd`
 
 ```
-example-cmd ? grep: "File not found"
+example-cmd ? grep "File not found"
 ```
 
 ## Detail

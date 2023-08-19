@@ -9,9 +9,9 @@ the AST is only generated for a block at a time. Take this sample code:
 function example {
     # An example function
     if { $ENVVAR } then {
-        out: 'foobar'
+        out 'foobar'
     }
-    out: 'Finished!'
+    out 'Finished!'
 }
 ```
 
@@ -30,7 +30,7 @@ are associated with those functions. eg the AST would look something like this:
         "Parameters": [
             "{ $ENVVAR }",
             "then",
-            "{\n        out: 'foobar'\n    }"
+            "{\n        out 'foobar'\n    }"
         ]
     },
     {
