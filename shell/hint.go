@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/parser"
@@ -52,9 +53,7 @@ func hintExpandVariables(line []rune) []rune {
 		return []rune(ansi.ExpandConsts("{RED}") + err.Error())
 	}
 
-	
-
-	/*vars := variables.Expand(r)
+	vars := variables.Expand(r)
 	disclaimer := []rune{}
 	if string(r) != string(vars) {
 		disclaimer = []rune("(example only) ")
@@ -62,7 +61,7 @@ func hintExpandVariables(line []rune) []rune {
 	r = append(disclaimer, vars...)
 	if string(line) == string(r) {
 		r = []rune{}
-	}*/
+	}
 
 	if len(r) > 0 {
 		s := strings.Replace(string(r), "\r", `\r`, -1)

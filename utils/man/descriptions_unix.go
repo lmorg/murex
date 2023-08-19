@@ -3,6 +3,10 @@
 
 package man
 
+import (
+	"fmt"
+)
+
 var manBlock = []rune(`
 	trypipe {
 		/usr/bin/zcat -f ${man -w $command} -> mandoc -O width=%d -c
@@ -12,5 +16,5 @@ var manBlock = []rune(`
 	}`)
 
 func ManPageExecBlock(width int) []rune {
-	return []rune(fmt.Sprintf(manBlock, width, width))
+	return []rune(fmt.Sprintf(string(manBlock), width, width))
 }
