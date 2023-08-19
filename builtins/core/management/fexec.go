@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -20,26 +19,6 @@ var fe map[string]feType
 
 func init() {
 	lang.DefineFunction("fexec", cmdFexec, types.Any)
-
-	defaults.AppendProfile(`
-        autocomplete set fexec { [{
-            "DynamicDesc": ({ fexec help }),
-            "FlagValues": {
-				"function": [{
-					"DynamicDesc": ({ autocomplete.functions }),
-					"ListView": true
-				}],
-				"private": [{
-					"DynamicDesc": ({ autocomplete.privates }),
-					"ListView": true
-				}],
-				"builtin": [{
-					"DynamicDesc": ({ autocomplete.builtins }),
-					"ListView": true
-				}]
-			}
-        }] }
-	`)
 
 	fe = map[string]feType{
 		"function": {

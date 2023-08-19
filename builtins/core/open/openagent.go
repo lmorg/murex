@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -12,29 +11,6 @@ import (
 func init() {
 	lang.DefineFunction("openagent", shell, types.Generic)
 	lang.DefineFunction("!openagent", shell, types.Null)
-
-	defaults.AppendProfile(`
-	private autocomplete.openagents {
-		runtime: --open-agents -> formap k _ { out $k } -> cast str
-	}
-
-	autocomplete set openagent {
-		[{
-			"Flags": [ "get", "set" ],
-			"FlagValues": {
-				"get": [{
-					"Dynamic": ({ autocomplete.openagents })
-				}]
-			}
-		}]
-	}
-
-	autocomplete set !openagent {
-		[{
-			"Dynamic": ({ autocomplete.openagents })
-		}]
-	}
-	`)
 }
 
 const usage = "Please use `get` or `set` (or use the bang (!) to unset) followed by a murex data-type"
