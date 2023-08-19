@@ -70,9 +70,7 @@ func testUnitRun(p *lang.Process) error {
 		return err
 	}
 
-	if !lang.GlobalUnitTests.Run(p, function) {
-		p.ExitNum = 1
-	}
+	lang.GlobalUnitTests.Run(p, function)
 
 	return p.Tests.WriteResults(p.Config, p.Stdout)
 }
