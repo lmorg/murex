@@ -1,0 +1,12 @@
+# This file tests return exits scope correctly
+
+function test.return {
+    out    "goodbye"
+    return 13
+}
+
+test: unit function test.return %{
+    StdoutMatch: "goodbye\n"
+    DataType:    str
+    ExitNum:     13
+}
