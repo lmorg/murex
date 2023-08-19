@@ -16,8 +16,7 @@ test unit private autocomplete.systemctl %{
 
 function autocomplete.systemctl.flags {
     # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
-    systemctl: --help -> git pull
-    regexp %(m/PATTERN/) -> tabulate: --map --key-inc-hint -> formap key val {
+    systemctl: --help -> regexp %(m/PATTERN/) -> tabulate: --map --key-inc-hint -> formap key val {
         out ("$key": [{
             "Dynamic": ({ autocomplete.systemctl }),
             "ListView": true,

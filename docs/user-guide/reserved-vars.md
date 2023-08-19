@@ -22,8 +22,6 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
 
 ## See Also
 
-* [MUREX_ARGS](../variables/MUREX_ARGS.md):
-  
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Numeric (str)](../variables/numeric.md):
@@ -36,13 +34,15 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   How scoping works within Murex
 * [`ARGV` (json)](../variables/ARGV.md):
   Array of the command name and parameters within a given scope
+* [`MUREX_MUREX_ARGS` (json)](../variables/ARGV.md):
+  Array of the command name and parameters passed to the current shell
 * [`SELF` (json)](../variables/SELF.md):
   Meta information about the running scope.
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`hostname` (str)](../variables/hostname.md):
-  Hostname of the current machine
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [hostname](../variables/hostname.md):
+  

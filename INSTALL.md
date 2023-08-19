@@ -82,10 +82,10 @@ package manager first but see further reading below if you get stuck.
 
 **Further Reading:**
 
-- [How to install Go](https://golang.org/doc/install)
-- [How to install git](https://github.com/git-guides/install-git)
-- [How to install gcc](https://gcc.gnu.org/install/)
-- [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
+* [How to install Go](https://golang.org/doc/install)
+* [How to install git](https://github.com/git-guides/install-git)
+* [How to install gcc](https://gcc.gnu.org/install/)
+* [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
 ### Installation From Source Steps
 

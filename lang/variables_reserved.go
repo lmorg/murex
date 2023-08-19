@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/path"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func getVarSelf(p *Process) interface{} {
@@ -23,6 +24,10 @@ func getVarSelf(p *Process) interface{} {
 
 func getVarArgs(p *Process) interface{} {
 	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
+}
+
+func getVarMurexArgs() interface{} {
+	return os.Args
 }
 
 func getVarMurexExeValue() (interface{}, error) {
@@ -64,4 +69,8 @@ func getGlobalValues() interface{} {
 	GlobalVariables.mutex.Unlock()
 
 	return m
+}
+
+func getVarColumnsValue() int {
+	return readline.GetTermWidth()
 }
