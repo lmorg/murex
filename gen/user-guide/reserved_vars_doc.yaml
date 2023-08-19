@@ -34,8 +34,9 @@
   - variables/ARGV
   - variables/SHELL
   - variables/MUREX_ARGS
-  - variables/hostname
+  - variables/HOSTNAME
   - variables/numeric
+  - variables/COLUMNS
   - commands/set
   - commands/global
   - commands/export

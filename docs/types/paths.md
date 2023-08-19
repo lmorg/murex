@@ -58,12 +58,12 @@ relative rather than absolute then `/` will be excluded from outputted string.
 
 ## See Also
 
-* [PWD](../variables/PWD.md):
-  
 * [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
   Absolute path to running shell
 * [`PWDHIST` (json)](../variables/PWDHIST.md):
   History of each change to the sessions working directory
+* [`PWD` (str)](../variables/PWD.md):
+  Current working directory
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
 

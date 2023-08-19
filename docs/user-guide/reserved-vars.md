@@ -28,21 +28,23 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [SHELL](../variables/SHELL.md):
-  
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`ARGV` (json)](../variables/ARGV.md):
   Array of the command name and parameters within a given scope
+* [`COLUMNS` (int)](../variables/COLUMNS.md):
+  Character width of terminal
+* [`HOSTNAME` (str)](../variables/HOSTNAME.md):
+  Hostname of the current machine
 * [`MUREX_MUREX_ARGS` (json)](../variables/ARGV.md):
   Array of the command name and parameters passed to the current shell
 * [`SELF` (json)](../variables/SELF.md):
   Meta information about the running scope.
+* [`SHELL` (str)](../variables/SHELL.md):
+  Path of current shell
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [hostname](../variables/hostname.md):
-  
