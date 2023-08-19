@@ -2,7 +2,9 @@
   Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
 * [`ARGV` (json)](../variables/ARGV.md):
   Array of the command name and parameters within a given scope
-* [`HOSTNAME` (str)](../variables/hostname.md):
+* [`COLUMNS` (int)](../variables/COLUMNS.md):
+  Character width of terminal
+* [`HOSTNAME` (str)](../variables/HOSTNAME.md):
   Hostname of the current machine
 * [`MUREX_ARGV` (json)](../variables/ARGV.md):
   Array of the command name and parameters passed to the current shell
