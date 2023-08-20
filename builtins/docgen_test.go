@@ -107,6 +107,7 @@ func init() {
 		"runtime":               "runtime_commands_docgen.go",
 		"rx":                    "rx_commands_docgen.go",
 		"set":                   "set_commands_docgen.go",
+		"signal":                "signal_commands_docgen.go",
 		"source":                "source_commands_docgen.go",
 		"struct-keys":           "struct-keys_commands_docgen.go",
 		"suffix":                "suffix_commands_docgen.go",

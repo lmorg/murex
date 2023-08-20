@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -13,75 +12,22 @@ import (
 func init() {
 	lang.DefineFunction("test", cmdTest, types.Any)
 	lang.DefineFunction("!test", cmdTestDisable, types.Null)
-
-	defaults.AppendProfile(`
-private autocomplete.test.run-unit {
-	# Returns all available tests for ` + "`test run`" + `
-    runtime: --tests -> [ unit ] -> foreach: test {
-        out: $test[function]
-    } -> cast str -> prepend *
-}
-
-test unit private autocomplete.test.run-unit {
-    "StdoutRegex": (^(([-_./a-zA-Z0-9]+|\*)\n)+),
-	"StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-	}),
-	"StdoutIsArray": true
-}
-
-autocomplete set test { [
-    {
-        "FlagsDesc": {
-			"config":   "Enable or disable boolean test states (more options available in ` + "`" + `config` + "`" + `)",
-			"define":   "Define an inlined test",
-            "state":    "Define a state report",
-            "run":      "Execute a code block, function or unit test with inline testing enabled",
-			"unit": 	"Define a unit test",
-			"report":   "Write the test report (happens automatically by default)"
-		},
-        "FlagValues": {
-			"config": [{
-				"FlagsDesc": {
-					"enable":       "Enable inlined tests",
-					"!enable":      "Disable inlined tests",
-					"auto-report":  "Automatically output report (default)",
-					"!auto-report": "Do not automatically output report",
-					"verbose":      "Verbose report",
-					"!verbose":     "Consice report (default)"
-				},
-				"AllowMultiple": true,
-				"Optional": false
-    		}],
-            "run": [{
-                "Dynamic": ({ autocomplete.test.run-unit })
-            }]
-        }
-    }
-] }
-    `)
 }
 
 func errUsage(invalidParameter string, err error) error {
-	usage := fmt.Sprintf(`Expected usage:
-    test: config [ enable|!enable ] [ verbose|!verbose ] [ auto-report|!auto-report ]
-    test: define test-name { json-properties }
-    test: unit function|private|open|event test-name { json-properties }
-    test: state name { code block }
-    test: run { code-block }
-    test: run package/module/test-name|*
-    test: report
-    !test`)
+	usage := `Expected usage:
+    test config [ enable|!enable ] [ verbose|!verbose ] [ auto-report|!auto-report ]
+    test define test-name { json-properties }
+    test unit function|private|open|event test-name { json-properties }
+    test state name { code block }
+    test run { code-block }
+    test run package/module/test-name|*
+    test report
+    !test`
 
 	switch {
 	case invalidParameter != "":
-		return fmt.Errorf("Invalid parameter: `%s`%s%s", invalidParameter, utils.NewLineString, usage)
+		return fmt.Errorf("invalid parameter: `%s`%s%s", invalidParameter, utils.NewLineString, usage)
 	case err != nil:
 		return fmt.Errorf("%s%s%s", err.Error(), utils.NewLineString, usage)
 	default:
@@ -178,7 +124,7 @@ func testConfig(p *lang.Process, i int) error {
 
 func cmdTestDisable(p *lang.Process) error {
 	if p.Parameters.Len() > 0 {
-		return errUsage("", errors.New("Too many parameters! Usage: `!test` to disable testing"))
+		return errUsage("", errors.New("too many parameters! Usage: `!test` to disable testing"))
 	}
 	return p.Config.Set("test", "enabled", false, p.FileRef)
 }

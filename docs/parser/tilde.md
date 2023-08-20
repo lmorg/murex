@@ -9,10 +9,10 @@ The tilde token is used as a lazy reference to the users home directory.
 ## Examples
 
 ```
-» out: ~
+» out ~
 /home/bob
 
-» out: ~joe
+» out ~joe
 /home/joe
 ```
 
@@ -22,16 +22,16 @@ Tilde can be expanded inside double quotes, brace quotes as well as used naked.
 But it cannot be expanded inside single quotes.
 
 ```
-» out: ~
+» out ~
 /home/bob
 
-» out: '~'
+» out '~'
 ~
 
-» out: "~"
+» out "~"
 /home/bob
 
-» out: %(~)
+» out %(~)
 /home/bob
 ```
 
@@ -43,6 +43,8 @@ But it cannot be expanded inside single quotes.
   Initiates or terminates a string (variables expanded)
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 * [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [String (`$`) Token](../parser/string.md):

@@ -1,0 +1,21 @@
+function signal.SIGUSR1.trap {
+    bg {
+        exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
+            event signalTrap example=SIGUSR1 {
+                out "SIGUSR1 received..."
+            }
+
+            out "waiting for signal..."
+            sleep 3
+        )
+    }
+    sleep 2 # just in case `exec` hasn't started yet
+    signal $GLOBAL.SIGNAL_TRAP_PID SIGUSR1
+}
+
+test unit function signal.SIGUSR1.trap %{
+    StdoutMatch: "waiting for signal...\nSIGUSR1 received...\n"
+    DataType:    str
+    ExitNum:     0
+}
+

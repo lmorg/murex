@@ -302,6 +302,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`signal`](../commands/signal.md):
+  Sends a signal RPC
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`struct-keys`](../commands/struct-keys.md):
@@ -403,6 +405,8 @@ are only included by default on Windows.
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
   Events triggered by time intervals
+* [`signalTrap`](../events/signaltrap.md):
+  Trap OS signals
 
 ## API Reference
 

@@ -19,7 +19,7 @@ dependency with another application. You can check if `aspell` is installed by
 running the following:
 
 ```
-which: aspell
+which aspell
 ```
 
 If that returns no data, then you will need to install `aspell` yourself.
@@ -47,7 +47,7 @@ Spellcheck needs to be enabled. This option can be found in `config` under
 To enable this run:
 
 ```
-config: set shell spellcheck-enabled true
+config set shell spellcheck-enabled true
 ```
 
 ...or add the above line to your Murex profile, `~/.murex_profile` to make
@@ -62,7 +62,7 @@ This shouldn't need tweaking if you're running `aspell` but other spellcheckers
 will require updated code. The default will look something like this:
 
 ```
-» config: get shell spellcheck-func
+» config get shell spellcheck-func
 { -> aspell list }
 ```
 
@@ -81,7 +81,7 @@ the following
 ```
 {
     # This is a theoretical example. It will not work generically.
-    -> set: line
+    -> set line
     newspellchecker --check "$line"
 }
 ```
@@ -93,7 +93,7 @@ in general you might just want to go with a misspelling per line as it's pretty
 POSIX friendly and thus most spellcheckers are likely to support it. eg
 
 ```
-» out "a list of misspelt words: qwert fuubar madeupword" -> aspell: list
+» out "a list of misspelt words: qwert fuubar madeupword" -> aspell list
 qwert
 fuubar
 madeupword
@@ -111,13 +111,13 @@ Murex has it's own user dictionary, which is held as a JSON array:
 You can add words to a user dictionary via:
 
 ```
-» config: eval shell spellcheck-user-dictionary { -> append "myword" }
+» config eval shell spellcheck-user-dictionary { -> append "myword" }
 ```
 
 or
 
 ```
-» config: eval shell spellcheck-user-dictionary { -> alter: --merge / (["word1", "word2", "word3"]) }
+» config eval shell spellcheck-user-dictionary { -> alter --merge / (["word1", "word2", "word3"]) }
 ```
 
 > Don't forget to record these in your Murex profile, `~/.murex_profile` to

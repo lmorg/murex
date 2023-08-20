@@ -182,7 +182,12 @@ func testIsGreaterThanOrEqualTo(b []byte, dt string, property string, comparison
 		l = len(t)
 	case []bool:
 		l = len(t)
-	case []interface{}:
+	case []any:
+		l = len(t)
+
+	case [][]string:
+		l = len(t)
+	case [][]any:
 		l = len(t)
 
 	case map[string]string:

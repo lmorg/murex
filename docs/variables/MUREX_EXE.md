@@ -16,8 +16,8 @@ This is a reserved variable so it cannot be changed.
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [SHELL](../variables/SHELL.md):
-  
+* [`SHELL` (str)](../variables/SHELL.md):
+  Path of current shell
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):

@@ -3,7 +3,6 @@ package cmdpipe
 import (
 	"errors"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/stdio"
@@ -13,53 +12,6 @@ import (
 func init() {
 	lang.DefineFunction("pipe", cmdPipe, types.Null)
 	lang.DefineFunction("!pipe", cmdClosePipe, types.Null)
-
-	defaults.AppendProfile(`
-		private autocomplete.pipe-types {
-			# Returns CLI flags for ` + "`pipe`" + `
-			runtime: --pipes -> !match: std -> prefix: "--"
-		}
-
-		test unit private autocomplete.pipe-types {
-			"StdoutRegex": "--file"
-		}
-
-		autocomplete set pipe { [
-			{
-				"AnyValue": true
-			},
-			{
-				"Dynamic": ({ autocomplete.pipe-types }),
-				"FlagValues": {
-					"--file": [{
-						"IncFiles": true
-					}]
-				}
-			}
-		] }
-
-		private autocomplete.!pipe-list {
-			# Returns CLI flags for ` + "`!pipe`" + `
-			runtime: --named-pipes -> ![ null ]
-		}
-
-		test unit private autocomplete.!pipe-list {
-			"PreBlock": ({
-				pipe: autocompleteunittest
-			}),
-			"StdoutRegex": "autocompleteunittest",
-			"PostBlock": ({
-				!pipe: autocompleteunittest
-			})
-		}
-
-		autocomplete set !pipe { [
-			{
-				"DynamicDesc": ({ autocomplete.!pipe-list }),
-				"AllowMultiple": true
-			}
-		] }
-	`)
 }
 
 func cmdPipe(p *lang.Process) error {

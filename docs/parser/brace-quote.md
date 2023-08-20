@@ -34,7 +34,7 @@ hello world
 #### Nested quotes:
 
 ```
-» murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
+» murex -c %(out %(Hello "${murex -c %(out %(Bob))}"))
 Hello "Bob"
 ```
 
@@ -58,7 +58,7 @@ characters (and so on) the further deep you get in your nest.
 Quotes can also work over multiple lines
 
 ```
-» out: %(foo
+» out %(foo
 » bar)
 foo
 bar
@@ -79,8 +79,8 @@ The open brace character is only recognized as a brace quote token if it is the
 start of a parameter.
 
 ```
-» set: example=(World!)
-» out: (Hello $example)
+» set example=(World!)
+» out (Hello $example)
 Hello (World!)
 ```
 

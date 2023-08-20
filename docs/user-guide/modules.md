@@ -56,7 +56,7 @@ For example the command I run on any new dev machine to import all of my DevOps
 tools and terminal preferences is the following:
 
 ```
-murex-package: import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
+murex-package import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
 ```
 
 ### Extendability
@@ -71,7 +71,7 @@ Packages can be hosted via HTTP(S) or git. Anyone can import anyone elses
 packages using `murex-package`. 
 
 ```
-murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
+murex-package install https://github.com/lmorg/murex-module-murex-dev.git
 ```
 
 ### Updating Packages
@@ -79,7 +79,7 @@ murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
 Updating packages is easy:
 
 ```
-murex-package: update
+murex-package update
 ```
 
 ### Tracking Code

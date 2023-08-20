@@ -14,5 +14,9 @@
   Array of the parameters within a given scope
 * [`PWDHIST` (json)](../variables/PWDHIST.md):
   History of each change to the sessions working directory
+* [`PWD` (str)](../variables/PWD.md):
+  Current working directory
 * [`SELF` (json)](../variables/SELF.md):
   Meta information about the running scope.
+* [`SHELL` (str)](../variables/SHELL.md):
+  Path of current shell

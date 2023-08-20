@@ -92,17 +92,17 @@ Since arrays are expanded over multiple parameters, you cannot expand an array
 inside quoted strings like you can with a string variable:
 
 ```
-» out: "foo ${ ja: [1..5] } bar"
+» out "foo ${ ja [1..5] } bar"
 foo ["1","2","3","4","5"] bar
 
-» out: "foo @{ ja: [1..5] } bar"
+» out "foo @{ ja [1..5] } bar"
 foo  1 2 3 4 5  bar
 
-» %(${ ja: [1..5] })
+» %(${ ja [1..5] })
 ["1","2","3","4","5"]   
 
 » %(@{ ja: [1..5] })
-@{ ja: [1..5] } 
+@{ ja [1..5] } 
 ```
 
 ## See Also
@@ -111,6 +111,8 @@ foo  1 2 3 4 5  bar
   Initiates or terminates a string (variables expanded)
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 * [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [String (`$`) Token](../parser/string.md):

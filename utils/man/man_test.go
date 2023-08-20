@@ -5,31 +5,29 @@ package man
 
 import (
 	"embed"
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
-//go:embed *.1.gz
-var manPages embed.FS
+//go:embed test_*.txt
+var manPagesTxt embed.FS
 
-/*func TestMan(t *testing.T) {
-	count.Tests(t, 1)
-
-	files, err := manPages.ReadDir(".")
+func TestMan(t *testing.T) {
+	files, err := manPagesTxt.ReadDir(".")
 	if err != nil {
 		t.Error(err.Error())
 	}
 
+	count.Tests(t, len(files)*2)
+
 	for _, entry := range files {
-		file, err := manPages.Open(entry.Name())
+		file, err := manPagesTxt.Open(entry.Name())
 		if err != nil {
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}
 
-		gz, err := gzip.NewReader(file)
-		if err != nil {
-			t.Errorf("%s: %s", entry.Name(), err.Error())
-		}
-
-		flags, descs := ParseByStdio(streams.NewReadCloser(gz))
+		flags, descs := ParseByStdio(file)
 		if len(flags) == 0 {
 			t.Errorf("%d flags returned for '%s'", len(flags), entry.Name())
 		}
@@ -37,14 +35,9 @@ var manPages embed.FS
 			t.Errorf("%d descriptions returned for '%s'", len(descs), entry.Name())
 		}
 
-		err = gz.Close()
-		if err != nil {
-			t.Errorf("%s: %s", entry.Name(), err.Error())
-		}
 		err = file.Close()
 		if err != nil {
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}
 	}
 }
-*/
