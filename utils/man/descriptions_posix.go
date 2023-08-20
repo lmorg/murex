@@ -16,7 +16,6 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/rmbs"
 )
@@ -165,7 +164,7 @@ func parseLineFlags(b []byte) *parsedLineT {
 
 	for {
 	start:
-		fmt.Println(json.LazyLoggingPretty(*pl), "-->"+string(b)+"<--")
+		//fmt.Println(json.LazyLoggingPretty(*pl), "-->"+string(b)+"<--")
 		if pl.Position == len(b) {
 			return pl
 		}
@@ -245,14 +244,14 @@ func parseLineFlags(b []byte) *parsedLineT {
 }
 
 func parseFlag(b []byte, pl *parsedLineT) int {
-	fmt.Println("parseFlag", string(b))
+	//fmt.Println("parseFlag", string(b))
 	var (
 		split   bool
 		bracket byte = 0
 	)
 
 	for i, c := range b {
-		fmt.Printf("i==%d c=='%s' bracket=%d\n", i, string(c), bracket)
+		//fmt.Printf("i==%d c=='%s' bracket=%d\n", i, string(c), bracket)
 		switch {
 		case isValidFlagChar(c):
 			continue
