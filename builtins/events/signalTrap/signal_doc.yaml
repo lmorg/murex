@@ -1,0 +1,58 @@
+- DocumentID: signal
+  Title: >+
+    `signal`
+  CategoryID: commands
+  Summary: >-
+    Sends a signal RPC
+  Description: |-
+    `signal` sends an operating system RPC (known as "signal") to a specified
+    process, identified via it's process ID ("pid").
+
+    {{ include "builtins/events/signalTrap/signals.inc.md" }}
+  Usage: |-
+    1. The first parameter is the process ID (int)
+    2. The second parameter is the signal name (str). This will be all in
+       UPPERCASE and prefixed "SIG"
+
+    ```
+    signal pid SIGNAL
+    ```
+
+  Examples: |-
+    ```
+    bg {
+        exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
+            event signalTrap example=SIGINT {
+                out "SIGINT received, not quitting"
+            }
+            sleep 4
+        )
+    }
+    sleep 2 # just in case `exec` hasn't started yet
+    signal $GLOBAL.SIGNAL_TRAP_PID SIGINT
+    ```
+  Flags:
+    SIGINT: >-
+      **"Signal interrupt"** -- equivalent to pressing `ctrl`+`c`
+    SIGQUIT: >-
+      **"Signal quit"** -- requests the process quits and performs a core dump
+    SIGTERM: >-
+      **"Signal terminate"** -- request for a processes termination. Similar to `SIGINT`
+    SIGUSR1: >-
+      **"Signal user 1"** -- user defined
+    SIGUSR2: >-
+      **"Signal user 2"** -- user defined
+  Detail: |-
+    {{ include "builtins/events/signalTrap/signal_detail.inc.md" }}
+
+    ### Catching incoming signals
+
+    Signals can be caught (often referred to as "trapped") in Murex with an event:
+    `signalTrap`. Read below for details.
+  Synonyms:
+  Related:
+    - bg
+    - event
+    - variables/MUREX_EXE
+    - out
+    - events/signaltrap
