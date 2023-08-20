@@ -118,8 +118,7 @@ var interrupts = map[string]syscall.Signal{
 
 ### Plan 9 Support
 
-Plan 9 is not currently supported. Please raise a feature request on Github if
-this is a feature you would like added.
+Plan 9 is not supported.
 
 ### Stdout
 
