@@ -11,10 +11,10 @@ import (
 )
 
 //go:embed test_*.txt
-var manPages embed.FS
+var manPagesTxt embed.FS
 
 func TestMan(t *testing.T) {
-	files, err := manPages.ReadDir(".")
+	files, err := manPagesTxt.ReadDir(".")
 	if err != nil {
 		t.Error(err.Error())
 	}
@@ -22,7 +22,7 @@ func TestMan(t *testing.T) {
 	count.Tests(t, len(files)*2)
 
 	for _, entry := range files {
-		file, err := manPages.Open(entry.Name())
+		file, err := manPagesTxt.Open(entry.Name())
 		if err != nil {
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}

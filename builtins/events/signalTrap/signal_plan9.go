@@ -28,7 +28,7 @@ func cmdSendSignal(p *lang.Process) error {
 func autocompleteSignals(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	signals := make(map[string]string, len(0))
+	signals := make(map[string]string, 0)
 
 	b, err := json.Marshal(signals, p.Stdout.IsTTY())
 	if err != nil {
