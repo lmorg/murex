@@ -352,7 +352,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("test", "crop-message", config.Properties{
 		Description: "This is the character limit for the report message when the report is set to `table`. Set to zero, `0`, to disable message cropping",
-		Default:     100,
+		Default:     0,
 		DataType:    types.Integer,
 	})
 }

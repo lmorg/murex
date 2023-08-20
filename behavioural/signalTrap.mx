@@ -1,17 +1,19 @@
-function signal.SIGINT {
+function signal.SIGINT.trapped {
     bg {
         exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
             event signalTrap example=SIGINT {
                 out "SIGINT received, not quitting"
             }
-            sleep 3
+            sleep 5
         )
     }
+    sleep 2 # just in case `exec` hasn't started yet
     signal $GLOBAL.SIGNAL_TRAP_PID SIGINT
 }
 
-test: unit function signal.SIGINT %{
+test: unit function signal.SIGINT.trapped %{
     StdoutMatch: "SIGINT received, not quitting\n"
     DataType:    str
     ExitNum:     0
 }
+

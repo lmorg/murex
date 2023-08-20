@@ -2,6 +2,7 @@ package signaltrap
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"syscall"
 
@@ -122,10 +123,18 @@ func (evt *sigEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
-func (evt *sigEvents) callback(interrupt string) {
-	if !isValidInterrupt(interrupt) {
-		panic(fmt.Sprintf(errInvalidInterrupt, interrupt))
+func (evt *sigEvents) callback(sig os.Signal) {
+	var interrupt string
+	for name, signal := range interrupts {
+		if signal == sig {
+			interrupt = name
+			goto event
+		}
 	}
+
+	panic(fmt.Sprintf("unknown signal: %V", sig))
+
+event:
 
 	//evt.mutex.Lock()
 
@@ -177,7 +186,7 @@ func (evt *sigEvents) noRegisteredSignal(sig string) bool {
 func (evt *sigEvents) signalHandler() {
 	for {
 		sig := <-signalChan
-		evt.callback(sig.String())
+		evt.callback(sig)
 	}
 }
 
