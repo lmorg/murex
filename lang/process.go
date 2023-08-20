@@ -371,6 +371,7 @@ cleanUpProcess:
 	for !p.Previous.HasTerminated() {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
+		time.Sleep(1 * time.Second)
 	}
 
 	//debug.Json("Execute process (destroyProcess)", p)

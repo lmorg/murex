@@ -23,7 +23,7 @@ func cmdBreak(p *lang.Process) error {
 	if name == "" {
 		p.Done()
 		p.Parent.Done()
-		killProcChain(p.Parent, 0)
+		p.Parent.KillForks(0)
 		return fmt.Errorf(
 			"missing parameter. Stopping execution of `%s` as a precaution",
 			p.Parent.Name.String(),
@@ -38,7 +38,7 @@ func breakUpwards(p *lang.Process, name string, exitNum int) error {
 	proc := p.Parent
 	for {
 		proc.ExitNum = exitNum
-		killProcChain(proc, exitNum)
+		proc.KillForks(exitNum)
 		proc.Done()
 
 		if proc.Name.String() == name {
@@ -53,16 +53,6 @@ func breakUpwards(p *lang.Process, name string, exitNum int) error {
 		}
 
 		proc = proc.Parent
-	}
-}
-
-func killProcChain(p *lang.Process, exitNum int) {
-	forks := p.Forks.GetForks()
-	for _, procs := range forks {
-		for i := range *procs {
-			(*procs)[i].ExitNum = exitNum
-			(*procs)[i].Done()
-		}
 	}
 }
 

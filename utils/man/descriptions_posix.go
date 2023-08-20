@@ -4,8 +4,10 @@
 package man
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
+	"io"
 	"regexp"
 	"strings"
 
@@ -14,6 +16,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/rmbs"
 )
@@ -54,10 +57,16 @@ var validSections = []string{
 	"EXPRESSION", // required for `find` on GNU
 }
 
-func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
+func parseDescriptionsLines(r io.Reader, fMap *map[string]string) {
 	var pl *parsedLineT
 	var section string
-	err := io.ReadLine(func(b []byte) {
+
+	scanner := bufio.NewScanner(r)
+
+	for scanner.Scan() {
+		b := scanner.Bytes()
+		//b := append(scanner.Bytes(), utils.NewLineByte...)
+
 		b = []byte(rmbs.Remove(string(b)))
 		b = utils.CrLfTrim(b)
 
@@ -67,7 +76,7 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 		}
 
 		if !lists.Match(validSections, section) {
-			return
+			continue
 		}
 
 		ws := countWhiteSpace(b)
@@ -84,7 +93,7 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 			pl = parseLineFlags(b[ws:])
 
 		case pl == nil:
-			return
+			continue
 
 		case pl.Description != "" && len(pl.Description) < 30 && ws >= 8: // kludge for `find` style flags
 			pl.Example += " " + pl.Description
@@ -102,12 +111,9 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 			updateFlagMap(pl, fMap)
 			pl = nil
 		}
-	})
-	if err != nil {
-		if debug.Enabled {
-			panic(err)
-		}
-		return
+	}
+	if err := scanner.Err(); err != nil && debug.Enabled {
+		panic(err)
 	}
 }
 
@@ -141,7 +147,6 @@ func countWhiteSpace(b []byte) int {
 }
 
 var (
-	//rxLineMatchFlag = regexp.MustCompile(`^-[-_a-zA-Z0-9]+`)
 	rxLineMatchFlag = regexp.MustCompile(`^-[-_a-zA-Z0-9]+`)
 	rxExampleCaps   = regexp.MustCompile(`^[A-Z]+([\t, ]|$)`)
 )
@@ -160,6 +165,7 @@ func parseLineFlags(b []byte) *parsedLineT {
 
 	for {
 	start:
+		fmt.Println(json.LazyLoggingPretty(*pl), "-->"+string(b)+"<--")
 		if pl.Position == len(b) {
 			return pl
 		}
@@ -167,7 +173,7 @@ func parseLineFlags(b []byte) *parsedLineT {
 		switch b[pl.Position] {
 		case ',':
 			pl.Position += countWhiteSpace(b[pl.Position+1:]) + 1
-			fallthrough
+			//fallthrough
 
 		case '-':
 			match := rxLineMatchFlag.Find(b[pl.Position:])
@@ -180,25 +186,41 @@ func parseLineFlags(b []byte) *parsedLineT {
 			i := parseFlag(b[pl.Position:], pl)
 			pl.Position += i
 
-		case '=', '[':
+		case '=', '[', '<':
 			start := pl.Position
-			var group bool
+			group := true
+			grpC := b[pl.Position]
 			for ; pl.Position < len(b); pl.Position++ {
 				switch b[pl.Position] {
-				case '[':
-					group = true
+				case '[', '<':
+					switch grpC {
+					case '=':
+						grpC = b[pl.Position]
+					}
 				case ']':
-					group = false
+					switch grpC {
+					case '[':
+						group = false
+					}
+				case '>':
+					switch grpC {
+					case '<':
+						group = false
+					}
 				case ' ', '\t', ',':
-					if group {
+					if grpC == '[' || grpC == '<' {
 						continue
 					}
-					pl.Example = string(b[start:pl.Position])
-					goto start
+					group = false
+				}
+				if !group {
+					break
 				}
 			}
+			pl.Example = string(b[start:pl.Position])
+			goto start
 
-		case ' ':
+		case ' ', '\t':
 			example := rxExampleCaps.Find(b[pl.Position+1:])
 			switch {
 			case len(example) == 0:
@@ -223,37 +245,61 @@ func parseLineFlags(b []byte) *parsedLineT {
 }
 
 func parseFlag(b []byte, pl *parsedLineT) int {
-	var bracket, split bool
+	fmt.Println("parseFlag", string(b))
+	var (
+		split   bool
+		bracket byte = 0
+	)
+
 	for i, c := range b {
+		fmt.Printf("i==%d c=='%s' bracket=%d\n", i, string(c), bracket)
 		switch {
 		case isValidFlagChar(c):
 			continue
 
-		case c == '[':
+		case c == '[', c == '<':
 			switch {
-			case bracket:
+			case bracket == c:
 				return 0
 			case i+1 == len(b):
 				return 0
 			case b[i+1] == '=':
 				splitFlags(b[:i], split, pl)
 				return i
-			case isValidFlagChar(b[i+1]):
-				bracket = true
+			//case isValidFlagChar(b[i+1]), b[i+1] == '=', b[i+1] == '<':
+			//	bracket = true
+			case bracket != 0:
+				continue
 			default:
-				return 0
+				//	return 0
+				bracket = c
 			}
 
 		case c == ']':
-			if !bracket {
+			switch bracket {
+			case 0:
 				return 0
+			case '[':
+				bracket = 0
+				split = true
+			default:
+				continue
 			}
-			bracket = false
-			split = true
+
+		case c == '>':
+			switch bracket {
+			case 0:
+				return 0
+			case '<':
+				bracket = 0
+				split = true
+			default:
+				continue
+			}
 
 		default:
-			if bracket {
-				return 0
+			if bracket != 0 {
+				continue
 			}
 			splitFlags(b[:i], split, pl)
 			return i

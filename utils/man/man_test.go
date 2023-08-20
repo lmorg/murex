@@ -11,12 +11,12 @@ import (
 var manPages embed.FS
 
 /*func TestMan(t *testing.T) {
-	count.Tests(t, 1)
-
 	files, err := manPages.ReadDir(".")
 	if err != nil {
 		t.Error(err.Error())
 	}
+
+	count.Tests(t, len(files)*2)
 
 	for _, entry := range files {
 		file, err := manPages.Open(entry.Name())
@@ -29,7 +29,7 @@ var manPages embed.FS
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}
 
-		flags, descs := ParseByStdio(streams.NewReadCloser(gz))
+		flags, descs := ParseByStdio(gz)
 		if len(flags) == 0 {
 			t.Errorf("%d flags returned for '%s'", len(flags), entry.Name())
 		}

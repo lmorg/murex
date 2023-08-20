@@ -60,6 +60,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		act.TabDisplayType = readline.TabDisplayList
 	}*/
 
+	var fork *lang.Fork
 	go func() {
 		// don't share incomplete parameters with dynamic autocompletion blocks
 		params := act.ParsedTokens.Parameters
@@ -95,7 +96,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			tee, stdout = streams.NewTee(stdin)
 
 			// Execute the dynamic code block
-			fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+			fork = lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 			fork.Name.Set(args.exe)
 			fork.Parameters.DefineParsed(params)
 			fork.FileRef = ExesFlagsFileRef[args.exe]
@@ -277,8 +278,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("long running autocompletion pushed to the background"))
 		}
-
 		return
+
+	case <-hardCtx.Done():
+		act.ErrCallback(fmt.Errorf("dynamic autocompletion took too long. killing autocomplete function"))
+		fork.KillForks(1)
 	}
 
 }

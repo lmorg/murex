@@ -6,13 +6,13 @@ package man
 import (
 	"bufio"
 	"compress/gzip"
+	"io"
 	"os"
 	"os/exec"
 	"regexp"
 	"sort"
 	"strings"
 
-	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
@@ -124,10 +124,10 @@ func createScanner(filename string) (*bufio.Scanner, func() error, error) {
 }
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
-func ParseByStdio(io stdio.Io) ([]string, map[string]string) {
+func ParseByStdio(r io.Reader) ([]string, map[string]string) {
 	fMap := make(map[string]string)
 
-	parseDescriptionsLines(io, &fMap)
+	parseDescriptionsLines(r, &fMap)
 
 	flags := make([]string, len(fMap))
 	var i int
