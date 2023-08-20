@@ -5,4 +5,4 @@ package signaltrap
 
 import "syscall"
 
-var interrupts = []syscall.Signal{}
+var interrupts = map[string]syscall.Signal{}

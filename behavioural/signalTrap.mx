@@ -4,7 +4,7 @@ function signal.SIGINT.trapped {
             event signalTrap example=SIGINT {
                 out "SIGINT received, not quitting"
             }
-            sleep 5
+            sleep 4
         )
     }
     sleep 2 # just in case `exec` hasn't started yet
