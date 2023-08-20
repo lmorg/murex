@@ -22,7 +22,7 @@ func cmdSendSignal(p *lang.Process) error {
 
 	p.Stdout.SetDataType(types.Null)
 
-	return fmt.Errorf("`%s` is not supported on Plan 9", CommandName)
+	return fmt.Errorf("`%s` is not supported on Plan 9", commandName)
 }
 
 func autocompleteSignals(p *lang.Process) error {
