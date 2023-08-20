@@ -13,9 +13,9 @@ contain a space character in it's name)
 ## Examples
 
 ```
-» set: example='World!'
+» set example='World!'
 
-» out: 'Hello $example'
+» out 'Hello $example'
 Hello $example
 ```
 
@@ -24,7 +24,7 @@ Hello $example
 Quotes can also work over multiple lines
 
 ```
-» out: 'foo
+» out 'foo
 » bar'
 foo
 bar

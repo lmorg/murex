@@ -22,7 +22,7 @@
     running the following:
 
     ```
-    which: aspell
+    which aspell
     ```
 
     If that returns no data, then you will need to install `aspell` yourself.
@@ -50,7 +50,7 @@
     To enable this run:
 
     ```
-    config: set shell spellcheck-enabled true
+    config set shell spellcheck-enabled true
     ```
 
     ...or add the above line to your Murex profile, `~/.murex_profile` to make
@@ -65,7 +65,7 @@
     will require updated code. The default will look something like this:
 
     ```
-    » config: get shell spellcheck-func
+    » config get shell spellcheck-func
     { -> aspell list }
     ```
 
@@ -84,7 +84,7 @@
     ```
     {
         # This is a theoretical example. It will not work generically.
-        -> set: line
+        -> set line
         newspellchecker --check "$line"
     }
     ```
@@ -96,7 +96,7 @@
     POSIX friendly and thus most spellcheckers are likely to support it. eg
 
     ```
-    » out "a list of misspelt words: qwert fuubar madeupword" -> aspell: list
+    » out "a list of misspelt words: qwert fuubar madeupword" -> aspell list
     qwert
     fuubar
     madeupword
@@ -114,13 +114,13 @@
     You can add words to a user dictionary via:
     
     ```
-    » config: eval shell spellcheck-user-dictionary { -> append "myword" }
+    » config eval shell spellcheck-user-dictionary { -> append "myword" }
     ```
 
     or
 
     ```
-    » config: eval shell spellcheck-user-dictionary { -> alter: --merge / (["word1", "word2", "word3"]) }
+    » config eval shell spellcheck-user-dictionary { -> alter --merge / (["word1", "word2", "word3"]) }
     ```
 
     > Don't forget to record these in your Murex profile, `~/.murex_profile` to

@@ -25,7 +25,7 @@ Hello World!
 Quotes can also work over multiple lines
 
 ```
-» out: "foo
+» out "foo
 » bar"
 foo
 bar

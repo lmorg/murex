@@ -480,12 +480,12 @@ if { true } then {
 Because `if ... else if` chains are ugly, Murex supports `switch` statements:
 ```
 switch $USER {
-    case "Tom"   { out: "Hello Tom" }
-    case "Dick"  { out: "Howdie Richard" }
-    case "Sally" { out: "Nice to meet you" }
+    case "Tom"   { out "Hello Tom" }
+    case "Dick"  { out "Howdie Richard" }
+    case "Sally" { out "Nice to meet you" }
 
     default {
-        out: "I don't know who you are"
+        out "I don't know who you are"
     }
 }
 ```

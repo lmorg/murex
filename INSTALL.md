@@ -128,7 +128,7 @@ optional as Murex attempts to ship with sane defaults.
 
 **Test the executable (optional stage):**
 
-    ./murex -c 'g: behavioural/*.mx -> foreach: f { source: $f }; test: run *
+    ./murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *
 
 **Start the shell:**
 

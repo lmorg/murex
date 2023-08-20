@@ -14,9 +14,9 @@ you will need to use named pipes to achieve the same effect in Murex.
 ## Examples
 
 ```
-» out: "Hello" >> example.txt
-» out: "World!" >> example.txt
-» open: example.txt
+» out "Hello" >> example.txt
+» out "World!" >> example.txt
+» open example.txt
 Hello
 World!
 ```

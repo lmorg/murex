@@ -16,7 +16,7 @@ apply stricter error handling.
 Second command runs because the first command doesn't error:
 
 ```
-» out: one && out: two
+» out one && out two
 one
 two
 ```
@@ -24,7 +24,7 @@ two
 Second command does not run because the first command produces an error:
 
 ```
-» err: one && out: two
+» err one && out two
 one
 ```
 
@@ -34,8 +34,8 @@ This is equivelent to a `try` block:
 
 ```
 try {
-    err: one
-    out: two
+    err one
+    out two
 }
 ```
 

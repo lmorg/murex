@@ -98,18 +98,18 @@ Strings and subshells can be expanded inside double quotes, brace quotes as
 well as used as barewords. But they cannot be expanded inside single quotes.
 
 ```
-» set: example="World!"
+» set example="World!"
 
-» out: Hello $example
+» out Hello $example
 Hello World!
 
-» out: 'Hello $example'
+» out 'Hello $example'
 Hello $example
 
-» out: "Hello $example"
+» out "Hello $example"
 Hello World!
 
-» out: %(Hello $example)
+» out %(Hello $example)
 Hello World!
 ```
 

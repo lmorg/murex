@@ -12,7 +12,7 @@ example they might expect arrays as lists rather than JSON objects).
 ## Examples
 
 ```
-» ja: [Mon..Wed] => cat
+» ja [Mon..Wed] => cat
 Mon
 Tue
 Wed
@@ -21,7 +21,7 @@ Wed
 The above is literally the same as typing:
 
 ```
-» ja: [Mon..Wed] -> format generic -> cat
+» ja [Mon..Wed] -> format generic -> cat
 Mon
 Tue
 Wed
@@ -30,13 +30,13 @@ Wed
 To demonstrate how the previous pipeline might look without a formatted pipe:
 
 ```
-» ja: [Mon..Wed] -> cat
+» ja [Mon..Wed] -> cat
 ["Mon","Tue","Wed"]
 
-» ja: [Mon..Wed] | cat
+» ja [Mon..Wed] | cat
 ["Mon","Tue","Wed"]
 
-» ja: [Mon..Wed]
+» ja [Mon..Wed]
 [
     "Mon",
     "Tue",

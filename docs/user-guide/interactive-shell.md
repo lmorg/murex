@@ -77,7 +77,7 @@ You can add your own commands and functions to Murex as methods by defining
 them with `method`. For example if we were to add `jq` as a method:
 
 ```
-method: define jq {
+method define jq {
     "Stdin":  "json",
     "Stdout": "@Any"
 }
@@ -98,7 +98,7 @@ Syntax highlighting can be disabled by running:
 
 ```
 
-config: set shell syntax-highlighting off
+config set shell syntax-highlighting off
 ```
 
 ### Spellchecker

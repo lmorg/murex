@@ -12,16 +12,16 @@
     contain a space character in it's name)
   Examples: |-
     ```
-    » set: example='World!'
+    » set example='World!'
     
-    » out: 'Hello $example'
+    » out 'Hello $example'
     Hello $example
     ```
   Detail: |-
     Quotes can also work over multiple lines
 
     ```
-    » out: 'foo
+    » out 'foo
     » bar'
     foo
     bar
@@ -62,7 +62,7 @@
     Quotes can also work over multiple lines
 
     ```
-    » out: "foo
+    » out "foo
     » bar"
     foo
     bar
@@ -114,7 +114,7 @@
     #### Nested quotes:
 
     ```
-    » murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
+    » murex -c %(out %(Hello "${murex -c %(out %(Bob))}"))
     Hello "Bob"
     ```
 
@@ -136,7 +136,7 @@
     Quotes can also work over multiple lines
 
     ```
-    » out: %(foo
+    » out %(foo
     » bar)
     foo
     bar
@@ -157,8 +157,8 @@
     start of a parameter.
 
     ```
-    » set: example=(World!)
-    » out: (Hello $example)
+    » set example=(World!)
+    » out (Hello $example)
     Hello (World!)
     ```
   Related:

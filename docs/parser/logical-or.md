@@ -16,14 +16,14 @@ apply stricter error handling. See detail below.
 Second command does not run because the first command doesn't error:
 
 ```
-» out: one || out: two
+» out one || out two
 one
 ```
 
 Second command does run because the first command produces an error:
 
 ```
-» err: one || out: two
+» err one || out two
 one
 two
 ```
@@ -31,12 +31,12 @@ two
 ## Detail
 
 This has no effect in `try` nor `trypipe` run modes because they automatically
-apply stricter error handling. You can achive a similiar behavior in `try` with
+apply stricter error handling. You can achieve a similar behavior in `try` with
 the following code:
 
 ```
 try {
-    err: one -> !if { out: two }
+    err one -> !if { out two }
 }
 ```
 
