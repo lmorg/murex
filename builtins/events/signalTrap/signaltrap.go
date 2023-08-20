@@ -126,7 +126,7 @@ func (evt *sigEvents) Remove(key string) error {
 func (evt *sigEvents) callback(sig os.Signal) {
 	var interrupt string
 	for name, signal := range interrupts {
-		if signal == sig {
+		if signal.String() == sig.String() {
 			interrupt = name
 			goto event
 		}

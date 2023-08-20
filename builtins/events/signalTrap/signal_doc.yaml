@@ -9,7 +9,14 @@
     process, identified via it's process ID ("pid").
 
     {{ include "builtins/events/signalTrap/signals.inc.md" }}
+
+    ### Listing supported signals
+
+    Signals will differ from one operating system to another. You can retrieve a
+    JSON map with supported signals by running `signal` without any parameters.
   Usage: |-
+    **Send a signal:**
+
     1. The first parameter is the process ID (int)
     2. The second parameter is the signal name (str). This will be all in
        UPPERCASE and prefixed "SIG"
@@ -18,18 +25,55 @@
     signal pid SIGNAL
     ```
 
-  Examples: |-
+    **List supported signals:**
+    
     ```
-    bg {
-        exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
-            event signalTrap example=SIGINT {
-                out "SIGINT received, not quitting"
-            }
-            sleep 4
-        )
+    signal -> <stdout>
+    ```
+
+  Examples: |-
+    **Send a signal:**
+
+    ```
+    {{ include "behavioural/signalTrap.mx" }}
+    ```
+
+    **List supported signals:**
+
+    ```
+    » signal
+    {
+        "SIGABRT": "aborted",
+        "SIGALRM": "alarm clock",
+        "SIGBUS": "bus error",
+        "SIGCHLD": "child exited",
+        "SIGCONT": "continued",
+        "SIGFPE": "floating point exception",
+        "SIGHUP": "hangup",
+        "SIGILL": "illegal instruction",
+        "SIGINT": "interrupt",
+        "SIGIO": "I/O possible",
+        "SIGKILL": "killed",
+        "SIGPIPE": "broken pipe",
+        "SIGPROF": "profiling timer expired",
+        "SIGPWR": "power failure",
+        "SIGQUIT": "quit",
+        "SIGSEGV": "segmentation fault",
+        "SIGSTKFLT": "stack fault",
+        "SIGSTOP": "stopped (signal)",
+        "SIGSYS": "bad system call",
+        "SIGTRAP": "trace/breakpoint trap",
+        "SIGTSTP": "stopped",
+        "SIGTTIN": "stopped (tty input)",
+        "SIGTTOU": "stopped (tty output)",
+        "SIGURG": "urgent I/O condition",
+        "SIGUSR1": "user defined signal 1",
+        "SIGUSR2": "user defined signal 2",
+        "SIGVTALRM": "virtual timer expired",
+        "SIGWINCH": "window changed",
+        "SIGXCPU": "CPU time limit exceeded",
+        "SIGXFSZ": "file size limit exceeded"
     }
-    sleep 2 # just in case `exec` hasn't started yet
-    signal $GLOBAL.SIGNAL_TRAP_PID SIGINT
     ```
   Flags:
     SIGINT: >-
@@ -51,8 +95,10 @@
     `signalTrap`. Read below for details.
   Synonyms:
   Related:
-    - bg
-    - event
-    - variables/MUREX_EXE
-    - out
-    - events/signaltrap
+  - bg
+  - event
+  - variables/MUREX_EXE
+  - out
+  - events/signaltrap
+  - user-guide/terminal-keys
+  - user-guide/interactive-shell

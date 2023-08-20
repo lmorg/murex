@@ -19,7 +19,14 @@ are:
 > thread within the same process to notify it of an event. Common uses of
 > signals are to interrupt, suspend, terminate or kill a process.
 
+### Listing supported signals
+
+Signals will differ from one operating system to another. You can retrieve a
+JSON map with supported signals by running `signal` without any parameters.
+
 ## Usage
+
+**Send a signal:**
 
 1. The first parameter is the process ID (int)
 2. The second parameter is the signal name (str). This will be all in
@@ -29,19 +36,75 @@ are:
 signal pid SIGNAL
 ```
 
-## Examples
+**List supported signals:**
 
 ```
-bg {
-    exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
-        event signalTrap example=SIGINT {
-            out "SIGINT received, not quitting"
-        }
-        sleep 4
-    )
+signal -> <stdout>
+```
+
+## Examples
+
+**Send a signal:**
+
+```
+function signal.SIGUSR1.trap {
+    bg {
+        exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
+            event signalTrap example=SIGUSR1 {
+                out "SIGUSR1 received..."
+            }
+
+            out "waiting for signal..."
+            sleep 5
+        )
+    }
+    sleep 2 # just in case `exec` hasn't started yet
+    signal $GLOBAL.SIGNAL_TRAP_PID SIGUSR1
 }
-sleep 2 # just in case `exec` hasn't started yet
-signal $GLOBAL.SIGNAL_TRAP_PID SIGINT
+
+test unit function signal.SIGUSR1.trap %{
+    StdoutMatch: "waiting for signal...\nSIGUSR1 received...\n"
+    DataType:    str
+    ExitNum:     0
+}
+```
+
+**List supported signals:**
+
+```
+» signal
+{
+    "SIGABRT": "aborted",
+    "SIGALRM": "alarm clock",
+    "SIGBUS": "bus error",
+    "SIGCHLD": "child exited",
+    "SIGCONT": "continued",
+    "SIGFPE": "floating point exception",
+    "SIGHUP": "hangup",
+    "SIGILL": "illegal instruction",
+    "SIGINT": "interrupt",
+    "SIGIO": "I/O possible",
+    "SIGKILL": "killed",
+    "SIGPIPE": "broken pipe",
+    "SIGPROF": "profiling timer expired",
+    "SIGPWR": "power failure",
+    "SIGQUIT": "quit",
+    "SIGSEGV": "segmentation fault",
+    "SIGSTKFLT": "stack fault",
+    "SIGSTOP": "stopped (signal)",
+    "SIGSYS": "bad system call",
+    "SIGTRAP": "trace/breakpoint trap",
+    "SIGTSTP": "stopped",
+    "SIGTTIN": "stopped (tty input)",
+    "SIGTTOU": "stopped (tty output)",
+    "SIGURG": "urgent I/O condition",
+    "SIGUSR1": "user defined signal 1",
+    "SIGUSR2": "user defined signal 2",
+    "SIGVTALRM": "virtual timer expired",
+    "SIGWINCH": "window changed",
+    "SIGXCPU": "CPU time limit exceeded",
+    "SIGXFSZ": "file size limit exceeded"
+}
 ```
 
 ## Flags
@@ -69,7 +132,21 @@ While Windows doesn't officially support signals, the following POSIX signals
 are emulated:
 
 ```go
-builtins/events/signalTrap/interrupts_windows.go
+var interrupts = map[string]syscall.Signal{
+	"SIGHUP":  syscall.SIGHUP,
+	"SIGINT":  syscall.SIGINT,
+	"SIGQUIT": syscall.SIGQUIT,
+	"SIGILL":  syscall.SIGILL,
+	"SIGTRAP": syscall.SIGTRAP,
+	"SIGABRT": syscall.SIGABRT,
+	"SIGBUS":  syscall.SIGBUS,
+	"SIGFPE":  syscall.SIGFPE,
+	"SIGKILL": syscall.SIGKILL,
+	"SIGSEGV": syscall.SIGSEGV,
+	"SIGPIPE": syscall.SIGPIPE,
+	"SIGALRM": syscall.SIGALRM,
+	"SIGTERM": syscall.SIGTERM,
+}
 ```
 
 ### Plan 9 Support
@@ -84,6 +161,10 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
 
 ## See Also
 
+* [Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
+* [Terminal Hotkeys](../user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
 * [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
   Absolute path to running shell
 * [`bg`](../commands/bg.md):

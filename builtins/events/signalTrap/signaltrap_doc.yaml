@@ -106,3 +106,4 @@
   - user-guide/terminal-keys
   - user-guide/interactive-shell
   - commands/event
+  - commands/signal
