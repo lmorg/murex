@@ -5,12 +5,15 @@ package man
 
 import (
 	"embed"
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
-//go:embed *.1.gz
+//go:embed test_*.txt
 var manPages embed.FS
 
-/*func TestMan(t *testing.T) {
+func TestMan(t *testing.T) {
 	files, err := manPages.ReadDir(".")
 	if err != nil {
 		t.Error(err.Error())
@@ -24,12 +27,7 @@ var manPages embed.FS
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}
 
-		gz, err := gzip.NewReader(file)
-		if err != nil {
-			t.Errorf("%s: %s", entry.Name(), err.Error())
-		}
-
-		flags, descs := ParseByStdio(gz)
+		flags, descs := ParseByStdio(file)
 		if len(flags) == 0 {
 			t.Errorf("%d flags returned for '%s'", len(flags), entry.Name())
 		}
@@ -37,14 +35,9 @@ var manPages embed.FS
 			t.Errorf("%d descriptions returned for '%s'", len(descs), entry.Name())
 		}
 
-		err = gz.Close()
-		if err != nil {
-			t.Errorf("%s: %s", entry.Name(), err.Error())
-		}
 		err = file.Close()
 		if err != nil {
 			t.Errorf("%s: %s", entry.Name(), err.Error())
 		}
 	}
 }
-*/
