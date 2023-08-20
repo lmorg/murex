@@ -36,9 +36,6 @@ func SignalHandler(interactive bool) {
 			case syscall.SIGTSTP.String():
 				sigtstp()
 
-			//case syscall.SIGWINCH.String():
-			//	sigwinch()
-
 			default:
 				tty.Stderr.WriteString("Unhandled signal: " + sig.String())
 			}

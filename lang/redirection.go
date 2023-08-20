@@ -5,18 +5,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 )
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"
-
-	if debug.Enabled && p.Name.String() == "env" {
-		panic(json.LazyLogging(p.namedPipes))
-	}
 
 	for _, name := range p.namedPipes {
 		switch {
@@ -40,6 +34,26 @@ func parseRedirection(p *Process) {
 
 		case len(name) > 4 && name[:4] == "env:":
 			p.Exec.Env = append(p.Exec.Env, name[4:])
+
+		case len(name) > 4 && name[:4] == "fid:":
+			varName := name[4:]
+			err := p.Variables.Set(p, varName, p.Id, types.Integer)
+			if err != nil {
+				ShellProcess.Stderr.Writeln([]byte(
+					fmt.Sprintf("Cannot write variable '%s': %s", varName, err.Error()),
+				))
+			}
+
+		case len(name) > 4 && name[:4] == "pid:":
+			varName := name[4:]
+			p.Exec.Callback = func(pid int) {
+				err := p.Variables.Set(p, varName, pid, types.Integer)
+				if err != nil {
+					ShellProcess.Stderr.Writeln([]byte(
+						fmt.Sprintf("Cannot write variable '%s': %s", varName, err.Error()),
+					))
+				}
+			}
 
 		case name[0] == '!':
 			if p.NamedPipeErr == "" {

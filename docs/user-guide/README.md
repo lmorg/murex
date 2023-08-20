@@ -403,6 +403,8 @@ are only included by default on Windows.
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
   Events triggered by time intervals
+* [`signalTrap`](../events/signaltrap.md):
+  Trap OS signals
 
 ## API Reference
 

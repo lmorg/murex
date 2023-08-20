@@ -1,11 +1,11 @@
 # This file tests return exits scope correctly
 
-function test.return {
-    out    "goodbye"
+function return.nonzero {
+    out "goodbye"
     return 13
 }
 
-test: unit function test.return %{
+test: unit function return.nonzero %{
     StdoutMatch: "goodbye\n"
     DataType:    str
     ExitNum:     13
