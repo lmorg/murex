@@ -1,11 +1,10 @@
-//go:build !plan9 && !js
-// +build !plan9,!js
+//go:build js
+// +build js
 
 package signaltrap
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -23,35 +22,13 @@ func cmdSendSignal(p *lang.Process) error {
 
 	p.Stdout.SetDataType(types.Null)
 
-	pid, err := p.Parameters.Int(0)
-	if err != nil {
-		return err
-	}
-
-	sig, err := p.Parameters.String(1)
-	if err != nil {
-		return err
-	}
-
-	proc, err := os.FindProcess(pid)
-	if err != nil {
-		return err
-	}
-
-	if !isValidInterrupt(sig) {
-		return fmt.Errorf("invalid signal name '%s'. Expecting something like 'SIGINT'", sig)
-	}
-
-	return proc.Signal(interrupts[sig])
+	return fmt.Errorf("`%s` is not supported on WASM", commandName)
 }
 
 func autocompleteSignals(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	signals := make(map[string]string, len(interrupts))
-	for name := range interrupts {
-		signals[name] = interrupts[name].String()
-	}
+	signals := make(map[string]string, 0)
 
 	b, err := json.Marshal(signals, p.Stdout.IsTTY())
 	if err != nil {
