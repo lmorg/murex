@@ -354,3 +354,7 @@ jsonl
   Loop until condition false
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+
+<hr/>
+
+This document was generated from [builtins/core/structs/foreach_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/foreach_doc.yaml).

@@ -157,3 +157,7 @@ legitimately want the same name for different interrupts.
   Events triggered by changes in state of the interactive shell
 * [`signal`](../commands/signal.md):
   Sends a signal RPC
+
+<hr/>
+
+This document was generated from [builtins/events/signalTrap/signaltrap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/signalTrap/signaltrap_doc.yaml).

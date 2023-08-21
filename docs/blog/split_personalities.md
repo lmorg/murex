@@ -236,3 +236,7 @@ Published: 02.10.2021 at 22:42
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+
+<hr/>
+
+This document was generated from [gen/blog/split_personalities_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/blog/split_personalities_doc.yaml).

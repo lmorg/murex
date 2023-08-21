@@ -228,3 +228,7 @@ exec open --flags filename
   Print a string to the STDOUT with a trailing new line character
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+
+<hr/>
+
+This document was generated from [builtins/core/open/open_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/open/open_doc.yaml).

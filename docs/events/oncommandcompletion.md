@@ -132,3 +132,7 @@ prompt itself and three extra lines for the hint text.
   Regexp tools for arrays / lists of strings
 * [read-named-pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
+
+<hr/>
+
+This document was generated from [builtins/events/onCommandCompletion/oncommandcompletion_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onCommandCompletion/oncommandcompletion_doc.yaml).

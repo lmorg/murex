@@ -177,3 +177,7 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Splits STDIN into a JSON array based on a regex parameter
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/user-guide/spellcheck_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/spellcheck_doc.yaml).

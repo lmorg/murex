@@ -83,3 +83,7 @@ how you define that value.
   Define an environmental variable and set it's value
 * [`murex-package`](../commands/murex-package.md):
   Murex's package manager
+
+<hr/>
+
+This document was generated from [gen/user-guide/profile_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/profile_doc.yaml).

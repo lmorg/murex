@@ -51,6 +51,11 @@ func walkCallback(path string, f os.FileInfo, err error) error {
 
 	var src []document
 	parseSourceFile(path, &src)
+
+	for i := range src {
+		src[i].SourcePath = path
+	}
+
 	Documents = append(Documents, src...)
 
 	return nil

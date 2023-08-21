@@ -547,3 +547,7 @@ flags.
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+<hr/>
+
+This document was generated from [builtins/core/autocomplete/autocomplete_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/autocomplete/autocomplete_doc.yaml).

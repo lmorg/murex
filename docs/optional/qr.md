@@ -39,3 +39,7 @@ have to `cast` the output in some circumstances.
   Alters the data type of the previous function without altering it's output
 * [`open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
+
+<hr/>
+
+This document was generated from [builtins/optional/qr/qr_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/qr/qr_doc.yaml).

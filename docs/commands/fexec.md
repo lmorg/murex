@@ -101,3 +101,7 @@ alias to `fexec builtin`
   Define a private function block
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/management/fexec_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/fexec_doc.yaml).

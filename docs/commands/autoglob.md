@@ -49,3 +49,7 @@ It is enabled by default on from version 3.x onwards (and renamed to
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+
+<hr/>
+
+This document was generated from [lang/expressions/noglob/autoglob_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/expressions/noglob/autoglob_doc.yaml).

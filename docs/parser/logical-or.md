@@ -58,3 +58,7 @@ There is no workaround for `trypipe`.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [gen/parser/logical_ops_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/logical_ops_doc.yaml).

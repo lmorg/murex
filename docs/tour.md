@@ -592,3 +592,7 @@ This can be invoked by pressing `Ctrl` + `z`
 
 * [Install](/INSTALL.md):
   Installation instructions
+
+<hr/>
+
+This document was generated from [gen/root/tour_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/tour_doc.yaml).

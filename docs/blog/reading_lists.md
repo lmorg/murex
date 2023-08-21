@@ -161,3 +161,7 @@ Published: 22.04.2023 at 11:43
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
+
+<hr/>
+
+This document was generated from [gen/blog/reading_lists_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/blog/reading_lists_doc.yaml).

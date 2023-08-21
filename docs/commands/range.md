@@ -114,3 +114,7 @@ December
   Add data to the start of an array
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/ranges/ranges_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/ranges/ranges_doc.yaml).

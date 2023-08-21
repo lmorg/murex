@@ -247,3 +247,7 @@ jsonl
   Define a local variable and set it's value
 * [`while`](../commands/while.md):
   Loop until condition false
+
+<hr/>
+
+This document was generated from [builtins/core/structs/for_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/for_doc.yaml).

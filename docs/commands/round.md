@@ -73,3 +73,7 @@ round value precision -> <stdout>
 
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/round_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/round_doc.yaml).

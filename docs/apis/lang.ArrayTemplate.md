@@ -251,3 +251,7 @@ func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callb
   Returns element(s) from a data structure
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

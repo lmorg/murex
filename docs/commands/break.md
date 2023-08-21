@@ -116,3 +116,7 @@ Error in `break` (7,17): no block found named `bar` within the scope of `foo`
   Define a private function block
 * [`return`](../commands/return.md):
   Exits current function scope
+
+<hr/>
+
+This document was generated from [builtins/core/structs/break_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/break_doc.yaml).

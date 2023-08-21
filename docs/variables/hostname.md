@@ -21,3 +21,7 @@ This is a reserved variable so it cannot be changed.
   Define a local variable and set it's value
 * [`str` (string)](../types/str.md):
   string (primitive)
+
+<hr/>
+
+This document was generated from [gen/variables/HOSTNAME_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/HOSTNAME_doc.yaml).

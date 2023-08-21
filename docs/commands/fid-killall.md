@@ -47,3 +47,7 @@ PID (process ID). You can obtain a FID from `fid-list`.
   Lists all running functions within the current Murex session
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
+
+<hr/>
+
+This document was generated from [builtins/core/processes/kill_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/processes/kill_doc.yaml).

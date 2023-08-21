@@ -121,3 +121,7 @@ empty Filename string.
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+
+<hr/>
+
+This document was generated from [gen/user-guide/modules_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/modules_doc.yaml).

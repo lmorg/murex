@@ -65,3 +65,7 @@ Undefine a summary
   Forces Murex to rescan $PATH looking for executables
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/shell_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/shell_doc.yaml).

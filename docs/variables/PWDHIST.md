@@ -51,3 +51,7 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/variables/PWDHIST_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/PWDHIST_doc.yaml).

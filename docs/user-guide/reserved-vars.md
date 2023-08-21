@@ -48,3 +48,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Define a global variable and set it's value
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/user-guide/reserved_vars_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/reserved_vars_doc.yaml).

@@ -229,3 +229,7 @@ switch {
   Checks state of each function in a pipeline and exits block on error
 * [`while`](../commands/while.md):
   Loop until condition false
+
+<hr/>
+
+This document was generated from [builtins/core/structs/switch_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/switch_doc.yaml).

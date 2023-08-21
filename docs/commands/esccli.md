@@ -55,3 +55,7 @@ out foo\$b\@r
   Print a string to the STDOUT with a trailing new line character
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/escape/escape_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/escape/escape_doc.yaml).

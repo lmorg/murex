@@ -191,3 +191,7 @@ arrays. For more details on these please refer to the documents for each format
   A sophisticated yet simply way to build a JSON array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+
+<hr/>
+
+This document was generated from [gen/parser/create_array_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/create_array_doc.yaml).

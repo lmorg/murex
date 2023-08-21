@@ -64,3 +64,7 @@ empty Filename string.
   Returns runtime information on the internal state of Murex
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [gen/user-guide/fileref_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/fileref_doc.yaml).

@@ -83,3 +83,7 @@ func MarshalData(p *Process, dataType string, data interface{}) (b []byte, err e
   Converts a structured file format into structured memory
 * [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a Murex data-type into structured memory
+
+<hr/>
+
+This document was generated from [lang/define_marshal_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/define_marshal_doc.yaml).

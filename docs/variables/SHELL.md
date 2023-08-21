@@ -22,3 +22,7 @@ precision.
   Absolute path to running shell
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/variables/SHELL_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/SHELL_doc.yaml).

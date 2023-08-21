@@ -58,3 +58,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Open a file with a preferred handler
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+
+<hr/>
+
+This document was generated from [builtins/core/httpclient/get_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/httpclient/get_doc.yaml).

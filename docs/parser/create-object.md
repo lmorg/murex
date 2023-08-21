@@ -52,3 +52,7 @@ force numeric or boolean looking values to be stored as strings.
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
+
+<hr/>
+
+This document was generated from [gen/parser/create_object_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/create_object_doc.yaml).

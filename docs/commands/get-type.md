@@ -67,3 +67,7 @@ json
   Define a local variable and set it's value
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/gettype_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/gettype_doc.yaml).

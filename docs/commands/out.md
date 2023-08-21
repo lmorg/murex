@@ -63,3 +63,7 @@ Hello, World!
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+
+<hr/>
+
+This document was generated from [builtins/core/io/echo_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/echo_doc.yaml).

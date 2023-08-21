@@ -67,3 +67,7 @@ it doesn't require the OS fork processes.
   Encode or decodes text for the URL
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
+
+<hr/>
+
+This document was generated from [builtins/optional/encoders/base64_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/encoders/base64_doc.yaml).

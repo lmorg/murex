@@ -81,3 +81,7 @@ config set shell auto-cd true
   Special variables reserved by Murex
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

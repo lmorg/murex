@@ -22,3 +22,7 @@ This is a reserved variable so it cannot be changed.
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/variables/MUREX_EXE_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/MUREX_EXE_doc.yaml).

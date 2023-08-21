@@ -30,3 +30,7 @@ man - an interface to the on-line reference manuals
   Displays the man pages for Murex builtins
 * [`summary` ](../commands/summary.md):
   Defines a summary help text for a command
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

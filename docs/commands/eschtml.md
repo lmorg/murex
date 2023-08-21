@@ -64,3 +64,7 @@ Unescape
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+
+<hr/>
+
+This document was generated from [builtins/core/escape/escape_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/escape/escape_doc.yaml).

@@ -158,3 +158,7 @@ Separator can also be multiple characters:
   Define a local variable and set it's value
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/datatools/structkeys_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/datatools/structkeys_doc.yaml).

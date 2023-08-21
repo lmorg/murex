@@ -70,3 +70,7 @@ was passed).
   Print a string to the STDOUT with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
+
+<hr/>
+
+This document was generated from [builtins/core/structs/break_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/break_doc.yaml).

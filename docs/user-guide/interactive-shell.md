@@ -196,3 +196,7 @@ prompt:
   Define a methods supported data-types
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [gen/user-guide/interactive-shell_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/interactive-shell_doc.yaml).

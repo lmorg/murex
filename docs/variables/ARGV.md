@@ -39,3 +39,7 @@ the current running Murex shell
   Array of the parameters within a given scope
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
+
+<hr/>
+
+This document was generated from [gen/variables/MUREX_ARGV_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/MUREX_ARGV_doc.yaml).

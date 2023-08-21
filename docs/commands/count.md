@@ -152,3 +152,7 @@ unique count should be one less than the total count:
   Print a string to the STDOUT and set it's data-type
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/datatools/count_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/datatools/count_doc.yaml).

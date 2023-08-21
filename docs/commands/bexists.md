@@ -46,3 +46,7 @@ that reason alone it has been spared from the axe.
   Execute a command or function, bypassing the usual order of precedence.
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

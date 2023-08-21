@@ -35,3 +35,7 @@ Currently there is no support for compressing a stream using bz2.
   Encode or decodes text for the URL
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
+
+<hr/>
+
+This document was generated from [builtins/optional/encoders/bz2_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/encoders/bz2_doc.yaml).

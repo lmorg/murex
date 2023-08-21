@@ -75,3 +75,7 @@ a new Murex named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [builtins/core/io/echo_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/echo_doc.yaml).

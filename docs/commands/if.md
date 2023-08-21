@@ -130,3 +130,7 @@ conditionals output.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [builtins/core/structs/if_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/if_doc.yaml).

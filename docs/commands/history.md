@@ -45,3 +45,7 @@ The history file is typically located on disk in a file called `~/.murex.history
   Query or define Murex runtime settings
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/history_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/history_doc.yaml).

@@ -122,3 +122,7 @@ future should the need arise.
 Murex will always be open source software. It wouldn't exist without open
 source tooling and therefore it will always serve to enhance the open source
 community.
+
+<hr/>
+
+This document was generated from [gen/root/CONTRIBUTING_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/CONTRIBUTING_doc.yaml).

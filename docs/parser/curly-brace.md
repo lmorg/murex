@@ -90,3 +90,7 @@ constants are available.
   Define a local variable and set it's value
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [gen/parser/codeblock_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/codeblock_doc.yaml).

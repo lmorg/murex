@@ -67,3 +67,7 @@ unwanted "noise" is stripped from the output.
   Add data to the start of an array
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/lists/jsplit_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/jsplit_doc.yaml).

@@ -74,3 +74,7 @@ runtime --unmarshallers
   Returns runtime information on the internal state of Murex
 * [`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
+
+<hr/>
+
+This document was generated from [builtins/core/lists/push_pop_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/push_pop_doc.yaml).

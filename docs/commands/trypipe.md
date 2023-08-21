@@ -61,3 +61,7 @@ command.
   Blocks of cascading conditionals
 * [`try`](../commands/try.md):
   Handles errors inside a block of code
+
+<hr/>
+
+This document was generated from [builtins/core/structs/try_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/try_doc.yaml).

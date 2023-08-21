@@ -89,3 +89,7 @@ event to Linux, macOS and UNIX systems instead.
   Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+
+<hr/>
+
+This document was generated from [builtins/events/onFileSystemChange/onfilesystemchange_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onFileSystemChange/onfilesystemchange_doc.yaml).

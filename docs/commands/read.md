@@ -103,3 +103,7 @@ with the `--datatype` flag as per the **script usage**.
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+
+<hr/>
+
+This document was generated from [builtins/core/io/read_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/read_doc.yaml).

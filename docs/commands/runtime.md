@@ -340,3 +340,7 @@ functions.
   Murex's test framework - define tests, run tests and debug shell scripts
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/runtime/runtime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/runtime/runtime_doc.yaml).

@@ -477,3 +477,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
   Returns element(s) from a data structure
 * [commands/index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

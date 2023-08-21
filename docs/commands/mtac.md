@@ -86,3 +86,7 @@ STDIN is a long running process or non-standard stream (eg network pipe).
   Prefix a string to every item in a list
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+
+<hr/>
+
+This document was generated from [builtins/core/lists/mtac_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/mtac_doc.yaml).

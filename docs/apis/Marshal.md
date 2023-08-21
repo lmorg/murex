@@ -73,3 +73,7 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
   Converts structured memory into a Murex data-type (eg for stdio)
 * [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a Murex data-type into structured memory
+
+<hr/>
+
+This document was generated from [lang/define_marshal_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/define_marshal_doc.yaml).
