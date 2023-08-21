@@ -21,13 +21,13 @@ var funcMap = template.FuncMap{
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
 	"link":       funcLink,
+	"file":       funcFile,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
 	"doct":       funcDocT,
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
-	//"file":       funcFile,
 }
 
 /************
@@ -140,6 +140,18 @@ func funcInclude(s string) string {
 	return s
 }
 
+/************
+ *   File   *
+ ************/
+
+// Takes: slice of strings (file path)
+// Returns: contents of file based on a concatenation of the slice
+func funcFile(path ...string) string {
+	f := fileReader(strings.Join(path, ""))
+	b := readAll(f)
+	return string(b)
+}
+
 func init() {
 	funcMap["include"] = funcInclude
 }
@@ -214,15 +226,3 @@ func funcEnv(env string) bool {
 	s, _ := v[key].(string)
 	return s == value
 }
-
-/************
- *   File   *
- ************/
-
-// Takes: slice of strings (file path)
-// Returns: contents of file based on a concatenation of the slice
-/*func funcFile(path ...string) string {
-	f := fileReader(strings.Join(path, ""))
-	b := readAll(f)
-	return string(b)
-}*/

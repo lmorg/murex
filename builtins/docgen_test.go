@@ -124,6 +124,7 @@ func init() {
 		"try":                   "try_commands_docgen.go",
 		"trypipe":               "trypipe_commands_docgen.go",
 		"version":               "version_commands_docgen.go",
+		"which":                 "which_commands_docgen.go",
 		"while":                 "while_commands_docgen.go",
 	}
 }

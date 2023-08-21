@@ -124,6 +124,7 @@ func init() {
 		"try":                   "Handles errors inside a block of code",
 		"trypipe":               "Checks state of each function in a pipeline and exits block on error",
 		"version":               "Get Murex version",
+		"which":                 "Locate command origin",
 		"while":                 "Loop until condition false",
 
 		"!bz2":   "Decompress a bz2 file",
@@ -306,6 +307,7 @@ func init() {
 		"try":                   "try",
 		"trypipe":               "trypipe",
 		"version":               "version",
+		"which":                 "which",
 		"while":                 "while",
 		"!while":                "while",
 

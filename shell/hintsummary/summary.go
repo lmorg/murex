@@ -16,7 +16,6 @@ var (
 )
 
 func Get(cmd string, checkManPage bool) (r []rune) {
-	//var summary string
 	summary := Cache.Get(cmd)
 	if summary != "" {
 		return []rune(summary)
