@@ -23,12 +23,6 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 ]
 ```
 
-## Synonyms
-
-* `ARGV`
-* `ARGS`
-
-
 ## See Also
 
 * [Array (`@`) Token](../parser/array.md):
