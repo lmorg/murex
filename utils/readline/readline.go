@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"regexp"
+	"strings"
 	"sync/atomic"
 
 	"github.com/lmorg/murex/utils/readline/unicode"
@@ -522,6 +523,13 @@ func (rl *Instance) readlineInput(r []rune) {
 // It also calculates the runes in the string as well as any non-printable
 // escape codes.
 func (rl *Instance) SetPrompt(s string) {
+	s = strings.ReplaceAll(s, "\r", "")
+	s = strings.ReplaceAll(s, "\t", "    ")
+	split := strings.Split(s, "\n")
+	if len(split) > 1 {
+		print(strings.Join(split[:len(split)-1], "\r\n"))
+		s = split[len(split)-1]
+	}
 	rl.prompt = s
 	rl.promptLen = strLen(s)
 }

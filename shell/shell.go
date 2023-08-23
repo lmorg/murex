@@ -161,11 +161,12 @@ func ShowPrompt() {
 			prompt = getPrompt()
 			writeTitlebar()
 		}
-		Prompt.SetPrompt(string(prompt))
 
 		if tty.MissingCrLf() {
 			tty.WriteCrLf()
 		}
+
+		Prompt.SetPrompt(string(prompt))
 
 		line, err := Prompt.Readline()
 		if err != nil {
