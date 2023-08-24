@@ -527,7 +527,7 @@ func (rl *Instance) SetPrompt(s string) {
 	s = strings.ReplaceAll(s, "\t", "    ")
 	split := strings.Split(s, "\n")
 	if len(split) > 1 {
-		print(strings.Join(split[:len(split)-1], "\r\n"))
+		print(strings.Join(split[:len(split)-1], "\r\n") + "\r\n")
 		s = split[len(split)-1]
 	}
 	rl.prompt = s
