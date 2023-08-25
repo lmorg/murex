@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
@@ -162,8 +163,12 @@ func createTable(p *lang.Process, db *sql.DB, name string, v interface{}, confFa
 	case [][]string:
 		return createTable_SliceSliceString(p, db, name, v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
 
-	/*case [][]interface{}:
-	return sliceSliceInterface(p, v.([][]interface{}, dt, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)*/
+	case []interface{}:
+		table, err := types.MapToTable(v)
+		if err != nil {
+			return err
+		}
+		return createTable_SliceSliceString(p, db, name, table, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
 
 	default:
 		return fmt.Errorf("unable to convert the following data structure into a table '%s': %T", name, v)
