@@ -15,8 +15,8 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"quote":      funcQuote,
 	"md":         funcMarkdown,
+	"quote":      funcQuote,
 	"trim":       strings.TrimSpace,
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
@@ -26,6 +26,7 @@ var funcMap = template.FuncMap{
 	"date":       funcDate,
 	"time":       funcTime,
 	"doct":       funcDocT,
+	"othercats":  funcOtherCats,
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
 }
@@ -48,8 +49,8 @@ func funcMarkdown(s string) string {
 
 // Takes: strings (contents)
 // Returns: contents with some characters escaped for printing in source code (eg \")
-func funcQuote(s string) string {
-	return strconv.Quote(funcMarkdown(s))
+func funcQuote(s ...string) string {
+	return strconv.Quote(funcMarkdown(strings.Join(s, "")))
 }
 
 /************
@@ -194,6 +195,15 @@ func funcTime(dt time.Time) string {
 // Returns: document type
 func funcDocT(cat, doc string) *document {
 	return Documents.ByID("!!!", cat, doc)
+}
+
+/************
+ * OtherCats*
+ ************/
+
+// Returns: list of documents in that category
+func funcOtherCats() []category {
+	return Config.Categories
 }
 
 /************

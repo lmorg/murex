@@ -21,7 +21,7 @@ require (
 
 require (
 	github.com/disintegration/imaging v1.6.2 // indirect
-	github.com/lucasb-eyer/go-colorful v1.0.3 // indirect
+	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/stretchr/testify v1.8.2 // indirect
 	golang.org/x/image v0.5.0 // indirect

@@ -1,9 +1,0 @@
-package docs
-
-// This file was generated from [builtins/core/random/rand_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/random/rand_doc.yaml).
-
-func init() {
-
-	Definition["rand"] = "# `rand`\n\n> Random field generator\n\n## Description\n\n`rand` can generate random numbers, strings and other data types.\n\n## Usage\n\n```\nrand data-type [ max-value ]\n```\n\n## Examples\n\nRandom integer: 64-bit on 64-bit machines\n\n```\nrand int\n```\n\nRandom integer between 0 and 9\n\n```\nrand int 9\n```\n\nRandom floating point number between 0 and 1\n\n```\nrand float\n```\n\nRandom string, fixed to 5 characters long\n\n```\nrand str 5\n```\n\n## Flags\n\n* `*`\n    Alias for **str** (string)\n* `float`\n    Random floating point number between 0 and 1. **max-value** not supported\n* `int`\n    Random integer, **max-value** specifies highest value for integer\n* `num`\n    Alias for **int** in this builtin\n* `str`\n    Random string of printable ASCII characters. **max-value** specifies the fixed length of the string\n\n## Detail\n\n### Security\n\nWARNING: is should be noted that while `rand` can produce random numbers and\nstrings which might be useful for password generation, neither the RNG nor the\nthe random string generator (which is ostensibly the same RNG but applied to an\narray of bytes within the range of printable ASCII characters) are considered\ncryptographically secure.\n\n## See Also\n\n* [`format`](../commands/format.md):\n  Reformat one data-type into another data-type\n* [`let`](../commands/let.md):\n  Evaluate a mathematical function and assign to variable (deprecated)\n* [`set`](../commands/set.md):\n  Define a local variable and set it's value\n\n<hr/>\n\nThis document was generated from [builtins/core/random/rand_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/random/rand_doc.yaml)."
-
-}

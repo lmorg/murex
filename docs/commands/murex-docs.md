@@ -21,8 +21,10 @@ murex-docs murex-docs
 
 ## Flags
 
+* `--docs`
+    Returns a JSON object of every document available to read offline
 * `--summary`
-    Returns an abridged description of the command rather than the entire help page.
+    Returns an abridged description of the command rather than the entire help page
 
 ## Detail
 
