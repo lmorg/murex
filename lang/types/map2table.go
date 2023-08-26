@@ -55,7 +55,7 @@ func MapToTable(v []interface{}) ([][]string, error) {
 	return table, nil
 }
 
-func getMapKeys[T comparable](v map[string]T) ([]string, error) {
+func getMapKeys(v map[string]any) ([]string, error) {
 	slice := make([]string, len(v))
 	var i int
 
