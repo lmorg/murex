@@ -1,4 +1,4 @@
-# Command Reference
+# Builtins Reference
 
 This section is a glossary of Murex builtin commands.
 

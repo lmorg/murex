@@ -1,4 +1,4 @@
-# Optional Command Reference
+# Optional Builtins Reference
 
 This section is a glossary of Murex optional builtins.
 

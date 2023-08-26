@@ -14,12 +14,12 @@ Categories:
       DocumentTemplate: gen/root-md-doc.tmpl
 
   - ID: commands
-    Title: Command Reference
+    Title: Builtins Reference
     Description: |-
       {{ include "gen/commands-md-cat.inc.md" }}  
 
     Templates:
-    - OutputPath: docs/commands
+    - OutputPath: docs/builtins
       CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl
@@ -42,7 +42,7 @@ Categories:
       DocumentTemplate: gen/mkarray-md-doc.tmpl
 
   - ID: optional
-    Title: Optional Command Reference
+    Title: Optional Builtins Reference
     Description: |-
       {{ include "gen/optionals-md-cat.inc.md" }}
 
