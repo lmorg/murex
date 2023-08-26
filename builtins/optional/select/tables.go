@@ -164,7 +164,13 @@ func createTable(p *lang.Process, db *sql.DB, name string, v interface{}, confFa
 		return createTable_SliceSliceString(p, db, name, v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
 
 	case []interface{}:
-		table, err := types.MapToTable(v)
+		table := make([][]string, len(v)+1)
+		i := 1
+		err := types.MapToTable(v, func(s []string) error {
+			table[i] = s
+			i++
+			return nil
+		})
 		if err != nil {
 			return err
 		}
