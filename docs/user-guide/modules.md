@@ -42,6 +42,8 @@ package/module
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
+You can find existing modules on [GitHub](https://github.com/search?q=murex-module-&type=repositories), they typically follow a `murex-module-*` naming convention.
+
 ## Using Packages And Modules
 
 ### Consistency

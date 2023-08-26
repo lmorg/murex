@@ -4,7 +4,12 @@
 
 ## Description
 
-`alias` defines an alias for global usage
+`alias` allows you to create a shortcut or abbreviation for a longer command.
+
+IMPORTANT: aliases in Murex are not macros and are therefore different than
+ other shells. if the shortcut requires any dynamics such as `piping`,
+ `command sequencing`, `variable evaluations` or `scripting`...
+ Prefer the **`function`** builtin.
 
 ## Usage
 
@@ -36,9 +41,23 @@ same way you would have done if you'd run that command "naked" in the command
 line? This is how `alias` expects it's parameters and where `alias` on Murex
 differs from `alias` in POSIX shells.
 
+To materialize those differences, pay attention to the examples below:
+
+```
+# bad : the following statements generate errors,
+#  prefer function builtin to implent them
+
+» alias myalias=out "Hello, World!" | wc
+» alias myalias=out $myvariable | wc
+» alias myalias=out ${vmstat} | wc
+» alias myalias=out "hello" && out "world"
+» alias myalias=out "hello" ; out "world"
+» alias myalias="out hello; out world"
+```
+
 In some ways this makes `alias` a little less flexible than it might
 otherwise be. However the design of this is to keep `alias` focused on it's
-core objective. For any more advanced requirements you can use a `function`
+core objective. To implement the above aliasing, you can use `function`
 instead.
 
 ## Detail
