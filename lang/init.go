@@ -35,6 +35,7 @@ func InitEnv() {
 		return
 	}
 
+	ShellProcess.CreationTime = time.Now()
 	ShellProcess.State.Set(state.Executing)
 	ShellProcess.Name.Set(os.Args[0])
 	ShellProcess.Parameters.DefineParsed(os.Args[1:])
@@ -47,7 +48,7 @@ func InitEnv() {
 	ShellProcess.Variables = NewVariables(ShellProcess)
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
-	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
+	ShellProcess.FileRef = ref.NewModule(app.ShellModule)
 	ShellProcess.Context = context.Background()
 	ShellProcess.Done = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }

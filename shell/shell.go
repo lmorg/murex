@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -56,6 +57,8 @@ func Start() {
 			}
 		}()
 	}
+
+	lang.ShellProcess.StartTime = time.Now()
 
 	// disable this for Darwin (macOS) because the messages it pops up might
 	// spook many macOS users.
@@ -257,7 +260,7 @@ func ShowPrompt() {
 			callEvents("after", block)
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
+			fork.FileRef = ref.NewModule(app.ShellModule)
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
 			fork.CCEvent = lang.ShellProcess.CCEvent
