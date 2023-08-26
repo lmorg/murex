@@ -6,32 +6,29 @@ package docs
 func init() {
 	Summary = map[string]string{
 	
-	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}
-		{{ quote (index .Synonyms 0) }}: {{ quote (trim .Summary) }},{{ else }}
-		{{ quote .ID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}
+	{{ if .Documents }}{{ range .Documents }}
+		{{ quote .ID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}
 
-	{{ if otherdocs "optional" }}{{ range otherdocs "optional" }}{{ if .Synonyms }}
-		{{ quote (index .Synonyms 0) }}: {{ quote (trim .Summary) }},{{ else }}
-		{{ quote .DocumentID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}
+	{{ if otherdocs "optional" }}{{ range otherdocs "optional" }}
+		{{ quote .DocumentID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}
 
-	{{ range $i,$cat := othercats }}{{ if (and (ne $cat.ID "Murex") (ne $cat.ID "blog")) }}{{ range otherdocs $cat.ID }}{{ if .Synonyms }}
-		{{ quote $cat.ID "/" (index .Synonyms 0) }}: {{ quote (trim .Summary) }},{{ else }}
-		{{ quote $cat.ID "/" .DocumentID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}{{ end }}
+	{{ range $i,$cat := othercats }}{{ if (and (ne $cat.ID "Murex") (ne $cat.ID "blog")) }}{{ range otherdocs $cat.ID }}
+		{{ quote $cat.ID "/" .DocumentID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}
 	
 	}
 
 
 	Synonym = map[string]string{
 
-	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}{{ $ID := quote (index .Synonyms 0) }}{{ range .Synonyms }}
+	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}{{ $ID := quote .ID }}{{ range .Synonyms }}
 		{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
 		{{ quote .ID }}: {{ quote .ID }},{{ end }}{{ end }}{{ end }}
 
-	{{ if otherdocs "optional" }}{{ range otherdocs "optional" }}{{ if .Synonyms }}{{ $ID := quote (index .Synonyms 0) }}{{ range .Synonyms }}
+	{{ if otherdocs "optional" }}{{ range otherdocs "optional" }}{{ if .Synonyms }}{{ $ID := quote "optional/" .DocumentID }}{{ range .Synonyms }}
 		{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
-		{{ quote .DocumentID }}: {{ quote .DocumentID }},{{ end }}{{ end }}{{ end }}
+		{{ quote .DocumentID }}: {{ quote "optional/" .DocumentID }},{{ end }}{{ end }}{{ end }}
 
-	{{ range $i,$cat := othercats }}{{ if (and (ne $cat.ID "Murex") (ne $cat.ID "blog")) }}{{ range otherdocs $cat.ID }}{{ if .Synonyms }}{{ $ID := quote $cat.ID "/" (index .Synonyms 0) }}{{ range .Synonyms }}
+	{{ range $i,$cat := othercats }}{{ if (and (ne $cat.ID "Murex") (ne $cat.ID "blog")) }}{{ range otherdocs $cat.ID }}{{ if .Synonyms }}{{ $ID := quote $cat.ID "/" .DocumentID }}{{ range .Synonyms }}
 		{{ quote $cat.ID "/" . }}: {{ $ID }},{{ end }}{{ else }}
 		{{ quote $cat.ID "/" .DocumentID }}: {{ quote $cat.ID "/" .DocumentID }},{{ end }}{{ end }}{{ end }}{{ end }}
 

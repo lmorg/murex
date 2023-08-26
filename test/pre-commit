@@ -34,12 +34,10 @@ echo "Compiling docgen...."
 go install github.com/lmorg/murex/utils/docgen
 
 echo "Compiling Murex docs...."
-docgen -config gen/docgen.yaml
+docgen -config gen/docgen.yaml -warning
 
 echo "Formatting autogen docs...."
-go fmt builtins/docgen_test.go
 go fmt $cdocs/*.go
-go fmt config/defaults/*.go
 
 export MUREXVERSION="$(go run github.com/lmorg/murex --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
 sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
@@ -47,6 +45,6 @@ sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
 
 echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
-git add -v *.md config/defaults builtins/docgen_test.go version.svg $docs $cdocs
+git add -v *.md version.svg $docs $cdocs
 
 echo "Allowing git commit to proceed...."

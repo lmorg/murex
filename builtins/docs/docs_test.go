@@ -14,5 +14,5 @@ var docs embed.FS
 // All other files are tested from the builtins/docs_test.go to avoid
 // cyclic package import paths
 func TestSummaries(t *testing.T) {
-	test.ExistsFs(t, "000_summaries_commands_docgen.go", docs)
+	test.ExistsFs(t, "summaries.go", docs)
 }
