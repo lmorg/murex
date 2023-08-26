@@ -54,3 +54,7 @@ Discussions presently happen in [Github discussions](https://github.com/lmorg/mu
 
 Murex is considered stable, however if you do run into problems then please
 raise them on the project's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
+
+<hr/>
+
+This document was generated from [gen/root/README_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/README_doc.yaml).

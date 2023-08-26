@@ -145,3 +145,7 @@ If you do run into any issues then please raise them on [Github](https://github.
   JSON Lines
 * [v2.1](../changelog/v2.1.md):
   This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.
+
+<hr/>
+
+This document was generated from [builtins/optional/select/select_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/select/select_doc.yaml).

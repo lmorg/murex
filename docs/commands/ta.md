@@ -70,3 +70,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Reverse the order of an array
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/mkarray/array_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/mkarray/array_doc.yaml).

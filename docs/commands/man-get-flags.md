@@ -60,3 +60,7 @@ requirement is that flags are hyphen prefixed, eg `--flag`.
   Displays the man pages for Murex builtins
 * [`summary` ](../commands/summary.md):
   Defines a summary help text for a command
+
+<hr/>
+
+This document was generated from [builtins/core/management/shell_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/shell_doc.yaml).

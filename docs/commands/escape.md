@@ -53,3 +53,7 @@ Escape
   Encode or decodes text for HTML
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
+
+<hr/>
+
+This document was generated from [builtins/core/escape/escape_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/escape/escape_doc.yaml).

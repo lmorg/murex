@@ -52,7 +52,6 @@ func renderAll(docs documents) {
 			renderInnerLoop(&Config.Categories[cat].Templates[i], docs)
 		}
 	}
-
 }
 
 func renderInnerLoop(t *templates, docs documents) {

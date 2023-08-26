@@ -48,3 +48,7 @@ prepend to tables.
   Regexp tools for arrays / lists of strings
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/arraytools/addheading_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/arraytools/addheading_doc.yaml).

@@ -118,3 +118,7 @@ flushes the table of pending reports.
   Reads from a Murex named pipe
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
+
+<hr/>
+
+This document was generated from [builtins/core/test/test_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/test/test_doc.yaml).

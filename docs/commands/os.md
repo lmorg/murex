@@ -58,3 +58,7 @@ then please write it as `os posix plan9`.
   Output the hosts CPU architecture
 * [`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

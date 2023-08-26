@@ -97,3 +97,7 @@ Several CPU architectures are supported:
   Murex download links
 * [Install](/INSTALL.md):
   Installation instructions
+
+<hr/>
+
+This document was generated from [gen/root/supported-platforms_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/supported-platforms_doc.yaml).

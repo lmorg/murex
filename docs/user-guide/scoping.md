@@ -77,3 +77,7 @@ scope. Subshells also do not create a new scoping either.
   Import Murex code from another file of code block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+
+<hr/>
+
+This document was generated from [gen/user-guide/scoping_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/scoping_doc.yaml).

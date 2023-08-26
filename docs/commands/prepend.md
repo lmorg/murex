@@ -72,3 +72,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
   Regexp tools for arrays / lists of strings
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/lists/append_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/append_doc.yaml).

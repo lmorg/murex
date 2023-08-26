@@ -38,3 +38,7 @@ or similar platforms then you will need to launch with the `exec` builtin:
   Import Murex code from another file of code block
 * [`time`](../commands/time.md):
   Returns the execution run time of a command or block
+
+<hr/>
+
+This document was generated from [builtins/optional/time/time_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/time/time_doc.yaml).

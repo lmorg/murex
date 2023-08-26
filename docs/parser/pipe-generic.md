@@ -60,3 +60,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   Reformat one data-type into another data-type
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+
+<hr/>
+
+This document was generated from [gen/parser/pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/pipes_doc.yaml).

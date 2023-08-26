@@ -63,3 +63,7 @@ rsync --help -> @[^Options$..--help]re -> tabulate --map --split-comma --column-
   Reformat one data-type into another data-type
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/tabulate/tabulate_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/tabulate/tabulate_doc.yaml).

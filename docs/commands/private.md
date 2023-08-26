@@ -116,3 +116,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a local variable and set it's value
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/structs/function_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/function_doc.yaml).

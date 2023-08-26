@@ -21,7 +21,7 @@ func TestAliases(t *testing.T) {
 		t.Error("test alias appears in empty aliases")
 	}
 
-	a.Add("test", []string{"foo", "bar"})
+	a.Add("test", []string{"foo", "bar"}, nil)
 
 	dump = a.Dump()
 	if len(dump) != 1 {
@@ -59,7 +59,7 @@ func TestAliasArray(t *testing.T) {
 	exp := []string{"testing", "$foo", "@bar", "foo bar"}
 	a := lang.NewAliases()
 
-	a.Add("test", exp)
+	a.Add("test", exp, nil)
 	act := a.Get("test")
 
 	if len(exp) != len(act) {

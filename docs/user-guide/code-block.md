@@ -70,3 +70,7 @@ brace block might be JSON).
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+
+<hr/>
+
+This document was generated from [gen/parser/codeblock_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/codeblock_doc.yaml).

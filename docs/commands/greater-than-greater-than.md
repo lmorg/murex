@@ -45,3 +45,7 @@ g * >> files.txt
   Manage Murex named pipes
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
+
+<hr/>
+
+This document was generated from [builtins/core/io/file_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/file_doc.yaml).

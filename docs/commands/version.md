@@ -60,3 +60,7 @@ Ran with the `--short` parameter
   Returns runtime information on the internal state of Murex
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/management/version_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/version_doc.yaml).

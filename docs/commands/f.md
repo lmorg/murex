@@ -114,3 +114,7 @@ any matches from the `+` flags.
   JavaScript Object Notation (JSON)
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+
+<hr/>
+
+This document was generated from [builtins/core/io/f_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/f_doc.yaml).

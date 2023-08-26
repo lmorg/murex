@@ -59,3 +59,7 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
   Writes STDIN to disk - overwriting contents if file already exists
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+
+<hr/>
+
+This document was generated from [gen/parser/pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/pipes_doc.yaml).

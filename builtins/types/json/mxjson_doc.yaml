@@ -72,5 +72,5 @@
     - parser/curly-brace
     - parser/brace-quote
     - parser/create-array
-    - parser/create-objects
+    - parser/create-object
     - user-guide/code-block

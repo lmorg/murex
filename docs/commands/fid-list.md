@@ -90,3 +90,7 @@ include:
   JSON Lines
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
+
+<hr/>
+
+This document was generated from [builtins/core/processes/fid-list_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/processes/fid-list_doc.yaml).

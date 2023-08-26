@@ -144,3 +144,7 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+
+<hr/>
+
+This document was generated from [builtins/core/index/index_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/index/index_doc.yaml).

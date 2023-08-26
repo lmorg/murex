@@ -128,3 +128,7 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
   Regexp tools for arrays / lists of strings
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+
+<hr/>
+
+This document was generated from [builtins/core/io/g_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/g_doc.yaml).

@@ -86,3 +86,7 @@ both agnostic to the bang prefix.
   Returns element(s) from a table
 * [commands/index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

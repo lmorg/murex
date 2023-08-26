@@ -41,3 +41,7 @@ use the named pipe property rather than piping to null:
   Terminate murex with an exit number of 1
 * [`exit`](../commands/exit.md):
   Exit murex
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

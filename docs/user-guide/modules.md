@@ -42,6 +42,8 @@ package/module
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
+You can find existing modules on [GitHub](https://github.com/search?q=murex-module-&type=repositories), they typically follow a `murex-module-*` naming convention.
+
 ## Using Packages And Modules
 
 ### Consistency
@@ -121,3 +123,7 @@ empty Filename string.
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+
+<hr/>
+
+This document was generated from [gen/user-guide/modules_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/modules_doc.yaml).

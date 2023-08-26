@@ -52,3 +52,7 @@ event onSecondsElapsed example=60 {
   Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+
+<hr/>
+
+This document was generated from [builtins/events/onSecondsElapsed/onsecondselapsed_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSecondsElapsed/onsecondselapsed_doc.yaml).

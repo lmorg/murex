@@ -80,3 +80,7 @@ Hello, world!
   Returns runtime information on the internal state of Murex
 * [`version`](../commands/version.md):
   Get Murex version
+
+<hr/>
+
+This document was generated from [builtins/core/management/source_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/source_doc.yaml).

@@ -46,3 +46,7 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
   Lists all running functions within the current Murex session
 * [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
+
+<hr/>
+
+This document was generated from [builtins/core/processes/bgfg_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/processes/bgfg_doc.yaml).

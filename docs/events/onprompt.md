@@ -130,3 +130,7 @@ that has elements triggered from different interrupts).
   Trigger an event upon a command's completion
 * [onkeypress](../events/onkeypress.md):
   
+
+<hr/>
+
+This document was generated from [builtins/events/onPrompt/onprompt_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onPrompt/onprompt_doc.yaml).

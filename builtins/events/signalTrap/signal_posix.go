@@ -1,5 +1,5 @@
-//go:build !plan9
-// +build !plan9
+//go:build !plan9 && !js
+// +build !plan9,!js
 
 package signaltrap
 

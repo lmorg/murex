@@ -158,3 +158,7 @@ if you want to learn more about shell scripting in Murex.
   Checks state of each function in a pipeline and exits block on error
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [gen/user-guide/rosetta-stone_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/rosetta-stone_doc.yaml).

@@ -69,3 +69,7 @@ cryptographically secure.
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [builtins/core/random/rand_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/random/rand_doc.yaml).

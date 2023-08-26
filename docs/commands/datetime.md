@@ -87,3 +87,7 @@ required.
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/datetime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/datetime_doc.yaml).

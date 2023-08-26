@@ -34,3 +34,7 @@ An optional builtin for compressing or decompressing a gzip stream from STDIN.
   Encode or decodes text for HTML
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
+
+<hr/>
+
+This document was generated from [builtins/optional/encoders/gz_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/encoders/gz_doc.yaml).

@@ -106,3 +106,7 @@ which itself is located in the appropriate temp directory for the host OS (eg
   Open a file with a preferred handler
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
+
+<hr/>
+
+This document was generated from [builtins/core/io/tmp_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/tmp_doc.yaml).

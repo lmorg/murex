@@ -100,3 +100,7 @@ terminal (TTY) or a pipe?)
   Define a function block
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
+
+<hr/>
+
+This document was generated from [gen/variables/SELF_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/SELF_doc.yaml).

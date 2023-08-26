@@ -56,6 +56,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Overview of how code blocks are parsed
 * [Create array (`%[]`) constructor](../parser/create-array.md):
   Quickly generate arrays
+* [Create object (`%{}`) constructor](../parser/create-object.md):
+  Quickly generate objects and maps
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`[[` (element)](../commands/element.md):
@@ -86,8 +88,6 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [create-objects](../parser/create-objects.md):
-  
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
 
@@ -100,3 +100,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 - [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
 - [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
 - [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory
+
+<hr/>
+
+This document was generated from [builtins/types/json/mxjson_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/types/json/mxjson_doc.yaml).

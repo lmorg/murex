@@ -45,3 +45,7 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Print a string to the STDOUT with a trailing new line character
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
+
+<hr/>
+
+This document was generated from [builtins/core/io/echo_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/echo_doc.yaml).

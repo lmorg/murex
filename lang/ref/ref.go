@@ -72,3 +72,12 @@ func (h *history) Dump() []dumpVals {
 
 // History is an array of all the murex source code loaded
 var History = new(history)
+
+func NewModule(module string) *File {
+	return &File{
+		Source: &Source{
+			Module:   module,
+			DateTime: time.Now(),
+		},
+	}
+}

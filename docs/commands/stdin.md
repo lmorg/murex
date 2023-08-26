@@ -145,3 +145,7 @@ that pipes created in modules should be prefixed with the name of its package.
   Manage Murex named pipes
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/pipe/namedpipe_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/pipe/namedpipe_doc.yaml).

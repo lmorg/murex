@@ -15,19 +15,20 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"quote":      funcQuote,
 	"md":         funcMarkdown,
+	"quote":      funcQuote,
 	"trim":       strings.TrimSpace,
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
 	"link":       funcLink,
+	"file":       funcFile,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
 	"doct":       funcDocT,
+	"othercats":  funcOtherCats,
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
-	//"file":       funcFile,
 }
 
 /************
@@ -48,8 +49,8 @@ func funcMarkdown(s string) string {
 
 // Takes: strings (contents)
 // Returns: contents with some characters escaped for printing in source code (eg \")
-func funcQuote(s string) string {
-	return strconv.Quote(funcMarkdown(s))
+func funcQuote(s ...string) string {
+	return strconv.Quote(funcMarkdown(strings.Join(s, "")))
 }
 
 /************
@@ -140,6 +141,18 @@ func funcInclude(s string) string {
 	return s
 }
 
+/************
+ *   File   *
+ ************/
+
+// Takes: slice of strings (file path)
+// Returns: contents of file based on a concatenation of the slice
+func funcFile(path ...string) string {
+	f := fileReader(strings.Join(path, ""))
+	b := readAll(f)
+	return string(b)
+}
+
 func init() {
 	funcMap["include"] = funcInclude
 }
@@ -185,6 +198,15 @@ func funcDocT(cat, doc string) *document {
 }
 
 /************
+ * OtherCats*
+ ************/
+
+// Returns: list of documents in that category
+func funcOtherCats() []category {
+	return Config.Categories
+}
+
+/************
  * OtherDocs*
  ************/
 
@@ -214,15 +236,3 @@ func funcEnv(env string) bool {
 	s, _ := v[key].(string)
 	return s == value
 }
-
-/************
- *   File   *
- ************/
-
-// Takes: slice of strings (file path)
-// Returns: contents of file based on a concatenation of the slice
-/*func funcFile(path ...string) string {
-	f := fileReader(strings.Join(path, ""))
-	b := readAll(f)
-	return string(b)
-}*/

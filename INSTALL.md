@@ -180,3 +180,7 @@ pretty well. So the overall experience is a clean and readable terminal.
   Murex download links
 * [Supported Platforms](docs//supported-platforms.md):
   Operating systems and CPU architectures supported by Murex
+
+<hr/>
+
+This document was generated from [gen/root/INSTALL_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/INSTALL_doc.yaml).

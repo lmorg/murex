@@ -5,10 +5,14 @@ import (
 	enc "encoding/csv"
 	"fmt"
 	"io"
+	"reflect"
+	"sort"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
+
+type T comparable
 
 func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 	var b []byte
@@ -45,6 +49,14 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 		return buf.Bytes(), w.Error()
 
 	case []interface{}:
+		if len(v) == 0 {
+			w.Flush()
+			return buf.Bytes(), w.Error()
+		}
+		if reflect.TypeOf(v[0]).Kind() == reflect.Map {
+			return marshalSliceOfMap(v, buf, w)
+		}
+
 		for i := range v {
 			err = w.Write([]string{fmt.Sprint(v[i])})
 			if err != nil {
@@ -253,9 +265,72 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 		return b, nil*/
 
 	default:
-		err = fmt.Errorf("I don't know how to marshal %T data into a `%s`. Data possibly too complex?", v, typeName)
+		err = fmt.Errorf("cannot marshal %T data into a `%s`", v, typeName)
 		return buf.Bytes(), err
 	}
+}
+
+func marshalSliceOfMap(v []interface{}, buf *bytes.Buffer, w *enc.Writer) ([]byte, error) {
+	headings, err := getMapKeys(v[0].(map[string]any))
+	if err != nil {
+		return nil, err
+	}
+
+	err = w.Write(headings)
+	if err != nil {
+		return nil, err
+	}
+
+	lenHeadings := len(headings)
+	slice := make([]string, lenHeadings)
+	var j int
+
+	for i := range v {
+		if reflect.TypeOf(v[i]).Kind() != reflect.Map {
+			return nil, fmt.Errorf("expecting map on row %d, instead got a %s", i, reflect.TypeOf(v[i]).Kind().String())
+		}
+
+		if len(v[i].(map[string]any)) != len(headings) {
+			return nil, fmt.Errorf("row %d has a different number of records to the first row:\nrow 0 == %d records,\nrow %d == %d records",
+				i, lenHeadings, i, len(v))
+		}
+
+		for j = 0; j < lenHeadings; j++ {
+			val, ok := v[i].(map[string]any)[headings[j]]
+			if !ok {
+				return nil, fmt.Errorf("row %d is missing a record name found in the first row: '%s'", i, headings[j])
+			}
+			s, err := types.ConvertGoType(val, types.String)
+			if err != nil {
+				return nil, fmt.Errorf("cannot convert a %T (%v) to a %s in record %d: %s", val, val, types.String, i, err.Error())
+			}
+			slice[j] = s.(string)
+		}
+
+		err = w.Write(slice)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	w.Flush()
+	return buf.Bytes(), w.Error()
+}
+
+func getMapKeys[T comparable](v map[string]T) ([]string, error) {
+	slice := make([]string, len(v))
+	var i int
+
+	for k := range v {
+		s, err := types.ConvertGoType(k, types.String)
+		if err != nil {
+			return nil, fmt.Errorf("cannot convert a %T (%v) to a %s: %s", k, k, types.String, err.Error())
+		}
+		slice[i] = s.(string)
+		i++
+	}
+	sort.Strings(slice)
+	return slice, nil
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {

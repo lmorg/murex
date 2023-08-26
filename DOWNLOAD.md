@@ -144,3 +144,7 @@ following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://doc
   Installation instructions
 * [Supported Platforms](docs//supported-platforms.md):
   Operating systems and CPU architectures supported by Murex
+
+<hr/>
+
+This document was generated from [gen/root/DOWNLOAD_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/DOWNLOAD_doc.yaml).

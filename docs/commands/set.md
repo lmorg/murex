@@ -274,3 +274,7 @@ bar
   Evaluate a mathematical function and assign to variable (deprecated)
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/variables_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/variables_doc.yaml).

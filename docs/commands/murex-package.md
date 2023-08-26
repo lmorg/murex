@@ -20,6 +20,8 @@ package/module
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
+You can find existing modules on [GitHub](https://github.com/search?q=murex-module-&type=repositories), they typically follow a `murex-module-*` naming convention.
+
 ## Usage
 
 Install a new package
@@ -114,3 +116,7 @@ If you wish to view what modules are loaded in a current session then use
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/modules/murex-package_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/modules/murex-package_doc.yaml).

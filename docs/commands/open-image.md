@@ -40,3 +40,7 @@ As a function
   Open a file with a preferred handler
 * [`qr`](../optional/qr.md):
   Creates a QR code from STDIN
+
+<hr/>
+
+This document was generated from [builtins/core/openimage/open-image_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/openimage/open-image_doc.yaml).

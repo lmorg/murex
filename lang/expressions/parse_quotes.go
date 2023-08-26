@@ -240,6 +240,27 @@ func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 				tree.charPos++
 			}
 
+		case '\'':
+			_, err := tree.parseString('\'', '\'', false)
+			if err != nil {
+				return nil, err
+			}
+			tree.charPos++
+
+		case '"':
+			_, err := tree.parseStringInfix('"', false)
+			if err != nil {
+				return nil, err
+			}
+			tree.charPos++
+
+		case '(':
+			_, err := tree.parseString('(', ')', false)
+			if err != nil {
+				return nil, err
+			}
+			tree.charPos++
+
 		case '{':
 			_, err := tree.parseBlockQuote()
 			if err != nil {

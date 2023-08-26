@@ -174,3 +174,7 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
   Print a string to the STDOUT with a trailing new line character
 * [`signalTrap`](../events/signaltrap.md):
   Trap OS signals
+
+<hr/>
+
+This document was generated from [builtins/events/signalTrap/signal_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/signalTrap/signal_doc.yaml).

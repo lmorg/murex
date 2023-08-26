@@ -29,3 +29,7 @@ A true or false value.
 - [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
 - [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
 - [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory
+
+<hr/>
+
+This document was generated from [builtins/types/boolean/boolean_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/types/boolean/boolean_doc.yaml).

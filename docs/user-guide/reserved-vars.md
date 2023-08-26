@@ -36,7 +36,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Character width of terminal
 * [`HOSTNAME` (str)](../variables/HOSTNAME.md):
   Hostname of the current machine
-* [`MUREX_MUREX_ARGS` (json)](../variables/ARGV.md):
+* [`MUREX_ARGS` (json)](../variables/MUREX_ARGV.md):
   Array of the command name and parameters passed to the current shell
 * [`SELF` (json)](../variables/SELF.md):
   Meta information about the running scope.
@@ -48,3 +48,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Define a global variable and set it's value
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/user-guide/reserved_vars_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/reserved_vars_doc.yaml).

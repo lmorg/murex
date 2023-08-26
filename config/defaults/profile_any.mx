@@ -1,4 +1,21 @@
 alias help=murex-docs
+
+autocomplete set murex-docs %[ {
+    FlagsDesc: {
+        --docs: "Returns a JSON object of every document available to read offline"
+        --summary: "Returns an abridged description of the command rather than the entire help page"
+    }
+    DynamicDesc: '{ fexec builtin murex-docs --docs }'
+    FlagValues: {
+		--summary: [{
+			Dynamic: '{ fexec builtin murex-docs --docs }'
+		}]
+	}
+    ListView: true
+} ]
+
+autocomplete set help autocomplete(get murex-docs)
+
 alias builtin=fexec builtin
 alias command=exec
 
@@ -536,16 +553,6 @@ test: unit private test.alias.builtins {
     "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
-
-autocomplete: set murex-docs { [{
-    "Dynamic": ({ builtins }),
-	"Flags": [ "--summary" ],
-	"FlagValues": {
-		"--summary": [{
-			"Dynamic": ({ builtins })
-		}]
-	}
-}] }
 
 private: autocomplete.aliases.and.builtins {
     # Returns a list of aliases and builtins

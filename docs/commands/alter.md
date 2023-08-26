@@ -168,3 +168,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Returns runtime information on the internal state of Murex
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/datatools/alter_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/datatools/alter_doc.yaml).

@@ -49,3 +49,7 @@ then variables `$1` through to `$19` (inclusive) will all be set.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/variables/numeric_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/numeric_doc.yaml).

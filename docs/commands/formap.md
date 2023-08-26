@@ -120,3 +120,7 @@ The following meta values are defined:
   Loop until condition false
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/structs/formap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/formap_doc.yaml).

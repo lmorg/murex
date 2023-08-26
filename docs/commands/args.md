@@ -82,3 +82,7 @@ $args[Additional] -> foreach flag {
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/shell_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/shell_doc.yaml).

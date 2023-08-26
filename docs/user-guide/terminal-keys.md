@@ -278,3 +278,7 @@ Pressing `ctrl`+`l` will clear the screen.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
+
+<hr/>
+
+This document was generated from [gen/user-guide/terminal-keys_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/terminal-keys_doc.yaml).

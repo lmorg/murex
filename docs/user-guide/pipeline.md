@@ -83,3 +83,7 @@ document but you can read more on them in links the links below.
   Overview of the different schedulers (or 'run modes') in Murex
 * [`bg`](../commands/bg.md):
   Run processes in the background
+
+<hr/>
+
+This document was generated from [gen/user-guide/pipeline_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/pipeline_doc.yaml).

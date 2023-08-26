@@ -336,6 +336,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Checks state of each function in a pipeline and exits block on error
 * [`version`](../commands/version.md):
   Get Murex version
+* [`which`](../commands/which.md):
+  Locate command origin
 * [`while`](../commands/while.md):
   Loop until condition false
 

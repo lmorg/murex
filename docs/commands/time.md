@@ -41,3 +41,7 @@ and STDERR as usual.
   Suspends the shell for a number of seconds
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/time/time_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/time/time_doc.yaml).

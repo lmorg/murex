@@ -122,3 +122,7 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
   Match an exact value in an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+
+<hr/>
+
+This document was generated from [builtins/core/io/rx_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/rx_doc.yaml).

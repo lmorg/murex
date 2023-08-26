@@ -12,9 +12,6 @@ type document struct {
 	// DocumentID is the identifier for the document and name to write the document to disk as (excluding extension)
 	DocumentID string `yaml:"DocumentID"`
 
-	// WriteTo is the path to write to, if different from the category path
-	WriteTo string `yaml:"WriteTo"`
-
 	// Title of the document
 	Title string `yaml:"Title"`
 
@@ -59,6 +56,12 @@ type document struct {
 
 	// Date article was published
 	DateTime string `yaml:"DateTime"`
+
+	// WriteTo is the path to write to, if different from the category path
+	WriteTo string `yaml:"WriteTo"`
+
+	// Automatically pulled from file location
+	SourcePath string `yaml:"-"`
 }
 
 // AssociationValues are associations registered by murex data-types
@@ -108,10 +111,11 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 	dv := &documentValues{
 		ID:                  d.DocumentID,
-		WriteTo:             d.WriteTo,
 		Title:               d.Title,
 		FileName:            t.DocumentFileName(d),
 		FilePath:            t.DocumentFilePath(d),
+		WriteTo:             d.WriteTo,
+		SourcePath:          d.SourcePath,
 		Hierarchy:           d.Hierarchy(),
 		CategoryID:          d.CategoryID,
 		CategoryTitle:       t.ref.Title,
@@ -180,10 +184,11 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 type documentValues struct {
 	ID                  string
-	WriteTo             string
 	Title               string
 	FileName            string
 	FilePath            string
+	WriteTo             string
+	SourcePath          string
 	Hierarchy           string
 	CategoryID          string
 	CategoryTitle       string

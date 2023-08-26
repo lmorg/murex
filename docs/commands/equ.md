@@ -212,3 +212,7 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
   Define a local variable and set it's value
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/math_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/math_doc.yaml).

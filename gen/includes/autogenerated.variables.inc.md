@@ -6,7 +6,7 @@
   Character width of terminal
 * [`HOSTNAME` (str)](../variables/HOSTNAME.md):
   Hostname of the current machine
-* [`MUREX_ARGV` (json)](../variables/ARGV.md):
+* [`MUREX_ARGV` (json)](../variables/MUREX_ARGV.md):
   Array of the command name and parameters passed to the current shell
 * [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
   Absolute path to running shell

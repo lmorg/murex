@@ -110,3 +110,7 @@ The following meta values are defined:
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [builtins/core/structs/while_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/while_doc.yaml).

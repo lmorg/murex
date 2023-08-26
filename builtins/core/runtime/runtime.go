@@ -36,6 +36,7 @@ const (
 	fPrivates           = "--privates"
 	fOpenAgents         = "--open-agents"
 	fFids               = "--fids"
+	fShellProc          = "--shell-proc"
 	fReadArrays         = "--readarray"
 	fReadArrayWithTypes = "--readarraywithtype"
 	fWriteArrays        = "--writearray"
@@ -72,6 +73,7 @@ var flags = map[string]string{
 	fPrivates:           types.Boolean,
 	fOpenAgents:         types.Boolean,
 	fFids:               types.Boolean,
+	fShellProc:          types.Boolean,
 	fReadArrays:         types.Boolean,
 	fReadArrayWithTypes: types.Boolean,
 	fReadMaps:           types.Boolean,
@@ -172,6 +174,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fOpenAgents[2:]] = open.OpenAgents.Dump()
 		case fFids:
 			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
+		case fShellProc:
+			ret[fShellProc[2:]] = lang.ShellProcess.Dump()
 		case fReadArrays:
 			ret[fReadArrays[2:]] = stdio.DumpReadArray()
 		case fReadArrayWithTypes:

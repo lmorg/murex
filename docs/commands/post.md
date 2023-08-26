@@ -85,3 +85,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [index](../commands/item-index.md):
   Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/httpclient/post_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/httpclient/post_doc.yaml).

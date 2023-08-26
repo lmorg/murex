@@ -285,3 +285,7 @@ bar
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/variables_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/variables_doc.yaml).

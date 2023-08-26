@@ -54,3 +54,7 @@ out "lock file gone!"
   Run processes in the background
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
+
+<hr/>
+
+This document was generated from [builtins/core/io/lockfile_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/lockfile_doc.yaml).

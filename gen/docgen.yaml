@@ -1,3 +1,4 @@
+
 SourcePath: .
 SourceExt: _doc.yaml
 
@@ -25,16 +26,10 @@ Categories:
       DocumentTemplate: gen/commands-md-doc.tmpl
 
     - OutputPath: builtins/docs
-      CategoryFile: 000_summaries_commands_docgen.go
-      OutputExt: _commands_docgen.go
+      CategoryFile: summaries.go
+      #OutputExt: _commands_docgen.go
       CategoryTemplate: gen/commands-go-cat.tmpl
-      DocumentTemplate: gen/commands-go-doc.tmpl
-
-    - OutputPath: builtins
-      CategoryFile: docgen_test.go
-      OutputExt: _commands_docgen.go
-      CategoryTemplate: gen/commands-go_test-cat.tmpl
-      DocumentTemplate:
+      #DocumentTemplate: gen/commands-go-doc.tmpl
 
   - ID: mkarray
     Title: mkarray
@@ -57,12 +52,6 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
-
-    - OutputPath: builtins/docs
-      CategoryFile: 
-      OutputExt: _commands_docgen.go
-      CategoryTemplate: 
-      DocumentTemplate: gen/commands-go-doc.tmpl
 
   - ID: parser
     Title: Parser Reference
