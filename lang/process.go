@@ -44,6 +44,9 @@ var (
 	// GlobalVariables is a table of global variables
 	GlobalVariables = NewGlobals()
 
+	// ModuleVariables is a table of module specific variables
+	ModuleVariables = NewModuleVars()
+
 	// GlobalAliases is a table of global aliases
 	GlobalAliases = NewAliases()
 

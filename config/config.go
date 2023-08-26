@@ -81,48 +81,57 @@ func (conf *Config) ExistsAndGlobal(app, key string) (exists, global bool) {
 	return
 }
 
-// Get retrieves a setting from the Config. Returns an interface{} for the value and err for any failures.
+// Get retrieves a setting from the Config. Returns an interface{} for the value and err for any failures
 //
-//     app == tooling name
-//     key == name of setting
-//     dataType == what `types.dataType` to cast the return value into
-func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
+//	app == tooling name
+//	key == name of setting
+//	dataType == what `types.dataType` to cast the return value into
+func (conf *Config) Get(app, key, dataType string) (interface{}, error) {
+	v, _, err := conf.GetFileRef(app, key, dataType)
+	return v, err
+}
+
+// GetFileRef retrieves a setting from the Config. Returns an interface{} for the value and err for any failures
+func (conf *Config) GetFileRef(app, key, dataType string) (interface{}, *ref.File, error) {
 	conf.mutex.RLock()
 
 	if conf.global != nil && conf.values[app] != nil && conf.values[app][key] != nil {
 		v := conf.values[app][key]
+		fileRef := conf.fileRefSet[app][key]
 		conf.mutex.RUnlock()
-		value, err = types.ConvertGoType(v, dataType)
-		return
+		value, err := types.ConvertGoType(v, dataType)
+		return value, fileRef, err
 	}
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		conf.mutex.RUnlock()
 
 		if conf.global != nil {
-			return conf.global.Get(app, key, dataType)
+			return conf.global.GetFileRef(app, key, dataType)
 		}
-		return nil, fmt.Errorf("cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
+		return nil, nil, fmt.Errorf("cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
-	var v interface{}
+	var (
+		v       interface{}
+		err     error
+		fileRef = conf.fileRefSet[app][key]
+	)
 
 	switch {
 	case conf.properties[app][key].Dynamic.GetDynamic != nil:
 		v, err = conf.properties[app][key].Dynamic.GetDynamic()
-		if err != nil {
-			conf.mutex.RUnlock()
-			return
-		}
 		conf.mutex.RUnlock()
+		if err != nil {
+			return nil, nil, err
+		}
 
 	case conf.properties[app][key].GoFunc.Read != nil:
 		v, err = conf.properties[app][key].GoFunc.Read()
-		if err != nil {
-			conf.mutex.RUnlock()
-			return
-		}
 		conf.mutex.RUnlock()
+		if err != nil {
+			return nil, nil, err
+		}
 
 	default:
 		v = conf.values[app][key]
@@ -132,15 +141,15 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 		conf.mutex.RUnlock()
 	}
 
-	value, err = types.ConvertGoType(v, dataType)
-	return
+	value, err := types.ConvertGoType(v, dataType)
+	return value, fileRef, err
 }
 
 // Set changes a setting in the Config object
 //
-//     app == tooling name
-//     key == name of setting
-//     value == the setting itself
+//	app == tooling name
+//	key == name of setting
+//	value == the setting itself
 func (conf *Config) Set(app string, key string, value interface{}, fileRef *ref.File) error {
 	// first check if we're in a global, and whether we should be
 	if conf.global != nil {

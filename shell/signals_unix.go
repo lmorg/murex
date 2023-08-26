@@ -112,7 +112,7 @@ func stopStatus(p *lang.Process) {
 	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
 	if p.Exec.Pid() != 0 {
-		block, err := lang.ShellProcess.Config.Get("shell", "stop-status-func", types.CodeBlock)
+		block, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "stop-status-func", types.CodeBlock)
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 			return
@@ -120,6 +120,7 @@ func stopStatus(p *lang.Process) {
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
 		fork.Name.Set("(SIGTSTP)")
+		fork.FileRef = fileRef
 		fork.Variables.Set(fork.Process, "PID", lang.ForegroundProc.Get().Exec.Pid(), types.Integer)
 		_, err = fork.Execute([]rune(block.(string)))
 

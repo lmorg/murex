@@ -74,13 +74,14 @@ func hintExpandVariables(line []rune) []rune {
 }
 
 func HintCodeBlock() []rune {
-	ht, err := lang.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
+	ht, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name.Set("(hint-text-func)")
+	fork.FileRef = fileRef
 	exitNum, err := fork.Execute([]rune(ht.(string)))
 
 	b, err2 := fork.Stdout.ReadAll()

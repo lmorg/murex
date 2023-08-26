@@ -62,12 +62,13 @@ const (
 	PWD        = "PWD"
 	ENV        = "ENV"
 	GLOBAL     = "GLOBAL"
+	MODULE     = "MOD"
 	COLUMNS    = "COLUMNS"
 )
 
 var ReservedVariableNames = []string{
 	SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV,
-	HOSTNAME, PWD, ENV, GLOBAL, COLUMNS,
+	HOSTNAME, PWD, ENV, MODULE, GLOBAL, COLUMNS,
 }
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -143,6 +144,9 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 
 	case GLOBAL:
 		return getGlobalValues(), nil
+
+	case MODULE:
+		return ModuleVariables.GetValues(v.process), nil
 
 	case SELF:
 		return getVarSelf(v.process), nil
@@ -277,6 +281,10 @@ func (v *Variables) getString(name string) (string, error) {
 		b, err := json.Marshal(getGlobalValues(), v.process.Stdout.IsTTY())
 		return string(b), err
 
+	case MODULE:
+		b, err := json.Marshal(ModuleVariables.GetValues(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case SELF:
 		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
@@ -377,10 +385,12 @@ func (v *Variables) GetDataType(path string) string {
 		return v.getDataType(split[0])
 	case 2:
 		switch split[0] {
-		case GLOBAL:
-			return getGlobalDataType(split[1])
 		case ENV:
 			return getEnvVarDataType(split[1])
+		case GLOBAL:
+			return getGlobalDataType(split[1])
+		case MODULE:
+			return ModuleVariables.GetDataType(v.process, split[1])
 		}
 		fallthrough
 	default:
@@ -413,10 +423,7 @@ func (v *Variables) GetDataType(path string) string {
 
 func (v *Variables) getDataType(name string) string {
 	switch name {
-	case ENV:
-		return types.Json
-
-	case GLOBAL:
+	case ENV, GLOBAL, MODULE:
 		return types.Json
 
 	case SELF:
@@ -534,18 +541,12 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 }
 
 func (v *Variables) getNestedDataType(name string, dataType string) string {
-	if name == GLOBAL {
+	switch name {
+	case GLOBAL, MODULE:
 		return dataType
-	}
-	return v.GetDataType(name)
-	/*switch name {
-	case GLOBAL:
-		return getGlobalDataType(branch1)
-	case ENV:
-		return getEnvVarDataType(branch1)
 	default:
 		return v.GetDataType(name)
-	}*/
+	}
 }
 
 // Set writes a variable
@@ -557,6 +558,8 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 		return setEnvVar(value, changePath)
 	case GLOBAL:
 		return setGlobalVar(p, value, changePath, dataType)
+	case MODULE:
+		return ModuleVariables.Set(p, value, changePath, dataType)
 	case DOT:
 		goto notReserved
 	}
@@ -638,7 +641,7 @@ notReserved:
 
 func setGlobalVar(p *Process, v interface{}, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", GLOBAL)
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", GLOBAL, GLOBAL)
 	}
 
 	switch t := v.(type) {
@@ -654,7 +657,7 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	var value interface{}
 
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$ENV.EXAMPLE`", ENV)
+		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$%s.EXAMPLE`", ENV, ENV)
 	}
 
 	switch t := v.(type) {
