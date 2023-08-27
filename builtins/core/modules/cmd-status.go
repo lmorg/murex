@@ -2,7 +2,6 @@ package modules
 
 import (
 	"bytes"
-	"fmt"
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
@@ -16,22 +15,24 @@ func statusModules(p *lang.Process) error {
 	}
 
 	for i := range db {
-		p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
-		p.Stderr.Writeln([]byte("Package status " + db[i].Package + "...."))
+		p.Stdout.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
+
+		if err := packageDirExists(profile.ModulePath() + "/" + db[i].Package); err == nil {
+			write(p, "{BLUE}Skipping package '{BOLD}%s{RESET}{BLUE}'....{RESET}", db[i].Package)
+			continue
+		}
+
+		write(p, "Package status '{BOLD}%s{RESET}'....", db[i].Package)
 
 		switch db[i].Protocol {
 		case "git":
 			err = gitStatus(p, &db[i])
 			if err != nil {
-				p.Stderr.Writeln([]byte(fmt.Sprintf(
-					"unable to return package status `%s`: %s", db[i].Package, err.Error(),
-				)))
+				write(p, "{RED}Unable to return status for package '{BOLD}%s{RESET}{RED}': %s", db[i].Package, err.Error())
 			}
 
 		default:
-			p.Stderr.Writeln([]byte(fmt.Sprintf(
-				"unable to return package status `%s`: Unknown protocol `%s`", db[i].Package, db[i].Protocol,
-			)))
+			write(p, "{RED}Unable to return status for package '{BOLD}%s{RESET}{RED}': Unknown protocol `%s`", db[i].Package, db[i].Protocol)
 		}
 	}
 

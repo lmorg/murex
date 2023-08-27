@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/cd"
 )
 
@@ -31,6 +32,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 	switch method {
 	case "install", "get":
 		return getModule(p)
+
+	case "remove":
+		return removePackage(p)
 
 	case "update":
 		return updateModules(p)
@@ -108,22 +112,22 @@ func updateModules(p *lang.Process) error {
 	}
 
 	for i := range db {
-		//p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
-		p.Stderr.Writeln([]byte("Updating package " + db[i].Package + "...."))
+		if err := packageDirExists(profile.ModulePath() + "/" + db[i].Package); err == nil {
+			write(p, "{BLUE}Skipping package '{BOLD}%s{RESET}{BLUE}'....{RESET}", db[i].Package)
+			continue
+		}
+
+		write(p, "Updating package '{BOLD}%s{RESET}'....", db[i].Package)
 
 		switch db[i].Protocol {
 		case "git":
 			err = gitUpdate(p, &db[i])
 			if err != nil {
-				p.Stderr.Writeln([]byte(fmt.Sprintf(
-					"Unable to update package `%s`: %s", db[i].Package, err.Error(),
-				)))
+				write(p, "{RED}Unable to update package '{BOLD}%s{RESET}{RED}': %s{RESET}", db[i].Package, err.Error())
 			}
 
 		default:
-			p.Stderr.Writeln([]byte(fmt.Sprintf(
-				"Unable to update package `%s`: Unknown protocol `%s`", db[i].Package, db[i].Protocol,
-			)))
+			write(p, "{RED}Unable to update package '{BOLD}%s{RESET}{RED}': Unknown protocol '%s'{RESET}", db[i].Package, db[i].Protocol)
 		}
 	}
 
@@ -133,4 +137,9 @@ func updateModules(p *lang.Process) error {
 func reloadModules(p *lang.Process) error {
 	profile.Execute(profile.F_MODULES)
 	return nil
+}
+
+func write(p *lang.Process, format string, v ...any) {
+	message := fmt.Sprintf("* "+ansi.ExpandConsts(format), v...)
+	p.Stdout.Writeln([]byte(message))
 }

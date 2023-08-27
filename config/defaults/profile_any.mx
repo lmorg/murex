@@ -505,6 +505,7 @@ autocomplete: set murex-package {
     [{
         "FlagsDesc": {
             "install": "Installs a package from a user defined URI",
+            "remove":  "Removes an installed package",
             "update":  "Updates all installed packages",
             "import":  "Import packages described in a backup package DB from user defined URI or local path",
             "enable":  "Enables a previously disabled package or module",
@@ -518,13 +519,16 @@ autocomplete: set murex-package {
             "import": [{
                 "IncFiles": true
             }],
+            "remove": [{
+                "Dynamic": ({ murex-package list packages })
+            }],
             "enable": [{
-                "DynamicDesc": ({ murex-package: list disabled }),
+                "DynamicDesc": ({ murex-package list disabled }),
                 "ListView": true,
                 "AutoBranch": true
             }],
             "disable": [{
-                "DynamicDesc": ({ murex-package: list enabled }),
+                "DynamicDesc": ({ murex-package list enabled }),
                 "ListView": true,
                 "AutoBranch": true
             }],
@@ -532,7 +536,7 @@ autocomplete: set murex-package {
                 "Flags": [ "enabled", "disabled", "loaded", "not-loaded", "packages" ]
             }],
             "cd": [{
-                "Dynamic": ({ murex-package: list packages })
+                "Dynamic": ({ murex-package list packages })
             }]
         }
     }]
