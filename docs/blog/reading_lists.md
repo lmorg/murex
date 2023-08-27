@@ -119,10 +119,10 @@ What's happening here is `%[...]` creates the JSON array (as described above) an
 
 > `out` in Murex is the equivalent of `echo` in Bash. In fact you can still use `echo` in Murex albeit that is just aliased to `out`.
 
-It is also worth noting that since Murex version 3.1 lambdas have been available, allowing you to write code that looks a like this:
+It is also worth noting that since Murex version 5.0 lambdas have been available, allowing you to write code that looks a like this:
 
 ```
-$json[{out "Hello $."}]
+@json[{out "Hello $."}]
 ```
 
 But more on that in a different article.

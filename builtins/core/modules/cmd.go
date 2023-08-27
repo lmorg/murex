@@ -15,12 +15,14 @@ import (
 
 const usage = `
 Usage: murex-package install         uri
+                     remove          package
                      update
                      reload
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
                      status
                      list            loaded|not-loaded|enabled|disabled|packages
+					 new
                      cd              package`
 
 func init() {
@@ -56,6 +58,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 
 	case "list":
 		return listModules(p)
+
+	case "new":
+		return newPackage(p)
 
 	case "cd":
 		return cdPackage(p)

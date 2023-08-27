@@ -30,6 +30,12 @@ Install a new package
 murex-package install uri -> <stdout>
 ```
 
+Remove an existing package
+
+```
+murex-package remove package-name -> <stdout>
+```
+
 Update all packages
 
 ```
@@ -78,8 +84,12 @@ murex-package status -> <stdout>
     Installs a package from a user defined URI
 * `list`
     Returns a list of indexed packages/modules (eg what's enabled or disabled)
+* `new`
+    A wizard to help with creating a new package
 * `reload`
     Reloads all enabled modules
+* `remove`
+    Removes an installed package from disk
 * `status`
     Returns the version status of locally installed packages
 * `update`

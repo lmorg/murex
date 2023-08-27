@@ -1,0 +1,119 @@
+MOD.ERR_ABORT = "New package creation has been aborted."
+
+trypipe {
+    read \
+        --prompt   "What do you want to call this package? " \
+        --variable PACKAGE_NAME \
+        --default  my-first-package \
+        --datatype str
+    
+    switch {
+        if { $PACKAGE_NAME =~ '/' } {
+            err "Package names cannot contain '/'"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        if { $PACKAGE_NAME =~ '[\r\n]' } {
+            err "Package names shouldn't include carriage returns, '\\r', nor new lines, '\\n'"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        if { $PACKAGE_NAME =~ '^\s+$' } {
+            err "Package names cannot be empty"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        if { g $MUREX_MODULE_PATH/$PACKAGE_NAME } {
+            err "A package already exists called '$PACKAGE_NAME'"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        default {
+            out "{GREEN}Package name '{BOLD}$PACKAGE_NAME{RESET}{GREEN}'{RESET}"
+        }
+    }
+
+    read \
+        --prompt   "What do you want to call your first module in package '$PACKAGE_NAME'? " \
+        --variable MODULE_NAME \
+        --default  my-first-module \
+        --datatype str
+
+    switch {
+        if { $MODULE_NAME =~ '/' } {
+            err "Module names cannot contain '/'"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        if { $MODULE_NAME =~ '[\r\n]' } {
+            err "Module names shouldn't include carriage returns, '\\r', nor new lines, '\\n'"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        if { $MODULE_NAME =~ '^\s+$' } {
+            err "Module names cannot be empty"
+            err $MOD.ERR_ABORT
+            return 1 }
+
+        default {
+            out "{GREEN}Module name '{BOLD}$MODULE_NAME{RESET}{GREEN}'{RESET}"
+        }
+    }
+
+    read \
+        --prompt   "Write a short summary about your package/module: " \
+        --variable SUMMARY \
+        --default  "This is a placeholder summary for both the package and module" \
+        --datatype str
+
+    out "{GREEN}Summary: {BOLD}$SUMMARY{RESET}{RESET}"
+
+    mkdir $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)
+
+    %{
+        Name: $PACKAGE_NAME
+        Version: "1.0"
+        ChangeLog: {
+            "1.0": "New package"
+        }
+    } -> pretty |> $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/package.json
+
+    %[
+        {
+            Name: $MODULE_NAME
+            Summary: $SUMMARY
+            Version: "1.0"
+            Source: "$(MODULE_NAME).mx"
+            Dependencies: {
+                Optional: []
+                Required: []
+                Platform: [
+                    any
+                ]
+            }
+        }
+    ] -> pretty |> $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/module.json
+
+    %(function ${esccli $MODULE_NAME} {
+    out "hello world"
+}) |> $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/$(MODULE_NAME).mx
+
+    out "{GREEN}"
+    git <!null> init $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)
+    out "{RESET}"
+
+    PACKAGES_JSON = open($(MUREX_MODULE_PATH)/packages.json)
+    PACKAGES_JSON <~ %[{
+        Protocol: git
+        URI: $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/.git
+        Package: $(PACKAGE_NAME)
+    }]
+    $PACKAGES_JSON -> pretty |> $(MUREX_MODULE_PATH)/packages.json
+
+    out "A new package has been created at: $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)"
+    return
+}
+catch {
+    err $MOD.ERR_ABORT
+    return 1
+}

@@ -506,7 +506,7 @@ autocomplete: set murex-package {
     [{
         "FlagsDesc": {
             "install": "Installs a package from a user defined URI",
-            "remove":  "Removes an installed package",
+            "remove":  "Removes an installed package from disk",
             "update":  "Updates all installed packages",
             "import":  "Import packages described in a backup package DB from user defined URI or local path",
             "enable":  "Enables a previously disabled package or module",
@@ -514,6 +514,7 @@ autocomplete: set murex-package {
             "reload":  "Reloads all enabled modules",
             "status":  "Returns the version status of locally installed packages",
             "list":    "Returns a list of indexed packages/modules (eg what's enabled or disabled)",
+            "new":     "A wizard to help with creating a new package",
             "cd":      "Changes working directory to a package's install location"
         },
         "FlagValues": {

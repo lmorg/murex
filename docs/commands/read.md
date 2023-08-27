@@ -20,11 +20,11 @@ Script usage:
 
 ```
 read [ --prompt "prompt"         ]
-      [ --variable var_name       ]
-      [ --default "default value" ]
-      [ --datatype data-type      ]
-      [ --autocomplete { json }   ]
-      [ --mask character          ]
+     [ --variable var_name       ]
+     [ --default "default value" ]
+     [ --datatype data-type      ]
+     [ --autocomplete { json }   ]
+     [ --mask character          ]
 ```
 
 ## Examples
