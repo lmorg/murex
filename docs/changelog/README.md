@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ### 28.08.2023 - [v5.0](../changelog/v5.0.md)
 
+v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event
+
+
+### 27.07.2023 - [v4.4](../changelog/v4.4.md)
+
 v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness
 
 

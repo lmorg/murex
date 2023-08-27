@@ -1,0 +1,28 @@
+- DocumentID: v5.0
+  Title: >-
+    v5.0
+  CategoryID: changelog
+  DateTime: 2023-08-28 11:00
+  Summary: >-
+    v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event
+  Description: |-
+    {{ include "gen/changelog/v5.0.inc.md" }}
+  Related:
+    - commands/event
+    - events/signaltrap
+    - variables/self
+    - variables/columns
+    - variables/murex_argv
+    - variables/argv
+    - types/csv
+    - types/float
+    - user-guide/fileref
+    - user-guide/modules
+    - commands/murex-package
+    - commands/murex-docs
+    - commands/alias
+    - commands/which
+    - commands/signal
+    - commands/config
+    - commands/autocomplete
+

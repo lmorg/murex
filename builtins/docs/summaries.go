@@ -367,7 +367,8 @@ func init() {
 		"changelog/v4.1":                     "The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too",
 		"changelog/v4.2":                     "Murex usage has raised considerably in recent weeks. This release addresses a number of feature requests and bugs raised on Github.",
 		"changelog/v4.3":                     "This brings improved support on Windows plus one breaking change from the previous release (v4.2)",
-		"changelog/v5.0":                     "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
+		"changelog/v4.4":                     "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
+		"changelog/v5.0":                     "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
 	}
 
 	Synonym = map[string]string{
@@ -873,6 +874,7 @@ func init() {
 		"changelog/v4.1":                  "changelog/v4.1",
 		"changelog/v4.2":                  "changelog/v4.2",
 		"changelog/v4.3":                  "changelog/v4.3",
+		"changelog/v4.4":                  "changelog/v4.4",
 		"changelog/v5.0":                  "changelog/v5.0",
 	}
 }

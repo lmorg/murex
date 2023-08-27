@@ -6,7 +6,7 @@
   Summary: >-
     Murex usage has raised considerably in recent weeks. This release addresses a number of feature requests and bugs raised on Github.
   Description: |-
-    ### Breaking Changes
+    ## Breaking Changes
 
     none
 
@@ -48,7 +48,7 @@
 
     * `builtin` alias for `fexec builtin` (for familiarity with Bash)
 
-    ### Bug Fixes
+    ## Bug Fixes
 
     * brace encapsulated variables, eg `$(foobar)`, now autocomplete as expected
 

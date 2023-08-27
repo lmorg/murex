@@ -1,27 +1,150 @@
-- DocumentID: v5.0
+- DocumentID: v4.4
   Title: >-
-    v5.0
+    v4.4
   CategoryID: changelog
-  DateTime: 2023-08-28 11:00
+  DateTime: 2023-07-27 23:12
   Summary: >-
     v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness
   Description: |-
-    {{ include "gen/changelog/v5.0.inc.md" }}
+    ## v4.4.9500
+
+    ### Breaking Changes
+
+    None
+
+    ### Features
+
+    * autocompletion: `su` integration for Linux
+
+    * `$GOPATH` is no longer required to run unit tests
+
+    ### Bug Fixes
+
+    * readline: paths wouldn't autocomplete on scalars (eg `cd $GOPATH/...`)
+
+    * readline: previews wouldn't work against variables (eg `vi ~/file.txt`)
+
+    ## v4.4.9000
+
+    ### Breaking Changes
+
+    None
+
+    ### Features
+
+    * readline: `f1` should work even outside of autocomplete
+
+    * readline: wider preview pane
+
+    ### Bug Fixes
+
+    * readline: fix preview wrapping on long lines
+
+    * readline: image previews should scale to preview height
+
+    * readline: better handling of terminal resizing  
+
+    ## v4.4.8000
+
+    ### Breaking Changes
+
+    * `alt`+`1`..`9` hotkeys replaced with `shift`+`f1`..`f12`. Changed because `alt`+numeric rarely worked ([read more](../user-guide/terminal-keys.md#recalling-previous-words))
+
+    ### Features
+
+    None
+
+    ### Bug Fixes
+
+    * `@IncManPages` `autocomplete` value for **Dynamic** directive renamed to `@IncManPage`, like the **IncManPage** directive
+
+    * readline: render glitch fixed with delayed completions racing against hint text updates
+
+    * readline: render glitches fixed when buffers are not being reset correctly after preview box has, or should have, closed
+
+    * readline: man page preview now removes backspace characters correctly from UNIX docs
+
+    * readline: man page preview now more reliably scrolls to the right line when a flag is highlighted in autocompletion
+
+    * readline: preview now works for list views as well as grid views
+
+    ## v4.4.7000
+    
+    ### Breaking Changes
+
+    * **preview-enabled** `config` option removed. This actually doesn't break anything, just produces a warning. The `config` option was also undocumented and experimental
+
+    ### Features
+
+    * Preview is now considered stable. Press `f1` while autocomplete is open to use ([read more](../user-guide/terminal-keys.md#preview-box))
+
+    ### Bug Fixes
+
+    * readline: render glitch fixed with delayed path completions
+
+    * readline: excess white spaces removed from man page descriptions
+
+    ## v4.4.x
+
+    ### Breaking Changes
+
+    * 'Name' field dropped from `onCommandCompletion` interrupt (this field was never documented)
+
+    ### Features
+
+    * New builtin, `round`, which can perform rounding operations on numerical inputs ([#630](https://github.com/lmorg/murex/issues/630), [read more](../commands/round.md)) 
+    
+    * Vastly improved automatic man page parsing. Now descriptions are pulled alongside the flags and results are cached
+
+    * `man-get-flags` now includes a `-d` / `--description` flag to expose the improved man page parser
+
+    * New builtin, `return`, which exits a given function scope (eg `function`, `private`, **Dynamic** block in `autocomplete`, etc)
+    
+    * Improved `git` autocompletions
+
+    * `find` autocompletions added
+
+    * builtin profiles are now imported as separate modules. This makes debugging easier
+
+    * `/integrations` directory added to Murex source, the aim of which is to make it easier for people to contribute autocompletions and other integrations with common command line tools ([Github](https://github.com/lmorg/murex/tree/master/intergrations))
+
+    * readline: new word jump hotkeys `ctrl`+`left` / `ctrl`+`right` (PC)
+
+    * readline: new word jump hotkeys `option`+`left` / `option`+`right` (Mac)
+
+    ### Bug Fixes:
+
+    * `test` would always run first in any block, regardless of the preferred order of execution. This was because `test (unit|state|config)` required altering the execution state of the shell. The drawback was that `test (run|define|report)` would also run unexpectedly. This lead to hacks like `try { test run * }` to force the correct order of operations. Now the parameters of `test` are checked to determine when to execute the builtin.
+
+    * `int` types couldn't be compared against `num` types with `>`, `>=`, `<`, `<=` operators
+    
+    * readline: `^d` will not send EOF if line is not empty. The original behaviour was by design however after pressing `^d` a few too many times when I intended to press `^f` or `^r`, I decided the original design was wrong
+    
+    * `FileRef` wasn't being set in `test`. This caused some tests to fail if they called private functions
+
+    * Check `~/.ssh/config` exists before trying to parse it in `getHostsFile` private (used for SSH and similar tools autocompletions)
+   
+    * readline: lots of work done on speeding up redraws and overall responsiveness. eg buffered autocompletion menus
+
+    * readline: hint text should _never_ be displayed if disabled via `config`
+
+    * readline: soft timeout halved (this can be overridden via `config`)
+
+    * readline: cropped autocompletion suggestions in gridded layout were one character too short (off by one error)
+
   Related:
     - commands/event
-    - events/signaltrap
-    - variables/self
-    - variables/columns
-    - variables/murex_argv
-    - variables/argv
-    - types/csv
-    - types/float
+    - commands/man-get-flags
+    - events/oncommandcompletion
+    - commands/round
+    - commands/return
+    - commands/test
     - user-guide/fileref
-    - user-guide/modules
-    - commands/murex-package
-    - commands/alias
-    - commands/which
-    - commands/signal
-    - commands/config
+    - commands/private
+    - commands/function
     - commands/autocomplete
-
+    - commands/expr
+    - types/num
+    - types/int
+    - commands/config
+    - user-guide/terminal-keys

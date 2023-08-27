@@ -6,13 +6,13 @@
   Summary: >-
     This brings improved support on Windows plus one breaking change from the previous release (v4.2)
   Description: |-
-    ### Breaking Changes
+    ## Breaking Changes
 
     * `pre-prompt-func` and `post-prompt-func` have been replaced with `onPrompt` events: `event onKeyPress example=before { ... }`
 
     * The `onFileSystemChange` event payload now lowercases the filesystem event operation string. However until this release, that payload was undocumented ([read more](https://murex.rocks/docs/events/onfilesystemchange.html))
 
-    ### Features
+    ## Features
 
     * New events, `onPrompt`, triggered when the interactive prompt is at various stages
 
@@ -20,7 +20,7 @@
 
     * New autocompletions: `gping`
 
-    ### Bug Fixes
+    ## Bug Fixes
 
     * Improved Windows support. Arrow keys and other special keys are now handled correctly ([#630](https://github.com/lmorg/murex/issues/630))
 
