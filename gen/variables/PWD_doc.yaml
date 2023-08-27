@@ -1,4 +1,4 @@
-- DocumentID: PWD
+- DocumentID: pwd
   Title: >-
     `PWD` (str)
   CategoryID: variables
@@ -11,9 +11,11 @@
   Examples:
 
   Synonyms:
+  - pwd
+  - PWD
   Related:
   - types/path
-  - PWDHIST
+  - pwdhist
   - parser/string
   - commands/export
   - commands/cd

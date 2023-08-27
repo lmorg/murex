@@ -82,6 +82,12 @@ scope.
 A boolean value as to whether STDOUT is a TTY (ie are we printing to the
 terminal (TTY) or a pipe?)
 
+## Synonyms
+
+* `self`
+* `SELF`
+
+
 ## See Also
 
 * [Interactive Shell](../user-guide/interactive-shell.md):

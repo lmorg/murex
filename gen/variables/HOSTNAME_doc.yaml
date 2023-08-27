@@ -1,4 +1,4 @@
-- DocumentID: HOSTNAME
+- DocumentID: hostname
   Title: >-
     `HOSTNAME` (str)
   CategoryID: variables
@@ -10,6 +10,8 @@
 
     This is a reserved variable so it cannot be changed.
   Synonyms:
+  - hostname
+  - HOSTNAME
   Related:
   - types/str
   - commands/set

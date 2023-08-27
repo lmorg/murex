@@ -1,4 +1,4 @@
-- DocumentID: SELF
+- DocumentID: self
   Title: >-
     `SELF` (json)
   CategoryID: variables
@@ -78,6 +78,8 @@
     terminal (TTY) or a pipe?)
 
   Synonyms:
+  - self
+  - SELF
   Related:
   - types/json
   - parser/string

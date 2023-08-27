@@ -162,10 +162,10 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [MUREX_EXE](../variables/murex_exe.md):
+  Absolute path to running shell
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
-  Absolute path to running shell
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`event`](../commands/event.md):

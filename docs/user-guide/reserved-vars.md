@@ -30,17 +30,17 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Overview of what a "pipeline" is
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`ARGV` (json)](../variables/ARGV.md):
+* [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`COLUMNS` (int)](../variables/COLUMNS.md):
+* [`COLUMNS` (int)](../variables/columns.md):
   Character width of terminal
-* [`HOSTNAME` (str)](../variables/HOSTNAME.md):
+* [`HOSTNAME` (str)](../variables/hostname.md):
   Hostname of the current machine
-* [`MUREX_ARGS` (json)](../variables/MUREX_ARGV.md):
+* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
   Array of the command name and parameters passed to the current shell
-* [`SELF` (json)](../variables/SELF.md):
+* [`SELF` (json)](../variables/self.md):
   Meta information about the running scope.
-* [`SHELL` (str)](../variables/SHELL.md):
+* [`SHELL` (str)](../variables/shell.md):
   Path of current shell
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value

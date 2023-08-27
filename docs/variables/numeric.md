@@ -35,9 +35,9 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 * [String (`$`) Token](../parser/string.md):
   Expand values as a string
-* [`ARGS` (json)](../variables/ARGV.md):
+* [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`PARAMS` (json)](../variables/PARAMS.md):
+* [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line

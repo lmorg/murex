@@ -1,4 +1,4 @@
-- DocumentID: MUREX_ARGV
+- DocumentID: murex_argv
   Title: >-
     `MUREX_ARGV` (json)
   CategoryID: variables
@@ -19,11 +19,12 @@
     ```
   Detail:
   Synonyms:
+  - murex_argv
   - MUREX_ARGV
   - MUREX_ARGS
   Related:
-  - PARAMS
-  - ARGV
-  - MUREX_EXE
+  - params
+  - argv
+  - murex_exe
   - types/json
   - parser/array

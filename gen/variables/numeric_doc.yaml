@@ -27,8 +27,8 @@
     then variables `$1` through to `$19` (inclusive) will all be set.
   Synonyms:
   Related:
-  - ARGS
-  - PARAMS
+  - argv
+  - params
   - commands/set
   - parser/string
   - commands/function

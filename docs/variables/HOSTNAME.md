@@ -11,6 +11,12 @@ This is a reserved variable so it cannot be changed.
 
 
 
+## Synonyms
+
+* `hostname`
+* `HOSTNAME`
+
+
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):

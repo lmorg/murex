@@ -1,4 +1,4 @@
-- DocumentID: SHELL
+- DocumentID: shell
   Title: >-
     `SHELL` (str)
   CategoryID: variables
@@ -15,8 +15,10 @@
   Examples:
 
   Synonyms:
+  - shell
+  - SHELL
   Related:
-  - MUREX_EXE
+  - murex_exe
   - parser/string
   - commands/export
   

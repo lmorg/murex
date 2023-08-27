@@ -1,4 +1,4 @@
-- DocumentID: COLUMNS
+- DocumentID: columns
   Title: >-
     `COLUMNS` (int)
   CategoryID: variables
@@ -13,6 +13,8 @@
 
     This is a reserved variable so it cannot be changed.
   Synonyms:
+  - columns
+  - COLUMNS
   Related:
   - types/str
   - commands/set

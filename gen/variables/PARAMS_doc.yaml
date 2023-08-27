@@ -1,4 +1,4 @@
-- DocumentID: PARAMS
+- DocumentID: params
   Title: >-
     `PARAMS` (json)
   CategoryID: variables
@@ -23,8 +23,10 @@
     ]
     ```
   Synonyms:
+  - params
+  - PARAMS
   Related:
-  - ARGV
+  - argv
   - commands/set
   - types/json
   - parser/string

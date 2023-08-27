@@ -1,4 +1,4 @@
-- DocumentID: ARGV
+- DocumentID: argv
   Title: >-
     `ARGV` (json)
   CategoryID: variables
@@ -34,10 +34,11 @@
     `ARGS` will remain available for compatibility reasons but is considered
     deprecated and may be removed from future releases.
   Synonyms:
+  - argv
   - ARGV
   - ARGS
   Related:
-  - PARAMS
+  - params
   - types/json
   - parser/string
   - parser/array

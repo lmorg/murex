@@ -26,6 +26,12 @@ This is a reserved variable so it cannot be changed.
 ]
 ```
 
+## Synonyms
+
+* `params`
+* `PARAMS`
+
+
 ## See Also
 
 * [Array (`@`) Token](../parser/array.md):
@@ -40,7 +46,7 @@ This is a reserved variable so it cannot be changed.
   Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`ARGV` (json)](../variables/ARGV.md):
+* [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line

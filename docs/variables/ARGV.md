@@ -40,6 +40,7 @@ deprecated and may be removed from future releases.
 
 ## Synonyms
 
+* `argv`
 * `ARGV`
 * `ARGS`
 
@@ -58,7 +59,7 @@ deprecated and may be removed from future releases.
   Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`PARAMS` (json)](../variables/PARAMS.md):
+* [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line

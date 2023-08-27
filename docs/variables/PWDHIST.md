@@ -23,6 +23,12 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 ]
 ```
 
+## Synonyms
+
+* `pwdhist`
+* `PWDHIST`
+
+
 ## See Also
 
 * [Array (`@`) Token](../parser/array.md):
@@ -37,6 +43,8 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [`PWD` (str)](../variables/pwd.md):
+  Current working directory
 * [`cd`](../commands/cd.md):
   Change (working) directory
 * [`json`](../types/json.md):

@@ -14,6 +14,12 @@ This is a reserved variable so it cannot be changed.
 
 
 
+## Synonyms
+
+* `columns`
+* `COLUMNS`
+
+
 ## See Also
 
 * [Interactive Shell](../user-guide/interactive-shell.md):

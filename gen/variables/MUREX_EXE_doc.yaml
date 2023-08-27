@@ -1,4 +1,4 @@
-- DocumentID: MUREX_EXE
+- DocumentID: murex_exe
   Title: >-
     `MUREX_EXE` (path)
   CategoryID: variables
@@ -11,8 +11,10 @@
 
     This is a reserved variable so it cannot be changed.
   Synonyms:
+  - murex_exe
+  - MUREX_EXE
   Related:
-  - SHELL
+  - shell
   - commands/set
   - types/path
   - user-guide/reserved-vars

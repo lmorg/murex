@@ -10,11 +10,17 @@ It is updated via `cd` however you can overwrite its value manually via `export`
 
 
 
+## Synonyms
+
+* `pwd`
+* `PWD`
+
+
 ## See Also
 
 * [String (`$`) Token](../parser/string.md):
   Expand values as a string
-* [`PWDHIST` (json)](../variables/PWDHIST.md):
+* [`PWDHIST` (json)](../variables/pwdhist.md):
   History of each change to the sessions working directory
 * [`cd`](../commands/cd.md):
   Change (working) directory

@@ -23,6 +23,7 @@ the current running Murex shell
 
 ## Synonyms
 
+* `murex_argv`
 * `MUREX_ARGV`
 * `MUREX_ARGS`
 
@@ -31,11 +32,11 @@ the current running Murex shell
 
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [`ARGV` (json)](../variables/ARGV.md):
+* [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`MUREX_EXE` (path)](../variables/MUREX_EXE.md):
+* [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
-* [`PARAMS` (json)](../variables/PARAMS.md):
+* [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)

@@ -1,4 +1,4 @@
-- DocumentID: PWDHIST
+- DocumentID: pwdhist
   Title: >-
     `PWDHIST` (json)
   CategoryID: variables
@@ -21,9 +21,12 @@
     ```
 
   Synonyms:
+  - pwdhist
+  - PWDHIST
   Related:
   - types/path
   - types/json
+  - pwd
   - parser/string
   - parser/array
   - commands/set
