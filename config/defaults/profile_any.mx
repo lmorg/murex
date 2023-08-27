@@ -81,9 +81,7 @@ function h {
 
 function aliases {
    # Output the aliases in human readable format
-   runtime: --aliases -> formap name alias {
-        $name -> sprintf: "%10s => ${esccli @alias}\n"
-	} -> cast: str
+   runtime --aliases -> formap k v { out "$k => ${esccli @v.Alias}" } -> sort
 }
 
 test unit function aliases {
