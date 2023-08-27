@@ -81,6 +81,7 @@ function h {
 
 function aliases {
    # Output the aliases in human readable format
+   cast str
    runtime --aliases -> formap k v { out "$k => ${esccli @v.Alias}" } -> sort
 }
 
