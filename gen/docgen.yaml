@@ -19,7 +19,7 @@ Categories:
       {{ include "gen/commands-md-cat.inc.md" }}  
 
     Templates:
-    - OutputPath: docs/builtins
+    - OutputPath: docs/commands+
       CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl

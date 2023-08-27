@@ -11,7 +11,7 @@ import (
 
 //go:embed docs/apis/*.md
 //go:embed docs/changelog/*.md
-//go:embed docs/builtins/*.md
+//go:embed docs/commands/*.md
 //go:embed docs/events/*.md
 //go:embed docs/mkarray/*.md
 //go:embed docs/optional/*.md
