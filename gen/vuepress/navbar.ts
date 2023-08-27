@@ -14,7 +14,7 @@ export default navbar([
           { text: "Getting Started", link: "tour.html", icon: "life-ring" },
           { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
-          { text: "Commands", link: "commands/", icon: "terminal" },
+          { text: "Builtins", link: "commands/", icon: "terminal" },
         ],
       },
     ],

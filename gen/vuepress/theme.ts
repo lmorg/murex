@@ -91,7 +91,7 @@ export default hopeTheme({
       // ],
       // sub: true,
       // sup: true,
-      tabs: true,
+      //tabs: true,
       // vPre: true,
       // vuePlayground: true,
     },
