@@ -21,9 +21,7 @@ Usage: murex-package install         uri
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
                      status
-                     list            loaded|not-loaded|enabled|disabled|packages
-                     new
-                     cd              package`
+                     list            loaded|not-loaded|enabled|disabled|packages`
 
 func init() {
 	lang.DefineFunction("murex-package", cmdModuleAdmin, types.Json)
