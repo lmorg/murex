@@ -27,6 +27,7 @@ define an autocomplete schema manually. **zls** stands for zero-length string
 - ["FlagsDesc": map of strings (null)](#flagsdesc-map-of-strings-null)
 - ["Goto": string (zls)](#goto-string-zls)
 - ["IgnorePrefix": boolean (false)](#ignoreprefix-boolean-false)
+- [ImportCompletion: string (zls)](#importcompletion-string-zls)
 - ["IncDirs": boolean (false)](#incdirs-boolean-false)
 - ["IncExeAll": boolean (false)](#incexeall-boolean-false)
 - ["IncExePath": boolean (false)](#incexepath-boolean-false)
@@ -436,6 +437,37 @@ directive in it's group.
 When set to `true`, this allows **Dynamic** and **DynamicDesc** functions to
 return every result and not just those that match the partial term (as would
 normally be the default).
+
+### ImportCompletion: string (zls)
+
+This allows you to import autocompletion config from another command. Similar
+in purpose to **NestedCommand** except where **NestedCommand** will dynamically
+select the command name, **ImportCompletion** hardcodes it. For example:
+
+```
+autocomplete: set murex-package %[{
+    FlagsDesc: {
+        # ...cropped out...
+        git: "Run `git` against a package"
+    }
+    FlagValues: {
+        # ...cropped out...
+        git: [
+            {
+                # list packages to run `git` against
+                Dynamic: %({ murex-package list packages })
+            }
+            {
+                # include `git` autocompletions as the next set of parameters
+                ImportCompletion: git
+            }
+        ]
+    }
+}]
+```
+
+The above code allows you to type `murex-package git package-name [tab]`, where
+`[tab]` will be the completions for `git`.
 
 ### "IncDirs": boolean (false)
 

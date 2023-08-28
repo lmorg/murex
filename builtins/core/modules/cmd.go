@@ -22,7 +22,7 @@ Usage: murex-package install         uri
                      import          [uri|local path]packages.json
                      status
                      list            loaded|not-loaded|enabled|disabled|packages
-					 new
+                     new
                      cd              package`
 
 func init() {
@@ -32,7 +32,7 @@ func init() {
 func cmdModuleAdmin(p *lang.Process) error {
 	method, _ := p.Parameters.String(0)
 	switch method {
-	case "install", "get":
+	case "install":
 		return getModule(p)
 
 	case "remove":
@@ -64,6 +64,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 
 	case "cd":
 		return cdPackage(p)
+
+	case "git":
+		return gitPackage(p)
 
 	default:
 		return errors.New("missing or invalid parameters." + usage)

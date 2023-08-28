@@ -16,7 +16,7 @@
     Remove an existing package
 
     ```
-    murex-package remove package-name -> <stdout>
+    murex-package remove package -> <stdout>
     ```
 
     Update all packages
@@ -74,6 +74,8 @@
       A wizard to help with creating a new package
     cd: |-
       Changes working directory to a package's install location
+    git: |-
+      Runs `git` against a package
     reload: |-
       Reloads all enabled modules
   Detail: |-

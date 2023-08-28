@@ -502,47 +502,54 @@ autocomplete: set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-autocomplete: set murex-package {
-    [{
-        "FlagsDesc": {
-            "install": "Installs a package from a user defined URI",
-            "remove":  "Removes an installed package from disk",
-            "update":  "Updates all installed packages",
-            "import":  "Import packages described in a backup package DB from user defined URI or local path",
-            "enable":  "Enables a previously disabled package or module",
-            "disable": "Disables a previously enabled package or module",
-            "reload":  "Reloads all enabled modules",
-            "status":  "Returns the version status of locally installed packages",
-            "list":    "Returns a list of indexed packages/modules (eg what's enabled or disabled)",
-            "new":     "A wizard to help with creating a new package",
-            "cd":      "Changes working directory to a package's install location"
-        },
-        "FlagValues": {
-            "import": [{
-                "IncFiles": true
-            }],
-            "remove": [{
-                "Dynamic": ({ murex-package list packages })
-            }],
-            "enable": [{
-                "DynamicDesc": ({ murex-package list disabled }),
-                "ListView": true,
-                "AutoBranch": true
-            }],
-            "disable": [{
-                "DynamicDesc": ({ murex-package list enabled }),
-                "ListView": true,
-                "AutoBranch": true
-            }],
-            "list": [{
-                "Flags": [ "enabled", "disabled", "loaded", "not-loaded", "packages" ]
-            }],
-            "cd": [{
-                "Dynamic": ({ murex-package list packages })
-            }]
-        }
-    }]
-}
+autocomplete: set murex-package %[{
+    FlagsDesc: {
+        install: "Installs a package from a user defined URI"
+        remove:  "Removes an installed package from disk"
+        update:  "Updates all installed packages"
+        import:  "Import packages described in a backup package DB from user defined URI or local path"
+        enable:  "Enables a previously disabled package or module"
+        disable: "Disables a previously enabled package or module"
+        reload:  "Reloads all enabled modules"
+        status:  "Returns the version status of locally installed packages"
+        list:    "Returns a list of indexed packages/modules (eg what's enabled or disabled)"
+        new:     "A wizard to help with creating a new package"
+        git:     "Run `git` against a package"
+        cd:      "Changes working directory to a package's install location"
+    }
+    FlagValues: {
+        import: [{
+            IncFiles: true
+        }]
+        remove: [{
+            "Dynamic": %({ murex-package list packages })
+        }]
+        enable: [{
+            DynamicDesc: %({ murex-package list disabled })
+            ListView: true
+            AutoBranch: true
+        }]
+        disable: [{
+            DynamicDesc: %({ murex-package list enabled })
+            ListView: true
+            AutoBranch: true
+        }]
+        list: [{
+            Flags: [ enabled, disabled, loaded, not-loaded, packages ]
+        }]
+        git: [
+            {
+                Dynamic: %({ murex-package list packages })
+            }
+            {
+                "ImportCompletion": "git"
+            }
+        ]
+        cd: [{
+            Dynamic: %({ murex-package list packages })
+        }]
+    }
+}]
 
 alias: builtins=runtime --builtins
 

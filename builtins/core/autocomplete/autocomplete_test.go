@@ -45,6 +45,7 @@ func TestAutocomplete(t *testing.T) {
         "Goto": "",
         "Alias": "",
         "NestedCommand": false,
+        "ImportCompletion": "",
         "AnyValue": true,
         "AllowAny": false,
         "AutoBranch": false,

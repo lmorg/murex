@@ -13,9 +13,7 @@ single package.
 
 The way packages and modules are represented is as a path:
     
-```
-package/module
-```
+    package/module
     
 `murex-package` is a package management tool for administrating murex modules
 and packages.
@@ -33,7 +31,7 @@ murex-package install uri -> <stdout>
 Remove an existing package
 
 ```
-murex-package remove package-name -> <stdout>
+murex-package remove package -> <stdout>
 ```
 
 Update all packages
@@ -78,6 +76,8 @@ murex-package status -> <stdout>
     Disables a previously enabled package or module
 * `enable`
     Enables a previously disabled package or module
+* `git`
+    Runs `git` against a package
 * `import`
     Import packages described in a backup package DB from user defined URI or local path
 * `install`

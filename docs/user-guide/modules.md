@@ -35,9 +35,7 @@ single package.
 
 The way packages and modules are represented is as a path:
     
-```
-package/module
-```
+    package/module
     
 `murex-package` is a package management tool for administrating murex modules
 and packages.
