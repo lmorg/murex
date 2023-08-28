@@ -2,14 +2,30 @@ package json
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
-	return json.Marshal(v, p.Stdout.IsTTY())
+func marshal(p *lang.Process, v any) ([]byte, error) {
+	switch t := v.(type) {
+	case [][]string:
+		var i int
+		table := make([]map[string]any, len(t)-1)
+		err := types.Table2Map(t, func(m map[string]any) error {
+			table[i] = m
+			i++
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		return json.Marshal(table, p.Stdout.IsTTY())
+	default:
+		return json.Marshal(v, p.Stdout.IsTTY())
+	}
 }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

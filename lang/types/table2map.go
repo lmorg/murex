@@ -2,10 +2,10 @@ package types
 
 import "fmt"
 
-func Table2Map(v [][]string, callback func(map[string]interface{}) error) error {
+func Table2Map(v [][]string, callback func(map[string]any) error) error {
 	var (
-		err    error
-		m      = make(map[string]interface{}, len(v[0]))
+		err error
+		//m      = make(map[string]interface{}, len(v[0]))
 		j      int
 		recLen = len(v[0])
 	)
@@ -16,6 +16,7 @@ func Table2Map(v [][]string, callback func(map[string]interface{}) error) error 
 				i, recLen, i, len(v[i]))
 		}
 
+		m := make(map[string]any)
 		for j = 0; j < recLen; j++ {
 			m[v[0][j]] = v[i][j]
 		}
