@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	mxapp "github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -241,6 +242,9 @@ func (conf *Config) DataType(app, key string) string {
 
 // Define allows new properties to be created in the Config object
 func (conf *Config) Define(app string, key string, properties Properties) {
+	if properties.FileRefDef == nil {
+		properties.FileRefDef = ref.NewModule(mxapp.ShellModule)
+	}
 	if conf.global != nil {
 		conf.global.Define(app, key, properties)
 		return
