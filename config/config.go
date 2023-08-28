@@ -260,7 +260,7 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 		properties.Global = true
 	}
 	conf.properties[app][key] = properties
-
+	conf.fileRefSet[app][key] = properties.FileRefDef
 	conf.mutex.Unlock()
 }
 
