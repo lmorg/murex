@@ -54,13 +54,6 @@ func hintExpandVariables(line []rune) []rune {
 		return []rune(ansi.ExpandConsts("{RED}") + err.Error())
 	}
 
-	/*vars := variables.Expand(r)
-	/disclaimer := []rune{}
-	if string(r) != string(vars) {
-		disclaimer = []rune("(example only) ")
-	}
-	r = append(disclaimer, vars...)*/
-
 	// don't update if no changes
 	if string(line) == string(r) {
 		r = []rune{}
