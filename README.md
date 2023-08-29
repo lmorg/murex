@@ -1,6 +1,6 @@
 # Murex: A Smarter Shell
 
-[![Version](version.svg)](DOWNLOAD.md)
+[![Version](version.svg?undef)](DOWNLOAD.md)
 [![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
 [![Tests](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml/badge.svg?branch=master)](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml)
 
@@ -26,15 +26,15 @@ A non-exhaustive list features would include:
 
 **JSON wrangling:**
 
-<img src="images/murex-open-foreach.png?v=undefined" class="readme">
+<img src="images/murex-open-foreach.png?v=undef" class="readme">
 
 **Inline spellchecking:**
 
-<img src="images/murex-spellchecker.png?v=undefined" class="readme">
+<img src="images/murex-spellchecker.png?v=undef" class="readme">
 
 **Autocomplete descriptions, process IDs accompanied by process names:**
 
-<img src="images/murex-kill-autocomplete.png?v=undefined" class="readme">
+<img src="images/murex-kill-autocomplete.png?v=undef" class="readme">
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 

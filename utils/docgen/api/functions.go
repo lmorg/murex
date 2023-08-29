@@ -234,7 +234,7 @@ func funcEnv(env string) any {
 	if !strings.Contains(env, "=") {
 		s := os.Getenv(env)
 		if s == "" {
-			s = "undefined"
+			s = "undef"
 		}
 		return s
 	}

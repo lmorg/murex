@@ -147,10 +147,14 @@ interactive command prompt.
 
 * Arrow keys, `left` and `right`: move the cursor forwards or backwards in line
   
-* Arrow keys, `up` and `down`: If the command line spans multiple lines on the
-  screen then this will jump up or down to the next/previous line. When at the
-  top or bottom line, the `up` or `down` keys will search through your history
-  of past command lines
+* Arrow keys, `up` and `down`:
+  - If the command line spans multiple lines on the screen then this will jump
+    up or down to the next/previous line.
+  - When at the top or bottom line, or the command line is only one line long,
+    the `up` or `down` keys will search through your history of past command
+    lines that are similar to your current command line.
+  - If your command line is empty, then the `up` or `down` keys will search
+    through every command line in your history.
 
 * `alt`+`b`: jump backwards a word at a time (Emacs compatibility)
 * `ctrl`+`left`: jump backwards a word at a time (IBM keyboard layouts)
@@ -165,6 +169,8 @@ interactive command prompt.
 
 * `ctrl`+`e`: jump to end of line
 * `end`: jump to end of line
+
+* `ctrl`+`z`: while readline is open will undo the previous key strokes
 
 #### General Hotkeys
 

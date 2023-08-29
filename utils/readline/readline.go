@@ -219,6 +219,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case charCtrlU:
 			HkFnClearLine(rl)
 
+		case charCtrlZ:
+			HkFnUndo(rl)
+
 		case charTab:
 			HkFnAutocomplete(rl)
 
@@ -304,6 +307,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 	case seqUp:
+		rl.viUndoSkipAppend = true
+
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, -1)
 			rl.renderHelpers()
@@ -332,6 +337,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.walkHistory(-1)
 
 	case seqDown:
+		rl.viUndoSkipAppend = true
+
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
 			rl.renderHelpers()
@@ -467,17 +474,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 				return
 			}
 
-			/*line, err := rl.History.GetLine(rl.History.Len() - 1)
-			if err != nil {
-				return
-			}
-
-			tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
-			pos := int(r[1]) - 48 // convert ASCII to integer
-			if pos > len(tokens) {
-				return
-			}
-			rl.insert([]rune(tokens[pos-1]))*/
 		} else {
 			rl.viUndoSkipAppend = true
 		}
