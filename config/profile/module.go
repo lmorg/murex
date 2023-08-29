@@ -33,6 +33,7 @@ type Module struct {
 	Version      string
 	Source       string
 	Package      string
+	MurexVersion string
 	Disabled     bool
 	Loaded       bool
 	Dependencies Dependencies
@@ -49,8 +50,9 @@ type Dependencies struct {
 // Package is some basic details about the package itself as seen in the
 // package.json file located at the rood directory inside the package itself
 type Package struct {
-	Name    string
-	Version string
+	Name         string
+	Version      string
+	MurexVersion string
 }
 
 var (

@@ -14,7 +14,7 @@ func init() {
 
 	config.InitConf.Define("http", "user-agent", config.Properties{
 		Description: "User agent string for `get` and `getfile`.",
-		Default:     app.Name + "/" + app.Version,
+		Default:     app.Name + "/" + app.Version(),
 		DataType:    types.String,
 	})
 

@@ -30,18 +30,18 @@ func Display() {
 
 	version = string(bytes.TrimSpace(b))
 
-	if version == app.Version {
+	if version == app.Version() {
 		return
 	}
 
 changelog:
-	fmt.Fprintf(tty.Stdout, "Welcome to murex %d.%d.%d\nChangelog: https://murex.rocks/docs/CHANGELOG.html\n",
-		app.Major, app.Minor, app.Revision)
+	fmt.Fprintf(tty.Stdout, "Welcome to murex %d.%d.%d\nChangelog: https://murex.rocks/CHANGELOG.html\nOr run `help changelog/v%d.%d` from the command line\n",
+		app.Major, app.Minor, app.Revision, app.Major, app.Minor)
 
 	f, err = os.OpenFile(profile.ModulePath()+"/version", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return
 	}
-	f.WriteString(app.Version)
+	f.WriteString(app.Version())
 	f.Close()
 }
