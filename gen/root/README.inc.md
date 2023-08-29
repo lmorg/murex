@@ -1,7 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 home: true
 icon: home
-heroImage: murex-logo-shell.svg
+heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 # bgImage: bluebg.jpg
 # bgImageDark: https://theme-hope-assets.vuejs.press/bg/4-dark.svg
 # bgImageStyle:
@@ -14,7 +14,7 @@ actions:
     type: primary
   - text: Rosetta Stone 🪨
     link: user-guide/rosetta-stone/
-  - text: Built-ins 📔
+  - text: Builtins 📔
     link: commands/
 
 highlights:
@@ -29,7 +29,7 @@ highlights:
     features:
       - title: Content Aware
         icon: arrows-to-circle
-        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, XML, CSV, and commonlog. This allows for seamless integration and manipulation of data in these formats.
+        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in these formats.
         link: types/
 
       - title: Objects and Maps
@@ -37,10 +37,10 @@ highlights:
         details: Murex provides powerful data structures like maps, hashes, lists, and dictionaries, which can be used for efficient and flexible data manipulation. These data structures enable you to organize and manipulate data in a structured and intuitive way.
         link: mkarray/
 
-      - title: Arrays manipulation
+      - title: Array manipulation
         icon: layer-group
         details: Murex comes with native built-in functions and features that allow for proper manipulation of arrays. These functions make it easy to perform operations like filtering, sorting, appending, and merging arrays, providing a seamless experience for working with array data
-        link: lmkarray/
+        link: mkarray/
 
       - title: Scalar expression
         icon: check-double
@@ -136,9 +136,9 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 <!-- markdownlint-disable -->
 
 <div class="image-preview">
-  <img src="/murex-kill-autocomplete.png" />
-  <img src="/murex-open-foreach.png" />
-  <img src="/murex-spellchecker.png" />
+  <img src="/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
 </div>
 
 <style>
@@ -236,15 +236,15 @@ A non-exhaustive list features would include:
 
 **JSON wrangling:**
 
-<img src="images/murex-open-foreach.png" class="readme">
+<img src="images/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 **Inline spellchecking:**
 
-<img src="images/murex-spellchecker.png" class="readme">
+<img src="images/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 **Autocomplete descriptions, process IDs accompanied by process names:**
 
-<img src="images/murex-kill-autocomplete.png" class="readme">
+<img src="images/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 

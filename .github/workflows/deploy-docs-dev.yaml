@@ -33,7 +33,10 @@ jobs:
 
       - name: Build Markdown Docs
         env:
-          DOCGEN_TARGET: vuepress
+          DOCGEN_TARGET:   vuepress
+          RUN_NUMBER:      ${{ github.run_number }}
+          COMMITHASHSHORT: ${{ github.run_number }}
+
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
@@ -61,8 +64,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
-          AWS_DEFAULT_REGION: eu-west-1
-          AWS_DEFAULT_OUTPUT: json
+          AWS_DEFAULT_REGION:    eu-west-1
+          AWS_DEFAULT_OUTPUT:    json
         run: |
           # aws s3 sync docs/.vuepress/dist s3://murex.rocks/dev/ --exclude "*.md" --no-progress --delete
           aws s3 sync docs/.vuepress/dist s3://murex.rocks/dev/ --exclude "*.md" --no-progress --delete

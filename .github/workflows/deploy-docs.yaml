@@ -32,7 +32,9 @@ jobs:
 
       - name: Build Markdown Docs
         env:
-          DOCGEN_TARGET: vuepress
+          DOCGEN_TARGET:   vuepress
+          RUN_NUMBER:      ${{ github.run_number }}
+          COMMITHASHSHORT: ${{ github.run_number }}
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 	"sort"
 	"strconv"
@@ -229,7 +230,15 @@ func funcOtherDocs(id string) (d documents) {
 
 // Takes: string (env, formatted: `key=val`)
 // Returns: true or false if the env matches systems env
-func funcEnv(env string) bool {
+func funcEnv(env string) any {
+	if !strings.Contains(env, "=") {
+		s := os.Getenv(env)
+		if s == "" {
+			s = "undefined"
+		}
+		return s
+	}
+
 	key, value := envvars.Split(env)
 	v := make(map[string]interface{})
 	envvars.All(v)
