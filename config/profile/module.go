@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
@@ -17,6 +18,7 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/posix"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 // Module is the structure for each module within a module's directory.
@@ -33,7 +35,6 @@ type Module struct {
 	Version      string
 	Source       string
 	Package      string
-	MurexVersion string
 	Disabled     bool
 	Loaded       bool
 	Dependencies Dependencies
@@ -42,9 +43,10 @@ type Module struct {
 // Dependencies is a list of executables required by the module plus a list of
 // OSs the module is expected to work against
 type Dependencies struct {
-	Optional []string
-	Required []string
-	Platform []string
+	Optional     []string
+	Required     []string
+	Platform     []string
+	MurexVersion string
 }
 
 // Package is some basic details about the package itself as seen in the
@@ -52,7 +54,7 @@ type Dependencies struct {
 type Package struct {
 	Name         string
 	Version      string
-	MurexVersion string
+	Dependencies Dependencies
 }
 
 var (
@@ -168,6 +170,17 @@ func (m *Module) checkDependencies() error {
 checkDeps:
 	var message string
 
+	// check supported version
+	if m.Dependencies.MurexVersion != "" {
+		ok, err := semver.Compare(app.Version(), m.Dependencies.MurexVersion)
+		if err != nil {
+			message += "  * Error checking supported Murex version: " + err.Error()
+		} else if !ok {
+			message += "  * This module is not supported for this version of Murex"
+		}
+	}
+
+	// check dependencies
 	for _, cmd := range m.Dependencies.Required {
 		if !(*autocomplete.GlobalExes.Get())[cmd] && lang.GoFunctions[cmd] == nil && !lang.MxFunctions.Exists(cmd) {
 			message += "  * Missing required executable, builtin or murex function: `" + cmd + "`" + utils.NewLineString

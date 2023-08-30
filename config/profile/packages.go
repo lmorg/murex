@@ -7,9 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 const (
@@ -140,6 +142,26 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		return nil, nil
 	}
 
+	var message string
+
+	// load package
+	var pkg Package
+	err = ReadJson(path+consts.PathSlash+"package.json", &pkg)
+	if err != nil {
+		return nil, err
+	}
+
+	if pkg.Dependencies.MurexVersion != "" {
+		ok, err := semver.Compare(app.Version(), pkg.Dependencies.MurexVersion)
+		if err != nil {
+			message += "  * Error checking supported Murex version: " + err.Error() + "\n"
+		} else if ok {
+			message += "  * This package is not supported for this version of Murex\n"
+		}
+	}
+
+	// load modules
+
 	var module []Module
 	err = ReadJson(path+consts.PathSlash+"module.json", &module)
 	if err != nil {
@@ -150,8 +172,6 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	var message string
 
 	for i := range module {
 		module[i].Package = f.Name()

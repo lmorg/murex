@@ -76,6 +76,9 @@ trypipe {
         ChangeLog: {
             "1.0": "New package"
         }
+        Dependencies: {
+            MurexVersion: ">= ${version --short}"
+        }
     } -> pretty |> $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/package.json
 
     %[
@@ -87,9 +90,8 @@ trypipe {
             Dependencies: {
                 Optional: []
                 Required: []
-                Platform: [
-                    any
-                ]
+                Platform: [ any ]
+                MurexVersion: ">= ${version --short}"
             }
         }
     ] -> pretty |> $(MUREX_MODULE_PATH)/$(PACKAGE_NAME)/module.json
