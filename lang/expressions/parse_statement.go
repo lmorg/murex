@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/lists"
 )
 
 func appendToParam(tree *ParserT, r ...rune) {
@@ -13,6 +14,19 @@ func appendToParam(tree *ParserT, r ...rune) {
 }
 
 var namedPipeFn = []rune(consts.NamedPipeProcName)
+
+var tokeniseCurlyBraceStatements = []string{
+	"if", "!if",
+	"foreach", "formap",
+	"switch",
+}
+
+func (tree *ParserT) tokeniseCurlyBrace() bool {
+	if tree.statement == nil {
+		return false
+	}
+	return lists.Match(tokeniseCurlyBraceStatements, string(tree.statement.command))
+}
 
 func (tree *ParserT) parseStatement(exec bool) error {
 	var escape bool
@@ -318,7 +332,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 			// was this the start of a parameter...
 			var nextParam bool
-			if len(tree.statement.paramTemp) == 0 {
+			if len(tree.statement.paramTemp) == 0 && tree.tokeniseCurlyBrace() {
 				nextParam = true
 			}
 			appendToParam(tree, value...)
