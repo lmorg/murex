@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/lists"
 )
 
 func appendToParam(tree *ParserT, r ...rune) {
@@ -14,19 +13,6 @@ func appendToParam(tree *ParserT, r ...rune) {
 }
 
 var namedPipeFn = []rune(consts.NamedPipeProcName)
-
-var tokeniseCurlyBraceStatements = []string{
-	"if", "!if",
-	"foreach", "formap",
-	"switch",
-}
-
-func (tree *ParserT) tokeniseCurlyBrace() bool {
-	if tree.statement == nil {
-		return false
-	}
-	return lists.Match(tokeniseCurlyBraceStatements, string(tree.statement.command))
-}
 
 func (tree *ParserT) parseStatement(exec bool) error {
 	var escape bool
@@ -403,16 +389,28 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 			default:
 				// start scalar
-				value, v, _, err := tree.parseVarScalar(exec, exec, varAsString)
+				var tokenise bool
+				tokenise = tree.tokeniseScalar()
+				execScalar := exec && tokenise
+				value, v, _, err := tree.parseVarScalar(execScalar, execScalar, varAsString)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, err.Error())
 				}
-				if exec {
+				switch {
+				case execScalar:
+					appendToParam(tree, []rune(v.(string))...)
+					tree.statement.canHaveZeroLenStr = true
+				case !tokenise:
+					appendToParam(tree, value[1:]...)
+				default:
+					appendToParam(tree, value...)
+				}
+				/*if execScalar {
 					appendToParam(tree, []rune(v.(string))...)
 					tree.statement.canHaveZeroLenStr = true
 				} else {
 					appendToParam(tree, value...)
-				}
+				}*/
 			}
 
 		case '@':
