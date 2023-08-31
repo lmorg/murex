@@ -22,7 +22,8 @@ func (tree *ParserT) tokeniseScalar() bool {
 
 	switch string(tree.statement.command) {
 
-	case "set", "global", "export":
+	case "set", "global", "export",
+		"!set", "!global", "!export", "unset":
 		if len(tree.statement.parameters) == 0 {
 			return false
 		}
