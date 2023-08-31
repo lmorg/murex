@@ -15,16 +15,40 @@ func (tree *ParserT) tokeniseCurlyBrace() bool {
 	return lists.Match(tokeniseCurlyBraceCommands, string(tree.statement.command))
 }
 
-var tokeniseScalarCommands = []string{
-//	"set", "!set",
-//	"global", "!global",
-//	//"export", "!export", "unset",
-//	"foreach", "formap",
-}
-
 func (tree *ParserT) tokeniseScalar() bool {
-	if tree.statement == nil {
-		return false
+	if tree.statement == nil || len(tree.statement.paramTemp) != 0 {
+		return true
 	}
-	return !lists.Match(tokeniseScalarCommands, string(tree.statement.command))
+
+	switch string(tree.statement.command) {
+
+	case "set", "global", "export":
+		if len(tree.statement.parameters) == 0 {
+			return false
+		}
+
+	case "foreach":
+		if len(tree.statement.parameters) == 0 {
+			return false
+		}
+		if len(tree.statement.parameters) == 1 {
+			s := string(tree.statement.parameters[0])
+			if s == "--jmap" || s == "--step" {
+				return false
+			}
+		}
+
+	case "formap":
+		if len(tree.statement.parameters) == 0 {
+			return false
+		}
+		if len(tree.statement.parameters) == 1 {
+			s := string(tree.statement.parameters[0])
+			if s == "--jmap" {
+				return false
+			}
+		}
+	}
+
+	return true
 }

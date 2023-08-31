@@ -591,3 +591,37 @@ func processStatementFromExpr(tree *ParserT, method parserMethodT, exec bool) er
 	}
 	return nil
 }
+
+////////////////
+
+/*func parseSet(tree *ParserT, method parserMethodT, exec bool) error {
+	var escape bool
+
+	for ; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		if escape {
+			if r == '\n' {
+				tree.crLf()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
+				escape = false
+				continue
+			}
+
+			if !exec {
+				appendToParam(tree, '\\', r)
+				escape = false
+				if (r == ' ' || r == '\t') && tree.nextChar() == '#' {
+					tree.statement.ignoreCrLf = true
+				}
+				continue
+			}
+
+		switch r {
+		case ' ', '\t':
+			continue
+		}
+	}
+}*/
