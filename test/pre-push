@@ -16,7 +16,7 @@ set -e
 
 echo "Running golang unit tests...."
 mkdir -p ./test/tmp
-go test ./... -count 1 -race 
+go test ./... -race 
 
 echo "Running murex behavioural tests...."
 go build github.com/lmorg/murex

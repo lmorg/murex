@@ -154,9 +154,9 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 	if pkg.Dependencies.MurexVersion != "" {
 		ok, err := semver.Compare(app.Version(), pkg.Dependencies.MurexVersion)
 		if err != nil {
-			message += "  * Error checking supported Murex version: " + err.Error() + "\n"
-		} else if ok {
-			message += "  * This package is not supported for this version of Murex\n"
+			message += fmt.Sprintf("* Package '%s': Error checking supported Murex version: %s\n", pkg.Name, err.Error())
+		} else if !ok {
+			message += fmt.Sprintf("* Package '%s': Package not supported (%s) for this version of Murex (%s)\n", pkg.Name, pkg.Dependencies.MurexVersion, app.Version())
 		}
 	}
 
@@ -179,7 +179,8 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		err = module[i].validate()
 		if err != nil && !module[i].Disabled {
 			message += fmt.Sprintf(
-				"Error loading module `%s` in path `%s`:%s%s%s",
+				"* Package '%s': Error loading module `%s` in path `%s`:%s%s%s",
+				pkg.Name,
 				module[i].Name,
 				module[i].Path(),
 				utils.NewLineString,
@@ -203,7 +204,8 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		err = module[i].execute()
 		if err != nil {
 			message += fmt.Sprintf(
-				"Error sourcing module `%s` in path `%s`:%s%s%s",
+				"* Package '%s': Error sourcing module `%s` in path `%s`:%s%s%s",
+				pkg.Name,
 				module[i].Name,
 				module[i].Path(),
 				utils.NewLineString,
