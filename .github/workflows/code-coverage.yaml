@@ -14,7 +14,8 @@ jobs:
     strategy:
       matrix:
         go-version: [ latest ]
-
+    env:
+      MUREX_TEST_NO_EXEC_DEPS: true
     steps:
       - uses: actions/checkout@v3
       
