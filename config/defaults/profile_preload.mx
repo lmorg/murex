@@ -1,4 +1,11 @@
-if { os darwin && g /opt/homebrew/bin/brew } then {
+if { os darwin && %[ /usr/local/bin/brew ] -> f +x } then {
+    /bin/zsh -c 'eval "$(/usr/local/bin/brew shellenv)"; env' \
+    -> grep -Ei "(HOMEBREW|PATH)" \
+    -> prefix "export " \
+    -> source
+}
+
+if { os darwin && %[ /opt/homebrew/bin/brew ] -> f +x } then {
     /bin/zsh -c 'eval "$(/opt/homebrew/bin/brew shellenv)"; env' \
     -> grep -Ei "(HOMEBREW|PATH)" \
     -> prefix "export " \
