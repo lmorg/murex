@@ -20,6 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
         with:
@@ -37,16 +38,6 @@ jobs:
       - name: Go Test
         run: |
           go test ./... -count 1 -race
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          #token: ${{ secrets.CODECOV_TOKEN }}
-          # files: ./coverage1.xml,./coverage2.xml # optional
-          # flags: unittests # optional
-          #name: codecov-umbrella # optional
-          fail_ci_if_error: false # optional (default = false)
-          verbose: true # optional (default = false)
 
       - name: Build native target
         run: |
