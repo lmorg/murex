@@ -20,8 +20,8 @@ func matchExes(s string, exes map[string]bool) (items []string) {
 		lc := strings.ToLower(s)
 		if strings.HasPrefix(strings.ToLower(name), lc) {
 			switch {
-			case isSpecialBuiltin(name):
-				items = append(items, name[len(s):])
+			//case isSpecialBuiltin(name):
+			//	items = append(items, name[len(s):])
 			case consts.NamedPipeProcName == name:
 				// do nothing
 			default:
