@@ -19,10 +19,7 @@ func expMultiply(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Number,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Number,
-			Value:     lv * rv,
-		},
+		dt:  primitives.NewPrimitive(primitives.Number, lv*rv),
 	})
 }
 
@@ -40,9 +37,6 @@ func expDivide(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Number,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Number,
-			Value:     lv / rv,
-		},
+		dt:  primitives.NewPrimitive(primitives.Number, lv/rv),
 	})
 }

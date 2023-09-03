@@ -179,7 +179,7 @@ func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 		case len(tree.ast) == 0:
 			t.Error("Empty AST tree produced:")
 
-		case dt != nil && dt.Value != test.Expected:
+		case dt != nil && dt.Value() != test.Expected:
 			t.Error("Result doesn't match expected:")
 
 		default:
@@ -205,8 +205,8 @@ func TestParseExprLogicalAnd(t *testing.T) {
 			Stdout: "truetrue",
 		},
 		{
-			Block:  "true == false && true == true",
-			Stdout: "false",
+			Block:   "true == false && true == true",
+			Stdout:  "false",
 			ExitNum: 1,
 		},
 	}

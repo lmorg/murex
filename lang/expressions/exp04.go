@@ -22,10 +22,7 @@ func expAdd(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Number,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Number,
-			Value:     lv + rv,
-		},
+		dt:  primitives.NewPrimitive(primitives.Number, lv+rv),
 	})
 }
 
@@ -43,10 +40,7 @@ func expSubtract(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Number,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Number,
-			Value:     lv - rv,
-		},
+		dt:  primitives.NewPrimitive(primitives.Number, lv-rv),
 	})
 }
 
@@ -67,10 +61,11 @@ func expMergeInto(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
+		/*dt: &primitives.DataType{
 			Primitive: primitives.Other,
 			MxDT:      right.dt.MxDT,
 			Value:     merged,
-		},
+		},*/
+		dt: primitives.Scalar2Primitive(right.dt.MxDT, merged),
 	})
 }

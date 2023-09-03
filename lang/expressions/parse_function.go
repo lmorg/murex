@@ -53,8 +53,7 @@ func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting
 			string(cmd), err.Error())
 	}
 
-	dt := scalar2Primitive(mxDt)
-	dt.Value = v
+	dt := primitives.Scalar2Primitive(mxDt, v)
 	return r, dt, nil
 }
 

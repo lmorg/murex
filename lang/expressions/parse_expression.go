@@ -118,6 +118,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 					Primitive: primitives.String,
 					Value:     tree.parseVarTilde(exec),
 				})
+				
 			}
 
 		case '>':

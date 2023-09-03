@@ -268,9 +268,6 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 endObject:
 	value := tree.expression[start:tree.charPos]
 	tree.charPos--
-	dt := &primitives.DataType{
-		Primitive: primitives.Object,
-		Value:     o.obj,
-	}
+	dt := primitives.NewPrimitive(primitives.Object, o.obj)
 	return value, dt, nil
 }

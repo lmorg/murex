@@ -21,10 +21,7 @@ func expEqualFunc(tree *ParserT) (*primitives.DataType, error) {
 		return nil, err
 	}
 
-	return &primitives.DataType{
-		Primitive: primitives.Boolean,
-		Value:     lv == rv,
-	}, nil
+	return primitives.NewPrimitive(primitives.Boolean, lv == rv), nil
 }
 
 func expEqualTo(tree *ParserT) error {
@@ -46,7 +43,7 @@ func expNotEqualTo(tree *ParserT) error {
 		return err
 	}
 
-	dt.Value = !dt.Value.(bool)
+	dt.NotValue()
 
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
@@ -61,15 +58,15 @@ func expLike(tree *ParserT, eq bool) error {
 		return err
 	}
 
-	lv, rv := left.dt.Value, right.dt.Value
+	lv, rv := left.dt.Value(), right.dt.Value()
 	// convert to number, if possible
 	if left.dt.Primitive == primitives.String {
-		if v, err := types.ConvertGoType(left.dt.Value, types.Number); err == nil {
+		if v, err := types.ConvertGoType(left.dt.Value(), types.Number); err == nil {
 			lv = v
 		}
 	}
 	if right.dt.Primitive == primitives.String {
-		if v, err := types.ConvertGoType(right.dt.Value, types.Number); err == nil {
+		if v, err := types.ConvertGoType(right.dt.Value(), types.Number); err == nil {
 			rv = v
 		}
 	}
@@ -91,10 +88,7 @@ func expLike(tree *ParserT, eq bool) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     (lv == rv) == eq,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, (lv == rv) == eq),
 	})
 }
 
@@ -112,7 +106,7 @@ func expRegexp(tree *ParserT, eq bool) error {
 				"left side should be %s, instead received %s",
 				primitives.String, left.dt.Primitive))
 		}
-		lv = left.dt.Value.(string)
+		lv = left.dt.Value().(string)
 	} else {
 		v, err := types.ConvertGoType(left.dt.Value, types.String)
 		if err != nil {
@@ -128,7 +122,7 @@ func expRegexp(tree *ParserT, eq bool) error {
 			right.dt.Primitive))
 	}
 
-	rx, err := regexp.Compile(right.dt.Value.(string))
+	rx, err := regexp.Compile(right.dt.Value().(string))
 	if err != nil {
 		return raiseError(tree.expression, right, 0, err.Error())
 	}
@@ -136,9 +130,6 @@ func expRegexp(tree *ParserT, eq bool) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     rx.MatchString(lv) == eq,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, rx.MatchString(lv) == eq),
 	})
 }

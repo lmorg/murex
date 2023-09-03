@@ -3,6 +3,7 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
@@ -57,8 +58,7 @@ func (tree *ParserT) validateExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
+				dt := primitives.Scalar2Primitive(mxDt, v)
 				node.key = symbols.Calculated
 				node.dt = dt
 			}

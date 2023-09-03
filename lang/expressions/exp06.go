@@ -37,10 +37,7 @@ func expGreaterThan(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Exp(left.dt.Primitive),
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, value),
 	})
 }
 
@@ -73,10 +70,7 @@ func expGreaterThanOrEqual(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Exp(left.dt.Primitive),
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, value),
 	})
 }
 
@@ -109,10 +103,7 @@ func expLessThan(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Exp(left.dt.Primitive),
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, value),
 	})
 }
 
@@ -145,10 +136,7 @@ func expLessThanOrEqual(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Exp(left.dt.Primitive),
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, value),
 	})
 }
 

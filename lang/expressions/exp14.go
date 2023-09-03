@@ -157,10 +157,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }
 
@@ -201,14 +198,14 @@ func expAssignAdd(tree *ParserT) error {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
 		}
-		result = v.(float64) + right.dt.Value.(float64)
+		result = v.(float64) + right.dt.Value().(float64)
 
 	case types.Integer:
 		if right.dt.Primitive != primitives.Number {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
 		}
-		result = float64(v.(int)) + right.dt.Value.(float64)
+		result = float64(v.(int)) + right.dt.Value().(float64)
 
 	case types.Boolean:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -217,9 +214,9 @@ func expAssignAdd(tree *ParserT) error {
 	case types.Null:
 		switch right.dt.Primitive {
 		case primitives.String:
-			result = right.dt.Value.(string)
+			result = right.dt.Value().(string)
 		case primitives.Number:
-			result = right.dt.Value.(float64)
+			result = right.dt.Value().(float64)
 		default:
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
@@ -230,7 +227,7 @@ func expAssignAdd(tree *ParserT) error {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
 		}
-		result = v.(string) + right.dt.Value.(string)
+		result = v.(string) + right.dt.Value().(string)
 	}
 
 	err = tree.setVar(left.value, result, right.dt.DataType())
@@ -241,10 +238,7 @@ func expAssignAdd(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }
 
@@ -282,11 +276,11 @@ func expAssignSubtract(tree *ParserT) error {
 
 	switch dt {
 	case types.Number, types.Float:
-		f = v.(float64) - right.dt.Value.(float64)
+		f = v.(float64) - right.dt.Value().(float64)
 	case types.Integer:
-		f = float64(v.(int)) - right.dt.Value.(float64)
+		f = float64(v.(int)) - right.dt.Value().(float64)
 	case types.Null:
-		f = 0 - right.dt.Value.(float64)
+		f = 0 - right.dt.Value().(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
@@ -300,10 +294,7 @@ func expAssignSubtract(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }
 
@@ -341,9 +332,9 @@ func expAssignMultiply(tree *ParserT) error {
 
 	switch dt {
 	case types.Number, types.Float:
-		f = v.(float64) * right.dt.Value.(float64)
+		f = v.(float64) * right.dt.Value().(float64)
 	case types.Integer:
-		f = float64(v.(int)) * right.dt.Value.(float64)
+		f = float64(v.(int)) * right.dt.Value().(float64)
 	case types.Null:
 		f = 0
 	default:
@@ -359,10 +350,7 @@ func expAssignMultiply(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }
 
@@ -400,11 +388,11 @@ func expAssignDivide(tree *ParserT) error {
 
 	switch dt {
 	case types.Number, types.Float:
-		f = v.(float64) / right.dt.Value.(float64)
+		f = v.(float64) / right.dt.Value().(float64)
 	case types.Integer:
-		f = float64(v.(int)) / right.dt.Value.(float64)
+		f = float64(v.(int)) / right.dt.Value().(float64)
 	case types.Null:
-		f = 0 / right.dt.Value.(float64)
+		f = 0 / right.dt.Value().(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
@@ -418,10 +406,7 @@ func expAssignDivide(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }
 
@@ -439,7 +424,7 @@ func expAssignMerge(tree *ParserT) error {
 			tree.currentSymbol().key, left.key))
 	}
 
-	rightVal := right.dt.Value
+	rightVal := right.dt.Value()
 	if right.dt.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
 		rightVal, err = lang.UnmarshalDataBuffered(tree.p, []byte(rightVal.(string)), right.dt.MxDT)
 		if err != nil {
@@ -458,10 +443,7 @@ func expAssignMerge(tree *ParserT) error {
 			return tree.foldAst(&astNodeT{
 				key: symbols.Calculated,
 				pos: tree.ast[tree.astPos].pos,
-				dt: &primitives.DataType{
-					Primitive: primitives.Null,
-					Value:     nil,
-				},
+				dt:  primitives.NewPrimitive(primitives.Null, nil),
 			})
 		} else {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
@@ -484,9 +466,6 @@ func expAssignMerge(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }

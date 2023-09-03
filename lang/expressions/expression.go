@@ -55,7 +55,11 @@ var orderOfOperations = []symbols.Exp{
 	// 09. Bitwise exclusive OR (XOR)
 	// 10. Bitwise inclusive (normal) OR
 	// 11. Logical AND
+	symbols.LogicalAnd,
+
 	// 12. Logical OR
+	symbols.LogicalOr,
+
 	// 13. Conditional expression (ternary)
 	// 14. Assignment operators (right to left)
 	symbols.Assign,
@@ -92,7 +96,13 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 		// 13. Conditional expression (ternary)
 		// 12. Logical OR
+		case symbols.LogicalOr:
+			err = expLogicalOr(tree)
+
 		// 11. Logical AND
+		case symbols.LogicalAnd:
+			err = expLogicalAnd(tree)
+
 		// 10. Bitwise inclusive (normal) OR
 		// 09. Bitwise exclusive OR (XOR)
 		// 08. Bitwise AND

@@ -189,10 +189,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 endArray:
 	value := tree.expression[start:tree.charPos]
 	tree.charPos--
-	dt = &primitives.DataType{
-		Primitive: primitives.Array,
-		Value:     slice,
-	}
+	dt = primitives.NewPrimitive(primitives.Array, slice)
 	return value, dt, nil
 }
 
@@ -280,10 +277,7 @@ endParseArrayMaker:
 	}
 
 	if !exec {
-		return &primitives.DataType{
-			Primitive: primitives.Array,
-			Value:     make([]interface{}, 0),
-		}, tree.charPos, nil
+		return primitives.NewPrimitive(primitives.Array, make([]any, 0)), tree.charPos, nil
 	}
 
 	var block []rune
@@ -318,9 +312,6 @@ endParseArrayMaker:
 		return nil, start, err
 	}
 
-	dt := &primitives.DataType{
-		Primitive: primitives.Array,
-		Value:     slice,
-	}
+	dt := primitives.NewPrimitive(primitives.Array, slice)
 	return dt, tree.charPos, nil
 }

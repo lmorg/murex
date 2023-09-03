@@ -23,8 +23,38 @@ const (
 
 type DataType struct {
 	Primitive Primitive
-	Value     any
+	value     any
+	subshell  []rune
 	MxDT      string
+}
+
+func NewPrimitive(primitive Primitive, value any) *DataType {
+	return &DataType{
+		Primitive: primitive,
+		value:     value,
+	}
+}
+
+func NewFunction(primitive Primitive, block []rune) *DataType {
+	return &DataType{
+		Primitive: primitive,
+		subshell:  block,
+	}
+}
+
+func Scalar2Primitive(dt string, value any) *DataType {
+	switch dt {
+	case types.Number, types.Integer, types.Float:
+		return &DataType{Primitive: Number, value: value}
+	case types.Boolean:
+		return &DataType{Primitive: Boolean, value: value}
+	case types.Null:
+		return &DataType{Primitive: Null, value: value}
+	case types.String:
+		return &DataType{Primitive: String, value: value}
+	default:
+		return &DataType{Primitive: Other, MxDT: dt, value: value}
+	}
 }
 
 func (dt *DataType) DataType() string {
@@ -58,4 +88,15 @@ func (dt *DataType) Marshal() ([]rune, error) {
 
 	r := []rune(string(b))
 	return r, nil
+}
+
+func (dt *DataType) NotValue() {
+	dt.value = !dt.value.(bool)
+}
+
+func (dt *DataType) Value() any {
+	if dt.subshell == nil {
+		return dt.value
+	}
+	return nil //TODO
 }

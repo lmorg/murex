@@ -20,7 +20,7 @@ func validateNumericalDataTypes(tree *ParserT, left *astNodeT, right *astNodeT, 
 			))
 		default:
 			var lv, rv float64
-			switch t := left.dt.Value.(type) {
+			switch t := left.dt.Value().(type) {
 			case float64:
 				lv = t
 			case int:
@@ -30,7 +30,7 @@ func validateNumericalDataTypes(tree *ParserT, left *astNodeT, right *astNodeT, 
 					"value cannot be converted into an integer nor floating point number\nUnderlying data type: %T", t,
 				))
 			}
-			switch t := right.dt.Value.(type) {
+			switch t := right.dt.Value().(type) {
 			case float64:
 				rv = t
 			case int:

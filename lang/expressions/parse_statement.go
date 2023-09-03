@@ -261,7 +261,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 				tree.statement.paramTemp = nil
 				if exec {
-					appendToParam(tree, []rune(dt.Value.(string))...)
+					appendToParam(tree, []rune(dt.Value().(string))...)
 				} else {
 					appendToParam(tree, value...)
 				}
