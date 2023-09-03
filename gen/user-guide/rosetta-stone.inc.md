@@ -36,6 +36,7 @@ if you want to learn more about shell scripting in Murex.
 | [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash \| grep Bash` | `echo "Hello Murex \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
 | [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl murex.rocks ? less` <br/><br/> `curl <!out> murex.rocks \| less` |
 | Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
+| Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
 | Output [ANSI colors and styles](../user-guide/ansi_doc.md) | `echo -e "\n\032[0m\033[1mComplete!\033[0m\n"` | `out "{GREEN}{BOLD}Complete!{RESET}"` |
 
 ### Quoting strings
