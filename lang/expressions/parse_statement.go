@@ -264,11 +264,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 				tree.statement.paramTemp = nil
 				if exec {
-					v, _, err := fn()
+					val, err := fn()
 					if err != nil {
 						return err
 					}
-					appendToParam(tree, []rune(v.(string))...)
+					appendToParam(tree, []rune(val.Value.(string))...)
 				} else {
 					appendToParam(tree, value...)
 				}
@@ -389,11 +389,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 					return err
 				}
 				if exec {
-					v, _, err := fn()
+					val, err := fn()
 					if err != nil {
 						return err
 					}
-					appendToParam(tree, []rune(v.(string))...)
+					appendToParam(tree, []rune(val.Value.(string))...)
 					tree.statement.canHaveZeroLenStr = true
 				} else {
 					appendToParam(tree, value...)
@@ -436,10 +436,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 				var v any
 				if exec {
-					v, _, err = fn()
+					val, err := fn()
 					if err != nil {
 						return err
 					}
+					v = val.Value
 				}
 				processStatementArrays(tree, value, v, exec)
 			case next == '[' && len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:

@@ -123,11 +123,11 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 					return nil, nil, err
 				}
 				if exec {
-					v, _, err := fn()
+					v, err := fn()
 					if err != nil {
 						return nil, nil, err
 					}
-					slice = append(slice, v)
+					slice = append(slice, v.Value)
 				} else {
 					slice = append(slice, string(r))
 				}
@@ -157,7 +157,8 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 					return nil, nil, err
 				}
 				if exec {
-					v, _, err = fn()
+					val, err := fn()
+					v = val.Value
 					if err != nil {
 						return nil, nil, err
 					}

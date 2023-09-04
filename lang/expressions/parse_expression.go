@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *ParserT) parseExpression(exec bool) error {
+func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 		switch r {
@@ -27,15 +27,34 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			tree.charPos--
 			return nil
 
-		case ';', '|', '?':
+		case ';', '?':
 			// end expression
 			tree.charPos--
 			return nil
 
-		case '&':
-			if tree.nextChar() == '&' {
+		case '|':
+			if incLogicalOps && tree.nextChar() == '|' {
+				// equals
+				tree.appendAst(symbols.LogicalOr)
+				tree.charPos++
+			} else {
+				// end expression
 				tree.charPos--
 				return nil
+			}
+
+		case '&':
+			if tree.nextChar() == '&' {
+				if incLogicalOps {
+					// equals
+					tree.appendAst(symbols.LogicalAnd)
+					tree.charPos++
+					continue
+				} else {
+					// end expression
+					tree.charPos--
+					return nil
+				}
 			}
 			tree.appendAst(symbols.Unexpected, r)
 			raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
@@ -161,7 +180,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
 			branch.charOffset = tree.charPos + tree.charOffset
 			branch.subExp = true
-			err := branch.parseExpression(exec)
+			err := branch.parseExpression(exec, true)
 			if err != nil {
 				return err
 			}
@@ -280,7 +299,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				if exec && v == nil && mxDt == "" {
 					tree.appendAst(symbols.Scalar, runes...)
 				} else {
-					dt := primitives.Scalar2Primitive(mxDt, v)
+					dt := primitives.NewScalar(mxDt, v)
 					tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 				}
 			}

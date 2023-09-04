@@ -29,15 +29,14 @@ func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormattin
 
 	switch prefix {
 	case '$':
-		fn := func() (any, string, error) {
+		fn := func() (*primitives.Value, error) {
 			return execSubShellScalar(tree, block, strOrVal)
 		}
 		return value, fn, nil
 
 	case '@':
-		fn := func() (any, string, error) {
-			v, err := execSubShellArray(tree, block, strOrVal)
-			return v, types.Json, err
+		fn := func() (*primitives.Value, error) {
+			return execSubShellArray(tree, block, strOrVal)
 		}
 		return value, fn, nil
 	default:
@@ -46,40 +45,46 @@ func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormattin
 	}
 }
 
-func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (interface{}, string, error) {
+func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (*primitives.Value, error) {
 	if tree.p == nil {
 		panic("`tree.p` is undefined")
 	}
-	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
-	exitNum, err := fork.Execute(block)
+
+	val := new(primitives.Value)
+	var err error
+
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_PARENT_VARTABLE | lang.F_CREATE_STDOUT)
+	val.ExitNum, err = fork.Execute(block)
 	if err != nil {
-		return nil, "", fmt.Errorf("subshell failed: %s", err.Error())
+		return val, fmt.Errorf("subshell failed: %s", err.Error())
 	}
-	if exitNum > 0 && tree.p.RunMode.IsStrict() {
-		return nil, "", fmt.Errorf("subshell exit status %d", exitNum)
+	if val.ExitNum > 0 && tree.p.RunMode.IsStrict() {
+		return val, fmt.Errorf("subshell exit status %d", val.ExitNum)
 	}
 	b, err := fork.Stdout.ReadAll()
 	if err != nil {
-		return nil, "", fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
+		return val, fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
 	}
 
 	b = utils.CrLfTrim(b)
-	dataType := fork.Stdout.GetDataType()
+	val.DataType = fork.Stdout.GetDataType()
 
-	v, err := formatBytes(b, dataType, strOrVal)
-	return v, dataType, err
+	val.Value, err = formatBytes(b, val.DataType, strOrVal)
+	return val, err
 }
 
-func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) ([]interface{}, error) {
+func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) (*primitives.Value, error) {
 	var slice []interface{}
+	val := new(primitives.Value)
+	var err error
 
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
-	exitNum, err := fork.Execute(block)
+	val.ExitNum, err = fork.Execute(block)
 	if err != nil {
-		return nil, fmt.Errorf("subshell failed: %s", err.Error())
+		return val, fmt.Errorf("subshell failed: %s", err.Error())
 	}
-	if exitNum > 0 && tree.p.RunMode.IsStrict() {
-		return nil, fmt.Errorf("subshell exit status %d", exitNum)
+	if val.ExitNum > 0 && tree.p.RunMode.IsStrict() {
+		return val, fmt.Errorf("subshell exit status %d", val.ExitNum)
 	}
 
 	switch strOrVal {
@@ -95,12 +100,14 @@ func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) ([]i
 		panic("invalid value set for strOrVal")
 	}
 	if err != nil {
-		return nil, fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
+		return val, fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
 	}
 
 	if len(slice) == 0 && tree.StrictArrays() {
 		return nil, fmt.Errorf(errEmptyArray, "{"+string(block)+"}")
 	}
 
-	return slice, nil
+	val.Value = slice
+	val.DataType = types.Json
+	return val, nil
 }

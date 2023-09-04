@@ -141,11 +141,11 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					return nil, nil, err
 				}
 				if exec {
-					v, _, err := fn()
+					val, err := fn()
 					if err != nil {
 						return nil, nil, err
 					}
-					o.keyValueI[o.stage&1] = v
+					o.keyValueI[o.stage&1] = val.Value
 				} else {
 					o.keyValueI[o.stage&1] = string(subshell)
 				}
@@ -180,11 +180,11 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					return nil, nil, err
 				}
 				if exec {
-					v, _, err := fn()
+					val, err := fn()
 					if err != nil {
 						return nil, nil, err
 					}
-					o.keyValueI[o.stage&1] = v
+					o.keyValueI[o.stage&1] = val.Value
 				} else {
 					o.keyValueI[o.stage&1] = string(subshell)
 				}

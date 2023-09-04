@@ -70,6 +70,6 @@ func expMergeInto(tree *ParserT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt:  primitives.Scalar2Primitive(right.DataType, merged),
+		dt:  primitives.NewScalar(right.DataType, merged),
 	})
 }

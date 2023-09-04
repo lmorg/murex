@@ -159,8 +159,8 @@ func (tree *ParserT) parseLambdaScala(exec bool, prefix rune, varName []rune, st
 	}
 
 	if exec {
-		v, dt, err := fn()
-		return r, v, dt, err
+		val, err := fn()
+		return r, val.Value, val.DataType, err
 	}
 
 	return r, nil, "", nil

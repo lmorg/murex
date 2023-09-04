@@ -124,7 +124,8 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 		if err != nil {
 			return nil, nil, err
 		}
-		item, _, err = fn()
+		val, err := fn()
+		item = val.Value
 		if err != nil {
 			return nil, nil, err
 		}

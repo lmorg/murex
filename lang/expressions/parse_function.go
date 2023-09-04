@@ -24,37 +24,37 @@ func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting
 		return r, nil, nil
 	}
 
-	fn := func() (any, string, error) {
+	fn := func() (*primitives.Value, error) {
+		val := new(primitives.Value)
+		var err error
+
 		fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 		params = append([]rune{' '}, params[1:len(params)-1]...)
 		block := append(cmd, params...)
-		exitNum, err := fork.Execute(block)
+		val.ExitNum, err = fork.Execute(block)
+
+		//val.Error = fork.Stderr
+
 		if err != nil {
-			return nil, "",
-				fmt.Errorf("function `%s` compilation error: %s",
-					string(cmd), err.Error())
+			return val, fmt.Errorf("function `%s` compilation error: %s", string(cmd), err.Error())
 		}
 
-		if exitNum != 0 {
-			return nil, "",
-				fmt.Errorf("function `%s` returned non-zero exit number (%d)",
-					string(cmd), exitNum)
+		if val.ExitNum != 0 {
+			return val, fmt.Errorf("function `%s` returned non-zero exit number (%d)", string(cmd), val.ExitNum)
 		}
 
 		b, err := fork.Stdout.ReadAll()
 		if err != nil {
-			return nil, "", fmt.Errorf("function `%s` STDOUT read error: %s",
-				string(cmd), err.Error())
+			return val, fmt.Errorf("function `%s` STDOUT read error: %s", string(cmd), err.Error())
 		}
 		b = utils.CrLfTrim(b)
-		mxDt := fork.Stdout.GetDataType()
-		v, err := formatBytes(b, mxDt, strOrVal)
+		val.DataType = fork.Stdout.GetDataType()
+		val.Value, err = formatBytes(b, val.DataType, strOrVal)
 		if err != nil {
-			return nil, "", fmt.Errorf("function `%s` STDOUT conversion error: %s",
-				string(cmd), err.Error())
+			return nil, fmt.Errorf("function `%s` STDOUT conversion error: %s", string(cmd), err.Error())
 		}
 
-		return v, mxDt, err
+		return val, err
 	}
 
 	return r, fn, nil

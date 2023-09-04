@@ -216,11 +216,11 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				if err != nil {
 					return 0, err
 				}
-				v, _, err := fn()
+				val, err := fn()
 				if err != nil {
 					return 0, err
 				}
-				appendToParam(tree, []rune(v.(string))...)
+				appendToParam(tree, []rune(val.Value.(string))...)
 				tree.statement.canHaveZeroLenStr = true
 			case isBareChar(tree.nextChar()):
 				// start scalar
@@ -248,11 +248,11 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				if err != nil {
 					return 0, err
 				}
-				v, _, err := fn()
+				val, err := fn()
 				if err != nil {
 					return 0, err
 				}
-				processStatementArrays(tree, value, v, true)
+				processStatementArrays(tree, value, val.Value, true)
 			case isBareChar(tree.nextChar()):
 				// start scalar
 				if err := tree.nextParameter(); err != nil {

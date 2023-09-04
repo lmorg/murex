@@ -126,11 +126,11 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 					return nil, err
 				}
 				if exec {
-					v, _, err := fn()
+					val, err := fn()
 					if err != nil {
 						return nil, err
 					}
-					value = append(value, []rune(v.(string))...)
+					value = append(value, []rune(val.Value.(string))...)
 				} else {
 					value = append(value, subshell...)
 				}

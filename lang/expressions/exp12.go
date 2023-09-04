@@ -1,81 +1,52 @@
 package expressions
 
+import (
+	"github.com/lmorg/murex/lang/expressions/primitives"
+	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
+)
+
+func retBooleanTrue(tree *ParserT) error {
+	return tree.foldAst(&astNodeT{
+		key: symbols.Calculated,
+		pos: tree.ast[tree.astPos].pos,
+		dt:  primitives.NewPrimitive(primitives.Boolean, true),
+	})
+}
+
 func expLogicalOr(tree *ParserT) error {
-	/*left, right, err := tree.getLeftAndRightSymbols()
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
-	convertScalarToBareword(left)
+	var v any
 
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
+	nv, err := leftNode.dt.GetValue()
+	if err == nil {
+		v, err = types.ConvertGoType(nv, types.String)
+		if err != nil {
+			return err
+		}
+
+		if types.IsTrueString(v.(string), nv.ExitNum) {
+			return retBooleanTrue(tree)
+		}
 	}
 
-	v, dt, err := tree.getVar(left.value, varAsValue)
+	nv, err = rightNode.dt.GetValue()
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
-			// var doesn't exist and we have strict types disabled so lets create var
-			v, dt, err = float64(0), types.Number, nil
-		} else {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-		}
+		return retBooleanFalse(tree)
 	}
 
-	var result interface{}
-
-	switch dt {
-	case types.Number, types.Float:
-		if right.dt.Primitive != primitives.Number {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
-		}
-		result = v.(float64) + right.dt.Value.(float64)
-
-	case types.Integer:
-		if right.dt.Primitive != primitives.Number {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
-		}
-		result = float64(v.(int)) + right.dt.Value.(float64)
-
-	case types.Boolean:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s %s", tree.currentSymbol().key, dt))
-
-	case types.Null:
-		switch right.dt.Primitive {
-		case primitives.String:
-			result = right.dt.Value.(string)
-		case primitives.Number:
-			result = right.dt.Value.(float64)
-		default:
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
-		}
-
-	default:
-		if right.dt.Primitive != primitives.String {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
-		}
-		result = v.(string) + right.dt.Value.(string)
-	}
-
-	err = tree.setVar(left.value, result, right.dt.DataType())
+	v, err = types.ConvertGoType(nv, types.String)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		return err
 	}
 
 	return tree.foldAst(&astNodeT{
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
-	})*/
-	return nil
+		dt:  primitives.NewPrimitive(primitives.Boolean, types.IsTrueString(v.(string), nv.ExitNum)),
+	})
 }

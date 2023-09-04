@@ -50,6 +50,9 @@ page to select your platform.
 
 ## Installing From A Package Manager
 
+> This is the recommended way to install Murex because you can then stay
+> updated with future releases.
+
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
 
 ### ArchLinux
@@ -58,7 +61,6 @@ From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/pa
 
     wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
     makepkg --syncdeps --install 
-
 
 ### FreeBSD Ports
 
@@ -74,7 +76,7 @@ Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 ## Compiling From Source
 
-[![Tests](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml/badge.svg?branch=master)](https://github.com/lmorg/murex/actions/workflows/go-tests.yaml)
+[![Test Clean Install](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml)
 
 **Prerequisites:**
 
@@ -102,7 +104,8 @@ Installation from source is as simple as the following one liner:
 GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
 ```
 
-...where `/usr/bin` can be replaced with your preferred install location
+However you can change the `GOBIN` value to point to any writable location you
+wish.
 
 ## External Dependencies (Optional)
 

@@ -58,7 +58,7 @@ func (tree *ParserT) validateExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				dt := primitives.Scalar2Primitive(mxDt, v)
+				dt := primitives.NewScalar(mxDt, v)
 				node.key = symbols.Calculated
 				node.dt = dt
 			}

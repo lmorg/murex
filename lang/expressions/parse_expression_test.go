@@ -37,7 +37,7 @@ func testParserSymbol(t *testing.T, tests expTestsT) {
 
 	for i, test := range tests.tests {
 		tree := NewParser(p, []rune(test.input), 0)
-		err := tree.parseExpression(true)
+		err := tree.parseExpression(true, true)
 
 		switch {
 		case (err != nil) != test.error:
@@ -95,7 +95,7 @@ func testParserObject(t *testing.T, tests expTestsT) {
 
 	for i, test := range tests.tests {
 		tree := NewParser(p, []rune(test.input), 0)
-		err := tree.parseExpression(true)
+		err := tree.parseExpression(true, true)
 
 		switch {
 		case (err != nil) != test.error:
@@ -168,7 +168,7 @@ func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 	for i, test := range tests {
 		tree := NewParser(p, []rune(test.Expression), 0)
 
-		err := tree.parseExpression(true)
+		err := tree.parseExpression(true, true)
 		if err != nil {
 			t.Errorf("Parser error in test %d: %s", i, err.Error())
 		}
