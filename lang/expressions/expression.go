@@ -86,11 +86,11 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignAndAdd:
 			err = expAssignAdd(tree)
 		case symbols.AssignAndSubtract:
-			err = expAssignSubtract(tree)
+			err = expAssignAndOperate(tree, _assSub)
 		case symbols.AssignAndDivide:
-			err = expAssignDivide(tree)
+			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
-			err = expAssignMultiply(tree)
+			err = expAssignAndOperate(tree, _assMult)
 		case symbols.AssignAndMerge:
 			err = expAssignMerge(tree)
 
@@ -121,13 +121,13 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expRegexp(tree, false)
 		// 06. Comparisons: less-than and greater-than
 		case symbols.GreaterThan:
-			err = expGreaterThan(tree)
+			err = expGtLt(tree, _gtF, _gtS)
 		case symbols.GreaterThanOrEqual:
-			err = expGreaterThanOrEqual(tree)
+			err = expGtLt(tree, _gtEqF, _gtEqS)
 		case symbols.LessThan:
-			err = expLessThan(tree)
+			err = expGtLt(tree, _ltF, _ltS)
 		case symbols.LessThanOrEqual:
-			err = expLessThanOrEqual(tree)
+			err = expGtLt(tree, _ltEqF, _ltEqS)
 
 		// 05. Bitwise shift left and right
 		// 04. Addition and subtraction

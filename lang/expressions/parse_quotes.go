@@ -18,7 +18,7 @@ func (tree *ParserT) createStringAst(qStart, qEnd rune, exec bool) error {
 	return nil
 }
 
-func (tree *ParserT) parseParen(exec bool) ([]rune, error) {
+func (tree *ParserT) parseParenthesis(exec bool) ([]rune, error) {
 	value, err := tree.parseString('(', ')', exec)
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, error) {
 
 		switch {
 		case r == '(' && qEnd == ')':
-			v, err := tree.parseParen(exec)
+			v, err := tree.parseParenthesis(exec)
 			if err != nil {
 				return nil, err
 			}
@@ -121,11 +121,15 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				subshell, v, _, err := tree.parseSubShell(exec, r, varAsString)
+				subshell, fn, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return nil, err
 				}
 				if exec {
+					v, _, err := fn()
+					if err != nil {
+						return nil, err
+					}
 					value = append(value, []rune(v.(string))...)
 				} else {
 					value = append(value, subshell...)
@@ -149,7 +153,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 			value = append(value, []rune(tilde)...)
 
 		case r == '(' && qEnd == ')':
-			v, err := tree.parseParen(exec)
+			v, err := tree.parseParenthesis(exec)
 			if err != nil {
 				return nil, err
 			}

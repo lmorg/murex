@@ -153,7 +153,17 @@ func (tree *ParserT) parseLambdaScala(exec bool, prefix rune, varName []rune, st
 		}
 	}
 
-	return tree.parseSubShell(exec, prefix, strOrVal)
+	r, fn, err := tree.parseSubShell(exec, prefix, strOrVal)
+	if err != nil {
+		return r, nil, "", err
+	}
+
+	if exec {
+		v, dt, err := fn()
+		return r, v, dt, err
+	}
+
+	return r, nil, "", nil
 }
 
 func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {

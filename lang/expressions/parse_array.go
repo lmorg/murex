@@ -75,7 +75,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			case '(':
 				// start nested string
 				tree.charPos++
-				value, err := tree.parseParen(exec)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return nil, nil, err
 				}
@@ -90,7 +90,11 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			if err != nil {
 				return nil, nil, err
 			}
-			slice = append(slice, dt.Value)
+			v, err := dt.GetValue()
+			if err != nil {
+				return nil, nil, err
+			}
+			slice = append(slice, v.Value)
 			tree.charPos++
 
 		case ']':
@@ -103,14 +107,22 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			if err != nil {
 				return nil, nil, err
 			}
-			slice = append(slice, dt.Value)
+			v, err := dt.GetValue()
+			if err != nil {
+				return nil, nil, err
+			}
+			slice = append(slice, v.Value)
 			tree.charPos++
 
 		case '$':
 			// inline scalar
 			switch tree.nextChar() {
 			case '{':
-				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				_, fn, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return nil, nil, err
+				}
+				v, _, err := fn()
 				if err != nil {
 					return nil, nil, err
 				}
@@ -136,7 +148,11 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			)
 			switch tree.nextChar() {
 			case '{':
-				_, v, _, err = tree.parseSubShell(exec, r, varAsValue)
+				_, fn, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return nil, nil, err
+				}
+				v, _, err = fn()
 				if err != nil {
 					return nil, nil, err
 				}

@@ -228,14 +228,18 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				// parenthesis quotes
 				if exec {
 					pos := tree.charPos
-					expr, err := tree.parseParen(false)
+					expr, err := tree.parseParenthesis(false)
 					if err != nil {
 						return err
 					}
 					dt, err := ExecuteExpr(tree.p, expr)
 					if err == nil {
 						// parenthesis is an expression
-						r, err := dt.Marshal()
+						v, err := dt.GetValue()
+						if err != nil {
+							return err
+						}
+						r, err := v.Marshal()
 						if err != nil {
 							return fmt.Errorf("cannot marshal output of inlined expression in `%s`: %s",
 								string(tree.statement.command), err.Error())
@@ -248,20 +252,24 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 
 				// parenthesis is a string (deprecated)
-				value, err := tree.parseParen(exec)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return err
 				}
 				appendToParam(tree, value...)
 			case tree.statement.validFunction:
 				// function(parameters...)
-				value, dt, err := tree.parseFunction(exec, tree.statement.paramTemp, varAsString)
+				value, fn, err := tree.parseFunction(exec, tree.statement.paramTemp, varAsString)
 				if err != nil {
 					return err
 				}
 				tree.statement.paramTemp = nil
 				if exec {
-					appendToParam(tree, []rune(dt.Value().(string))...)
+					v, _, err := fn()
+					if err != nil {
+						return err
+					}
+					appendToParam(tree, []rune(v.(string))...)
 				} else {
 					appendToParam(tree, value...)
 				}
@@ -300,7 +308,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			case '(':
 				// string
 				tree.charPos++
-				value, err := tree.parseParen(exec)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return err
 				}
@@ -377,11 +385,15 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				value, v, _, err := tree.parseSubShell(exec, r, varAsString)
+				value, fn, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return err
 				}
 				if exec {
+					v, _, err := fn()
+					if err != nil {
+						return err
+					}
 					appendToParam(tree, []rune(v.(string))...)
 					tree.statement.canHaveZeroLenStr = true
 				} else {
@@ -419,9 +431,16 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
-				value, v, _, err := tree.parseSubShell(exec, r, varAsString)
+				value, fn, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return err
+				}
+				var v any
+				if exec {
+					v, _, err = fn()
+					if err != nil {
+						return err
+					}
 				}
 				processStatementArrays(tree, value, v, exec)
 			case next == '[' && len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:
@@ -571,7 +590,11 @@ func processStatementFromExpr(tree *ParserT, method parserMethodT, exec bool) er
 	}
 
 	if exec {
-		value, err = dt.Marshal()
+		val, err := dt.GetValue()
+		if err != nil {
+			return err
+		}
+		value, err = val.Marshal()
 		if err != nil {
 			return err
 		}

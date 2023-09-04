@@ -4,42 +4,46 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/primitives"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormatting) ([]rune, primitives.FunctionT, error) {
 	start := tree.charPos
 
 	tree.charPos += 2
 
 	_, err := tree.parseBlockQuote()
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, err
 	}
 
 	value := tree.expression[start : tree.charPos+1]
 	block := tree.expression[start+2 : tree.charPos]
 
 	if !exec {
-		return value, nil, "", nil
+		return value, nil, nil
 	}
-
-	var (
-		v        interface{}
-		dataType string
-	)
 
 	switch prefix {
 	case '$':
-		v, dataType, err = execSubShellScalar(tree, block, strOrVal)
+		fn := func() (any, string, error) {
+			return execSubShellScalar(tree, block, strOrVal)
+		}
+		return value, fn, nil
+
 	case '@':
-		v, err = execSubShellArray(tree, block, strOrVal)
+		fn := func() (any, string, error) {
+			v, err := execSubShellArray(tree, block, strOrVal)
+			return v, types.Json, err
+		}
+		return value, fn, nil
 	default:
 		err = fmt.Errorf("invalid prefix in expression '%s'. %s", string(prefix), consts.IssueTrackerURL)
+		return nil, nil, err
 	}
-
-	return value, v, dataType, err
 }
 
 func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (interface{}, string, error) {

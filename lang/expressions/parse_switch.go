@@ -153,7 +153,7 @@ func (tree *ParserT) parseSwitch() (int, error) {
 			prev := tree.prevChar()
 			if prev == ' ' || prev == '\t' {
 				// quotes
-				value, err := tree.parseParen(true)
+				value, err := tree.parseParenthesis(true)
 				if err != nil {
 					return 0, err
 				}
@@ -178,7 +178,7 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				}
 			case '(':
 				tree.charPos++
-				value, err := tree.parseParen(true)
+				value, err := tree.parseParenthesis(true)
 				if err != nil {
 					return 0, err
 				}
@@ -212,7 +212,11 @@ func (tree *ParserT) parseSwitch() (int, error) {
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				_, v, _, err := tree.parseSubShell(true, r, varAsString)
+				_, fn, err := tree.parseSubShell(true, r, varAsString)
+				if err != nil {
+					return 0, err
+				}
+				v, _, err := fn()
 				if err != nil {
 					return 0, err
 				}
@@ -240,7 +244,11 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				if err := tree.nextParameter(); err != nil {
 					return 0, err
 				}
-				value, v, _, err := tree.parseSubShell(true, r, varAsString)
+				value, fn, err := tree.parseSubShell(true, r, varAsString)
+				if err != nil {
+					return 0, err
+				}
+				v, _, err := fn()
 				if err != nil {
 					return 0, err
 				}

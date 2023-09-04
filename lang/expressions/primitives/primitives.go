@@ -19,46 +19,57 @@ const (
 	Null     Primitive = Primitive(symbols.Null)        // null
 	Bareword Primitive = 0                              // bareword
 	Other    Primitive = -1                             // other
+	Function Primitive = -2                             // functions and subshells
 )
 
 type DataType struct {
-	Primitive Primitive
+	primitive Primitive
 	value     any
-	subshell  []rune
-	MxDT      string
+	mxDT      string
+	fn        FunctionT
 }
+
+type FunctionT func() (any, string, error)
 
 func NewPrimitive(primitive Primitive, value any) *DataType {
 	return &DataType{
-		Primitive: primitive,
+		primitive: primitive,
 		value:     value,
 	}
 }
 
-func NewFunction(primitive Primitive, block []rune) *DataType {
+func NewFunction(fn FunctionT) *DataType {
 	return &DataType{
-		Primitive: primitive,
-		subshell:  block,
+		primitive: Function,
+		fn:        fn,
 	}
 }
 
-func Scalar2Primitive(dt string, value any) *DataType {
+func Scalar2Primitive(mxdt string, value any) *DataType {
+	return &DataType{
+		primitive: scalar2Primitive(mxdt),
+		mxDT:      mxdt,
+		value:     value,
+	}
+}
+
+func scalar2Primitive(dt string) Primitive {
 	switch dt {
 	case types.Number, types.Integer, types.Float:
-		return &DataType{Primitive: Number, value: value}
+		return Number
 	case types.Boolean:
-		return &DataType{Primitive: Boolean, value: value}
+		return Boolean
 	case types.Null:
-		return &DataType{Primitive: Null, value: value}
+		return Null
 	case types.String:
-		return &DataType{Primitive: String, value: value}
+		return String
 	default:
-		return &DataType{Primitive: Other, MxDT: dt, value: value}
+		return Other
 	}
 }
 
-func (dt *DataType) DataType() string {
-	switch dt.Primitive {
+func (dt *DataType) dataType() string {
+	switch dt.primitive {
 	case Number:
 		return types.Number
 	case String:
@@ -74,14 +85,14 @@ func (dt *DataType) DataType() string {
 	case Bareword:
 		return types.Null
 	case Other:
-		return dt.MxDT
+		return dt.mxDT
 	default:
 		return types.Generic
 	}
 }
 
-func (dt *DataType) Marshal() ([]rune, error) {
-	b, err := json.Marshal(dt.Value)
+func (v *Value) Marshal() ([]rune, error) {
+	b, err := json.Marshal(v.Value)
 	if err != nil {
 		return nil, err
 	}
@@ -94,9 +105,26 @@ func (dt *DataType) NotValue() {
 	dt.value = !dt.value.(bool)
 }
 
-func (dt *DataType) Value() any {
-	if dt.subshell == nil {
-		return dt.value
+type Value struct {
+	Primitive Primitive
+	Value     any
+	DataType  string
+}
+
+func (dt *DataType) GetValue() (*Value, error) {
+	if dt.primitive == Function {
+		if dt.fn == nil {
+			panic("undefined function")
+		}
+		var err error
+		dt.value, dt.mxDT, err = dt.fn()
+		dt.primitive = scalar2Primitive(dt.mxDT)
+		return &Value{dt.primitive, dt.value, dt.mxDT}, err
 	}
-	return nil //TODO
+
+	if dt.mxDT == "" {
+		dt.mxDT = dt.dataType()
+	}
+
+	return &Value{dt.primitive, dt.value, dt.mxDT}, nil
 }

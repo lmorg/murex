@@ -88,7 +88,7 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			case '(':
 				// start nested string
 				tree.charPos++
-				value, err := tree.parseParen(exec)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return nil, nil, err
 				}
@@ -107,7 +107,11 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			if err != nil {
 				return nil, nil, err
 			}
-			o.keyValueI[1] = dt.Value
+			v, err := dt.GetValue()
+			if err != nil {
+				return nil, nil, err
+			}
+			o.keyValueI[1] = v.Value
 			tree.charPos++
 
 		case '{':
@@ -120,7 +124,11 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			if err != nil {
 				return nil, nil, err
 			}
-			o.keyValueI[1] = dt.Value
+			v, err := dt.GetValue()
+			if err != nil {
+				return nil, nil, err
+			}
+			o.keyValueI[1] = v.Value
 			tree.charPos++
 
 		case '$':
@@ -128,11 +136,15 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			case tree.nextChar() == '{':
 				// inline subshell
 				strOrVal := varFormatting(o.stage & 1)
-				subshell, v, _, err := tree.parseSubShell(exec, r, strOrVal)
+				subshell, fn, err := tree.parseSubShell(exec, r, strOrVal)
 				if err != nil {
 					return nil, nil, err
 				}
 				if exec {
+					v, _, err := fn()
+					if err != nil {
+						return nil, nil, err
+					}
 					o.keyValueI[o.stage&1] = v
 				} else {
 					o.keyValueI[o.stage&1] = string(subshell)
@@ -163,11 +175,19 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			}
 			switch tree.nextChar() {
 			case '{':
-				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				subshell, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return nil, nil, err
 				}
-				o.keyValueI[1] = v
+				if exec {
+					v, _, err := fn()
+					if err != nil {
+						return nil, nil, err
+					}
+					o.keyValueI[o.stage&1] = v
+				} else {
+					o.keyValueI[o.stage&1] = string(subshell)
+				}
 			default:
 				_, v, err := tree.parseVarArray(exec)
 				if err != nil {

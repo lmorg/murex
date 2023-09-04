@@ -30,72 +30,24 @@ func convertScalarToBareword(node *astNodeT) {
 	}
 }
 
-/*func expAssign(tree *ParserT, _ bool) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	convertScalarToBareword(left)
-
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
-	}
-
-	if right.key <= symbols.Bareword {
-		return raiseError(tree.expression, right, 0, fmt.Sprintf(
-			"right side of %s should not be a %s",
-			tree.currentSymbol().key, right.key))
-	}
-
-	var v interface{}
-	switch right.dt.Primitive {
-	case primitives.Array, primitives.Object:
-		b, err := json.Marshal(right.dt.Value)
-		if err != nil {
-			return err
-		}
-		v = string(b)
-
-	default:
-		v = right.dt.Value
-	}
-
-	err = tree.setVar(left.value, v, right.dt.DataType())
-	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
-		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		},
-	})
-}*/
-
 func expAssign(tree *ParserT, overwriteType bool) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
-	convertScalarToBareword(left)
+	convertScalarToBareword(leftNode)
 
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+	if leftNode.key != symbols.Bareword {
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
+			tree.currentSymbol().key, leftNode.key))
 	}
 
-	if right.key <= symbols.Bareword {
-		return raiseError(tree.expression, right, 0, fmt.Sprintf(
+	if rightNode.key <= symbols.Bareword {
+		return raiseError(tree.expression, rightNode, 0, fmt.Sprintf(
 			"right side of %s should not be a %s",
-			tree.currentSymbol().key, right.key))
+			tree.currentSymbol().key, rightNode.key))
 	}
 
 	var (
@@ -103,12 +55,17 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 		dt string
 	)
 
-	switch right.dt.Primitive {
+	right, err := rightNode.dt.GetValue()
+	if err != nil {
+		return err
+	}
+
+	switch right.Primitive {
 	case primitives.Array, primitives.Object:
 		if overwriteType {
 			dt = types.Json
 		} else {
-			dt = tree.p.Variables.GetDataType(left.Value())
+			dt = tree.p.Variables.GetDataType(leftNode.Value())
 			if dt == "" {
 				dt = types.Json
 			}
@@ -116,13 +73,13 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 
 		// this is ugly but Go's JSON marshaller is better behaved than Murexes on with empty values
 		if dt == types.Json {
-			b, err := json.Marshal(right.dt.Value)
+			b, err := json.Marshal(right.Value)
 			if err != nil {
 				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}
 			v = string(b)
 		} else {
-			b, err := lang.MarshalData(tree.p, dt, right.dt.Value)
+			b, err := lang.MarshalData(tree.p, dt, right.Value)
 			if err != nil {
 				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}
@@ -131,17 +88,18 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 
 	default:
 		if overwriteType {
-			dt = right.dt.DataType()
-			v = right.dt.Value
+			dt = right.DataType
+			v = right.Value
+
 		} else {
-			dt = tree.p.Variables.GetDataType(left.Value())
-			//panic("-->" + dt + "<--")
+			dt = tree.p.Variables.GetDataType(leftNode.Value())
 			if dt == "" || dt == types.Null {
-				dt = right.dt.DataType()
-				v = right.dt.Value
+				dt = right.DataType
+				v = right.Value
+
 			} else {
-				//panic(fmt.Sprintf("-->%s||%v<--", dt, right.dt.Value))
-				v, err = types.ConvertGoType(right.dt.Value, dt)
+
+				v, err = types.ConvertGoType(right.Value, dt)
 				if err != nil {
 					raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 				}
@@ -149,7 +107,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 		}
 	}
 
-	err = tree.setVar(left.value, v, dt)
+	err = tree.setVar(leftNode.value, v, dt)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
@@ -162,17 +120,22 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 }
 
 func expAssignAdd(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
-	convertScalarToBareword(left)
+	convertScalarToBareword(leftNode)
 
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+	right, err := rightNode.dt.GetValue()
+	if err != nil {
+		return err
+	}
+
+	if leftNode.key != symbols.Bareword {
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
+			tree.currentSymbol().key, leftNode.key))
 	}
 
 	/*if right.key != symbols.Number {
@@ -180,7 +143,7 @@ func expAssignAdd(tree *ParserT) error {
 			"right side should not be a %s", right.key))
 	}*/
 
-	v, dt, err := tree.getVar(left.value, varAsValue)
+	v, dt, err := tree.getVar(leftNode.value, varAsValue)
 	if err != nil {
 		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
@@ -194,43 +157,43 @@ func expAssignAdd(tree *ParserT) error {
 
 	switch dt {
 	case types.Number, types.Float:
-		if right.dt.Primitive != primitives.Number {
+		if right.Primitive != primitives.Number {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
 		}
-		result = v.(float64) + right.dt.Value().(float64)
+		result = v.(float64) + right.Value.(float64)
 
 	case types.Integer:
-		if right.dt.Primitive != primitives.Number {
+		if right.Primitive != primitives.Number {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
 		}
-		result = float64(v.(int)) + right.dt.Value().(float64)
+		result = float64(v.(int)) + right.Value.(float64)
 
 	case types.Boolean:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 
 	case types.Null:
-		switch right.dt.Primitive {
+		switch right.Primitive {
 		case primitives.String:
-			result = right.dt.Value().(string)
+			result = right.Value.(string)
 		case primitives.Number:
-			result = right.dt.Value().(float64)
+			result = right.Value.(float64)
 		default:
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
 		}
 
 	default:
-		if right.dt.Primitive != primitives.String {
+		if right.Primitive != primitives.String {
 			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
 		}
-		result = v.(string) + right.dt.Value().(string)
+		result = v.(string) + right.Value.(string)
 	}
 
-	err = tree.setVar(left.value, result, right.dt.DataType())
+	err = tree.setVar(leftNode.value, result, right.DataType)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
@@ -242,27 +205,38 @@ func expAssignAdd(tree *ParserT) error {
 	})
 }
 
-func expAssignSubtract(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+type assFnT func(float64, float64) float64
+
+func _assSub(lv float64, rv float64) float64  { return lv - rv }
+func _assMult(lv float64, rv float64) float64 { return lv * rv }
+func _assDiv(lv float64, rv float64) float64  { return lv / rv }
+
+func expAssignAndOperate(tree *ParserT, operation assFnT) error {
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
-	convertScalarToBareword(left)
+	convertScalarToBareword(leftNode)
 
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+	right, err := rightNode.dt.GetValue()
+	if err != nil {
+		return err
+	}
+
+	if leftNode.key != symbols.Bareword {
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
+			tree.currentSymbol().key, leftNode.key))
 	}
 
-	if right.key != symbols.Number {
-		return raiseError(tree.expression, right, 0, fmt.Sprintf(
+	if rightNode.key != symbols.Number {
+		return raiseError(tree.expression, rightNode, 0, fmt.Sprintf(
 			"right side of %s should not be a %s",
-			tree.currentSymbol().key, right.key))
+			tree.currentSymbol().key, rightNode.key))
 	}
 
-	v, dt, err := tree.getVar(left.value, varAsValue)
+	v, dt, err := tree.getVar(leftNode.value, varAsValue)
 	if err != nil {
 		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
@@ -276,129 +250,17 @@ func expAssignSubtract(tree *ParserT) error {
 
 	switch dt {
 	case types.Number, types.Float:
-		f = v.(float64) - right.dt.Value().(float64)
+		f = operation(v.(float64), right.Value.(float64))
 	case types.Integer:
-		f = float64(v.(int)) - right.dt.Value().(float64)
+		f = operation(float64(v.(int)), right.Value.(float64))
 	case types.Null:
-		f = 0 - right.dt.Value().(float64)
+		f = operation(0, right.Value.(float64))
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 	}
 
-	err = tree.setVar(left.value, f, right.dt.DataType())
-	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
-		pos: tree.ast[tree.astPos].pos,
-		dt:  primitives.NewPrimitive(primitives.Null, nil),
-	})
-}
-
-func expAssignMultiply(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	convertScalarToBareword(left)
-
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
-	}
-
-	if right.key != symbols.Number {
-		return raiseError(tree.expression, right, 0, fmt.Sprintf(
-			"right side of %s should not be a %s",
-			tree.currentSymbol().key, right.key))
-	}
-
-	v, dt, err := tree.getVar(left.value, varAsValue)
-	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
-			// var doesn't exist and we have strict types disabled so lets create var
-			v, dt, err = float64(0), types.Number, nil
-		} else {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-		}
-	}
-
-	var f float64
-
-	switch dt {
-	case types.Number, types.Float:
-		f = v.(float64) * right.dt.Value().(float64)
-	case types.Integer:
-		f = float64(v.(int)) * right.dt.Value().(float64)
-	case types.Null:
-		f = 0
-	default:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s %s", tree.currentSymbol().key, dt))
-	}
-
-	err = tree.setVar(left.value, f, right.dt.DataType())
-	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
-		pos: tree.ast[tree.astPos].pos,
-		dt:  primitives.NewPrimitive(primitives.Null, nil),
-	})
-}
-
-func expAssignDivide(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	convertScalarToBareword(left)
-
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
-	}
-
-	if right.key != symbols.Number {
-		return raiseError(tree.expression, right, 0, fmt.Sprintf(
-			"right side of %s should not be a %s",
-			tree.currentSymbol().key, right.key))
-	}
-
-	v, dt, err := tree.getVar(left.value, varAsValue)
-	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
-			// var doesn't exist and we have strict types disabled so lets create var
-			v, dt, err = float64(0), types.Number, nil
-		} else {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-		}
-	}
-
-	var f float64
-
-	switch dt {
-	case types.Number, types.Float:
-		f = v.(float64) / right.dt.Value().(float64)
-	case types.Integer:
-		f = float64(v.(int)) / right.dt.Value().(float64)
-	case types.Null:
-		f = 0 / right.dt.Value().(float64)
-	default:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s %s", tree.currentSymbol().key, dt))
-	}
-
-	err = tree.setVar(left.value, f, right.dt.DataType())
+	err = tree.setVar(leftNode.value, f, right.DataType)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
@@ -411,32 +273,37 @@ func expAssignDivide(tree *ParserT) error {
 }
 
 func expAssignMerge(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
-	convertScalarToBareword(left)
-
-	if left.key != symbols.Bareword {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, left.key))
+	right, err := rightNode.dt.GetValue()
+	if err != nil {
+		return err
 	}
 
-	rightVal := right.dt.Value()
-	if right.dt.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
-		rightVal, err = lang.UnmarshalDataBuffered(tree.p, []byte(rightVal.(string)), right.dt.MxDT)
+	convertScalarToBareword(leftNode)
+
+	if leftNode.key != symbols.Bareword {
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
+			"left side of %s should be a bareword, instead got %s",
+			tree.currentSymbol().key, leftNode.key))
+	}
+
+	rightVal := right.Value
+	if right.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
+		rightVal, err = lang.UnmarshalDataBuffered(tree.p, []byte(rightVal.(string)), right.DataType)
 		if err != nil {
 			return err
 		}
 	}
 
-	v, dt, err := tree.getVar(left.value, varAsValue)
+	v, dt, err := tree.getVar(leftNode.value, varAsValue)
 	if err != nil {
 		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
-			err = tree.setVar(left.value, rightVal, right.dt.DataType())
+			err = tree.setVar(leftNode.value, rightVal, right.DataType)
 			if err != nil {
 				return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}
@@ -452,13 +319,13 @@ func expAssignMerge(tree *ParserT) error {
 
 	merged, err := alter.Merge(tree.p.Context, v, nil, rightVal)
 	if err != nil {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
 			"cannot perform merge '%s' into '%s': %s",
-			right.Value(), left.Value(),
+			right.Value, leftNode.Value(),
 			err.Error()))
 	}
 
-	err = tree.setVar(left.value, merged, dt)
+	err = tree.setVar(leftNode.value, merged, dt)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}

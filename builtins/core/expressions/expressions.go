@@ -18,27 +18,31 @@ func cmdExpressions(p *lang.Process) error {
 		return err
 	}
 
-	dt := result.DataType()
-	p.Stdout.SetDataType(dt)
+	val, err := result.GetValue()
+	if err != nil {
+		return err
+	}
 
-	if result.Value == nil && dt == types.Json {
+	p.Stdout.SetDataType(val.DataType)
+
+	if val.Value == nil && val.DataType == types.Json {
 		_, err = p.Stdout.Write([]byte{'n', 'u', 'l', 'l'})
 		return err
 	}
 
 	var b []byte
 
-	switch result.Value.(type) {
+	switch val.Value.(type) {
 	case string:
-		b = []byte(result.Value.(string))
+		b = []byte(val.Value.(string))
 	default:
-		b, err = lang.MarshalData(p, dt, result.Value)
+		b, err = lang.MarshalData(p, val.DataType, val.Value)
 		if err != nil {
 			return err
 		}
 	}
 
-	if dt == types.Boolean && !types.IsTrue(b, 0) {
+	if val.DataType == types.Boolean && !types.IsTrue(b, 0) {
 		p.ExitNum = 1
 	}
 
