@@ -5,7 +5,6 @@ func expLogicalAnd(tree *ParserT) error {
 	if err != nil {
 		return err
 	}*/ /*
-
 		convertScalarToBareword(left)
 
 		if left.key != symbols.Bareword {

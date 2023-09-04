@@ -1,4 +1,4 @@
-name: Tests Murex
+name: Test Murex
 
 on:
   push:

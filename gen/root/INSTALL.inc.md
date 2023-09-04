@@ -17,8 +17,6 @@
   - [MacPorts](#macports)
 - [Compiling From Source](#compiling-from-source)
   - [Installation From Source Steps](#installation-from-source-steps)
-- [Compiling On Windows](#compiling-on-windows)
-- [Including Optional Builtins](#including-optional-builtins)
 - [External Dependencies (Optional)](#external-dependencies-optional)
 - [Recommended Terminal Typeface](#recommended-terminal-typeface)
 
@@ -80,8 +78,7 @@ Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 **Prerequisites:**
 
-You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
-as well as your `$GOPATH` environmental variable set. 
+You will need `go` (Golang) compiler, and `git` installed.
 
 > Go 1.18 or higher is required.
 
@@ -93,78 +90,19 @@ package manager first but see further reading below if you get stuck.
 
 * [How to install Go](https://golang.org/doc/install)
 * [How to install git](https://github.com/git-guides/install-git)
-* [How to install gcc](https://gcc.gnu.org/install/)
-* [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
 ### Installation From Source Steps
 
-The following instructions are assuming you're compiling on a POSIX-compatible
-system like Linux, BSD or macOS. Compiling from source is untested on Plan 9
-(if you run into issues there then please use the pre-compiled binary for that
-platform) and Windows. In the case of Windows you may run into issues with the
-`gcc` installation and some of the commands below will need to be adapted (eg
-`murex.exe` used instead of `./murex`).
-
-> Compiling from source is not recommended unless you already have a strong
+> Compiling from source is not recommended unless you already have a reasonable
 > understanding of compiling Go projects for your specific platform.
 
-**Importing the source code:**
+Installation from source is as simple as the following one liner:
 
-At present, Murex depends on being in a specific directory hierarchy for
-the tests to work and packages to import correctly. These instructions will
-talk you through creating that initial structure ready to import the source
-into. Experienced users in Go may opt to ignore some of these steps and run
-`go get -u github.com/lmorg/murex` instead. While this _should_ work in most
-cases, it is difficult to run automated tests to ensure any updates doesn't
-break the `go get` import tool. And thus that approach is not officially
-supported. If you are in any doubt, please follow the `git clone` process
-below.
+```bash
+GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
+```
 
-First create the directory path and clone the source into the appropriate
-directory structure.
-
-    mkdir -p $GOPATH/src/github.com/lmorg/murex
-    cd $GOPATH/src/github.com/lmorg/murex
-    git clone https://github.com/lmorg/murex .
-
-At this point you can add and remove any optional builtins by following the
-instructions on this located further down this document. This is entirely
-optional as Murex attempts to ship with sane defaults.
-
-**Compile the code:**
-
-    go build github.com/lmorg/murex
-
-**Test the executable (optional stage):**
-
-    ./murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *
-
-**Start the shell:**
-
-    ./murex
-
-## Compiling On Windows
-
-For building on Windows 10, a GCC compiler is needed for the [go-sqlite3]( https://github.com/mattn/go-sqlite3)
-module.
-
-Build instructions for the module support building Murex as well: https://github.com/mattn/go-sqlite3#windows
-
-1. Install a Windows `gcc` toolchain, for example https://jmeubank.github.io/tdm-gcc
-2. Ensure that `gcc` appears in the Windows path
-3. `go build` within the Murex source path
-
-These instructions are expected to work on other versions of Windows but, at
-time of writing, haven't yet been officially tested.
-
-## Including Optional Builtins
-
-Some optional builtins will be included by default, however there may be others
-you wish to include which are not part of the default build (such as `qr`). To
-add them, copy (or symlink) the applicable include file from
-`builtins/import_src` to `builtins/import_build`.
-
-A tool will be introduced in a later version to automate this.
+...where `/usr/bin` can be replaced with your preferred install location
 
 ## External Dependencies (Optional)
 
@@ -173,6 +111,9 @@ Some of Murex's extended features will have additional external dependencies.
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
   [http://aspell.net](http://aspell.net)
+
+* `git`: This is used by Murex's package manager, `murex-package`.
+  [How to install git](https://github.com/git-guides/install-git)
 
 ## Recommended Terminal Typeface
 
