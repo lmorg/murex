@@ -31,4 +31,4 @@ jobs:
 
       - name: Go Test
         run: |
-          go install github.com/lmorg/murex
+          go install github.com/lmorg/murex@latest
