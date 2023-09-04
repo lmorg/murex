@@ -8,7 +8,7 @@
     `signal` sends an operating system RPC (known as "signal") to a specified
     process, identified via it's process ID ("pid").
 
-    {{ include "builtins/events/signalTrap/signals.inc.md" }}
+    {{ include "builtins/events/onSignalReceived/signals.inc.md" }}
 
     ### Listing supported signals
 
@@ -35,7 +35,7 @@
     **Send a signal:**
 
     ```
-    {{ include "behavioural/signalTrap.mx" }}
+    {{ include "behavioural/onSignalReceived.mx" }}
     ```
 
     **List supported signals:**
@@ -87,7 +87,7 @@
     SIGUSR2: >-
       **"Signal user 2"** -- user defined
   Detail: |-
-    {{ include "builtins/events/signalTrap/signal_detail.inc.md" }}
+    {{ include "builtins/events/onSignalReceived/signal_detail.inc.md" }}
 
     ### Catching incoming signals
 
@@ -99,6 +99,6 @@
   - event
   - variables/MUREX_EXE
   - out
-  - events/signaltrap
+  - events/onSignalReceived
   - user-guide/terminal-keys
   - user-guide/interactive-shell

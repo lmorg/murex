@@ -1,6 +1,7 @@
 #!/usr/bin/env murex
 
 project = "github.com/lmorg/murex"
+tags    = open(builtins/optional/standard-opts.txt)
 
 args: args %{
     AllowAdditional: false,
@@ -86,7 +87,7 @@ $targets -> formap os cpus {
             #}
 
             set bin=./bin/murex-$version-$os-$arch$ext
-            go build -o $bin $project
+            go build -tags $tags -o $bin $project
             
             !if { $args->[[/Flags/--compress]] } else { compress $bin $ext }
             

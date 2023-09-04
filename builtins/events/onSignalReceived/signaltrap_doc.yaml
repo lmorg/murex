@@ -1,23 +1,23 @@
-- DocumentID: signaltrap
+- DocumentID: onsignalreceived
   Title: >+
-    `signalTrap`
+    `onSignalReceived`
   CategoryID: events
   Summary: >-
     Trap OS signals
   Description: |-
-    `signalTrap` events are triggered by OS signals.
+    `onSignalReceived` events are triggered by OS signals.
 
-    {{ include "builtins/events/signalTrap/signals.inc.md" }}
+    {{ include "builtins/events/onSignalReceived/signals.inc.md" }}
 
     This event is designed to be used in shell scripts. While this event can be
     used with the shell in interactive mode (ie from the REPL prompt), this might
-    result in unexpected behaviour. Thus it is only recommended to use `signalTrap`
-    for shell scripts.
+    result in unexpected behaviour. Thus it is only recommended to use
+    `onSignalReceived` for shell scripts.
   Usage: |-
     ```
-    event onPrompt name=SIGNAL { code block }
+    event onSignalReceived name=SIGNAL { code block }
 
-    !event onPrompt [SIGNAL]name
+    !event onSignalReceived [SIGNAL]name
     ```
   Payload: |-
     The following payload is passed to the function via STDIN:
@@ -51,7 +51,7 @@
     **Interrupt 'SIGINT':**
 
     ```
-    event signalTrap example=SIGINT {
+    event onSignalReceived example=SIGINT {
         out "SIGINT received, not quitting"
     }
     ```
@@ -73,7 +73,7 @@
       **"Signal user 2"** -- user defined
 
   Detail: |-
-    {{ include "builtins/events/signalTrap/signal_detail.inc.md" }}
+    {{ include "builtins/events/onSignalReceived/signal_detail.inc.md" }}
 
     ### Stdout
 
@@ -89,17 +89,17 @@
 
     ### Namespacing
 
-    The `signalTrap` event differs a little from other events when it comes to the
-    namespacing of interrupts. Typically you cannot have multiple interrupts with
-    the same name for an event. However with `onPrompt` their names are further 
-    namespaced by the interrupt name. In layman's terms this means `example=SIGINT`
-    wouldn't overwrite `example=SIGQUIT`.
+    The `onSignalReceived` event differs a little from other events when it comes
+    to the namespacing of interrupts. Typically you cannot have multiple interrupts
+    with the same name for an event. However with `onPrompt` their names are
+    further namespaced by the interrupt name. In layman's terms this means
+    `example=SIGINT` wouldn't overwrite `example=SIGQUIT`.
     
     The reason for this namespacing is because, unlike other events, you might
     legitimately want the same name for different interrupts.
   Synonyms:
-  - signaltrap
-  - signalTrap
+  - onsignalreceived
+  - onSignalReceived
   Related:
   - onprompt
   - oncommandcompletion

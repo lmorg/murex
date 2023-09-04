@@ -1,10 +1,10 @@
-# `signalTrap`
+# `onSignalReceived`
 
 > Trap OS signals
 
 ## Description
 
-`signalTrap` events are triggered by OS signals.
+`onSignalReceived` events are triggered by OS signals.
 
 The following quote from [Wikipedia explains what signals](https://en.wikipedia.org/wiki/Signal_(IPC))
 are:
@@ -20,15 +20,15 @@ are:
 
 This event is designed to be used in shell scripts. While this event can be
 used with the shell in interactive mode (ie from the REPL prompt), this might
-result in unexpected behaviour. Thus it is only recommended to use `signalTrap`
-for shell scripts.
+result in unexpected behaviour. Thus it is only recommended to use
+`onSignalReceived` for shell scripts.
 
 ## Usage
 
 ```
-event onPrompt name=SIGNAL { code block }
+event onSignalReceived name=SIGNAL { code block }
 
-!event onPrompt [SIGNAL]name
+!event onSignalReceived [SIGNAL]name
 ```
 
 ## Valid Interrupts
@@ -82,7 +82,7 @@ are UPPERCASE strings.
 **Interrupt 'SIGINT':**
 
 ```
-event signalTrap example=SIGINT {
+event onSignalReceived example=SIGINT {
     out "SIGINT received, not quitting"
 }
 ```
@@ -134,11 +134,11 @@ of execution matters, then you can prefix the names with a number, eg `10_jump`
 
 ### Namespacing
 
-The `signalTrap` event differs a little from other events when it comes to the
-namespacing of interrupts. Typically you cannot have multiple interrupts with
-the same name for an event. However with `onPrompt` their names are further 
-namespaced by the interrupt name. In layman's terms this means `example=SIGINT`
-wouldn't overwrite `example=SIGQUIT`.
+The `onSignalReceived` event differs a little from other events when it comes
+to the namespacing of interrupts. Typically you cannot have multiple interrupts
+with the same name for an event. However with `onPrompt` their names are
+further namespaced by the interrupt name. In layman's terms this means
+`example=SIGINT` wouldn't overwrite `example=SIGQUIT`.
 
 The reason for this namespacing is because, unlike other events, you might
 legitimately want the same name for different interrupts.
@@ -160,4 +160,4 @@ legitimately want the same name for different interrupts.
 
 <hr/>
 
-This document was generated from [builtins/events/signalTrap/signaltrap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/signalTrap/signaltrap_doc.yaml).
+This document was generated from [builtins/events/onSignalReceived/signaltrap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/signaltrap_doc.yaml).

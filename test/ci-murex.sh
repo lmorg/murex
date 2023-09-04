@@ -15,7 +15,7 @@ go install github.com/lmorg/murex
 
 
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
-OLDVER="$(curl -s https://murex.rocks/VERSION | head -n1)"
+OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
 
 if [ "$MUREXVERSION" == "$OLDVER" ]; then
     echo "No version change, skipping tests."

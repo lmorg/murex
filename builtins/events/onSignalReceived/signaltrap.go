@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/lists"
 )
 
-var eventType = "signalTrap"
+var eventType = "onSignalReceived"
 
 const errInvalidInterrupt = `invalid interrupt, '%s'. Expecting a signal name, like "SIGINT"`
 

@@ -1,4 +1,7 @@
-package imports
+//go:build opt_sexp
+// +build opt_sexp
+
+package optional
 
 // This is an optional builtin for S-Expressions support.
 // Uses a 3rd party library: github.com/abesto/sexp

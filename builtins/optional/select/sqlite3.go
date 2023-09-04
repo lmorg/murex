@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-
-	_ "github.com/mattn/go-sqlite3" // import sqlite3 for use with the SQL package
 )
 
 const (

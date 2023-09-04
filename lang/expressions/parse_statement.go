@@ -247,16 +247,15 @@ func (tree *ParserT) parseStatement(exec bool) error {
 						appendToParam(tree, r...)
 						continue
 					}
-
 					tree.charPos = pos
 				}
-
 				// parenthesis is a string (deprecated)
 				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return err
 				}
 				appendToParam(tree, value...)
+
 			case tree.statement.validFunction:
 				// function(parameters...)
 				value, fn, err := tree.parseFunction(exec, tree.statement.paramTemp, varAsString)
