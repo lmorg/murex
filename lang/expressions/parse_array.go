@@ -118,15 +118,19 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			// inline scalar
 			switch tree.nextChar() {
 			case '{':
-				_, fn, err := tree.parseSubShell(exec, r, varAsValue)
+				r, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return nil, nil, err
 				}
-				v, _, err := fn()
-				if err != nil {
-					return nil, nil, err
+				if exec {
+					v, _, err := fn()
+					if err != nil {
+						return nil, nil, err
+					}
+					slice = append(slice, v)
+				} else {
+					slice = append(slice, string(r))
 				}
-				slice = append(slice, v)
 
 			default:
 				_, v, _, err := tree.parseVarScalar(exec, exec, varAsValue)
@@ -148,13 +152,17 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			)
 			switch tree.nextChar() {
 			case '{':
-				_, fn, err := tree.parseSubShell(exec, r, varAsValue)
+				r, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return nil, nil, err
 				}
-				v, _, err = fn()
-				if err != nil {
-					return nil, nil, err
+				if exec {
+					v, _, err = fn()
+					if err != nil {
+						return nil, nil, err
+					}
+				} else {
+					v = string(r)
 				}
 			default:
 				name, v, err = tree.parseVarArray(exec)

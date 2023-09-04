@@ -1,7 +1,6 @@
 package expressions
 
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -73,7 +72,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 
 		// this is ugly but Go's JSON marshaller is better behaved than Murexes on with empty values
 		if dt == types.Json {
-			b, err := json.Marshal(right.Value)
+			b, err := right.Marshal()
 			if err != nil {
 				raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}

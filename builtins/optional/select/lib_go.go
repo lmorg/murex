@@ -6,3 +6,5 @@ package sqlselect
 import (
 	_ "modernc.org/sqlite"
 )
+
+const driverName = "sqlite"

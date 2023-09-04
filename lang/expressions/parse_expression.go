@@ -262,8 +262,8 @@ func (tree *ParserT) parseExpression(exec bool) error {
 		case '$':
 			switch {
 			case tree.nextChar() == '{':
-				runes, fn, err := tree.parseSubShell(false, r, varAsValue)
-				//runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
+				//runes, fn, err := tree.parseSubShell(false, r, varAsValue)
+				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}

@@ -44,6 +44,7 @@ func errVarCannotGetProperty(name, path string, err error) error {
 }
 
 func errVarCannotStoreVariable(name string, err error) error {
+	panic(err)
 	return fmt.Errorf("cannot store variable '%s': %s", name, err.Error())
 }
 
@@ -707,7 +708,7 @@ func convertDataType(p *Process, value interface{}, dataType string, name *strin
 			iface = s
 		}
 	default:
-		s, err = varConvertInterface(v, dataType, name)
+		s, err = varConvertInterface(p, v, dataType, name)
 		iface = value
 	}
 	return s, iface, err
@@ -743,7 +744,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }
 
-func varConvertInterface(value interface{}, dataType string, name *string) (string, error) {
+func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
 	MarshalData := Marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
@@ -755,7 +756,7 @@ func varConvertInterface(value interface{}, dataType string, name *string) (stri
 		return s.(string), nil
 	}
 
-	b, err := MarshalData(ShellProcess, value)
+	b, err := MarshalData(p, value)
 	if err != nil {
 		return "", errVarCannotStoreVariable(*name, err)
 	}
