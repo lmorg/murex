@@ -496,34 +496,34 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) error {
 	if exec {
-		switch v.(type) {
+		switch t := v.(type) {
 		case []string:
-			for i := range v.([]string) {
-				value = []rune(v.([]string)[i])
+			for i := range t {
+				value = []rune(t[i])
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case [][]rune:
-			for i := range v.([][]rune) {
-				value = v.([][]rune)[i]
+			for i := range t {
+				value = t[i]
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case [][]byte:
-			for i := range v.([][]byte) {
-				value = []rune(string(v.([][]rune)[i]))
+			for i := range t {
+				value = []rune(string(t[i]))
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case []interface{}:
-			for i := range v.([]interface{}) {
-				s, err := types.ConvertGoType(v.([]interface{})[i], types.String)
+			for i := range t {
+				s, err := types.ConvertGoType(t[i], types.String)
 				if err != nil {
 					return err
 				}
@@ -539,7 +539,7 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 				return err
 			}
 		default:
-			s, err := types.ConvertGoType(v.([]interface{}), types.String)
+			s, err := types.ConvertGoType(t, types.String)
 			if err != nil {
 				return err
 			}

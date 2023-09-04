@@ -38,6 +38,7 @@ func cmdWhichTty(p *lang.Process) error {
 		s := whichTtyString(cmds[i])
 		if len(s) == 0 {
 			p.Stdout.Writeln([]byte(fmt.Sprintf("%s => unknown", cmds[i])))
+			p.ExitNum = 1
 			continue
 		}
 
