@@ -50,8 +50,10 @@ page to select your platform.
 
 From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/packages/murex)
 
-    wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-    makepkg --syncdeps --install 
+```bash
+wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
+makepkg --syncdeps --install 
+```
 
 ### FreeBSD Ports
 
@@ -59,11 +61,15 @@ Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 ### Homebrew
 
-    brew install murex
-    
+```bash
+brew install murex
+```
+
 ### MacPorts
 
-    sudo port install murex
+```bash
+sudo port install murex
+```
 
 ## Compiling From Source
 
@@ -120,6 +126,8 @@ pretty well. So the overall experience is a clean and readable terminal.
 
 ## See Also
 
+* [Compatibility Commitment](/compatibility.md):
+  Hack confidence in our backwards compatibility 
 * [Download](/DOWNLOAD.md):
   Murex download links
 * [Supported Platforms](docs//supported-platforms.md):

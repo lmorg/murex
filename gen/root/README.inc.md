@@ -254,11 +254,17 @@ See [INSTALL](https://murex.rocks/INSTALL.html) for details.
 
 ## Language Tour
 
-Read the [language tour](https://murex.rocks/docs/tour.html) to get started.
+Read the [language tour](https://murex.rocks/tour.html) to get started.
 
 ## Discuss Murex
 
 Discussions presently happen in [Github discussions](https://github.com/lmorg/murex/discussions).
+
+## Compatibility Commitment
+
+Murex is committed to backwards compatibility. While we do want to continue to
+grow and improve the shell, this will not come at the expense of long term
+usability. [Read more](compatibility.md)
 
 ## Known bugs / TODO
 

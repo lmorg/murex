@@ -123,6 +123,11 @@ Murex will always be open source software. It wouldn't exist without open
 source tooling and therefore it will always serve to enhance the open source
 community.
 
+## See Also
+
+* [Compatibility Commitment](/compatibility.md):
+  Hack confidence in our backwards compatibility 
+
 <hr/>
 
 This document was generated from [gen/root/CONTRIBUTING_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/CONTRIBUTING_doc.yaml).

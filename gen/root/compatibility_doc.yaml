@@ -1,0 +1,12 @@
+- DocumentID: compatibility
+  Title: >-
+    Compatibility Commitment
+  CategoryID: Murex
+  Summary: >-
+    Hack confidence in our backwards compatibility 
+  Description: |-
+    {{ include "gen/root/compatibility.inc.md" }}
+  Synonyms:
+  Related:
+    - INSTALL
+    - CONTRIBUTING
