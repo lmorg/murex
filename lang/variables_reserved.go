@@ -10,7 +10,7 @@ import (
 )
 
 var envDataTypes = map[string][]string{
-	types.Path:  {"HOME", "PWD", "OLDPWD", "SHELL", "HOMEBREW_CELLAR", "HOMEBREW_PREFIX", "HOMEBREW_REPOSITORY"},
+	types.Path:  {"HOME", "PWD", "OLDPWD", "SHELL", "HOMEBREW_CELLAR", "HOMEBREW_PREFIX", "HOMEBREW_REPOSITORY", "GOPATH", "GOROOT", "GOBIN"},
 	types.Paths: {"PATH", "LD_LIBRARY_PATH", "MANPATH", "INFOPATH"},
 }
 
@@ -59,10 +59,23 @@ func getPwdValue() (interface{}, error) {
 	return path.Unmarshal([]byte(pwd))
 }
 
-func getEnvVarValue() interface{} {
-	v := make(map[string]interface{})
-	envvars.All(v)
-	return v
+func getEnvVarValue(v *Variables) interface{} {
+	var err error
+	evTable := make(map[string]interface{})
+	envvars.All(evTable)
+	for env, val := range evTable {
+		val, err = v.getEnvValueValue(env, val.(string))
+		if err == nil {
+			evTable[env] = val
+		}
+	}
+	return evTable
+}
+
+func getEnvVarString() interface{} {
+	evTable := make(map[string]interface{})
+	envvars.All(evTable)
+	return evTable
 }
 
 func getGlobalValues() interface{} {

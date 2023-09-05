@@ -141,7 +141,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
 	case ENV:
-		return getEnvVarValue(), nil
+		return getEnvVarValue(v), nil
 
 	case GLOBAL:
 		return getGlobalValues(), nil
@@ -200,9 +200,9 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	}
 
 	// variable not found so lets fallback to the environmental variables
-	value = os.Getenv(name)
-	if value != "" {
-		return value, nil
+	s, exists := os.LookupEnv(name)
+	if exists {
+		return v.getEnvValueValue(name, s)
 	}
 
 	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
@@ -231,6 +231,16 @@ func (v *Variables) getValueValue(name string) interface{} {
 
 	v.mutex.Unlock()
 	return value
+}
+
+func (v *Variables) getEnvValueValue(name, str string) (interface{}, error) {
+	dt := getEnvVarDataType(name)
+	if dt == types.String {
+		return str, nil
+	}
+
+	value, err := UnmarshalDataBuffered(v.process, []byte(str), dt)
+	return value, err
 }
 
 // GetString returns a string representation of the data stored in the requested variable
@@ -275,7 +285,7 @@ func (v *Variables) GetString(path string) (string, error) {
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
 	case ENV:
-		b, err := json.Marshal(getEnvVarValue(), v.process.Stdout.IsTTY())
+		b, err := json.Marshal(getEnvVarString(), v.process.Stdout.IsTTY())
 		return string(b), err
 
 	case GLOBAL:

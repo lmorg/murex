@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+
+	"github.com/lmorg/murex/lang"
 )
 
 func Recursive(ctx context.Context, path string, v interface{}, separator string, writeString func(string) error, iteration int) error {
@@ -189,6 +191,9 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 
 	case string, bool, int, float64, nil, float32, uint, int8, int16, int32, int64, uint8, uint16, uint32, uint64:
 		return nil
+
+	case lang.MxInterface:
+		return Recursive(ctx, path, t.GetValue(), separator, writeString, iteration)
 
 	default:
 		return fmt.Errorf("found %T but no case exists for handling it", t)
