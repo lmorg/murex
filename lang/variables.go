@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 )
 
 func errVariableReserved(name string) error {
@@ -44,7 +45,6 @@ func errVarCannotGetProperty(name, path string, err error) error {
 }
 
 func errVarCannotStoreVariable(name string, err error) error {
-	panic(err)
 	return fmt.Errorf("cannot store variable '%s': %s", name, err.Error())
 }
 
@@ -384,7 +384,7 @@ func (v *Variables) GetDataType(path string) string {
 		return ""
 	case 1:
 		return v.getDataType(split[0])
-	case 2:
+	default:
 		switch split[0] {
 		case ENV:
 			return getEnvVarDataType(split[1])
@@ -393,8 +393,7 @@ func (v *Variables) GetDataType(path string) string {
 		case MODULE:
 			return ModuleVariables.GetDataType(v.process, split[1])
 		}
-		fallthrough
-	default:
+
 		val, err := v.getValue(split[0])
 		if err != nil {
 			return v.getDataType(split[0])
@@ -440,7 +439,7 @@ func (v *Variables) getDataType(name string) string {
 		return types.Path
 
 	case MUREX_ARGV, MUREX_ARGS:
-		return types.String
+		return types.Json
 
 	case PWD:
 		return types.Path
@@ -507,12 +506,13 @@ func getGlobalDataType(name string) (dt string) {
 }
 
 func getEnvVarDataType(name string) string {
-	switch name {
-	case "PATH", "LD_LIBRARY_PATH":
-		return types.Paths
-	default:
-		return types.String
+	for dt, v := range envDataTypes {
+		if lists.Match(v, name) {
+			return dt
+		}
 	}
+
+	return types.String
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {

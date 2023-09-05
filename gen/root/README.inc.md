@@ -171,15 +171,15 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 
 <!-- markdownlint-restore -->
 
+More examples are available on [Github](https://github.com/lmorg/murex/tree/master/examples).
+
 ## 📦 Easy to Install
 
-Install `Murex` from your favorite package manager
+Install `Murex` from your favorite package manager:
 
 ::: code-tabs#shell
 
 @tab macOS
-
-
 ```bash
 # via Homebrew:
 brew install murex
@@ -196,17 +196,17 @@ makepkg --syncdeps --install
 ```
 
 @tab FreeBSD
-```
-# Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/)
+```bash
+pkg install murex
 ```
 
 :::
 
-More options are available in the [INSTALL](install/) document
+More options are available in the [INSTALL](install/) document.
 
 ## 🛟 Getting Started
 
-Take your your first steps with `Murex` by following our [Language Tutorial](tour/)
+Take your your first steps with `Murex` by following our [Language Tutorial](tour/).
 
 {{ else }}# Murex: A Smarter Shell
 

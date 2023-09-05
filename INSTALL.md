@@ -57,7 +57,9 @@ makepkg --syncdeps --install
 
 ### FreeBSD Ports
 
-Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
+```bash
+pkg install murex
+```
 
 ### Homebrew
 

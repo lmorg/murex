@@ -3,10 +3,16 @@ package lang
 import (
 	"os"
 
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/path"
 	"github.com/lmorg/murex/utils/readline"
 )
+
+var envDataTypes = map[string][]string{
+	types.Path:  {"HOME", "PWD", "OLDPWD", "SHELL", "HOMEBREW_CELLAR", "HOMEBREW_PREFIX", "HOMEBREW_REPOSITORY"},
+	types.Paths: {"PATH", "LD_LIBRARY_PATH", "MANPATH", "INFOPATH"},
+}
 
 func getVarSelf(p *Process) interface{} {
 	bg := p.Scope.Background.Get()
