@@ -20,8 +20,8 @@ if you want to learn more about shell scripting in Murex.
 - [Arrays](#arrays)
 - [Objects](#objects)
 - [Sub-shells](#sub-shells)
+- [Common one-liners](#common-one-liners)
 - [Footnotes](#footnotes)
-- [Others](#others)
 
 </div>
 
@@ -116,15 +116,12 @@ if you want to learn more about shell scripting in Murex.
 | Sub-shell, string | `"$(commands)"` <br/><br/> eg `"echo $(echo "Hello world")"` | `${commands}` [[5]](#footnotes) <br/><br/> eg `out ${out Hello world}` |
 | Sub-shell, arrays | `$(commands)` <br/><br/> eg `$(echo 1 2 3)` | `@{commands}` [[5]](#footnotes) <br/><br/> eg `out @{ %[1,2,3] }` |
 
-### Others
+### Common one-liners
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-|Add PATH entries|export PATH=/usr/local/bin:$HOME/bin:$PATH|$PATH -> :paths: prepend /usr/local/bin $HOME/bin -> export PATH|
-|Iterate files|for i in $(find . -maxdepth 1 -mindepth 1 -type d); do<br/>echo $i<br/>done|g * -> f +d -> foreach i {<br/>out $i<br/>}|
-
-
-
-
+| Add `$PATH` entries | `export PATH=$PATH:/usr/local/bin:$HOME/bin` | The same Bash code works in Murex too. However you can also take advantage of Murex treating `$PATH` as an array: <br/>`$PATH \| :paths: append /usr/local/bin $HOME/bin \| export PATH` |
+| Iterate directories | `for i in $(find . -maxdepth 1 -mindepth 1 -type d); do`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`echo $i`<br/>`done`| `f +d \| foreach dir {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`out $i`<br/>`}` |
+| If path exists... | `if [ -d "$path" ]; then`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`fi` | `if { g $path \| f +d } then {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`}` |
 ### Footnotes
 
 1. Supported for compatibility with traditional shells like Bash.
