@@ -96,22 +96,22 @@ jobs:
           done
           find docs -name "*.md" -exec ./murex gen/website/find-exec.mx {} \;
           
-          sed -i '0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;' \
-                  README.html
-          
-          sed -i '0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;' \
-                  INSTALL.html
-          
-          sed -i '0,/<img src/s//<img class="no-border" src/;' \
-                  DOWNLOAD.html
-          
-          sed -i 's.\\|.|.g;' \
-                  docs/user-guide/rosetta-stone.html
+          #sed -i '0,/<img src/s//<img class="no-border" src/;
+          #        0,/<img src/s//<img class="no-border" src/;
+          #        0,/<img src/s//<img class="no-border" src/;' \
+          #        README.html
+          #
+          #sed -i '0,/<img src/s//<img class="no-border" src/;
+          #        0,/<img src/s//<img class="no-border" src/;
+          #        0,/<img src/s//<img class="no-border" src/;
+          #        0,/<img src/s//<img class="no-border" src/;' \
+          #        INSTALL.html
+          #
+          #sed -i '0,/<img src/s//<img class="no-border" src/;' \
+          #        DOWNLOAD.html
+          #
+          #sed -i 's.\\|.|.g;' \
+          #        docs/user-guide/rosetta-stone.html
           
           echo "$MUREXVERSION" > VERSION
           
