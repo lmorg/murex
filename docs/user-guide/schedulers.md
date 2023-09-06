@@ -1,4 +1,4 @@
-# Schedulers - User Guide
+# Schedulers
 
 > Overview of the different schedulers (or 'run modes') in Murex
 
@@ -50,3 +50,7 @@ the pipeline.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [gen/user-guide/schedulers_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/schedulers_doc.yaml).

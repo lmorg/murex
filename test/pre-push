@@ -12,23 +12,14 @@ ctrl_c() {
     exit 1
 }
 
-echo "Starting count server...."
-export MUREX_TEST_COUNT=http
-go run github.com/lmorg/murex/test/count/server 2>/dev/null &
-sleep 3
+set -e
 
 echo "Running golang unit tests...."
 mkdir -p ./test/tmp
-go test ./... -count 1 -race || exit 1
-curl -s http://localhost:38000/t > ./test/murex-test-count.txt
-echo "$(cat ./test/murex-test-count.txt) tests completed"
+go test ./... -race 
 
 echo "Running murex behavioural tests...."
-go build github.com/lmorg/murex || exit 1
-./murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; try {test: run *}' || exit 1
-
-echo "Writing automated assets...."
-git add ./test/murex-test-count.txt #./version.svg #./testcases.svg
-git commit -m "Automated assets"
+go build github.com/lmorg/murex
+./murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
 
 echo "Allowing git push to proceed...."

@@ -33,9 +33,9 @@
     ```
     {
         "ExampleFunction": ({
-            out: "This is an example Murex function"
+            out "This is an example Murex function"
             if { =1==2 } then {
-                err: "The laws of the universe are broken"
+                err "The laws of the universe are broken"
             }
         })
     }
@@ -45,7 +45,7 @@
 
     ```
     {
-        "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
+        "ExampleFunction": "\n    out \"This is an example Murex function\"\n    if { =1==2 } then {\n        err \"The laws of the universe are broken\"\n    }"
     }
     ```
   Usage:
@@ -54,25 +54,23 @@
   Detail:
   Associations:
   Related:
-  - yaml
-  - toml
-  - hcl
-  - json
-  - jsonl
-  - jsonc
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-  - commands/pretty
-  - commands/config
-  - commands/autocomplete
-  - apis/Marshal
-  - apis/Unmarshal
-  - parser/curly-brace
-  - parser/brace-quote
-  - parser/create-array
-  - parser/create-objects
-  - user-guide/code-block
+    - yaml
+    - toml
+    - hcl
+    - json
+    - jsonl
+    - jsonc
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime
+    - commands/pretty
+    - commands/config
+    - commands/autocomplete
+    - parser/curly-brace
+    - parser/brace-quote
+    - parser/create-array
+    - parser/create-object
+    - user-guide/code-block

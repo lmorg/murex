@@ -44,6 +44,9 @@ var (
 	// GlobalVariables is a table of global variables
 	GlobalVariables = NewGlobals()
 
+	// ModuleVariables is a table of module specific variables
+	ModuleVariables = NewModuleVars()
+
 	// GlobalAliases is a table of global aliases
 	GlobalAliases = NewAliases()
 
@@ -371,6 +374,7 @@ cleanUpProcess:
 	for !p.Previous.HasTerminated() {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
+		time.Sleep(1 * time.Second)
 	}
 
 	//debug.Json("Execute process (destroyProcess)", p)

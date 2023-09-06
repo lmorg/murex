@@ -39,6 +39,7 @@ type Flags struct {
 	Goto             string             // Jump to another location in the config
 	Alias            string             // Alias one []Flags to another
 	NestedCommand    bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
+	ImportCompletion string             // Import completion from another command
 	AnyValue         bool               // deprecated
 	AllowAny         bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 	AutoBranch       bool               // Autocomplete trees (eg directory structures) one branch at a time
@@ -144,11 +145,11 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 
 	if f.IncExeAll {
 		pathall := allExecutables(true)
-		act.append(matchExes(partial, pathall, false)...)
+		act.append(matchExes(partial, pathall)...)
 
 	} else if f.IncExePath {
 		pathexes := allExecutables(false)
-		act.append(matchExes(partial, pathexes, false)...)
+		act.append(matchExes(partial, pathexes)...)
 	}
 
 	if f.IncManPage {
@@ -222,7 +223,7 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 		if r := recover(); r != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Debug information:\n- partial: '%s'\n- exe: '%s'\n- params: %s\n- pIndex: %d\n- nest: %d\nAutocompletion syntax:", partial, exe, params, *pIndex, nest)))
-			b, _ := json.Marshal(flags, false)
+			b, _ := json.Marshal(flags, true)
 			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
@@ -238,6 +239,13 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 
 			if *pIndex >= len(params) {
 				break
+			}
+
+			if *pIndex > 0 && nest > 0 && flags[nest-1].ImportCompletion != "" {
+				act.ParsedTokens.FuncName = flags[nest-1].ImportCompletion
+				act.ParsedTokens.Parameters = []string{partial}
+				MatchFlags(act)
+				return 0
 			}
 
 			if *pIndex > 0 && nest > 0 && flags[nest-1].NestedCommand {

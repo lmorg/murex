@@ -1,4 +1,4 @@
-# `hcl`  - Data-Type Reference
+# `hcl`
 
 > HashiCorp Configuration Language (HCL)
 
@@ -23,32 +23,34 @@ external source packages for the shell to compile.
 
 ## Examples
 
-    terraform {
-      required_version = "~> 0.11.5"
+```
+terraform {
+  required_version = "~> 0.11.5"
+}
+
+data "aws_availability_zones" "available" {}
+
+data "aws_vpc" "vpc" {
+  id = "${var.vpc_id}"
+}
+
+data "aws_route53_zone" "external" {
+  zone_id = "${var.external_hosted_zone_id}"
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      identifiers = ["ec2.amazonaws.com"]
+      type        = "Service"
     }
-    
-    data "aws_availability_zones" "available" {}
-    
-    data "aws_vpc" "vpc" {
-      id = "${var.vpc_id}"
-    }
-    
-    data "aws_route53_zone" "external" {
-      zone_id = "${var.external_hosted_zone_id}"
-    }
-    
-    data "aws_iam_policy_document" "assume_role_policy" {
-      statement {
-        actions = ["sts:AssumeRole"]
-        effect  = "Allow"
-    
-        principals {
-          identifiers = ["ec2.amazonaws.com"]
-          type        = "Service"
-        }
-      }
-    }
-    
+  }
+}
+```
+
 See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
 
 ## Default Associations
@@ -83,31 +85,15 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ## See Also
 
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` (type)](../apis/ReadArray.md):
-  Read from a data type one array element at a time
-* [`ReadIndex()` (type)](../apis/ReadIndex.md):
-  Data type handler for the index, `[`, builtin
-* [`ReadMap()` (type)](../apis/ReadMap.md):
-  Treat data type as a key/value structure and read its contents
-* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
-  Data type handler for the bang-prefixed index, `![`, builtin
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
-* [`WriteArray()` (type)](../apis/WriteArray.md):
-  Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -115,7 +101,23 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory
+
+<hr/>
+
+This document was generated from [builtins/types/hcl/hcl_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/types/hcl/hcl_doc.yaml).

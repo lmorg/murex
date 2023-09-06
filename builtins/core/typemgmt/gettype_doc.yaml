@@ -9,18 +9,18 @@
     reading the data from it.
   Usage: |-
     ```
-    get-type: \$variable -> <stdout>
+    get-type \$variable -> <stdout>
 
-    get-type: stdin -> <stdout>
+    get-type stdin -> <stdout>
 
-    get-type: pipe -> <stdout>
+    get-type pipe -> <stdout>
     ```
   Examples: |-
     Get the data-type of a variable
 
     ```
-    » set: json example={[1,2,3]}
-    » get-type: \$example
+    » set json example={[1,2,3]}
+    » get-type \$example
     json
     ```
 
@@ -31,29 +31,29 @@
     Get the data-type of a functions STDIN
 
     ```
-    » function: example { get-type stdin }
-    » tout: json {[1,2,3]} -> example
+    » function example { get-type stdin }
+    » tout json {[1,2,3]} -> example
     json
     ```
 
     Get the data-type of a Murex named pipe
 
     ```
-    » pipe: example
-    » tout: <example> json {[1,2,3]}
-    » get-type: example
-    » !pipe: example
+    » pipe example
+    » tout <example> json {[1,2,3]}
+    » get-type example
+    » !pipe example
     json
     ```
   Flags:
   Detail:
   Synonyms:
   Related:
-  - set
-  - tout
-  - function
-  - pipe
-  - debug
-  - runtime
-  - user-guide/scoping
-  - user-guide/reserved-vars
+    - set
+    - tout
+    - function
+    - pipe
+    - debug
+    - runtime
+    - user-guide/scoping
+    - user-guide/reserved-vars

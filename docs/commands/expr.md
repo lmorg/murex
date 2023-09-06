@@ -1,4 +1,4 @@
-# `expr` - Command Reference
+# `expr`
 
 > Expressions: mathematical, string comparisons, logical operators
 
@@ -8,23 +8,29 @@
 
 ## Usage
 
-    expr: expression -> <stdout>
+```
+expr expression -> <stdout>
+```
 
 ## Examples
 
 Order of operations:
 
-    » 3 * (3 + 1)                                                                                                                                                                                                                         
-    12
-    
+```
+» 3 * (3 + 1)                                                                                                                                                                                                                         
+12
+```
+
 JSON array:
 
-    » %[apples oranges grapes]
-    [
-        "apples",
-        "oranges",
-        "grapes"
-    ]
+```
+» %[apples oranges grapes]
+[
+    "apples",
+    "oranges",
+    "grapes"
+]
+```
 
 ## See Also
 
@@ -34,3 +40,7 @@ JSON array:
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [builtins/core/expressions/expressions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/expressions/expressions_doc.yaml).

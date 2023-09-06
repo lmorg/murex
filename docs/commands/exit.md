@@ -1,4 +1,4 @@
-# `exit` - Command Reference
+# `exit`
 
 > Exit murex
 
@@ -12,14 +12,20 @@ shell will still exist and not just that function.
 
 ## Usage
 
-    exit
-    exit number
+```
+exit
+exit number
+```
 
 ## Examples
 
-    » exit
-    
-    » exit 42
+```
+» exit
+```
+
+```
+» exit 42
+```
 
 ## See Also
 
@@ -29,3 +35,7 @@ shell will still exist and not just that function.
   Terminate murex with an exit number of 1
 * [`null`](../commands/devnull.md):
   null function. Similar to /dev/null
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

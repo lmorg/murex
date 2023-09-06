@@ -1,4 +1,4 @@
-# `summary`  - Command Reference
+# `summary` 
 
 > Defines a summary help text for a command
 
@@ -15,23 +15,31 @@ if neither exist or if you wish to override their text, then you can use
 
 Define a commands summary
 
-    summary command description
-    
+```
+summary command description
+```
+
 Undefine a summary
 
-    !summary command
+```
+!summary command
+```
 
 ## Examples
 
 Define a commands summary
 
-    » summary: foobar "Hello, world!"
-    » runtime: --summaries -> [ foobar ]
-    Hello, world! 
-    
+```
+» summary foobar "Hello, world!"
+» runtime --summaries -> [ foobar ]
+Hello, world! 
+```
+
 Undefine a summary
 
-    » !summary: foobar
+```
+» !summary foobar
+```
 
 ## Synonyms
 
@@ -57,3 +65,7 @@ Undefine a summary
   Forces Murex to rescan $PATH looking for executables
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/shell_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/shell_doc.yaml).

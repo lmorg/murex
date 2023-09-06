@@ -23,7 +23,7 @@ func Marshal(v interface{}) ([]byte, error) {
 		return []byte(t), nil
 
 	case []string:
-		s := consts.PathSlash + strings.Join(t, consts.PathSlash)
+		s := Join(t)
 		return []byte(s), nil
 
 	case map[string]interface{}:
@@ -65,11 +65,7 @@ func marshalPathInterface(v []interface{}) ([]byte, error) {
 		}
 	}
 
-	s := strings.Join(a, consts.PathSlash)
-	if f, _ := os.Stat(s); f != nil && f.IsDir() {
-		s += consts.PathSlash
-	}
-
+	s := Join(a)
 	s = path.Clean(s)
 
 	return []byte(s), nil

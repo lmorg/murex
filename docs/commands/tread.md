@@ -1,4 +1,4 @@
-# `tread` - Command Reference
+# `tread`
 
 > `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 
@@ -11,19 +11,23 @@ store that as a typed variable.
 
 ## Usage
 
-    tread: data-type "prompt" var_name
-    
-    <stdin> -> tread: data-type var_name
+```
+tread data-type "prompt" var_name
+
+<stdin> -> tread data-type var_name
+```
 
 ## Examples
 
-    tread: qs "Please paste a URL: " url
-    out: "The query string values included were:"
-    $url -> format json
-    
-    out: Please paste a URL: -> tread: qs url
-    out: "The query string values included were:"
-    $url -> format json
+```
+tread qs "Please paste a URL: " url
+out "The query string values included were:"
+$url -> format json
+
+out Please paste a URL: -> tread qs url
+out "The query string values included were:"
+$url -> format json
+```
 
 ## Detail
 
@@ -54,3 +58,7 @@ variable.
   `read` a line of input from the user and store as a variable
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [builtins/core/io/read_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/read_doc.yaml).

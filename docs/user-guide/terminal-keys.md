@@ -1,4 +1,4 @@
-# Terminal Hotkeys - User Guide
+# Terminal Hotkeys
 
 > A list of all the terminal hotkeys and their uses
 
@@ -25,6 +25,7 @@
   - [Clear Screen](#clear-screen)
 
 </div>
+
 
 ## Command Prompt
 
@@ -146,10 +147,14 @@ interactive command prompt.
 
 * Arrow keys, `left` and `right`: move the cursor forwards or backwards in line
   
-* Arrow keys, `up` and `down`: If the command line spans multiple lines on the
-  screen then this will jump up or down to the next/previous line. When at the
-  top or bottom line, the `up` or `down` keys will search through your history
-  of past command lines
+* Arrow keys, `up` and `down`:
+  - If the command line spans multiple lines on the screen then this will jump
+    up or down to the next/previous line.
+  - When at the top or bottom line, or the command line is only one line long,
+    the `up` or `down` keys will search through your history of past command
+    lines that are similar to your current command line.
+  - If your command line is empty, then the `up` or `down` keys will search
+    through every command line in your history.
 
 * `alt`+`b`: jump backwards a word at a time (Emacs compatibility)
 * `ctrl`+`left`: jump backwards a word at a time (IBM keyboard layouts)
@@ -164,6 +169,8 @@ interactive command prompt.
 
 * `ctrl`+`e`: jump to end of line
 * `end`: jump to end of line
+
+* `ctrl`+`z`: while readline is open will undo the previous key strokes
 
 #### General Hotkeys
 
@@ -225,10 +232,12 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 In the following example, code inside square brackets represent key presses
 rather than text:
 
-    » echo two three four five six seven eight nine
-    two three four five six seven eight nine
-    » [shift+f1]echo [shift+f5]five
-    
+```
+» echo two three four five six seven eight nine
+two three four five six seven eight nine
+» [shift+f1]echo [shift+f5]five
+```
+
 ## Job Control
 
 While processes are running, the following keys are assigned roles:
@@ -269,9 +278,13 @@ Pressing `ctrl`+`l` will clear the screen.
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+* [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
+
+<hr/>
+
+This document was generated from [gen/user-guide/terminal-keys_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/terminal-keys_doc.yaml).

@@ -3,27 +3,33 @@ package docgen
 import (
 	"bytes"
 	"errors"
+	"fmt"
+	"os"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/lmorg/murex/utils/envvars"
 )
 
 var funcMap = template.FuncMap{
-	"quote":      funcQuote,
-	"html":       funcHTML,
 	"md":         funcMarkdown,
+	"quote":      funcQuote,
 	"trim":       strings.TrimSpace,
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
+	"link":       funcLink,
 	"file":       funcFile,
-	"include":    funcInclude,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
+	"doct":       funcDocT,
+	"othercats":  funcOtherCats,
 	"otherdocs":  funcOtherDocs,
+	"env":        funcEnv,
 }
 
 /************
@@ -33,66 +39,9 @@ var funcMap = template.FuncMap{
 // Takes: string (contents as read from YAML in a machine readable subset of markdown)
 // Returns: markdown contents cleaned up for printing
 func funcMarkdown(s string) string {
-	var (
-		new          []rune
-		backtick     int
-		code         bool
-		skipNextBt   bool
-		skipNextCrLf bool
-	)
-
-	for pos, c := range s {
-		switch c {
-		case '`':
-			backtick++
-			if backtick == 3 {
-				backtick = 0
-				switch {
-				case skipNextBt:
-					new = append(new, '`', '`', '`')
-					skipNextBt = false
-				case pos != len(s)-1 && s[pos+1] != '\r' && s[pos+1] != '\n':
-					new = append(new, '`', '`', '`')
-					skipNextBt = true
-				default:
-					code = !code
-					skipNextCrLf = true
-				}
-			}
-
-		case '\r':
-			// strip carridge returns from output (even on Windows)
-
-		case '\n':
-			for i := 0; i < backtick; i++ {
-				new = append(new, '`')
-			}
-			backtick = 0
-			if !skipNextCrLf {
-				new = append(new, c)
-			}
-
-			if code {
-				new = append(new, ' ', ' ', ' ', ' ')
-			}
-			skipNextCrLf = false
-
-		default:
-			for i := 0; i < backtick; i++ {
-				new = append(new, '`')
-			}
-			backtick = 0
-			skipNextCrLf = false
-			new = append(new, c)
-		}
-	}
-
-	if skipNextCrLf {
-		new = new[:len(new)-5]
-	}
-
-	s = strings.TrimSuffix(string(new), "\n")
-	return strings.TrimSuffix(s, "\r")
+	s = strings.ReplaceAll(s, "\r", "")
+	s = strings.TrimSuffix(s, "\n")
+	return s
 }
 
 /************
@@ -101,18 +50,8 @@ func funcMarkdown(s string) string {
 
 // Takes: strings (contents)
 // Returns: contents with some characters escaped for printing in source code (eg \")
-func funcQuote(s string) string {
-	return strconv.Quote(funcMarkdown(s))
-}
-
-/************
- *   HTML   *
- ************/
-
-// Takes: string (contents in markdown)
-// Returns: HTML rendered contents
-func funcHTML(s string) string {
-	panic("HTML output not yet written")
+func funcQuote(s ...string) string {
+	return strconv.Quote(funcMarkdown(strings.Join(s, "")))
 }
 
 /************
@@ -152,15 +91,23 @@ func funcRenderedCategories(cat string, index int) (string, error) {
 }
 
 /************
- *   File   *
+ *   Link   *
  ************/
 
-// Takes: slice of strings (file path)
-// Returns: contents of file based on a concatenation of the slice
-func funcFile(path ...string) string {
-	f := fileReader(strings.Join(path, ""))
-	b := readAll(f)
-	return string(b)
+// Takes: string (path, description)
+// Returns: URL to document
+func funcLink(path, description string) string {
+	split := strings.Split(path, "/")
+	if len(split) != 2 {
+		panic(fmt.Sprintf("Invalid length of path (%d). Expecting 'cat/doc' instead got '%s'", len(split), path))
+	}
+
+	doc := Documents.ByID("", split[0], split[1])
+	if doc == nil {
+		panic(fmt.Sprintf("nil document (%s)", path))
+	}
+
+	return doc.Hierarchy()
 }
 
 /************
@@ -178,12 +125,37 @@ func funcInclude(s string) string {
 
 	match := rx.FindAllStringSubmatch(s, -1)
 	for i := range match {
-		f := fileReader(match[i][1])
+		path := match[i][1]
+		f := fileReader(path)
 		b := bytes.TrimSpace(readAll(f))
-		s = strings.Replace(s, match[i][0], string(b), -1)
+
+		w := bytes.NewBuffer([]byte{})
+
+		t := template.Must(template.New(path).Funcs(funcMap).Parse(string(b)))
+		if err := t.Execute(w, nil); err != nil {
+			panic(err.Error())
+		}
+
+		s = strings.Replace(s, match[i][0], w.String(), -1)
 	}
 
 	return s
+}
+
+/************
+ *   File   *
+ ************/
+
+// Takes: slice of strings (file path)
+// Returns: contents of file based on a concatenation of the slice
+func funcFile(path ...string) string {
+	f := fileReader(strings.Join(path, ""))
+	b := readAll(f)
+	return string(b)
+}
+
+func init() {
+	funcMap["include"] = funcInclude
 }
 
 /************
@@ -217,6 +189,25 @@ func funcTime(dt time.Time) string {
 }
 
 /************
+ *   doct   *
+ ************/
+
+// Takes: string (category, document ID)
+// Returns: document type
+func funcDocT(cat, doc string) *document {
+	return Documents.ByID("!!!", cat, doc)
+}
+
+/************
+ * OtherCats*
+ ************/
+
+// Returns: list of documents in that category
+func funcOtherCats() []category {
+	return Config.Categories
+}
+
+/************
  * OtherDocs*
  ************/
 
@@ -231,4 +222,26 @@ func funcOtherDocs(id string) (d documents) {
 
 	sort.Sort(d)
 	return
+}
+
+/************
+ *    Env   *
+ ************/
+
+// Takes: string (env, formatted: `key=val`)
+// Returns: true or false if the env matches systems env
+func funcEnv(env string) any {
+	if !strings.Contains(env, "=") {
+		s := os.Getenv(env)
+		if s == "" {
+			s = "undef"
+		}
+		return s
+	}
+
+	key, value := envvars.Split(env)
+	v := make(map[string]interface{})
+	envvars.All(v)
+	s, _ := v[key].(string)
+	return s == value
 }

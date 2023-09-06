@@ -8,149 +8,55 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func expGreaterThan(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+func expGtLt(tree *ParserT, compareFloat ltGtFT, compareString ltGtST) error {
+	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
 
 	var value bool
 
-	lv, rv, err := compareTypes(tree, left, right)
+	lv, rv, err := compareTypes(tree, leftNode, rightNode)
 	if err != nil {
+		return err
+	}
+
+	left, err := leftNode.dt.GetValue()
+	if err != nil { // error should have been captured with compareTypes() but doesn't hurt to be cautious
 		return err
 	}
 
 	switch lv.(type) {
 	case float64, int:
-		value = convertNumber(lv) > convertNumber(rv)
+		value = compareFloat(convertNumber(lv), convertNumber(rv))
 
 	case string:
-		value = lv.(string) > rv.(string)
+		value = compareString(lv.(string), rv.(string))
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
+			"cannot %s with %s types", tree.currentSymbol().key, left.Primitive,
 		))
 	}
 
 	return tree.foldAst(&astNodeT{
-		key: symbols.Exp(left.dt.Primitive),
+		key: symbols.Exp(left.Primitive),
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
+		dt:  primitives.NewPrimitive(primitives.Boolean, value),
 	})
 }
 
-func expGreaterThanOrEqual(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
+type ltGtFT func(float64, float64) bool
+type ltGtST func(string, string) bool
 
-	var value bool
-
-	lv, rv, err := compareTypes(tree, left, right)
-	if err != nil {
-		return err
-	}
-
-	switch lv.(type) {
-	case float64, int:
-		value = convertNumber(lv) >= convertNumber(rv)
-
-	case string:
-		value = lv.(string) >= rv.(string)
-
-	default:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
-		))
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Exp(left.dt.Primitive),
-		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
-	})
-}
-
-func expLessThan(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	var value bool
-
-	lv, rv, err := compareTypes(tree, left, right)
-	if err != nil {
-		return err
-	}
-
-	switch lv.(type) {
-	case float64, int:
-		value = convertNumber(lv) < convertNumber(rv)
-
-	case string:
-		value = lv.(string) < rv.(string)
-
-	default:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
-		))
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Exp(left.dt.Primitive),
-		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
-	})
-}
-
-func expLessThanOrEqual(tree *ParserT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	var value bool
-
-	lv, rv, err := compareTypes(tree, left, right)
-	if err != nil {
-		return err
-	}
-
-	switch lv.(type) {
-	case float64, int:
-		value = convertNumber(lv) <= convertNumber(rv)
-
-	case string:
-		value = lv.(string) <= rv.(string)
-
-	default:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
-		))
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Exp(left.dt.Primitive),
-		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     value,
-		},
-	})
-}
+func _ltF(lv, rv float64) bool   { return lv < rv }
+func _ltEqF(lv, rv float64) bool { return lv <= rv }
+func _gtEqF(lv, rv float64) bool { return lv >= rv }
+func _gtF(lv, rv float64) bool   { return lv > rv }
+func _ltS(lv, rv string) bool    { return lv < rv }
+func _ltEqS(lv, rv string) bool  { return lv <= rv }
+func _gtEqS(lv, rv string) bool  { return lv >= rv }
+func _gtS(lv, rv string) bool    { return lv > rv }
 
 func convertNumber(v any) float64 {
 	f, err := types.ConvertGoType(v, types.Number)

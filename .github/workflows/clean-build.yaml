@@ -1,0 +1,34 @@
+name: Test Clean Install
+
+on:
+  push:
+    paths:
+      - "**/*.go"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.18' ]
+    steps:
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Display Go version
+        run: |
+          go version
+
+      - name: Build Murex
+        run: |
+          GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
+
+      - name: Display Murex version
+        run: |
+          ./murex --version

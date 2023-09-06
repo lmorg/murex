@@ -1,4 +1,4 @@
-# `null` - Command Reference
+# `null`
 
 > null function. Similar to /dev/null
 
@@ -9,18 +9,24 @@ UNIX /dev/null device.
 
 ## Usage
 
-    <stdin> -> null
+```
+<stdin> -> null
+```
 
 ## Examples
 
-    » out: "Hello, world!" -> null
+```
+» out "Hello, world!" -> null
+```
 
 ## Detail
 
 While this method does exist, a more idiomatic way to suppress STDOUT is to
 use the named pipe property rather than piping to null:
 
-    » out: <null> "Hello, world!"
+```
+» out <null> "Hello, world!"
+```
 
 ## Synonyms
 
@@ -35,3 +41,7 @@ use the named pipe property rather than piping to null:
   Terminate murex with an exit number of 1
 * [`exit`](../commands/exit.md):
   Exit murex
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

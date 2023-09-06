@@ -1,6 +1,8 @@
-# Pipeline - User Guide
+# Pipeline
 
 > Overview of what a "pipeline" is
+
+## Description
 
 In the Murex docs you'll often see the term "pipeline". This refers to any
 commands sequenced together.
@@ -12,20 +14,28 @@ for the sake of documentation, a pipeline might even be a solitary command.
 
 Typical Murex pipeline:
 
-    open: example.json -> [[ /node/0 ]]
-    
+```
+open example.json -> [[ /node/0 ]]
+```
+
 Example of a single command pipeline:
 
-    top
-    
+```
+top
+```
+
 Pipeline you might see in Bash / Zsh (this is also valid in Murex):
 
-    cat names.txt | sort | uniq
-    
+```
+cat names.txt | sort | uniq
+```
+
 Pipeline filtering out a specific error from `example-cmd`
 
-    example-cmd ? grep: "File not found"
-    
+```
+example-cmd ? grep "File not found"
+```
+
 ## Detail
 
 A pipeline isn't a Murex specific construct but rather something inherited
@@ -73,3 +83,7 @@ document but you can read more on them in links the links below.
   Overview of the different schedulers (or 'run modes') in Murex
 * [`bg`](../commands/bg.md):
   Run processes in the background
+
+<hr/>
+
+This document was generated from [gen/user-guide/pipeline_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/pipeline_doc.yaml).

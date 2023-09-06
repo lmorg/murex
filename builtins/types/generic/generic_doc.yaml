@@ -1,6 +1,6 @@
 - DocumentID: generic
   Title: >-
-    `*` (generic) 
+    `*` (generic)
   CategoryID: types
   Summary: >-
     generic (primitive)
@@ -21,18 +21,15 @@
   Detail:
   Associations:
   Synonyms:
-  - generic
-  - "*"
+    - generic
+    - "*"
   Related:
-  - str
-  - num
-  - int
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-  - apis/Marshal
-  - apis/Unmarshal
-
+    - str
+    - num
+    - int
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime

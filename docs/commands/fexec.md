@@ -1,4 +1,4 @@
-# `fexec`  - Command Reference
+# `fexec` 
 
 > Execute a command or function, bypassing the usual order of precedence.
 
@@ -9,11 +9,15 @@ of precedence.
 
 ## Usage
 
-    fexec: flag command [ parameters... ] -> <stdout>
+```
+fexec flag command [ parameters... ] -> <stdout>
+```
 
 ## Examples
 
-    fexec: private /source/builtin/autocomplete.alias
+```
+fexec private /source/builtin/autocomplete.alias
+```
 
 ## Flags
 
@@ -63,7 +67,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 ### Compatibility with POSIX
 
 For compatibility with traditional shells like Bash and Zsh, `builtin` is an
-alias to `fexec builtin
+alias to `fexec builtin`
 
 ## Synonyms
 
@@ -95,5 +99,9 @@ alias to `fexec builtin
   Open a file with a preferred handler
 * [`private`](../commands/private.md):
   Define a private function block
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/management/fexec_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/fexec_doc.yaml).

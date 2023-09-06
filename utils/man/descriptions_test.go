@@ -47,3 +47,34 @@ func TestParseLineFlags(t *testing.T) {
 		}
 	}
 }
+
+/*func TestParseDescriptionsLines(t *testing.T) {
+	count.Tests(t, 1)
+
+	files, err := manPages.ReadDir(".")
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	for _, entry := range files {
+		file, err := manPages.Open(entry.Name())
+		if err != nil {
+			t.Errorf("%s: %s", entry.Name(), err.Error())
+		}
+
+		gz, err := gzip.NewReader(file)
+		if err != nil {
+			t.Errorf("%s: %s", entry.Name(), err.Error())
+		}
+
+		descriptions := make(map[string]string)
+		parseDescriptionsLines(streams.NewReader(gz), &descriptions)
+		if len(descriptions) == 0 {
+			t.Errorf("%d descriptions returned for '%s'", len(descriptions), entry.Name())
+		}
+
+		gz.Close()
+		file.Close()
+	}
+}
+*/

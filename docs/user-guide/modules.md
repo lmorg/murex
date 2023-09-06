@@ -1,6 +1,8 @@
-# Modules and Packages - User Guide
+# Modules and Packages
 
 > An introduction to Murex modules and packages
+
+## Description
 
 Murex has it's own module system with namespacing and a package manager. But
 why should a shell need all this?
@@ -32,11 +34,16 @@ ie there are multiple modules that can be grouped together and distributed as a
 single package.
 
 The way packages and modules are represented is as a path:
-    
     package/module
-        
+
 `murex-package` is a package management tool for administrating murex modules
 and packages.
+
+| Name                                                         | Summary                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| https://github.com/lmorg/murex-module-jump                   | Enables autojump functionalities                             |
+| https://github.com/orefalo/murex-module-starship             | starship - The minimal, blazing-fast, and infinitely customizable prompt |
+| and [many more](https://github.com/search?q=murex-module-&type=repositories) | Murex modules typically follow the `murex-module-*` naming convention |
 
 ## Using Packages And Modules
 
@@ -51,8 +58,10 @@ the database.
 For example the command I run on any new dev machine to import all of my DevOps
 tools and terminal preferences is the following:
 
-    murex-package: import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
-    
+```
+murex-package import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
+```
+
 ### Extendability
 
 Namespacing allows for `private` functions which allows you to write smaller
@@ -64,14 +73,18 @@ has an inbuilt testing and debugging tools).
 Packages can be hosted via HTTP(S) or git. Anyone can import anyone elses
 packages using `murex-package`. 
 
-    murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
-    
+```
+murex-package install https://github.com/lmorg/murex-module-murex-dev.git
+```
+
 ### Updating Packages
 
 Updating packages is easy:
 
-    murex-package: update
-    
+```
+murex-package update
+```
+
 ### Tracking Code
 
 All code loaded in Murex, every function, variable and event (etc) is stored
@@ -107,7 +120,11 @@ empty Filename string.
   Murex's package manager
 * [`private`](../commands/private.md):
   Define a private function block
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+
+<hr/>
+
+This document was generated from [gen/user-guide/modules_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/modules_doc.yaml).

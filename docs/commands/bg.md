@@ -1,4 +1,4 @@
-# `bg` - Command Reference
+# `bg`
 
 > Run processes in the background
 
@@ -10,29 +10,19 @@ them.
 
 ## Usage
 
-Any operating system:
-
-    bg { code block }
-    
-    <stdin> -> bg
-    
 POSIX only:
+ ```
+ bg { code block }
 
-    bg { code block }
-    
-    <stdin> -> bg
-    
-    bg fid
+ bg fid
+ ```
 
 ## Examples
 
-As a function:
 
-    bg { sleep 5; out "Morning" }
-    
-As a method:
-
-    » ({ sleep 5; out "Morning" }) -> bg
+```
+bg { sleep 5; out "Morning" }
+```
 
 ## Detail
 
@@ -56,3 +46,7 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
   Lists all running functions within the current Murex session
 * [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
+
+<hr/>
+
+This document was generated from [builtins/core/processes/bgfg_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/processes/bgfg_doc.yaml).

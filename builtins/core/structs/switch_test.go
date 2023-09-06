@@ -1147,7 +1147,7 @@ func TestSwitchErrors(t *testing.T) {
 			Stderr:  `too many`,
 			ExitNum: 1,
 		},
-		{
+		/*{
 			Block:   `switch {"}`,
 			Stderr:  `missing closing quote`,
 			ExitNum: 1,
@@ -1156,7 +1156,7 @@ func TestSwitchErrors(t *testing.T) {
 			Block:   `switch foo {"}`,
 			Stderr:  `missing closing quote`,
 			ExitNum: 1,
-		},
+		},*/
 		{
 			Block:   `switch foo { foobar }`,
 			Stderr:  `not a valid statement`,

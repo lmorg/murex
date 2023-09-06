@@ -1,6 +1,8 @@
 package expressions
 
 import (
+	"fmt"
+
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
@@ -63,6 +65,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		switch r {
 		case '#':
+			tree.statement.validFunction = false
 			tree.parseComment()
 
 		case '/':
@@ -75,6 +78,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '\\':
+			tree.statement.validFunction = false
 			escape = true
 
 		case ' ', '\t', '\r':
@@ -102,6 +106,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		case '*':
 			tree.statement.possibleGlob = exec
+			tree.statement.validFunction = false
 			appendToParam(tree, r)
 
 		case '?':
@@ -110,6 +115,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			if prev != ' ' && prev != '\t' &&
 				next != ' ' && next != '\t' {
 				tree.statement.possibleGlob = exec
+				tree.statement.validFunction = false
 				appendToParam(tree, r)
 				continue
 			}
@@ -127,14 +133,17 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				tree.charPos--
 				return err
 			}
+			tree.statement.validFunction = false
 			appendToParam(tree, r)
 
 		case ':':
+			tree.statement.validFunction = false
 			if err := processStatementColon(tree, exec); err != nil {
 				return err
 			}
 
 		case '=':
+			tree.statement.validFunction = false
 			switch tree.nextChar() {
 			case '>':
 				// generic pipe
@@ -148,9 +157,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		case '~':
 			// tilde
+			tree.statement.validFunction = false
 			appendToParam(tree, []rune(tree.parseVarTilde(exec))...)
 
 		case '<':
+			tree.statement.validFunction = false
 			switch {
 			case len(tree.statement.paramTemp) > 0:
 				appendToParam(tree, r)
@@ -179,6 +190,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '>':
+			tree.statement.validFunction = false
 			switch tree.nextChar() {
 			case '>':
 				// redirect (append)
@@ -203,26 +215,74 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '(':
-			if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
+			prev := tree.prevChar()
+			switch {
+			case len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:
+				// command (deprecated)
 				appendToParam(tree, r)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
-				continue
-			}
-			prev := tree.prevChar()
-			if prev == ' ' || prev == '\t' {
-				// quotes
-				value, err := tree.parseParen(exec)
+
+			case prev == ' ', prev == '\t':
+				// parenthesis quotes
+				if exec {
+					pos := tree.charPos
+					expr, err := tree.parseParenthesis(false)
+					if err != nil {
+						return err
+					}
+					dt, err := ExecuteExpr(tree.p, expr)
+					if err == nil {
+						// parenthesis is an expression
+						v, err := dt.GetValue()
+						if err != nil {
+							return err
+						}
+						r, err := v.Marshal()
+						if err != nil {
+							return fmt.Errorf("cannot marshal output of inlined expression in `%s`: %s",
+								string(tree.statement.command), err.Error())
+						}
+						appendToParam(tree, r...)
+						continue
+					}
+					tree.charPos = pos
+				}
+				// parenthesis is a string (deprecated)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return err
 				}
 				appendToParam(tree, value...)
-				continue
+
+			case tree.statement.validFunction:
+				// function(parameters...)
+				value, fn, err := tree.parseFunction(exec, tree.statement.paramTemp, varAsString)
+				if err != nil {
+					return err
+				}
+				tree.statement.paramTemp = nil
+				if exec {
+					val, err := fn()
+					if err != nil {
+						return err
+					}
+					appendToParam(tree, []rune(val.Value.(string))...)
+				} else {
+					appendToParam(tree, value...)
+				}
+				tree.charPos--
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
+			default:
+				tree.statement.validFunction = false
+				appendToParam(tree, r)
 			}
-			appendToParam(tree, r)
 
 		case '%':
+			tree.statement.validFunction = false
 			if !exec {
 				appendToParam(tree, '%')
 			}
@@ -247,7 +307,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			case '(':
 				// string
 				tree.charPos++
-				value, err := tree.parseParen(exec)
+				value, err := tree.parseParenthesis(exec)
 				if err != nil {
 					return err
 				}
@@ -257,14 +317,15 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '{':
+			tree.statement.validFunction = false
 			// block literal
 			value, err := tree.parseBlockQuote()
 			if err != nil {
 				return err
 			}
-			// is was this the start of a parameter...
+			// was this the start of a parameter...
 			var nextParam bool
-			if len(tree.statement.paramTemp) == 0 {
+			if len(tree.statement.paramTemp) == 0 && tree.tokeniseCurlyBrace() {
 				nextParam = true
 			}
 			appendToParam(tree, value...)
@@ -276,6 +337,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '[':
+			tree.statement.validFunction = false
 			switch {
 			case len(tree.statement.command) > 0 || len(tree.statement.paramTemp) > 0:
 				appendToParam(tree, r)
@@ -299,6 +361,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				"unexpected closing bracket '}'")
 
 		case '\'', '"':
+			tree.statement.validFunction = false
 			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
@@ -308,6 +371,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			tree.charPos++
 
 		case '`':
+			tree.statement.validFunction = false
 			value, err := tree.parseBackTick(r, exec)
 			if err != nil {
 				return err
@@ -316,34 +380,46 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			tree.charPos++
 
 		case '$':
+			tree.statement.validFunction = false
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				value, v, _, err := tree.parseSubShell(exec, r, varAsString)
+				value, fn, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return err
 				}
 				if exec {
-					appendToParam(tree, []rune(v.(string))...)
+					val, err := fn()
+					if err != nil {
+						return err
+					}
+					appendToParam(tree, []rune(val.Value.(string))...)
 					tree.statement.canHaveZeroLenStr = true
 				} else {
 					appendToParam(tree, value...)
 				}
 			default:
 				// start scalar
-				value, v, _, err := tree.parseVarScalar(exec, exec, varAsString)
+				var tokenise bool
+				tokenise = tree.tokeniseScalar()
+				execScalar := exec && tokenise
+				value, v, _, err := tree.parseVarScalar(execScalar, execScalar, varAsString)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, err.Error())
 				}
-				if exec {
+				switch {
+				case execScalar:
 					appendToParam(tree, []rune(v.(string))...)
 					tree.statement.canHaveZeroLenStr = true
-				} else {
+				case !tokenise:
+					appendToParam(tree, value[1:]...)
+				default:
 					appendToParam(tree, value...)
 				}
 			}
 
 		case '@':
+			tree.statement.validFunction = false
 			prev := tree.prevChar()
 			next := tree.nextChar()
 			switch {
@@ -354,9 +430,17 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
-				value, v, _, err := tree.parseSubShell(exec, r, varAsString)
+				value, fn, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return err
+				}
+				var v any
+				if exec {
+					val, err := fn()
+					if err != nil {
+						return err
+					}
+					v = val.Value
 				}
 				processStatementArrays(tree, value, v, exec)
 			case next == '[' && len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:
@@ -385,9 +469,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			}
 
 		case '-':
-			c := tree.nextChar()
+			next := tree.nextChar()
 			switch {
-			case c == '>':
+			case next == '>':
 				err := tree.nextParameter()
 				tree.charPos--
 				return err
@@ -398,6 +482,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		default:
 			// assign value
+			if !isBareChar(r) || r == '!' {
+				tree.statement.validFunction = false
+			}
 			appendToParam(tree, r)
 		}
 	}
@@ -409,34 +496,34 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) error {
 	if exec {
-		switch v.(type) {
+		switch t := v.(type) {
 		case []string:
-			for i := range v.([]string) {
-				value = []rune(v.([]string)[i])
+			for i := range t {
+				value = []rune(t[i])
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case [][]rune:
-			for i := range v.([][]rune) {
-				value = v.([][]rune)[i]
+			for i := range t {
+				value = t[i]
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case [][]byte:
-			for i := range v.([][]byte) {
-				value = []rune(string(v.([][]rune)[i]))
+			for i := range t {
+				value = []rune(string(t[i]))
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
 			}
 		case []interface{}:
-			for i := range v.([]interface{}) {
-				s, err := types.ConvertGoType(v.([]interface{})[i], types.String)
+			for i := range t {
+				s, err := types.ConvertGoType(t[i], types.String)
 				if err != nil {
 					return err
 				}
@@ -452,7 +539,7 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 				return err
 			}
 		default:
-			s, err := types.ConvertGoType(v.([]interface{}), types.String)
+			s, err := types.ConvertGoType(t, types.String)
 			if err != nil {
 				return err
 			}
@@ -503,7 +590,11 @@ func processStatementFromExpr(tree *ParserT, method parserMethodT, exec bool) er
 	}
 
 	if exec {
-		value, err = dt.Marshal()
+		val, err := dt.GetValue()
+		if err != nil {
+			return err
+		}
+		value, err = val.Marshal()
 		if err != nil {
 			return err
 		}

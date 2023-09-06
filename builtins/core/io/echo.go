@@ -4,7 +4,6 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
@@ -15,19 +14,6 @@ func init() {
 	lang.DefineFunction("(", cmdOutNoCR, types.String)
 	lang.DefineFunction("tout", cmdTout, types.Any)
 	lang.DefineFunction("err", cmdErr, types.Null)
-
-	defaults.AppendProfile(`
-		alias echo=out
-		method define echo {
-			"Stdin": "null",
-			"Stdout": "str"
-		}
-		config eval shell safe-commands {
-			-> alter --merge / ([
-				"echo"
-			])
-		}
-	`)
 }
 
 func cmdOut(p *lang.Process) (err error) {

@@ -1,4 +1,4 @@
-# `tout` - Command Reference
+# `tout`
 
 > Print a string to the STDOUT and set it's data-type
 
@@ -9,15 +9,19 @@ output's data-type to the value of the first parameter.
 
 ## Usage
 
-    tout: data-type "string to write" -> <stdout>
+```
+tout data-type "string to write" -> <stdout>
+```
 
 ## Examples
 
-    » tout: json { "Code": 404, "Message": "Page not found" } -> pretty
-    {
-        "Code": 404,
-        "Message": "Page not found"
-    }
+```
+» tout json { "Code": 404, "Message": "Page not found" } -> pretty
+{
+    "Code": 404,
+    "Message": "Page not found"
+}
+```
 
 ## Detail
 
@@ -41,3 +45,7 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Print a string to the STDOUT with a trailing new line character
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
+
+<hr/>
+
+This document was generated from [builtins/core/io/echo_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/echo_doc.yaml).

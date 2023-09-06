@@ -141,8 +141,9 @@ func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]s
 	}
 
 	syn := docs.Synonym[command]
-	if syn != "" {
-		return parse([]byte(docs.Definition[syn]), size)
+	b := docs.Definition(syn)
+	if len(b) != 0 {
+		return parse(b, size)
 	}
 
 	if (*autocomplete.GlobalExes.Get())[command] {

@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -100,24 +99,6 @@ func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 func (tree *ParserT) setVar(name []rune, value interface{}, dataType string) error {
 	nameS := string(name)
 	return tree.p.Variables.Set(tree.p, nameS, value, dataType)
-}
-
-func scalar2Primitive(dt string) *primitives.DataType {
-	switch dt {
-	case types.Number, types.Integer, types.Float:
-		return &primitives.DataType{Primitive: primitives.Number}
-	case types.Boolean:
-		return &primitives.DataType{Primitive: primitives.Boolean}
-	case types.Null:
-		return &primitives.DataType{Primitive: primitives.Null}
-	case types.String:
-		return &primitives.DataType{Primitive: primitives.String}
-	default:
-		return &primitives.DataType{
-			Primitive: primitives.Other,
-			MxDT:      dt,
-		}
-	}
 }
 
 const (

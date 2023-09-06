@@ -1,4 +1,4 @@
-# `and` - Command Reference
+# `and`
 
 > Returns `true` or `false` depending on whether multiple conditions are met
 
@@ -9,17 +9,21 @@ code-blocks included as parameters are successful or not.
 
 ## Usage
 
-    and: { code-block } { code-block } -> <stdout>
-    
-    !and: { code-block } { code-block } -> <stdout>
-    
+```
+and { code-block } { code-block } -> <stdout>
+
+!and { code-block } { code-block } -> <stdout>
+```
+
 `and` supports as many or as few code-blocks as you wish.
 
 ## Examples
 
-    if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
-        out: The laws of mathematics still exist in this universe.
-    }
+```
+if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
+    out The laws of mathematics still exist in this universe.
+}
+```
 
 ## Detail
 
@@ -48,7 +52,7 @@ are unsuccessful.
 * [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`if`](../commands/if.md):
@@ -61,3 +65,7 @@ are unsuccessful.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [builtins/core/structs/andor_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/andor_doc.yaml).

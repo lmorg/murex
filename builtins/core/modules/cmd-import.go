@@ -63,21 +63,21 @@ func importModules(p *lang.Process) error {
 	for i := range importDb {
 		err = cd.Chdir(p, modulePath)
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
+			write(p, "{RED}%s{RESET}", err.Error())
 			continue
 		}
 
-		p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
-		p.Stderr.Writeln([]byte("Importing `" + importDb[i].Package + "`...."))
+		p.Stdout.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
+		write(p, "Importing '%s'....", importDb[i].Package)
 		err = packageDirExists(importDb[i].Package)
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
+			write(p, "{RED}%s{RESET}", err.Error())
 			continue
 		}
 
 		importDb[i].Package, _, err = getPackage(p, importDb[i].URI)
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
+			write(p, "{RED}%s{RESET}", err.Error())
 			continue
 		}
 
@@ -85,7 +85,7 @@ func importModules(p *lang.Process) error {
 
 		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true)
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
+			write(p, "{RED}%s{RESET}", err.Error())
 		}
 	}
 

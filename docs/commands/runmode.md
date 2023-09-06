@@ -1,4 +1,4 @@
-# `runmode` - Command Reference
+# `runmode`
 
 > Alter the scheduler's behaviour at higher scoping level
 
@@ -16,21 +16,25 @@ needs be the first command in a block.
 
 ## Usage
 
-    runmode try|trypipe function|module
+```
+runmode try|trypipe function|module
+```
 
 ## Examples
 
-    function hello {
-        # Short conversation, exit on error
-        
-        runmode: try function
+```
+function hello {
+    # Short conversation, exit on error
     
-        read: name "What is your name? "
-        out: "Hello $name, pleased to meet you"
-        
-        read: mood "How are you feeling? "
-        out: "I'm feeling $mood too"
-    }
+    runmode try function
+
+    read name "What is your name? "
+    out "Hello $name, pleased to meet you"
+    
+    read mood "How are you feeling? "
+    out "I'm feeling $mood too"
+}
+```
 
 ## Detail
 
@@ -71,7 +75,7 @@ if `runmode ... module` is set.
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`fid-list`](../commands/fid-list.md):
@@ -88,3 +92,7 @@ if `runmode ... module` is set.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [builtins/core/structs/try_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/try_doc.yaml).

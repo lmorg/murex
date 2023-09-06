@@ -104,6 +104,12 @@ func (ut *UnitTests) Run(p *Process, function string) bool {
 		}
 	}
 
+	if passed {
+		p.ExitNum = 0
+	} else {
+		p.ExitNum = 1
+	}
+
 	return passed
 }
 
@@ -171,7 +177,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		fStdin = F_CREATE_STDIN
 	}
 
-	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+	fork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_BACKGROUND | fStdin | F_CREATE_STDOUT | F_CREATE_STDERR)
 	fork.FileRef = fileRef
 	fork.Parameters.DefineParsed(plan.Parameters)
 
@@ -189,7 +195,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run any initializing code...if defined
 	if len(plan.PreBlock) > 0 {
-		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
+		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_BACKGROUND | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
 		preFork.FileRef = fileRef
 		preFork.Name.Set("(unit test PreBlock)")
 		preExitNum, preForkErr = preFork.Execute([]rune(plan.PreBlock))
@@ -216,7 +222,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run any clear down code...if defined
 	if len(plan.PostBlock) > 0 {
-		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
+		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_BACKGROUND | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
 		postFork.Name.Set("(unit test PostBlock)")
 		postFork.FileRef = fileRef
 		postExitNum, postForkErr = postFork.Execute([]rune(plan.PostBlock))

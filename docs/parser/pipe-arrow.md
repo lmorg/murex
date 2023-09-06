@@ -1,4 +1,4 @@
-# Arrow Pipe (`->`) Token - Parser Reference
+# Arrow Pipe (`->`) Token
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 
@@ -17,17 +17,21 @@ In shell scripts, `->` and `|` can be used interchangeably.
 
 ## Examples
 
-    » out: Hello, world! -> regexp: s/world/Earth/
-    Hello, Earth!
-    
-    » out: Hello, world!->regexp: s/world/Earth/
-    Hello, Earth!
-    
+```
+» out Hello, world! -> regexp s/world/Earth/
+Hello, Earth!
+
+» out Hello, world!->regexp s/world/Earth/
+Hello, Earth!
+```
+
 In following example the first command is writing to STDERR rather than STDOUT
 so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
 
-    » err: Hello, world! -> regexp: s/world/Earth/
-    Hello, world!
+```
+» err Hello, world! -> regexp s/world/Earth/
+Hello, world!
+```
 
 ## See Also
 
@@ -47,3 +51,7 @@ so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
   Print a string to the STDOUT with a trailing new line character
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+
+<hr/>
+
+This document was generated from [gen/parser/pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/pipes_doc.yaml).

@@ -7,16 +7,17 @@
     This release brings a few minor improvements and bug fixes rather than big new
     headline features.
   Description: |-
-    Breaking Changes:
+    ### Breaking Changes:
 
     * None
 
-    Features:
+    ### Features:
 
     * Added support for ranges to be used as variables. eg
-    
-        <pre><code>f: +f -> set v
-        echo: @v[2..]</code></pre>
+      ```
+      f: +f -> set v
+      echo: @v[2..]
+      ```
 
     * Complete re-write of `f`. It is now the tool I had always intended when I first created that builtin
 
@@ -28,7 +29,7 @@
     
     * Updated autocompletes for `terraform`
 
-    Minor Changes:
+    ### Minor Changes:
 
     * Added support for profiling
 
@@ -36,7 +37,7 @@
 
     * Dropped `profile/` prefix from the module string for modules and profiles (as seen in `FileRef`)
 
-    Bug Fixes:
+    ### Bug Fixes:
 
     * Lots of improvements to how `||` and `&&` are used in other `runmode`'s, `try`, and `trypipe`
 

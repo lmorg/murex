@@ -1,0 +1,49 @@
+- DocumentID: which
+  Title: >+
+    `which`
+  CategoryID: commands
+  Summary: >-
+    Locate command origin
+  Description: |-
+   `which` locates a command's origin. If STDOUT is a TTY, then it's output will be
+   human readable. If STDOUT is a pipe then it's output will be a simple list.
+
+   `which` can take multiple parameters, each representing a different command you
+   want looked up.
+  Usage: |-
+    ```
+    which command... -> <stdout>
+    ```
+  Examples: |-
+    **TTY output:**
+
+    ```
+    » which cat dog jobs git dug
+    cat => (/bin/cat) cat - concatenate and print files
+    dog => unknown
+    jobs => (alias) fid-list --jobs => (builtin) Lists all running functions within the current Murex session
+    git => (/opt/homebrew/bin/git -> ../Cellar/git/2.41.0/bin/git) git - the stupid content tracker
+    dug => (murex function) A bit like dig but which outputs JSON
+    ```
+
+    **Piped output:**
+
+    ```
+    » which cat dog jobs git dug -> cat
+    /bin/cat
+    unknown
+    alias
+    /opt/homebrew/bin/git
+    function
+    ```
+  Detail: |-
+    {{ include "gen/includes/command-types.inc.md" }}
+  Synonyms:
+  Related:
+    - alias
+    - function
+    - exec
+    - fexec
+    - type
+    - out
+    - exit

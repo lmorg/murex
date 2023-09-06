@@ -1,6 +1,6 @@
 - DocumentID: commonlog
   Title: >-
-    `commonlog` 
+    `commonlog`
   CategoryID: types
   Summary: >-
     Apache httpd "common" log format
@@ -20,20 +20,14 @@
     The code here is very rudimentary. If you have large log files or need more complex
     data querying then this data-type is probably not the right tool. Maybe try one of
     the following:
-    
+
     * [Firesword](https://github.com/lmorg/firesword) - for command line analysis
     * [Plasmasword](https://github.com/lmorg/plasmasword) - exports fields to an sqlite3 or mysql database
   Associations:
   Related:
-  - str
-  - generic
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - apis/ReadArray
-  - apis/ReadMap
-  - apis/ReadIndex
-  - apis/ReadNotIndex
-  - apis/Marshal
-  - apis/Unmarshal
+    - str
+    - generic
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format

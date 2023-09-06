@@ -8,31 +8,31 @@
     Displays the man pages for Murex builtins.
   Usage: |-
     ```
-    murex-docs: [ flag ] command -> <stdout>
+    murex-docs [ flag ] command -> <stdout>
     ```
   Examples: |-
     ```
     # Output this man page
-    murex-docs: murex-docs
+    murex-docs murex-docs
     ```
   Flags:
+    --docs: >-
+      Returns a JSON object of every document available to read offline
     --summary: >-
       Returns an abridged description of the command rather than the entire
-      help page.
+      help page
   Detail: |-
     These man pages are compiled into the Murex executable.
   Synonyms:
-  - murex-docs
-  - help
+    - murex-docs
+    - help
   Related:
-  - tout
-  - err
-  - brace-quote
-  - cast
-  - greater-than
-  - greater-than-greater-than
-  - out
-  - tread
-  - man-get-flags
-
-
+    - tout
+    - err
+    - brace-quote
+    - cast
+    - greater-than
+    - greater-than-greater-than
+    - out
+    - tread
+    - man-get-flags

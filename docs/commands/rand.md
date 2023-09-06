@@ -1,4 +1,4 @@
-# `rand` - Command Reference
+# `rand`
 
 > Random field generator
 
@@ -8,25 +8,35 @@
 
 ## Usage
 
-    rand data-type [ max-value ]
+```
+rand data-type [ max-value ]
+```
 
 ## Examples
 
 Random integer: 64-bit on 64-bit machines
 
-    rand int
-    
+```
+rand int
+```
+
 Random integer between 0 and 9
 
-    rand int 9
-    
+```
+rand int 9
+```
+
 Random floating point number between 0 and 1
 
-    rand float
-    
+```
+rand float
+```
+
 Random string, fixed to 5 characters long
 
-    rand str 5
+```
+rand str 5
+```
 
 ## Flags
 
@@ -59,3 +69,7 @@ cryptographically secure.
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [builtins/core/random/rand_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/random/rand_doc.yaml).

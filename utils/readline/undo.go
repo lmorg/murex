@@ -7,9 +7,8 @@ import (
 )
 
 func (rl *Instance) undoAppendHistory() {
-	defer func() { rl.viUndoSkipAppend = false }()
-
 	if rl.viUndoSkipAppend {
+		rl.viUndoSkipAppend = false
 		return
 	}
 
@@ -44,5 +43,4 @@ func (rl *Instance) undoLast() {
 		rl.line.SetRunePos(rl.line.RuneLen() - 1)
 		moveCursorBackwards(1)
 	}
-
 }

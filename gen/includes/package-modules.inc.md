@@ -6,10 +6,14 @@ ie there are multiple modules that can be grouped together and distributed as a
 single package.
 
 The way packages and modules are represented is as a path:
-    
-```
-package/module
-```
-    
+    package/module
+
 `murex-package` is a package management tool for administrating murex modules
 and packages.
+
+| Name                                                         | Summary                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| https://github.com/lmorg/murex-module-jump                   | Enables autojump functionalities                             |
+| https://github.com/orefalo/murex-module-starship             | starship - The minimal, blazing-fast, and infinitely customizable prompt |
+| and [many more](https://github.com/search?q=murex-module-&type=repositories) | Murex modules typically follow the `murex-module-*` naming convention |
+

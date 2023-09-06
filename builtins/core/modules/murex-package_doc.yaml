@@ -10,55 +10,76 @@
     Install a new package
 
     ```
-    murex-package: install uri -> <stdout>
+    murex-package install uri -> <stdout>
+    ```
+
+    Remove an existing package
+
+    ```
+    murex-package remove package -> <stdout>
     ```
 
     Update all packages
 
     ```
-    murex-package: update -> <stdout>
+    murex-package update -> <stdout>
     ```
 
     Enable a package or module which had been disabled
 
     ```
-    murex-package: enable package
+    murex-package enable package
 
-    murex-package: enable package/module
+    murex-package enable package/module
     ```
 
     Disable a package
 
     ```
-    murex-package: disable package
+    murex-package disable package
 
-    murex-package: disable package/module
+    murex-package disable package/module
     ```
 
     Import packages from another package database
 
     ```
-    murex-package: import [ uri/ | local/path/ ]packages.json -> <stdout>
+    murex-package import [ uri/ | local/path/ ]packages.json -> <stdout>
     ```
 
     Check status of murex packages
 
     ```
-    murex-package: status -> <stdout>
+    murex-package status -> <stdout>
     ```
-  Examples: |-
+  Examples:
   Flags:
-    install: Installs a package from a user defined URI
-    update: Updates all installed packages
-    enable: Enables a previously disabled package or module
-    disable: Disables a previously enabled package or module
-    import: Import packages described in a backup package DB from user defined URI or local path
-    status: Returns the version status of locally installed packages
-    list: Returns a list of indexed packages/modules (eg what's enabled or disabled)
-    cd: Changes working directory to a package's install location
-    reload: Reloads all enabled modules
+    install: |-
+      Installs a package from a user defined URI
+    remove: |-
+      Removes an installed package from disk
+    update: |-
+      Updates all installed packages
+    enable: |-
+      Enables a previously disabled package or module
+    disable: |-
+      Disables a previously enabled package or module
+    import: |-
+      Import packages described in a backup package DB from user defined URI or local path
+    status: |-
+      Returns the version status of locally installed packages
+    list: |-
+      Returns a list of indexed packages/modules (eg what's enabled or disabled)
+    new: |-
+      A wizard to help with creating a new package
+    cd: |-
+      Changes working directory to a package's install location
+    git: |-
+      Runs `git` against a package
+    reload: |-
+      Reloads all enabled modules
   Detail: |-
-    ### `murex-package: list`... `enabled` vs `loaded`
+    ### `murex-package list`... `enabled` vs `loaded`
 
     `enabled` and `disabled` reads the package status from disk rather than the
     package cache in your current Murex session (like `runtime` reports). This

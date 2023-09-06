@@ -112,7 +112,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) 
 
 		mods, err := profile.LoadPackage(pack, false)
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
+			write(p, "{RED}%s{RESET}", err.Error())
 		}
 
 		// these should NOT equate ;)

@@ -1,4 +1,4 @@
-# mxjson - Data-Type Reference
+# mxjson
 
 > Murex-flavoured JSON (deprecated)
 
@@ -29,20 +29,24 @@ code.
 Code blocks are quoted with `(`, `)`. For example, below "ExampleFunction"
 uses the `({ block quote })` method.
 
-    {
-        "ExampleFunction": ({
-            out: "This is an example Murex function"
-            if { =1==2 } then {
-                err: "The laws of the universe are broken"
-            }
-        })
-    }
-    
+```
+{
+    "ExampleFunction": ({
+        out "This is an example Murex function"
+        if { =1==2 } then {
+            err "The laws of the universe are broken"
+        }
+    })
+}
+```
+
 Any block quoted by this method will be converted to the following valid JSON:
 
-    {
-        "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
-    }
+```
+{
+    "ExampleFunction": "\n    out \"This is an example Murex function\"\n    if { =1==2 } then {\n        err \"The laws of the universe are broken\"\n    }"
+}
+```
 
 ## See Also
 
@@ -52,16 +56,12 @@ Any block quoted by this method will be converted to the following valid JSON:
   Overview of how code blocks are parsed
 * [Create array (`%[]`) constructor](../parser/create-array.md):
   Quickly generate arrays
+* [Create object (`%{}`) constructor](../parser/create-object.md):
+  Quickly generate objects and maps
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`cast`](../commands/cast.md):
@@ -70,13 +70,13 @@ Any block quoted by this method will be converted to the following valid JSON:
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+* [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonc` ](../types/jsonc.md):
+* [`jsonc`](../types/jsonc.md):
   Concatenated JSON
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -84,9 +84,23 @@ Any block quoted by this method will be converted to the following valid JSON:
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+* [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [create-objects](../parser/create-objects.md):
-  
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory
+
+<hr/>
+
+This document was generated from [builtins/types/json/mxjson_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/types/json/mxjson_doc.yaml).

@@ -153,6 +153,16 @@ func (p *Process) ErrIfNotAMethod() error {
 	return nil
 }
 
+func (p *Process) KillForks(exitNum int) {
+	forks := p.Forks.GetForks()
+	for _, procs := range forks {
+		for i := range *procs {
+			(*procs)[i].ExitNum = exitNum
+			(*procs)[i].Done()
+		}
+	}
+}
+
 // Args returns a normalised function name and parameters
 func (p *Process) Args() (string, []string) {
 	return args(p.Name.String(), p.Parameters.StringArray())

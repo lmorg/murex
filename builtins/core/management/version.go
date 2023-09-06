@@ -30,7 +30,7 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--short":
 		p.Stdout.SetDataType(types.Number)
-		num := rxVersionNum.FindStringSubmatch(app.Version)
+		num := rxVersionNum.FindStringSubmatch(app.Version())
 		if len(num) != 1 {
 			return errors.New("unable to extract version number from string")
 		}
@@ -39,7 +39,7 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--no-app-name":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(app.Version))
+		_, err := p.Stdout.Writeln([]byte(app.Version()))
 		return err
 
 	case "--license":
@@ -54,7 +54,7 @@ func cmdVersion(p *lang.Process) error {
 
 	case "":
 		p.Stdout.SetDataType(types.String)
-		v := fmt.Sprintf("%s: %s\n%s\n%s", app.Name, app.Version, app.License, app.Copyright)
+		v := fmt.Sprintf("%s: %s\n%s\n%s", app.Name, app.Version(), app.License, app.Copyright)
 		_, err := p.Stdout.Writeln([]byte(v))
 		return err
 

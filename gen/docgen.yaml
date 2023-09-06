@@ -1,62 +1,35 @@
+
 SourcePath: .
 SourceExt: _doc.yaml
 
 Categories:
+  - ID: Murex
+    Title: Murex
+    Description:
+    Templates:
+    - OutputPath: .
+      CategoryFile:
+      OutputExt: .md
+      CategoryTemplate:
+      DocumentTemplate: gen/root-md-doc.tmpl
+
   - ID: commands
-    Title: Command Reference
+    Title: Builtins Reference
     Description: |-
-      This section is a glossary of Murex builtin commands.
-      
-      Because Murex is loosely modelled on the functional paradigm, it means
-      all language constructs are exposed via functions and those are typically
-      builtins because they can share the Murex runtime virtual machine.
-      However any executable command can also be called from within Murex;
-      be that either via the `exec` builtin or natively like you would from any
-      Linux, UNIX, or even Windows command prompt.
+      {{ include "gen/commands-md-cat.inc.md" }}  
 
-      ## Other Reference Material
-
-      ### Language Guides
-
-      1. [Language Tour](tour.md), which is an introduction into
-         the Murex language.
-
-      2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to Murex's.
-
-      ### Murex's Source Code
-
-      The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
-
-      ### Shell Commands For Querying Builtins
-
-      From the shell itself: run `builtins` to list the builtin command.
-
-      If you require a manual on any of those commands, you can run `murex-docs`
-      to return the same markdown-formatted document as those listed below. eg
-
-      ```
-      murex-docs trypipe
-      ```
-  
     Templates:
     - OutputPath: docs/commands
-      CategoryFile: ../GUIDE.builtin-functions.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
 
     - OutputPath: builtins/docs
-      CategoryFile: 000_summaries_commands_docgen.go
-      OutputExt: _commands_docgen.go
+      CategoryFile: summaries.go
+      #OutputExt: _commands_docgen.go
       CategoryTemplate: gen/commands-go-cat.tmpl
-      DocumentTemplate: gen/commands-go-doc.tmpl
-
-    - OutputPath: builtins
-      CategoryFile: docgen_test.go
-      OutputExt: _commands_docgen.go
-      CategoryTemplate: gen/commands-go_test-cat.tmpl
-      DocumentTemplate:
+      #DocumentTemplate: gen/commands-go-doc.tmpl
 
   - ID: mkarray
     Title: mkarray
@@ -69,81 +42,25 @@ Categories:
       DocumentTemplate: gen/mkarray-md-doc.tmpl
 
   - ID: optional
-    Title: Optional Command Reference
+    Title: Optional Builtins Reference
     Description: |-
-      This section is a glossary of Murex optional builtins.
-      
-      These builtins likely wont be compiled with Murex unless you specifically
-      request them to be. This might be because they duplicate functionality
-      already available on POSIX systems or introduce more complex dependencies.
-      It might also be because that specific builtin is in an alpha stage and thus
-      not ready to ship with Murex.
+      {{ include "gen/optionals-md-cat.inc.md" }}
 
-      ## Other Reference Material
-
-      ### Language Guides
-
-      1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
-         on the core builtins.
-
-      2. [Language Tour](tour.md), which is an introduction into
-         the Murex language.
-
-      3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to Murex's.
-
-      ### Murex's Source Code
-
-      The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/optional).
-
-      ### Shell Commands For Querying Builtins
-
-      From the shell itself: run `builtins` to list the builtin command.
-
-      If you require a manual on any of those commands, you can run `murex-docs`
-      to return the same markdown-formatted document as those listed below. eg
-
-      ```
-      murex-docs trypipe
-      ```
     Templates:
     - OutputPath: docs/optional
-      CategoryFile: ../GUIDE.optional-commands.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
 
-    - OutputPath: builtins/docs
-      CategoryFile: 
-      OutputExt: _commands_docgen.go
-      CategoryTemplate: 
-      DocumentTemplate: gen/commands-go-doc.tmpl
-
   - ID: parser
     Title: Parser Reference
     Description: |-
-      This section is a glossary of Murex tokens and parser behavior.
-  
-      ## Other Reference Material
-
-      ### Language Guides
-
-      1. [Language Tour](tour.md), which is an introduction into
-         the Murex language.
-
-      2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to Murex's.
-
-      3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
-
-      ### Murex's Source Code
-
-      The parser is located Murex's source under the `lang/` path of the project
-      files.
+      {{ include "gen/parser-md-cat.inc.md" }}
   
     Templates:
     - OutputPath: docs/parser
-      CategoryFile: ../GUIDE.parser.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/parser-md-doc.tmpl
@@ -163,58 +80,26 @@ Categories:
   - ID: types
     Title: Data-Type Reference
     Description: |-
-      This section is a glossary of data-types which Murex is natively aware.
-
-      Most of the time you will not need to worry about typing in Murex as the
-      shell is designed around productivity as opposed to strictness despite
-      generally following a strictly typed design.
-
-      Read the [Language Tour](tour.md) for more detail on this topic.
-
-      ## Definitions
-      
-      For clarity, it is worth explaining a couple of terms:
-      
-      1. "Data-types" in Murex are a description of the format of data. This
-      means that while any stdio stream in UNIX will by "bytes", Murex might
-      label that data as being a JSON string or CSV file (for example) which
-      means any builtins that parse that stdio stream, for example to return
-      the first 8 items, would need to parse those types differently. Thus a
-      "data-type" in Murex is actually more than just a description of a data
-      structure; it is a series of APIs to marshall and unmarshall data from
-      complex file formats. This enables you to use the same command line tools
-      to query any type of output.
-
-      2. "Primitive" data-types refer to types that are the required by Murex
-      to function. These will be `int`, `float` / `number`, `bool`, `string`,
-      `generic`, and `null`.
-
-      ## Feature Sets
-      
-      Since not all data formats are equal (for example the TOML file format
-      doesn't support naked arrays where as JSON does), you may find some
-      features missing in some data-types which are present in others. If in
-      doubt then refer to the manual here or check the API manual for more
-      details about specific hooks.
+      {{ include "gen/types-md-cat.inc.md" }}
 
     Templates:
     - OutputPath: docs/types
-      CategoryFile: ../GUIDE.type-system.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/types-md-doc.tmpl
 
-    #- OutputPath: builtins/docs
-    #  CategoryFile: 000_summaries_commands_docgen.go
-    #  OutputExt: _commands_docgen.go
-    #  CategoryTemplate: gen/commands-go-cat.tmpl
-    #  DocumentTemplate: gen/commands-go-doc.tmpl
+  # special variables:
 
-    #- OutputPath: builtins
-    #  CategoryFile: docgen_test.go
-    #  OutputExt: _commands_docgen.go
-    #  CategoryTemplate: gen/commands-go_test-cat.tmpl
-    #  DocumentTemplate: 
+  - ID: variables
+    Title: Special Variables
+    Description:
+    Templates:
+    - OutputPath: docs/variables
+      CategoryFile: ../../gen/includes/autogenerated.variables.inc.md
+      OutputExt: .md
+      CategoryTemplate: gen/variables-md-cat.tmpl
+      DocumentTemplate: gen/variables-md-doc.tmpl
 
   # pipes:
 
@@ -222,16 +107,11 @@ Categories:
   - ID: apis
     Title: API Reference
     Description: |-
-      This section is a glossary of APIs.
-      
-      These APIs are provided for reference for any developers wishing to write
-      their own builtins. However some APIs are still worth being aware of even
-      when just writing Murex scripts because they provide a background into
-      the internal logic of Murex's runtime.
+      {{ include "gen/apis-md-cat.inc.md" }}
 
     Templates:
     - OutputPath: docs/apis
-      CategoryFile: ../GUIDE.apis.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/apis-md-doc.tmpl
@@ -244,7 +124,7 @@ Categories:
       shell and Murex's numerous features.
     Templates:
     - OutputPath: docs/user-guide
-      CategoryFile: ../user-guide.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
@@ -256,7 +136,7 @@ Categories:
       Collection of Murex related documents and personal thoughts.
     Templates:
     - OutputPath: docs/blog
-      CategoryFile: ../BLOG.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/blog-md-cat.tmpl
       DocumentTemplate: gen/blog-md-doc.tmpl
@@ -268,7 +148,7 @@ Categories:
       Track new features, any breaking changes, and the release history here.
     Templates:
     - OutputPath: docs/changelog
-      CategoryFile: ../CHANGELOG.md
+      CategoryFile: README.md
       OutputExt: .md
       CategoryTemplate: gen/changelog-md-cat.tmpl
       DocumentTemplate: gen/changelog-md-doc.tmpl

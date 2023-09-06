@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/test/count"
 )
@@ -38,7 +39,7 @@ func TestHintCodeBlock(t *testing.T) {
 	debug.Enabled = true
 
 	for i, test := range tests {
-		err := lang.ShellProcess.Config.Set("shell", "hint-text-func", test.Block, nil)
+		err := lang.ShellProcess.Config.Set("shell", "hint-text-func", test.Block, ref.NewModule("test/TestHintCodeBlock"))
 		if err != nil {
 			panic(err.Error())
 		}

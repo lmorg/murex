@@ -1,6 +1,8 @@
-# Murex Profile Files - User Guide
+# Profile Files
 
 > A breakdown of the different files loaded on start up
+
+## Description
 
 Murex has several profile files which are loaded in the following order of
 execution:
@@ -62,10 +64,12 @@ named above.
 For people who wish to use XDG paths, in many instances you can get away
 with setting the follow prior to launching Murex (eg in `/etc/profile.d`):
 
-    MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
-    MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
-    MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
-    
+```
+MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
+MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
+MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
+```
+
 This, however, depends on `$XDG_CONFIG_HOME` pointing to a single path rather
 than an array of paths (like `$PATH`). In that instance you can still use
 custom paths in Murex but you might need to get a little more creative in
@@ -79,3 +83,7 @@ how you define that value.
   Define an environmental variable and set it's value
 * [`murex-package`](../commands/murex-package.md):
   Murex's package manager
+
+<hr/>
+
+This document was generated from [gen/user-guide/profile_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/profile_doc.yaml).

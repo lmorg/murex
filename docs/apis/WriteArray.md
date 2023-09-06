@@ -1,4 +1,4 @@
-# `WriteArray()` (type) - API Reference
+# `WriteArray()` (type)
 
 > Write a data type, one array element at a time
 
@@ -128,3 +128,7 @@ func (w *arrayWriter) Close() error {
   Treat data type as a key/value structure and read its contents
 * [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

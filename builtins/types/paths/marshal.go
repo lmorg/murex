@@ -52,7 +52,7 @@ func unmarshalPaths(p *lang.Process) (interface{}, error) {
 	}
 
 	split := bytes.Split(b, pathsSeparator)
-	a := make([]string, len(split))
+	a := make([]interface{}, len(split))
 	for i := range split {
 		a[i] = string(split[i])
 	}

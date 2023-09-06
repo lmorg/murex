@@ -29,42 +29,45 @@ func _() {
 	_ = x[Calculated-19]
 	_ = x[Operations-20]
 	_ = x[Assign-21]
-	_ = x[AssignAndAdd-22]
-	_ = x[AssignAndSubtract-23]
-	_ = x[AssignAndDivide-24]
-	_ = x[AssignAndMultiply-25]
-	_ = x[AssignAndMerge-26]
-	_ = x[EqualTo-27]
-	_ = x[NotEqualTo-28]
-	_ = x[Like-29]
-	_ = x[NotLike-30]
-	_ = x[Regexp-31]
-	_ = x[NotRegexp-32]
-	_ = x[GreaterThan-33]
-	_ = x[GreaterThanOrEqual-34]
-	_ = x[LessThan-35]
-	_ = x[LessThanOrEqual-36]
-	_ = x[Add-37]
-	_ = x[Subtract-38]
-	_ = x[MergeInto-39]
-	_ = x[Multiply-40]
-	_ = x[Divide-41]
+	_ = x[AssignUpdate-22]
+	_ = x[AssignAndAdd-23]
+	_ = x[AssignAndSubtract-24]
+	_ = x[AssignAndDivide-25]
+	_ = x[AssignAndMultiply-26]
+	_ = x[AssignAndMerge-27]
+	_ = x[LogicalOr-28]
+	_ = x[LogicalAnd-29]
+	_ = x[EqualTo-30]
+	_ = x[NotEqualTo-31]
+	_ = x[Like-32]
+	_ = x[NotLike-33]
+	_ = x[Regexp-34]
+	_ = x[NotRegexp-35]
+	_ = x[GreaterThan-36]
+	_ = x[GreaterThanOrEqual-37]
+	_ = x[LessThan-38]
+	_ = x[LessThanOrEqual-39]
+	_ = x[Add-40]
+	_ = x[Subtract-41]
+	_ = x[MergeInto-42]
+	_ = x[Multiply-43]
+	_ = x[Divide-44]
 }
 
 const (
 	_Exp_name_0 = "Undefined"
-	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
+	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
 )
 
 var (
-	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 229, 244, 261, 275, 282, 292, 296, 303, 309, 318, 329, 347, 355, 370, 373, 381, 390, 398, 404}
+	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 287, 296, 306, 313, 323, 327, 334, 340, 349, 360, 378, 386, 401, 404, 412, 421, 429, 435}
 )
 
 func (i Exp) String() string {
 	switch {
 	case i == 0:
 		return _Exp_name_0
-	case 2 <= i && i <= 41:
+	case 2 <= i && i <= 44:
 		i -= 2
 		return _Exp_name_1[_Exp_index_1[i]:_Exp_index_1[i+1]]
 	default:

@@ -1,5 +1,7 @@
 package expressions
 
+import "fmt"
+
 func (tree *ParserT) Dump() interface{} {
 	var (
 		dump  = make(map[string]interface{})
@@ -12,9 +14,14 @@ func (tree *ParserT) Dump() interface{} {
 		node["value"] = tree.ast[i].Value()
 		node["pos"] = tree.ast[i].pos
 		if tree.ast[i].dt != nil {
-			node["dt.prim"] = tree.ast[i].dt.Primitive.String()
-			node["dt.murex"] = tree.ast[i].dt.DataType()
-			node["dt.value"] = tree.ast[i].dt.Value
+			dt, err := tree.ast[i].dt.GetValue()
+			if err == nil && dt != nil {
+				node["dt.prim"] = dt.Primitive.String()
+				node["dt.murex"] = dt.DataType
+				node["dt.value"] = dt.Value
+			} else {
+				node["dt"] = fmt.Sprintf("%v", err)
+			}
 		} else {
 			node["dt"] = "unset"
 		}

@@ -1,6 +1,6 @@
-# `escape` - Command Reference
+# `escape`
 
-> Escape or unescape input 
+> Escape or unescape input
 
 ## Description
 
@@ -14,24 +14,30 @@ returns its unescaped counterpart.
 
 Escape
 
-    <stdin> -> escape -> <stdout>
-    
-    escape string to escape -> <stdout>
-    
+```
+<stdin> -> escape -> <stdout>
+
+escape string to escape -> <stdout>
+```
+
 Unescape
 
-    <stdin> -> !escape -> <stdout>
-    
-    !escape string to unescape -> <stdout>
+```
+<stdin> -> !escape -> <stdout>
+
+!escape string to unescape -> <stdout>
+```
 
 ## Examples
 
 Escape
 
-    » out (multi
-    » line
-    » string) -> escape
-    "multi\nline\nstring\n" 
+```
+» out (multi
+» line
+» string) -> escape
+"multi\nline\nstring\n" 
+```
 
 ## Synonyms
 
@@ -47,3 +53,7 @@ Escape
   Encode or decodes text for HTML
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
+
+<hr/>
+
+This document was generated from [builtins/core/escape/escape_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/escape/escape_doc.yaml).

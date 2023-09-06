@@ -108,6 +108,9 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 	case string, int, float64, bool, nil, []byte, []rune:
 		return nil, fmt.Errorf("primitives like %T cannot be split to return property '%s'", v, path[i])
 
+	case MxInterface:
+		return elementRecursiveLookup(path, i, v.GetValue())
+
 	default:
 		return nil, fmt.Errorf("murex doesn't know how to lookup `%T` (please file a bug with on the murex Github page: https://lmorg/murex)", v)
 	}

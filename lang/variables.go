@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 )
 
 func errVariableReserved(name string) error {
@@ -52,15 +53,24 @@ func errVarCannotStoreVariable(name string, err error) error {
 const (
 	DOT        = ""
 	SELF       = "SELF"
+	ARGV       = "ARGV"
 	ARGS       = "ARGS"
 	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
+	MUREX_ARGV = "MUREX_ARGV"
 	HOSTNAME   = "HOSTNAME"
 	PWD        = "PWD"
 	ENV        = "ENV"
 	GLOBAL     = "GLOBAL"
+	MODULE     = "MOD"
+	COLUMNS    = "COLUMNS"
 )
+
+var ReservedVariableNames = []string{
+	SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV,
+	HOSTNAME, PWD, ENV, MODULE, GLOBAL, COLUMNS,
+}
 
 // Variables is a table of all the variables. This will be local to the scope's
 // process
@@ -131,15 +141,18 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
 	case ENV:
-		return getEnvVarValue(), nil
+		return getEnvVarValue(v), nil
 
 	case GLOBAL:
 		return getGlobalValues(), nil
 
+	case MODULE:
+		return ModuleVariables.GetValues(v.process), nil
+
 	case SELF:
 		return getVarSelf(v.process), nil
 
-	case ARGS:
+	case ARGV, ARGS:
 		return getVarArgs(v.process), nil
 
 	case PARAMS:
@@ -148,11 +161,17 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	case MUREX_EXE:
 		return getVarMurexExeValue()
 
+	case MUREX_ARGV, MUREX_ARGS:
+		return getVarMurexArgs(), nil
+
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
 		return getPwdValue()
+
+	case COLUMNS:
+		return getVarColumnsValue(), nil
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -181,9 +200,9 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	}
 
 	// variable not found so lets fallback to the environmental variables
-	value = os.Getenv(name)
-	if value != "" {
-		return value, nil
+	s, exists := os.LookupEnv(name)
+	if exists {
+		return v.getEnvValueValue(name, s)
 	}
 
 	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
@@ -212,6 +231,16 @@ func (v *Variables) getValueValue(name string) interface{} {
 
 	v.mutex.Unlock()
 	return value
+}
+
+func (v *Variables) getEnvValueValue(name, str string) (interface{}, error) {
+	dt := getEnvVarDataType(name)
+	if dt == types.String {
+		return str, nil
+	}
+
+	value, err := UnmarshalDataBuffered(v.process, []byte(str), dt)
+	return value, err
 }
 
 // GetString returns a string representation of the data stored in the requested variable
@@ -256,18 +285,22 @@ func (v *Variables) GetString(path string) (string, error) {
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
 	case ENV:
-		b, err := json.Marshal(getEnvVarValue(), v.process.Stdout.IsTTY())
+		b, err := json.Marshal(getEnvVarString(), v.process.Stdout.IsTTY())
 		return string(b), err
 
 	case GLOBAL:
 		b, err := json.Marshal(getGlobalValues(), v.process.Stdout.IsTTY())
 		return string(b), err
 
+	case MODULE:
+		b, err := json.Marshal(ModuleVariables.GetValues(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case SELF:
 		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case ARGS:
+	case ARGV, ARGS:
 		b, err := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
@@ -278,11 +311,18 @@ func (v *Variables) getString(name string) (string, error) {
 	case MUREX_EXE:
 		return os.Executable()
 
+	case MUREX_ARGV, MUREX_ARGS:
+		b, err := json.Marshal(getVarMurexArgs(), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
 		return os.Getwd()
+
+	case COLUMNS:
+		return strconv.Itoa(getVarColumnsValue()), nil
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -355,6 +395,15 @@ func (v *Variables) GetDataType(path string) string {
 	case 1:
 		return v.getDataType(split[0])
 	default:
+		switch split[0] {
+		case ENV:
+			return getEnvVarDataType(split[1])
+		case GLOBAL:
+			return getGlobalDataType(split[1])
+		case MODULE:
+			return ModuleVariables.GetDataType(v.process, split[1])
+		}
+
 		val, err := v.getValue(split[0])
 		if err != nil {
 			return v.getDataType(split[0])
@@ -384,16 +433,13 @@ func (v *Variables) GetDataType(path string) string {
 
 func (v *Variables) getDataType(name string) string {
 	switch name {
-	case ENV:
-		return types.Json
-
-	case GLOBAL:
+	case ENV, GLOBAL, MODULE:
 		return types.Json
 
 	case SELF:
 		return types.Json
 
-	case ARGS:
+	case ARGV, ARGS:
 		return types.Json
 
 	case PARAMS:
@@ -402,8 +448,14 @@ func (v *Variables) getDataType(name string) string {
 	case MUREX_EXE:
 		return types.Path
 
+	case MUREX_ARGV, MUREX_ARGS:
+		return types.Json
+
 	case PWD:
 		return types.Path
+
+	case COLUMNS:
+		return types.Integer
 
 	case "0":
 		return types.String
@@ -434,7 +486,7 @@ func (v *Variables) getDataType(name string) string {
 	// variable not found so lets fallback to the environmental variables
 	value := os.Getenv(name)
 	if value != "" {
-		return types.String
+		return getEnvVarDataType(name)
 	}
 
 	return types.Null
@@ -451,6 +503,26 @@ func (v *Variables) getDataTypeValue(name string) (string, bool) {
 	dt := variable.DataType
 	v.mutex.Unlock()
 	return dt, true
+}
+
+func getGlobalDataType(name string) (dt string) {
+	GlobalVariables.mutex.Lock()
+	v := GlobalVariables.vars[name]
+	if v != nil {
+		dt = v.DataType
+	}
+	GlobalVariables.mutex.Unlock()
+	return
+}
+
+func getEnvVarDataType(name string) string {
+	for dt, v := range envDataTypes {
+		if lists.Match(v, name) {
+			return dt
+		}
+	}
+
+	return types.String
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
@@ -471,6 +543,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 			return errVarCannotUpdateNested(split[0], err)
 		}
 		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
+		//err = v.set(p, split[0], variable, v.getNestedDataType(split[0], split[1]), split[1:])
 		if err != nil {
 			return errVarCannotUpdateNested(split[0], err)
 		}
@@ -479,21 +552,25 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 }
 
 func (v *Variables) getNestedDataType(name string, dataType string) string {
-	if name == GLOBAL {
+	switch name {
+	case GLOBAL, MODULE:
 		return dataType
+	default:
+		return v.GetDataType(name)
 	}
-	return v.GetDataType(name)
 }
 
 // Set writes a variable
 func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
 	switch name {
-	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
+	case SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV, HOSTNAME, PWD, COLUMNS, "_":
 		return errVariableReserved(name)
 	case ENV:
 		return setEnvVar(value, changePath)
 	case GLOBAL:
 		return setGlobalVar(p, value, changePath, dataType)
+	case MODULE:
+		return ModuleVariables.Set(p, value, changePath, dataType)
 	case DOT:
 		goto notReserved
 	}
@@ -575,7 +652,7 @@ notReserved:
 
 func setGlobalVar(p *Process, v interface{}, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", GLOBAL)
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", GLOBAL, GLOBAL)
 	}
 
 	switch t := v.(type) {
@@ -591,7 +668,7 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	var value interface{}
 
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$ENV.EXAMPLE`", ENV)
+		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$%s.EXAMPLE`", ENV, ENV)
 	}
 
 	switch t := v.(type) {
@@ -641,7 +718,7 @@ func convertDataType(p *Process, value interface{}, dataType string, name *strin
 			iface = s
 		}
 	default:
-		s, err = varConvertInterface(v, dataType, name)
+		s, err = varConvertInterface(p, v, dataType, name)
 		iface = value
 	}
 	return s, iface, err
@@ -677,7 +754,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }
 
-func varConvertInterface(value interface{}, dataType string, name *string) (string, error) {
+func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
 	MarshalData := Marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
@@ -689,7 +766,7 @@ func varConvertInterface(value interface{}, dataType string, name *string) (stri
 		return s.(string), nil
 	}
 
-	b, err := MarshalData(ShellProcess, value)
+	b, err := MarshalData(p, value)
 	if err != nil {
 		return "", errVarCannotStoreVariable(*name, err)
 	}
@@ -743,13 +820,15 @@ func DumpVariables(p *Process) map[string]interface{} {
 	p.Variables.mutex.Unlock()
 
 	m[SELF], _ = p.Variables.GetValue(SELF)
-	m[ARGS], _ = p.Variables.GetValue(ARGS)
+	m[ARGV], _ = p.Variables.GetValue(ARGV)
 	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
-	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
+	m[MUREX_ARGV], _ = p.Variables.GetValue(MUREX_ARGV)
 	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
 	m[PWD], _ = p.Variables.GetValue(PWD)
 	m[ENV], _ = p.Variables.GetValue(ENV)
-	m[GLOBAL] = nil
+	m[GLOBAL] = ".."
+	m[COLUMNS], _ = p.Variables.GetValue(COLUMNS)
+
 	return m
 }

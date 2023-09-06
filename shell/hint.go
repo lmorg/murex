@@ -28,7 +28,8 @@ func hintText(line []rune, pos int) []rune {
 	cmd := pt.FuncName
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
-		path := utils.NormalisePath(pt.Parameters[0])
+		path := variables.ExpandString(pt.Parameters[0])
+		path = utils.NormalisePath(path)
 		return []rune("Change directory: " + path)
 	}
 
@@ -53,12 +54,14 @@ func hintExpandVariables(line []rune) []rune {
 		return []rune(ansi.ExpandConsts("{RED}") + err.Error())
 	}
 
-	vars := variables.Expand(r)
-	disclaimer := []rune{}
+	/*vars := variables.Expand(r)
+	/disclaimer := []rune{}
 	if string(r) != string(vars) {
 		disclaimer = []rune("(example only) ")
 	}
-	r = append(disclaimer, vars...)
+	r = append(disclaimer, vars...)*/
+
+	// don't update if no changes
 	if string(line) == string(r) {
 		r = []rune{}
 	}
@@ -74,13 +77,14 @@ func hintExpandVariables(line []rune) []rune {
 }
 
 func HintCodeBlock() []rune {
-	ht, err := lang.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
+	ht, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name.Set("(hint-text-func)")
+	fork.FileRef = fileRef
 	exitNum, err := fork.Execute([]rune(ht.(string)))
 
 	b, err2 := fork.Stdout.ReadAll()

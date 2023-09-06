@@ -5,13 +5,14 @@ import (
 	"sync"
 )
 
-// TODO: Is this still being used anywhere???
+type ExecCallbackFunc func(int)
 
 type Exec struct {
-	mutex sync.RWMutex
-	pid   int
-	cmd   *exec.Cmd
-	Env   []string
+	mutex    sync.RWMutex
+	pid      int
+	cmd      *exec.Cmd
+	Env      []string
+	Callback ExecCallbackFunc `json:"-"`
 }
 
 func (exec *Exec) Set(pid int, cmd *exec.Cmd) {
@@ -19,6 +20,10 @@ func (exec *Exec) Set(pid int, cmd *exec.Cmd) {
 	exec.pid = pid
 	exec.cmd = cmd
 	exec.mutex.Unlock()
+
+	if exec.Callback != nil {
+		exec.Callback(pid)
+	}
 }
 
 func (exec *Exec) Get() (int, *exec.Cmd) {

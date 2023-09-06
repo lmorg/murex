@@ -1,4 +1,4 @@
-# `cast` - Command Reference
+# `cast`
 
 > Alters the data type of the previous function without altering it's output
 
@@ -10,12 +10,16 @@ the pipeline are preserved however the reported data type is altered.
 
 ## Usage
 
-    <stdin> -> cast data-type -> <stdout>
+```
+<stdin> -> cast data-type -> <stdout>
+```
 
 ## Examples
 
-    » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
-    {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
+» out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+{"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
 
 ## Detail
 
@@ -30,3 +34,7 @@ instead.
   Print a string to the STDOUT with a trailing new line character
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

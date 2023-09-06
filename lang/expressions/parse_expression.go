@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *ParserT) parseExpression(exec bool) error {
+func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 		switch r {
@@ -27,15 +27,34 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			tree.charPos--
 			return nil
 
-		case ';', '|', '?':
+		case ';', '?':
 			// end expression
 			tree.charPos--
 			return nil
 
-		case '&':
-			if tree.nextChar() == '&' {
+		case '|':
+			if incLogicalOps && tree.nextChar() == '|' {
+				// equals
+				tree.appendAst(symbols.LogicalOr)
+				tree.charPos++
+			} else {
+				// end expression
 				tree.charPos--
 				return nil
+			}
+
+		case '&':
+			if tree.nextChar() == '&' {
+				if incLogicalOps {
+					// equals
+					tree.appendAst(symbols.LogicalAnd)
+					tree.charPos++
+					continue
+				} else {
+					// end expression
+					tree.charPos--
+					return nil
+				}
 			}
 			tree.appendAst(symbols.Unexpected, r)
 			raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
@@ -59,6 +78,17 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.appendAst(symbols.Assign)
 			}
 
+		case ':':
+			switch tree.nextChar() {
+			case '=':
+				// update variable
+				tree.appendAst(symbols.AssignUpdate)
+				tree.charPos++
+			default:
+				// less than
+				tree.appendAst(symbols.LessThan)
+			}
+
 		case '!':
 			switch tree.nextChar() {
 			case '=':
@@ -74,8 +104,22 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.appendAst(symbols.NotLike)
 				tree.charPos++
 			default:
-				// unexpected symbol
-				tree.appendAst(symbols.Unexpected)
+				//  might be a function
+				if !isBareChar(tree.nextChar()) {
+					// unexpected symbol
+					tree.appendAst(symbols.Unexpected)
+				}
+				value := tree.parseBareword()
+				if len(tree.expression) <= tree.charPos || tree.expression[tree.charPos] != '(' {
+					tree.appendAst(symbols.Unexpected)
+					continue
+				}
+				runes, fn, err := tree.parseFunction(exec, value, varAsValue)
+				if err != nil {
+					return err
+				}
+				dt := primitives.NewFunction(fn)
+				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			}
 
 		case '~':
@@ -90,10 +134,14 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.charPos++
 			default:
 				// tilde
-				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
+				/*tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
 					Primitive: primitives.String,
 					Value:     tree.parseVarTilde(exec),
-				})
+				})*/
+				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
+					primitives.String,
+					tree.parseVarTilde(exec),
+				))
 			}
 
 		case '>':
@@ -132,7 +180,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
 			branch.charOffset = tree.charPos + tree.charOffset
 			branch.subExp = true
-			err := branch.parseExpression(exec)
+			err := branch.parseExpression(exec, true)
 			if err != nil {
 				return err
 			}
@@ -142,10 +190,13 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
+				val, err := dt.GetValue()
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Exp(val.Primitive), dt)
 			} else {
 				tree.appendAst(symbols.SubExpressionBegin)
-				//tree.appendAst(symbols.Calculated)
 			}
 
 		case ')':
@@ -190,10 +241,8 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
-					Primitive: primitives.Array,
-					Value:     v,
-				}, runes...)
+				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
+					primitives.Array, v), runes...)
 			default:
 				if !exec {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s' (%d)",
@@ -232,17 +281,17 @@ func (tree *ParserT) parseExpression(exec bool) error {
 		case '$':
 			switch {
 			case tree.nextChar() == '{':
-				// subshell
-				runes, v, mxDt, err := tree.parseSubShell(exec, r, varAsValue)
+				//runes, fn, err := tree.parseSubShell(false, r, varAsValue)
+				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
+				dt := primitives.NewFunction(fn)
 				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			default:
 				// scalar
 				runes, v, mxDt, err := tree.parseVarScalar(exec, false, varAsValue)
+				//runes, v, mxDt, err := tree.parseVarScalar(exec, exec, varAsValue)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))
@@ -250,8 +299,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				if exec && v == nil && mxDt == "" {
 					tree.appendAst(symbols.Scalar, runes...)
 				} else {
-					dt := scalar2Primitive(mxDt)
-					dt.Value = v
+					dt := primitives.NewScalar(mxDt, v)
 					tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 				}
 			}
@@ -261,14 +309,12 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			switch {
 			case next == '{':
 				// subshell
-				runes, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
-					Primitive: primitives.Array,
-					Value:     v,
-				}, runes...)
+				dt := primitives.NewFunction(fn)
+				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			case next == '[':
 				// range (this needs to be a statement)
 				return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
@@ -279,10 +325,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
-					Primitive: primitives.Array,
-					Value:     v,
-				}, runes...)
+				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(primitives.Array, v), runes...)
 			default:
 				if !exec {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
@@ -373,7 +416,16 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				case "null":
 					tree.appendAst(symbols.Null, value...)
 				default:
-					tree.appendAst(symbols.Bareword, value...)
+					if len(tree.expression) > tree.charPos && tree.expression[tree.charPos] == '(' {
+						runes, fn, err := tree.parseFunction(exec, value, varAsValue)
+						if err != nil {
+							return err
+						}
+						dt := primitives.NewFunction(fn)
+						tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+					} else {
+						tree.appendAst(symbols.Bareword, value...)
+					}
 				}
 				tree.charPos--
 

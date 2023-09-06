@@ -1,4 +1,4 @@
-# `die` - Command Reference
+# `die`
 
 > Terminate murex with an exit number of 1
 
@@ -8,11 +8,15 @@ Terminate Murex with an exit number of 1.
 
 ## Usage
 
-    die
+```
+die
+```
 
 ## Examples
 
-    » die
+```
+» die
+```
 
 ## See Also
 
@@ -22,3 +26,7 @@ Terminate Murex with an exit number of 1.
   Exit murex
 * [`null`](../commands/devnull.md):
   null function. Similar to /dev/null
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

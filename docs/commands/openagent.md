@@ -1,6 +1,6 @@
-# `openagent` - Command Reference
+# `openagent`
 
-> Creates a handler function for `open
+> Creates a handler function for `open`
 
 ## Description
 
@@ -11,15 +11,21 @@ terminal when accessed via `open` and STDOUT is a TTY.
 
 Display code block for an associated data-type:
 
-    openagent get data-type
-    
+```
+openagent get data-type
+```
+
 Define an `open` handler function:
 
-    openagent set data-type { code-block }
-    
+```
+openagent set data-type { code-block }
+```
+
 Undefine an `open` handler:
 
-    !openagent data-type
+```
+!openagent data-type
+```
 
 ## Detail
 
@@ -46,3 +52,7 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/open/open_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/open/open_doc.yaml).

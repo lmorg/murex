@@ -1,6 +1,7 @@
 <h1>Language Tour</h1>
 
 <h2>Table of Contents</h2>
+
 <div id="toc">
 
 - [Introduction](#introduction)
@@ -42,6 +43,7 @@
 - [Stopping Execution](#stopping-execution)
   - [The `continue` Statement](#the-continue-statement)
   - [The `break` Statement](#the-break-statement)
+  - [The `return` Statement](#the-return-statement)
   - [The `exit` Statement](#the-exit-statement)
   - [Signal: SIGINT](#signal-sigint)
   - [Signal: SIGQUIT](#signal-sigquit)
@@ -413,7 +415,7 @@ rm @{g *.txt | f +s}
 
 In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
 using the following syntax: `a{1..5}b`. In Murex, like with globbing, brace
-expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
+expansion is a function: `a a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
 
 ## Executables
@@ -478,12 +480,12 @@ if { true } then {
 Because `if ... else if` chains are ugly, Murex supports `switch` statements:
 ```
 switch $USER {
-    case "Tom"   { out: "Hello Tom" }
-    case "Dick"  { out: "Howdie Richard" }
-    case "Sally" { out: "Nice to meet you" }
+    case "Tom"   { out "Hello Tom" }
+    case "Dick"  { out "Howdie Richard" }
+    case "Sally" { out "Nice to meet you" }
 
     default {
-        out: "I don't know who you are"
+        out "I don't know who you are"
     }
 }
 ```
@@ -562,9 +564,13 @@ function example {
 
 `break` cannot exit anything above it's callers scope. ([read more](commands/break.md))
 
+### The `return` Statement
+
+`return` ends the current scope (typically a function). ([read more](commands/return.md))
+
 ### The `exit` Statement
 
-Terminates Murex. `exit` is not scope aware; if it is included in a function
+`exit` terminates Murex. It is not scope aware; if it is included in a function
 then the whole shell will still exist and not just that function. ([read more](commands/exit.md))
 
 ### Signal: SIGINT
@@ -581,3 +587,12 @@ session. Which is a handy escape hatch if your shell code starts misbehaving.
 ### Signal: SIGTSTP
 
 This can be invoked by pressing `Ctrl` + `z`
+
+## See Also
+
+* [Install](/INSTALL.md):
+  Installation instructions
+
+<hr/>
+
+This document was generated from [gen/root/tour_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/root/tour_doc.yaml).

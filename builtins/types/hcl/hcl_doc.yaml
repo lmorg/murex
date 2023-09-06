@@ -1,12 +1,12 @@
 - DocumentID: hcl
   Title: >-
-    `hcl` 
+    `hcl`
   CategoryID: types
   Summary: >-
     HashiCorp Configuration Language (HCL)
   Description: |-
     The description below is taken from the HCL git repository's [README](https://github.com/hashicorp/hcl):
-    
+
     > HCL (HashiCorp Configuration Language) is a configuration language built by
     > HashiCorp. The goal of HCL is to build a structured configuration language
     > that is both human and machine friendly for use with command-line tools, but
@@ -64,30 +64,23 @@
   Detail: |-
   Associations:
     Mimes:
-    - application/hcl
-    - application/x-hcl
-    - text/hcl
-    - text/x-hcl
+      - application/hcl
+      - application/x-hcl
+      - text/hcl
+      - text/x-hcl
     Extensions:
-    - hcl
-    - tf
-    - tfvars
+      - hcl
+      - tf
+      - tfvars
   Related:
-  - yaml
-  - json
-  - jsonl
-  - mxjson
-  - commands/open
-  - commands/index
-  - commands/element
-  - commands/cast
-  - commands/format
-  - commands/runtime
-  - commands/pretty
-  - apis/ReadArray
-  - apis/ReadMap
-  - apis/WriteArray
-  - apis/ReadIndex
-  - apis/ReadNotIndex
-  - apis/Marshal
-  - apis/Unmarshal
+    - yaml
+    - json
+    - jsonl
+    - mxjson
+    - commands/open
+    - commands/index
+    - commands/element
+    - commands/cast
+    - commands/format
+    - commands/runtime
+    - commands/pretty

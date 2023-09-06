@@ -1,4 +1,4 @@
-# String (`$`) Token - Parser Reference
+# String (`$`) Token
 
 > Expand values as a string
 
@@ -17,52 +17,66 @@ alpha, numeric, underscore (`_`) or a full stop / period (`.`).
 
 **ASCII variable names:**
 
-    » $example = "foobar"
-    » out $example
-    foobar
-    
+```
+» $example = "foobar"
+» out $example
+foobar
+```
+
 **Unicode variable names:**
 
 Variable names can be non-ASCII however they have to be surrounded by
 parenthesis. eg
 
-    » $(比如) = "举手之劳就可以使办公室更加环保，比如，使用再生纸。"
-    » out $(比如)
-    举手之劳就可以使办公室更加环保，比如，使用再生纸。
-    
+```
+» $(比如) = "举手之劳就可以使办公室更加环保，比如，使用再生纸。"
+» out $(比如)
+举手之劳就可以使办公室更加环保，比如，使用再生纸。
+```
+
 **Infixing inside text:**
 
 Sometimes you need to denote the end of a variable and have text follow on.
 
-    » $partial_word = "orl"
-    » out "Hello w$(partial_word)d!"
-    Hello world!
-    
+```
+» $partial_word = "orl"
+» out "Hello w$(partial_word)d!"
+Hello world!
+```
+
 **Variables are tokens:**
 
 Please note the new line (`\n`) character. This is not split using `$`:
 
-    » $example = "foo\nbar"
-    
+```
+» $example = "foo\nbar"
+```
+
 Output as a string:
 
-    » out $example
-    foo
-    bar
-    
+```
+» out $example
+foo
+bar
+```
+
 Output as an array:
 
-    » out @example
-    foo bar
-    
+```
+» out @example
+foo bar
+```
+
 The string and array tokens also works for subshells:
 
-    » out ${ %[Mon..Fri] }
-    ["Mon","Tue","Wed","Thu","Fri"]
-    
-    » out @{ %[Mon..Fri] }
-    Mon Tue Wed Thu Fri
-    
+```
+» out ${ %[Mon..Fri] }
+["Mon","Tue","Wed","Thu","Fri"]
+
+» out @{ %[Mon..Fri] }
+Mon Tue Wed Thu Fri
+```
+
 > `out` will take an array and output each element, space delimited. Exactly
 > the same how `echo` would in Bash.
 
@@ -71,30 +85,34 @@ The string and array tokens also works for subshells:
 If a variable is used as a commend then Murex will just print the content of
 that variable.
 
-    » $example = "Hello World!"
-    
-    » $example
-    Hello World!
+```
+» $example = "Hello World!"
+
+» $example
+Hello World!
+```
 
 ## Detail
 
 Strings and subshells can be expanded inside double quotes, brace quotes as
 well as used as barewords. But they cannot be expanded inside single quotes.
 
-    » set: example="World!"
-    
-    » out: Hello $example
-    Hello World!
-    
-    » out: 'Hello $example'
-    Hello $example
-    
-    » out: "Hello $example"
-    Hello World!
-    
-    » out: %(Hello $example)
-    Hello World!
-    
+```
+» set example="World!"
+
+» out Hello $example
+Hello World!
+
+» out 'Hello $example'
+Hello $example
+
+» out "Hello $example"
+Hello World!
+
+» out %(Hello $example)
+Hello World!
+```
+
 However you cannot expand arrays (`@`) inside any form of quotation since
 it wouldn't be clear how that value should be expanded relative to the
 other values inside the quote. This is why array and object builders (`%[]`
@@ -125,3 +143,7 @@ do not.
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/parser/variables_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/variables_doc.yaml).

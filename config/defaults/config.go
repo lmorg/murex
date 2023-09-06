@@ -68,7 +68,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "autocomplete-soft-timeout", config.Properties{
 		Description: "Number of milliseconds (1/1000th second) to wait when running autocompletins before the task is backgrounded and the results appended to the existing completions (longer reduces responsiveness, shorter means autocompletion fields aren't sized to the longest suggestion)",
-		Default:     75,
+		Default:     150,
 		DataType:    types.Integer,
 		Global:      true,
 	})
@@ -352,7 +352,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("test", "crop-message", config.Properties{
 		Description: "This is the character limit for the report message when the report is set to `table`. Set to zero, `0`, to disable message cropping",
-		Default:     100,
+		Default:     0,
 		DataType:    types.Integer,
 	})
 }

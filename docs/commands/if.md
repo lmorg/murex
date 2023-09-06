@@ -1,4 +1,4 @@
-# `if` - Command Reference
+# `if`
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 
@@ -14,42 +14,52 @@ previous function succeeds then the condition is `true`).
 
 ### Function `if`:
 
-    if { code-block } then {
-        # true
-    } else {
-        # false
-    }
-    
+```
+if { code-block } then {
+    # true
+} else {
+    # false
+}
+```
+
 ### Method `if`:
 
-    command -> if {
-        # true
-    } else {
-        # false
-    }
-    
+```
+command -> if {
+    # true
+} else {
+    # false
+}
+```
+
 ### Negative Function `if`:
 
-    !if { code-block } then {
-        # false
-    }
-    
+```
+!if { code-block } then {
+    # false
+}
+```
+
 ### Negative Method `if`:
 
-    command -> !if {
-        # false
-    }
-    
+```
+command -> !if {
+    # false
+}
+```
+
 ### Please Note:
 the `then` and `else` statements are optional. So the first usage could
 also be written as:
 
-    if { code-block } {
-        # true
-    } {
-        # false
-    }
-    
+```
+if { code-block } {
+    # true
+} {
+    # false
+}
+```
+
 However the practice of omitting those statements isn't recommended beyond
 writing short one liners in the interactive command prompt.
 
@@ -57,19 +67,25 @@ writing short one liners in the interactive command prompt.
 
 Check if a file exists:
 
-    if { g somefile.txt } then {
-        out "File exists"
-    }
-    
+```
+if { g somefile.txt } then {
+    out "File exists"
+}
+```
+
 ...or does not exist (both ways are valid):
 
-    !if { g somefile.txt } then {
-        out "File does not exist"
-    }
-    
-    if { g somefile.txt } else {
-        out "File does not exist"
-    }
+```
+!if { g somefile.txt } then {
+    out "File does not exist"
+}
+```
+
+```
+if { g somefile.txt } else {
+    out "File does not exist"
+}
+```
 
 ## Detail
 
@@ -97,7 +113,7 @@ conditionals output.
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`false`](../commands/false.md):
@@ -114,3 +130,7 @@ conditionals output.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [builtins/core/structs/if_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/if_doc.yaml).

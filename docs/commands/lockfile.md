@@ -1,4 +1,4 @@
-# `lockfile` - Command Reference
+# `lockfile`
 
 > Create and manage lock files
 
@@ -10,33 +10,43 @@
 
 Create a lock file with the name `identifier`
 
-    lockfile: lock identifier
-    
+```
+lockfile lock identifier
+```
+
 Delete a lock file with the name `identifier`
 
-    lockfile: unlock identifier
-    
+```
+lockfile unlock identifier
+```
+
 Wait until lock file with the name `identifier` has been deleted
 
-    lockfile: wait identifier
-    
+```
+lockfile wait identifier
+```
+
 Output the the file name and path of a lock file with the name `identifier`
 
-    lockfile: path identifier -> <stdout>
+```
+lockfile path identifier -> <stdout>
+```
 
 ## Examples
 
-    lockfile: lock example
-    out: "lock file created: ${lockfile path example}"
-    
-    bg {
-        sleep: 10
-        lockfile: unlock example
-    }
-    
-    out: "waiting for lock file to be deleted (sleep 10 seconds)...."
-    lockfile: wait example
-    out: "lock file gone!"
+```
+lockfile lock example
+out "lock file created: ${lockfile path example}"
+
+bg {
+    sleep 10
+    lockfile unlock example
+}
+
+out "waiting for lock file to be deleted (sleep 10 seconds)...."
+lockfile wait example
+out "lock file gone!"
+```
 
 ## See Also
 
@@ -44,3 +54,7 @@ Output the the file name and path of a lock file with the name `identifier`
   Run processes in the background
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
+
+<hr/>
+
+This document was generated from [builtins/core/io/lockfile_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/lockfile_doc.yaml).

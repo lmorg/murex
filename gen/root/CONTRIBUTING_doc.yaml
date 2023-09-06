@@ -1,0 +1,11 @@
+- DocumentID: CONTRIBUTING
+  Title: >-
+    Contributing
+  CategoryID: Murex
+  Summary: >-
+    Guide to contributing to Murex
+  Description: |-
+    {{ include "gen/root/CONTRIBUTING.inc.md" }}
+  Synonyms:
+  Related:
+    - compatibility

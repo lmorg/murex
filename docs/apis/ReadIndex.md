@@ -1,4 +1,4 @@
-# `ReadIndex()` (type) - API Reference
+# `ReadIndex()` (type)
 
 > Data type handler for the index, `[`, builtin
 
@@ -79,9 +79,13 @@ both agnostic to the bang prefix.
   Write a data type, one array element at a time
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
+* [commands/index](../commands/item-index.md):
+  Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

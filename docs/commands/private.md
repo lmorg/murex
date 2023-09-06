@@ -1,4 +1,4 @@
-# `private` - Command Reference
+# `private`
 
 > Define a private function block
 
@@ -14,31 +14,35 @@ a module or source file without cluttering up the global namespace.
 
 ## Usage
 
-    private: name { code-block }
+```
+private name { code-block }
+```
 
 ## Examples
 
-    # The following cannot be entered via the command line. You need to write
-    # it to a file and execute it from there.
-    
-    private hw {
-        out "Hello, World!"
-    }
-    
-    function tom {
-        hw
-        out "My name is Tom."
-    }
-    
-    function dick {
-        hw
-        out "My name is Dick."
-    }
-    
-    function harry {
-        hw
-        out "My name is Harry."
-    }
+```
+# The following cannot be entered via the command line. You need to write
+# it to a file and execute it from there.
+
+private hw {
+    out "Hello, World!"
+}
+
+function tom {
+    hw
+    out "My name is Tom."
+}
+
+function dick {
+    hw
+    out "My name is Dick."
+}
+
+function harry {
+    hw
+    out "My name is Harry."
+}
+```
 
 ## Detail
 
@@ -110,5 +114,9 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a methods supported data-types
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/structs/function_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/function_doc.yaml).

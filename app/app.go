@@ -2,6 +2,8 @@ package app
 
 import (
 	"fmt"
+
+	"github.com/lmorg/murex/utils/semver"
 )
 
 // Name is the name of the $SHELL
@@ -11,12 +13,10 @@ const Name = "murex"
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
 const (
 	version  = "%d.%d.%d"
-	Major    = 4
-	Minor    = 4
-	Revision = 9500
+	Major    = 5
+	Minor    = 0
+	Revision = 9200
 )
-
-var Version string
 
 // Copyright is the copyright owner string
 const Copyright = "© 2018-2023 Laurence Morgan"
@@ -28,5 +28,18 @@ const License = "License GPL v2"
 var ShellModule = Name + "/shell"
 
 func init() {
-	Version = fmt.Sprintf(version, Major, Minor, Revision)
+	v = fmt.Sprintf(version, Major, Minor, Revision)
+	sv, _ = semver.Parse(v)
+}
+
+var v string
+
+func Version() string {
+	return v
+}
+
+var sv *semver.Version
+
+func Semver() *semver.Version {
+	return sv
 }

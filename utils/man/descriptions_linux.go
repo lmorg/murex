@@ -3,4 +3,10 @@
 
 package man
 
-var manBlock = []rune(`man <env:MANWIDTH=1000> $command`)
+import "fmt"
+
+var manBlock = `man <env:MANWIDTH=%d> $command`
+
+func ManPageExecBlock(width int) []rune {
+	return []rune(fmt.Sprintf(manBlock, width))
+}

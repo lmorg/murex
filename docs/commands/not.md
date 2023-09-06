@@ -1,4 +1,4 @@
-# `!` (not) - Command Reference
+# `!` (not)
 
 > Reads the STDIN and exit number from previous process and not's it's condition
 
@@ -8,15 +8,21 @@ Reads the STDIN and exit number from previous process and not's it's condition.
 
 ## Usage
 
-    <stdin> -> ! -> <stdout>
+```
+<stdin> -> ! -> <stdout>
+```
 
 ## Examples
 
-    » echo "Hello, world!" -> !
-    false
-    
-    » false -> !
-    true
+```
+» echo "Hello, world!" -> !
+false
+```
+
+```
+» false -> !
+true
+```
 
 ## Synonyms
 
@@ -35,3 +41,7 @@ Reads the STDIN and exit number from previous process and not's it's condition.
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`true`](../commands/true.md):
   Returns a `true` value
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

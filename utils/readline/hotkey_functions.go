@@ -3,6 +3,7 @@ package readline
 import "fmt"
 
 func HkFnMoveToStartOfLine(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	if rl.line.RuneLen() == 0 {
 		return
 	}
@@ -13,6 +14,7 @@ func HkFnMoveToStartOfLine(rl *Instance) {
 }
 
 func HkFnMoveToEndOfLine(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	if rl.line.RuneLen() == 0 {
 		return
 	}
@@ -33,6 +35,7 @@ func HkFnClearAfterCursor(rl *Instance) {
 }
 
 func HkFnClearScreen(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	if rl.previewMode != previewModeClosed {
 		HkFnPreviewToggle(rl)
 	}
@@ -47,6 +50,7 @@ func HkFnClearLine(rl *Instance) {
 }
 
 func HkFnFuzzyFind(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	if !rl.modeTabCompletion {
 		rl.modeAutoFind = true
 		rl.getTabCompletion()
@@ -54,10 +58,10 @@ func HkFnFuzzyFind(rl *Instance) {
 
 	rl.modeTabFind = true
 	rl.updateTabFind([]rune{})
-	rl.viUndoSkipAppend = true
 }
 
 func HkFnSearchHistory(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	rl.modeAutoFind = true
 	rl.tcOffset = 0
 	rl.modeTabCompletion = true
@@ -69,10 +73,10 @@ func HkFnSearchHistory(rl *Instance) {
 
 	rl.modeTabFind = true
 	rl.updateTabFind([]rune{})
-	rl.viUndoSkipAppend = true
 }
 
 func HkFnAutocomplete(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	if rl.modeTabCompletion {
 		rl.moveTabCompletionHighlight(1, 0)
 	} else {
@@ -80,18 +84,20 @@ func HkFnAutocomplete(rl *Instance) {
 	}
 
 	rl.renderHelpers()
-	rl.viUndoSkipAppend = true
 }
 
 func HkFnJumpForwards(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	rl.moveCursorByRuneAdjust(rl.viJumpE(tokeniseLine))
 }
 
 func HkFnJumpBackwards(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	rl.moveCursorByRuneAdjust(rl.viJumpB(tokeniseLine))
 }
 
 func HkFnCancelAction(rl *Instance) {
+	rl.viUndoSkipAppend = true
 	switch {
 	case rl.modeAutoFind:
 		rl.clearPreview()
@@ -118,7 +124,6 @@ func HkFnCancelAction(rl *Instance) {
 		rl.viIteration = ""
 		rl.viHintMessage()
 	}
-	rl.viUndoSkipAppend = true
 }
 
 func HkFnRecallWord1(rl *Instance)  { hkFnRecallWord(rl, 1) }
@@ -153,6 +158,8 @@ func hkFnRecallWord(rl *Instance, i int) {
 }
 
 func HkFnPreviewToggle(rl *Instance) {
+	rl.viUndoSkipAppend = true
+
 	switch rl.previewMode {
 	case previewModeClosed:
 		print(seqSaveBuffer)
@@ -169,4 +176,15 @@ func HkFnPreviewToggle(rl *Instance) {
 
 	rl.echo()
 	rl.renderHelpers()
+}
+
+func HkFnUndo(rl *Instance) {
+	rl.viUndoSkipAppend = true
+	if len(rl.viUndoHistory) == 0 {
+		return
+	}
+	rl.undoLast()
+	rl.viUndoSkipAppend = true
+	rl.line.SetRunePos(rl.line.RuneLen())
+	moveCursorForwards(1)
 }

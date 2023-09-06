@@ -1,4 +1,4 @@
-# `f` - Command Reference
+# `f`
 
 > Lists or filters file system objects (eg files)
 
@@ -18,25 +18,33 @@ Output is a JSON array as this format preserves whitespace in file names.
 
 ## Usage
 
-    f: options -> <stdout>
-    
-    <stdin> -> f: options -> <stdout>
+```
+f options -> <stdout>
+
+<stdin> -> f options -> <stdout>
+```
 
 ## Examples
 
 Return only directories:
 
-    f: +d
-    
+```
+f +d
+```
+
 Return file and directories but exclude symlinks:
 
-    f: +fd -s
-    
+```
+f +fd -s
+```
+
 Filter out files in a list (eg created by `g`) using conditions set by `f`:
 
-    g: '*.go' -> f: +f
-    
-    rx: '\.(txt|md)' -> f: +fw
+```
+g '*.go' -> f +f
+
+rx '\.(txt|md)' -> f +fw
+```
 
 ## Flags
 
@@ -102,7 +110,11 @@ any matches from the `+` flags.
 
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+
+<hr/>
+
+This document was generated from [builtins/core/io/f_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/f_doc.yaml).

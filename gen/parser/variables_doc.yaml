@@ -22,18 +22,18 @@
     well as used as barewords. But they cannot be expanded inside single quotes.
     
     ```
-    » set: example="World!"
+    » set example="World!"
 
-    » out: Hello $example
+    » out Hello $example
     Hello World!
 
-    » out: 'Hello $example'
+    » out 'Hello $example'
     Hello $example
 
-    » out: "Hello $example"
+    » out "Hello $example"
     Hello World!
 
-    » out: %(Hello $example)
+    » out %(Hello $example)
     Hello World!
     ```
 
@@ -73,17 +73,17 @@
     inside quoted strings like you can with a string variable:
 
     ```
-    » out: "foo ${ ja: [1..5] } bar"
+    » out "foo ${ ja [1..5] } bar"
     foo ["1","2","3","4","5"] bar
     
-    » out: "foo @{ ja: [1..5] } bar"
+    » out "foo @{ ja [1..5] } bar"
     foo  1 2 3 4 5  bar
 
-    » %(${ ja: [1..5] })
+    » %(${ ja [1..5] })
     ["1","2","3","4","5"]   
 
     » %(@{ ja: [1..5] })
-    @{ ja: [1..5] } 
+    @{ ja [1..5] } 
     ```
   Related:
   - tilde
@@ -95,7 +95,7 @@
   - commands/set
   - commands/ja
   - commands/brace-quote
-
+  - user-guide/reserved-vars
 
 
 - DocumentID: tilde
@@ -108,10 +108,10 @@
     The tilde token is used as a lazy reference to the users home directory.
   Examples: |-
     ```
-    » out: ~
+    » out ~
     /home/bob
 
-    » out: ~joe
+    » out ~joe
     /home/joe
     ```
   Detail: |-
@@ -119,16 +119,16 @@
     But it cannot be expanded inside single quotes.
     
     ```
-    » out: ~
+    » out ~
     /home/bob
 
-    » out: '~'
+    » out '~'
     ~
 
-    » out: "~"
+    » out "~"
     /home/bob
 
-    » out: %(~)
+    » out %(~)
     /home/bob
     ```
   Related:
@@ -141,3 +141,4 @@
   - commands/set
   - commands/ja
   - commands/brace-quote
+  - user-guide/reserved-vars

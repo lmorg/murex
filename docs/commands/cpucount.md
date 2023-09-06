@@ -1,4 +1,4 @@
-# `cpucount` - Command Reference
+# `cpucount`
 
 > Output the number of CPU cores available on your host
 
@@ -8,12 +8,16 @@ Output the number of CPU cores available on your host.
 
 ## Usage
 
-    cpucount -> <stdout>
+```
+cpucount -> <stdout>
+```
 
 ## Examples
 
-    » cpucount
-    4
+```
+» cpucount
+4
+```
 
 ## See Also
 
@@ -21,3 +25,7 @@ Output the number of CPU cores available on your host.
   Output the hosts CPU architecture
 * [`os`](../commands/os.md):
   Output the auto-detected OS name
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

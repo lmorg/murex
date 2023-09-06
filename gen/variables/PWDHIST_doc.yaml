@@ -1,0 +1,37 @@
+- DocumentID: pwdhist
+  Title: >-
+    `PWDHIST` (json)
+  CategoryID: variables
+  Summary: >-
+    History of each change to the sessions working directory
+  Description: |-
+    `PWDHIST` is a JSON array containing the history of all the working directories
+    within the current shell session.
+
+    It is updated via `cd` however you can overwrite its value manually via `set`.
+  Examples: |-
+    ```
+    » cd ~bob
+    » cd /tmp
+    » $PWDHIST
+    [
+        "/Users/bob",
+        "/private/tmp"
+    ]
+    ```
+
+  Synonyms:
+  - pwdhist
+  - PWDHIST
+  Related:
+  - types/path
+  - types/json
+  - pwd
+  - parser/string
+  - parser/array
+  - commands/set
+  - commands/cd
+  - user-guide/scoping
+  - user-guide/pipeline
+  - user-guide/modules
+  - user-guide/reserved-vars

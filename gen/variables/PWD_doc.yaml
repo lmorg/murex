@@ -1,0 +1,21 @@
+- DocumentID: pwd
+  Title: >-
+    `PWD` (str)
+  CategoryID: variables
+  Summary: >-
+    Current working directory
+  Description: |-
+    `PWD` is an environmental variable containing the current working directory.
+
+    It is updated via `cd` however you can overwrite its value manually via `export`.
+  Examples:
+
+  Synonyms:
+  - pwd
+  - PWD
+  Related:
+  - types/path
+  - pwdhist
+  - parser/string
+  - commands/export
+  - commands/cd

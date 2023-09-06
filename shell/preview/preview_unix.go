@@ -5,9 +5,9 @@ package preview
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
 
+	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/rmbs"
 )
@@ -26,21 +26,11 @@ func previewFile(filename string) []byte {
 }
 
 func manPage(exe string, size *readline.PreviewSizeT) []byte {
-	cmd := exec.Command("man", exe)
-	cmd.Env = []string{fmt.Sprintf("MANWIDTH=%d", size.Width)}
-
-	var out, err bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Stderr = &err
-
-	if e := cmd.Run(); e != nil {
-		return err.Bytes()
+	b, err:=man.GetManPage(exe, size.Width).ReadAll()
+	if err!=nil {
+		return []byte{}
 	}
 
-	if out.Len() == 0 {
-		return err.Bytes()
-	}
-
-	s := rmbs.Remove(out.String())
+	s := rmbs.Remove(string(b))
 	return []byte(s)
 }

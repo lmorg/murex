@@ -1,0 +1,12 @@
+- DocumentID: tour
+  WriteTo: docs/
+  Title: >-
+    Language Tour
+  CategoryID: Murex
+  Summary: >-
+    Getting started with Murex
+  Description: |-
+    {{ include "gen/root/tour.inc.md" }}
+  Synonyms:
+  Related:
+  - INSTALL

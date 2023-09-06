@@ -1,4 +1,4 @@
-# `right` - Command Reference
+# `right`
 
 > Right substring every item in a list
 
@@ -11,34 +11,42 @@ the parameter is a negative then `right` counts from the left.
 
 ## Usage
 
-    <stdin> -> right int -> <stdout>
+```
+<stdin> -> right int -> <stdout>
+```
 
 ## Examples
 
 Count from the right
 
-    » ja: [Monday..Wednesday] -> right 4
-    [
-        "nday",
-        "sday",
-        "sday"
-    ]
-    
+```
+» ja [Monday..Wednesday] -> right 4
+[
+    "nday",
+    "sday",
+    "sday"
+]
+```
+
 Count from the left
 
-    » ja: [Monday..Wednesday] -> left -3
-    [
-        "day",
-        "sday",
-        "nesday"
-    ]
+```
+» ja [Monday..Wednesday] -> left -3
+[
+    "day",
+    "sday",
+    "nesday"
+]
+```
 
 ## Detail
 
 Supported data types can queried via `runtime`
 
-    runtime: --marshallers
-    runtime: --unmarshallers
+```
+runtime --marshallers
+runtime --unmarshallers
+```
 
 ## Synonyms
 
@@ -66,3 +74,7 @@ Supported data types can queried via `runtime`
   Returns runtime information on the internal state of Murex
 * [`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
+
+<hr/>
+
+This document was generated from [builtins/core/lists/push_pop_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/push_pop_doc.yaml).

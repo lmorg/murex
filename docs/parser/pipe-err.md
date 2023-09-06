@@ -1,4 +1,4 @@
-# STDERR Pipe (`?`) Token - Parser Reference
+# STDERR Pipe (`?`) Token
 
 > Pipes STDERR from the left hand command to STDIN of the right hand command
 
@@ -11,20 +11,26 @@ space.
 
 ## Examples
 
-    » err Hello, world! ? regexp s/world/Earth/
-    Hello, Earth!
-    
+```
+» err Hello, world! ? regexp s/world/Earth/
+Hello, Earth!
+```
+
 In following example the first command is writing to STDOUT rather than STDERR
 so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
 
-    » out Hello, world! ? regexp s/world/Earth/
-    Hello, world!
-    
+```
+» out Hello, world! ? regexp s/world/Earth/
+Hello, world!
+```
+
 In following example the STDERR token isn't whitespace padded so is treated
 like any ordinary printable character:
 
-    » err Hello, world!? regexp s/world/Earth/
-    Hello, world!? regexp s/world/Earth/
+```
+» err Hello, world!? regexp s/world/Earth/
+Hello, world!? regexp s/world/Earth/
+```
 
 ## See Also
 
@@ -44,3 +50,7 @@ like any ordinary printable character:
   Print a string to the STDOUT with a trailing new line character
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+
+<hr/>
+
+This document was generated from [gen/parser/pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/pipes_doc.yaml).

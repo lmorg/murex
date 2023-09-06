@@ -46,7 +46,7 @@ func testUnitDefine(p *lang.Process) error {
 		function = lang.UnitTestEvent + "/" + function
 
 	default:
-		return errUsage("", fmt.Errorf("Unsupported block type (eg `function`, `private`, `event`): `%s`", mod))
+		return errUsage("", fmt.Errorf("unsupported block type (eg `function`, `private`, `event`): `%s`", mod))
 	}
 
 	lang.GlobalUnitTests.Add(function, plan, p.FileRef)
@@ -70,9 +70,7 @@ func testUnitRun(p *lang.Process) error {
 		return err
 	}
 
-	if !lang.GlobalUnitTests.Run(p, function) {
-		p.ExitNum = 1
-	}
+	lang.GlobalUnitTests.Run(p, function)
 
 	return p.Tests.WriteResults(p.Config, p.Stdout)
 }

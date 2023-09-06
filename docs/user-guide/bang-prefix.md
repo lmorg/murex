@@ -1,6 +1,8 @@
-# Bang Prefix - User Guide
+# Bang Prefix
 
 > Bang prefixing to reverse default actions
+
+## Description
 
 Some builtins support a bang prefix, `!`, which provides a shorthand negative
 action to default behavior. For example, `set` defines a variable where as
@@ -33,3 +35,7 @@ bang prefix and what the behavior of that prefix is.
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/user-guide/bang-prefix_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/bang-prefix_doc.yaml).

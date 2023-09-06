@@ -60,7 +60,7 @@ func getModule(p *lang.Process) error {
 }
 
 func getPackage(p *lang.Process, uri string) (pack, protocol string, err error) {
-	p.Stderr.Writeln([]byte("Getting package from `" + uri + "`...."))
+	write(p, "Getting package from '%s'....", uri)
 
 	protocol, err = detectProtocol(uri)
 	if err != nil {

@@ -1,6 +1,78 @@
 alias help=murex-docs
+
+autocomplete set murex-docs %[ {
+    FlagsDesc: {
+        --docs: "Returns a JSON object of every document available to read offline"
+        --summary: "Returns an abridged description of the command rather than the entire help page"
+    }
+    DynamicDesc: '{ fexec builtin murex-docs --docs }'
+    FlagValues: {
+		--summary: [{
+			Dynamic: '{ fexec builtin murex-docs --docs }'
+		}]
+	}
+    ListView: true
+} ]
+
+autocomplete set help autocomplete(get murex-docs)
+
 alias builtin=fexec builtin
 alias command=exec
+
+alias echo=out
+method define echo %{
+    Stdin:  null
+    Stdout: str
+}
+config eval shell safe-commands {
+    -> alter --merge / ([
+        "echo"
+    ])
+}
+
+private autocomplete.test.run-unit {
+	# Returns all available tests for `test run`
+    runtime: --tests -> [ unit ] -> foreach: test {
+        out: $test[function]
+    } -> cast str -> prepend *
+}
+
+test unit private autocomplete.test.run-unit %{
+    StdoutRegex: %(^(([-_./a-zA-Z0-9]+|\*)\n)+)
+	StdoutType:  str
+    StdoutGreaterThan: 1
+	StdoutIsArray: true
+}
+
+autocomplete set test { [
+    {
+        "FlagsDesc": {
+			"config":   "Enable or disable boolean test states (more options available in `config test ...`)",
+			"define":   "Define an inlined test",
+            "state":    "Define a state report",
+            "run":      "Execute a code block, function or unit test with inline testing enabled",
+			"unit": 	"Define a unit test",
+			"report":   "Write the test report (happens automatically by default)"
+		},
+        "FlagValues": {
+			"config": [{
+				"FlagsDesc": {
+					"enable":       "Enable inlined tests",
+					"!enable":      "Disable inlined tests",
+					"auto-report":  "Automatically output report (default)",
+					"!auto-report": "Do not automatically output report",
+					"verbose":      "Verbose report",
+					"!verbose":     "Consice report (default)"
+				},
+				"AllowMultiple": true,
+				"Optional": false
+    		}],
+            "run": [{
+                "Dynamic": ({ autocomplete.test.run-unit })
+            }]
+        }
+    }
+] }
 
 function h {
     # Output the murex history log in a human readable format
@@ -9,9 +81,8 @@ function h {
 
 function aliases {
    # Output the aliases in human readable format
-   runtime: --aliases -> formap name alias {
-        $name -> sprintf: "%10s => ${esccli @alias}\n"
-	} -> cast: str
+   cast str
+   runtime --aliases -> formap k v { out "$k => ${esccli @v.Alias}" } -> sort
 }
 
 test unit function aliases {
@@ -146,6 +217,51 @@ autocomplete: set !export { [{
 autocomplete: set unset { [{
     "DynamicDesc": ({ runtime --exports })
 }] }
+
+private autocomplete.pipe-types {
+    # Returns CLI flags for ` + "`pipe`" + `
+    runtime: --pipes -> !match: std -> prefix: "--"
+}
+
+test unit private autocomplete.pipe-types {
+    "StdoutRegex": "--file"
+}
+
+autocomplete set pipe { [
+    {
+        "AnyValue": true
+    },
+    {
+        "Dynamic": ({ autocomplete.pipe-types }),
+        "FlagValues": {
+            "--file": [{
+                "IncFiles": true
+            }]
+        }
+    }
+] }
+
+private autocomplete.!pipe-list {
+    # Returns CLI flags for ` + "`!pipe`" + `
+    runtime: --named-pipes -> ![ null ]
+}
+
+test unit private autocomplete.!pipe-list {
+    "PreBlock": ({
+        pipe: autocompleteunittest
+    }),
+    "StdoutRegex": "autocompleteunittest",
+    "PostBlock": ({
+        !pipe: autocompleteunittest
+    })
+}
+
+autocomplete set !pipe { [
+    {
+        "DynamicDesc": ({ autocomplete.!pipe-list }),
+        "AllowMultiple": true
+    }
+] }
 
 autocomplete: set "[" { [{
     "AnyValue": true,
@@ -342,6 +458,24 @@ test unit private autocomplete.privates {
     "StdoutIsMap": true
 }
 
+autocomplete set fexec { [{
+    "DynamicDesc": ({ fexec help }),
+    "FlagValues": {
+        "function": [{
+            "DynamicDesc": ({ autocomplete.functions }),
+            "ListView": true
+        }],
+        "private": [{
+            "DynamicDesc": ({ autocomplete.privates }),
+            "ListView": true
+        }],
+        "builtin": [{
+            "DynamicDesc": ({ autocomplete.builtins }),
+            "ListView": true
+        }]
+    }
+}] }
+
 private autocomplete.builtins {
     # Returns a map of all murex builtins
     runtime --builtins -> foreach --jmap builtin { $builtin } { murex-docs --summary $builtin }
@@ -368,42 +502,54 @@ autocomplete: set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-autocomplete: set murex-package {
-    [{
-        "FlagsDesc": {
-            "install": "Installs a package from a user defined URI",
-            "update":  "Updates all installed packages",
-            "import":  "Import packages described in a backup package DB from user defined URI or local path",
-            "enable":  "Enables a previously disabled package or module",
-            "disable": "Disables a previously enabled package or module",
-            "reload":  "Reloads all enabled modules",
-            "status":  "Returns the version status of locally installed packages",
-            "list":    "Returns a list of indexed packages/modules (eg what's enabled or disabled)",
-            "cd":      "Changes working directory to a package's install location"
-        },
-        "FlagValues": {
-            "import": [{
-                "IncFiles": true
-            }],
-            "enable": [{
-                "DynamicDesc": ({ murex-package: list disabled }),
-                "ListView": true,
-                "AutoBranch": true
-            }],
-            "disable": [{
-                "DynamicDesc": ({ murex-package: list enabled }),
-                "ListView": true,
-                "AutoBranch": true
-            }],
-            "list": [{
-                "Flags": [ "enabled", "disabled", "loaded", "not-loaded", "packages" ]
-            }],
-            "cd": [{
-                "Dynamic": ({ murex-package: list packages })
-            }]
-        }
-    }]
-}
+autocomplete: set murex-package %[{
+    FlagsDesc: {
+        install: "Installs a package from a user defined URI"
+        remove:  "Removes an installed package from disk"
+        update:  "Updates all installed packages"
+        import:  "Import packages described in a backup package DB from user defined URI or local path"
+        enable:  "Enables a previously disabled package or module"
+        disable: "Disables a previously enabled package or module"
+        reload:  "Reloads all enabled modules"
+        status:  "Returns the version status of locally installed packages"
+        list:    "Returns a list of indexed packages/modules (eg what's enabled or disabled)"
+        new:     "A wizard to help with creating a new package"
+        git:     "Run `git` against a package"
+        cd:      "Changes working directory to a package's install location"
+    }
+    FlagValues: {
+        import: [{
+            IncFiles: true
+        }]
+        remove: [{
+            "Dynamic": %({ murex-package list packages })
+        }]
+        enable: [{
+            DynamicDesc: %({ murex-package list disabled })
+            ListView: true
+            AutoBranch: true
+        }]
+        disable: [{
+            DynamicDesc: %({ murex-package list enabled })
+            ListView: true
+            AutoBranch: true
+        }]
+        list: [{
+            Flags: [ enabled, disabled, loaded, not-loaded, packages ]
+        }]
+        git: [
+            {
+                Dynamic: %({ murex-package list packages })
+            }
+            {
+                "ImportCompletion": "git"
+            }
+        ]
+        cd: [{
+            Dynamic: %({ murex-package list packages })
+        }]
+    }
+}]
 
 alias: builtins=runtime --builtins
 
@@ -418,16 +564,6 @@ test: unit private test.alias.builtins {
     "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
-
-autocomplete: set murex-docs { [{
-    "Dynamic": ({ builtins }),
-	"Flags": [ "--summary" ],
-	"FlagValues": {
-		"--summary": [{
-			"Dynamic": ({ builtins })
-		}]
-	}
-}] }
 
 private: autocomplete.aliases.and.builtins {
     # Returns a list of aliases and builtins
@@ -500,11 +636,11 @@ autocomplete set docgen { [
     }
 ] }
 
-config define open image {
-    "Description":  "Which mode to render images to the terminal.",
-    "DataType":     "str",
-    "Default":      "auto",
-    "Options":      [ "auto", "compatible", "kitty", "iterm", "terminology", "sixel" ]
+config define open image %{
+    Description:  Which mode to render images to the terminal
+    DataType:     str
+    Default:      auto
+    Options:      [ auto, compatible, kitty, iterm, terminology, sixel ]
 }
 
 openagent set image {
@@ -583,3 +719,40 @@ openagent set image {
         }
     }
 }
+
+private autocomplete.openagents {
+    runtime: --open-agents -> formap k _ { out $k } -> cast str
+}
+
+autocomplete set openagent %[{
+    Flags: [ get, set ],
+    FlagValues: {
+        get: [{
+            Dynamic: %({ autocomplete.openagents })
+        }]
+    }
+}]
+
+autocomplete set !openagent %[
+    {
+        Dynamic: %({ autocomplete.openagents })
+    }
+]
+
+private autocomplete.fid-kill {
+	# Returns a 2D array FIDs 
+    fid-list: --jsonl -> [ FID Command Parameters ]
+}
+
+test unit private autocomplete.fid-kill %{
+    StdoutRegex: '^\["FID","Command","Parameters"\]\n.*(\["[0-9]+",")'
+	StdoutType:  jsonl
+	ExitNum: 0
+    StdoutGreaterThan: 1
+}
+
+autocomplete: set fid-kill %[{
+    DynamicDesc: '{ autocomplete.fid-kill }'
+    ListView: true,
+    AllowMultiple: true
+}]

@@ -93,7 +93,7 @@ func cmdAlias(p *lang.Process) error {
 		return fmt.Errorf("no command supplied")
 	}
 
-	lang.GlobalAliases.Add(name, params)
+	lang.GlobalAliases.Add(name, params, p.FileRef)
 	return nil
 }
 

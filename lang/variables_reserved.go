@@ -3,24 +3,37 @@ package lang
 import (
 	"os"
 
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/path"
+	"github.com/lmorg/murex/utils/readline"
 )
 
+var envDataTypes = map[string][]string{
+	types.Path:  {"HOME", "PWD", "OLDPWD", "SHELL", "HOMEBREW_CELLAR", "HOMEBREW_PREFIX", "HOMEBREW_REPOSITORY", "GOPATH", "GOROOT", "GOBIN"},
+	types.Paths: {"PATH", "LD_LIBRARY_PATH", "MANPATH", "INFOPATH"},
+}
+
 func getVarSelf(p *Process) interface{} {
+	bg := p.Scope.Background.Get()
 	return map[string]interface{}{
-		"Parent":     int(p.Scope.Parent.Id),
-		"Scope":      int(p.Scope.Id),
-		"TTY":        p.Scope.Stdout.IsTTY(),
-		"Method":     p.Scope.IsMethod,
-		"Not":        p.Scope.IsNot,
-		"Background": p.Scope.Background.Get(),
-		"Module":     p.Scope.FileRef.Source.Module,
+		"Parent":      int(p.Scope.Parent.Id),
+		"Scope":       int(p.Scope.Id),
+		"TTY":         p.Scope.Stdout.IsTTY(),
+		"Method":      p.Scope.IsMethod,
+		"Interactive": Interactive && !bg,
+		"Not":         p.Scope.IsNot,
+		"Background":  bg,
+		"Module":      p.Scope.FileRef.Source.Module,
 	}
 }
 
 func getVarArgs(p *Process) interface{} {
 	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
+}
+
+func getVarMurexArgs() interface{} {
+	return os.Args
 }
 
 func getVarMurexExeValue() (interface{}, error) {
@@ -46,10 +59,23 @@ func getPwdValue() (interface{}, error) {
 	return path.Unmarshal([]byte(pwd))
 }
 
-func getEnvVarValue() interface{} {
-	v := make(map[string]interface{})
-	envvars.All(v)
-	return v
+func getEnvVarValue(v *Variables) interface{} {
+	var err error
+	evTable := make(map[string]interface{})
+	envvars.All(evTable)
+	for env, val := range evTable {
+		val, err = v.getEnvValueValue(env, val.(string))
+		if err == nil {
+			evTable[env] = val
+		}
+	}
+	return evTable
+}
+
+func getEnvVarString() interface{} {
+	evTable := make(map[string]interface{})
+	envvars.All(evTable)
+	return evTable
 }
 
 func getGlobalValues() interface{} {
@@ -62,4 +88,8 @@ func getGlobalValues() interface{} {
 	GlobalVariables.mutex.Unlock()
 
 	return m
+}
+
+func getVarColumnsValue() int {
+	return readline.GetTermWidth()
 }

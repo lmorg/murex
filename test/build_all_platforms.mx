@@ -1,6 +1,7 @@
 #!/usr/bin/env murex
 
 project = "github.com/lmorg/murex"
+tags    = open(builtins/optional/standard-opts.txt)
 
 args: args %{
     AllowAdditional: false,
@@ -21,8 +22,8 @@ go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/' -> set num goversion
 # not existing on earlier versions of `go`
 
 if { $args->[[/Flags/--no-colour]] } then {
-    config: set shell color false
-    config: set proc force-tty true
+    config set shell color false
+    config set proc force-tty true
 }
 
 function compress {
@@ -86,7 +87,7 @@ $targets -> formap os cpus {
             #}
 
             set bin=./bin/murex-$version-$os-$arch$ext
-            go build -o $bin $project
+            go build -tags $tags -o $bin $project
             
             !if { $args->[[/Flags/--compress]] } else { compress $bin $ext }
             

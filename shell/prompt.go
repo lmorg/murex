@@ -17,11 +17,12 @@ func getPrompt() []byte {
 		b         []byte
 	)
 
-	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
+	prompt, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set(fork.Process, "linenum", 1, types.Integer)
 		fork.Name.Set("(prompt)")
+		fork.FileRef = fileRef
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
@@ -43,11 +44,12 @@ func getMultilinePrompt(nLines int) []byte {
 		b         []byte
 	)
 
-	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
+	prompt, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set(fork.Process, "linenum", nLines, types.Integer)
 		fork.Name.Set("(prompt-multiline)")
+		fork.FileRef = fileRef
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
@@ -63,7 +65,7 @@ func getMultilinePrompt(nLines int) []byte {
 }
 
 func writeTitlebar() {
-	v, err := lang.ShellProcess.Config.Get("shell", "titlebar-func", types.CodeBlock)
+	v, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "titlebar-func", types.CodeBlock)
 	title, ok := v.(string)
 	if !ok || err != nil || title == `out: ''` {
 		return
@@ -71,6 +73,7 @@ func writeTitlebar() {
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name.Set("(titlebar-func)")
+	fork.FileRef = fileRef
 	exitNum, err := fork.Execute([]rune(title))
 
 	var b []byte

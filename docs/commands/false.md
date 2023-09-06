@@ -1,4 +1,4 @@
-# `false` - Command Reference
+# `false`
 
 > Returns a `false` value
 
@@ -8,18 +8,24 @@ Returns a `false` value.
 
 ## Usage
 
-    false -> <stdout>
+```
+false -> <stdout>
+```
 
 ## Examples
 
 By default, `false` also outputs the term "false":
 
-    » false
-    false
-    
+```
+» false
+false
+```
+
 However you can suppress that with the silent flag:
 
-    » false -s
+```
+» false -s
+```
 
 ## Flags
 
@@ -38,3 +44,7 @@ However you can suppress that with the silent flag:
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`true`](../commands/true.md):
   Returns a `true` value
+
+<hr/>
+
+This document was generated from [builtins/core/typemgmt/types_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/types_doc.yaml).

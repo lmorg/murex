@@ -1,4 +1,4 @@
-# `ReadArray()` (type) - API Reference
+# `ReadArray()` (type)
 
 > Read from a data type one array element at a time
 
@@ -112,3 +112,7 @@ pipelines.
   Unmarshals a data type into a Go struct and returns the results as an array
 * [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array with data type included
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

@@ -1,0 +1,30 @@
+- DocumentID: murex_argv
+  Title: >-
+    `MUREX_ARGV` (json)
+  CategoryID: variables
+  Summary: >-
+    Array of the command name and parameters passed to the current shell
+  Description: |-
+    `MUREX_ARGV` returns an array of the command name and parameters passed to
+    the current running Murex shell
+  Examples: |-
+    ```
+    » murex -trypipe -c '$MUREX_ARGV'
+    [
+        "murex",
+        "-trypipe",
+        "-c",
+        "$MUREX_ARGV"
+    ]
+    ```
+  Detail:
+  Synonyms:
+  - murex_argv
+  - MUREX_ARGV
+  - MUREX_ARGS
+  Related:
+  - params
+  - argv
+  - murex_exe
+  - types/json
+  - parser/array

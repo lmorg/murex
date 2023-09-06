@@ -2,11 +2,26 @@ package json
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {
-	return json.Marshal(v, p.Stdout.IsTTY())
+	b, err := json.Marshal(v, p.Stdout.IsTTY())
+	if err == nil {
+		return b, err
+	}
+
+	if err.Error() != json.NoData {
+		return b, err
+	}
+
+	strict, _ := p.Config.Get("proc", "strict-arrays", types.Boolean)
+	if strict.(bool) {
+		return b, err
+	}
+
+	return []byte{'[', ']'}, nil
 }
 
 func unmarshal(p *lang.Process) (v interface{}, err error) {

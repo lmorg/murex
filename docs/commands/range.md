@@ -1,4 +1,4 @@
-# `[` (range)  - Command Reference
+# `[` (range)
 
 > Outputs a ranged subset of data from STDIN
 
@@ -16,51 +16,61 @@ instead**
 
 ## Usage
 
-    <stdin> -> [start..end]flags -> <stdout>
+```
+<stdin> -> [start..end]flags -> <stdout>
+```
 
 ## Examples
 
 **Range over all months after March:**
 
-    » a: [January..December] -> [March..]se
-    April
-    May
-    June
-    July
-    August
-    September
-    October
-    November
-    December
-    
+```
+» a [January..December] -> [March..]se
+April
+May
+June
+July
+August
+September
+October
+November
+December
+```
+
 **Range from the 6th to the 10th month:**
 
 By default, ranges start from one, `1`
 
-    » a: [January..December] -> [5..9]
-    May
-    June
-    July
-    August
-    September
-    
+```
+» a [January..December] -> [5..9]
+May
+June
+July
+August
+September
+```
+
 **Return the first 3 months:**
 
 This usage is similar to `head -n3`
 
-    » a: [January..December] -> [..3]
-    October
-    November
-    December
-    
+```
+» a [January..December] -> [..3]
+October
+November
+December
+```
+
 **Return the last 3 months:**
 
 This usage is similar to `tail -n3`
 
-    » a: [January..December] -> [-3..]
-    October
-    November
-    December
+```
+» a [January..December] -> [-3..]
+October
+November
+December
+```
 
 ## Flags
 
@@ -88,8 +98,6 @@ This usage is similar to `tail -n3`
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`alter`](../commands/alter.md):
@@ -102,5 +110,11 @@ This usage is similar to `tail -n3`
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
+
+<hr/>
+
+This document was generated from [builtins/core/ranges/ranges_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/ranges/ranges_doc.yaml).

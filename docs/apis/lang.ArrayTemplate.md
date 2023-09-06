@@ -1,4 +1,4 @@
-# `lang.ArrayTemplate()` (template API) - API Reference
+# `lang.ArrayTemplate()` (template API)
 
 > Unmarshals a data type into a Go struct and returns the results as an array
 
@@ -251,3 +251,7 @@ func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callb
   Returns element(s) from a data structure
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
+
+<hr/>
+
+This document was generated from [lang/stdio/interface_doc.yaml](https://github.com/lmorg/murex/blob/master/lang/stdio/interface_doc.yaml).

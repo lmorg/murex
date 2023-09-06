@@ -1,4 +1,4 @@
-# `murex-update-exe-list` - Command Reference
+# `murex-update-exe-list`
 
 > Forces Murex to rescan $PATH looking for executables
 
@@ -11,11 +11,15 @@ program and you want it to appear in tab completion) then you can run `murex-upd
 
 ## Usage
 
-    murex-update-exe-list
+```
+murex-update-exe-list
+```
 
 ## Examples
 
-    » murex-update-exe-list
+```
+» murex-update-exe-list
+```
 
 ## Detail
 
@@ -30,3 +34,7 @@ invoked for command name completion via the REPL shell.
   Output the number of CPU cores available on your host
 * [`os`](../commands/os.md):
   Output the auto-detected OS name
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

@@ -16,17 +16,17 @@ data along asynchronously.
 For example
 
 ```
-pipe: example
+pipe example
 
 bg {
-    <example> -> match: Hello
+    <example> -> match Hello
 }
 
-out: "foobar"        -> <example>
-out: "Hello, world!" -> <example>
-out: "foobar"        -> <example>
+out "foobar"        -> <example>
+out "Hello, world!" -> <example>
+out "foobar"        -> <example>
 
-!pipe: example
+!pipe example
 ```
 
 This returns `Hello, world!` because `out` is writing to the **example** named
@@ -35,17 +35,17 @@ pipe and `match` is also reading from it in the background (`bg`).
 Named pipes can also be inlined into the command parameters with `<>` tags
 
 ```
-pipe: example
+pipe example
 
 bg {
     <example> -> match: Hello
 }
 
-out: <example> "foobar"
-out: <example> "Hello, world!"
-out: <example> "foobar"
+out <example> "foobar"
+out <example> "Hello, world!"
+out <example> "foobar"
 
-!pipe: example
+!pipe example
 ```
 
 > Please note this is also how `test` works.

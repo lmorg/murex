@@ -1,4 +1,4 @@
-# Murex Named Pipes - User Guide
+# Named Pipes
 
 > A detailed breakdown of named pipes in Murex
 
@@ -31,21 +31,31 @@ You can call a named pipe as either a method, function, or parameter.
 
 **As a method:**
 
-    <in> -> command parameter1 parameter2 parameter3
-    
+```
+<in> -> command parameter1 parameter2 parameter3
+```
+
 **As a function:**
 
-    command parameter1 parameter2 parameter3 -> <out>
-    
+```
+command parameter1 parameter2 parameter3 -> <out>
+```
+
 **As a parameter:**
 
-    command <out> <!err> parameter1 parameter2 parameter3
+```
+command <out> <!err> parameter1 parameter2 parameter3
+```
 
 ## See Also
 
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`<stdin>` ](../commands/stdin.md):
+* [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+
+<hr/>
+
+This document was generated from [gen/user-guide/named-pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/named-pipes_doc.yaml).

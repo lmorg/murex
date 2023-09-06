@@ -1,4 +1,4 @@
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -16,6 +16,8 @@
 
 </div>
 
+{{ end }}
+
 ## Overview
 
 Aside from Murex being carefully designed with scripting in mind, the
@@ -27,20 +29,20 @@ we wrote our own readline library. Below is an example of that library in use:
 The above demo includes the following features of Murex's bespoke readline
 library:
 
-* hint text - blue status text below the prompt (the colour is configurable)
-* syntax highlighting (albeit there isn’t much syntax to highlight in the
-    example). This can also be turned off if your preference is to have colours
-    disabled
-* tab-completion in gridded mode (seen when typing `cd`)
-* tab-completion in list view (seen when selecting a process name to `kill`
-    where the process ID was substituted when selected)
-* searching through the tab-completion suggestions (seen in both `cd` and
-    `kill` - enabled by pressing `[ctrl]`+`[f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
-    followed by `[v]`)
-* readline’s warning before pasting multiple lines of data into the buffer and
-    the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[esc]`)
+- hint text - blue status text below the prompt (the colour is configurable)
+- syntax highlighting (albeit there isn’t much syntax to highlight in the
+  example). This can also be turned off if your preference is to have colours
+  disabled
+- tab-completion in gridded mode (seen when typing `cd`)
+- tab-completion in list view (seen when selecting a process name to `kill`
+  where the process ID was substituted when selected)
+- searching through the tab-completion suggestions (seen in both `cd` and
+  `kill` - enabled by pressing `[ctrl]`+`[f]`)
+- line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
+  followed by `[v]`)
+- readline’s warning before pasting multiple lines of data into the buffer and
+  the preview option that’s available as part of the aforementioned warning
+- and VIM keys (enabled by pressing `[esc]`)
 
 ## readline
 
@@ -71,7 +73,7 @@ You can add your own commands and functions to Murex as methods by defining
 them with `method`. For example if we were to add `jq` as a method:
 
 ```
-method: define jq {
+method define jq {
     "Stdin":  "json",
     "Stdout": "@Any"
 }
@@ -92,7 +94,7 @@ Syntax highlighting can be disabled by running:
 
 ```
 
-config: set shell syntax-highlighting off
+config set shell syntax-highlighting off
 ```
 
 ### Spellchecker
@@ -126,7 +128,7 @@ It is also worth noting that if colour is disabled then the **hint text** will
 not be coloured even if **hint-text-formatting** includes colour codes:
 
 ```
-» config: set shell color false
+» config set shell color false
 ```
 
 (please note that **syntax highlighting** is unaffected by the above config)
@@ -140,7 +142,7 @@ default is a user defined function. At time of writing this document the author
 has the following function defined:
 
 ```
-config: set shell hint-text-func {
+config set shell hint-text-func {
     trypipe <!null> {
         git status --porcelain -b -> set gitstatus
         $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
@@ -163,5 +165,5 @@ It is enabled by default but can be disabled if you prefer a more minimal
 prompt:
 
 ```
-» config: set shell hint-text-enabled false
+» config set shell hint-text-enabled false
 ```

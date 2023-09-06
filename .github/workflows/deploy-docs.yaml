@@ -1,0 +1,72 @@
+name: Deploy Dev Docs
+
+on:
+  push:
+    branches:
+      - develop
+      - website
+      - master
+  
+  workflow_dispatch:
+
+env:
+  GO_VERSION: "1.21"
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # if your docs needs submodules, uncomment the following line
+          # submodules: true
+
+      - name: Setup Go ${{ ENV.GO_VERSION }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ ENV.GO_VERSION }}
+
+      - name: Install Docgen
+        run: |
+          go build -v github.com/lmorg/murex/utils/docgen
+
+      - name: Build Markdown Docs
+        env:
+          DOCGEN_TARGET:   vuepress
+          RUN_NUMBER:      ${{ github.run_number }}
+          COMMITHASHSHORT: ${{ github.run_number }}
+
+        run: |
+          ./docgen -panic -warning -config gen/docgen.yaml
+          mv -v *.md *.svg docs/
+          mv -v gen/vuepress docs/.vuepress
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Build Docs
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          pnpm run docs:build
+          > docs/.vuepress/dist/.nojekyll
+
+      - name: Deploy Docs
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
+          AWS_DEFAULT_REGION:    eu-west-1
+          AWS_DEFAULT_OUTPUT:    json
+        run: |
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/${{ github.ref_name }} --exclude "*.md" --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"

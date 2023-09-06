@@ -52,7 +52,6 @@ func renderAll(docs documents) {
 			renderInnerLoop(&Config.Categories[cat].Templates[i], docs)
 		}
 	}
-
 }
 
 func renderInnerLoop(t *templates, docs documents) {
@@ -68,7 +67,6 @@ func renderInnerLoop(t *templates, docs documents) {
 
 func renderDocument(t *templates, d *document, docs documents) {
 	if t.docTemplate == nil {
-		//panic(fmt.Sprintf("No document template loaded for %s[%d]/*", t.ref.ID, t.index))
 		return
 	}
 
@@ -76,9 +74,6 @@ func renderDocument(t *templates, d *document, docs documents) {
 	b := new(bytes.Buffer)
 
 	log("Rendering document", d.DocumentID)
-
-	//y, _ := yaml.Marshal(t.DocumentValues(d, docs, true))
-	//log(string(y))
 
 	err := t.docTemplate.Execute(b, t.DocumentValues(d, docs, true))
 	if err != nil {
@@ -98,7 +93,6 @@ func renderDocument(t *templates, d *document, docs documents) {
 
 func renderCategory(t *templates, docs documents) {
 	if t.catTemplate == nil {
-		//panic(fmt.Sprintf("No category template loaded for %s[%d]", t.ref.ID, t.index))
 		return
 	}
 

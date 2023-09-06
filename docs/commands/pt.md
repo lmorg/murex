@@ -1,4 +1,4 @@
-# `pt` - Command Reference
+# `pt`
 
 > Pipe telemetry. Writes data-types and bytes written
 
@@ -9,12 +9,16 @@ directly to the OS's STDERR so to preserved the pipeline.
 
 ## Usage
 
-    <stdin> -> pt -> <stdout>
+```
+<stdin> -> pt -> <stdout>
+```
 
 ## Examples
 
-    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
-    
+```
+curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+```
+
 (though Murex does also have it's own HTTP clients, `get`, `post` and
 `getfile`)
 
@@ -30,3 +34,7 @@ directly to the OS's STDERR so to preserved the pipeline.
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+
+<hr/>
+
+This document was generated from [builtins/core/io/file_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/file_doc.yaml).

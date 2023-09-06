@@ -55,7 +55,11 @@ var orderOfOperations = []symbols.Exp{
 	// 09. Bitwise exclusive OR (XOR)
 	// 10. Bitwise inclusive (normal) OR
 	// 11. Logical AND
+	symbols.LogicalAnd,
+
 	// 12. Logical OR
+	symbols.LogicalOr,
+
 	// 13. Conditional expression (ternary)
 	// 14. Assignment operators (right to left)
 	symbols.Assign,
@@ -76,21 +80,29 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		// 15. Comma operator
 		// 14. Assignment operators (right to left)
 		case symbols.Assign:
-			err = expAssign(tree)
+			err = expAssign(tree, true)
+		case symbols.AssignUpdate:
+			err = expAssign(tree, false)
 		case symbols.AssignAndAdd:
 			err = expAssignAdd(tree)
 		case symbols.AssignAndSubtract:
-			err = expAssignSubtract(tree)
+			err = expAssignAndOperate(tree, _assSub)
 		case symbols.AssignAndDivide:
-			err = expAssignDivide(tree)
+			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
-			err = expAssignMultiply(tree)
+			err = expAssignAndOperate(tree, _assMult)
 		case symbols.AssignAndMerge:
 			err = expAssignMerge(tree)
 
 		// 13. Conditional expression (ternary)
 		// 12. Logical OR
+		case symbols.LogicalOr:
+			err = expLogicalOr(tree)
+
 		// 11. Logical AND
+		case symbols.LogicalAnd:
+			err = expLogicalAnd(tree)
+
 		// 10. Bitwise inclusive (normal) OR
 		// 09. Bitwise exclusive OR (XOR)
 		// 08. Bitwise AND
@@ -109,13 +121,13 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expRegexp(tree, false)
 		// 06. Comparisons: less-than and greater-than
 		case symbols.GreaterThan:
-			err = expGreaterThan(tree)
+			err = expGtLt(tree, _gtF, _gtS)
 		case symbols.GreaterThanOrEqual:
-			err = expGreaterThanOrEqual(tree)
+			err = expGtLt(tree, _gtEqF, _gtEqS)
 		case symbols.LessThan:
-			err = expLessThan(tree)
+			err = expGtLt(tree, _ltF, _ltS)
 		case symbols.LessThanOrEqual:
-			err = expLessThanOrEqual(tree)
+			err = expGtLt(tree, _ltEqF, _ltEqS)
 
 		// 05. Bitwise shift left and right
 		// 04. Addition and subtraction

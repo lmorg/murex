@@ -1,34 +1,38 @@
-# FileRef - User Guide
+# FileRef
 
 > How to track what code was loaded and from where
+
+## Description
 
 Every function, event, autocompletion and even variable is stored with which
 file it was sourced, when it was loaded and what module it was loaded from.
 This makes it trivial to identify buggy 3rd party code, malicious libraries, or
 even just bugs in your own profiles and/or modules.
 
-    » runtime: --functions -> [[ /agent/FileRef/ ]]
-    {
-        "Column": 5,
-        "Line": 5,
-        "Source": {
-            "DateTime": "2021-03-28T09:10:53.572197+01:00",
-            "Filename": "/home/lmorg/.murex_modules/murex-dev/murex-dev.mx",
-            "Module": "murex-dev/murex-dev"
-        }
+```
+» runtime --functions -> [[ /agent/FileRef/ ]]
+{
+    "Column": 5,
+    "Line": 5,
+    "Source": {
+        "DateTime": "2021-03-28T09:10:53.572197+01:00",
+        "Filename": "/home/lmorg/.murex_modules/murex-dev/murex-dev.mx",
+        "Module": "murex-dev/murex-dev"
     }
-    
-    » runtime --globals -> [[ /DEVOPSBIN/FileRef ]]
-    {
-        "Column": 1,
-        "Line": 0,
-        "Source": {
-            "DateTime": "2021-03-28T09:10:53.541952+01:00",
-            "Filename": "/home/lmorg/.murex_modules/devops/global.mx",
-            "Module": "devops/global"
-        }
+}
+
+» runtime --globals -> [[ /DEVOPSBIN/FileRef ]]
+{
+    "Column": 1,
+    "Line": 0,
+    "Source": {
+        "DateTime": "2021-03-28T09:10:53.541952+01:00",
+        "Filename": "/home/lmorg/.murex_modules/devops/global.mx",
+        "Module": "devops/global"
     }
-    
+}
+```
+
 ### Module Strings For Non-Module Code
 
 #### Source
@@ -58,5 +62,9 @@ empty Filename string.
   Murex's package manager
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [gen/user-guide/fileref_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/fileref_doc.yaml).

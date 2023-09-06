@@ -1,4 +1,4 @@
-# `version`  - Command Reference
+# `version`
 
 > Get Murex version
 
@@ -8,24 +8,32 @@ Returns Murex version number
 
 ## Usage
 
-    version [ flags ] -> <stdout>
+```
+version [ flags ] -> <stdout>
+```
 
 ## Examples
 
 Ran without any parameters
 
-    » version
-    murex: 0.51.1200 BETA
-    
+```
+» version
+murex: 0.51.1200 BETA
+```
+
 Ran with the `--no-app-name` parameter
 
-    » version --no-app-name
-    0.51.1200 BETA
-    
+```
+» version --no-app-name
+0.51.1200 BETA
+```
+
 Ran with the `--short` parameter
 
-    » version --short
-    0.51
+```
+» version --short
+0.51
+```
 
 ## Flags
 
@@ -50,5 +58,9 @@ Ran with the `--short` parameter
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/management/version_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/version_doc.yaml).

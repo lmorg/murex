@@ -1,4 +1,4 @@
-# `mtac` - Command Reference
+# `mtac`
 
 > Reverse the order of an array
 
@@ -11,32 +11,36 @@ like `cat` but returns the contents in the reverse order. The difference
 with the `mtac` builtin is that it is data-type aware. So it doesn't just
 function as a replacement for `tac` but it also works on JSON arrays,
 s-expressions, and any other data-type supporting arrays compiled into
-Murex. 
+Murex.
 
 ## Usage
 
-    <stdin> -> mtac -> <stdout>
+```
+<stdin> -> mtac -> <stdout>
+```
 
 ## Examples
 
-    » ja: [Monday..Friday] -> mtac
-    [
-        "Friday",
-        "Thursday",
-        "Wednesday",
-        "Tuesday",
-        "Monday"
-    ]
-    
-    # Normal output (without mtac)
-    » ja: [Monday..Friday]
-    [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-    ]
+```
+» ja [Monday..Friday] -> mtac
+[
+    "Friday",
+    "Thursday",
+    "Wednesday",
+    "Tuesday",
+    "Monday"
+]
+
+# Normal output (without mtac)
+» ja [Monday..Friday]
+[
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+]
+```
 
 ## Detail
 
@@ -68,13 +72,13 @@ STDIN is a long running process or non-standard stream (eg network pipe).
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
@@ -82,3 +86,7 @@ STDIN is a long running process or non-standard stream (eg network pipe).
   Prefix a string to every item in a list
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+
+<hr/>
+
+This document was generated from [builtins/core/lists/mtac_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/mtac_doc.yaml).

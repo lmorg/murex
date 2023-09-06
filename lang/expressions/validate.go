@@ -3,6 +3,7 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
@@ -57,8 +58,7 @@ func (tree *ParserT) validateExpression(exec bool) error {
 				if err != nil {
 					return err
 				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
+				dt := primitives.NewScalar(mxDt, v)
 				node.key = symbols.Calculated
 				node.dt = dt
 			}
@@ -83,15 +83,10 @@ func (tree *ParserT) validateExpression(exec bool) error {
 					next == nil || next.key == symbols.Bareword {
 					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s barewords", node.key))
 				}
-				/*case symbols.Subtract, symbols.Divide, symbols.Multiply:
-					if prev == nil || (prev.key != symbols.Number && prev.key != symbols.QuoteSingle && prev.key != symbols.QuoteDouble && prev.key != symbols.Calculated && prev.key != symbols.SubExpressionBegin) ||
-						next == nil || (next.key != symbols.Number && next.key != symbols.QuoteSingle && next.key != symbols.QuoteDouble && next.key != symbols.Calculated && next.key != symbols.SubExpressionBegin) {
-						return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s non-numeric data types", node.key))
-					}
-				}*/
+
 			case symbols.Subtract, symbols.Divide, symbols.Multiply:
-				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated && prev.key != symbols.SubExpressionBegin) ||
-					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated && next.key != symbols.SubExpressionBegin) {
+				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated && prev.key != symbols.SubExpressionBegin && prev.key != symbols.Scalar) ||
+					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated && next.key != symbols.SubExpressionBegin && next.key != symbols.Scalar) {
 					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s non-numeric data types", node.key))
 				}
 			}

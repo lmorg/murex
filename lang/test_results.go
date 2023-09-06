@@ -28,7 +28,7 @@ import (
 
 // SetStreams is called when a particular test case is run. eg
 //
-//     out <test_example> "Run this test"
+//	out <test_example> "Run this test"
 func (tests *Tests) SetStreams(name string, stdout, stderr stdio.Io, exitNumPtr *int) error {
 	tests.mutex.Lock()
 
@@ -183,7 +183,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				}
 			}
 
-			s := fmt.Sprintf("%s[%s%-6s%s] %-10s %4d:%-4d %-50s %s",
+			s := fmt.Sprintf("%s[%s%-6s%s] %-10s %4d:%-5d %-50s %s",
 				reset, colour, r.Status, reset,
 				r.TestName,
 				r.LineNumber, r.ColNumber,

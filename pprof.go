@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 )
 
@@ -35,7 +36,7 @@ func cpuProfile() func() {
 
 		return func() {
 			pprof.StopCPUProfile()
-			if err = f.Close(); err != nil {
+			if err = f.Close(); err != nil && debug.Enabled {
 				panic(err)
 			}
 

@@ -16,14 +16,14 @@
     Encode base64 string
 
     ```
-    » out: "Hello, World!" -> base64
+    » out "Hello, World!" -> base64
     SGVsbG8sIFdvcmxkIQo=
     ```
 
     Decode base64 string
 
     ```
-    » out: "SGVsbG8sIFdvcmxkIQo=" -> !base64
+    » out "SGVsbG8sIFdvcmxkIQo=" -> !base64
     Hello, World!
     ```
   Detail: |-
@@ -32,10 +32,10 @@
     or similar platforms then you will need to launch with the `exec` builtin:
 
     ```
-    » out: "Hello, World!" -> exec: base64
+    » out "Hello, World!" -> exec base64
     SGVsbG8sIFdvcmxkIQo=
     
-    » out: "SGVsbG8sIFdvcmxkIQo=" -> exec: base64 -d
+    » out "SGVsbG8sIFdvcmxkIQo=" -> exec base64 -d
     Hello, World!
     ```
 

@@ -1,4 +1,4 @@
-# `(` (brace quote) - Command Reference
+# `(` (brace quote)
 
 > Write a string to the STDOUT without new line
 
@@ -8,23 +8,27 @@ Write parameters to STDOUT (does not include a new line)
 
 ## Usage
 
-    (string to write) -> <stdout>
+```
+(string to write) -> <stdout>
+```
 
 ## Examples
 
-    » (Hello, World!)
-    Hello, World!
-    
-    » (Hello,\nWorld!)
-    Hello,
-    World!
-    
-    » ((Hello,) (World!))
-    (Hello,) (World!)
-    
-    # Print "Hello, World!" in red text
-    » {RED}Hello, World!{RESET}
-    Hello, World!
+```
+» (Hello, World!)
+Hello, World!
+
+» (Hello,\nWorld!)
+Hello,
+World!
+
+» ((Hello,) (World!))
+(Hello,) (World!)
+
+# Print "Hello, World!" in red text
+» {RED}Hello, World!{RESET}
+Hello, World!
+```
 
 ## Detail
 
@@ -60,3 +64,7 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+
+<hr/>
+
+This document was generated from [builtins/core/io/echo_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/echo_doc.yaml).

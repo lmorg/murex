@@ -1,4 +1,4 @@
-# `bexists` - Command Reference
+# `bexists`
 
 > Check which builtins exist
 
@@ -9,21 +9,25 @@ compiled into Murex. The 'b' in `bexists` stands for 'builtins'
 
 ## Usage
 
-    bexists command... -> <stdout>
+```
+bexists command... -> <stdout>
+```
 
 ## Examples
 
-    » bexists: qr gzip runtime config
-    {
-        "Installed": [
-            "runtime",
-            "config"
-        ],
-        "Missing": [
-            "qr",
-            "gzip"
-        ]
-    }
+```
+» bexists: qr gzip runtime config
+{
+    "Installed": [
+        "runtime",
+        "config"
+    ],
+    "Missing": [
+        "qr",
+        "gzip"
+    ]
+}
+```
 
 ## Detail
 
@@ -42,3 +46,7 @@ that reason alone it has been spared from the axe.
   Execute a command or function, bypassing the usual order of precedence.
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).

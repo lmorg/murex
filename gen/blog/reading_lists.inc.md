@@ -1,4 +1,4 @@
-<h2>Table of Contents</h2>
+{{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
@@ -11,7 +11,7 @@
 - [Conclusion](#conclusion)
 
 </div>
-
+{{ end }}
 ## Preface
 
 A common problem we resort to shell scripting for is iterating through lists. This was easy in the days of old when most data was `\n` (new line) delimited but these days structured data is common place with formats like JSON, YAML, TOML, XML and even S-Expressions appearing commonly throughout developer and DevOps tooling.
@@ -115,10 +115,10 @@ What's happening here is `%[...]` creates the JSON array (as described above) an
 
 > `out` in Murex is the equivalent of `echo` in Bash. In fact you can still use `echo` in Murex albeit that is just aliased to `out`.
 
-It is also worth noting that since Murex version 3.1 lambdas have been available, allowing you to write code that looks a like this:
+It is also worth noting that since Murex version 5.0 lambdas have been available, allowing you to write code that looks a like this:
 
 ```
-$json[{out "Hello $."}]
+@json[{out "Hello $."}]
 ```
 
 But more on that in a different article.

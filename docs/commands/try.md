@@ -1,4 +1,4 @@
-# `try` - Command Reference
+# `try`
 
 > Handles errors inside a block of code
 
@@ -17,16 +17,20 @@ similar operators). If you need the entire pipeline checked then use `trypipe`.
 
 ## Usage
 
-    try { code-block } -> <stdout>
-    
-    <stdin> -> try { -> code-block } -> <stdout>
+```
+try { code-block } -> <stdout>
+
+<stdin> -> try { -> code-block } -> <stdout>
+```
 
 ## Examples
 
-    try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
-    }
+```
+try {
+    out "Hello, World!" -> grep: "non-existent string"
+    out "This command will be ignored"
+}
+```
 
 ## Detail
 
@@ -43,7 +47,7 @@ command.
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
+  Handles the exception code raised by `try` or `trypipe`
 * [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 * [`if`](../commands/if.md):
@@ -54,3 +58,7 @@ command.
   Blocks of cascading conditionals
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+
+<hr/>
+
+This document was generated from [builtins/core/structs/try_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/try_doc.yaml).

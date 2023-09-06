@@ -9,11 +9,11 @@
     of precedence.
   Usage: |-
     ```
-    fexec: flag command [ parameters... ] -> <stdout>
+    fexec flag command [ parameters... ] -> <stdout>
     ```
   Examples: |-
     ```
-    fexec: private /source/builtin/autocomplete.alias
+    fexec private /source/builtin/autocomplete.alias
     ```
   Flags:
     function: >-

@@ -1,4 +1,4 @@
-# `jsonc`  - Data-Type Reference
+# `jsonc`
 
 > Concatenated JSON
 
@@ -46,20 +46,24 @@ Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/exa
 
 ### Tabulated data
 
-    ["Name", "Session", "Score", "Completed"]
-    ["Gilbert", "2013", 24, true]
-    ["Alexa", "2013", 29, true]
-    ["May", "2012B", 14, false]
-    ["Deloise", "2012A", 19, true] 
-    
+```
+["Name", "Session", "Score", "Completed"]
+["Gilbert", "2013", 24, true]
+["Alexa", "2013", 29, true]
+["May", "2012B", 14, false]
+["Deloise", "2012A", 19, true] 
+```
+
 This format is equatable to `generic` and `csv`.
 
 ### Nested objects
 
-    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
-    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
-    {"name": "May", "wins": []}
-    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
+{"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+{"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+{"name": "May", "wins": []}
+{"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
 
 ## Detail
 
@@ -126,39 +130,23 @@ parser is still in beta), it is shipped as an additional data-type.
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+* [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` (type)](../apis/ReadArray.md):
-  Read from a data type one array element at a time
-* [`ReadIndex()` (type)](../apis/ReadIndex.md):
-  Data type handler for the index, `[`, builtin
-* [`ReadMap()` (type)](../apis/ReadMap.md):
-  Treat data type as a key/value structure and read its contents
-* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
-  Data type handler for the bang-prefixed index, `![`, builtin
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
-* [`WriteArray()` (type)](../apis/WriteArray.md):
-  Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`csv` ](../types/csv.md):
+* [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+* [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+* [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonl` ](../types/jsonl.md):
+* [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
@@ -166,9 +154,25 @@ parser is still in beta), it is shipped as an additional data-type.
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+* [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+* [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+### Read more about type hooks
+
+- [`ReadIndex()` (type)](../apis/ReadIndex.md): Data type handler for the index, `[`, builtin
+- [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md): Data type handler for the bang-prefixed index, `![`, builtin
+- [`ReadArray()` (type)](../apis/ReadArray.md): Read from a data type one array element at a time
+- [`WriteArray()` (type)](../apis/WriteArray.md): Write a data type, one array element at a time
+- [`ReadMap()` (type)](../apis/ReadMap.md): Treat data type as a key/value structure and read its contents
+- [`Marshal()` (type)](../apis/Marshal.md): Converts structured memory into a structured file format (eg for stdio)
+- [`Unmarshal()` (type)](../apis/Unmarshal.md): Converts a structured file format into structured memory
+
+<hr/>
+
+This document was generated from [builtins/types/jsonconcat/jsonconcat_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/types/jsonconcat/jsonconcat_doc.yaml).

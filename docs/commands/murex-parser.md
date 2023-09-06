@@ -1,4 +1,4 @@
-# `murex-parser`  - Command Reference
+# `murex-parser` 
 
 > Runs the Murex parser against a block of code 
 
@@ -13,9 +13,11 @@ if neither exist or if you wish to override their text, then you can use
 
 ## Usage
 
-    <stdin> -> murex-parser -> <stdout>
-    
-    murex-parser { code-block } -> <stdout>
+```
+<stdin> -> murex-parser -> <stdout>
+
+murex-parser { code-block } -> <stdout>
+```
 
 ## Detail
 
@@ -29,3 +31,7 @@ Please note this command is still very much in beta and is likely to change in i
   Displays the man pages for Murex builtins
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+
+<hr/>
+
+This document was generated from [builtins/core/management/shell_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/shell_doc.yaml).

@@ -9,11 +9,11 @@
     but adjacent from the older code so there is zero risk in updating to this
     version.
   Description: |-
-    Breaking Changes:
+    ### Breaking Changes:
 
     * None
 
-    Features:
+    ### Features:
 
     * New data-type `jsonc` (Concatenated JSON). This is an experimental parser for reading multiple JSON documents in a single file or stream. The expectation is that it will eventually replace `jsonl` (jsonlines) and possibly even the default `json` data-type
 
@@ -23,7 +23,7 @@
 
     * `autocomplete` directive `FlagValues` now supports two values: `"*"` and `""`. These define default properties regardless of the flag used
 
-    Minor Changes:
+    ### Minor Changes:
 
     * Unmatched records in **index** (`[`) when parsing a table now produces the same configurable behavior (erroring by default but which can be disabled) as when using **index** against an object
 
@@ -33,7 +33,7 @@
 
     * Lots of improvements to the docs
 
-    Bug Fixes:
+    ### Bug Fixes:
 
     * `$MyVar[[/path/to/element]]` now behaves the same when used infixed as it did when used as a function
   Related:

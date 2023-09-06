@@ -1,6 +1,6 @@
 - DocumentID: msort
   Title: >-
-    `msort` 
+    `msort`
   CategoryID: commands
   Summary: >-
     Sorts an array - data type agnostic
@@ -23,7 +23,7 @@
     ```
   Examples: |-
     ```
-    » tout: json (["c", "b", "a"]) -> msort   
+    » tout json (["c", "b", "a"]) -> msort   
     [
         "a",
         "b",
@@ -33,9 +33,9 @@
 
     Since `msort` does not support reversed order, you will need to pipe the
     output of `msort` into another builtin:
-    
+
     ```
-    » tout: json (["c", "b", "a"]) -> msort -> mtac 
+    » tout json (["c", "b", "a"]) -> msort -> mtac 
     [
         "c",
         "b",
@@ -44,17 +44,17 @@
     ```
   Detail: |-
   Synonyms:
-  - msort
-  - list.sort
+    - msort
+    - list.sort
   Related:
-  - prepend
-  - append
-  - count
-  - a
-  - ja
-  - jsplit
-  - range
-  - alter
-  - mtac
-  - index
-  - element
+    - prepend
+    - append
+    - count
+    - a
+    - ja
+    - jsplit
+    - range
+    - alter
+    - mtac
+    - index
+    - element

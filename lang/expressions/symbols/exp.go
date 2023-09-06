@@ -46,6 +46,7 @@ const (
 	// 15. Comma operator
 	// 14. Assignment operators (right to left)
 	Assign
+	AssignUpdate
 	AssignAndAdd
 	AssignAndSubtract
 	AssignAndDivide
@@ -54,7 +55,11 @@ const (
 
 	// 13. Conditional expression (ternary)
 	// 12. Logical OR
+	LogicalOr
+
 	// 11. Logical AND
+	LogicalAnd
+
 	// 10. Bitwise inclusive (normal) OR
 	// 09. Bitwise exclusive OR (XOR)
 	// 08. Bitwise AND

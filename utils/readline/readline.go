@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"regexp"
+	"strings"
 	"sync/atomic"
 
 	"github.com/lmorg/murex/utils/readline/unicode"
@@ -218,6 +219,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case charCtrlU:
 			HkFnClearLine(rl)
 
+		case charCtrlZ:
+			HkFnUndo(rl)
+
 		case charTab:
 			HkFnAutocomplete(rl)
 
@@ -303,6 +307,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 	case seqUp:
+		rl.viUndoSkipAppend = true
+
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, -1)
 			rl.renderHelpers()
@@ -331,6 +337,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.walkHistory(-1)
 
 	case seqDown:
+		rl.viUndoSkipAppend = true
+
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
 			rl.renderHelpers()
@@ -466,17 +474,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 				return
 			}
 
-			/*line, err := rl.History.GetLine(rl.History.Len() - 1)
-			if err != nil {
-				return
-			}
-
-			tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
-			pos := int(r[1]) - 48 // convert ASCII to integer
-			if pos > len(tokens) {
-				return
-			}
-			rl.insert([]rune(tokens[pos-1]))*/
 		} else {
 			rl.viUndoSkipAppend = true
 		}
@@ -522,6 +519,13 @@ func (rl *Instance) readlineInput(r []rune) {
 // It also calculates the runes in the string as well as any non-printable
 // escape codes.
 func (rl *Instance) SetPrompt(s string) {
+	s = strings.ReplaceAll(s, "\r", "")
+	s = strings.ReplaceAll(s, "\t", "    ")
+	split := strings.Split(s, "\n")
+	if len(split) > 1 {
+		print(strings.Join(split[:len(split)-1], "\r\n") + "\r\n")
+		s = split[len(split)-1]
+	}
 	rl.prompt = s
 	rl.promptLen = strLen(s)
 }

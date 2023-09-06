@@ -1,40 +1,63 @@
-# `alias` - Command Reference
+# `alias`
 
 > Create an alias for a command
 
 ## Description
 
-`alias` defines an alias for global usage
+`alias` allows you to create a shortcut or abbreviation for a longer command.
+
+IMPORTANT: aliases in Murex are not macros and are therefore different than
+ other shells. if the shortcut requires any dynamics such as `piping`,
+ `command sequencing`, `variable evaluations` or `scripting`...
+ Prefer the **`function`** builtin.
 
 ## Usage
 
-    alias: alias=command parameter parameter
-    
-    !alias: command
+```
+alias alias=command parameter parameter
+
+!alias command
+```
 
 ## Examples
 
 Because aliases are parsed into an array of parameters, you cannot put the
 entire alias within quotes. For example:
 
-    # bad :(
-    » alias hw="out Hello, World!"
-    » hw
-    exec: "out\\ Hello,\\ World!": executable file not found in $PATH
-    
-    # good :)
-    » alias hw=out "Hello, World!"
-    » hw
-    Hello, World!
-    
+```
+# bad :(
+» alias hw="out Hello, World!"
+» hw
+exec "out\\ Hello,\\ World!": executable file not found in $PATH
+
+# good :)
+» alias hw=out "Hello, World!"
+» hw
+Hello, World!
+```
+
 Notice how only the command `out "Hello, World!"` is quoted in `alias` the
 same way you would have done if you'd run that command "naked" in the command
 line? This is how `alias` expects it's parameters and where `alias` on Murex
 differs from `alias` in POSIX shells.
 
+To materialize those differences, pay attention to the examples below:
+
+```
+# bad : the following statements generate errors,
+#  prefer function builtin to implent them
+
+» alias myalias=out "Hello, World!" | wc
+» alias myalias=out $myvariable | wc
+» alias myalias=out ${vmstat} | wc
+» alias myalias=out "hello" && out "world"
+» alias myalias=out "hello" ; out "world"
+» alias myalias="out hello; out world"
+```
+
 In some ways this makes `alias` a little less flexible than it might
 otherwise be. However the design of this is to keep `alias` focused on it's
-core objective. For any more advanced requirements you can use a `function`
+core objective. To implement the above aliasing, you can use `function`
 instead.
 
 ## Detail
@@ -50,14 +73,16 @@ The following regex is used to validate the `alias`'s parameters:
 Like all other definable states in Murex, you can delete an alias with the
 bang prefix:
 
-    » alias hw=out "Hello, World!"
-    » hw
-    Hello, World!
-    
-    » !alias hw
-    » hw
-    exec: "hw": executable file not found in $PATH
-    
+```
+» alias hw=out "Hello, World!"
+» hw
+Hello, World!
+
+» !alias hw
+» hw
+exec "hw": executable file not found in $PATH
+```
+
 ### Order of preference
 
 There is an order of precedence for which commands are looked up:
@@ -118,5 +143,9 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+* [`source`](../commands/source.md):
   Import Murex code from another file of code block
+
+<hr/>
+
+This document was generated from [builtins/core/structs/function_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/function_doc.yaml).

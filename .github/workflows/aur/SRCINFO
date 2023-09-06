@@ -8,6 +8,7 @@ pkgbase = murex
 	license = GPL2
 	makedepends = go
 	optdepends = aspell: inline spell checking
+	optdepends = git: package management
 	replaces = murex-git
 	source = https://github.com/lmorg/murex/archive/refs/tags/vxxxMUREX_VERSIONxxx.tar.gz
 	sha256sums = xxxCHECKSUMxxx

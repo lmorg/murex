@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="https://github.com/lmorg/murex"
 license=('GPL2')
 makedepends=('go')
-optdepends=('aspell: inline spell checking')
+optdepends=('aspell: inline spell checking' 'git: package management')
 source=("$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('xxxCHECKSUMxxx')
 
@@ -29,7 +29,7 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  build/murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; try {test: run *}'
+  build/murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
 }
 
 package() {

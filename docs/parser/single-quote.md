@@ -1,4 +1,4 @@
-# Single Quote (`'`) Token - Parser Reference
+# Single Quote (`'`) Token
 
 > Initiates or terminates a string (variables not expanded)
 
@@ -12,19 +12,23 @@ contain a space character in it's name)
 
 ## Examples
 
-    » set: example='World!'
-    
-    » out: 'Hello $example'
-    Hello $example
+```
+» set example='World!'
+
+» out 'Hello $example'
+Hello $example
+```
 
 ## Detail
 
 Quotes can also work over multiple lines
 
-    » out: 'foo
-    » bar'
-    foo
-    bar
+```
+» out 'foo
+» bar'
+foo
+bar
+```
 
 ## See Also
 
@@ -46,3 +50,7 @@ Quotes can also work over multiple lines
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+
+<hr/>
+
+This document was generated from [gen/parser/quotes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/quotes_doc.yaml).

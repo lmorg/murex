@@ -17,10 +17,10 @@
     In shell scripts, `->` and `|` can be used interchangeably.
   Examples: |-
     ```
-    » out: Hello, world! -> regexp: s/world/Earth/
+    » out Hello, world! -> regexp s/world/Earth/
     Hello, Earth!
 
-    » out: Hello, world!->regexp: s/world/Earth/
+    » out Hello, world!->regexp s/world/Earth/
     Hello, Earth!
     ```
 
@@ -28,7 +28,7 @@
     so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
     
     ```
-    » err: Hello, world! -> regexp: s/world/Earth/
+    » err Hello, world! -> regexp s/world/Earth/
     Hello, world!
     ```
   Detail: |-
@@ -103,7 +103,7 @@
     example they might expect arrays as lists rather than JSON objects).
   Examples: |-
     ```
-    » ja: [Mon..Wed] => cat
+    » ja [Mon..Wed] => cat
     Mon
     Tue
     Wed
@@ -112,7 +112,7 @@
     The above is literally the same as typing:
 
     ```
-    » ja: [Mon..Wed] -> format generic -> cat
+    » ja [Mon..Wed] -> format generic -> cat
     Mon
     Tue
     Wed
@@ -121,13 +121,13 @@
     To demonstrate how the previous pipeline might look without a formatted pipe:
     
     ```
-    » ja: [Mon..Wed] -> cat
+    » ja [Mon..Wed] -> cat
     ["Mon","Tue","Wed"]
 
-    » ja: [Mon..Wed] | cat
+    » ja [Mon..Wed] | cat
     ["Mon","Tue","Wed"]
 
-    » ja: [Mon..Wed]
+    » ja [Mon..Wed]
     [
         "Mon",
         "Tue",
@@ -160,10 +160,10 @@
     It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
   Examples: |-
     ```
-    » out: Hello, world! | regexp: s/world/Earth/
+    » out Hello, world! | regexp s/world/Earth/
     Hello, Earth!
 
-    » out: Hello, world!|regexp: s/world/Earth/
+    » out Hello, world!|regexp s/world/Earth/
     Hello, Earth!
     ```
 
@@ -171,7 +171,7 @@
     `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
     
     ```
-    » err: Hello, world! | regexp: s/world/Earth/
+    » err Hello, world! | regexp s/world/Earth/
     Hello, world!
     ```
   #Tests: |-
@@ -206,9 +206,9 @@
     you will need to use named pipes to achieve the same effect in Murex.
   Examples: |-
     ```
-    » out: "Hello" >> example.txt
-    » out: "World!" >> example.txt
-    » open: example.txt
+    » out "Hello" >> example.txt
+    » out "World!" >> example.txt
+    » open example.txt
     Hello
     World!
     ```

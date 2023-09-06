@@ -1,4 +1,4 @@
-# `regexp` - Command Reference
+# `regexp`
 
 > Regexp tools for arrays / lists of strings
 
@@ -9,19 +9,23 @@ array or list of strings - thus `regexp` is Murex data-type aware.
 
 ## Usage
 
-    <stdin> -> regexp expression -> <stdout>
+```
+<stdin> -> regexp expression -> <stdout>
+```
 
 ## Examples
 
 ### Find elements
 
-    » ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
-    [
-        "mon",
-        "fri",
-        "sun"
-    ]
-    
+```
+» ja [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
+[
+    "mon",
+    "fri",
+    "sun"
+]
+```
+
 This returns only 3 days because only 3 days match the expression (where
 the days have to be 6 characters long) and then it only returns the first 3
 characters because those are inside the parenthesis.
@@ -30,35 +34,41 @@ characters because those are inside the parenthesis.
 
 Elements containing
 
-    » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
-    [
-        "monday",
-        "friday",
-        "sunday"
-    ]
-    
+```
+» ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
+[
+    "monday",
+    "friday",
+    "sunday"
+]
+```
+
 Elements excluding
 
-    » ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
-    [
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "saturday"
-    ]
-    
+```
+» ja [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
+[
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "saturday"
+]
+```
+
 ### Substitute expression
 
-    » ja: [monday..sunday] -> regexp 's/day/night/'
-    [
-        "monnight",
-        "tuesnight",
-        "wednesnight",
-        "thursnight",
-        "frinight",
-        "saturnight",
-        "sunnight"
-    ]
+```
+» ja [monday..sunday] -> regexp 's/day/night/'
+[
+    "monnight",
+    "tuesnight",
+    "wednesnight",
+    "thursnight",
+    "frinight",
+    "saturnight",
+    "sunnight"
+]
+```
 
 ## Flags
 
@@ -96,15 +106,15 @@ same data-type.
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`match`](../commands/match.md):
   Match an exact value in an array
-* [`msort` ](../commands/msort.md):
+* [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+* [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
@@ -112,3 +122,7 @@ same data-type.
   Prefix a string to every item in a list
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+
+<hr/>
+
+This document was generated from [builtins/core/lists/regexp_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/regexp_doc.yaml).

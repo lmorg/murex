@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
@@ -67,6 +68,8 @@ func Execute(flags int) {
 	if err != nil {
 		tty.Stderr.WriteString(err.Error())
 	}
+
+	lang.ShellProcess.FileRef = ref.NewModule(app.ShellModule)
 }
 
 func profile(name, path string) error {
