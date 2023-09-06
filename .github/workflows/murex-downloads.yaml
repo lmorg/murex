@@ -53,9 +53,9 @@ jobs:
           export MUREXVERSION="$(./murex -c 'version --no-app-name')"
           OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
           
-          if [ "$MUREXVERSION" == "$OLDVER" ]; then
-              echo "No version change, skipping binary build."
-          else
+          #if [ "$MUREXVERSION" == "$OLDVER" ]; then
+          #    echo "No version change, skipping binary build."
+          #else
               echo "Building latest binaries...."
               ./murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
               mv -v ./bin ./website-cache
@@ -65,7 +65,7 @@ jobs:
               export GOARCH=wasm
               go build -o ./gen/website/wasm/murex.wasm
               cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
-          fi
+          #fi
   
       - name: Build Website
         run: |

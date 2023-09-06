@@ -70,6 +70,8 @@ status = 0
 # version.
 version = ${version --short}
 
+go mod download
+
 $targets -> formap os cpus {
     $cpus -> foreach arch {
         set ext
