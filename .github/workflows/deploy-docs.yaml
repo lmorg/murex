@@ -1,8 +1,10 @@
-name: Deploy Docs
+name: Deploy Dev Docs
 
 on:
   push:
     branches:
+      - develop
+      - website
       - master
   
   workflow_dispatch:
@@ -35,6 +37,7 @@ jobs:
           DOCGEN_TARGET:   vuepress
           RUN_NUMBER:      ${{ github.run_number }}
           COMMITHASHSHORT: ${{ github.run_number }}
+
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
@@ -59,9 +62,11 @@ jobs:
           > docs/.vuepress/dist/.nojekyll
 
       - name: Deploy Docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          # This is the branch where the docs are deployed to
-          branch: gh-pages
-          folder: docs/.vuepress/dist
-        
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
+          AWS_DEFAULT_REGION:    eu-west-1
+          AWS_DEFAULT_OUTPUT:    json
+        run: |
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/${{ github.ref_name }} --exclude "*.md" --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"
