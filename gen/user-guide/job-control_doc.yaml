@@ -1,0 +1,21 @@
+- DocumentID: job-control
+  Title: >-
+    Job Control
+  CategoryID: user-guide
+  Summary: >-
+    How to manage jobs with Murex?
+  Description: |-
+    {{ include "gen/user-guide/job-control.inc.md" }}
+  Synonyms:
+    - job-control
+    - repl
+    - readline
+  Related:
+    - commands/bg
+    - commands/fg
+    - commands/fid-kill
+    - commands/fid-list
+    - commands/exec
+    - commands/fexec
+    - commands/jobs
+    - terminal-keys

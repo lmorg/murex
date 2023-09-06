@@ -94,7 +94,7 @@ highlights:
 
       - title: Extension Framework
         icon: cube
-        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions such as `auto-jump` or `starfish`. This allows for customization and additional functionality.
+        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions such as `auto-jump` or `starship`. This allows for customization and additional functionality.
         link: user-guide/modules
 
       - title: Built-in Package Manager
