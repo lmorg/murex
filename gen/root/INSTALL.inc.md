@@ -37,7 +37,7 @@ There is a more detailed breakdown of known compatibility issues in the
 ## Pre-Compiled Binaries (HTTPS download)
 
 [![Version](version.svg)](DOWNLOAD.md)
-[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
+[![Build Murex Downloads](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml)
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
