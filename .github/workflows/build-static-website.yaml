@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  GO_VERSION: "latest"
+  GO_VERSION: "1.21"
 
 jobs:
   deploy-dev:
