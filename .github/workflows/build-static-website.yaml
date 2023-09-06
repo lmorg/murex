@@ -1,0 +1,122 @@
+name: Build Murex Downloads
+
+on:
+  push:
+    branches:
+      - master
+  
+  workflow_dispatch:
+
+env:
+  GO_VERSION: "1.21"
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    env:
+      RUN_NUMBER:      ${{ github.run_number }}
+      COMMITHASHSHORT: ${{ github.run_number }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # if your docs needs submodules, uncomment the following line
+          # submodules: true
+
+      - name: Setup Go ${{ ENV.GO_VERSION }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ ENV.GO_VERSION }}
+
+      - name: Install Murex
+        run: |
+          go build -v github.com/lmorg/murex
+
+      - name: Install Docgen
+        run: |
+          go build -v github.com/lmorg/murex/utils/docgen
+
+      - name: Build Markdown Docs
+        run: |
+          ./docgen -panic -warning -config gen/docgen.yaml
+          mv -v *.md *.svg docs/
+          mv -v gen/vuepress docs/.vuepress
+
+      - name: Build Binary Assets
+        run: |
+          mkdir -p website-cache
+          
+          export MUREXVERSION="$(./murex -c 'version --no-app-name')"
+          OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
+          
+          if [ "$MUREXVERSION" == "$OLDVER" ]; then
+              echo "No version change, skipping binary build."
+          else
+              echo "Building latest binaries...."
+              ./murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
+              mv -v ./bin ./website-cache
+      
+              echo "Compiling WebAssembly...."
+              export GOOS=js
+              export GOARCH=wasm
+              go build -o ./gen/website/wasm/murex.wasm
+              cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
+          fi
+  
+      - name: Build Website
+        run: |
+          export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
+          export MUREXCOMMITL="$(git rev-parse HEAD)"
+          export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
+
+          sed -i "s/\$DATE/`date`/g;
+          s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+          s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+          s/\$MUREXVERSION/$MUREXVERSION/g;
+          s/\$MUREXTESTS/$MUREXTESTS/g" \
+          gen/website/header.html
+  
+          sed -i "s/\$DATE/`date`/;
+                  s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+                  s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+                  s/\$MUREXVERSION/$MUREXVERSION/g;
+                  s/\$MUREXTESTS/$MUREXTESTS/g" \
+                  gen/website/footer.html
+          
+          cp gen/website/404.md .
+          for f in *.md; do
+                  ./murex gen/website/find-exec.mx $f
+          done
+          find docs -name "*.md" -exec ./murex gen/website/find-exec.mx {} \;
+          
+          sed -i '0,/<img src/s//<img class="no-border" src/;
+                  0,/<img src/s//<img class="no-border" src/;
+                  0,/<img src/s//<img class="no-border" src/;' \
+                  README.html
+          
+          sed -i '0,/<img src/s//<img class="no-border" src/;
+                  0,/<img src/s//<img class="no-border" src/;
+                  0,/<img src/s//<img class="no-border" src/;
+                  0,/<img src/s//<img class="no-border" src/;' \
+                  INSTALL.html
+          
+          sed -i '0,/<img src/s//<img class="no-border" src/;' \
+                  DOWNLOAD.html
+          
+          sed -i 's.\\|.|.g;' \
+                  docs/user-guide/rosetta-stone.html
+          
+          echo "$MUREXVERSION" > VERSION
+          
+          mv VERSION *.html *.svg gen/website/assets/* ./docs ./images ./website-cache/
+
+      - name: Deploy Docs
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
+          AWS_DEFAULT_REGION:    eu-west-1
+          AWS_DEFAULT_OUTPUT:    json
+        run: |
+          aws s3 sync website-cache s3://murex.rocks/nojs --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_NOJS }}" --paths "/*"
