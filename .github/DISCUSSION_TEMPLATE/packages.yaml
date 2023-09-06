@@ -1,0 +1,26 @@
+#title: ""
+labels: ["packages"]
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Please ensure that the title you set above is the name of your Murex package.
+  - type: input
+    id: url
+    attributes:
+      label: Install URL for Package
+      description: Please ensure all HTTP URLs are TLS (ie `https://`) and have a `.git` extension
+      placeholder: https://github.com/lmorg/murex-module-devops.git
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Package Description
+      description: |
+        Describe your package and the modules it provides
+      placeholder: |-
+        This package provides the following modules:
+        - module name
+    validations:
+      required: true
