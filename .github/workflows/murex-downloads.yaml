@@ -13,6 +13,7 @@ env:
 jobs:
   Build-Downloads:
     runs-on: ubuntu-latest
+    #runs-on: ghcr.io/lmorg/murex:latest
     env:
       RUN_NUMBER:      ${{ github.run_number }}
       COMMITHASHSHORT: ${{ github.run_number }}
@@ -45,8 +46,8 @@ jobs:
 
       - name: Install Pandoc
         run: |
-          apt install -y pandoc
-          
+          sudo apt install -y pandoc
+
       - name: Build Binary Assets
         run: |
           mkdir -p website-cache
@@ -70,6 +71,7 @@ jobs:
   
       - name: Build Website
         run: |
+          export MUREXVERSION="$(./murex -c 'version --no-app-name')"
           export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
           export MUREXCOMMITL="$(git rev-parse HEAD)"
           export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
