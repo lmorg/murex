@@ -6,6 +6,12 @@ on:
       - develop
       - website
       - master
+    paths:
+      - "**/*.md"
+      - "**/*.yaml"
+      - "**/*.tmpl"
+      - "**/*.ts"
+      - "**/*.scss"
   
   workflow_dispatch:
 
