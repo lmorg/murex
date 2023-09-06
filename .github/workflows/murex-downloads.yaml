@@ -11,7 +11,7 @@ env:
   GO_VERSION: "1.21"
 
 jobs:
-  deploy-dev:
+  Build-Downloads:
     runs-on: ubuntu-latest
     env:
       RUN_NUMBER:      ${{ github.run_number }}
@@ -43,6 +43,10 @@ jobs:
           mv -v *.md *.svg docs/
           mv -v gen/vuepress docs/.vuepress
 
+      - name: Install Pandoc
+        run: |
+          apt install -y pandoc
+          
       - name: Build Binary Assets
         run: |
           mkdir -p website-cache

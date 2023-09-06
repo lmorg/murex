@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  Clean-Build:
 
     runs-on: ubuntu-latest
     strategy:

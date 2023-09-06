@@ -15,7 +15,7 @@ env:
   IMAGE_TAG: ci
 
 jobs:
-  build:
+  Docker:
 
     runs-on: ubuntu-latest
     permissions:

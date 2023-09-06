@@ -12,7 +12,7 @@ env:
   SRCINFO:    ".github/workflows/aur/SRCINFO"
 
 jobs:
-  build:
+  AUR-Release:
 
     runs-on: ubuntu-latest
  

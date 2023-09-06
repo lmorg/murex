@@ -1,4 +1,4 @@
-name: Test Murex
+name: Murex Tests
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  Murex-Tests:
 
     runs-on: ubuntu-latest
     strategy:
