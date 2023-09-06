@@ -3,13 +3,11 @@
     Job Control
   CategoryID: user-guide
   Summary: >-
-    How to manage jobs with Murex?
+    How to manage jobs with Murex
   Description: |-
     {{ include "gen/user-guide/job-control.inc.md" }}
   Synonyms:
     - job-control
-    - repl
-    - readline
   Related:
     - commands/bg
     - commands/fg

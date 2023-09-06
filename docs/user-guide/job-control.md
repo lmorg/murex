@@ -1,6 +1,6 @@
 # Job Control
 
-> How to manage jobs with Murex?
+> How to manage jobs with Murex
 
 <h2>Table of Contents</h2>
 
@@ -10,9 +10,9 @@
 - [Job Control](#job-control)
   - [Listing executions](#listing-executions)
   - [Background execution](#background-execution)
-  - [Foreground execution](#Foreground-execution)
-  - [Suspension](#Suspension)
-  - [Termination](#Termination)
+  - [Foreground execution](#foreground-execution)
+  - [Suspension](#suspension)
+  - [Termination](#termination)
 
 </div>
 
@@ -39,12 +39,12 @@ That includes:
 - any background functions or processes of any of the above
 
 ```shell
->> jobs
+» jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
 5053  Stopped    true        exec     sleep 10000
->> fid-list
+» fid-list
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
@@ -68,14 +68,14 @@ The builtin supports two modes:
 2. or it can daemonize stopped job and daemonize it.
 
 ```shell
->> jobs
+» jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
 5053  Stopped    true        exec     sleep 10000
 # Run PID 5053 in the background
 # Note that `bg` is context aware, hit TAB to visually select the id
->> bg 5053
+» bg 5053
 ```
 
 ### Foreground execution
@@ -84,9 +84,9 @@ Users can bring a background job to the foreground, making it the active task an
 
 ```shell
 # start 3 background jobs
->> bg { sleep 10000; out "Task1" }
->> bg { sleep 10000; out "Task1" }
->> bg { sleep 10000; out "Task1" }
+» bg { sleep 10000; out "Task 1" }
+» bg { sleep 10000; out "Task 2" }
+» bg { sleep 10000; out "Task 3" }
 >> jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
@@ -95,7 +95,7 @@ PID   State      Background  Process  Parameters
 
 # bring back one of them to the foreground, it will block on sleep
 # Note that `fg` is context aware, hit TAB to visually select the function id
->> fg 5053
+» fg 5053
 
 ```
 
@@ -106,9 +106,9 @@ Users can suspend and pause the execution of a running job, which will temporari
 From an interactive session, press `CTRL Z` to suspend the currently running job in the foreground.
 
 ```shell
->> sleep 10000; out "Task1"
+» sleep 10000; out "Task 1"
 # Hit CTRL Z - terminal should allow new inputs
->> jobs
+» jobs
 PID   State      Background  Process  Parameters
 4944  Executing  true        exec     sleep 10000
 # Note how the job has a `paused` state
@@ -126,13 +126,13 @@ Alternatively, from a scripting perspective, there are two built-in functions th
 
 
 ```shell
->> bg { sleep 10000; out "Task1" }
->> jobs
+» bg { sleep 10000; out "Task 1" }
+» jobs
 PID   State      Background  Process  Parameters
 4944  Executing  true        exec     sleep 10000
->> kill 4944
-Task1
->>
+» kill 4944
+Task 1
+» 
 ```
 
 ## See Also
