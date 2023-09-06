@@ -13,7 +13,7 @@ and packages.
 
 | Name                                                         | Summary                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| https://github.com/lmorg/murex-module-jump                   | Adds `j` function which calls `jump` and pupulates the suggestion(s) as autocompelete suggestions Adds autocomplete suggestions for `jump` executable Adds event to watch for directory changes |
+| https://github.com/lmorg/murex-module-jump                   | Enables autojump functionalities                             |
 | https://github.com/orefalo/murex-module-starship             | starship - The minimal, blazing-fast, and infinitely customizable prompt |
 | and [many more](https://github.com/search?q=murex-module-&type=repositories) | Murex modules typically follow the `murex-module-*` naming convention |
 
