@@ -37,28 +37,7 @@
     function
     ```
   Detail: |-
-    There are a few different types of commands:
-    
-    ### alias
-
-    This will be represented in `which` by the term `alias` and, when STDOUT is a
-    TTY, `which` will follow the alias to print what command the alias points to.
-
-    ### function
-
-    This is a Murex function (defined via `function`) and will be represented in
-    `which` by the term `function`.
-
-    ### builtin
-
-    This is a shell builtin, like `out` and `exit`. It will be represented in
-    `which` by the term `builtin`.
-
-    ### external executable
-
-    This is any other external command, such as `systemctl` and `python`. This
-    will be represented in `which` by the path to the executable. When STDOUT is a
-    TTY, `which` will also print the destination path of any symlinks too.
+    {{ include "gen/includes/command-types.inc.md" }}
   Synonyms:
   Related:
     - alias

@@ -1,19 +1,16 @@
-# `which`
+# `type`
 
-> Locate command origin
+> Command type (function, builtin, alias, etc)
 
 ## Description
 
-`which` locates a command's origin. If STDOUT is a TTY, then it's output will be
-human readable. If STDOUT is a pipe then it's output will be a simple list.
-
-`which` can take multiple parameters, each representing a different command you
-want looked up.
+`type` returns information about the type of the command. This is a POSIX
+requirement and not to be confused with Murex data types. 
 
 ## Usage
 
 ```
-which command... -> <stdout>
+type command -> <stdout>
 ```
 
 ## Examples
@@ -21,22 +18,19 @@ which command... -> <stdout>
 **TTY output:**
 
 ```
-» which cat dog jobs git dug
-cat => (/bin/cat) cat - concatenate and print files
-dog => unknown
-jobs => (alias) fid-list --jobs => (builtin) Lists all running functions within the current Murex session
-git => (/opt/homebrew/bin/git -> ../Cellar/git/2.41.0/bin/git) git - the stupid content tracker
-dug => (murex function) A bit like dig but which outputs JSON
+» type murex-docs
+`murex-docs` is a shell function:
+
+    # Wrapper around builtin to pipe to less
+
+    config: set proc strict-arrays false
+    fexec: builtin murex-docs @PARAMS | less
 ```
 
 **Piped output:**
 
 ```
-» which cat dog jobs git dug -> cat
-/bin/cat
-unknown
-alias
-/opt/homebrew/bin/git
+» type murex-docs -> cat
 function
 ```
 
@@ -87,9 +81,9 @@ In `type`, it is represented by the term **executable**.
   Define a function block
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`type`](../commands/type.md):
-  Command type (function, builtin, alias, etc)
+* [`which`](../commands/which.md):
+  Locate command origin
 
 <hr/>
 
-This document was generated from [builtins/core/management/which_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/which_doc.yaml).
+This document was generated from [builtins/core/management/type_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/type_doc.yaml).
