@@ -57,7 +57,7 @@ jobs:
           #    echo "No version change, skipping binary build."
           #else
               echo "Building latest binaries...."
-              ./murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
+              ./murex ./test/build_all_platforms.mx --inc-latest --compress
               mv -v ./bin ./website-cache
       
               echo "Compiling WebAssembly...."
