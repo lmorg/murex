@@ -151,7 +151,7 @@
     ### Undefining a function
 
     Like all other definable states in Murex, you can delete a function with
-    the bang prefix (see the example above).
+    the bang prefix `!function` (see the example above).
 
     ### Using parameterized variable names
 
