@@ -46,3 +46,9 @@ murex.iml
 
 # Codecov.io
 coverage.txt
+
+# viewpress
+node_modules/
+docs/.vuepress/.temp/
+docs/.vuepress/.cache/
+docs/.vuepress/dist/
