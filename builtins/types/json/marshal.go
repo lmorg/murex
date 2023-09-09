@@ -24,7 +24,7 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	return []byte{'[', ']'}, nil
 }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return
