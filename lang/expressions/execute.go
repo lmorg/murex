@@ -8,7 +8,7 @@ import (
 func ExecuteExpr(p *lang.Process, expression []rune) (*primitives.DataType, error) {
 	tree := NewParser(p, expression, 0)
 
-	err := tree.parseExpression(true)
+	err := tree.parseExpression(true, true)
 	if err != nil {
 		return nil, err
 	}

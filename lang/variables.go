@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 )
 
 func errVariableReserved(name string) error {
@@ -140,7 +141,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
 	case ENV:
-		return getEnvVarValue(), nil
+		return getEnvVarValue(v), nil
 
 	case GLOBAL:
 		return getGlobalValues(), nil
@@ -199,9 +200,9 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	}
 
 	// variable not found so lets fallback to the environmental variables
-	value = os.Getenv(name)
-	if value != "" {
-		return value, nil
+	s, exists := os.LookupEnv(name)
+	if exists {
+		return v.getEnvValueValue(name, s)
 	}
 
 	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
@@ -230,6 +231,16 @@ func (v *Variables) getValueValue(name string) interface{} {
 
 	v.mutex.Unlock()
 	return value
+}
+
+func (v *Variables) getEnvValueValue(name, str string) (interface{}, error) {
+	dt := getEnvVarDataType(name)
+	if dt == types.String {
+		return str, nil
+	}
+
+	value, err := UnmarshalDataBuffered(v.process, []byte(str), dt)
+	return value, err
 }
 
 // GetString returns a string representation of the data stored in the requested variable
@@ -274,7 +285,7 @@ func (v *Variables) GetString(path string) (string, error) {
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
 	case ENV:
-		b, err := json.Marshal(getEnvVarValue(), v.process.Stdout.IsTTY())
+		b, err := json.Marshal(getEnvVarString(), v.process.Stdout.IsTTY())
 		return string(b), err
 
 	case GLOBAL:
@@ -383,7 +394,7 @@ func (v *Variables) GetDataType(path string) string {
 		return ""
 	case 1:
 		return v.getDataType(split[0])
-	case 2:
+	default:
 		switch split[0] {
 		case ENV:
 			return getEnvVarDataType(split[1])
@@ -392,8 +403,7 @@ func (v *Variables) GetDataType(path string) string {
 		case MODULE:
 			return ModuleVariables.GetDataType(v.process, split[1])
 		}
-		fallthrough
-	default:
+
 		val, err := v.getValue(split[0])
 		if err != nil {
 			return v.getDataType(split[0])
@@ -439,7 +449,7 @@ func (v *Variables) getDataType(name string) string {
 		return types.Path
 
 	case MUREX_ARGV, MUREX_ARGS:
-		return types.String
+		return types.Json
 
 	case PWD:
 		return types.Path
@@ -506,12 +516,13 @@ func getGlobalDataType(name string) (dt string) {
 }
 
 func getEnvVarDataType(name string) string {
-	switch name {
-	case "PATH", "LD_LIBRARY_PATH":
-		return types.Paths
-	default:
-		return types.String
+	for dt, v := range envDataTypes {
+		if lists.Match(v, name) {
+			return dt
+		}
 	}
+
+	return types.String
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
@@ -707,7 +718,7 @@ func convertDataType(p *Process, value interface{}, dataType string, name *strin
 			iface = s
 		}
 	default:
-		s, err = varConvertInterface(v, dataType, name)
+		s, err = varConvertInterface(p, v, dataType, name)
 		iface = value
 	}
 	return s, iface, err
@@ -743,7 +754,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }
 
-func varConvertInterface(value interface{}, dataType string, name *string) (string, error) {
+func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
 	MarshalData := Marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
@@ -755,7 +766,7 @@ func varConvertInterface(value interface{}, dataType string, name *string) (stri
 		return s.(string), nil
 	}
 
-	b, err := MarshalData(ShellProcess, value)
+	b, err := MarshalData(p, value)
 	if err != nil {
 		return "", errVarCannotStoreVariable(*name, err)
 	}

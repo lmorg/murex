@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 func TestAppName(t *testing.T) {
@@ -22,9 +23,9 @@ func TestVersion(t *testing.T) {
 	count.Tests(t, 1)
 	rx := regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+( (ALPHA|BETA|RC[0-9]))?$`)
 
-	if !rx.MatchString(Version) {
+	if !rx.MatchString(Version()) {
 		t.Error("Release version doesn't contain a valid string:")
-		t.Log("  Version:", Version)
+		t.Log("  Version:", Version())
 	}
 }
 
@@ -42,5 +43,12 @@ func TestLicense(t *testing.T) {
 	if License == "" {
 		t.Error("License isn't valid:")
 		t.Log("  License:", License)
+	}
+}
+
+func TestSemVer(t *testing.T) {
+	_, err := semver.Parse(v)
+	if err != nil {
+		t.Error(err)
 	}
 }

@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-
-	_ "github.com/mattn/go-sqlite3" // import sqlite3 for use with the SQL package
 )
 
 const (
@@ -26,7 +24,7 @@ var (
 )
 
 func createDb() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", ":memory:" /*"file:debug.db"*/)
+	db, err := sql.Open(driverName, ":memory:" /*"file:debug.db"*/)
 	if err != nil {
 		return nil, fmt.Errorf("could not open database: %s", err.Error())
 	}

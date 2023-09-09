@@ -1,0 +1,43 @@
+- DocumentID: type
+  Title: >+
+    `type`
+  CategoryID: commands
+  Summary: >-
+    Command type (function, builtin, alias, etc)
+  Description: |-
+   `type` returns information about the type of the command. This is a POSIX
+   requirement and not to be confused with Murex data types. 
+  Usage: |-
+    ```
+    type command -> <stdout>
+    ```
+  Examples: |-
+    **TTY output:**
+
+    ```
+    » type murex-docs
+    `murex-docs` is a shell function:
+
+        # Wrapper around builtin to pipe to less
+
+        config: set proc strict-arrays false
+        fexec: builtin murex-docs @PARAMS | less
+    ```
+
+    **Piped output:**
+
+    ```
+    » type murex-docs -> cat
+    function
+    ```
+  Detail: |-
+    {{ include "gen/includes/command-types.inc.md" }}
+  Synonyms:
+  Related:
+    - alias
+    - function
+    - exec
+    - fexec
+    - which
+    - out
+    - exit

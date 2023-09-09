@@ -3,6 +3,7 @@ import { searchProPlugin } from "vuepress-plugin-search-pro";
 import theme from "./theme.js";
 
 const environment = process.env.NODE_ENV;
+const commitHash = process.env.COMMITHASHSHORT;
 
 const config = {
   // this must be replace with the context path in PROD
@@ -33,7 +34,7 @@ const config = {
     [
       "link",
       {
-        href: "/favicon.ico",
+        href: "/favicon.ico?v="+commitHash,
         rel: "icon",
         type: "image/png",
       },
@@ -41,7 +42,7 @@ const config = {
     [
       "link",
       {
-        href: "/favicon-16x16.png",
+        href: "/favicon-16x16.png?v="+commitHash,
         rel: "icon",
         type: "image/png",
       },
@@ -49,7 +50,7 @@ const config = {
     [
       "link",
       {
-        href: "/favicon-32x32.png",
+        href: "/favicon-32x32.png?v="+commitHash,
         rel: "icon",
         type: "image/png",
       },

@@ -34,6 +34,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   How to track what code was loaded and from where
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Job Control](../user-guide/job-control.md):
+  How to manage jobs with Murex
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Named Pipes](../user-guide/namedpipes.md):
@@ -334,6 +336,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [`type`](../commands/type.md):
+  Command type (function, builtin, alias, etc)
 * [`version`](../commands/version.md):
   Get Murex version
 * [`which`](../commands/which.md):
@@ -407,7 +411,7 @@ are only included by default on Windows.
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
   Events triggered by time intervals
-* [`signalTrap`](../events/signaltrap.md):
+* [`onSignalReceived`](../events/onsignalreceived.md):
   Trap OS signals
 
 ## API Reference

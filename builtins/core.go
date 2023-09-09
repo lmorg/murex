@@ -44,7 +44,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/events/onKeyPress"          // readline key-press event type
 	_ "github.com/lmorg/murex/builtins/events/onPrompt"            // REPL prompt triggers
 	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"    // triggered when a command finishes
-	_ "github.com/lmorg/murex/builtins/events/signalTrap"          // OS signal management
+	_ "github.com/lmorg/murex/builtins/events/onSignalReceived"    // OS signal management
 
 	// Pipes:
 	_ "github.com/lmorg/murex/builtins/pipes/file"    // writing to a file (required for history)
@@ -53,17 +53,21 @@ import (
 	_ "github.com/lmorg/murex/builtins/pipes/term"    // writing to the terminal / TTY (required!)
 
 	// Data types:
-	_ "github.com/lmorg/murex/builtins/types/boolean" // boolean data type
-	_ "github.com/lmorg/murex/builtins/types/columns" // programmatic columns
-	_ "github.com/lmorg/murex/builtins/types/generic" // generic data type
+	_ "github.com/lmorg/murex/builtins/types/apachelogs"  // Apache httpd "commonlog" parsing
+	_ "github.com/lmorg/murex/builtins/types/boolean"     // boolean data type
+	_ "github.com/lmorg/murex/builtins/types/columns"     // programmatic columns
+	_ "github.com/lmorg/murex/builtins/types/csv"         // CSV data type
+	_ "github.com/lmorg/murex/builtins/types/generic"     // generic data type
+	_ "github.com/lmorg/murex/builtins/types/json"        // JSON data type
+	_ "github.com/lmorg/murex/builtins/types/jsonconcat"  // concatenated JSON data type
+	_ "github.com/lmorg/murex/builtins/types/jsonlines"   // jsonlines data type
+	_ "github.com/lmorg/murex/builtins/types/null"        // null data type
+	_ "github.com/lmorg/murex/builtins/types/numeric"     // formatting numeric data types (int, float, number)
+	_ "github.com/lmorg/murex/builtins/types/paths"       // path and paths data type
+	_ "github.com/lmorg/murex/builtins/types/querystring" // encoding values as URL query strings
+	_ "github.com/lmorg/murex/builtins/types/string"      // string data type
+	_ "github.com/lmorg/murex/builtins/types/toml"        // TOML data type
+	_ "github.com/lmorg/murex/builtins/types/yaml"        // YAML data type
 
-	_ "github.com/lmorg/murex/builtins/types/json"       // JSON data type
-	_ "github.com/lmorg/murex/builtins/types/jsonconcat" // concatenated JSON data type
-	_ "github.com/lmorg/murex/builtins/types/jsonlines"  // jsonlines data type
-	_ "github.com/lmorg/murex/builtins/types/null"       // null data type
-	_ "github.com/lmorg/murex/builtins/types/numeric"    // formatting numeric data types (int, float, number)
-	_ "github.com/lmorg/murex/builtins/types/paths"      // path and paths data type
-	_ "github.com/lmorg/murex/builtins/types/string"     // string data type
-
-	_ "github.com/lmorg/murex/builtins/imports_build" // optional plugins
+	_ "github.com/lmorg/murex/builtins/optional" // optional plugins
 )

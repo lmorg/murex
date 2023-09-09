@@ -13,7 +13,7 @@ func errNotAllowedInFunctions(cmd []rune, desc string, token ...rune) error {
 		string(desc), string(token), string(cmd))
 }
 
-func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting) ([]rune, *primitives.DataType, error) {
+func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting) ([]rune, primitives.FunctionT, error) {
 	params, err := tree.parseFunctionParameters(cmd)
 	if err != nil {
 		return nil, nil, fmt.Errorf("cannot parse `function(parameters...)`: %s", err.Error())
@@ -24,38 +24,40 @@ func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting
 		return r, nil, nil
 	}
 
-	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
-	params = append([]rune{' '}, params[1:len(params)-1]...)
-	block := append(cmd, params...)
-	exitNum, err := fork.Execute(block)
-	if err != nil {
-		return r, nil,
-			fmt.Errorf("function `%s` compilation error: %s",
-				string(cmd), err.Error())
+	fn := func() (*primitives.Value, error) {
+		val := new(primitives.Value)
+		var err error
+
+		fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		params = append([]rune{' '}, params[1:len(params)-1]...)
+		block := append(cmd, params...)
+		val.ExitNum, err = fork.Execute(block)
+
+		//val.Error = fork.Stderr
+
+		if err != nil {
+			return val, fmt.Errorf("function `%s` compilation error: %s", string(cmd), err.Error())
+		}
+
+		if val.ExitNum != 0 {
+			return val, fmt.Errorf("function `%s` returned non-zero exit number (%d)", string(cmd), val.ExitNum)
+		}
+
+		b, err := fork.Stdout.ReadAll()
+		if err != nil {
+			return val, fmt.Errorf("function `%s` STDOUT read error: %s", string(cmd), err.Error())
+		}
+		b = utils.CrLfTrim(b)
+		val.DataType = fork.Stdout.GetDataType()
+		val.Value, err = formatBytes(b, val.DataType, strOrVal)
+		if err != nil {
+			return nil, fmt.Errorf("function `%s` STDOUT conversion error: %s", string(cmd), err.Error())
+		}
+
+		return val, err
 	}
 
-	if exitNum != 0 {
-		return r, nil,
-			fmt.Errorf("function `%s` returned non-zero exit number (%d)",
-				string(cmd), exitNum)
-	}
-
-	b, err := fork.Stdout.ReadAll()
-	if err != nil {
-		return r, nil, fmt.Errorf("function `%s` STDOUT read error: %s",
-			string(cmd), err.Error())
-	}
-	b = utils.CrLfTrim(b)
-	mxDt := fork.Stdout.GetDataType()
-	v, err := formatBytes(b, mxDt, strOrVal)
-	if err != nil {
-		return r, nil, fmt.Errorf("function `%s` STDOUT conversion error: %s",
-			string(cmd), err.Error())
-	}
-
-	dt := scalar2Primitive(mxDt)
-	dt.Value = v
-	return r, dt, nil
+	return r, fn, nil
 }
 
 func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
@@ -139,7 +141,7 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 			}
 
 		case '(':
-			_, err := tree.parseParen(false)
+			_, err := tree.parseParenthesis(false)
 			if err != nil {
 				return nil, err
 			}
@@ -168,7 +170,7 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 			case '(':
 				// string
 				tree.charPos++
-				_, err := tree.parseParen(false)
+				_, err := tree.parseParenthesis(false)
 				if err != nil {
 					return nil, err
 				}
@@ -198,7 +200,7 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				_, _, _, err := tree.parseSubShell(false, r, varAsString)
+				_, _, err := tree.parseSubShell(false, r, varAsString)
 				if err != nil {
 					return nil, err
 				}
@@ -218,7 +220,7 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 				continue
 			case next == '{':
 				// subshell
-				_, _, _, err := tree.parseSubShell(false, r, varAsString)
+				_, _, err := tree.parseSubShell(false, r, varAsString)
 				if err != nil {
 					return nil, err
 				}

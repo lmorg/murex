@@ -9,7 +9,7 @@
     {{ include "gen/changelog/v5.0.inc.md" }}
   Related:
     - commands/event
-    - events/signaltrap
+    - events/onsignalreceived
     - variables/self
     - variables/columns
     - variables/murex_argv

@@ -159,40 +159,25 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 		if err != nil {
 			return nil, raiseError(nil, node, 0, err.Error())
 		}
-		return &primitives.DataType{
-			Primitive: primitives.Number,
-			Value:     f,
-		}, nil
+		return primitives.NewPrimitive(primitives.Number, f), nil
 
 	case symbols.QuoteSingle, symbols.QuoteDouble, symbols.QuoteParenthesis:
-		return &primitives.DataType{
-			Primitive: primitives.String,
-			Value:     node.Value(),
-		}, nil
+		return primitives.NewPrimitive(primitives.String, node.Value()), nil
 
 	case symbols.Boolean:
-		return &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     types.IsTrueString(string(node.value), 0),
-		}, nil
+		return primitives.NewPrimitive(
+			primitives.Boolean,
+			types.IsTrueString(string(node.value), 0),
+		), nil
 
 	case symbols.Bareword:
-		return &primitives.DataType{
-			Primitive: primitives.Bareword,
-			Value:     nil,
-		}, nil
+		return primitives.NewPrimitive(primitives.Bareword, nil), nil
 
 	case symbols.Calculated, symbols.Scalar, symbols.SubExpressionBegin:
-		return &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		}, nil
+		return primitives.NewPrimitive(primitives.Null, nil), nil
 
 	case symbols.Null:
-		return &primitives.DataType{
-			Primitive: primitives.Null,
-			Value:     nil,
-		}, nil
+		return primitives.NewPrimitive(primitives.Null, nil), nil
 
 	}
 

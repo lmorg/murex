@@ -415,7 +415,7 @@ rm @{g *.txt | f +s}
 
 In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
 using the following syntax: `a{1..5}b`. In Murex, like with globbing, brace
-expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
+expansion is a function: `a a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
 
 ## Executables

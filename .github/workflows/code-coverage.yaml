@@ -1,0 +1,42 @@
+name: Code Coverage
+
+on:
+  push:
+    paths:
+      - "**/*.go"
+
+  workflow_dispatch:
+
+jobs:
+  Code-Coverage:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ latest ]
+    env:
+      MUREX_TEST_NO_EXEC_DEPS: true
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+
+      - name: Display Go version
+        run: |
+          go version
+
+      - name: Go Test
+        run: |
+          go test ./... -count 1 -coverprofile=coverage.txt -covermode=atomic
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          #token: ${{ secrets.CODECOV_TOKEN }}
+          # files: ./coverage1.xml,./coverage2.xml # optional
+          # flags: unittests # optional
+          #name: codecov-umbrella # optional
+          fail_ci_if_error: false # optional (default = false)
+          verbose: true # optional (default = false)
+

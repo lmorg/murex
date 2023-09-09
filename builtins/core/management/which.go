@@ -35,9 +35,10 @@ func cmdWhichTty(p *lang.Process) error {
 	}
 
 	for i := range cmds {
-		s := whichTtyString(cmds[i])
+		s := whichTtyString(p, cmds[i])
 		if len(s) == 0 {
 			p.Stdout.Writeln([]byte(fmt.Sprintf("%s => unknown", cmds[i])))
+			p.ExitNum = 1
 			continue
 		}
 
@@ -57,35 +58,46 @@ func whichUsage(p *lang.Process) error {
 
 /////
 
-func whichTtyString(cmd string) (s string) {
+func whichTtyString(p *lang.Process, cmd string) (s string) {
 	summary := hintsummary.Summary.Get(cmd)
 	var (
 		aliasPrefix string
 		exists      bool
+		t           = typeOf(p, cmd)
 	)
 
-	if lang.GlobalAliases.Exists(cmd) {
+	if t == typeAlias {
 		a := lang.GlobalAliases.Get(cmd)
 		alias := make([]string, len(a))
 		copy(alias, a)
 		escape.CommandLine(alias)
 		args := strings.Join(alias, " ")
-		aliasPrefix = "=> (alias) " + args + " "
+		aliasPrefix = fmt.Sprintf("=> (%s) %s ", t, args)
 		cmd = alias[0]
 		exists = true
 	}
 
-	if lang.MxFunctions.Exists(cmd) {
+	if t == typePrivate {
+		if summary == "" {
+			summary, _ = lang.PrivateFunctions.Summary(cmd, p.FileRef)
+		}
+		if summary == "" {
+			summary = "no summary written"
+		}
+		return fmt.Sprintf("%s=> (%s) %s", aliasPrefix, t, summary)
+	}
+
+	if t == typeFunction {
 		if summary == "" {
 			summary, _ = lang.MxFunctions.Summary(cmd)
 		}
 		if summary == "" {
 			summary = "no summary written"
 		}
-		return aliasPrefix + "=> (murex function) " + summary
+		return fmt.Sprintf("%s=> (%s) %s", aliasPrefix, t, summary)
 	}
 
-	if lang.GoFunctions[cmd] != nil {
+	if t == typeBuiltin {
 		if summary == "" {
 			synonym := docs.Synonym[cmd]
 			summary = docs.Summary[synonym]
@@ -93,7 +105,7 @@ func whichTtyString(cmd string) (s string) {
 		if summary == "" {
 			summary = "no doc written"
 		}
-		return aliasPrefix + "=> (builtin) " + summary
+		return fmt.Sprintf("%s=> (%s) %s", aliasPrefix, t, summary)
 	}
 
 	path := which.Which(cmd)
@@ -108,7 +120,7 @@ func whichTtyString(cmd string) (s string) {
 		if resolved, err := os.Readlink(path); err == nil {
 			path = path + " -> " + filepath.Clean(resolved)
 		}
-		return aliasPrefix + "=> (" + path + ") " + summary
+		return fmt.Sprintf("%s=> (%s) %s", aliasPrefix, path, summary)
 	}
 
 	if exists {
@@ -129,9 +141,9 @@ func cmdWhichFunction(p *lang.Process) error {
 
 	var success bool
 	for i := range cmds {
-		s := whichFunctionString(cmds[i])
+		s := whichFunctionString(p, cmds[i])
 		p.Stdout.Writeln([]byte(s))
-		if s != "unknown" {
+		if s != typeUnknown {
 			success = true
 		}
 	}
@@ -142,22 +154,25 @@ func cmdWhichFunction(p *lang.Process) error {
 	return nil
 }
 
-func whichFunctionString(cmd string) (s string) {
+func whichFunctionString(p *lang.Process, cmd string) (s string) {
 	switch {
 	case lang.GlobalAliases.Exists(cmd):
-		return "alias"
+		return typeAlias
+
+	case lang.PrivateFunctions.Exists(cmd, p.FileRef):
+		return typePrivate
 
 	case lang.MxFunctions.Exists(cmd):
-		return "function"
+		return typeFunction
 
 	case lang.GoFunctions[cmd] != nil:
-		return "builtin"
+		return typeBuiltin
 
 	default:
 		path := which.Which(cmd)
 		if path != "" {
 			return path
 		}
-		return "unknown"
+		return typeUnknown
 	}
 }

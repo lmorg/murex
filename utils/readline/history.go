@@ -90,10 +90,12 @@ func (h *NullHistory) Dump() interface{} {
 
 // Browse historic lines
 func (rl *Instance) walkHistory(i int) {
+	rl._walkHistory(i, rl.line.String())
+}
+
+func (rl *Instance) _walkHistory(i int, oldLine string) {
 	var (
-		oldLine string
 		newLine string
-		dedup   bool
 		err     error
 	)
 
@@ -104,11 +106,11 @@ func (rl *Instance) walkHistory(i int) {
 	case rl.History.Len():
 		rl.clearPrompt()
 		rl.histPos += i
-		rl.line = rl.lineBuf.Duplicate()
+		if len(rl.viUndoHistory) > 0 && rl.viUndoHistory[len(rl.viUndoHistory)-1].String() != "" {
+			rl.line = rl.lineBuf.Duplicate()
+		}
 
 	default:
-		dedup = true
-		oldLine = rl.line.String()
 		newLine, err = rl.History.GetLine(rl.histPos + i)
 		if err != nil {
 			rl.resetHelpers()
@@ -117,16 +119,27 @@ func (rl *Instance) walkHistory(i int) {
 			return
 		}
 
-		if rl.histPos == rl.History.Len() {
+		if rl.histPos-i == rl.History.Len() {
 			rl.lineBuf = rl.line.Duplicate()
+		}
+
+		rl.histPos += i
+		if oldLine == newLine {
+			rl._walkHistory(i, newLine)
+			return
+		}
+		if len(rl.viUndoHistory) > 0 {
+			last := rl.viUndoHistory[len(rl.viUndoHistory)-1]
+			if !strings.HasPrefix(newLine, last.String()) {
+				rl._walkHistory(i, oldLine)
+				return
+			}
 		}
 
 		rl.clearPrompt()
 
-		rl.histPos += i
 		rl.line = new(unicode.UnicodeT)
 		rl.line.Set([]rune(newLine))
-
 	}
 
 	if i > 0 {
@@ -138,10 +151,6 @@ func (rl *Instance) walkHistory(i int) {
 	}
 	rl.echo()
 	rl.updateHelpers()
-
-	if dedup && oldLine == newLine {
-		rl.walkHistory(i)
-	}
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {

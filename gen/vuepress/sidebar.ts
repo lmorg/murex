@@ -7,13 +7,14 @@ export default sidebar({
       icon: "house",
       children: [
         "/install/",
+        "compatibility/", 
         "/changelog/",
         "/blog/",
         { text: "Language Tour", link: "tour.html", icon: "life-ring" }, 
         { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
         "/contributing",
       ],
-      collapsible: true,
+      collapsible: false,
     },
     {
       text: "User Guide",

@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -72,7 +73,22 @@ func readIndex(p *lang.Process, params []string) error {
 }
 
 func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
-	return yaml.Marshal(v)
+	switch t := v.(type) {
+	case [][]string:
+		var i int
+		table := make([]map[string]any, len(t)-1)
+		err := types.Table2Map(t, func(m map[string]any) error {
+			table[i] = m
+			i++
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		return yaml.Marshal(table)
+	default:
+		return yaml.Marshal(v)
+	}
 }
 
 func unmarshal(p *lang.Process) (v interface{}, err error) {

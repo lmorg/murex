@@ -49,8 +49,8 @@ signal -> <stdout>
 ```
 function signal.SIGUSR1.trap {
     bg {
-        exec <pid:GLOBAL.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
-            event signalTrap example=SIGUSR1 {
+        exec <pid:MOD.SIGNAL_TRAP_PID> $MUREX_EXE -c %(
+            event onSignalReceived example=SIGUSR1 {
                 out "SIGUSR1 received..."
             }
 
@@ -59,7 +59,7 @@ function signal.SIGUSR1.trap {
         )
     }
     sleep 2 # just in case `exec` hasn't started yet
-    signal $GLOBAL.SIGNAL_TRAP_PID SIGUSR1
+    signal $MOD.SIGNAL_TRAP_PID SIGUSR1
 }
 
 test unit function signal.SIGUSR1.trap %{
@@ -172,9 +172,9 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
   Event driven programming for shell scripts
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`signalTrap`](../events/signaltrap.md):
+* [onSignalReceived](../events/onsignalreceived.md):
   Trap OS signals
 
 <hr/>
 
-This document was generated from [builtins/events/signalTrap/signal_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/signalTrap/signal_doc.yaml).
+This document was generated from [builtins/events/onSignalReceived/signal_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/signal_doc.yaml).

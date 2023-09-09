@@ -141,7 +141,7 @@ func TestParseSubShellEmptyArrayBugFix(t *testing.T) {
 				bob = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
 				$bob
 			`,
-			Stdout: "null",
+			Stdout: "[]",
 		},
 		{
 			Block: `
@@ -149,7 +149,7 @@ func TestParseSubShellEmptyArrayBugFix(t *testing.T) {
 				bob = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
 				echo bob = $bob
 			`,
-			Stdout: "bob = null\n",
+			Stdout: "bob = []\n",
 		},
 		{
 			Block: `

@@ -8,3 +8,4 @@
     {{ include "gen/root/CONTRIBUTING.inc.md" }}
   Synonyms:
   Related:
+    - compatibility

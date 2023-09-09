@@ -53,7 +53,6 @@ run `amd64`. Murex is also available on Homebrew and MacPorts.
 
 * [murex-windows-386.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-386.exe.zip)
 * [murex-windows-amd64.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
-* [murex-windows-arm.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-arm.exe.zip)
 
 ### BSD's
 
@@ -110,7 +109,7 @@ matches both your OS and CPU architecture.
 For example, to download a 64bit version for Linux:
 
 ```
-wget https://murex.rocks/bin/latest/murex-linux-amd64.gz
+wget https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz
 gunzip murex-linux-amd64.gz
 chmod +x murex-linux-amd64
 ./murex-linux-amd64

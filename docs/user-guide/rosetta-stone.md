@@ -24,6 +24,7 @@ if you want to learn more about shell scripting in Murex.
 - [Arrays](#arrays)
 - [Objects](#objects)
 - [Sub-shells](#sub-shells)
+- [Common one-liners](#common-one-liners)
 - [Footnotes](#footnotes)
 
 </div>
@@ -32,13 +33,15 @@ if you want to learn more about shell scripting in Murex.
 ### Output & error streams
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Write to STDOUT](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)
+| [Write to STDOUT](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)|
 | [Write to STDERR](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
-| Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`
-| Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`
+| Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`|
+| Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`|
 | [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash \| grep Bash` | `echo "Hello Murex \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
 | [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl murex.rocks ? less` <br/><br/> `curl <!out> murex.rocks \| less` |
 | Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
+| Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
+| Output [ANSI colors and styles](../user-guide/ansi_doc.md) | `echo -e "\n\032[0m\033[1mComplete!\033[0m\n"` | `out "{GREEN}{BOLD}Complete!{RESET}"` |
 
 ### Quoting strings
 | Description   | Bash          | Murex  |
@@ -77,17 +80,17 @@ if you want to learn more about shell scripting in Murex.
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
 | Assignment | `foobar = $((1 + 2 * 3))` | `foobar = 1 + 2 * 3` [[2]](#footnotes) |
-| Comparison, string | `[ "$(command)" == "value" ]` | `${command} == "value"` [[2]](#footnotes) [[5]](#footnotes) |
+| Comparison, string | `[ "$(command parameters...)" == "value" ]` | `command(parameters...) == "value"` [[2]](#footnotes) [[7]](#footnotes) <br/><br/> `${command parameters...} == "value"` [[2]](#footnotes) [[5]](#footnotes) |
 | Comparison, numeric | `[ $integer -eq 5 ]` | `$number == 5` [[2]](#footnotes) |
-| Arithmetic | `echo $(( 1+2*3 ))` | `1 + 2 * 3` [[2]](#footnotes) <br/><br/> `out ${1+2*3}` [[2]](#footnotes) [[5]](#footnotes) |
+| Arithmetic | `echo $(( 1+2*3 ))` | `1 + 2 * 3` [[2]](#footnotes) <br/><br/> `out (1+2*3)` [[2]](#footnotes) [[5]](#footnotes) |
 | Supported data types | 1. String,<br/>2. Integer<br/>(all variables are strings) | 1. String,<br/>2. Integer,<br/>3. Float (default number type),<br/>4. Boolean<br/>5. Array,<br/>6. Object,<br/>7. Null<br/>(all variables can be treated as strings and/or their primitive) |
 
 ### Variables
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set foo` |
-| [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global foo` |
-| [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export foo` [[3]](#footnotes) |
+| [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set $foo` |
+| [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global $foo` |
+| [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export $foo` [[3]](#footnotes) |
 | [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex)|
 
 ### Arrays
@@ -116,7 +119,15 @@ if you want to learn more about shell scripting in Murex.
 |---------------|---------------|--------|
 | Sub-shell, string | `"$(commands)"` <br/><br/> eg `"echo $(echo "Hello world")"` | `${commands}` [[5]](#footnotes) <br/><br/> eg `out ${out Hello world}` |
 | Sub-shell, arrays | `$(commands)` <br/><br/> eg `$(echo 1 2 3)` | `@{commands}` [[5]](#footnotes) <br/><br/> eg `out @{ %[1,2,3] }` |
+| In-lined functions | n/a | `function(parameters...)` [[7]](#footnotes) <br/><br/> eg `out uname(-a)` |
 
+### Common one-liners
+| Description   | Bash          | Murex  |
+|---------------|---------------|--------|
+| Add `$PATH` entries | `export PATH="$PATH:/usr/local/bin:$HOME/bin"` | The same Bash code works in Murex too. However you can also take advantage of Murex treating `$PATH` as an array <br/><br/>`%[ @PATH /usr/local/bin "$HOME/bin" ] \| format paths \| export $PATH` |
+| Iterate directories | `for i in $(find . -maxdepth 1 -mindepth 1 -type d); do`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`echo $i`<br/>`done`| `f +d \| foreach $dir {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`out $i`<br/>`}` |
+| If `$dir` exists... | `if [ -d "$dir" ]; then`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`fi` | `if { g $dir \| f +d } then {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`}` |
+| Print current directory | `result=${PWD##*/}; result=${result:-/}; printf '%s' "${PWD##*/}"` ([read more](https://stackoverflow.com/a/1371283)) | `$PWD[-1]` |
 ### Footnotes
 
 1. Supported for compatibility with traditional shells like Bash.
@@ -125,6 +136,7 @@ if you want to learn more about shell scripting in Murex.
 4. Path separator can be any 1 byte wide character, eg `/`. The path separator is defined by the first character in a path.
 5. Murex uses `${}` for subshells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes strings. So `${foobar}` makes more sense as a subshell executing the command `foobar`, while `$(foobar)` makes more sense as the variable `$foobar`.
 6. When assigning a variable where the right hand side is an expression, eg `$foo = "bar"`, the dollar prefix is optional. The `set`, `global` and `export` keywords are considered deprecated.
+7. The `command(parameters...)` only works for commands who's names match the following regexp pattern: `[._a-zA-Z0-9]+`. Which is exclusively uppercase and lowercase English letters, numbers, fullstop / period, and underscore.
 
 ## See Also
 

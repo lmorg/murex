@@ -15,11 +15,11 @@ go install github.com/lmorg/murex
 
 
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
-OLDVER="$(curl -s https://murex.rocks/VERSION | head -n1)"
+OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
 
 if [ "$MUREXVERSION" == "$OLDVER" ]; then
     echo "No version change, skipping tests."
 else
     echo "Running murex behavioural tests...."
-    murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; test: run *'
+    murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
 fi

@@ -120,7 +120,7 @@ Any variable name you declare in your function declaration will be exposed in
 your function body as a local variable. For example:
 
 ```
-function: hello (name: str) {
+function hello (name: str) {
     out "Hello $name, pleased to meet you."
 }
 ```

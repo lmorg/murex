@@ -145,11 +145,11 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 
 	if f.IncExeAll {
 		pathall := allExecutables(true)
-		act.append(matchExes(partial, pathall, false)...)
+		act.append(matchExes(partial, pathall)...)
 
 	} else if f.IncExePath {
 		pathexes := allExecutables(false)
-		act.append(matchExes(partial, pathexes, false)...)
+		act.append(matchExes(partial, pathexes)...)
 	}
 
 	if f.IncManPage {

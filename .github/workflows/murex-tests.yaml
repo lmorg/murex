@@ -1,0 +1,51 @@
+name: Murex Tests
+
+on:
+  push:
+    paths:
+      - "**/*.go"
+
+  workflow_dispatch:
+
+jobs:
+  Murex-Tests:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.18', '1.19', '1.20', '1.21' ]
+    env:
+      MUREX_BUILD_FLAGS: --no-colour
+      MUREX_TEST_NO_EXEC_DEPS: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Display Go version
+        run: |
+          go version
+
+      - name: Go Test
+        run: |
+          go test ./... -tags $(cat builtins/optional/standard-opts.txt) -count 1 -race
+
+      - name: Build native target
+        run: |
+          go build -tags $(cat builtins/optional/standard-opts.txt) -v github.com/lmorg/murex
+
+      - name: Behavioural tests
+        run: |
+          ./murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; test: run *'
+
+      - name: Build cross-compiled targets
+        run: |
+          ./murex ./test/build_all_platforms.mx --no-colour
+
+      - name: Build web assembly target
+        run: |
+          GOOS=js GOARCH=wasm go build -o murex.wasm .

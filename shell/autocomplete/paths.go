@@ -128,7 +128,7 @@ func matchLocal(s string, includeColon bool) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
 	listExes(path, exes)
-	items = matchExes(file, exes, includeColon)
+	items = matchExes(file, exes)
 	return
 }
 

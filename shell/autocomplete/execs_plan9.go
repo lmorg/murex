@@ -22,20 +22,10 @@ func listExes(path string, exes map[string]bool) {
 	}
 }
 
-func matchExes(s string, exes map[string]bool, includeColon bool) (items []string) {
-	colon := ""
-	// We only want a colon added if the exe is the function call rather than a
-	// functions parameter (eg `some-exec` vs `sudo some-exec`).
-	if includeColon {
-		colon = ":"
-	}
-
+func matchExes(s string, exes map[string]bool) (items []string) {
 	for name := range exes {
 		if strings.HasPrefix(name, s) {
 			if name != consts.NamedPipeProcName {
-				if !isSpecialBuiltin(name) {
-					name = name + colon
-				}
 				items = append(items, name[len(s):])
 			}
 		}

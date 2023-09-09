@@ -6,6 +6,7 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -106,6 +107,7 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 		err  error
 		r    []rune
 		j    int
+		fn   primitives.FunctionT
 	)
 
 	split := rxLineSeparator.Split(t, -1)
@@ -118,7 +120,12 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
-		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
+		r, fn, err = tree.parseSubShell(true, '$', varAsValue)
+		if err != nil {
+			return nil, nil, err
+		}
+		val, err := fn()
+		item = val.Value
 		if err != nil {
 			return nil, nil, err
 		}

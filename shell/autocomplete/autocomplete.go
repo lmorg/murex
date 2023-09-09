@@ -80,7 +80,7 @@ func MatchFunction(partial string, act *AutoCompleteT) {
 		act.Items = append(act.Items, matchDirs(partial, act)...)
 	default:
 		exes := allExecutables(true)
-		act.Items = matchExes(partial, exes, !precache.(bool))
+		act.Items = matchExes(partial, exes)
 		if precache.(bool) {
 			for i := range act.Items {
 				act.Definitions[act.Items[i]] = hintsummary.Cache.Get(partial + act.Items[i])

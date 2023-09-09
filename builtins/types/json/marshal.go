@@ -6,23 +6,22 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func marshal(p *lang.Process, v any) ([]byte, error) {
-	switch t := v.(type) {
-	case [][]string:
-		var i int
-		table := make([]map[string]any, len(t)-1)
-		err := types.Table2Map(t, func(m map[string]any) error {
-			table[i] = m
-			i++
-			return nil
-		})
-		if err != nil {
-			return nil, err
-		}
-		return json.Marshal(table, p.Stdout.IsTTY())
-	default:
-		return json.Marshal(v, p.Stdout.IsTTY())
+func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+	b, err := json.Marshal(v, p.Stdout.IsTTY())
+	if err == nil {
+		return b, err
 	}
+
+	if err.Error() != json.NoData {
+		return b, err
+	}
+
+	strict, _ := p.Config.Get("proc", "strict-arrays", types.Boolean)
+	if strict.(bool) {
+		return b, err
+	}
+
+	return []byte{'[', ']'}, nil
 }
 
 func unmarshal(p *lang.Process) (v any, err error) {

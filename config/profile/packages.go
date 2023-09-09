@@ -7,9 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 const (
@@ -140,6 +142,26 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		return nil, nil
 	}
 
+	var message string
+
+	// load package
+	var pkg Package
+	err = ReadJson(path+consts.PathSlash+"package.json", &pkg)
+	if err != nil {
+		return nil, err
+	}
+
+	if pkg.Dependencies.MurexVersion != "" {
+		ok, err := semver.Compare(app.Version(), pkg.Dependencies.MurexVersion)
+		if err != nil {
+			message += fmt.Sprintf("* Package '%s': Error checking supported Murex version: %s\n", pkg.Name, err.Error())
+		} else if !ok {
+			message += fmt.Sprintf("* Package '%s': Package not supported (%s) for this version of Murex (%s)\n", pkg.Name, pkg.Dependencies.MurexVersion, app.Version())
+		}
+	}
+
+	// load modules
+
 	var module []Module
 	err = ReadJson(path+consts.PathSlash+"module.json", &module)
 	if err != nil {
@@ -151,15 +173,14 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		return nil, err
 	}
 
-	var message string
-
 	for i := range module {
 		module[i].Package = f.Name()
 		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Package+"/"+module[i].Name)
 		err = module[i].validate()
 		if err != nil && !module[i].Disabled {
 			message += fmt.Sprintf(
-				"Error loading module `%s` in path `%s`:%s%s%s",
+				"* Package '%s': Error loading module `%s` in path `%s`:%s%s%s",
+				pkg.Name,
 				module[i].Name,
 				module[i].Path(),
 				utils.NewLineString,
@@ -183,7 +204,8 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		err = module[i].execute()
 		if err != nil {
 			message += fmt.Sprintf(
-				"Error sourcing module `%s` in path `%s`:%s%s%s",
+				"* Package '%s': Error sourcing module `%s` in path `%s`:%s%s%s",
+				pkg.Name,
 				module[i].Name,
 				module[i].Path(),
 				utils.NewLineString,

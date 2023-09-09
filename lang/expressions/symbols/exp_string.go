@@ -35,37 +35,39 @@ func _() {
 	_ = x[AssignAndDivide-25]
 	_ = x[AssignAndMultiply-26]
 	_ = x[AssignAndMerge-27]
-	_ = x[EqualTo-28]
-	_ = x[NotEqualTo-29]
-	_ = x[Like-30]
-	_ = x[NotLike-31]
-	_ = x[Regexp-32]
-	_ = x[NotRegexp-33]
-	_ = x[GreaterThan-34]
-	_ = x[GreaterThanOrEqual-35]
-	_ = x[LessThan-36]
-	_ = x[LessThanOrEqual-37]
-	_ = x[Add-38]
-	_ = x[Subtract-39]
-	_ = x[MergeInto-40]
-	_ = x[Multiply-41]
-	_ = x[Divide-42]
+	_ = x[LogicalOr-28]
+	_ = x[LogicalAnd-29]
+	_ = x[EqualTo-30]
+	_ = x[NotEqualTo-31]
+	_ = x[Like-32]
+	_ = x[NotLike-33]
+	_ = x[Regexp-34]
+	_ = x[NotRegexp-35]
+	_ = x[GreaterThan-36]
+	_ = x[GreaterThanOrEqual-37]
+	_ = x[LessThan-38]
+	_ = x[LessThanOrEqual-39]
+	_ = x[Add-40]
+	_ = x[Subtract-41]
+	_ = x[MergeInto-42]
+	_ = x[Multiply-43]
+	_ = x[Divide-44]
 }
 
 const (
 	_Exp_name_0 = "Undefined"
-	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
+	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
 )
 
 var (
-	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 287, 294, 304, 308, 315, 321, 330, 341, 359, 367, 382, 385, 393, 402, 410, 416}
+	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 287, 296, 306, 313, 323, 327, 334, 340, 349, 360, 378, 386, 401, 404, 412, 421, 429, 435}
 )
 
 func (i Exp) String() string {
 	switch {
 	case i == 0:
 		return _Exp_name_0
-	case 2 <= i && i <= 42:
+	case 2 <= i && i <= 44:
 		i -= 2
 		return _Exp_name_1[_Exp_index_1[i]:_Exp_index_1[i+1]]
 	default:

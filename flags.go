@@ -48,13 +48,13 @@ func readFlags() {
 	flag.Parse()
 
 	if fHelp1 || fHelp2 {
-		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version)
+		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version())
 		flag.Usage()
 		lang.Exit(1)
 	}
 
 	if fVersion1 || fVersion2 {
-		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version)
+		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version())
 		fmt.Fprintf(tty.Stdout, "%s\n%s\n", app.License, app.Copyright)
 		lang.Exit(0)
 	}
