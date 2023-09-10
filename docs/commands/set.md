@@ -113,7 +113,7 @@ code where `set` overrides both the global and environmental variable:
 
 #### Local variables
 
-These are defined via `set` and `let`. They're variables that are persistent
+These are defined via `set. They're variables that are persistent
 across any blocks within a function. Functions will typically be blocks
 encapsulated like so:
 
