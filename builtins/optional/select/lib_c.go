@@ -1,5 +1,5 @@
-//go:build cgo_sqlite3
-// +build cgo_sqlite3
+//go:build !no_cgo
+// +build !no_cgo
 
 /*
 	This file uses the C SQLite3 library. To compile it you will need gcc
