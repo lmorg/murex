@@ -8,13 +8,13 @@
 
 - [Download Links](#download-links)
   - [Darwin (macOS)](#darwin-macos)
+  - [Linux](#linux)
+  - [Windows](#windows)
   - [BSD's](#bsds)
     - [DragonflyBSD](#dragonflybsd)
     - [FreeBSD](#freebsd)
     - [NetBSD](#netbsd)
     - [OpenBSD](#openbsd)
-  - [Linux](#linux)
-  - [Windows](#windows)
   - [Solaris](#solaris)
   - [Plan 9](#plan-9)
 - [Install Instructions](#install-instructions)
@@ -29,8 +29,6 @@ Below are the instructions to download a pre-compiled binary via HTTPS. If you
 wish to install from source or use your preferred package manager, then please
 refer to the [INSTALL](INSTALL.md) page for further instructions.
 
-All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB).
-
 ### Darwin (macOS)
 
 The `arm64` builds support the ARM-based M1 processor. Older Macs will need to
@@ -38,6 +36,18 @@ run `amd64`. Murex is also available on Homebrew and MacPorts.
 
 * [murex-darwin-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
 * [murex-darwin-arm64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
+
+### Linux
+
+* [murex-linux-386.gz](https://nojs.murex.rocks/bin/latest/murex-linux-386.gz)
+* [murex-linux-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz)
+* [murex-linux-arm.gz](https://nojs.murex.rocks/bin/latest/murex-linux-arm.gz)
+* [murex-linux-arm64.gz](https://nojs.murex.rocks/bin/latest/murex-linux-arm64.gz)
+
+### Windows
+
+* [murex-windows-386.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-386.exe.zip)
+* [murex-windows-amd64.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
 
 ### BSD's
 
@@ -64,22 +74,6 @@ run `amd64`. Murex is also available on Homebrew and MacPorts.
 * [murex-openbsd-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-openbsd-amd64.gz)
 * [murex-openbsd-arm.gz](https://nojs.murex.rocks/bin/latest/murex-openbsd-arm.gz)
 * [murex-openbsd-arm64.gz](https://nojs.murex.rocks/bin/latest/murex-openbsd-arm64.gz)
-
-### Linux
-
-* [murex-linux-386.gz](https://nojs.murex.rocks/bin/latest/murex-linux-386.gz)
-* [murex-linux-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz)
-* [murex-linux-arm.gz](https://nojs.murex.rocks/bin/latest/murex-linux-arm.gz)
-* [murex-linux-arm64.gz](https://nojs.murex.rocks/bin/latest/murex-linux-arm64.gz)
-
-### Windows
-
-These builds should be treated as experimental. Please use the Linux builds in
-WSL (Windows Subsystem for Linux) for a more stable experience on Windows.
-
-* [murex-windows-386.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-386.exe.zip)
-* [murex-windows-amd64.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
-* [murex-windows-arm.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-arm.exe.zip)
 
 ### Solaris
 

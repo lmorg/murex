@@ -55,7 +55,7 @@ function signal.SIGUSR1.trap {
             }
 
             out "waiting for signal..."
-            sleep 3
+            sleep 5
         )
     }
     sleep 2 # just in case `exec` hasn't started yet

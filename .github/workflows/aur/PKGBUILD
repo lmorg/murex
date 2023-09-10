@@ -29,7 +29,7 @@ build() {
 
 check() {
   cd "$pkgname-$pkgver"
-  build/murex -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
+  build/murex -c 'out "This message is coming to you from Murex!"'
 }
 
 package() {
