@@ -1,6 +1,6 @@
 - DocumentID: single-quote
   Title: >-
-    Single Quote (`'`) Token
+    `'Single Quote'`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables not expanded)
@@ -40,7 +40,7 @@
 
 - DocumentID: double-quote
   Title: >-
-    Double Quote (`"`) Token
+    `"Double Quote"`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
@@ -81,7 +81,7 @@
 
 - DocumentID: brace-quote
   Title: >-
-    Brace Quote (`%(`, `)`) Tokens
+    %(Brace Quote)`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
