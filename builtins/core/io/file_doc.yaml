@@ -1,7 +1,7 @@
 - DocumentID: greater-than
   Title: >+
-    `>` (truncate file)
-  CategoryID: commands
+    `|>` (truncate file)
+  CategoryID: parser
   Summary: >-
     Writes STDIN to disk - overwriting contents if file already exists
   Description: |-
@@ -34,7 +34,7 @@
 - DocumentID: greater-than-greater-than
   Title: >+
     `>>` (append file)
-  CategoryID: commands
+  CategoryID: parser
   Summary: >-
     Writes STDIN to disk - appending contents if file already exists
   Description: |-
