@@ -1,6 +1,6 @@
 - DocumentID: pipe-arrow
   Title: >-
-    Arrow Pipe (`->`) Token
+     `->` Arrow Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDOUT from the left hand command to STDIN of the right hand command
@@ -46,7 +46,7 @@
 
 - DocumentID: pipe-err
   Title: >-
-    STDERR Pipe (`?`) Token
+    `?` STDERR Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDERR from the left hand command to STDIN of the right hand command
@@ -91,7 +91,7 @@
 
 - DocumentID: pipe-generic
   Title: >-
-    Generic Pipe (`=>`) Token
+    `=>` Generic Pipe
   CategoryID: parser
   Summary: >-
     Pipes a reformatted STDOUT stream from the left hand command to STDIN of the
@@ -148,7 +148,7 @@
 
 - DocumentID: pipe-posix
   Title: >-
-    POSIX Pipe (`|`) Token
+    `|` POSIX Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDOUT from the left hand command to STDIN of the right hand command
@@ -193,7 +193,7 @@
 
 - DocumentID: pipe-append
   Title: >-
-    Append Pipe (`>>`) Token
+     `>>` Append Pipe
   CategoryID: parser
   Summary: >-
     Redirects STDOUT to a file and append its contents
