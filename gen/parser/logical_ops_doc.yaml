@@ -1,6 +1,6 @@
 - DocumentID: logical-and
   Title: >-
-    And (`&&`) Logical Operator
+    `&&` And Logical Operator
   CategoryID: parser
   Summary: >-
     Continues next operation if previous operation passes
@@ -48,7 +48,7 @@
 
 - DocumentID: logical-or
   Title: >-
-    Or (`||`) Logical Operator
+    `||` Or Logical Operator
   CategoryID: parser
   Summary: >-
     Continues next operation only if previous operation fails

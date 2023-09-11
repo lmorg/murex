@@ -1,6 +1,6 @@
 - DocumentID: create-object
   Title: >-
-    Create object (`%{}`) constructor
+    `%{}` Create object
   CategoryID: parser
   Summary: >-
     Quickly generate objects and maps

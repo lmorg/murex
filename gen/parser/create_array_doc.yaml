@@ -1,6 +1,6 @@
 - DocumentID: create-array
   Title: >-
-    Create array (`%[]`) constructor
+    `%[]` Create array
   CategoryID: parser
   Summary: >-
     Quickly generate arrays

@@ -1,6 +1,6 @@
 - DocumentID: string
   Title: >-
-    String (`$`) Token
+    `$variable`
   CategoryID: parser
   Summary: >-
     Expand values as a string
