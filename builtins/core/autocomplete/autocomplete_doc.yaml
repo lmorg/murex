@@ -34,7 +34,7 @@
     - alias
     - summary
     - types/mxjson
-    - index
+    - item-index
     - get-type
     - switch
     - stdin

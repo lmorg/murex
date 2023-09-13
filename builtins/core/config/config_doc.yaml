@@ -205,6 +205,6 @@
   - get
   - post
   - getfile
-  - index
+  - item-index
   - element
 

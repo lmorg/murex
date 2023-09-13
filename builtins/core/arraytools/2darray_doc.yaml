@@ -94,7 +94,7 @@
   - ja
   - jsplit
   - count
-  - index
+  - item-index
   - range
   - mtac
   - msort

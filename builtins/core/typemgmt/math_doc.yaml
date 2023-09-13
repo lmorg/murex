@@ -50,7 +50,7 @@
   Synonyms:
   - "="
   Related:
-  - index
+  - item-index
   - element
   - global
   - let
@@ -138,7 +138,7 @@
     {{ include "gen/includes/variables.inc.md" }}
   Synonyms:
   Related:
-  - index
+  - item-index
   - element
   - set
   - global

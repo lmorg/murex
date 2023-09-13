@@ -133,7 +133,7 @@
     - parser/create-array
     - range
     - count
-    - index
+    - item-index
     - element
     - mtac
     - ja
@@ -196,7 +196,7 @@
     - parser/create-array
     - range
     - count
-    - index
+    - item-index
     - element
     - mtac
     - a
@@ -257,7 +257,7 @@
     - parser/create-array
     - range
     - count
-    - index
+    - item-index
     - element
     - mtac
     - a

@@ -61,7 +61,7 @@
   - export
   - exec
   - brace-quote
-  - index
+  - item-index
   - element
   - user-guide/scoping
   - user-guide/reserved-vars
@@ -130,7 +130,7 @@
   - expr
   - export
   - brace-quote
-  - index
+  - item-index
   - element
   - user-guide/scoping
   - user-guide/reserved-vars

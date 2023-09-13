@@ -101,6 +101,6 @@
     - while
     - types/json
     - set
-    - index
+    - item-index
     - tabulate
     - break
