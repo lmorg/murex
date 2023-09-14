@@ -29,6 +29,6 @@
     and STDERR as usual.
   Synonyms:
   Related:
-    - optional/sleep
+    - sleep
     - source
     - exec

@@ -27,7 +27,7 @@
   Related:
     - str
     - generic
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
+    - index
+    - element
+    - cast
+    - format

@@ -127,11 +127,11 @@
     - jsonl
     - generic
     - csv
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/foreach
-    - commands/runtime
-    - commands/pretty
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - foreach
+    - runtime
+    - pretty

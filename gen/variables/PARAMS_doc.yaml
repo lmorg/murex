@@ -27,15 +27,15 @@
   - PARAMS
   Related:
   - argv
-  - commands/set
-  - types/json
-  - parser/string
-  - parser/array
-  - commands/function
-  - commands/private
-  - commands/autocomplete
-  - commands/out
-  - user-guide/scoping
-  - user-guide/pipeline
-  - user-guide/modules
-  - user-guide/reserved-vars
+  - set
+  - json
+  - string
+  - array
+  - function
+  - private
+  - autocomplete
+  - out
+  - scoping
+  - pipeline
+  - modules
+  - reserved-vars

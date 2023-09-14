@@ -9,11 +9,11 @@
   Synonyms:
     - job-control
   Related:
-    - commands/bg
-    - commands/fg
-    - commands/fid-kill
-    - commands/fid-list
-    - commands/exec
-    - commands/fexec
-    - commands/jobs
+    - bg
+    - fg
+    - fid-kill
+    - fid-list
+    - exec
+    - fexec
+    - jobs
     - terminal-keys

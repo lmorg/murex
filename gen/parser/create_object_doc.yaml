@@ -42,6 +42,6 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/expr
+  - expr
   - mkarray/special
 

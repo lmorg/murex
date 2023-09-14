@@ -90,13 +90,13 @@
   Related:
     - non-decimal
     - character
-    - commands/a
-    - commands/ja
-    - commands/ta
-    - commands/range
-    - commands/count
-    - commands/index
-    - commands/element
+    - a
+    - ja
+    - ta
+    - range
+    - count
+    - index
+    - element
 
 - DocumentID: non-decimal
   Title: >+
@@ -203,13 +203,13 @@
   Related:
     - decimal
     - character
-    - commands/a
-    - commands/ja
-    - commands/ta
-    - commands/range
-    - commands/count
-    - commands/index
-    - commands/element
+    - a
+    - ja
+    - ta
+    - range
+    - count
+    - index
+    - element
 
 - DocumentID: character
   Title: >+
@@ -252,13 +252,13 @@
   Related:
     - decimal
     - non-decimal
-    - commands/a
-    - commands/ja
-    - commands/ta
-    - commands/range
-    - commands/count
-    - commands/index
-    - commands/element
+    - a
+    - ja
+    - ta
+    - range
+    - count
+    - index
+    - element
 
 - DocumentID: special
   Title: >+
@@ -382,15 +382,15 @@
   Synonyms:
   Related:
     - date
-    - commands/a
-    - commands/ja
-    - commands/ta
-    - commands/datetime
-    - commands/mtac
-    - commands/range
-    - commands/count
-    - commands/index
-    - commands/element
+    - a
+    - ja
+    - ta
+    - datetime
+    - mtac
+    - range
+    - count
+    - index
+    - element
 
 - DocumentID: date
   Title: >+
@@ -519,12 +519,12 @@
   Synonyms:
   Related:
     - special
-    - commands/a
-    - commands/ja
-    - commands/ta
-    - commands/datetime
-    - commands/mtac
-    - commands/range
-    - commands/count
-    - commands/index
-    - commands/element
+    - a
+    - ja
+    - ta
+    - datetime
+    - mtac
+    - range
+    - count
+    - index
+    - element

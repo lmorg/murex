@@ -41,8 +41,8 @@
     - fileref
     - FileRef
   Related:
-  - commands/murex-package
+  - murex-package
   - modules
-  - commands/runtime
-  - commands/element
-  - commands/source
+  - runtime
+  - element
+  - source

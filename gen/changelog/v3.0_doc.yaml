@@ -97,17 +97,17 @@
     * macro variables don't re-prompt when the same variable is used multiple times
 
   Related:
-    - commands/continue
-    - commands/break
-    - commands/config
-    - commands/index
-    - commands/range
-    - commands/murex-docs
-    - commands/append
-    - commands/prepend
-    - commands/expr
-    - commands/getfile
-    - commands/a
-    - commands/ja
-    - commands/foreach
-    - commands/regexp
+    - continue
+    - break
+    - config
+    - index
+    - range
+    - murex-docs
+    - append
+    - prepend
+    - expr
+    - getfile
+    - a
+    - ja
+    - foreach
+    - regexp

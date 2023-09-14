@@ -112,7 +112,7 @@
   Related:
   - onkeypress
   - oncommandcompletion
-  - user-guide/terminal-keys
-  - user-guide/interactive-shell
-  - commands/event
-  - commands/config
+  - terminal-keys
+  - interactive-shell
+  - event
+  - config

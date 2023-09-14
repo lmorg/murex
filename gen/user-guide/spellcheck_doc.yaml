@@ -157,16 +157,16 @@
     and what the package names are for `aspell` and its corresponding dictionaries.
   Synonyms:
   Related:
-  - commands/config
-  - commands/append
-  - commands/alter
-  - commands/set
-  - commands/jsplit
+  - config
+  - append
+  - alter
+  - set
+  - jsplit
   - code-block
-  - parser/curly-brace
+  - curly-brace
   - ansi
   - interactive-shell
-  - user-guide/profile
-  - types/json
+  - profile
+  - json
 
 

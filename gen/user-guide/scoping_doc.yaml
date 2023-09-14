@@ -53,17 +53,17 @@
     scope. Subshells also do not create a new scoping either.
   Synonyms:
   Related:
-  - commands/set
-  - commands/let
-  - commands/config
+  - set
+  - let
+  - config
   - reserved-vars
-  - commands/function
-  - commands/private
-  - commands/openagent
-  - commands/autocomplete
-  - commands/event
-  - commands/if
-  - commands/switch
-  - commands/foreach
-  - commands/source
+  - function
+  - private
+  - openagent
+  - autocomplete
+  - event
+  - if
+  - switch
+  - foreach
+  - source
 

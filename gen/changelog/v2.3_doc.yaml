@@ -79,8 +79,8 @@
     * Updated documentation
   Synonyms:
   Related:
-  - commands/runtime
-  - commands/method
-  - parser/pipe-arrow
-  - parser/pipe-posix
+  - runtime
+  - method
+  - pipe-arrow
+  - pipe-posix
 

@@ -26,6 +26,6 @@
     ```
   Synonyms:
   Related:
-    - commands/time
-    - commands/source
-    - commands/exec
+    - time
+    - source
+    - exec

@@ -319,7 +319,7 @@
     - exec
     - fexec
     - method
-    - user-guide/reserved-vars
+    - reserved-vars
     - version
     - break
 
@@ -434,5 +434,5 @@
     - private
     - autocomplete
     - runtime
-    - parser/pipe-arrow
-    - user-guide/interactive-shell
+    - pipe-arrow
+    - interactive-shell

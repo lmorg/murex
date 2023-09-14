@@ -29,5 +29,5 @@
     have to `cast` the output in some circumstances.
   Synonyms:
   Related:
-    - commands/open-image
-    - commands/cast
+    - open-image
+    - cast

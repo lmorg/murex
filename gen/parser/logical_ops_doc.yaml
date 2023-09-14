@@ -37,12 +37,12 @@
     ```
   Related:
   - pipe-err
-  - user-guide/pipeline
-  - user-guide/schedulers
-  - commands/out
-  - commands/err
-  - commands/try
-  - commands/trypipe
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe
 
 
 
@@ -88,9 +88,9 @@
     There is no workaround for `trypipe`.
   Related:
   - pipe-err
-  - user-guide/pipeline
-  - user-guide/schedulers
-  - commands/out
-  - commands/err
-  - commands/try
-  - commands/trypipe
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe

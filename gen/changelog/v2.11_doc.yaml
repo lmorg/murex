@@ -51,11 +51,11 @@
     * Added CI tests for Go v19.x
 
   Related:
-    - commands/cd
-    - commands/alias
-    - commands/set
-    - commands/let
-    - commands/autocomplete
-    - commands/struct-keys
-    - commands/config
-    - user-guide/profile
+    - cd
+    - alias
+    - set
+    - let
+    - autocomplete
+    - struct-keys
+    - config
+    - profile

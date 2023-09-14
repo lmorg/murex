@@ -84,6 +84,6 @@
   - .murex_preload
   - murex_preload
   Related:
-  - commands/murex-package
+  - murex-package
   - modules
-  - commands/export
+  - export

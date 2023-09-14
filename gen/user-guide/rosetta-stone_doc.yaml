@@ -7,20 +7,20 @@
   Description: |-
     {{ include "gen/user-guide/rosetta-stone.inc.md" }}
   Related:
-    - user-guide/namedpipes
-    - user-guide/terminal-keys
-    - commands/try
-    - commands/trypipe
-    - commands/runmode
-    - parser/logical-and
-    - parser/logical-or
-    - parser/pipe-append
-    - commands/greater-than
-    - commands/greater-than-greater-than
-    - commands/index
-    - commands/range
-    - commands/element
-    - parser/string
-    - parser/array
+    - namedpipes
+    - terminal-keys
+    - try
+    - trypipe
+    - runmode
+    - logical-and
+    - logical-or
+    - pipe-append
+    - greater-than
+    - greater-than-greater-than
+    - index
+    - range
+    - element
+    - string
+    - array
 
     

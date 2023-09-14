@@ -9,9 +9,9 @@
   Synonyms:
     - job-control
   Related:
-    - commands/cast
-    - commands/function
-    - commands/method
-    - commands/set
-    - commands/type
-    - commands/format
+    - cast
+    - function
+    - method
+    - set
+    - type
+    - format

@@ -26,5 +26,5 @@
   - params
   - argv
   - murex_exe
-  - types/json
-  - parser/array
+  - json
+  - array

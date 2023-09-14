@@ -42,7 +42,7 @@
     - pt
     - read
     - tread
-    - user-guide/ansi
+    - ansi
 
 - DocumentID: tout
   Title: >+
@@ -77,7 +77,7 @@
     - cast
     - pretty
     - format
-    - user-guide/ansi
+    - ansi
 
 - DocumentID: brace-quote
   Title: >+
@@ -126,7 +126,7 @@
     - greater-than
     - greater-than-greater-than
     - pt
-    - user-guide/ansi
+    - ansi
 
 - DocumentID: err
   Title: >+
@@ -185,5 +185,5 @@
     - greater-than
     - greater-than-greater-than
     - pt
-    - user-guide/ansi
+    - ansi
     - namedpipe

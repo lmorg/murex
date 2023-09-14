@@ -52,6 +52,6 @@
 
   Synonyms:
   Related:
-  - commands/namedpipe
-  - commands/stdin
-  - commands/test
+  - namedpipe
+  - stdin
+  - test

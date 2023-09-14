@@ -411,7 +411,7 @@
     ```
   Synonyms:
   Related:
-  - user-guide/reserved-vars
+  - reserved-vars
   - source
 
 
@@ -454,6 +454,6 @@
   Related:
   - runtime
   - fexec
-  - user-guide/modules
+  - modules
 
 

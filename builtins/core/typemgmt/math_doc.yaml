@@ -59,8 +59,8 @@
   - export
   - brace-quote
   - if
-  - user-guide/scoping
-  - user-guide/reserved-vars
+  - scoping
+  - reserved-vars
   - expr
 
 
@@ -146,6 +146,6 @@
   - equ
   - brace-quote
   - if
-  - user-guide/scoping
-  - user-guide/reserved-vars
+  - scoping
+  - reserved-vars
   - expr

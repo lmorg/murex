@@ -33,7 +33,7 @@
     - function
     - alias
     - summary
-    - types/mxjson
+    - mxjson
     - item-index
     - get-type
     - switch

@@ -20,7 +20,7 @@
   Related:
     - base64
     - bz2
-    - commands/escape
-    - commands/eschtml
-    - commands/escurl
-    - commands/esccli
+    - escape
+    - eschtml
+    - escurl
+    - esccli

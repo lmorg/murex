@@ -99,7 +99,7 @@
     - foreach
     - for
     - while
-    - types/json
+    - json
     - set
     - item-index
     - tabulate

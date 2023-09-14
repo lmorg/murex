@@ -12,9 +12,9 @@
     {{ include "gen/blog/split_personalities.inc.md" }}
   Synonyms:
   Related:
-  - commands/if
-  - user-guide/rosetta-stone
-  - user-guide/interactive-shell
+  - if
+  - rosetta-stone
+  - interactive-shell
   - reading_lists
 
 

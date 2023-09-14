@@ -86,8 +86,8 @@
     - package
     - packages
   Related:
-  - commands/murex-package
+  - murex-package
   - fileref
-  - commands/private
-  - commands/test
-  - commands/source
+  - private
+  - test
+  - source

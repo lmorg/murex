@@ -26,10 +26,10 @@
     - pipe
     - g
     - tmp
-    - parser/pipe-arrow
-    - parser/pipe-posix
-    - commands/namedpipe
-    - parser/pipe-err
+    - pipe-arrow
+    - pipe-posix
+    - namedpipe
+    - pipe-err
 
 - DocumentID: greater-than-greater-than
   Title: >+
@@ -59,10 +59,10 @@
     - pipe
     - g
     - tmp
-    - parser/pipe-arrow
-    - parser/pipe-posix
-    - commands/namedpipe
-    - parser/pipe-err
+    - pipe-arrow
+    - pipe-posix
+    - namedpipe
+    - pipe-err
 
 - DocumentID: pt
   Title: >+

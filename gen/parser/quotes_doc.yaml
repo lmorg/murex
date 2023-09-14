@@ -33,9 +33,9 @@
   - double-quote
   - brace-quote
   - curly-brace
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - out
+  - set
+  - brace-quote
 
 
 - DocumentID: double-quote
@@ -74,9 +74,9 @@
   - single-quote
   - brace-quote
   - curly-brace
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - out
+  - set
+  - brace-quote
 
 
 - DocumentID: brace-quote
@@ -168,9 +168,9 @@
   - single-quote
   - double-quote
   - curly-brace
-  - user-guide/code-block
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - code-block
+  - out
+  - set
+  - brace-quote
 
 

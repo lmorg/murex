@@ -62,6 +62,6 @@
     * Lots of code rewritten to avoid potential data races
   Synonyms:
   Related:
-  - types/generic
-  - commands/fg
+  - generic
+  - fg
 

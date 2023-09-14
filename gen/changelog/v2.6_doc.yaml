@@ -49,8 +49,8 @@
     
     * `while`, when used without a separate parameter for the conditional logic, was buffering the STDOUT for each loop and outputting it after that iteration had ended. `while` now uses a "tee" stdio writer which means it can stream STDOUT while the iteration is in progress  Synonyms:
   Related:
-  - optional/select
-  - commands/config
-  - commands/autocomplete
-  - commands/while
+  - select
+  - config
+  - autocomplete
+  - while
   

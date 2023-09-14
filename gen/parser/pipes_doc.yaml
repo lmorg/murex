@@ -35,12 +35,12 @@
   Related:
   - pipe-posix
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
@@ -80,12 +80,12 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-posix
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
@@ -138,11 +138,11 @@
   Related:
   - pipe-arrow
   - pipe-posix
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/ja
-  - commands/format
+  - pipeline
+  - ja
+  - format
 
 
 
@@ -182,12 +182,12 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
@@ -233,9 +233,9 @@
   Related:
   - pipe-arrow
   - pipe-posix
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/ja
-  - commands/greater-than-greater-than
-  - commands/greater-than
+  - pipeline
+  - ja
+  - greater-than-greater-than
+  - greater-than

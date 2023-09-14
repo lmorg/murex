@@ -133,18 +133,18 @@
     * readline: cropped autocompletion suggestions in gridded layout were one character too short (off by one error)
 
   Related:
-    - commands/event
-    - commands/man-get-flags
-    - events/oncommandcompletion
-    - commands/round
-    - commands/return
-    - commands/test
-    - user-guide/fileref
-    - commands/private
-    - commands/function
-    - commands/autocomplete
-    - commands/expr
-    - types/num
-    - types/int
-    - commands/config
-    - user-guide/terminal-keys
+    - event
+    - man-get-flags
+    - oncommandcompletion
+    - round
+    - return
+    - test
+    - fileref
+    - private
+    - function
+    - autocomplete
+    - expr
+    - num
+    - int
+    - config
+    - terminal-keys

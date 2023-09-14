@@ -198,7 +198,7 @@
   - runtime
   - open
   - event
-  - types/mxjson
+  - mxjson
   - append
   - function
   - match

@@ -96,19 +96,19 @@
     * Updated documentation.
   Synonyms:
   Related:
-  - commands/a
-  - commands/ta
-  - commands/ja
-  - commands/datetime
-  - commands/config
-  - commands/runtime
-  - commands/open
-  - commands/openagent
-  - commands/fid-list
-  - user-guide/fileref
-  - user-guide/profile
-  - user-guide/modules
-  - user-guide/ansi
+  - a
+  - ta
+  - ja
+  - datetime
+  - config
+  - runtime
+  - open
+  - openagent
+  - fid-list
+  - fileref
+  - profile
+  - modules
+  - ansi
 
 
 

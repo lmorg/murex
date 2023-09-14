@@ -13,8 +13,8 @@
   - hostname
   - HOSTNAME
   Related:
-  - types/str
-  - commands/set
-  - parser/string
-  - user-guide/reserved-vars
+  - str
+  - set
+  - string
+  - reserved-vars
 
