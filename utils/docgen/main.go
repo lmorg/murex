@@ -33,6 +33,10 @@ func main() {
 		log.Fatalln("[ERROR]", err)
 	}
 
+	if !docgen.Unique() {
+		log.Print("[ERROR] duplicate DocumentID found")
+	}
+
 	err = docgen.Render()
 	if err != nil {
 		log.Fatalln("[ERROR]", err)

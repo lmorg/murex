@@ -149,7 +149,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 			relDocID = split[1]
 
 		} else {
-			relCatID = d.CategoryID
+			relCatID = "???" + d.CategoryID // any category
 			relDocID = val
 		}
 
@@ -248,8 +248,15 @@ func (d documents) Len() int           { return len(d) }
 func (d documents) Less(i, j int) bool { return d[i].Title < d[j].Title }
 func (d documents) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }
 
-// ByID returns the from it's CategoryID and DocumentID
+// ByID returns a document by it's CategoryID and DocumentID
 func (d documents) ByID(requesterID, categoryID, documentID string) *document {
+	var anyCat bool
+
+	if strings.HasPrefix(categoryID, "???") {
+		categoryID = categoryID[4:]
+		anyCat = true
+	}
+
 	for i := range d {
 		if d[i].CategoryID != categoryID {
 			continue
@@ -267,6 +274,25 @@ func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 				}
 				copy.Title = title
 				return &copy
+			}
+		}
+	}
+
+	if anyCat {
+		for i := range d {
+			if d[i].DocumentID == documentID {
+				return &d[i]
+			}
+			for syn := range d[i].Synonyms {
+				if d[i].Synonyms[syn] == documentID {
+					copy := d[i]
+					title := strings.Replace(d[i].Title, d[i].DocumentID, d[i].Synonyms[syn], -1)
+					if title == d[i].Title {
+						title = d[i].Synonyms[syn]
+					}
+					copy.Title = title
+					return &copy
+				}
 			}
 		}
 	}

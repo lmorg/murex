@@ -40,8 +40,6 @@ force numeric or boolean looking values to be stored as strings.
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Create array (`%[]`) constructor](../parser/create-array.md):
   Quickly generate arrays
 * [Double Quote (`"`) Token](../parser/double-quote.md):
@@ -50,6 +48,8 @@ force numeric or boolean looking values to be stored as strings.
   Initiates or terminates a string (variables not expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
+* [`(` (brace quote)](../commands/brace-quote.md):
+  Write a string to the STDOUT without new line
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 

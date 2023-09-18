@@ -128,7 +128,7 @@ that has elements triggered from different interrupts).
   Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [onkeypress](../events/onkeypress.md):
+* [onkeypress](../vents/onkeypress.md):
   
 
 <hr/>

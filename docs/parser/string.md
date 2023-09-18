@@ -123,8 +123,6 @@ do not.
 
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
@@ -133,6 +131,8 @@ do not.
   Initiates or terminates a string (variables not expanded)
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
+* [`(` (brace quote)](../commands/brace-quote.md):
+  Write a string to the STDOUT without new line
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`ja` (mkarray)](../commands/ja.md):

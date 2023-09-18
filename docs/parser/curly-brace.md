@@ -68,18 +68,16 @@ constants are available.
   Infixed constants that return ANSI escape sequences
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
+* [`(` (brace quote)](../commands/brace-quote.md):
+  Write a string to the STDOUT without new line
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`err`](../commands/err.md):
@@ -88,6 +86,8 @@ constants are available.
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 

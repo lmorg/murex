@@ -96,8 +96,6 @@ Hello (World!)
   Initiates or terminates a string (variables expanded)
 * [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`(` (brace quote)](../commands/brace-quote.md):
@@ -106,6 +104,8 @@ Hello (World!)
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 
