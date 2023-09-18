@@ -1,0 +1,17 @@
+- DocumentID: data-types
+  Title: >-
+    Data Types
+  CategoryID: user-guide
+  Summary: >-
+    Defining the type of data
+  Description: |-
+    {{ include "gen/user-guide/data-types.inc.md" }}
+  Synonyms:
+    - job-control
+  Related:
+    - cast
+    - function
+    - method
+    - set
+    - type
+    - format

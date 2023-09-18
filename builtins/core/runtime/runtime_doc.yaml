@@ -301,7 +301,7 @@
   - fid-list
   - foreach
   - formap
-  - index
+  - item-index
   - format
   - event
   - autocomplete

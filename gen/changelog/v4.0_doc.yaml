@@ -73,13 +73,13 @@
     * error not handled in regexp expression matches, `=~`
 
   Related:
-    - parser/string
-    - user-guide/terminal-keys
-    - user-guide/interactive-shell
-    - commands/count
-    - commands/function
-    - parser/create-array
-    - parser/create-object
-    - types/path
-    - types/paths
+    - string
+    - terminal-keys
+    - interactive-shell
+    - count
+    - function
+    - create-array
+    - create-object
+    - path
+    - paths
 

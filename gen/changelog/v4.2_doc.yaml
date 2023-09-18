@@ -67,15 +67,15 @@
     * minor improvements to documentation 
 
   Related:
-    - commands/open
-    - commands/exec
-    - commands/fexec
-    - commands/alias
-    - commands/formap
-    - commands/foreach
-    - commands/while
-    - commands/method
-    - user-guide/interactive-shell
-    - user-guide/terminal-keys
-    - commands/config
+    - open
+    - exec
+    - fexec
+    - alias
+    - formap
+    - foreach
+    - while
+    - method
+    - interactive-shell
+    - terminal-keys
+    - config
 

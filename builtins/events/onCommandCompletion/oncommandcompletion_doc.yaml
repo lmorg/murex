@@ -105,12 +105,12 @@
   - onCommandCompletion
   Related:
   - onprompt
-  - commands/event
-  - commands/config
-  - commands/read-named-pipe
-  - commands/alias
-  - commands/function
-  - commands/regexp
-  - commands/if
-  - user-guide/namedpipes
-  - commands/stdin
+  - event
+  - config
+  - read-named-pipe
+  - alias
+  - function
+  - regexp
+  - if
+  - namedpipes
+  - stdin

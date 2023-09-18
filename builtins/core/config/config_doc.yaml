@@ -198,13 +198,13 @@
   - runtime
   - open
   - event
-  - types/mxjson
+  - mxjson
   - append
   - function
   - match
   - get
   - post
   - getfile
-  - index
+  - item-index
   - element
 

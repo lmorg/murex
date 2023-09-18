@@ -28,10 +28,10 @@
   Related:
   - pipeline
   - reserved-vars
-  - commands/not
-  - commands/set
-  - commands/and
-  - commands/or
-  - commands/config
+  - not
+  - set
+  - and
+  - or
+  - config
 
 

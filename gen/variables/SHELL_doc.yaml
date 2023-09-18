@@ -19,6 +19,6 @@
   - SHELL
   Related:
   - murex_exe
-  - parser/string
-  - commands/export
+  - string
+  - export
   

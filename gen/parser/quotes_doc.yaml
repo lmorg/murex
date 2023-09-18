@@ -1,6 +1,6 @@
 - DocumentID: single-quote
   Title: >-
-    Single Quote (`'`) Token
+    `'Single Quote'`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables not expanded)
@@ -33,14 +33,14 @@
   - double-quote
   - brace-quote
   - curly-brace
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - out
+  - set
+  - brace-quote
 
 
 - DocumentID: double-quote
   Title: >-
-    Double Quote (`"`) Token
+    `"Double Quote"`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
@@ -74,14 +74,14 @@
   - single-quote
   - brace-quote
   - curly-brace
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - out
+  - set
+  - brace-quote
 
 
 - DocumentID: brace-quote
   Title: >-
-    Brace Quote (`%(`, `)`) Tokens
+    %(Brace Quote)`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
@@ -168,9 +168,9 @@
   - single-quote
   - double-quote
   - curly-brace
-  - user-guide/code-block
-  - commands/out
-  - commands/set
-  - commands/brace-quote
+  - code-block
+  - out
+  - set
+  - brace-quote
 
 

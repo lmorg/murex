@@ -57,16 +57,16 @@
     * `parameters.StringArray()` should copy values instead of a pointer to ensure the underlying parameters are immutable
   Synonyms:
   Related:
-  - optional/select
-  - commands/config
-  - commands/alter
-  - commands/autocomplete
-  - commands/pipe
-  - commands/namedpipe
-  - commands/let
-  - commands/set
-  - commands/count
-  - user-guide/pipeline
+  - select
+  - config
+  - alter
+  - autocomplete
+  - pipe
+  - namedpipe
+  - let
+  - set
+  - count
+  - pipeline
 
 
 

@@ -9,10 +9,10 @@
     {{ include "gen/blog/why_create_a_new_shell.inc.md" }}
   Synonyms:
   Related:
-  - commands/foreach
-  - commands/formap
-  - commands/mkarray
-  - parser/create-array
-  - commands/cast
+  - foreach
+  - formap
+  - mkarray
+  - create-array
+  - cast
   
 

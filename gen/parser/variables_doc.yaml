@@ -1,6 +1,6 @@
 - DocumentID: string
   Title: >-
-    String (`$`) Token
+    `$variable`
   CategoryID: parser
   Summary: >-
     Expand values as a string
@@ -48,12 +48,12 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/let
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - let
+  - ja
+  - brace-quote
+  - reserved-vars
 
 
 
@@ -91,11 +91,11 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - ja
+  - brace-quote
+  - reserved-vars
 
 
 - DocumentID: tilde
@@ -137,8 +137,8 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - ja
+  - brace-quote
+  - reserved-vars

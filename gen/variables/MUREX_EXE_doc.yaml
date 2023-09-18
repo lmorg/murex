@@ -15,7 +15,7 @@
   - MUREX_EXE
   Related:
   - shell
-  - commands/set
-  - types/path
-  - user-guide/reserved-vars
+  - set
+  - path
+  - reserved-vars
  

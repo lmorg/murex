@@ -1,6 +1,6 @@
 - DocumentID: logical-and
   Title: >-
-    And (`&&`) Logical Operator
+    `&&` And Logical Operator
   CategoryID: parser
   Summary: >-
     Continues next operation if previous operation passes
@@ -37,18 +37,18 @@
     ```
   Related:
   - pipe-err
-  - user-guide/pipeline
-  - user-guide/schedulers
-  - commands/out
-  - commands/err
-  - commands/try
-  - commands/trypipe
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe
 
 
 
 - DocumentID: logical-or
   Title: >-
-    Or (`||`) Logical Operator
+    `||` Or Logical Operator
   CategoryID: parser
   Summary: >-
     Continues next operation only if previous operation fails
@@ -88,9 +88,9 @@
     There is no workaround for `trypipe`.
   Related:
   - pipe-err
-  - user-guide/pipeline
-  - user-guide/schedulers
-  - commands/out
-  - commands/err
-  - commands/try
-  - commands/trypipe
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe

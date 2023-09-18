@@ -12,10 +12,10 @@
     {{ include "gen/blog/reading_lists.inc.md" }}
   Synonyms:
   Related:
-  - commands/foreach
-  - commands/formap
-  - commands/a
-  - parser/create-array
-  - commands/cast
+  - foreach
+  - formap
+  - a
+  - create-array
+  - cast
   
 

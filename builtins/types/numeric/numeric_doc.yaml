@@ -29,12 +29,12 @@
   Related:
     - str
     - num
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/runtime
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - runtime
 
 - DocumentID: num
   Title: >-
@@ -58,12 +58,12 @@
   Related:
     - str
     - int
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/runtime
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - runtime
 
 - DocumentID: float
   Title: >-

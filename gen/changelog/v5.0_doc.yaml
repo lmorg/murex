@@ -8,21 +8,21 @@
   Description: |-
     {{ include "gen/changelog/v5.0.inc.md" }}
   Related:
-    - commands/event
-    - events/onsignalreceived
-    - variables/self
-    - variables/columns
-    - variables/murex_argv
-    - variables/argv
-    - types/csv
-    - types/float
-    - user-guide/fileref
-    - user-guide/modules
-    - commands/murex-package
-    - commands/murex-docs
-    - commands/alias
-    - commands/which
-    - commands/signal
-    - commands/config
-    - commands/autocomplete
+    - event
+    - onsignalreceived
+    - self
+    - columns
+    - murex_argv
+    - argv
+    - csv
+    - float
+    - fileref
+    - modules
+    - murex-package
+    - murex-docs
+    - alias
+    - which
+    - signal
+    - config
+    - autocomplete
 

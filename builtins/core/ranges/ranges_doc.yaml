@@ -1,7 +1,7 @@
 - DocumentID: range
   Title: >-
-    `[` (range)
-  CategoryID: commands
+    `[..range]`
+  CategoryID: parser
   Summary: >-
     Outputs a ranged subset of data from STDIN
   Description: |-
@@ -82,7 +82,7 @@
   Related:
     - prepend
     - append
-    - index
+    - item-index
     - element
     - a
     - ja

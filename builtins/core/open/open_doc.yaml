@@ -165,7 +165,7 @@
   - config
   - foreach
   - out
-  - types/generic
+  - generic
 
 
 - DocumentID: openagent
@@ -209,6 +209,6 @@
   - open
   - fexec
   - runtime
-  - user-guide/fileref
-  - user-guide/modules
+  - fileref
+  - modules
 

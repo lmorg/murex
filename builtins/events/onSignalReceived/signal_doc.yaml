@@ -97,8 +97,8 @@
   Related:
   - bg
   - event
-  - variables/MUREX_EXE
+  - MUREX_EXE
   - out
-  - events/onSignalReceived
-  - user-guide/terminal-keys
-  - user-guide/interactive-shell
+  - onSignalReceived
+  - terminal-keys
+  - interactive-shell

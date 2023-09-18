@@ -16,9 +16,9 @@
   - columns
   - COLUMNS
   Related:
-  - types/str
-  - commands/set
-  - parser/string
-  - user-guide/reserved-vars
-  - user-guide/interactive-shell
+  - str
+  - set
+  - string
+  - reserved-vars
+  - interactive-shell
 

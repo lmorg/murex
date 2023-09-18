@@ -24,14 +24,14 @@
   - pwdhist
   - PWDHIST
   Related:
-  - types/path
-  - types/json
+  - path
+  - json
   - pwd
-  - parser/string
-  - parser/array
-  - commands/set
-  - commands/cd
-  - user-guide/scoping
-  - user-guide/pipeline
-  - user-guide/modules
-  - user-guide/reserved-vars
+  - string
+  - array
+  - set
+  - cd
+  - scoping
+  - pipeline
+  - modules
+  - reserved-vars

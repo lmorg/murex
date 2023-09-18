@@ -187,12 +187,12 @@
     - cast
     - a
     - ja
-    - types/json
-    - types/jsonl
-    - types/yaml
+    - json
+    - jsonl
+    - yaml
     - out
     - left
     - debug
     - element
-    - apis/ReadArrayWithType
+    - ReadArrayWithType
     - break

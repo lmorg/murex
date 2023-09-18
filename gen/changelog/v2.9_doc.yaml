@@ -59,19 +59,19 @@
     * FileRef module string for functions forked from the REPL changed to `murex/shell` to bring it inline with the naming convention of other modules
 
   Related:
-    - user-guide/reserved-vars
-    - commands/autocomplete
-    - commands/config
-    - commands/murex-docs
-    - commands/runmode
-    - commands/function
-    - commands/private
-    - commands/range
-    - user-guide/schedulers
-    - commands/try
-    - commands/trypipe
-    - parser/pipe-append
-    - commands/greater-than
-    - commands/greater-than-greater-than
+    - reserved-vars
+    - autocomplete
+    - config
+    - murex-docs
+    - runmode
+    - function
+    - private
+    - range
+    - schedulers
+    - try
+    - trypipe
+    - pipe-append
+    - greater-than
+    - greater-than-greater-than
 
   

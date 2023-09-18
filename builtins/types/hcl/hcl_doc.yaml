@@ -77,10 +77,10 @@
     - json
     - jsonl
     - mxjson
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/runtime
-    - commands/pretty
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - runtime
+    - pretty

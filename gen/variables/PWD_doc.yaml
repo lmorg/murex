@@ -14,8 +14,8 @@
   - pwd
   - PWD
   Related:
-  - types/path
+  - path
   - pwdhist
-  - parser/string
-  - commands/export
-  - commands/cd
+  - string
+  - export
+  - cd

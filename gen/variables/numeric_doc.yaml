@@ -29,9 +29,9 @@
   Related:
   - argv
   - params
-  - commands/set
-  - parser/string
-  - commands/function
-  - commands/private
-  - commands/autocomplete
-  - commands/out
+  - set
+  - string
+  - function
+  - private
+  - autocomplete
+  - out

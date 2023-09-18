@@ -49,5 +49,5 @@
     * fixed missing bounds check in statement parser
 
   Related:
-    - user-guide/rosetta-stone
-    - commands/switch
+    - rosetta-stone
+    - switch
