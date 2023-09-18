@@ -22,10 +22,6 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=lmorg/murex&type=Date)](https://star-history.com/#lmorg/murex&Date)
-
 ## Examples
 
 **JSON wrangling:**

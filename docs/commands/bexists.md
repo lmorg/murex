@@ -40,12 +40,12 @@ that reason alone it has been spared from the axe.
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
 * [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [modules](../commands/modules.md):
+  
 
 <hr/>
 

@@ -269,14 +269,6 @@ bar
 
 ## See Also
 
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within Murex
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function (deprecated)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`global`](../commands/global.md):
@@ -285,6 +277,14 @@ bar
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [brace-quote](../commands/brace-quote.md):
+  
+* [equ](../commands/equ.md):
+  
+* [reserved-vars](../commands/reserved-vars.md):
+  
+* [scoping](../commands/scoping.md):
+  
 
 <hr/>
 

@@ -24,8 +24,6 @@ prepend to tables.
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
@@ -46,8 +44,10 @@ prepend to tables.
   Add data to the start of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [element](../commands/element.md):
+  
+* [item-index](../commands/item-index.md):
+  
 
 <hr/>
 

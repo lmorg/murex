@@ -320,10 +320,8 @@ jsonl
 
 ## See Also
 
-* [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
-  Read from a data type one array element at a time and return the elements contents and data type
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
+* [ReadArrayWithType](../commands/ReadArrayWithType.md):
+  
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`break`](../commands/break.md):
@@ -342,18 +340,20 @@ jsonl
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`json`](../types/json.md):
-  JavaScript Object Notation (JSON)
-* [`jsonl`](../types/jsonl.md):
-  JSON Lines
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`while`](../commands/while.md):
   Loop until condition false
-* [`yaml`](../types/yaml.md):
-  YAML Ain't Markup Language (YAML)
+* [element](../commands/element.md):
+  
+* [json](../commands/json.md):
+  
+* [jsonl](../commands/jsonl.md):
+  
+* [yaml](../commands/yaml.md):
+  
 
 <hr/>
 

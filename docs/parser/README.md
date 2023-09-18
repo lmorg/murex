@@ -21,35 +21,53 @@ files.
 
 ## Pages
 
-* [And (`&&`) Logical Operator](../parser/logical-and.md):
-  Continues next operation if previous operation passes
-* [Append Pipe (`>>`) Token](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Create array (`%[]`) constructor](../parser/create-array.md):
-  Quickly generate arrays
-* [Create object (`%{}`) constructor](../parser/create-object.md):
-  Quickly generate objects and maps
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [Or (`||`) Logical Operator](../parser/logical-or.md):
-  Continues next operation only if previous operation fails
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
+* [`!` (not)](../parser/not.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`$variable`](../parser/string.md):
+  Expand values as a string
+* [`%[]` Create array](../parser/create-array.md):
+  Quickly generate arrays
+* [`%{}` Create object](../parser/create-object.md):
+  Quickly generate objects and maps
+* [`&&` And Logical Operator](../parser/logical-and.md):
+  Continues next operation if previous operation passes
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote.md):
+  Write a string to the STDOUT without new line
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`<read-named-pipe>`](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [`=>` Generic Pipe](../parser/pipe-generic.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+* [`=` (arithmetic evaluation)](../parser/equ.md):
+  Evaluate a mathematical function (deprecated)
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
+  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append Pipe](../parser/pipe-append.md):
+  Redirects STDOUT to a file and append its contents
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`||` Or Logical Operator](../parser/logical-or.md):
+  Continues next operation only if previous operation fails

@@ -69,20 +69,20 @@ document but you can read more on them in links the links below.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`bg`](../commands/bg.md):
-  Run processes in the background
+* [bg](../user-guide/bg.md):
+  
+* [pipe-arrow](../user-guide/pipe-arrow.md):
+  
+* [pipe-err](../user-guide/pipe-err.md):
+  
+* [pipe-generic](../user-guide/pipe-generic.md):
+  
+* [pipe-posix](../user-guide/pipe-posix.md):
+  
 
 <hr/>
 

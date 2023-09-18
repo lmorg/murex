@@ -66,24 +66,24 @@ use `config`)
 
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`int`](../types/int.md):
   Whole number (primitive)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`select`](../optional/select.md):
-  Inlining SQL into shell pipelines
 * [`str` (string)](../types/str.md):
   string (primitive)
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [cast](../types/cast.md):
+  
+* [config](../types/config.md):
+  
+* [element](../types/element.md):
+  
+* [format](../types/format.md):
+  
+* [index](../types/index.md):
+  
+* [select](../types/select.md):
+  
 
 ### Read more about type hooks
 

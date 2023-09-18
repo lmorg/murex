@@ -1,4 +1,4 @@
-# And (`&&`) Logical Operator
+# `&&` And Logical Operator
 
 > Continues next operation if previous operation passes
 
@@ -41,20 +41,20 @@ try {
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+* [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in Murex
-* [`err`](../commands/err.md):
-  Print a line to the STDERR
-* [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
-* [`try`](../commands/try.md):
-  Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+* [err](../parser/err.md):
+  
+* [out](../parser/out.md):
+  
+* [pipeline](../parser/pipeline.md):
+  
+* [schedulers](../parser/schedulers.md):
+  
+* [try](../parser/try.md):
+  
+* [trypipe](../parser/trypipe.md):
+  
 
 <hr/>
 

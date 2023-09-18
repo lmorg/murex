@@ -79,10 +79,10 @@ how you define that value.
 
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`murex-package`](../commands/murex-package.md):
-  Murex's package manager
+* [export](../user-guide/export.md):
+  
+* [murex-package](../user-guide/murex-package.md):
+  
 
 <hr/>
 

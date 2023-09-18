@@ -87,12 +87,6 @@ with the `--datatype` flag as per the **script usage**.
 
 ## See Also
 
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
@@ -103,6 +97,12 @@ with the `--datatype` flag as per the **script usage**.
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+* [brace-quote](../commands/brace-quote.md):
+  
+* [greater-than](../commands/greater-than.md):
+  
+* [greater-than-greater-than](../commands/greater-than-greater-than.md):
+  
 
 <hr/>
 

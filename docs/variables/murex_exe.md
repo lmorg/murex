@@ -20,14 +20,14 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
 * [`SHELL` (str)](../variables/shell.md):
   Path of current shell
-* [`path`](../types/path.md):
-  Structured object for working with file and directory paths
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
+* [path](../variables/path.md):
+  
+* [reserved-vars](../variables/reserved-vars.md):
+  
+* [set](../variables/set.md):
+  
 
 <hr/>
 

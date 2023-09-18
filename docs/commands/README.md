@@ -36,30 +36,12 @@ murex-docs trypipe
 
 ## Pages
 
-* [`!` (not)](../commands/not.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function (deprecated)
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
 * [`@g` (autoglob) ](../commands/autoglob.md):
   Command prefix to expand globbing (deprecated)
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (index)](../commands/item-index.md):
-  Outputs an element from an array, map or table
-* [`[` (range)](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](../commands/addheading.md):

@@ -53,8 +53,8 @@ out foo\$b\@r
   Encode or decodes text for the URL
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [item-index](../commands/item-index.md):
+  
 
 <hr/>
 

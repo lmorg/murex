@@ -1,4 +1,4 @@
-# String (`$`) Token
+# `$variable`
 
 > Expand values as a string
 
@@ -123,26 +123,26 @@ do not.
 
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [`(` (brace quote)](../commands/brace-quote.md):
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
-* [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
+* [`(brace quote)`](../parser/brace-quote.md):
+  Write a string to the STDOUT without new line
+* [ja](../parser/ja.md):
+  
+* [let](../parser/let.md):
+  
+* [out](../parser/out.md):
+  
+* [reserved-vars](../parser/reserved-vars.md):
+  
+* [set](../parser/set.md):
+  
 
 <hr/>
 

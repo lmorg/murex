@@ -55,7 +55,7 @@ preference below).
 ### Undefining a function
 
 Like all other definable states in Murex, you can delete a function with
-the bang prefix (see the example above).
+the bang prefix `!function` (see the example above).
 
 ### Using parameterized variable names
 
@@ -244,8 +244,6 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`args` ](../commands/args.md):
@@ -274,6 +272,8 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Import Murex code from another file of code block
 * [`version`](../commands/version.md):
   Get Murex version
+* [reserved-vars](../commands/reserved-vars.md):
+  
 
 <hr/>
 

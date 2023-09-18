@@ -390,8 +390,8 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
   Write a data type, one array element at a time
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
-* [commands/index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [apis/index](../apis/index.md):
+  
 
 <hr/>
 

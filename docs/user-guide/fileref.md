@@ -56,14 +56,14 @@ empty Filename string.
 
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`murex-package`](../commands/murex-package.md):
-  Murex's package manager
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
+* [element](../user-guide/element.md):
+  
+* [murex-package](../user-guide/murex-package.md):
+  
+* [runtime](../user-guide/runtime.md):
+  
+* [source](../user-guide/source.md):
+  
 
 <hr/>
 

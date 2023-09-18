@@ -48,10 +48,10 @@ event onSecondsElapsed example=60 {
 
 ## See Also
 
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
+* [config](../events/config.md):
+  
+* [event](../events/event.md):
+  
 
 <hr/>
 

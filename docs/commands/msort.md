@@ -54,10 +54,6 @@ output of `msort` into another builtin:
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`alter`](../commands/alter.md):
@@ -74,8 +70,12 @@ output of `msort` into another builtin:
   Reverse the order of an array
 * [`prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [element](../commands/element.md):
+  
+* [item-index](../commands/item-index.md):
+  
+* [range](../commands/range.md):
+  
 
 <hr/>
 

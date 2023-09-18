@@ -87,7 +87,7 @@ Users can bring a background job to the foreground, making it the active task an
 » bg { sleep 10000; out "Task 1" }
 » bg { sleep 10000; out "Task 2" }
 » bg { sleep 10000; out "Task 3" }
->> jobs
+» jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
@@ -139,20 +139,20 @@ Task 1
 
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
-  Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
+* [bg](../user-guide/bg.md):
+  
+* [exec](../user-guide/exec.md):
+  
+* [fexec](../user-guide/fexec.md):
+  
+* [fg](../user-guide/fg.md):
+  
+* [fid-kill](../user-guide/fid-kill.md):
+  
+* [fid-list](../user-guide/fid-list.md):
+  
+* [jobs](../user-guide/jobs.md):
+  
 
 <hr/>
 

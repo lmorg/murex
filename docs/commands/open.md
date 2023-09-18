@@ -208,8 +208,6 @@ exec open --flags filename
 
 ## See Also
 
-* [`*` (generic)](../types/generic.md):
-  generic (primitive)
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`exec`](../commands/exec.md):
@@ -228,6 +226,8 @@ exec open --flags filename
   Print a string to the STDOUT with a trailing new line character
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+* [generic](../commands/generic.md):
+  
 
 <hr/>
 

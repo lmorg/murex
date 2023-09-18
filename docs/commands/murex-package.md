@@ -113,10 +113,6 @@ If you wish to view what modules are loaded in a current session then use
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
-* [Profile Files](../user-guide/profile.md):
-  A breakdown of the different files loaded on start up
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`config`](../commands/config.md):
@@ -129,6 +125,10 @@ If you wish to view what modules are loaded in a current session then use
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [modules](../commands/modules.md):
+  
+* [profile](../commands/profile.md):
+  
 
 <hr/>
 

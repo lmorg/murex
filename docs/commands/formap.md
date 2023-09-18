@@ -110,16 +110,16 @@ The following meta values are defined:
   A more familiar iteration loop to existing developers
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [`json`](../types/json.md):
-  JavaScript Object Notation (JSON)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`tabulate`](../commands/tabulate.md):
   Table transformation tools
 * [`while`](../commands/while.md):
   Loop until condition false
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [item-index](../commands/item-index.md):
+  
+* [json](../commands/json.md):
+  
 
 <hr/>
 

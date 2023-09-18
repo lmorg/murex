@@ -26,30 +26,30 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
 
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [Numeric (str)](../variables/numeric.md):
-  Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`ARGV` (json)](../variables/argv.md):
-  Array of the command name and parameters within a given scope
-* [`COLUMNS` (int)](../variables/columns.md):
-  Character width of terminal
-* [`HOSTNAME` (str)](../variables/hostname.md):
-  Hostname of the current machine
-* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
-  Array of the command name and parameters passed to the current shell
-* [`SELF` (json)](../variables/self.md):
-  Meta information about the running scope.
-* [`SHELL` (str)](../variables/shell.md):
-  Path of current shell
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
+* [argv](../user-guide/argv.md):
+  
+* [columns](../user-guide/columns.md):
+  
+* [export](../user-guide/export.md):
+  
+* [global](../user-guide/global.md):
+  
+* [hostname](../user-guide/hostname.md):
+  
+* [murex_argv](../user-guide/murex_argv.md):
+  
+* [numeric](../user-guide/numeric.md):
+  
+* [self](../user-guide/self.md):
+  
+* [set](../user-guide/set.md):
+  
+* [shell](../user-guide/shell.md):
+  
 
 <hr/>
 

@@ -90,22 +90,22 @@ terminal (TTY) or a pipe?)
 
 ## See Also
 
-* [Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about Murex's interactive shell?
-* [Modules and Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
-* [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within Murex
-* [`function`](../commands/function.md):
-  Define a function block
-* [`json`](../types/json.md):
-  JavaScript Object Notation (JSON)
+* [function](../variables/function.md):
+  
+* [interactive-shell](../variables/interactive-shell.md):
+  
+* [json](../variables/json.md):
+  
+* [modules](../variables/modules.md):
+  
+* [pipeline](../variables/pipeline.md):
+  
+* [reserved-vars](../variables/reserved-vars.md):
+  
+* [scoping](../variables/scoping.md):
+  
+* [string](../variables/string.md):
+  
 
 <hr/>
 

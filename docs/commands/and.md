@@ -49,8 +49,6 @@ are unsuccessful.
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):
@@ -65,6 +63,8 @@ are unsuccessful.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [not](../commands/not.md):
+  
 
 <hr/>
 

@@ -24,10 +24,10 @@ Two: 2
 
 ## See Also
 
-* [`Marshal()` (type)](../apis/Marshal.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
-  Converts a structured file format into structured memory
+* [Marshal](../commands/Marshal.md):
+  
+* [Unmarshal](../commands/Unmarshal.md):
+  
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`tout`](../commands/tout.md):

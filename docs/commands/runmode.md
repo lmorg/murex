@@ -68,10 +68,6 @@ if `runmode ... module` is set.
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in Murex
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`catch`](../commands/catch.md):
@@ -92,6 +88,10 @@ if `runmode ... module` is set.
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [pipeline](../commands/pipeline.md):
+  
+* [schedulers](../commands/schedulers.md):
+  
 
 <hr/>
 

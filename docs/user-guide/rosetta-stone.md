@@ -140,36 +140,36 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
-* [And (`&&`) Logical Operator](../parser/logical-and.md):
-  Continues next operation if previous operation passes
-* [Append Pipe (`>>`) Token](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [Or (`||`) Logical Operator](../parser/logical-or.md):
-  Continues next operation only if previous operation fails
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
-* [`runmode`](../commands/runmode.md):
-  Alter the scheduler's behaviour at higher scoping level
-* [`try`](../commands/try.md):
-  Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [array](../user-guide/array.md):
+  
+* [element](../user-guide/element.md):
+  
+* [greater-than](../user-guide/greater-than.md):
+  
+* [greater-than-greater-than](../user-guide/greater-than-greater-than.md):
+  
+* [index](../user-guide/index.md):
+  
+* [logical-and](../user-guide/logical-and.md):
+  
+* [logical-or](../user-guide/logical-or.md):
+  
+* [pipe-append](../user-guide/pipe-append.md):
+  
+* [range](../user-guide/range.md):
+  
+* [runmode](../user-guide/runmode.md):
+  
+* [string](../user-guide/string.md):
+  
+* [try](../user-guide/try.md):
+  
+* [trypipe](../user-guide/trypipe.md):
+  
 
 <hr/>
 

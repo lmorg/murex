@@ -131,10 +131,6 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`function`](../commands/function.md):
   Define a function block
 * [`match`](../commands/match.md):
@@ -145,6 +141,10 @@ that pipes created in modules should be prefixed with the name of its package.
   Manage Murex named pipes
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [namedpipe](../commands/namedpipe.md):
+  
+* [pipeline](../commands/pipeline.md):
+  
 
 <hr/>
 

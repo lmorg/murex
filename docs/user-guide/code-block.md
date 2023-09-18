@@ -64,12 +64,12 @@ brace block might be JSON).
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [curly-brace](../user-guide/curly-brace.md):
+  
 
 <hr/>
 

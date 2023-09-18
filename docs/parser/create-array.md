@@ -1,4 +1,4 @@
-# Create array (`%[]`) constructor
+# `%[]` Create array
 
 > Quickly generate arrays
 
@@ -173,24 +173,24 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Create object (`%{}`) constructor](../parser/create-object.md):
-  Quickly generate objects and maps
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`ta` (mkarray)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%{}` Create object](../parser/create-object.md):
+  Quickly generate objects and maps
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote.md):
+  Write a string to the STDOUT without new line
+* [a](../parser/a.md):
+  
+* [expr](../parser/expr.md):
+  
+* [ja](../parser/ja.md):
+  
+* [ta](../parser/ta.md):
+  
 
 <hr/>
 

@@ -395,16 +395,6 @@ bar
 
 ## See Also
 
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within Murex
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function (deprecated)
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
@@ -415,8 +405,18 @@ bar
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [brace-quote](../commands/brace-quote.md):
+  
+* [element](../commands/element.md):
+  
+* [equ](../commands/equ.md):
+  
+* [item-index](../commands/item-index.md):
+  
+* [reserved-vars](../commands/reserved-vars.md):
+  
+* [scoping](../commands/scoping.md):
+  
 
 <hr/>
 

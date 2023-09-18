@@ -38,8 +38,8 @@ As a function
 
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+* [qr](../commands/qr.md):
+  
 
 <hr/>
 

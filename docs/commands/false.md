@@ -34,8 +34,6 @@ However you can suppress that with the silent flag:
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`if`](../commands/if.md):
@@ -44,6 +42,8 @@ However you can suppress that with the silent flag:
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`true`](../commands/true.md):
   Returns a `true` value
+* [not](../commands/not.md):
+  
 
 <hr/>
 

@@ -161,24 +161,24 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [Create array (`%[]`) constructor](../parser/create-array.md):
-  Quickly generate arrays
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`str` (string)](../types/str.md):
-  string (primitive)
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [create-array](../commands/create-array.md):
+  
+* [element](../commands/element.md):
+  
+* [item-index](../commands/item-index.md):
+  
+* [range](../commands/range.md):
+  
+* [str](../commands/str.md):
+  
 
 <hr/>
 

@@ -202,8 +202,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`event`](../commands/event.md):
@@ -222,10 +220,12 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   HTTP POST request with a JSON-parsable return
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
-* [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (deprecated)
+* [element](../commands/element.md):
+  
+* [item-index](../commands/item-index.md):
+  
+* [mxjson](../commands/mxjson.md):
+  
 
 <hr/>
 

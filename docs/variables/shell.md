@@ -22,12 +22,12 @@ precision.
 
 ## See Also
 
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
+* [export](../variables/export.md):
+  
+* [string](../variables/string.md):
+  
 
 <hr/>
 

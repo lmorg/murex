@@ -34,22 +34,22 @@ the pipeline.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`runmode`](../commands/runmode.md):
-  Alter the scheduler's behaviour at higher scoping level
-* [`try`](../commands/try.md):
-  Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+* [pipe-arrow](../user-guide/pipe-arrow.md):
+  
+* [pipe-err](../user-guide/pipe-err.md):
+  
+* [pipe-generic](../user-guide/pipe-generic.md):
+  
+* [pipe-posix](../user-guide/pipe-posix.md):
+  
+* [runmode](../user-guide/runmode.md):
+  
+* [try](../user-guide/try.md):
+  
+* [trypipe](../user-guide/trypipe.md):
+  
 
 <hr/>
 

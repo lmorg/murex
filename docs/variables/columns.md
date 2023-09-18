@@ -22,16 +22,16 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
-* [Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about Murex's interactive shell?
-* [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`str` (string)](../types/str.md):
-  string (primitive)
+* [interactive-shell](../variables/interactive-shell.md):
+  
+* [reserved-vars](../variables/reserved-vars.md):
+  
+* [set](../variables/set.md):
+  
+* [str](../variables/str.md):
+  
+* [string](../variables/string.md):
+  
 
 <hr/>
 

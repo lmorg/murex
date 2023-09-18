@@ -122,12 +122,6 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a Murex named pipe
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`bg`](../commands/bg.md):
@@ -140,6 +134,12 @@ that pipes created in modules should be prefixed with the name of its package.
   Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [namedpipe](../commands/namedpipe.md):
+  
+* [namedpipe](../commands/namedpipe.md):
+  
+* [pipeline](../commands/pipeline.md):
+  
 
 <hr/>
 

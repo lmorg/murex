@@ -217,14 +217,14 @@ it persistent.
 
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`err`](../commands/err.md):
-  Print a line to the STDERR
-* [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
-* [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+* [brace-quote](../user-guide/brace-quote.md):
+  
+* [err](../user-guide/err.md):
+  
+* [out](../user-guide/out.md):
+  
+* [tout](../user-guide/tout.md):
+  
 
 <hr/>
 

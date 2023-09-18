@@ -1,4 +1,4 @@
-# Generic Pipe (`=>`) Token
+# `=>` Generic Pipe
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 
@@ -46,20 +46,20 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [format](../parser/format.md):
+  
+* [ja](../parser/ja.md):
+  
+* [pipeline](../parser/pipeline.md):
+  
 
 <hr/>
 

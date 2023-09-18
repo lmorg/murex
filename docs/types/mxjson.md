@@ -50,26 +50,6 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Code Block Parsing](../user-guide/code-block.md):
-  Overview of how code blocks are parsed
-* [Create array (`%[]`) constructor](../parser/create-array.md):
-  Quickly generate arrays
-* [Create object (`%{}`) constructor](../parser/create-object.md):
-  Quickly generate objects and maps
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json`](../types/json.md):
@@ -78,18 +58,38 @@ Any block quoted by this method will be converted to the following valid JSON:
   Concatenated JSON
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [autocomplete](../types/autocomplete.md):
+  
+* [brace-quote](../types/brace-quote.md):
+  
+* [cast](../types/cast.md):
+  
+* [code-block](../types/code-block.md):
+  
+* [config](../types/config.md):
+  
+* [create-array](../types/create-array.md):
+  
+* [create-object](../types/create-object.md):
+  
+* [curly-brace](../types/curly-brace.md):
+  
+* [element](../types/element.md):
+  
+* [format](../types/format.md):
+  
+* [index](../types/index.md):
+  
+* [open](../types/open.md):
+  
+* [pretty](../types/pretty.md):
+  
+* [runtime](../types/runtime.md):
+  
 
 ### Read more about type hooks
 

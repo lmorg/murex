@@ -30,16 +30,16 @@ the current running Murex shell
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
 * [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
-* [`json`](../types/json.md):
-  JavaScript Object Notation (JSON)
+* [array](../variables/array.md):
+  
+* [json](../variables/json.md):
+  
 
 <hr/>
 

@@ -220,24 +220,24 @@ var rangeMoon = map[string]int{
 
 * [Calendar Date Ranges](../mkarray/date.md):
   Create arrays of dates
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
-* [`datetime`](../commands/datetime.md):
-  A date and/or time conversion tool (like `printf` but for date and time values)
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
-* [`ta` (mkarray)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
+* [a](../mkarray/a.md):
+  
+* [count](../mkarray/count.md):
+  
+* [datetime](../mkarray/datetime.md):
+  
+* [element](../mkarray/element.md):
+  
+* [index](../mkarray/index.md):
+  
+* [ja](../mkarray/ja.md):
+  
+* [mtac](../mkarray/mtac.md):
+  
+* [range](../mkarray/range.md):
+  
+* [ta](../mkarray/ta.md):
+  
 
 <hr/>
 

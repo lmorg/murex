@@ -176,26 +176,26 @@ prompt:
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
+* [autocomplete](../user-guide/autocomplete.md):
+  
+* [config](../user-guide/config.md):
+  
+* [curly-brace](../user-guide/curly-brace.md):
+  
+* [method](../user-guide/method.md):
+  
+* [pipe-arrow](../user-guide/pipe-arrow.md):
+  
+* [pipe-posix](../user-guide/pipe-posix.md):
+  
+* [runtime](../user-guide/runtime.md):
+  
 
 <hr/>
 

@@ -575,10 +575,10 @@ flags.
   Defines a summary help text for a command
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
-* [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (deprecated)
+* [item-index](../commands/item-index.md):
+  
+* [mxjson](../commands/mxjson.md):
+  
 
 <hr/>
 

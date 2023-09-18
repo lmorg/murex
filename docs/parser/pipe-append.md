@@ -1,4 +1,4 @@
-# Append Pipe (`>>`) Token
+# `>>` Append Pipe
 
 > Redirects STDOUT to a file and append its contents
 
@@ -43,22 +43,22 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`|>` (truncate file)](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [ja](../parser/ja.md):
+  
+* [pipeline](../parser/pipeline.md):
+  
 
 <hr/>
 
