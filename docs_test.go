@@ -15,11 +15,17 @@ func TestCoreDocs(t *testing.T) {
 	for name := range lang.GoFunctions {
 
 		syn, ok := docs.Synonym[name]
+		if ok && syn != "" {
+			goto passedSynTest
+		}
+
+		syn, ok = docs.Synonym["parser/"+name]
 		if !ok || syn == "" {
 			t.Errorf("Synonym for `%s` does not exist or is empty", name)
 			continue
 		}
 
+	passedSynTest:
 		sum, ok := docs.Summary[syn]
 		if !ok || sum == "" {
 			t.Errorf("Summary for `%s` does not exist or is empty", name)
