@@ -200,7 +200,7 @@
   - and
   - or
   - if
-  - "not"
+  - not-func
 
 
 - DocumentID: "false"
@@ -237,10 +237,10 @@
   - and
   - or
   - if
-  - "not"
+  - not-func
 
 
-- DocumentID: "not"
+- DocumentID: not-func
   Title: >+
     `!` (not)
   CategoryID: parser
@@ -266,6 +266,7 @@
   Detail: |-
   Synonyms:
   - "!"
+  - "not"
   Related:
   - "true"
   - and

@@ -104,22 +104,22 @@ The following meta values are defined:
 
 ## See Also
 
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
+* [`json`](../types/json.md):
+  JavaScript Object Notation (JSON)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`tabulate`](../commands/tabulate.md):
   Table transformation tools
 * [`while`](../commands/while.md):
   Loop until condition false
-* [item-index](../commands/item-index.md):
-  
-* [json](../commands/json.md):
-  
 
 <hr/>
 

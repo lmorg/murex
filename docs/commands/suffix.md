@@ -46,6 +46,10 @@ runtime --unmarshallers
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
+  Converts structured memory into a Murex data-type (eg for stdio)
+* [`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
+  Converts a Murex data-type into structured memory
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`prefix`](../commands/prefix.md):
@@ -54,10 +58,6 @@ runtime --unmarshallers
   Right substring every item in a list
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [lang.MarshalData](../commands/lang.MarshalData.md):
-  
-* [lang.UnmarshalData](../commands/lang.UnmarshalData.md):
-  
 
 <hr/>
 

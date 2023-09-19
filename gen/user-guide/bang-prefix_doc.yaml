@@ -24,11 +24,10 @@
   Synonyms:
   - bang-prefix
   - bang
-  - not
   Related:
   - pipeline
   - reserved-vars
-  - not
+  - not-func
   - set
   - and
   - or

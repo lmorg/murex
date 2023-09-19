@@ -33,16 +33,16 @@ g * >> files.txt
   Reads from a Murex named pipe
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`g`](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [`pipe`](../commands/pipe.md):
+  Manage Murex named pipes
+* [`tmp`](../commands/tmp.md):
+  Create a temporary file and write to it
 * [`|>` (truncate file)](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [g](../parser/g.md):
-  
-* [pipe](../parser/pipe.md):
-  
-* [tmp](../parser/tmp.md):
-  
 
 <hr/>
 

@@ -45,7 +45,7 @@
   - try
   - trypipe
   - catch
-  - "not"
+  - not-func
   - "true"
   - "false"
 
@@ -98,6 +98,6 @@
   - try
   - trypipe
   - catch
-  - "not"
+  - not-func
   - "true"
   - "false"

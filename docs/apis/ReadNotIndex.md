@@ -68,6 +68,8 @@ both agnostic to the bang prefix.
 
 ## See Also
 
+* [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
+  Bang prefixing to reverse default actions
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
 * [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
@@ -76,16 +78,14 @@ both agnostic to the bang prefix.
   Data type handler for the index, `[`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
+* [parser/`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure
 * [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
-* [apis/bang-prefix](../apis/bang-prefix.md):
-  
-* [apis/element](../apis/element.md):
-  
-* [apis/index](../apis/index.md):
-  
+* [parser/index](../parser/item-index.md):
+  Outputs an element from an array, map or table
 
 <hr/>
 

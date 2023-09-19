@@ -117,18 +117,18 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [a](../parser/a.md):
-  
-* [bg](../parser/bg.md):
-  
-* [ja](../parser/ja.md):
-  
-* [pipe](../parser/pipe.md):
-  
-* [runtime](../parser/runtime.md):
-  
-* [stdin](../parser/stdin.md):
-  
+* [`<stdin>`](../commands/stdin.md):
+  Read the STDIN belonging to the parent code block
+* [`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [`bg`](../commands/bg.md):
+  Run processes in the background
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [`pipe`](../commands/pipe.md):
+  Manage Murex named pipes
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 <hr/>
 

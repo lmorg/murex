@@ -47,6 +47,8 @@ command.
 
 ## See Also
 
+* [Schedulers](../user-guide/schedulers.md):
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`fid-list`](../commands/fid-list.md):
@@ -59,8 +61,6 @@ command.
   Blocks of cascading conditionals
 * [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [schedulers](../commands/schedulers.md):
-  
 
 <hr/>
 

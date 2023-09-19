@@ -151,16 +151,16 @@ Published: 22.04.2023 at 11:43
 
 ## See Also
 
-* [a](../blog/a.md):
-  
-* [cast](../blog/cast.md):
-  
-* [create-array](../blog/create-array.md):
-  
-* [foreach](../blog/foreach.md):
-  
-* [formap](../blog/formap.md):
-  
+* [`%[]` Create array](../parser/create-array.md):
+  Quickly generate arrays
+* [`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
+* [`foreach`](../commands/foreach.md):
+  Iterate through an array
+* [`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 
 <hr/>
 

@@ -112,26 +112,26 @@ prompt itself and three extra lines for the hint text.
 
 ## See Also
 
+* [Named Pipes](../user-guide/namedpipes.md):
+  A detailed breakdown of named pipes in Murex
+* [`<stdin>`](../commands/stdin.md):
+  Read the STDIN belonging to the parent code block
+* [`alias`](../commands/alias.md):
+  Create an alias for a command
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`event`](../commands/event.md):
+  Event driven programming for shell scripts
+* [`function`](../commands/function.md):
+  Define a function block
+* [`if`](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [alias](../events/alias.md):
-  
-* [config](../events/config.md):
-  
-* [event](../events/event.md):
-  
-* [function](../events/function.md):
-  
-* [if](../events/if.md):
-  
-* [namedpipes](../events/namedpipes.md):
-  
-* [read-named-pipe](../events/read-named-pipe.md):
-  
-* [regexp](../events/regexp.md):
-  
-* [stdin](../events/stdin.md):
-  
+* [`regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [read-named-pipe](../parser/namedpipe.md):
+  Reads from a Murex named pipe
 
 <hr/>
 

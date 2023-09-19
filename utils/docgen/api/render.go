@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	golog "log"
 	"os"
 )
 
@@ -29,6 +30,11 @@ func Render() (err error) {
 	}()
 
 	walkSourcePath(Config.SourcePath)
+
+	if !unique() {
+		golog.Print("[ERROR] duplicate DocumentID found")
+	}
+
 	renderAll(Documents)
 
 	return

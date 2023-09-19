@@ -85,10 +85,10 @@ event to Linux, macOS and UNIX systems instead.
 
 ## See Also
 
-* [config](../events/config.md):
-  
-* [event](../events/event.md):
-  
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`event`](../commands/event.md):
+  Event driven programming for shell scripts
 
 <hr/>
 

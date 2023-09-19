@@ -163,20 +163,20 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   What's different about Murex's interactive shell?
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [alter](../user-guide/alter.md):
-  
-* [append](../user-guide/append.md):
-  
-* [config](../user-guide/config.md):
-  
-* [curly-brace](../user-guide/curly-brace.md):
-  
-* [json](../user-guide/json.md):
-  
-* [jsplit](../user-guide/jsplit.md):
-  
-* [set](../user-guide/set.md):
-  
+* [`alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [`append`](../commands/append.md):
+  Add data to the end of an array
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`json`](../types/json.md):
+  JavaScript Object Notation (JSON)
+* [`jsplit` ](../commands/jsplit.md):
+  Splits STDIN into a JSON array based on a regex parameter
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
 
 <hr/>
 

@@ -28,22 +28,22 @@ AMD64 or other 64bit built of Murex would see the range from
 
 ## See Also
 
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
+* [`open`](../commands/open.md):
+  Open a file with a preferred handler
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`str` (string)](../types/str.md):
   string (primitive)
-* [cast](../types/cast.md):
-  
-* [element](../types/element.md):
-  
-* [format](../types/format.md):
-  
-* [index](../types/index.md):
-  
-* [open](../types/open.md):
-  
-* [runtime](../types/runtime.md):
-  
+* [index](../parser/item-index.md):
+  Outputs an element from an array, map or table
 
 ### Read more about type hooks
 

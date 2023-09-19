@@ -88,24 +88,24 @@ Hello (World!)
 
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [Code Block Parsing](../user-guide/code-block.md):
+  Overview of how code blocks are parsed
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$variable`](../parser/string.md):
-  Expand values as a string
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 * [`{Curly Brace}`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [code-block](../parser/code-block.md):
-  
-* [out](../parser/out.md):
-  
-* [set](../parser/set.md):
-  
 
 <hr/>
 

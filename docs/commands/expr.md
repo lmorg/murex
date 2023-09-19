@@ -34,12 +34,12 @@ JSON array:
 
 ## See Also
 
+* [`=` (arithmetic evaluation)](../parser/equ.md):
+  Evaluate a mathematical function (deprecated)
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [equ](../commands/equ.md):
-  
 
 <hr/>
 

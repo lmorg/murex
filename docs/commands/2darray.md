@@ -93,6 +93,10 @@
 
 ## See Also
 
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
@@ -101,6 +105,8 @@
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [`json`](../types/json.md):
+  JavaScript Object Notation (JSON)
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
@@ -111,12 +117,6 @@
   Reverse the order of an array
 * [`prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [item-index](../commands/item-index.md):
-  
-* [json](../commands/json.md):
-  
-* [range](../commands/range.md):
-  
 
 <hr/>
 

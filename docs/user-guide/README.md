@@ -65,12 +65,12 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Expand values as an array
 * [Tilde (`~`) Token](parser/tilde.md):
   Home directory path variable
-* [`!` (not)](parser/not.md):
+* [`!` (not)](parser/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$variable`](parser/string.md):
-  Expand values as a string
+* [`$variable`](parser/scalar.md):
+  Expand values as a scalar
 * [`%[]` Create array](parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create object](parser/create-object.md):
@@ -79,8 +79,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Continues next operation if previous operation passes
 * [`'Single Quote'`](parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](parser/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`(brace quote)`](parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
 * [`->` Arrow Pipe](parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](parser/namedpipe.md):

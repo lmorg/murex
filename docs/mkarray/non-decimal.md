@@ -127,20 +127,20 @@ arrays such as JSON (`ja`).
   Making character arrays (a to z)
 * [Decimal Ranges](../mkarray/decimal.md):
   Create arrays of decimal integers
-* [a](../mkarray/a.md):
-  
-* [count](../mkarray/count.md):
-  
-* [element](../mkarray/element.md):
-  
-* [index](../mkarray/index.md):
-  
-* [ja](../mkarray/ja.md):
-  
-* [range](../mkarray/range.md):
-  
-* [ta](../mkarray/ta.md):
-  
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [`count`](../commands/count.md):
+  Count items in a map, list or array
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [`ta` (mkarray)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [index](../parser/item-index.md):
+  Outputs an element from an array, map or table
 
 <hr/>
 

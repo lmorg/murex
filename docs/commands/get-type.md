@@ -51,6 +51,10 @@ json
 
 ## See Also
 
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
+* [Variable and Config Scoping](../user-guide/scoping.md):
+  How scoping works within Murex
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`function`](../commands/function.md):
@@ -63,10 +67,6 @@ json
   Define a local variable and set it's value
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [reserved-vars](../commands/reserved-vars.md):
-  
-* [scoping](../commands/scoping.md):
-  
 
 <hr/>
 

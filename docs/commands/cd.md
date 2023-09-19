@@ -77,10 +77,10 @@ config set shell auto-cd true
 
 ## See Also
 
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 * [`source`](../commands/source.md):
   Import Murex code from another file of code block
-* [reserved-vars](../commands/reserved-vars.md):
-  
 
 <hr/>
 

@@ -186,30 +186,30 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
 
 ## See Also
 
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
+* [Variable and Config Scoping](../user-guide/scoping.md):
+  How scoping works within Murex
 * [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`[index]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [export](../parser/export.md):
-  
-* [expr](../parser/expr.md):
-  
-* [global](../parser/global.md):
-  
-* [global](../parser/global.md):
-  
-* [if](../parser/if.md):
-  
-* [let](../parser/let.md):
-  
-* [reserved-vars](../parser/reserved-vars.md):
-  
-* [scoping](../parser/scoping.md):
-  
-* [set](../parser/set.md):
-  
+* [`export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
+* [`global`](../commands/global.md):
+  Define a global variable and set it's value
+* [`global`](../commands/global.md):
+  Define a global variable and set it's value
+* [`if`](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable (deprecated)
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

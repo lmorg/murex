@@ -72,7 +72,7 @@
     - tout
     - err
     - set
-    - brace-quote
+    - brace-quote-func
     - ansi
 
 - DocumentID: code-block
@@ -146,3 +146,6 @@
     - pipeline
     - curly-brace
     - ansi
+    - brace-quote
+    - create-array
+    - create-object

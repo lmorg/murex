@@ -4,7 +4,7 @@ import "fmt"
 
 const strAlreadyExists = "'%s' already exists in '%s' (%s)"
 
-func Unique() bool {
+func unique() bool {
 	var failed bool
 
 	m := make(map[string]document)

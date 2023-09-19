@@ -120,6 +120,7 @@
     - "["
     - "!["
     - item-index
+    - index
   Related:
     - range
     - count

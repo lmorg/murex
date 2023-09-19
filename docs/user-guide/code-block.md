@@ -62,14 +62,20 @@ brace block might be JSON).
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [curly-brace](../user-guide/curly-brace.md):
-  
+* [`%[]` Create array](../parser/create-array.md):
+  Quickly generate arrays
+* [`%{}` Create object](../parser/create-object.md):
+  Quickly generate objects and maps
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
 
 <hr/>
 

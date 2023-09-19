@@ -19,14 +19,14 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
-* [reserved-vars](../variables/reserved-vars.md):
-  
-* [set](../variables/set.md):
-  
-* [str](../variables/str.md):
-  
-* [string](../variables/string.md):
-  
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [`str` (string)](../types/str.md):
+  string (primitive)
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

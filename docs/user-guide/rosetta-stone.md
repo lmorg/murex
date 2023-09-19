@@ -140,36 +140,36 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
+* [Array (`@`) Token](../parser/array.md):
+  Expand values as an array
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [array](../user-guide/array.md):
-  
-* [element](../user-guide/element.md):
-  
-* [greater-than](../user-guide/greater-than.md):
-  
-* [greater-than-greater-than](../user-guide/greater-than-greater-than.md):
-  
-* [index](../user-guide/index.md):
-  
-* [logical-and](../user-guide/logical-and.md):
-  
-* [logical-or](../user-guide/logical-or.md):
-  
-* [pipe-append](../user-guide/pipe-append.md):
-  
-* [range](../user-guide/range.md):
-  
-* [runmode](../user-guide/runmode.md):
-  
-* [string](../user-guide/string.md):
-  
-* [try](../user-guide/try.md):
-  
-* [trypipe](../user-guide/trypipe.md):
-  
+* [`&&` And Logical Operator](../parser/logical-and.md):
+  Continues next operation if previous operation passes
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
+  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append Pipe](../parser/pipe-append.md):
+  Redirects STDOUT to a file and append its contents
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`runmode`](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
+* [`try`](../commands/try.md):
+  Handles errors inside a block of code
+* [`trypipe`](../commands/trypipe.md):
+  Checks state of each function in a pipeline and exits block on error
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
+* [`||` Or Logical Operator](../parser/logical-or.md):
+  Continues next operation only if previous operation fails
+* [index](../parser/item-index.md):
+  Outputs an element from an array, map or table
 
 <hr/>
 

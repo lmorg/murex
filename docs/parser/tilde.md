@@ -37,26 +37,26 @@ But it cannot be expanded inside single quotes.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$variable`](../parser/string.md):
-  Expand values as a string
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [ja](../parser/ja.md):
-  
-* [out](../parser/out.md):
-  
-* [reserved-vars](../parser/reserved-vars.md):
-  
-* [set](../parser/set.md):
-  
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

@@ -215,16 +215,18 @@ it persistent.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [brace-quote](../user-guide/brace-quote.md):
-  
-* [err](../user-guide/err.md):
-  
-* [out](../user-guide/out.md):
-  
-* [tout](../user-guide/tout.md):
-  
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
+* [`err`](../commands/err.md):
+  Print a line to the STDERR
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`tout`](../commands/tout.md):
+  Print a string to the STDOUT and set it's data-type
 
 <hr/>
 

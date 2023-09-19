@@ -1,10 +1,10 @@
 # `$variable`
 
-> Expand values as a string
+> Expand values as a scalar
 
 ## Description
 
-The string token is used to tell Murex to expand variables and subshells as a
+The scalar token is used to tell Murex to expand variables and subshells as a
 string (ie one single parameter) irrespective of the data that is stored in the
 string. One handy common use case is file names where traditional POSIX shells
 would treat spaces as a new file, whereas Murex treats spaces as a printable
@@ -121,28 +121,28 @@ do not.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [ja](../parser/ja.md):
-  
-* [let](../parser/let.md):
-  
-* [out](../parser/out.md):
-  
-* [reserved-vars](../parser/reserved-vars.md):
-  
-* [set](../parser/set.md):
-  
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable (deprecated)
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

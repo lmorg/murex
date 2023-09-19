@@ -204,7 +204,7 @@
   - catch
   - "and"
   - "or"
-  - "not"
+  - not-func
   - "true"
   - "false"
   - set

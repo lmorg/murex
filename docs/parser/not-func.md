@@ -10,9 +10,7 @@ Reads the STDIN and exit number from previous process and not's it's condition.
 
 ```
 <stdin> -> ! -> <stdout>
-```
-
-## Examples
+```## Examples
 
 ```
 » echo "Hello, world!" -> !
@@ -27,6 +25,7 @@ true
 ## Synonyms
 
 * `!`
+* `not`
 
 
 ## See Also

@@ -35,7 +35,7 @@
   - curly-brace
   - out
   - set
-  - brace-quote
+  - brace-quote-func
 
 
 - DocumentID: double-quote
@@ -76,7 +76,7 @@
   - curly-brace
   - out
   - set
-  - brace-quote
+  - brace-quote-func
 
 
 - DocumentID: brace-quote
@@ -171,6 +171,6 @@
   - code-block
   - out
   - set
-  - brace-quote
+  - brace-quote-func
 
 

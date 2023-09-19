@@ -561,6 +561,8 @@ flags.
 
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`config`](../commands/config.md):
@@ -575,10 +577,8 @@ flags.
   Defines a summary help text for a command
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [item-index](../commands/item-index.md):
-  
-* [mxjson](../commands/mxjson.md):
-  
+* [mxjson](../types/mxjson.md):
+  Murex-flavoured JSON (deprecated)
 
 <hr/>
 

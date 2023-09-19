@@ -48,6 +48,8 @@ catch {
 
 ## See Also
 
+* [Schedulers](../user-guide/schedulers.md):
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`runmode`](../commands/runmode.md):
@@ -58,8 +60,6 @@ catch {
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [schedulers](../commands/schedulers.md):
-  
 
 <hr/>
 

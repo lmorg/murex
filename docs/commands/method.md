@@ -66,6 +66,10 @@ var GroupMath = []string{
 
 ## See Also
 
+* [Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`autocomplete`](../commands/autocomplete.md):
@@ -76,10 +80,6 @@ var GroupMath = []string{
   Define a private function block
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [interactive-shell](../commands/interactive-shell.md):
-  
-* [pipe-arrow](../commands/pipe-arrow.md):
-  
 
 <hr/>
 

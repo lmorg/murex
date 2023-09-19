@@ -124,6 +124,12 @@ unique count should be one less than the total count:
 
 ## See Also
 
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
@@ -146,12 +152,6 @@ unique count should be one less than the total count:
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [element](../commands/element.md):
-  
-* [item-index](../commands/item-index.md):
-  
-* [range](../commands/range.md):
-  
 
 <hr/>
 

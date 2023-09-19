@@ -211,32 +211,32 @@ jsonl
 
 ## See Also
 
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`jsonc`](../types/jsonc.md):
   Concatenated JSON
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
+* [`open`](../commands/open.md):
+  Open a file with a preferred handler
+* [`pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [cast](../types/cast.md):
-  
-* [element](../types/element.md):
-  
-* [format](../types/format.md):
-  
-* [index](../types/index.md):
-  
+* [index](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
-* [open](../types/open.md):
-  
-* [pretty](../types/pretty.md):
-  
-* [runtime](../types/runtime.md):
-  
 
 ### Read more about type hooks
 

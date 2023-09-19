@@ -42,6 +42,8 @@ variable.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
@@ -56,8 +58,6 @@ variable.
   `read` a line of input from the user and store as a variable
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [brace-quote](../commands/brace-quote.md):
-  
 
 <hr/>
 

@@ -25,16 +25,16 @@ bang prefix and what the behavior of that prefix is.
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [and](../user-guide/and.md):
-  
-* [config](../user-guide/config.md):
-  
-* [not](../user-guide/bang-prefix.md):
-  Bang prefixing to reverse default actions
-* [or](../user-guide/or.md):
-  
-* [set](../user-guide/set.md):
-  
+* [`!` (not)](../parser/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
+* [`and`](../commands/and.md):
+  Returns `true` or `false` depending on whether multiple conditions are met
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`or`](../commands/or.md):
+  Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

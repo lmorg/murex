@@ -118,17 +118,17 @@ that has elements triggered from different interrupts).
 
 ## See Also
 
+* [Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
+* [Terminal Hotkeys](../user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`event`](../commands/event.md):
+  Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [config](../events/config.md):
-  
-* [event](../events/event.md):
-  
-* [interactive-shell](../events/interactive-shell.md):
-  
 * [onkeypress](../events/onkeypress.md):
-  
-* [terminal-keys](../events/terminal-keys.md):
   
 
 <hr/>

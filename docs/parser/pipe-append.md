@@ -43,6 +43,8 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
+* [Pipeline](../user-guide/pipeline.md):
+  Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](../parser/namedpipe.md):
@@ -51,14 +53,12 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
   Writes STDIN to disk - appending contents if file already exists
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`|>` (truncate file)](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [ja](../parser/ja.md):
-  
-* [pipeline](../parser/pipeline.md):
-  
 
 <hr/>
 

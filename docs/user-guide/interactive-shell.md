@@ -182,20 +182,20 @@ prompt:
   How to enable inline spellchecking
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [autocomplete](../user-guide/autocomplete.md):
-  
-* [config](../user-guide/config.md):
-  
-* [curly-brace](../user-guide/curly-brace.md):
-  
-* [method](../user-guide/method.md):
-  
-* [pipe-arrow](../user-guide/pipe-arrow.md):
-  
-* [pipe-posix](../user-guide/pipe-posix.md):
-  
-* [runtime](../user-guide/runtime.md):
-  
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [`config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [`method`](../commands/method.md):
+  Define a methods supported data-types
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 
 <hr/>
 

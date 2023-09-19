@@ -48,6 +48,10 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 
 ## See Also
 
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](../commands/addheading.md):
@@ -68,10 +72,6 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
   Reverse the order of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [element](../commands/element.md):
-  
-* [item-index](../commands/item-index.md):
-  
 
 <hr/>
 

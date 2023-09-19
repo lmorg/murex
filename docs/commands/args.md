@@ -80,8 +80,8 @@ $args[Additional] -> foreach flag {
 
 ## See Also
 
-* [reserved-vars](../commands/reserved-vars.md):
-  
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
 
 <hr/>
 

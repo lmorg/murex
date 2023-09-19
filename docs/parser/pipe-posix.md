@@ -30,6 +30,8 @@ Hello, world!
 
 ## See Also
 
+* [Pipeline](../user-guide/pipeline.md):
+  Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](../parser/namedpipe.md):
@@ -38,14 +40,12 @@ Hello, world!
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [err](../parser/err.md):
-  
-* [out](../parser/out.md):
-  
-* [pipeline](../parser/pipeline.md):
-  
-* [regexp](../parser/regexp.md):
-  
+* [`err`](../commands/err.md):
+  Print a line to the STDERR
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 
 <hr/>
 

@@ -64,32 +64,32 @@ constants are available.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [Code Block Parsing](../user-guide/code-block.md):
+  Overview of how code blocks are parsed
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$variable`](../parser/string.md):
-  Expand values as a string
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`(brace quote)`](../parser/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [ansi](../parser/ansi.md):
-  
-* [code-block](../parser/code-block.md):
-  
-* [err](../parser/err.md):
-  
-* [out](../parser/out.md):
-  
-* [set](../parser/set.md):
-  
-* [tout](../parser/tout.md):
-  
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
+* [`err`](../commands/err.md):
+  Print a line to the STDERR
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
+* [`tout`](../commands/tout.md):
+  Print a string to the STDOUT and set it's data-type
 
 <hr/>
 

@@ -1,6 +1,6 @@
-# `(` (brace quote)
+# `(brace quote)`
 
-> Write a string to the STDOUT without new line
+> Write a string to the STDOUT without new line (deprecated)
 
 ## Description
 
@@ -10,9 +10,7 @@ Write parameters to STDOUT (does not include a new line)
 
 ```
 (string to write) -> <stdout>
-```
-
-## Examples
+```## Examples
 
 ```
 » (Hello, World!)
@@ -50,10 +48,8 @@ characters if you don't want them nested.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
@@ -64,6 +60,8 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
 
 <hr/>
 

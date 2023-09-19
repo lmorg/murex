@@ -39,6 +39,8 @@ It is enabled by default on from version 3.x onwards (and renamed to
 
 ## See Also
 
+* [Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`f`](../commands/f.md):
@@ -47,8 +49,6 @@ It is enabled by default on from version 3.x onwards (and renamed to
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
-* [profile](../commands/profile.md):
-  
 
 <hr/>
 

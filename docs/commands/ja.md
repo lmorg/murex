@@ -56,24 +56,24 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
+* [`%[]` Create array](../parser/create-array.md):
+  Quickly generate arrays
+* [`[..range]`](../parser/range.md):
+  Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
   Count items in a map, list or array
+* [`json`](../types/json.md):
+  JavaScript Object Notation (JSON)
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [create-array](../commands/create-array.md):
-  
-* [element](../commands/element.md):
-  
-* [item-index](../commands/item-index.md):
-  
-* [json](../commands/json.md):
-  
-* [range](../commands/range.md):
-  
 
 <hr/>
 

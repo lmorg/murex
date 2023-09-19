@@ -46,20 +46,20 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 
 ## See Also
 
+* [Pipeline](../user-guide/pipeline.md):
+  Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [format](../parser/format.md):
-  
-* [ja](../parser/ja.md):
-  
-* [pipeline](../parser/pipeline.md):
-  
 
 <hr/>
 
