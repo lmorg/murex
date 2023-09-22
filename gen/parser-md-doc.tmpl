@@ -16,7 +16,9 @@
 
 {{ if .Usage }}## Usage
 
-{{ md .Usage }}{{ end }}{{ if .Examples }}## Examples
+{{ md .Usage }}{{ end }}{{ if .Examples }}
+
+## Examples
 
 {{ md (include .Examples) }}{{ end }}{{ if .Flags }}
 

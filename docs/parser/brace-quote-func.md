@@ -10,7 +10,9 @@ Write parameters to STDOUT (does not include a new line)
 
 ```
 (string to write) -> <stdout>
-```## Examples
+```
+
+## Examples
 
 ```
 » (Hello, World!)

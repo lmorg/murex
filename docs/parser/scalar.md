@@ -13,6 +13,8 @@ character unless explicitly told to do otherwise.
 The string token must be followed with one of the following characters: 
 alpha, numeric, underscore (`_`) or a full stop / period (`.`).
 
+
+
 ## Examples
 
 **ASCII variable names:**

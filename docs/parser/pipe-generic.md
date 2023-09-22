@@ -9,6 +9,8 @@ generic` into the pipeline. The purpose of a formatted pipe is to support
 piping out to external commands which don't support Murex data types. For
 example they might expect arrays as lists rather than JSON objects).
 
+
+
 ## Examples
 
 ```
