@@ -54,12 +54,14 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
-* [Create array (`%[]`) constructor](../parser/create-array.md):
+* [`%[]` Create array](../parser/create-array.md):
   Quickly generate arrays
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
+* [`[..range]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
@@ -68,8 +70,6 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

@@ -27,9 +27,9 @@
     - generic
     - num
     - int
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/runtime
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - runtime

@@ -78,5 +78,5 @@
   - onfilesystemchange
   - onFileSystemChange
   Related:
-  - commands/event
-  - commands/config
+  - event
+  - config

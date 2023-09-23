@@ -1,4 +1,4 @@
-# STDERR Pipe (`?`) Token
+# `?` STDERR Pipe
 
 > Pipes STDERR from the left hand command to STDIN of the right hand command
 
@@ -8,6 +8,8 @@ This token swaps the STDOUT and STDERR streams of the left hand command.
 
 Please note that this token is only effective when it is prefixed by white
 space. 
+
+
 
 ## Examples
 
@@ -34,22 +36,22 @@ Hello, world!? regexp s/world/Earth/
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
+* [`=>` Generic Pipe](../parser/pipe-generic.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 
 <hr/>
 

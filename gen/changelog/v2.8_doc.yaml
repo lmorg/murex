@@ -37,11 +37,11 @@
 
     * `$MyVar[[/path/to/element]]` now behaves the same when used infixed as it did when used as a function
   Related:
-    - commands/function
-    - commands/index
-    - commands/element
-    - user-guide/reserved-vars
-    - commands/autocomplete
-    - types/jsonc
+    - function
+    - index
+    - element
+    - reserved-vars
+    - autocomplete
+    - jsonc
 
   

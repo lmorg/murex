@@ -38,7 +38,7 @@
     - prepend
     - list.prepend
   Related:
-    - index
+    - item-index
     - element
     - cast
     - append
@@ -86,7 +86,7 @@
     - append
     - list.append
   Related:
-    - index
+    - item-index
     - element
     - cast
     - prepend
@@ -94,7 +94,7 @@
     - a
     - ja
     - count
-    - index
+    - item-index
     - range
     - mtac
     - msort

@@ -42,8 +42,6 @@ This is a reserved variable so it cannot be changed.
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`ARGV` (json)](../variables/argv.md):
@@ -60,6 +58,8 @@ This is a reserved variable so it cannot be changed.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

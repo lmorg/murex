@@ -47,6 +47,10 @@ jobs:
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
           mv -v gen/vuepress docs/.vuepress
+          
+          for f in $(find docs -type f -regex '.*?/[-_A-Z]+\..*'); do
+            mv -v "$f" "$(echo $f | tr '[A-Z]' '[a-z]')"
+          done
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2

@@ -1,6 +1,6 @@
 - DocumentID: create-array
   Title: >-
-    Create array (`%[]`) constructor
+    `%[]` Create array
   CategoryID: parser
   Summary: >-
     Quickly generate arrays
@@ -163,8 +163,8 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/expr
+  - expr
   - mkarray/special
-  - commands/a
-  - commands/ja
-  - commands/ta
+  - a
+  - ja
+  - ta

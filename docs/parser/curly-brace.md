@@ -1,4 +1,4 @@
-# Curly Brace (`{`, `}`) Tokens
+# `{Curly Brace}`
 
 > Initiates or terminates a code block
 
@@ -64,30 +64,30 @@ constants are available.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 

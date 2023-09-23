@@ -1,4 +1,4 @@
-# POSIX Pipe (`|`) Token
+# `|` POSIX Pipe
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 
@@ -9,6 +9,8 @@ STDOUT along the pipeline while merging STDERR stream with the parents STDERR
 stream.
 
 It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
+
+
 
 ## Examples
 
@@ -30,16 +32,16 @@ Hello, world!
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
+* [`=>` Generic Pipe](../parser/pipe-generic.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

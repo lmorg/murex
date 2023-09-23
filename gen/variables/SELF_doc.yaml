@@ -81,12 +81,12 @@
   - self
   - SELF
   Related:
-  - types/json
-  - parser/string
-  - commands/function
-  - user-guide/scoping
-  - user-guide/pipeline
-  - user-guide/modules
-  - user-guide/reserved-vars
-  - user-guide/interactive-shell
+  - json
+  - string
+  - function
+  - scoping
+  - pipeline
+  - modules
+  - reserved-vars
+  - interactive-shell
 

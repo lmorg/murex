@@ -1,4 +1,4 @@
-# `[[` (element)
+# `[[ element ]]`
 
 > Outputs an element from a nested structure
 
@@ -118,8 +118,10 @@ bool
 
 ## See Also
 
-* [`[` (range)](../commands/range.md):
+* [`[..range]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`config`](../commands/config.md):
@@ -130,8 +132,6 @@ bool
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

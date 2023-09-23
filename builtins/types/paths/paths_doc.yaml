@@ -60,6 +60,6 @@
     Extensions:
   Related:
     - path
-    - variables/PWD
-    - variables/PWDHIST
-    - variables/MUREX_EXE
+    - PWD
+    - PWDHIST
+    - MUREX_EXE

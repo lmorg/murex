@@ -35,14 +35,14 @@
   Related:
     - tout
     - err
-    - brace-quote
+    - brace-quote-func
     - cast
     - greater-than
     - greater-than-greater-than
     - pt
     - read
     - tread
-    - user-guide/ansi
+    - ansi
 
 - DocumentID: tout
   Title: >+
@@ -73,18 +73,18 @@
   Related:
     - out
     - err
-    - brace-quote
+    - brace-quote-func
     - cast
     - pretty
     - format
-    - user-guide/ansi
+    - ansi
 
-- DocumentID: brace-quote
+- DocumentID: brace-quote-func
   Title: >+
-    `(` (brace quote)
-  CategoryID: commands
+    `(brace quote)`
+  CategoryID: parser
   Summary: >-
-    Write a string to the STDOUT without new line
+    Write a string to the STDOUT without new line (deprecated)
   Description: |-
     Write parameters to STDOUT (does not include a new line)
   Usage: |-
@@ -126,7 +126,7 @@
     - greater-than
     - greater-than-greater-than
     - pt
-    - user-guide/ansi
+    - ansi
 
 - DocumentID: err
   Title: >+
@@ -177,7 +177,7 @@
   Related:
     - tout
     - out
-    - brace-quote
+    - brace-quote-func
     - cast
     - bg
     - pipe
@@ -185,5 +185,5 @@
     - greater-than
     - greater-than-greater-than
     - pt
-    - user-guide/ansi
+    - ansi
     - namedpipe

@@ -60,17 +60,17 @@
     - json
     - jsonl
     - jsonc
-    - commands/open
-    - commands/index
-    - commands/element
-    - commands/cast
-    - commands/format
-    - commands/runtime
-    - commands/pretty
-    - commands/config
-    - commands/autocomplete
-    - parser/curly-brace
-    - parser/brace-quote
-    - parser/create-array
-    - parser/create-object
-    - user-guide/code-block
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - runtime
+    - pretty
+    - config
+    - autocomplete
+    - curly-brace
+    - brace-quote
+    - create-array
+    - create-object
+    - code-block

@@ -159,8 +159,6 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Infixed constants that return ANSI escape sequences
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Profile Files](../user-guide/profile.md):
@@ -177,6 +175,8 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Splits STDIN into a JSON array based on a regex parameter
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
 
 <hr/>
 

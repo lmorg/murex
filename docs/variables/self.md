@@ -98,14 +98,14 @@ terminal (TTY) or a pipe?)
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`function`](../commands/function.md):
   Define a function block
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

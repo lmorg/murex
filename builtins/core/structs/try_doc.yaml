@@ -45,7 +45,7 @@
     - fid-list
     - if
     - switch
-    - user-guide/schedulers
+    - schedulers
 
 - DocumentID: trypipe
   Title: >+
@@ -97,7 +97,7 @@
     - fid-list
     - if
     - switch
-    - user-guide/schedulers
+    - schedulers
 
 - DocumentID: catch
   Title: >+
@@ -145,7 +145,7 @@
     - runmode
     - if
     - switch
-    - user-guide/schedulers
+    - schedulers
 
 - DocumentID: runmode
   Title: >+
@@ -217,8 +217,8 @@
     - catch
     - read
     - out
-    - user-guide/schedulers
-    - user-guide/pipeline
+    - schedulers
+    - pipeline
     - fid-list
     - function
     - private

@@ -54,8 +54,8 @@
     - a
     - count
     - runtime
-    - apis/lang.MarshalData
-    - apis/lang.UnmarshalData
+    - lang.MarshalData
+    - lang.UnmarshalData
 
 - DocumentID: right
   Title: >+
@@ -113,8 +113,8 @@
     - a
     - count
     - runtime
-    - apis/lang.MarshalData
-    - apis/lang.UnmarshalData
+    - lang.MarshalData
+    - lang.UnmarshalData
 
 - DocumentID: prefix
   Title: >+
@@ -156,8 +156,8 @@
     - a
     - count
     - runtime
-    - apis/lang.MarshalData
-    - apis/lang.UnmarshalData
+    - lang.MarshalData
+    - lang.UnmarshalData
 
 - DocumentID: suffix
   Title: >+
@@ -199,5 +199,5 @@
     - a
     - count
     - runtime
-    - apis/lang.MarshalData
-    - apis/lang.UnmarshalData
+    - lang.MarshalData
+    - lang.UnmarshalData

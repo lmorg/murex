@@ -1,6 +1,6 @@
 - DocumentID: pipe-arrow
   Title: >-
-    Arrow Pipe (`->`) Token
+     `->` Arrow Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDOUT from the left hand command to STDIN of the right hand command
@@ -35,18 +35,18 @@
   Related:
   - pipe-posix
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
 - DocumentID: pipe-err
   Title: >-
-    STDERR Pipe (`?`) Token
+    `?` STDERR Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDERR from the left hand command to STDIN of the right hand command
@@ -80,18 +80,18 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-posix
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
 - DocumentID: pipe-generic
   Title: >-
-    Generic Pipe (`=>`) Token
+    `=>` Generic Pipe
   CategoryID: parser
   Summary: >-
     Pipes a reformatted STDOUT stream from the left hand command to STDIN of the
@@ -138,17 +138,17 @@
   Related:
   - pipe-arrow
   - pipe-posix
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/ja
-  - commands/format
+  - pipeline
+  - ja
+  - format
 
 
 
 - DocumentID: pipe-posix
   Title: >-
-    POSIX Pipe (`|`) Token
+    `|` POSIX Pipe
   CategoryID: parser
   Summary: >-
     Pipes STDOUT from the left hand command to STDIN of the right hand command
@@ -182,18 +182,18 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/out
-  - commands/err
-  - commands/regexp
+  - pipeline
+  - out
+  - err
+  - regexp
 
 
 
 - DocumentID: pipe-append
   Title: >-
-    Append Pipe (`>>`) Token
+     `>>` Append Pipe
   CategoryID: parser
   Summary: >-
     Redirects STDOUT to a file and append its contents
@@ -233,9 +233,9 @@
   Related:
   - pipe-arrow
   - pipe-posix
-  - commands/namedpipe
+  - namedpipe
   - pipe-err
-  - user-guide/pipeline
-  - commands/ja
-  - commands/greater-than-greater-than
-  - commands/greater-than
+  - pipeline
+  - ja
+  - greater-than-greater-than
+  - greater-than

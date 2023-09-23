@@ -252,16 +252,18 @@ bar
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`=` (arithmetic evaluation)](../commands/equ.md):
+* [`=` (arithmetic evaluation)](../parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`export`](../commands/export.md):
@@ -272,8 +274,6 @@ bar
   Define a global variable and set it's value
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

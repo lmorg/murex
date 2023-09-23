@@ -104,6 +104,8 @@ The following meta values are defined:
 
 ## See Also
 
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`for`](../commands/for.md):
@@ -118,8 +120,6 @@ The following meta values are defined:
   Table transformation tools
 * [`while`](../commands/while.md):
   Loop until condition false
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

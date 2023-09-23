@@ -1,7 +1,7 @@
 - DocumentID: element
   Title: >+
-    `[[` (element)
-  CategoryID: commands
+    `[[ element ]]`
+  CategoryID: parser
   Summary: >-
     Outputs an element from a nested structure
   Description: |-
@@ -114,5 +114,5 @@
     - a
     - ja
     - mtac
-    - index
+    - item-index
     - config

@@ -130,7 +130,7 @@ prompt itself and three extra lines for the hint text.
   Events triggered by changes in state of the interactive shell
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [read-named-pipe](../commands/namedpipe.md):
+* [read-named-pipe](../parser/namedpipe.md):
   Reads from a Murex named pipe
 
 <hr/>

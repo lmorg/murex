@@ -55,8 +55,6 @@ deprecated and may be removed from future releases.
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`PARAMS` (json)](../variables/params.md):
@@ -73,6 +71,8 @@ deprecated and may be removed from future releases.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

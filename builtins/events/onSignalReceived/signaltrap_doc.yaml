@@ -103,7 +103,7 @@
   Related:
   - onprompt
   - oncommandcompletion
-  - user-guide/terminal-keys
-  - user-guide/interactive-shell
-  - commands/event
-  - commands/signal
+  - terminal-keys
+  - interactive-shell
+  - event
+  - signal

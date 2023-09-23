@@ -1,4 +1,4 @@
-# Arrow Pipe (`->`) Token
+# `->` Arrow Pipe
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 
@@ -14,6 +14,8 @@ that are known to support the output type of the previous command. `->` helps
 with the discovery of commandline tools.
 
 In shell scripts, `->` and `|` can be used interchangeably.
+
+
 
 ## Examples
 
@@ -35,22 +37,22 @@ Hello, world!
 
 ## See Also
 
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
+* [`=>` Generic Pipe](../parser/pipe-generic.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 
 <hr/>
 

@@ -57,9 +57,9 @@
     - str
     - int
     - jsonl
-    - optional/select
-    - commands/config
-    - commands/element
-    - commands/index
-    - commands/format
-    - commands/cast
+    - select
+    - config
+    - element
+    - index
+    - format
+    - cast

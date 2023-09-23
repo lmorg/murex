@@ -1,4 +1,4 @@
-# Append Pipe (`>>`) Token
+# `>>` Append Pipe
 
 > Redirects STDOUT to a file and append its contents
 
@@ -10,6 +10,8 @@ that file does not exist, then the file is created.
 This behaves similarly to the [Bash (et al) token](https://www.gnu.org/software/bash/manual/bash.html#Appending-Redirected-Output)
 except it doesn't support adding alternative file descriptor numbers. Instead
 you will need to use named pipes to achieve the same effect in Murex.
+
+
 
 ## Examples
 
@@ -43,22 +45,22 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`->` Arrow Pipe](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`?` STDERR Pipe](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 
 <hr/>
 

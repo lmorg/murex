@@ -140,35 +140,35 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
-* [And (`&&`) Logical Operator](../parser/logical-and.md):
-  Continues next operation if previous operation passes
-* [Append Pipe (`>>`) Token](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [Or (`||`) Logical Operator](../parser/logical-or.md):
-  Continues next operation only if previous operation fails
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`&&` And Logical Operator](../parser/logical-and.md):
+  Continues next operation if previous operation passes
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
+* [`>>` Append Pipe](../parser/pipe-append.md):
+  Redirects STDOUT to a file and append its contents
+* [`[..range]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 * [`try`](../commands/try.md):
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [index](../commands/item-index.md):
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
+* [`||` Or Logical Operator](../parser/logical-or.md):
+  Continues next operation only if previous operation fails
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 <hr/>

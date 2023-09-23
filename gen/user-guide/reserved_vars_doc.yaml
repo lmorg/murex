@@ -28,20 +28,19 @@
   - reserved-vars
   - reserved
   - reserved-variables
-  - special
   - special-vars
   - special-variables
   Related:
-  - variables/self
-  - variables/argv
-  - variables/shell
-  - variables/murex_argv
-  - variables/hostname
-  - variables/numeric
-  - variables/columns
-  - commands/set
-  - commands/global
-  - commands/export
+  - self
+  - argv
+  - shell
+  - murex_argv
+  - hostname
+  - numeric
+  - columns
+  - set
+  - global
+  - export
   - scoping
   - pipeline
   - modules

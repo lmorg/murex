@@ -61,8 +61,9 @@
     it persistent.
   Synonyms:
   Related:
-  - commands/brace-quote
-  - commands/out
-  - commands/tout
-  - commands/err
-  - user-guide/profile
+  - brace-quote-func
+  - brace-quote
+  - out
+  - tout
+  - err
+  - profile

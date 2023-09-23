@@ -1,10 +1,10 @@
-# String (`$`) Token
+# `$variable`
 
-> Expand values as a string
+> Expand values as a scalar
 
 ## Description
 
-The string token is used to tell Murex to expand variables and subshells as a
+The scalar token is used to tell Murex to expand variables and subshells as a
 string (ie one single parameter) irrespective of the data that is stored in the
 string. One handy common use case is file names where traditional POSIX shells
 would treat spaces as a new file, whereas Murex treats spaces as a printable
@@ -12,6 +12,8 @@ character unless explicitly told to do otherwise.
 
 The string token must be followed with one of the following characters: 
 alpha, numeric, underscore (`_`) or a full stop / period (`.`).
+
+
 
 ## Examples
 
@@ -121,20 +123,20 @@ do not.
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`let`](../commands/let.md):

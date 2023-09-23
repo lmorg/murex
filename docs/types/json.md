@@ -211,7 +211,7 @@ jsonl
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -233,7 +233,7 @@ jsonl
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

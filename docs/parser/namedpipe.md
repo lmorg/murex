@@ -1,4 +1,4 @@
-# `<>` / `read-named-pipe`
+# `<read-named-pipe>`
 
 > Reads from a Murex named pipe
 

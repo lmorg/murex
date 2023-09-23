@@ -24,16 +24,16 @@ curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
 
 ## See Also
 
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+* [`|>` (truncate file)](../parser/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists
 
 <hr/>
 

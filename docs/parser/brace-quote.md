@@ -1,4 +1,4 @@
-# Brace Quote (`%(`, `)`) Tokens
+# %(Brace Quote)`
 
 > Initiates or terminates a string (variables expanded)
 
@@ -15,6 +15,8 @@ the nested quotation marks just the right number of times.
 
 Commands cannot be quoted using brace quotes because `%(` is recognized as its
 own function.
+
+
 
 ## Examples
 
@@ -90,22 +92,22 @@ Hello (World!)
   Expand values as an array
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
 
 <hr/>
 

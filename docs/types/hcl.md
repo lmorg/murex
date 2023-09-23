@@ -85,7 +85,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -103,7 +103,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Returns runtime information on the internal state of Murex
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

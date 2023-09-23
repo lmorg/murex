@@ -39,8 +39,6 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`PWD` (str)](../variables/pwd.md):
@@ -53,6 +51,8 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Structured object for working with file and directory paths
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

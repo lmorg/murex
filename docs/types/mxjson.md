@@ -50,17 +50,15 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
+* [%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Create array (`%[]`) constructor](../parser/create-array.md):
+* [`%[]` Create array](../parser/create-array.md):
   Quickly generate arrays
-* [Create object (`%{}`) constructor](../parser/create-object.md):
+* [`%{}` Create object](../parser/create-object.md):
   Quickly generate objects and maps
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
@@ -88,7 +86,9 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [index](../commands/item-index.md):
+* [`{Curly Brace}`](../parser/curly-brace.md):
+  Initiates or terminates a code block
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 ### Read more about type hooks

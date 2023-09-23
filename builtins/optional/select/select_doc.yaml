@@ -125,8 +125,8 @@
   Synonyms:
     - select
   Related:
-    - changelog/v2.1
-    - types/csv
-    - types/jsonl
-    - types/generic
-    - commands/config
+    - v2.1
+    - csv
+    - jsonl
+    - generic
+    - config

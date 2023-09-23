@@ -41,7 +41,7 @@ external source packages for the shell to compile.
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -55,7 +55,7 @@ external source packages for the shell to compile.
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 ### Read more about type hooks

@@ -30,11 +30,11 @@
     * Plus this new blog!
   Synonyms:
   Related:
-  - user-guide/spellcheck
-  - commands/config
-  - commands/open
-  - commands/open-image
-  - user-guide/modules
-  - commands/murex-package
-  - user-guide/interactive-shell
+  - spellcheck
+  - config
+  - open
+  - open-image
+  - modules
+  - murex-package
+  - interactive-shell
 

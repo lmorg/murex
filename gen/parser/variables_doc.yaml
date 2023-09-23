@@ -1,11 +1,11 @@
-- DocumentID: string
+- DocumentID: scalar
   Title: >-
-    String (`$`) Token
+    `$variable`
   CategoryID: parser
   Summary: >-
-    Expand values as a string
+    Expand values as a scalar
   Description: |-
-    The string token is used to tell Murex to expand variables and subshells as a
+    The scalar token is used to tell Murex to expand variables and subshells as a
     string (ie one single parameter) irrespective of the data that is stored in the
     string. One handy common use case is file names where traditional POSIX shells
     would treat spaces as a new file, whereas Murex treats spaces as a printable
@@ -48,12 +48,12 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/let
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - let
+  - ja
+  - brace-quote-func
+  - reserved-vars
 
 
 
@@ -91,11 +91,11 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - ja
+  - brace-quote-func
+  - reserved-vars
 
 
 - DocumentID: tilde
@@ -137,8 +137,8 @@
   - single-quote
   - double-quote
   - brace-quote
-  - commands/out
-  - commands/set
-  - commands/ja
-  - commands/brace-quote
-  - user-guide/reserved-vars
+  - out
+  - set
+  - ja
+  - brace-quote-func
+  - reserved-vars

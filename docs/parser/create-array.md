@@ -1,4 +1,4 @@
-# Create array (`%[]`) constructor
+# `%[]` Create array
 
 > Quickly generate arrays
 
@@ -15,6 +15,8 @@ Additionally you can also embed `a` style parameters inside `%[]` arrays too.
 
 Like with YAML, strings in `%[]` do not need to be quoted unless you need to
 force numeric or boolean looking values to be stored as strings.
+
+
 
 ## Examples
 
@@ -173,16 +175,16 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
+* [%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Create object (`%{}`) constructor](../parser/create-object.md):
-  Quickly generate objects and maps
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%{}` Create object](../parser/create-object.md):
+  Quickly generate objects and maps
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`expr`](../commands/expr.md):

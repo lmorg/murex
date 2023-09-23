@@ -141,7 +141,7 @@
     "-s"     : Alias for `--sum`
   Synonyms:
   Related:
-  - index
+  - item-index
   - element
   - format
   - append

@@ -25,7 +25,7 @@ bang prefix and what the behavior of that prefix is.
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`!` (not)](../commands/not.md):
+* [`!` (not)](../parser/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met

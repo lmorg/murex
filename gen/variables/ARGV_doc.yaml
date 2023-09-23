@@ -39,15 +39,15 @@
   - ARGS
   Related:
   - params
-  - types/json
-  - parser/string
-  - parser/array
-  - commands/set
-  - commands/function
-  - commands/private
-  - commands/autocomplete
-  - commands/out
-  - user-guide/scoping
-  - user-guide/pipeline
-  - user-guide/modules
-  - user-guide/reserved-vars
+  - json
+  - string
+  - array
+  - set
+  - function
+  - private
+  - autocomplete
+  - out
+  - scoping
+  - pipeline
+  - modules
+  - reserved-vars

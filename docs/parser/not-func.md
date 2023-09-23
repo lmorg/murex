@@ -27,6 +27,7 @@ true
 ## Synonyms
 
 * `!`
+* `not`
 
 
 ## See Also

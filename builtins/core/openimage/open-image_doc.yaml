@@ -30,5 +30,5 @@
     `open-image` will fail if STDOUT is not a TTY.
   Synonyms:
   Related:
-    - optional/qr
+    - qr
     - open

@@ -338,9 +338,9 @@
   - lang.IndexTemplateObject
   - lang.IndexTemplateTable
   - ReadNotIndex
-  - commands/index
-  - commands/element
-  - user-guide/bang-prefix
+  - index
+  - element
+  - bang-prefix
 
 
 
@@ -386,9 +386,9 @@
   - lang.IndexTemplateObject
   - lang.IndexTemplateTable
   - ReadIndex
-  - commands/index
-  - commands/element
-  - user-guide/bang-prefix
+  - index
+  - element
+  - bang-prefix
 
 
 - DocumentID: lang.IndexTemplateObject
@@ -431,7 +431,7 @@
   - ReadIndex
   - ReadNotIndex
   - lang.IndexTemplateTable
-  - commands/index
+  - index
 
 
 - DocumentID: lang.IndexTemplateTable
@@ -474,6 +474,6 @@
   - ReadIndex
   - ReadNotIndex
   - lang.IndexTemplateObject
-  - commands/index
+  - index
 
 

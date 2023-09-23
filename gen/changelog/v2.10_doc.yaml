@@ -48,19 +48,19 @@
     * Better removal of \\x16 and other non-printable characters leaking into readline
 
   Related:
-    - commands/autocomplete
-    - commands/range
-    - commands/runmode
-    - user-guide/schedulers
-    - commands/try
-    - commands/trypipe
-    - parser/logical-and
-    - parser/logical-or
-    - user-guide/modules
-    - user-guide/profile
-    - user-guide/fileref
-    - user-guide/spellcheck
-    - commands/f
-    - commands/g
-    - commands/rx
+    - autocomplete
+    - range
+    - runmode
+    - schedulers
+    - try
+    - trypipe
+    - logical-and
+    - logical-or
+    - modules
+    - profile
+    - fileref
+    - spellcheck
+    - f
+    - g
+    - rx
 

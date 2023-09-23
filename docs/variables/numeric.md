@@ -33,8 +33,6 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 ## See Also
 
-* [String (`$`) Token](../parser/string.md):
-  Expand values as a string
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`PARAMS` (json)](../variables/params.md):
@@ -49,6 +47,8 @@ then variables `$1` through to `$19` (inclusive) will all be set.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`string` (stringing)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

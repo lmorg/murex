@@ -65,6 +65,6 @@
     - murex-update-exe-list
     - builtins
     - bexists
-    - types/csv
-    - types/jsonl
-    - types/generic
+    - csv
+    - jsonl
+    - generic

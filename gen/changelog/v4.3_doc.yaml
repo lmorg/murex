@@ -26,8 +26,8 @@
 
     * Fix `ctrl`+`a` offset by 1 error ([#628](https://github.com/lmorg/murex/pull/628))
   Related:
-    - commands/event
-    - commands/config
-    - commands/autocomplete
-    - events/onprompt
+    - event
+    - config
+    - autocomplete
+    - onprompt
 

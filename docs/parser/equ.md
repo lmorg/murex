@@ -188,14 +188,16 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
 
 ## See Also
 
+* [%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
@@ -210,8 +212,6 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

@@ -47,7 +47,7 @@
   Related:
   - bz2
   - gz
-  - commands/escape
-  - commands/eschtml
-  - commands/escurl
-  - commands/esccli
+  - escape
+  - eschtml
+  - escurl
+  - esccli

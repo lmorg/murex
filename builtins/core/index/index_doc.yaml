@@ -1,7 +1,7 @@
 - DocumentID: item-index
   Title: >+
-    `[` (index)
-  CategoryID: commands
+    `[index]`
+  CategoryID: parser
   Summary: >-
     Outputs an element from an array, map or table
   Description: |-
@@ -119,6 +119,7 @@
   Synonyms:
     - "["
     - "!["
+    - item-index
     - index
   Related:
     - range

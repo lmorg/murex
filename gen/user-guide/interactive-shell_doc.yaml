@@ -14,13 +14,13 @@
   - spellcheck
   - ansi
   - code-block
-  - commands/config
-  - commands/autocomplete
-  - commands/method
-  - commands/runtime
-  - parser/pipe-arrow
-  - parser/pipe-posix
-  - parser/curly-brace
+  - config
+  - autocomplete
+  - method
+  - runtime
+  - pipe-arrow
+  - pipe-posix
+  - curly-brace
   - terminal-keys
 
 

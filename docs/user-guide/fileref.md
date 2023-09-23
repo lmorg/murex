@@ -56,7 +56,7 @@ empty Filename string.
 
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`murex-package`](../commands/murex-package.md):
   Murex's package manager

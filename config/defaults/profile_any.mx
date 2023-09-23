@@ -478,7 +478,7 @@ autocomplete set fexec { [{
 
 private autocomplete.builtins {
     # Returns a map of all murex builtins
-    runtime --builtins -> foreach --jmap builtin { $builtin } { murex-docs --summary $builtin }
+    runtime --builtins -> foreach --jmap builtin { $builtin } { fexec <!null> builtin murex-docs --summary $builtin || fexec builtin murex-docs --summary parser/$builtin }
 }
 
 test unit private autocomplete.builtins {

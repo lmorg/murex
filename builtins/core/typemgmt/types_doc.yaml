@@ -200,7 +200,7 @@
   - and
   - or
   - if
-  - "not"
+  - not-func
 
 
 - DocumentID: "false"
@@ -237,13 +237,13 @@
   - and
   - or
   - if
-  - "not"
+  - not-func
 
 
-- DocumentID: "not"
+- DocumentID: not-func
   Title: >+
     `!` (not)
-  CategoryID: commands
+  CategoryID: parser
   Summary: >-
     Reads the STDIN and exit number from previous process and not's it's condition
   Description: |-
@@ -266,6 +266,7 @@
   Detail: |-
   Synonyms:
   - "!"
+  - "not"
   Related:
   - "true"
   - and

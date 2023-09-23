@@ -35,7 +35,7 @@ the following:
 
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -43,7 +43,7 @@ the following:
   Reformat one data-type into another data-type
 * [`str` (string)](../types/str.md):
   string (primitive)
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 ### Read more about type hooks

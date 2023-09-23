@@ -87,7 +87,7 @@ Users can bring a background job to the foreground, making it the active task an
 » bg { sleep 10000; out "Task 1" }
 » bg { sleep 10000; out "Task 2" }
 » bg { sleep 10000; out "Task 3" }
->> jobs
+» jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000

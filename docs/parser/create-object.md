@@ -1,4 +1,4 @@
-# Create object (`%{}`) constructor
+# `%{}` Create object
 
 > Quickly generate objects and maps
 
@@ -14,6 +14,8 @@ separate keys from values.
 
 Like with YAML, strings in `%[]` do not need to be quoted unless you need to
 force numeric or boolean looking values to be stored as strings.
+
+
 
 ## Examples
 
@@ -40,16 +42,16 @@ force numeric or boolean looking values to be stored as strings.
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
+* [%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Create array (`%[]`) constructor](../parser/create-array.md):
-  Quickly generate arrays
-* [Double Quote (`"`) Token](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [Single Quote (`'`) Token](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
+* [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%[]` Create array](../parser/create-array.md):
+  Quickly generate arrays
+* [`'Single Quote'`](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 

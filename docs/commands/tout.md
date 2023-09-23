@@ -33,8 +33,8 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
+* [`(brace quote)`](../parser/brace-quote-func.md):
+  Write a string to the STDOUT without new line (deprecated)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):

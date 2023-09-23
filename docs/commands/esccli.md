@@ -43,6 +43,8 @@ out foo\$b\@r
 
 ## See Also
 
+* [`[index]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`escape`](../commands/escape.md):
@@ -53,8 +55,6 @@ out foo\$b\@r
   Encode or decodes text for the URL
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [index](../commands/item-index.md):
-  Outputs an element from an array, map or table
 
 <hr/>
 

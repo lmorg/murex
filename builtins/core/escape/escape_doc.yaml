@@ -200,7 +200,7 @@
   Related:
     - alias
     - out
-    - index
+    - item-index
     - escape
     - eschtml
     - escurl

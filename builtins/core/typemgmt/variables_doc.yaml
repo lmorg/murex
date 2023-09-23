@@ -61,10 +61,10 @@
   - export
   - exec
   - brace-quote
-  - index
+  - item-index
   - element
-  - user-guide/scoping
-  - user-guide/reserved-vars
+  - scoping
+  - reserved-vars
 
 
 - DocumentID: global
@@ -130,10 +130,10 @@
   - expr
   - export
   - brace-quote
-  - index
+  - item-index
   - element
-  - user-guide/scoping
-  - user-guide/reserved-vars
+  - scoping
+  - reserved-vars
 
 
 - DocumentID: export
@@ -215,5 +215,5 @@
   - expr
   - global
   - brace-quote
-  - user-guide/scoping
-  - user-guide/reserved-vars
+  - scoping
+  - reserved-vars

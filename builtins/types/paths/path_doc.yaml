@@ -75,6 +75,6 @@
     Extensions:
   Related:
     - paths
-    - variables/PWD
-    - variables/PWDHIST
-    - variables/MUREX_EXE
+    - PWD
+    - PWDHIST
+    - MUREX_EXE

@@ -35,11 +35,11 @@
     with `try`, this check happens on every command rather than the last command in
     the pipeline. 
   Related:
-  - commands/try
-  - commands/trypipe
-  - commands/runmode
+  - try
+  - trypipe
+  - runmode
   - pipeline
-  - parser/pipe-arrow
-  - parser/pipe-posix
-  - parser/pipe-generic
-  - parser/pipe-err
+  - pipe-arrow
+  - pipe-posix
+  - pipe-generic
+  - pipe-err

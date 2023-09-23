@@ -322,7 +322,7 @@ jsonl
 
 * [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

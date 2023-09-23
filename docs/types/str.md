@@ -30,7 +30,7 @@ This type is modelled closely on generic but is more tailored for textual
 
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[` (element)](../commands/element.md):
+* [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -44,7 +44,7 @@ This type is modelled closely on generic but is more tailored for textual
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 ### Read more about type hooks

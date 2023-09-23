@@ -71,9 +71,9 @@
     document but you can read more on them in links the links below.
   Related:
   - schedulers
-  - parser/pipe-arrow
-  - parser/pipe-posix
-  - parser/pipe-generic
-  - parser/pipe-err
+  - pipe-arrow
+  - pipe-posix
+  - pipe-generic
+  - pipe-err
   - bang-prefix
-  - commands/bg
+  - bg

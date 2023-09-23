@@ -195,10 +195,10 @@ Friday, 03 January
 
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
-* [`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [`[` (range)](../commands/range.md):
+* [`[..range]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[ element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`count`](../commands/count.md):
@@ -211,7 +211,7 @@ Friday, 03 January
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [index](../commands/item-index.md):
+* [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 
 <hr/>
