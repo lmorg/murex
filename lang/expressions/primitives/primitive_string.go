@@ -16,24 +16,25 @@ func _() {
 	_ = x[Null-17]
 	_ = x[Bareword-0]
 	_ = x[Other - -1]
+	_ = x[Function - -2]
 }
 
 const (
-	_Primitive_name_0 = "otherbareword"
+	_Primitive_name_0 = "functions and subshellsotherbareword"
 	_Primitive_name_1 = "objectarraystring"
 	_Primitive_name_2 = "numberbooleannull"
 )
 
 var (
-	_Primitive_index_0 = [...]uint8{0, 5, 13}
+	_Primitive_index_0 = [...]uint8{0, 23, 28, 36}
 	_Primitive_index_1 = [...]uint8{0, 6, 11, 17}
 	_Primitive_index_2 = [...]uint8{0, 6, 13, 17}
 )
 
 func (i Primitive) String() string {
 	switch {
-	case -1 <= i && i <= 0:
-		i -= -1
+	case -2 <= i && i <= 0:
+		i -= -2
 		return _Primitive_name_0[_Primitive_index_0[i]:_Primitive_index_0[i+1]]
 	case 10 <= i && i <= 12:
 		i -= 10
