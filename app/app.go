@@ -14,8 +14,8 @@ const Name = "murex"
 const (
 	version  = "%d.%d.%d"
 	Major    = 5
-	Minor    = 0
-	Revision = 9310
+	Minor    = 1
+	Revision = 0
 )
 
 // Copyright is the copyright owner string
