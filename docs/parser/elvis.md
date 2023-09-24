@@ -35,6 +35,17 @@ If `$bar` is unset then the value of `$foo` will be **"baz"**.
 foobar
 ```
 
+## Detail
+
+### Whats in a name?
+
+[Wikipedia](https://en.wikipedia.org/wiki/Elvis_operator) explains this best
+where it says:
+
+> The name "Elvis operator" refers to the fact that when its common notation,
+> ?:, is viewed sideways, it resembles an emoticon of Elvis Presley with his
+> signature hairstyle.
+
 ## See Also
 
 * [Pipeline](../user-guide/pipeline.md):

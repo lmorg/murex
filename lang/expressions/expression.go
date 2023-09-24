@@ -98,6 +98,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			// 13. Conditional expression (ternary)
 		case symbols.Elvis:
 			err = expElvis(tree)
+		case symbols.NullCoalescing:
+			err = expNullCoalescing(tree)
 
 		// 12. Logical OR
 		case symbols.LogicalOr:

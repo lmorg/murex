@@ -531,7 +531,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += "?"
 				syntaxHighlighted += string(block[i])
-			case next(':'):
+			case next(':'), next('?'):
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
@@ -542,7 +542,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.pop = &pt.FuncName
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
-				ansiChar(hlPipe, '?', ':')
+				ansiChar(hlPipe, block[i:i+2]...)
 				ansiStartFunction()
 				i++
 			case i > 0 && block[i-1] == ' ':

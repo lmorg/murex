@@ -54,6 +54,7 @@ const (
 	AssignAndMerge
 
 	// 13. Conditional expression (ternary)
+	NullCoalescing
 	Elvis
 
 	// 12. Logical OR

@@ -34,6 +34,10 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 
 		case '?':
 			switch tree.nextChar() {
+			case '?':
+				// elvis
+				tree.appendAst(symbols.NullCoalescing)
+				tree.charPos++
 			case ':':
 				// elvis
 				tree.appendAst(symbols.Elvis)
