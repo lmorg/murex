@@ -55,6 +55,8 @@ files.
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
+* [`?:` Elvis Operator](../parser/elvis.md):
+  Returns the right operand if the left operand is empty
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`[..range]`](../parser/range.md):

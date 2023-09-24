@@ -1,0 +1,45 @@
+- DocumentID: elvis
+  Title: >-
+    `?:` Elvis Operator
+  CategoryID: parser
+  Summary: >-
+    Returns the right operand if the left operand is empty
+  Description: |-
+    The elvis operator is a little like a conditional where the result of the
+    operation is the first non-empty value from left to right.
+
+    An empty value is any of the following:
+    
+    * An unset / undefined variable
+    * Any value with a `null` data type
+
+    Other "falsy" values such as numerical values of `0`, boolean `false`, zero
+    length strings and strings containing `"null"` are not considered empty by the
+    elvis operator.
+  Examples: |-
+    **Assign a variable with a default value:**
+
+    ```
+    » $foo = $bar ?: "baz"
+    ```
+
+    If `$bar` is unset then the value of `$foo` will be **"baz"**.
+
+    **Multiple elvis operators:**
+
+    ```
+    » $unset_variable ?: null ?: "foobar"
+    foobar
+    ```
+  Detail:
+  Related:
+  - pipe-err
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe
+  - logical-and
+  - logical-or
+  - "null"

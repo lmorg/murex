@@ -15,7 +15,7 @@ apply stricter error handling.
 
 ## Examples
 
-Second command runs because the first command doesn't error:
+**Second command runs because the first command doesn't error:**
 
 ```
 » out one && out two
@@ -23,7 +23,7 @@ one
 two
 ```
 
-Second command does not run because the first command produces an error:
+**Second command does not run because the first command produces an error:**
 
 ```
 » err one && out two
@@ -32,7 +32,7 @@ one
 
 ## Detail
 
-This is equivelent to a `try` block:
+This is equivalent to a `try` block:
 
 ```
 try {
@@ -47,6 +47,8 @@ try {
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [`?:` Elvis Operator](../parser/elvis.md):
+  Returns the right operand if the left operand is empty
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`err`](../commands/err.md):
@@ -57,6 +59,8 @@ try {
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [`||` Or Logical Operator](../parser/logical-or.md):
+  Continues next operation only if previous operation fails
 
 <hr/>
 

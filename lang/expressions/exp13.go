@@ -21,12 +21,12 @@ func expElvis(tree *ParserT) error {
 	case left.DataType == types.Null:
 		return expElvisRightValue(tree, rightNode)
 
-	case left.DataType == types.String:
-		s, ok := left.Value.(string)
-		if ok && s == "" {
-			return expElvisRightValue(tree, rightNode)
-		}
-		fallthrough
+	/*case left.DataType == types.String:
+	s, ok := left.Value.(string)
+	if ok && s == "" {
+		return expElvisRightValue(tree, rightNode)
+	}
+	fallthrough*/
 
 	default:
 		// valid left operand
