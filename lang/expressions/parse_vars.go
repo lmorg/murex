@@ -4,9 +4,30 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/home"
 )
+
+func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, primitives.FunctionT, error) {
+	runes, v, mxDt, err := tree.parseVarScalar(exec, execScalars, varAsValue)
+
+	if exec {
+		fn := func() (*primitives.Value, error) {
+			switch v.(type) {
+			case *getVarIndexOrElementT:
+				val, mxDt, err := tree.getVarIndexOrElement(v.(*getVarIndexOrElementT))
+				return &primitives.Value{Value: val, DataType: mxDt}, err
+			default:
+				val, mxDt, err := tree.getVar(scalarNameDetokenised(runes), varAsValue)
+				return &primitives.Value{Value: val, DataType: mxDt}, err
+			}
+		}
+		return runes, v, mxDt, fn, err
+	}
+
+	return runes, v, mxDt, nil, err
+}
 
 func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '(' {
@@ -23,7 +44,7 @@ func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatti
 	value := tree.parseBareword()
 
 	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
-		return tree.parseVarIndexElement(exec, value, strOrVal)
+		return tree.parseVarIndexElement(execScalars, value, strOrVal)
 	}
 
 	tree.charPos--
@@ -78,6 +99,7 @@ func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal va
 	var (
 		brackets = 1
 		escape   bool
+		getIorE  = new(getVarIndexOrElementT)
 	)
 
 	start := tree.charPos
@@ -89,7 +111,7 @@ func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal va
 
 	tree.charPos++
 
-	isIorE := brackets
+	getIorE.isIorE = brackets
 
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
@@ -113,20 +135,22 @@ func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal va
 		}
 	}
 
-	return nil, "", "", raiseError(
+	return nil, nil, "", raiseError(
 		tree.expression, nil, tree.charPos, "missing closing bracket ']'")
 
 endIndexElement:
 	value := tree.expression[start-len(varName)-1 : tree.charPos+1]
-	key := tree.expression[start+isIorE : tree.charPos-isIorE+1]
+	getIorE.varName = varName
+	getIorE.key = tree.expression[start+getIorE.isIorE : tree.charPos-getIorE.isIorE+1]
+	getIorE.strOrVal = strOrVal
 
 	if !exec {
-		return value, "", "", nil
+		return value, getIorE, "", nil
 	}
 
-	v, dt, err := tree.getVarIndexOrElement(varName, key, isIorE, strOrVal)
+	v, dt, err := tree.getVarIndexOrElement(getIorE)
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, "", err
 	}
 	return nil, v, dt, nil
 }

@@ -39,6 +39,10 @@ func NewPrimitive(primitive Primitive, value any) *DataType {
 }
 
 func NewFunction(fn FunctionT) *DataType {
+	/*if fn == nil {
+		panic("undefined function")
+	}*/
+
 	return &DataType{
 		v:  &Value{Primitive: Function},
 		fn: fn,

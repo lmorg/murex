@@ -31,6 +31,10 @@ func errVarCannotUpdateNested(name string, err error) error {
 	return fmt.Errorf("cannot update element inside %s: %s", name, err.Error())
 }
 
+func errVarCannotUpdateIndexOrElement(name string) error {
+	return fmt.Errorf("cannot update `[ indexes ]` nor `[[ elements ]]`, these are immutable objects.\nPlease reference values using dot notation instead, eg $variable_name.path.to.element\nVariable  : %s", name)
+}
+
 func errVarNoParam(i int, err error) error {
 	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
@@ -526,6 +530,10 @@ func getEnvVarDataType(name string) string {
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
+	if strings.Contains(path, "[") {
+		return errVarCannotUpdateIndexOrElement(path)
+	}
+
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
