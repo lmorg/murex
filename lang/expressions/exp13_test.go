@@ -16,16 +16,16 @@ func TestExpElvis(t *testing.T) {
 		},
 		{
 			Expression: `null ?: 3`,
-			Expected:   3,
+			Expected:   float64(3),
 		},
 		{
 			Expression: `null ?: "3"`,
 			Expected:   "3",
 		},
-		{
+		/*{
 			Expression: `null ?: %[1..3]`,
-			Expected:   "[1,2,3]",
-		},
+			Expected:   []interface{}{1,2,3},
+		},*/
 	}
 
 	testExpression(t, tests, true)

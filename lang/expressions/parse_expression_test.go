@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
@@ -143,7 +144,7 @@ func testParserObject(t *testing.T, tests expTestsT) {
 
 type expressionTestT struct {
 	Expression string
-	Expected   interface{}
+	Expected   any
 	Error      bool
 }
 
@@ -171,34 +172,40 @@ func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 		err := tree.parseExpression(true, true)
 		if err != nil {
 			t.Errorf("Parser error in test %d: %s", i, err.Error())
+			continue
 		}
 		dt, err := tree.executeExpr()
+		var val *primitives.Value
 
 		switch {
+		default:
+			// success
+			continue
+
 		case (err != nil) != test.Error:
-			t.Error("err != nil:")
+			t.Error("tree.executeExpr() err != nil:")
 
 		case len(tree.ast) == 0:
 			t.Error("Empty AST tree produced:")
 
 		case dt != nil:
-			val, err := dt.GetValue()
-			if (err != nil) != test.Error {
-				t.Error("err != nil:")
-			}
-			if val.Value != test.Expected {
+			val, err = dt.GetValue()
+			switch {
+			default:
+				// success
+				continue
+			case (err != nil) != test.Error:
+				t.Error("dt.GetValue() err != nil:")
+			case val.Value != test.Expected:
 				t.Error("Result doesn't match expected:")
 			}
-
-		default:
-			// success
-			continue
 		}
 
 		t.Logf("  Test:       %d", i)
 		t.Logf("  Expression: '%s'", test.Expression)
 		t.Logf("  Expected:   %s (%T)", json.LazyLogging(test.Expected), test.Expected)
-		t.Logf("  Actual:     %v", json.LazyLogging(dt))
+		t.Logf("  Actual:     %s (%T)", json.LazyLogging(val.Value), val.Value)
+		t.Logf("  Struct:     %v", json.LazyLogging(val))
 		t.Logf("  exp error:  %v", test.Error)
 		t.Logf("  Error:      %v", err)
 		t.Logf("  Dump():     %s", json.LazyLoggingPretty(tree.Dump()))
