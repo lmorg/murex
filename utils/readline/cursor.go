@@ -103,28 +103,17 @@ func moveCursorBackwardsStr(i int) string {
 	return fmt.Sprintf(cursorBackf, i)
 }
 
-/*func moveCursorUp(i int)        { printf(moveCursorUpStr(i)) }
-func moveCursorDown(i int)      { printf(moveCursorDownStr(i)) }
-func moveCursorForwards(i int)  { printf(moveCursorForwardsStr(i)) }
-func moveCursorBackwards(i int) { printf(moveCursorBackwardsStr(i)) }*/
-
 func (rl *Instance) moveCursorToStartStr() string {
 	posX, posY := rl.lineWrapCellPos()
 	return moveCursorBackwardsStr(posX-rl.promptLen) + moveCursorUpStr(posY)
 }
 
-/*func (rl *Instance) moveCursorFromStartToLinePos() {
+func (rl *Instance) moveCursorFromStartToLinePosStr() string {
 	posX, posY := rl.lineWrapCellPos()
-	moveCursorForwards(posX)
-	moveCursorDown(posY)
+	output := moveCursorForwardsStr(posX)
+	output += moveCursorDownStr(posY)
+	return output
 }
-
-func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := rl.lineWrapCellLen()
-	posX, posY := rl.lineWrapCellPos()
-	moveCursorBackwards(lineX - posX)
-	moveCursorUp(lineY - posY)
-}*/
 
 func (rl *Instance) moveCursorFromEndToLinePosStr() string {
 	lineX, lineY := rl.lineWrapCellLen()

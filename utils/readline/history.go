@@ -148,7 +148,7 @@ func (rl *Instance) _walkHistory(i int, oldLine string) {
 		rl.line.SetCellPos(rl.termWidth - rl.promptLen - 1)
 	}
 	print(rl.echoStr())
-	print(rl._updateHelpers())
+	print(rl.updateHelpersStr())
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {

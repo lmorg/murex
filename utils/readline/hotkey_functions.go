@@ -7,7 +7,7 @@ func HkFnMoveToStartOfLine(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 	rl.line.SetCellPos(0)
 	output += rl.echoStr()
 	output += moveCursorForwardsStr(1)
@@ -19,7 +19,7 @@ func HkFnMoveToEndOfLine(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 	rl.line.SetRunePos(rl.line.RuneLen())
 	output += rl.echoStr()
 	output += moveCursorForwardsStr(1)
@@ -30,7 +30,7 @@ func HkFnClearAfterCursor(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 	rl.line.Set(rl, rl.line.Runes()[:rl.line.RunePos()])
 	output += rl.echoStr()
 	output += moveCursorForwardsStr(1)
@@ -44,7 +44,7 @@ func HkFnClearScreen(rl *Instance) {
 	}
 	output := seqSetCursorPosTopLeft + seqClearScreen
 	output += rl.echoStr()
-	output += rl._renderHelpers()
+	output += rl.renderHelpersStr()
 	print(output)
 }
 
@@ -87,7 +87,7 @@ func HkFnAutocomplete(rl *Instance) {
 		rl.getTabCompletion()
 	}
 
-	print(rl._renderHelpers())
+	print(rl.renderHelpersStr())
 }
 
 func HkFnJumpForwards(rl *Instance) {
@@ -109,18 +109,18 @@ func HkFnCancelAction(rl *Instance) {
 	case rl.modeAutoFind:
 		output = rl.clearPreviewStr()
 		output += rl.resetTabFindStr()
-		output += rl._clearHelpers()
+		output += rl.clearHelpersStr()
 		rl.resetTabCompletion()
-		output += rl._renderHelpers()
+		output += rl.renderHelpersStr()
 
 	case rl.modeTabFind:
 		output = rl.resetTabFindStr()
 
 	case rl.modeTabCompletion:
 		output = rl.clearPreviewStr()
-		output += rl._clearHelpers()
+		output += rl.clearHelpersStr()
 		rl.resetTabCompletion()
-		output += rl._renderHelpers()
+		output += rl.renderHelpersStr()
 
 	default:
 		if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
@@ -173,11 +173,17 @@ func HkFnPreviewToggle(rl *Instance) {
 
 	switch rl.previewMode {
 	case previewModeClosed:
-		output = seqSaveBuffer
+		output = seqSaveBuffer + seqClearScreen
 		rl.previewMode++
+		size, _ := rl.getPreviewXY()
+		if size != nil {
+			output += rl.previewMoveToPromptStr(size)
+		}
+
 	case previewModeOpen:
 		rl.previewMode = previewModeClosed
 		output = seqRestoreBuffer
+
 	case previewModeAutocomplete:
 		if rl.modeTabFind {
 			print(rl.resetTabFindStr())
@@ -186,7 +192,7 @@ func HkFnPreviewToggle(rl *Instance) {
 	}
 
 	output += rl.echoStr()
-	output += rl._renderHelpers()
+	output += rl.renderHelpersStr()
 	print(output)
 }
 

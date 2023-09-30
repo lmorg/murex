@@ -172,15 +172,16 @@ func (rl *Instance) clearPrompt() {
 
 func (rl *Instance) resetHelpers() {
 	rl.modeAutoFind = false
-	print(rl.clearPreviewStr())
-	print(rl._clearHelpers())
+	output := rl.clearPreviewStr()
+	output += rl.clearHelpersStr()
+
 	rl.resetHintText()
 	rl.resetTabCompletion()
+
+	print(output)
 }
 
-func (rl *Instance) _clearHelpers() string {
-	rl.tabMutex.Lock()
-
+func (rl *Instance) clearHelpersStr() string {
 	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
 
@@ -192,27 +193,23 @@ func (rl *Instance) _clearHelpers() string {
 	output += moveCursorUpStr(y + 1)
 	output += moveCursorForwardsStr(posX)
 
-	//print(output)
-
-	rl.tabMutex.Unlock()
-
 	return output
 }
 
-func (rl *Instance) _renderHelpers() string {
-	output := rl._writeHintText()
-	output += rl._writeTabCompletion()
-	output += rl._writePreview()
+func (rl *Instance) renderHelpersStr() string {
+	output := rl.writeHintTextStr()
+	output += rl.writeTabCompletionStr()
+	output += rl.writePreviewStr()
 	return output
 }
 
-func (rl *Instance) _updateHelpers() string {
+func (rl *Instance) updateHelpersStr() string {
 	rl.tcOffset = 0
 	rl.getHintText()
 	if rl.modeTabCompletion {
 		rl.getTabCompletion()
 	}
-	output := rl._clearHelpers()
-	output += rl._renderHelpers()
+	output := rl.clearHelpersStr()
+	output += rl.renderHelpersStr()
 	return output
 }

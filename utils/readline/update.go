@@ -34,7 +34,7 @@ func (rl *Instance) insertStr(r []rune) string {
 
 	// TODO: check me
 	if rl.modeViMode == vimInsert {
-		output += rl._updateHelpers()
+		output += rl.updateHelpersStr()
 	}
 
 	return output
@@ -72,6 +72,6 @@ func (rl *Instance) deleteStr() string {
 		output = rl.echoStr()
 	}
 
-	output += rl._updateHelpers()
+	output += rl.updateHelpersStr()
 	return output
 }

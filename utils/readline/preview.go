@@ -13,8 +13,10 @@ const (
 	previewModeAutocomplete previewModeT = 2
 )
 
+const previewPromptHSpace = 3
+
 func getPreviewWidth(width int) (preview, forward int) {
-	switch {
+	/*switch {
 	case width < 5:
 		return 0, 0
 	case width < 85:
@@ -25,7 +27,8 @@ func getPreviewWidth(width int) (preview, forward int) {
 		preview = width - 4
 	default:
 		preview = 120
-	}
+	}*/
+	preview = width - 3
 
 	forward = width - preview
 	forward -= 2
@@ -45,7 +48,7 @@ type previewCacheT struct {
 	size  *PreviewSizeT
 }
 
-func getPreviewXY() (*PreviewSizeT, error) {
+func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 	width, height, err := GetSize(int(primary.Fd()))
 	if err != nil {
 		return nil, err
@@ -61,7 +64,7 @@ func getPreviewXY() (*PreviewSizeT, error) {
 
 	preview, forward := getPreviewWidth(width)
 	size := &PreviewSizeT{
-		Height:  height / 3,
+		Height:  height - rl.MaxTabCompleterRows - 10, // hintText, multi-line prompts, etc
 		Width:   preview,
 		Forward: forward,
 	}
@@ -69,9 +72,9 @@ func getPreviewXY() (*PreviewSizeT, error) {
 	return size, nil
 }
 
-func (rl *Instance) _writePreview() string {
+func (rl *Instance) writePreviewStr() string {
 	if rl.previewMode > previewModeClosed && rl.tcr != nil && rl.tcr.Preview != nil {
-		size, err := getPreviewXY()
+		size, err := rl.getPreviewXY()
 		if err != nil || size.Height < 8 || size.Width < 40 {
 			rl.previewCache = nil
 			return ""
@@ -86,7 +89,7 @@ func (rl *Instance) _writePreview() string {
 		if err != nil {
 			rl.ForceHintTextUpdate(err.Error())
 		}
-		output, err := previewDraw(lines[pos:], size)
+		output, err := rl.previewDrawStr(lines[pos:], size)
 		if err != nil {
 			rl.previewCache = nil
 			return output
@@ -113,40 +116,41 @@ const (
 	curPosRestore = "\x1b[u"
 )
 
-func previewDraw(preview []string, size *PreviewSizeT) (string, error) {
+func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
 	var output string
-	print := func(s string) {
-		//_, _ = os.Stdout.WriteString(s)
-		output += s
-	}
 
 	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
 
-	print(curPosSave + curHome)
-	defer func() {
-		print(curPosRestore)
-	}()
+	output += curHome
 
-	print(fmt.Sprintf(cursorForwf, size.Forward))
+	output += fmt.Sprintf(cursorForwf, size.Forward)
 	hr := strings.Repeat("─", size.Width)
-	print("╭" + hr + "╮\r\n")
+	output += "╭" + hr + "╮\r\n"
 
 	for i := 0; i <= size.Height; i++ {
-		print(fmt.Sprintf(cursorForwf, size.Forward))
+		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			print("│" + blank + "│\r\n")
+			output += "│" + blank + "│\r\n"
 			continue
 		}
 
-		print(fmt.Sprintf(pf, preview[i]))
+		output += fmt.Sprintf(pf, preview[i])
 	}
 
-	print(fmt.Sprintf(cursorForwf, size.Forward))
-	print("╰" + hr + "╯\r\n")
+	output += fmt.Sprintf(cursorForwf, size.Forward)
+	output += "╰" + hr + "╯\r\n"
 
+	output+=rl.previewMoveToPromptStr(size)
 	return output, nil
+}
+
+func (rl *Instance) previewMoveToPromptStr(size *PreviewSizeT) string {
+	output := curHome
+	output += moveCursorDownStr(size.Height + previewPromptHSpace)
+	output += rl.moveCursorFromStartToLinePosStr()
+	return output
 }
 
 func (rl *Instance) previewPageUpStr() string {
@@ -159,7 +163,7 @@ func (rl *Instance) previewPageUpStr() string {
 		rl.previewCache.pos = 0
 	}
 
-	output, _ := previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
 	return output
 }
 
@@ -176,7 +180,7 @@ func (rl *Instance) previewPageDownStr() string {
 		}
 	}
 
-	output, _ := previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
 	return output
 }
 

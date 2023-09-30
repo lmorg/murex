@@ -79,7 +79,7 @@ func (rl *Instance) moveTabMapHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) _writeTabMap() string {
+func (rl *Instance) writeTabMapStr() string {
 	rl.tabMutex.Lock()
 	defer rl.tabMutex.Unlock()
 
@@ -141,8 +141,6 @@ func (rl *Instance) _writeTabMap() string {
 			rl.previewItem = suggestions.ItemValue(i)
 		}
 	}
-
-	//print(output)
 
 	if suggestions.Len() < rl.tcMaxX {
 		rl.tcUsedY = suggestions.Len()

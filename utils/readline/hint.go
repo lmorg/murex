@@ -18,9 +18,9 @@ func (rl *Instance) getHintText() {
 	rl.cacheHint.Append(rl.line.Runes(), rl.hintText)
 }
 
-func (rl *Instance) _writeHintText() string {
-	//rl.tabMutex.Lock()
-	//defer rl.tabMutex.Unlock()
+func (rl *Instance) writeHintTextStr() string {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	if rl.HintText == nil {
 		rl.hintY = 0
@@ -49,7 +49,7 @@ func (rl *Instance) _writeHintText() string {
 	}
 
 	// Determine how many lines hintText spans over
-	// (Currently there is no support for carridge returns / new lines)
+	// (Currently there is no support for carriage returns / new lines)
 	hintLength := strLen(hintText)
 	n := float64(hintLength) / float64(rl.termWidth)
 	if float64(int(n)) != n {
@@ -89,10 +89,6 @@ func (rl *Instance) resetHintText() {
 
 // ForceHintTextUpdate is a nasty function for force writing a new hint text. Use sparingly!
 func (rl *Instance) ForceHintTextUpdate(s string) {
-	//rl.tabMutex.Lock()
-
 	rl.hintText = []rune(s)
-	print(rl._writeHintText())
-
-	//defer rl.tabMutex.Unlock()
+	print(rl.writeHintTextStr())
 }

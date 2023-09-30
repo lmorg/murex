@@ -79,7 +79,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	rl.termWidth = GetTermWidth()
 	rl.getHintText()
-	print(rl._renderHelpers())
+	print(rl.renderHelpersStr())
 
 	for {
 		if rl.line.RuneLen() == 0 {
@@ -145,22 +145,22 @@ func (rl *Instance) Readline() (_ string, err error) {
 			if ret.ClearHelpers {
 				rl.resetHelpers()
 			} else {
-				output := rl._updateHelpers()
-				output += rl._renderHelpers()
+				output := rl.updateHelpersStr()
+				output += rl.renderHelpersStr()
 				print(output)
 			}
 
 			if len(ret.HintText) > 0 {
 				rl.hintText = ret.HintText
-				output := rl._clearHelpers()
-				output += rl._renderHelpers()
+				output := rl.clearHelpersStr()
+				output += rl.renderHelpersStr()
 				print(output)
 			}
 			if !ret.ForwardKey {
 				continue
 			}
 			if ret.CloseReadline {
-				print(rl._clearHelpers())
+				print(rl.clearHelpersStr())
 				return rl.line.String(), nil
 			}
 		}
@@ -179,7 +179,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.delayedTabContext.cancel()
 			}
 			rl.modeTabCompletion = false
-			print(rl._updateHelpers())
+			print(rl.updateHelpersStr())
 		}
 
 		switch b[0] {
@@ -188,14 +188,14 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		case charCtrlC:
 			output := rl.clearPreviewStr()
-			output += rl._clearHelpers()
+			output += rl.clearHelpersStr()
 			print(output)
 			return "", CtrlC
 
 		case charEOF:
 			if rl.line.RuneLen() == 0 {
 				output := rl.clearPreviewStr()
-				output += rl._clearHelpers()
+				output += rl.clearHelpersStr()
 				print(output)
 				return "", EOF
 			}
@@ -243,9 +243,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
-				output += rl._clearHelpers()
+				output += rl.clearHelpersStr()
 				rl.resetTabCompletion()
-				output += rl._renderHelpers()
+				output += rl.renderHelpersStr()
 				if suggestions.Len() > 0 {
 					prefix, line := suggestions.ItemCompletionReturn(cell)
 					if len(prefix) == 0 && len(rl.tcPrefix) > 0 {
@@ -312,7 +312,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, -1)
-			output += rl._renderHelpers()
+			output += rl.renderHelpersStr()
 			return output
 		}
 
@@ -342,7 +342,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
-			output += rl._renderHelpers()
+			output += rl.renderHelpersStr()
 			return output
 		}
 
@@ -371,7 +371,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 	case seqBackwards:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(-1, 0)
-			output += rl._renderHelpers()
+			output += rl.renderHelpersStr()
 			return output
 		}
 
@@ -381,7 +381,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 	case seqForwards:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(1, 0)
-			output += rl._renderHelpers()
+			output += rl.renderHelpersStr()
 			return output
 		}
 
@@ -410,7 +410,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 	case seqShiftTab:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(-1, 0)
-			output += rl._renderHelpers()
+			output += rl.renderHelpersStr()
 			return output
 		}
 
@@ -539,7 +539,7 @@ func (rl *Instance) SetPrompt(s string) {
 }
 
 func (rl *Instance) carriageReturnStr() string {
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 	output += "\r\n"
 	if rl.HistoryAutoWrite {
 		var err error
@@ -561,7 +561,7 @@ func isMultiline(r []rune) bool {
 }
 
 func (rl *Instance) allowMultiline(data []byte) bool {
-	print(rl._clearHelpers())
+	print(rl.clearHelpersStr())
 	printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
 	for {
 		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")

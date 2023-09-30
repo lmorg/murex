@@ -10,9 +10,10 @@ func (rl *Instance) backspaceTabFindStr() string {
 }
 
 func _updateTabFindHelpersStr(rl *Instance) (output string) {
-	output = rl._clearHelpers()
+	rl.tabMutex.Unlock()
+	output = rl.clearHelpersStr()
 	rl.initTabCompletion()
-	output += rl._renderHelpers()
+	output += rl.renderHelpersStr()
 	return
 }
 
@@ -20,7 +21,6 @@ func (rl *Instance) updateTabFindStr(r []rune) string {
 	rl.tfLine = append(rl.tfLine, r...)
 
 	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
 
 	if len(rl.tfLine) == 0 {
 		rl.hintText = rFindSearchPart
@@ -66,8 +66,8 @@ func (rl *Instance) resetTabFindStr() string {
 	}
 	rl.modeAutoFind = false
 
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 	rl.initTabCompletion()
-	output += rl._renderHelpers()
+	output += rl.renderHelpersStr()
 	return output
 }

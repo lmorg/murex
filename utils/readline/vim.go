@@ -156,7 +156,7 @@ func (rl *Instance) vi(r rune) string {
 		rl.viUndoSkipAppend = true
 
 	case 'v':
-		output = rl._clearHelpers()
+		output = rl.clearHelpersStr()
 		var multiline []rune
 		if rl.GetMultiLine == nil {
 			multiline = rl.line.Runes()
@@ -257,8 +257,8 @@ func (rl *Instance) viHintMessageStr() string {
 		rl.getHintText()
 	}
 
-	output := rl._clearHelpers()
-	output += rl._renderHelpers()
+	output := rl.clearHelpersStr()
+	output += rl.renderHelpersStr()
 	return output
 }
 

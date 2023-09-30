@@ -26,7 +26,7 @@ func (rl *Instance) undoLastStr() string {
 		}
 	}
 
-	output := rl._clearHelpers()
+	output := rl.clearHelpersStr()
 
 	output += moveCursorBackwardsStr(rl.line.CellPos())
 	output += strings.Repeat(" ", rl.line.CellLen())
