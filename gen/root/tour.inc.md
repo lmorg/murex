@@ -72,6 +72,12 @@ shells.
 
 ### Read–Eval–Print Loop
 
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<a href="user-guide/interactive-shell.html" alt="interactive shell"><img src="/git-autocomplete.png" class="centre-image"/></a>
+<!-- markdownlint-restore -->
+{{ end }}
+
 If you want to learn more about the interactive shell then there is a dedicated
 document detailing [Murex's REPL features](user-guide/interactive-shell.md).
 
