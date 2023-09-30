@@ -53,7 +53,14 @@ shells available today.
 
 ### Hotkeys
 
-A full breakdown of supported hotkeys is available at [terminal-keys.md](terminal-keys.md).
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<a href="terminal-keys.md" alt="supported hotkeys"><img src="/keyboard.png" class="centre-image"/></a>
+<!-- markdownlint-restore -->
+{{ end }}
+
+A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
+guide.
 
 ### Autocompletion
 

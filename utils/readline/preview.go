@@ -142,7 +142,7 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	output += fmt.Sprintf(cursorForwf, size.Forward)
 	output += "╰" + hr + "╯\r\n"
 
-	output+=rl.previewMoveToPromptStr(size)
+	output += rl.previewMoveToPromptStr(size)
 	return output, nil
 }
 
