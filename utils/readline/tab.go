@@ -78,35 +78,35 @@ func (rl *Instance) moveTabCompletionHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabCompletion(resetCursorPos bool) {
+func (rl *Instance) _writeTabCompletion() string {
 	if !rl.modeTabCompletion {
-		return
+		return ""
 	}
 
-	_, posY := rl.lineWrapCellPos()
+	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
-	moveCursorDown(rl.hintY + lineY - posY)
-	print("\r\n" + seqClearScreenBelow)
+	output := moveCursorDownStr(rl.hintY + lineY - posY)
+	output += "\r\n" + seqClearScreenBelow
 
 	switch rl.tcDisplayType {
 	case TabDisplayGrid:
-		rl.writeTabGrid()
+		output += rl._writeTabGrid()
 
 	case TabDisplayMap:
-		rl.writeTabMap()
+		output += rl._writeTabMap()
 
 	case TabDisplayList:
-		rl.writeTabMap()
+		output += rl._writeTabMap()
 
 	default:
-		rl.writeTabGrid()
+		output += rl._writeTabGrid()
 	}
 
-	if resetCursorPos {
-		moveCursorUp(rl.hintY + rl.tcUsedY)
-		print("\r")
-		rl.moveCursorFromStartToLinePos()
-	}
+	output += moveCursorUpStr(rl.hintY + rl.tcUsedY + lineY - posY)
+	output += "\r" //moveCursorBackwardsStr(rl.termWidth)
+	output += moveCursorForwardsStr(posX)
+	//print(move)
+	return output
 }
 
 func (rl *Instance) resetTabCompletion() {

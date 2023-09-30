@@ -2,21 +2,22 @@ package readline
 
 import "strings"
 
-func (rl *Instance) backspaceTabFind() {
+func (rl *Instance) backspaceTabFindStr() string {
 	if len(rl.tfLine) > 0 {
 		rl.tfLine = rl.tfLine[:len(rl.tfLine)-1]
 	}
-	rl.updateTabFind([]rune{})
+	return rl.updateTabFindStr([]rune{})
 }
 
-func (rl *Instance) updateTabFind(r []rune) {
-	rl.tfLine = append(rl.tfLine, r...)
+func _updateTabFindHelpersStr(rl *Instance) (output string) {
+	output = rl._clearHelpers()
+	rl.initTabCompletion()
+	output += rl._renderHelpers()
+	return
+}
 
-	defer func() {
-		rl.clearHelpers()
-		rl.initTabCompletion()
-		rl.renderHelpers()
-	}()
+func (rl *Instance) updateTabFindStr(r []rune) string {
+	rl.tfLine = append(rl.tfLine, r...)
 
 	rl.tabMutex.Lock()
 	defer rl.tabMutex.Unlock()
@@ -24,7 +25,7 @@ func (rl *Instance) updateTabFind(r []rune) {
 	if len(rl.tfLine) == 0 {
 		rl.hintText = rFindSearchPart
 		rl.tfSuggestions = append(rl.tcSuggestions, []string{}...)
-		return
+		return _updateTabFindHelpersStr(rl)
 	}
 
 	var (
@@ -35,7 +36,7 @@ func (rl *Instance) updateTabFind(r []rune) {
 	find, rl.rFindSearch, rl.rFindCancel, err = newFuzzyFind(string(rl.tfLine))
 	if err != nil {
 		rl.tfSuggestions = []string{err.Error()}
-		return
+		return _updateTabFindHelpersStr(rl)
 	}
 
 	rl.hintText = append(rl.rFindSearch, rl.tfLine...)
@@ -51,9 +52,11 @@ func (rl *Instance) updateTabFind(r []rune) {
 			rl.tfSuggestions = append(rl.tfSuggestions, rl.tcSuggestions[i])
 		}
 	}
+
+	return _updateTabFindHelpersStr(rl)
 }
 
-func (rl *Instance) resetTabFind() {
+func (rl *Instance) resetTabFindStr() string {
 	rl.modeTabFind = false
 	rl.tfLine = []rune{}
 	if rl.modeAutoFind {
@@ -63,7 +66,8 @@ func (rl *Instance) resetTabFind() {
 	}
 	rl.modeAutoFind = false
 
-	rl.clearHelpers()
+	output := rl._clearHelpers()
 	rl.initTabCompletion()
-	rl.renderHelpers()
+	output += rl._renderHelpers()
+	return output
 }

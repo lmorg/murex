@@ -131,7 +131,7 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabGrid() {
+func (rl *Instance) _writeTabGrid() string {
 	rl.tabMutex.Lock()
 
 	var suggestions *suggestionsT
@@ -176,11 +176,10 @@ func (rl *Instance) writeTabGrid() {
 		output += fmt.Sprintf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}
 
-	print(output)
+	//print(output)
 	rl.tcUsedY = y
 	rl.tabMutex.Unlock()
-
-	//rl.writePreview(item)
+	return output
 }
 
 func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {

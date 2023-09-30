@@ -36,9 +36,10 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 		return
 	}
 
-	rl.moveCursorToStart()
-	print(sLine)
-	rl.moveCursorFromEndToLinePos()
+	output := rl.moveCursorToStartStr()
+	output += sLine
+	output += rl.moveCursorFromEndToLinePosStr()
+	print(output)
 }
 
 // DelayedTabContext is a custom context interface for async updates to the tab completions
@@ -88,9 +89,10 @@ func (dtc *DelayedTabContext) AppendSuggestions(suggestions []string) {
 	}
 
 	dtc.rl.tabMutex.Unlock()
-	dtc.rl.clearHelpers()
+	output := dtc.rl._clearHelpers()
 	//dtc.rl.ForceHintTextUpdate(" ")
-	dtc.rl.renderHelpers()
+	output += dtc.rl._renderHelpers()
+	print(output)
 }
 
 // AppendDescriptions updates the tab completions with additional suggestions + descriptions asynchronously
@@ -130,7 +132,8 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 	}
 
 	dtc.rl.tabMutex.Unlock()
-	dtc.rl.clearHelpers()
+	output := dtc.rl._clearHelpers()
 	//dtc.rl.ForceHintTextUpdate(" ")
-	dtc.rl.renderHelpers()
+	output += dtc.rl._renderHelpers()
+	print(output)
 }

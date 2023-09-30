@@ -4,8 +4,6 @@ import (
 	"errors"
 	"strconv"
 	"strings"
-
-	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 // History is an interface to allow you to write your own history logging
@@ -138,8 +136,8 @@ func (rl *Instance) _walkHistory(i int, oldLine string) {
 
 		rl.clearPrompt()
 
-		rl.line = new(unicode.UnicodeT)
-		rl.line.Set([]rune(newLine))
+		rl.line = new(UnicodeT)
+		rl.line.Set(rl, []rune(newLine))
 	}
 
 	if i > 0 {
@@ -149,8 +147,8 @@ func (rl *Instance) _walkHistory(i int, oldLine string) {
 	} else {
 		rl.line.SetCellPos(rl.termWidth - rl.promptLen - 1)
 	}
-	rl.echo()
-	rl.updateHelpers()
+	print(rl.echoStr())
+	print(rl._updateHelpers())
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {

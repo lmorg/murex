@@ -1,6 +1,6 @@
 package readline
 
-func (rl *Instance) insert(r []rune) {
+func (rl *Instance) insertStr(r []rune) string {
 	for {
 		// I don't really understand why `0` is creeping in at the end of the
 		// array but it only happens with unicode characters. Also have a similar
@@ -14,59 +14,64 @@ func (rl *Instance) insert(r []rune) {
 
 	switch {
 	case rl.line.RuneLen() == 0:
-		rl.line.Set(r)
+		rl.line.Set(rl, r)
 
 	case rl.line.RunePos() == 0:
-		rl.line.Set(append(r, rl.line.Runes()...))
+		rl.line.Set(rl, append(r, rl.line.Runes()...))
 
 	case rl.line.RunePos() < rl.line.RuneLen():
 		value := rl.line.Runes()
 		new := append(r, value[rl.line.RunePos():]...)
 		new = append(value[:rl.line.RunePos()], new...)
-		rl.line.Set(new)
+		rl.line.Set(rl, new)
 
 	default:
-		rl.line.Set(append(rl.line.Runes(), r...))
+		rl.line.Set(rl, append(rl.line.Runes(), r...))
 	}
 
-	rl.moveCursorByRuneAdjust(len(r))
-	rl.echo()
+	output := rl.moveCursorByRuneAdjustStr(len(r))
+	output += rl.echoStr()
 
+	// TODO: check me
 	if rl.modeViMode == vimInsert {
-		rl.updateHelpers()
+		output += rl._updateHelpers()
 	}
+
+	return output
 }
 
-func (rl *Instance) backspace() {
+func (rl *Instance) backspaceStr() string {
 	if rl.line.RuneLen() == 0 || rl.line.RunePos() == 0 {
-		return
+		return ""
 	}
 
-	//moveCursorBackwards(1)
 	rl.line.SetRunePos(rl.line.RunePos() - 1)
-	rl.delete()
+	return rl.deleteStr()
 }
 
-func (rl *Instance) delete() {
+func (rl *Instance) deleteStr() string {
+	var output string
 	switch {
 	case rl.line.RuneLen() == 0:
-		return
+		return ""
 
 	case rl.line.RunePos() == 0:
-		rl.line.Set(rl.line.Runes()[1:])
-		rl.echo()
+		rl.line.Set(rl, rl.line.Runes()[1:])
+		output = rl.echoStr()
 
 	case rl.line.RunePos() > rl.line.RuneLen():
-		rl.backspace()
+		output = rl.backspaceStr()
+		return output
 
 	case rl.line.RunePos() == rl.line.RuneLen():
-		rl.line.Set(rl.line.Runes()[:rl.line.RunePos()])
-		rl.echo()
+		rl.line.Set(rl, rl.line.Runes()[:rl.line.RunePos()])
+		output = rl.echoStr()
 
 	default:
-		rl.line.Set(append(rl.line.Runes()[:rl.line.RunePos()], rl.line.Runes()[rl.line.RunePos()+1:]...))
-		rl.echo()
+		rl.line.Set(rl, append(rl.line.Runes()[:rl.line.RunePos()], rl.line.Runes()[rl.line.RunePos()+1:]...))
+		output = rl.echoStr()
 	}
 
-	rl.updateHelpers()
+	output += rl._updateHelpers()
+	return output
 }

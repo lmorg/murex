@@ -2,7 +2,6 @@ package readline
 
 import (
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -70,21 +69,12 @@ func getPreviewXY() (*PreviewSizeT, error) {
 	return size, nil
 }
 
-func (rl *Instance) writePreview() {
-	/*if rl.previewCache != nil {
-		// refresh screen if preview written previously and this one empty
-		defer func() {
-			if rl.previewCache == nil {
-				rl.screenRefresh()
-			}
-		}()
-	}*/
-
+func (rl *Instance) _writePreview() string {
 	if rl.previewMode > previewModeClosed && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
 		if err != nil || size.Height < 8 || size.Width < 40 {
 			rl.previewCache = nil
-			return
+			return ""
 		}
 
 		item := rl.previewItem
@@ -92,17 +82,14 @@ func (rl *Instance) writePreview() {
 		item = strings.TrimSpace(item)
 
 		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
-		/*if len(lines) == 0 || err != nil {
-			rl.previewCache = nil
-			return
-		}*/
+
 		if err != nil {
 			rl.ForceHintTextUpdate(err.Error())
 		}
-		err = previewDraw(lines[pos:], size)
+		output, err := previewDraw(lines[pos:], size)
 		if err != nil {
 			rl.previewCache = nil
-			return
+			return output
 		}
 
 		rl.previewCache = &previewCacheT{
@@ -112,24 +99,13 @@ func (rl *Instance) writePreview() {
 			size:  size,
 		}
 
-		return
+		return output
 	}
 
 	rl.previewCache = nil
+
+	return ""
 }
-
-/*func (rl *Instance) screenRefresh() {
-	if rl.ScreenRefresh == nil {
-		return
-	}
-
-	old := primary
-	primary = os.Stdout
-
-	rl.ScreenRefresh()
-
-	primary = old
-}*/
 
 const (
 	curHome       = "\x1b[H"
@@ -137,9 +113,11 @@ const (
 	curPosRestore = "\x1b[u"
 )
 
-func previewDraw(preview []string, size *PreviewSizeT) error {
+func previewDraw(preview []string, size *PreviewSizeT) (string, error) {
+	var output string
 	print := func(s string) {
-		_, _ = os.Stdout.WriteString(s)
+		//_, _ = os.Stdout.WriteString(s)
+		output += s
 	}
 
 	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
@@ -168,12 +146,12 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 	print(fmt.Sprintf(cursorForwf, size.Forward))
 	print("╰" + hr + "╯\r\n")
 
-	return nil
+	return output, nil
 }
 
-func (rl *Instance) previewPageUp() {
+func (rl *Instance) previewPageUpStr() string {
 	if rl.previewCache == nil {
-		return
+		return ""
 	}
 
 	rl.previewCache.pos -= rl.previewCache.len
@@ -181,12 +159,13 @@ func (rl *Instance) previewPageUp() {
 		rl.previewCache.pos = 0
 	}
 
-	_ = previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	output, _ := previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
 }
 
-func (rl *Instance) previewPageDown() {
+func (rl *Instance) previewPageDownStr() string {
 	if rl.previewCache == nil {
-		return
+		return ""
 	}
 
 	rl.previewCache.pos += rl.previewCache.len
@@ -197,13 +176,18 @@ func (rl *Instance) previewPageDown() {
 		}
 	}
 
-	_ = previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	output, _ := previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
 }
 
-func (rl *Instance) clearPreview() {
+func (rl *Instance) clearPreviewStr() string {
+	var output string
+
 	if rl.previewMode > previewModeClosed {
-		print(seqRestoreBuffer)
-		rl.echo()
+		output = seqRestoreBuffer
+		output += rl.echoStr()
 		rl.previewMode = previewModeClosed
 	}
+
+	return output
 }

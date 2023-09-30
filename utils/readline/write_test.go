@@ -90,7 +90,7 @@ func TestLineWrap(t *testing.T) {
 	for i, test := range tests {
 		rl := NewInstance()
 		rl.SetPrompt(test.Prompt)
-		rl.line.Set([]rune(test.Line))
+		rl.line.Set(rl,[]rune(test.Line))
 
 		wrap := lineWrap(rl, test.TermWidth)
 		if len(wrap) != len(test.Expected) {

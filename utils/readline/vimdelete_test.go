@@ -60,7 +60,7 @@ func TestViDeleteByAdjustLogicNoPanic(t *testing.T) {
 
 	for _, test := range tests {
 		rl := NewInstance()
-		rl.line.Set([]rune(test.Line))
+		rl.line.Set(rl, []rune(test.Line))
 		rl.line.SetRunePos(test.Pos)
 		rl.viDeleteByAdjustLogic(&test.Adjust)
 	}

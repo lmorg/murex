@@ -2,15 +2,17 @@ package readline
 
 import "strings"
 
-func (rl *Instance) vimDelete(r []rune) {
-	defer func() { rl.modeViMode = vimKeys }()
+func (rl *Instance) vimDeleteStr(r []rune) string {
+	// TODO: test me
+	//defer func() { rl.modeViMode = vimKeys }()
 
+	var output string
 	switch r[0] {
 	case 'b':
-		rl.viDeleteByAdjust(rl.viJumpB(tokeniseLine))
+		output = rl.viDeleteByAdjustStr(rl.viJumpB(tokeniseLine))
 
 	case 'B':
-		rl.viDeleteByAdjust(rl.viJumpB(tokeniseSplitSpaces))
+		output = rl.viDeleteByAdjustStr(rl.viJumpB(tokeniseSplitSpaces))
 
 	case 'd':
 		rl.clearPrompt()
@@ -18,24 +20,26 @@ func (rl *Instance) vimDelete(r []rune) {
 		rl.getHintText()
 
 	case 'e':
-		rl.viDeleteByAdjust(rl.viJumpE(tokeniseLine) + 1)
+		output = rl.viDeleteByAdjustStr(rl.viJumpE(tokeniseLine) + 1)
 
 	case 'E':
-		rl.viDeleteByAdjust(rl.viJumpE(tokeniseSplitSpaces) + 1)
+		output = rl.viDeleteByAdjustStr(rl.viJumpE(tokeniseSplitSpaces) + 1)
 
 	case 'w':
-		rl.viDeleteByAdjust(rl.viJumpW(tokeniseLine))
+		output = rl.viDeleteByAdjustStr(rl.viJumpW(tokeniseLine))
 
 	case 'W':
-		rl.viDeleteByAdjust(rl.viJumpW(tokeniseSplitSpaces))
+		output = rl.viDeleteByAdjustStr(rl.viJumpW(tokeniseSplitSpaces))
 
 	case '%':
-		rl.viDeleteByAdjust(rl.viJumpBracket())
+		output = rl.viDeleteByAdjustStr(rl.viJumpBracket())
 
 	case 27:
 		if len(r) > 1 && '1' <= r[1] && r[1] <= '9' {
-			if rl.vimDeleteToken(r[1]) {
-				return
+			output = rl.vimDeleteTokenStr(r[1])
+			if output != "" {
+				rl.modeViMode = vimKeys
+				return output
 			}
 		}
 		fallthrough
@@ -43,30 +47,36 @@ func (rl *Instance) vimDelete(r []rune) {
 	default:
 		rl.viUndoSkipAppend = true
 	}
+
+	rl.modeViMode = vimKeys
+
+	return output
 }
 
-func (rl *Instance) viDeleteByAdjust(adjust int) {
+func (rl *Instance) viDeleteByAdjustStr(adjust int) string {
 	if adjust == 0 {
 		rl.viUndoSkipAppend = true
-		return
+		return ""
 	}
 
 	// Separate out the cursor movement from the logic so we can run tests on
 	// the logic
 	newLine, backOne := rl.viDeleteByAdjustLogic(&adjust)
 
-	rl.line.Set(newLine)
+	rl.line.Set(rl, newLine)
 
-	rl.echo()
+	output := rl.echoStr()
 
 	if adjust < 0 {
-		rl.moveCursorByRuneAdjust(adjust)
+		output += rl.moveCursorByRuneAdjustStr(adjust)
 	}
 
 	if backOne {
-		moveCursorBackwards(1)
+		output += moveCursorBackwardsStr(1)
 		rl.line.SetRunePos(rl.line.RunePos() - 1)
 	}
+
+	return output
 }
 
 func (rl *Instance) viDeleteByAdjustLogic(adjust *int) (newLine []rune, backOne bool) {
@@ -100,33 +110,33 @@ func (rl *Instance) viDeleteByAdjustLogic(adjust *int) (newLine []rune, backOne 
 	return
 }
 
-func (rl *Instance) vimDeleteToken(r rune) bool {
+func (rl *Instance) vimDeleteTokenStr(r rune) string {
 	tokens, _, _ := tokeniseSplitSpaces(rl.line.Runes(), 0)
 	pos := int(r) - 48 // convert ASCII to integer
 	if pos > len(tokens) {
-		return false
+		return ""
 	}
 
 	s := rl.line.String()
 	newLine := strings.Replace(s, tokens[pos-1], "", -1)
 	if newLine == s {
-		return false
+		return ""
 	}
 
-	moveCursorBackwards(rl.line.CellPos())
-	print(strings.Repeat(" ", rl.line.CellLen()))
-	moveCursorBackwards(rl.line.CellLen() - rl.line.CellPos())
+	output := moveCursorBackwardsStr(rl.line.CellPos())
+	output += strings.Repeat(" ", rl.line.CellLen())
+	output += moveCursorBackwardsStr(rl.line.CellLen() - rl.line.CellPos())
 
-	rl.line.Set([]rune(newLine))
+	rl.line.Set(rl, []rune(newLine))
 
-	rl.echo()
+	output += rl.echoStr()
 
 	if rl.line.RunePos() > rl.line.RuneLen() {
-		moveCursorBackwards(GetTermWidth())
-		moveCursorForwards(rl.promptLen + rl.line.CellLen() - 1)
+		output += "\r" //moveCursorBackwardsStr(GetTermWidth())
+		output += moveCursorForwardsStr(rl.promptLen + rl.line.CellLen() - 1)
 		// ^ this is lazy
 		rl.line.SetRunePos(rl.line.RuneLen() - 1)
 	}
 
-	return true
+	return output
 }

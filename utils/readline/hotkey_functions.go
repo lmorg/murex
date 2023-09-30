@@ -7,10 +7,11 @@ func HkFnMoveToStartOfLine(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	rl.clearHelpers()
+	output := rl._clearHelpers()
 	rl.line.SetCellPos(0)
-	rl.echo()
-	moveCursorForwards(1)
+	output += rl.echoStr()
+	output += moveCursorForwardsStr(1)
+	print(output)
 }
 
 func HkFnMoveToEndOfLine(rl *Instance) {
@@ -18,20 +19,22 @@ func HkFnMoveToEndOfLine(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	rl.clearHelpers()
+	output := rl._clearHelpers()
 	rl.line.SetRunePos(rl.line.RuneLen())
-	rl.echo()
-	moveCursorForwards(1)
+	output += rl.echoStr()
+	output += moveCursorForwardsStr(1)
+	print(output)
 }
 
 func HkFnClearAfterCursor(rl *Instance) {
 	if rl.line.RuneLen() == 0 {
 		return
 	}
-	rl.clearHelpers()
-	rl.line.Set(rl.line.Runes()[:rl.line.RunePos()])
-	rl.echo()
-	moveCursorForwards(1)
+	output := rl._clearHelpers()
+	rl.line.Set(rl, rl.line.Runes()[:rl.line.RunePos()])
+	output += rl.echoStr()
+	output += moveCursorForwardsStr(1)
+	print(output)
 }
 
 func HkFnClearScreen(rl *Instance) {
@@ -39,9 +42,10 @@ func HkFnClearScreen(rl *Instance) {
 	if rl.previewMode != previewModeClosed {
 		HkFnPreviewToggle(rl)
 	}
-	print(seqSetCursorPosTopLeft + seqClearScreen)
-	rl.echo()
-	rl.renderHelpers()
+	output := seqSetCursorPosTopLeft + seqClearScreen
+	output += rl.echoStr()
+	output += rl._renderHelpers()
+	print(output)
 }
 
 func HkFnClearLine(rl *Instance) {
@@ -57,7 +61,7 @@ func HkFnFuzzyFind(rl *Instance) {
 	}
 
 	rl.modeTabFind = true
-	rl.updateTabFind([]rune{})
+	print(rl.updateTabFindStr([]rune{}))
 }
 
 func HkFnSearchHistory(rl *Instance) {
@@ -72,7 +76,7 @@ func HkFnSearchHistory(rl *Instance) {
 	rl.initTabCompletion()
 
 	rl.modeTabFind = true
-	rl.updateTabFind([]rune{})
+	print(rl.updateTabFindStr([]rune{}))
 }
 
 func HkFnAutocomplete(rl *Instance) {
@@ -83,47 +87,52 @@ func HkFnAutocomplete(rl *Instance) {
 		rl.getTabCompletion()
 	}
 
-	rl.renderHelpers()
+	print(rl._renderHelpers())
 }
 
 func HkFnJumpForwards(rl *Instance) {
 	rl.viUndoSkipAppend = true
-	rl.moveCursorByRuneAdjust(rl.viJumpE(tokeniseLine))
+	output := rl.moveCursorByRuneAdjustStr(rl.viJumpE(tokeniseLine))
+	print(output)
 }
 
 func HkFnJumpBackwards(rl *Instance) {
 	rl.viUndoSkipAppend = true
-	rl.moveCursorByRuneAdjust(rl.viJumpB(tokeniseLine))
+	output := rl.moveCursorByRuneAdjustStr(rl.viJumpB(tokeniseLine))
+	print(output)
 }
 
 func HkFnCancelAction(rl *Instance) {
 	rl.viUndoSkipAppend = true
+	var output string
 	switch {
 	case rl.modeAutoFind:
-		rl.clearPreview()
-		rl.resetTabFind()
-		rl.clearHelpers()
+		output = rl.clearPreviewStr()
+		output += rl.resetTabFindStr()
+		output += rl._clearHelpers()
 		rl.resetTabCompletion()
-		rl.renderHelpers()
+		output += rl._renderHelpers()
 
 	case rl.modeTabFind:
-		rl.resetTabFind()
+		output = rl.resetTabFindStr()
 
 	case rl.modeTabCompletion:
-		rl.clearPreview()
-		rl.clearHelpers()
+		output = rl.clearPreviewStr()
+		output += rl._clearHelpers()
 		rl.resetTabCompletion()
-		rl.renderHelpers()
+		output += rl._renderHelpers()
 
 	default:
 		if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
 			rl.line.SetRunePos(rl.line.RunePos() - 1)
-			moveCursorBackwards(1)
+			output = moveCursorBackwardsStr(1)
 		}
 		rl.modeViMode = vimKeys
 		rl.viIteration = ""
-		rl.viHintMessage()
+		output += rl.viHintMessageStr()
 	}
+
+	print(output)
 }
 
 func HkFnRecallWord1(rl *Instance)  { hkFnRecallWord(rl, 1) }
@@ -154,28 +163,31 @@ func hkFnRecallWord(rl *Instance, i int) {
 		return
 	}
 
-	rl.insert([]rune(tokens[i-1] + " "))
+	output := rl.insertStr([]rune(tokens[i-1] + " "))
+	print(output)
 }
 
 func HkFnPreviewToggle(rl *Instance) {
 	rl.viUndoSkipAppend = true
+	var output string
 
 	switch rl.previewMode {
 	case previewModeClosed:
-		print(seqSaveBuffer)
+		output = seqSaveBuffer
 		rl.previewMode++
 	case previewModeOpen:
 		rl.previewMode = previewModeClosed
-		print(seqRestoreBuffer)
+		output = seqRestoreBuffer
 	case previewModeAutocomplete:
 		if rl.modeTabFind {
-			rl.resetTabFind()
+			print(rl.resetTabFindStr())
 		}
 		HkFnCancelAction(rl)
 	}
 
-	rl.echo()
-	rl.renderHelpers()
+	output += rl.echoStr()
+	output += rl._renderHelpers()
+	print(output)
 }
 
 func HkFnUndo(rl *Instance) {
@@ -183,8 +195,9 @@ func HkFnUndo(rl *Instance) {
 	if len(rl.viUndoHistory) == 0 {
 		return
 	}
-	rl.undoLast()
+	output := rl.undoLastStr()
 	rl.viUndoSkipAppend = true
 	rl.line.SetRunePos(rl.line.RuneLen())
-	moveCursorForwards(1)
+	output += moveCursorForwardsStr(1)
+	print(output)
 }

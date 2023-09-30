@@ -18,13 +18,13 @@ func (rl *Instance) getHintText() {
 	rl.cacheHint.Append(rl.line.Runes(), rl.hintText)
 }
 
-func (rl *Instance) writeHintText(resetCursorPos bool) {
-	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
+func (rl *Instance) _writeHintText() string {
+	//rl.tabMutex.Lock()
+	//defer rl.tabMutex.Unlock()
 
 	if rl.HintText == nil {
 		rl.hintY = 0
-		return
+		return ""
 	}
 
 	if len(rl.hintText) == 0 {
@@ -68,20 +68,18 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 		hintText += strings.Repeat(" ", padding)
 	}
 
-	if resetCursorPos {
-		_, lineY := rl.lineWrapCellLen()
-		posX, posY := rl.lineWrapCellPos()
-		y := lineY - posY
-		move := moveCursorDownStr(y)
+	_, lineY := rl.lineWrapCellLen()
+	posX, posY := rl.lineWrapCellPos()
+	y := lineY - posY
+	write := moveCursorDownStr(y)
 
-		move += "\r\n" + rl.HintFormatting + hintText + seqReset
+	write += "\r\n" + rl.HintFormatting + hintText + seqReset
 
-		move += moveCursorUpStr(rl.hintY + lineY - posY)
-		move += moveCursorBackwardsStr(rl.termWidth)
-		move += moveCursorForwardsStr(posX)
-		print(move)
-	}
+	write += moveCursorUpStr(rl.hintY + lineY - posY)
+	write += moveCursorBackwardsStr(rl.termWidth)
+	write += moveCursorForwardsStr(posX)
 
+	return write
 }
 
 func (rl *Instance) resetHintText() {
@@ -91,6 +89,10 @@ func (rl *Instance) resetHintText() {
 
 // ForceHintTextUpdate is a nasty function for force writing a new hint text. Use sparingly!
 func (rl *Instance) ForceHintTextUpdate(s string) {
+	//rl.tabMutex.Lock()
+
 	rl.hintText = []rune(s)
-	rl.writeHintText(true)
+	print(rl._writeHintText())
+
+	//defer rl.tabMutex.Unlock()
 }

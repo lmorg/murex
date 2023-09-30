@@ -12,6 +12,6 @@ func (rl *Instance) syntaxCompletion() {
 
 	newPos++
 
-	rl.line.Set(newLine)
+	rl.line.Set(rl, newLine)
 	rl.line.SetRunePos(newPos)
 }
