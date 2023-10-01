@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -20,7 +21,7 @@ func init() {
 // embedding this expressions library into other language syntaxes. This
 // function just parses the expression and returns the end of the expression.
 func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
-	tree := NewParser(nil, expression, offset)
+	tree := NewParser(nil, expression, offset, node.Nil)
 
 	err := tree.parseExpression(exec, false)
 	if err != nil {
@@ -42,7 +43,7 @@ func StatementParametersParser(expression []rune, p *lang.Process) (string, []st
 		return p.Name.String(), []string{string(p.Parameters.PreParsed[0])}, nil
 	}
 
-	tree := NewParser(nil, expression, 0)
+	tree := NewParser(nil, expression, 0, node.Nil)
 	tree.p = p
 	err := tree.ParseStatement(true)
 	if err != nil {
@@ -52,15 +53,16 @@ func StatementParametersParser(expression []rune, p *lang.Process) (string, []st
 	return tree.statement.String(), tree.statement.Parameters(), nil
 }
 
-func NewParser(p *lang.Process, expression []rune, offset int) *ParserT {
-	tree := new(ParserT)
-	tree.expression = expression
-	tree.p = p
-	tree.charOffset = offset
-	return tree
+func NewParser(p *lang.Process, expression []rune, offset int, syntaxTree node.SyntaxTreeT) *ParserT {
+	return &ParserT{
+		expression: expression,
+		p:          p,
+		charOffset: offset,
+		syntaxTree: syntaxTree,
+	}
 }
 
-func (tree *ParserT) preParser() (int, error) {
+func (blk *BlockT) preParser(tree *ParserT) (int, error) {
 	expErr := tree.parseExpression(false, false)
 	if expErr == nil {
 		// if successful parse, then also validate.
@@ -69,8 +71,12 @@ func (tree *ParserT) preParser() (int, error) {
 	}
 
 	if expErr == nil {
+		blk.syntaxTree.Merge(blk.syntaxTree)
 		return tree.charPos, nil
 	}
+
+	tree.syntaxTree = blk.syntaxTree.New()
+	defer blk.syntaxTree.Merge(blk.syntaxTree)
 
 	stErr := tree.ParseStatement(false)
 	if stErr != nil {
@@ -170,21 +176,21 @@ func (blk *BlockT) ParseBlock() error {
 			continue
 
 		case '#':
-			comment := NewParser(nil, blk.expression[blk.charPos:], 0)
+			comment := NewParser(nil, blk.expression[blk.charPos:], 0, blk.syntaxTree)
 			comment.parseComment()
 			blk.charPos += comment.charPos
 
 		case '/':
 			switch {
 			case blk.nextChar() == '#':
-				comment := NewParser(nil, blk.expression[blk.charPos:], 0)
+				comment := NewParser(nil, blk.expression[blk.charPos:], 0, blk.syntaxTree)
 				if err := comment.parseCommentMultiLine(); err != nil {
 					return err
 				}
 				blk.charPos += comment.charPos
 			default:
-				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
-				newPos, err := tree.preParser()
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1, blk.syntaxTree.New())
+				newPos, err := blk.preParser(tree)
 				if err != nil {
 					return err
 				}
@@ -206,8 +212,8 @@ func (blk *BlockT) ParseBlock() error {
 				}
 				tree = nil
 			case tree == nil:
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
-				newPos, err := tree.preParser()
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0, blk.syntaxTree.New())
+				newPos, err := blk.preParser(tree)
 				if err != nil {
 					return err
 				}
@@ -240,8 +246,8 @@ func (blk *BlockT) ParseBlock() error {
 				}
 				tree = nil
 			case tree == nil:
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
-				newPos, err := tree.preParser()
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0, blk.syntaxTree.New())
+				newPos, err := blk.preParser(tree)
 				if err != nil {
 					return err
 				}
@@ -264,15 +270,15 @@ func (blk *BlockT) ParseBlock() error {
 					return err
 				}
 				tree = nil
-				format := NewParser(nil, formatGeneric, 0)
-				_, _ = format.preParser()
+				format := NewParser(nil, formatGeneric, 0, blk.syntaxTree.New())
+				_, _ = blk.preParser(format)
 				if err := blk.append(format, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 					return err
 				}
 
 			case tree == nil:
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
-				newPos, err := tree.preParser()
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0, blk.syntaxTree.New())
+				newPos, err := blk.preParser(tree)
 				if err != nil {
 					return err
 				}
@@ -299,8 +305,8 @@ func (blk *BlockT) ParseBlock() error {
 					return err
 				}
 			default:
-				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
-				newPos, err := tree.preParser()
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1, blk.syntaxTree.New())
+				newPos, err := blk.preParser(tree)
 				if err != nil {
 					return err
 				}
@@ -308,8 +314,8 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		default:
-			tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
-			newPos, err := tree.preParser()
+			tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1, blk.syntaxTree.New())
+			newPos, err := blk.preParser(tree)
 			if err != nil {
 				return err
 			}
@@ -329,7 +335,7 @@ func (blk *BlockT) ParseBlock() error {
 }
 
 func (blk *BlockT) parseStatementWithKnownCommand(command ...rune) (*ParserT, error) {
-	tree := NewParser(nil, blk.expression[blk.charPos:], 0)
+	tree := NewParser(nil, blk.expression[blk.charPos:], 0, node.Nil) // TODO: check this is correct
 	tree.statement = new(StatementT)
 	tree.statement.command = command
 	tree.charPos = len(command)

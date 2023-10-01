@@ -2,11 +2,12 @@ package expressions
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 )
 
 func ExecuteExpr(p *lang.Process, expression []rune) (*primitives.DataType, error) {
-	tree := NewParser(p, expression, 0)
+	tree := NewParser(p, expression, 0, node.Nil)
 
 	err := tree.parseExpression(true, true)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -55,7 +56,7 @@ func ParseSwitch(p *lang.Process, expression []rune) ([]*SwitchT, error) {
 			continue
 
 		default:
-			tree := NewParser(p, expression[i:], 0)
+			tree := NewParser(p, expression[i:], 0, node.Nil) // TODO: this needs to be replaced with an inherited syntaxTree
 			tree.statement = new(StatementT)
 			newPos, err := tree.parseSwitch()
 			if err != nil {

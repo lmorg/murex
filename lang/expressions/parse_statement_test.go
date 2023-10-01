@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/consts"
@@ -32,7 +33,7 @@ func testParseStatement(t *testing.T, tests []testParseStatementT) {
 		p.Name.Set("TestParseStatement")
 		p.Config.Set("proc", "strict-vars", false, nil)
 		p.Config.Set("proc", "strict-arrays", false, nil)
-		tree := NewParser(p, []rune(test.Statement), 0)
+		tree := NewParser(p, []rune(test.Statement), 0, node.Nil)
 		err := tree.ParseStatement(test.Exec)
 		if err == nil {
 			err = tree.statement.validate()

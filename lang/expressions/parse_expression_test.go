@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/test"
@@ -37,7 +38,7 @@ func testParserSymbol(t *testing.T, tests expTestsT) {
 	p.Config.Set("proc", "strict-arrays", false, nil)
 
 	for i, test := range tests.tests {
-		tree := NewParser(p, []rune(test.input), 0)
+		tree := NewParser(p, []rune(test.input), 0, node.Nil)
 		err := tree.parseExpression(true, true)
 
 		switch {
@@ -95,7 +96,7 @@ func testParserObject(t *testing.T, tests expTestsT) {
 	p.Config.Set("proc", "strict-arrays", false, nil)
 
 	for i, test := range tests.tests {
-		tree := NewParser(p, []rune(test.input), 0)
+		tree := NewParser(p, []rune(test.input), 0, node.Nil)
 		err := tree.parseExpression(true, true)
 
 		switch {
@@ -167,7 +168,7 @@ func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 	}
 
 	for i, test := range tests {
-		tree := NewParser(p, []rune(test.Expression), 0)
+		tree := NewParser(p, []rune(test.Expression), 0, node.Nil)
 
 		err := tree.parseExpression(true, true)
 		if err != nil {

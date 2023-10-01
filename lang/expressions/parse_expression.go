@@ -193,7 +193,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 		case '(':
 			// create sub expression
 			tree.charPos++
-			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
+			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0, tree.syntaxTree.New())
 			branch.charOffset = tree.charPos + tree.charOffset
 			branch.subExp = true
 			err := branch.parseExpression(exec, true)

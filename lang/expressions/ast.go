@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -35,6 +36,7 @@ type ParserT struct {
 	endCol        int
 	expression    []rune
 	subExp        bool
+	syntaxTree    node.SyntaxTreeT
 	p             *lang.Process
 	_strictTypes  interface{}
 	_strictArrays interface{}
