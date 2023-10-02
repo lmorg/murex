@@ -1,10 +1,11 @@
-package history
+package history_test
 
 import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
 	_ "github.com/lmorg/murex/lang/expressions"
+	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -46,7 +47,7 @@ func TestBangBang(t *testing.T) {
 		"out the lazy dog",
 	}
 
-	test(expandHistBangBang, t, tests, expected, rl)
+	test(history.ExpandHistBangBang, t, tests, expected, rl)
 }
 
 func TestHistPrefix(t *testing.T) {
@@ -62,7 +63,7 @@ func TestHistPrefix(t *testing.T) {
 		"",
 	}
 
-	test(expandHistPrefix, t, tests, expected, rl)
+	test(history.ExpandHistPrefix, t, tests, expected, rl)
 }
 
 func TestHistIndex(t *testing.T) {
@@ -86,7 +87,7 @@ func TestHistIndex(t *testing.T) {
 		"",
 	}
 
-	test(expandHistIndex, t, tests, expected, rl)
+	test(history.ExpandHistIndex, t, tests, expected, rl)
 }
 
 func TestHistRegex(t *testing.T) {
@@ -106,7 +107,7 @@ func TestHistRegex(t *testing.T) {
 		"",
 	}
 
-	test(expandHistRegex, t, tests, expected, rl)
+	test(history.ExpandHistRegex, t, tests, expected, rl)
 }
 
 func TestHistHashTag(t *testing.T) {
@@ -130,7 +131,7 @@ func TestHistHashTag(t *testing.T) {
 		"",
 	}
 
-	test(expandHistHashtag, t, tests, expected, rl)
+	test(history.ExpandHistHashtag, t, tests, expected, rl)
 }
 
 /*func TestHistAllPs(t *testing.T) {
@@ -202,7 +203,7 @@ func TestHistHashTag(t *testing.T) {
 		"",
 	}
 
-	test(expandHistAllPs, t, tests, expected, rl)
+	test(history.ExpandHistAllPs, t, tests, expected, rl)
 }*/
 
 func TestHistParam(t *testing.T) {
@@ -236,7 +237,7 @@ func TestHistParam(t *testing.T) {
 		"",
 	}
 
-	test(expandHistParam, t, tests, expected, rl)
+	test(history.ExpandHistParam, t, tests, expected, rl)
 }
 
 func TestHistReplace(t *testing.T) {
@@ -258,7 +259,7 @@ func TestHistReplace(t *testing.T) {
 		"err: the quick brown fox ",
 	}
 
-	test(expandHistReplace, t, tests, expected, rl)
+	test(history.ExpandHistReplace, t, tests, expected, rl)
 }
 
 /*func TestHistRepParam(t *testing.T) {
@@ -277,5 +278,5 @@ func TestHistReplace(t *testing.T) {
 		"out: the quick brown fox out: the slow brown fox",
 	}
 
-	test(expandHistRepParam, t, tests, expected, rl)
+	test(history.ExpandHistRepParam, t, tests, expected, rl)
 }*/

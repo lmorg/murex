@@ -52,13 +52,13 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 	}
 
 	funcs := []func(string, *readline.Instance) (string, error){
-		expandHistBangBang,
-		expandHistPrefix,
-		expandHistIndex,
-		expandHistRegex,
-		expandHistHashtag,
-		expandHistParam,
-		expandHistReplace,
+		ExpandHistBangBang,
+		ExpandHistPrefix,
+		ExpandHistIndex,
+		ExpandHistRegex,
+		ExpandHistHashtag,
+		ExpandHistParam,
+		ExpandHistReplace,
 	}
 
 	for f := range funcs {
@@ -73,14 +73,14 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 	return []rune(s), nil
 }
 
-// Match last command
-func expandHistBangBang(s string, rl *readline.Instance) (string, error) {
+// ExpandHistBangBang: Match last command
+func ExpandHistBangBang(s string, rl *readline.Instance) (string, error) {
 	last := getLine(rl.History.Len()-1, rl)
 	return strings.Replace(s, "^!!", noColon(last), -1), nil
 }
 
-// Match history index
-func expandHistIndex(s string, rl *readline.Instance) (string, error) {
+// ExpandHistIndex: Match history index
+func ExpandHistIndex(s string, rl *readline.Instance) (string, error) {
 	mhIndex := rxHistIndex.FindAllString(s, -1)
 	for i := range mhIndex {
 		val, _ := strconv.Atoi(mhIndex[i][1:])
@@ -94,8 +94,8 @@ func expandHistIndex(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Match history by regexp
-func expandHistRegex(s string, rl *readline.Instance) (string, error) {
+// ExpandHistRegex: Match history by regexp
+func ExpandHistRegex(s string, rl *readline.Instance) (string, error) {
 	mhRegexp := rxHistRegex.FindAllStringSubmatch(s, -1)
 	for i := range mhRegexp {
 		rx, err := regexp.Compile(mhRegexp[i][1])
@@ -115,8 +115,8 @@ func expandHistRegex(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Match history hashtag
-func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
+// ExpandHistHashtag: Match history hashtag
+func ExpandHistHashtag(s string, rl *readline.Instance) (string, error) {
 	mhTag := rxHistTag.FindAllString(s, -1)
 
 	for i := range mhTag {
@@ -137,8 +137,8 @@ func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Match last params (first command in block)
-func expandHistParam(s string, rl *readline.Instance) (string, error) {
+// ExpandHistParam: Match last params (first command in block)
+func ExpandHistParam(s string, rl *readline.Instance) (string, error) {
 	mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
 		last := getLine(rl.History.Len()-1, rl)
@@ -171,8 +171,8 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Replace string from command buffer
-func expandHistReplace(s string, rl *readline.Instance) (string, error) {
+// ExpandHistReplace: Replace string from command buffer
+func ExpandHistReplace(s string, rl *readline.Instance) (string, error) {
 	sList := rxHistReplace.FindAllStringSubmatch(s, -1)
 	var rxList []*regexp.Regexp
 	var replaceList []string
@@ -193,8 +193,8 @@ func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Match history prefix
-func expandHistPrefix(s string, rl *readline.Instance) (string, error) {
+// ExpandHistPrefix: Match history prefix
+func ExpandHistPrefix(s string, rl *readline.Instance) (string, error) {
 	mhPrefix := rxHistPrefix.FindAllString(s, -1)
 	for i := range mhPrefix {
 		for h := rl.History.Len() - 1; h > -1; h-- {

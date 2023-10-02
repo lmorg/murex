@@ -40,9 +40,6 @@ func ParseBlock(block []rune) (*[]functions.FunctionT, error) {
 
 func init() {
 	lang.ParseBlock = ParseBlock
-}
-
-func init() {
 	shell.SyntaxHighlight = SyntaxHighlight
 }
 
