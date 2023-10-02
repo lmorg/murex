@@ -137,3 +137,30 @@ func TestHlExpression(t *testing.T) {
 		`$foo=%(bar)`, `$foo = %( bar )`,
 	})
 }
+
+func TestHlArray(t *testing.T) {
+	testSyntaxHighlighter(t, []string{
+		`%[]`, `%[ ]`,
+		`%[true]`, `%[false]`, `%[null]`,
+		`%[1 2 3]`, `%[1,2,3]`, `%[1, 2, 3]`, `%[ 1 2 3 ]`,
+		`%[-1 -2 -3]`, `%[-1,-2,-3]`, `%[-1, -2, -3]`, `%[ -1 -2 -3 ]`,
+		`%[a b c]`, `%[a,b,c]`, `%[a, b, c]`, `%[ a b c ]`,
+		`%[-a -b -c]`, `%[-a,-b,-c]`, `%[-a, -b, -c]`, `%[ -a -b -c ]`,
+		`%['a' 'b' 'b']`, `%['a','b','c']`, `%['a', 'b', 'c']`, `%[ 'a' 'b' 'b' ]`,
+		`%["a" "b" "b"]`, `%["a","b","c"]`, `%["a", "b", "c"]`, `%[ "a" "b" "b" ]`,
+	})
+}
+
+func TestHlArrayNested(t *testing.T) {
+	testSyntaxHighlighter(t, []string{
+		`%[1 %[1 2 3] 3]`,
+	})
+}
+
+func TestHlArrayStatement(t *testing.T) {
+	testSyntaxHighlighter(t, []string{
+		`echo %[]`, `echo %[ ]`,
+		`echo %[1 2 3]`,
+		`echo %[1 %[1 2 3] 3]`,
+	})
+}

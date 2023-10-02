@@ -165,9 +165,11 @@ func (blk *BlockT) ParseBlock() error {
 
 		switch r {
 		case ' ', '\t', '\r':
+			blk.syntaxTree.Add(node.H_PIPE, r)
 			continue
 
 		case '\n':
+			blk.syntaxTree.Add(node.H_PIPE, r)
 			if err := blk.append(tree, 0, fn.P_NEW_CHAIN); err != nil {
 				return err
 			}
@@ -199,6 +201,7 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case ';':
+			blk.syntaxTree.Add(node.H_PIPE, r)
 			if err := blk.append(tree, 0, fn.P_NEW_CHAIN); err != nil {
 				return err
 			}
@@ -208,6 +211,7 @@ func (blk *BlockT) ParseBlock() error {
 			switch {
 			case blk.nextChar() == '&':
 				blk.charPos++
+				blk.syntaxTree.Add(node.H_OPERATOR, r, r)
 				if err := blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_FOLLOW_ON|fn.P_LOGIC_AND); err != nil {
 					return err
 				}
@@ -226,12 +230,14 @@ func (blk *BlockT) ParseBlock() error {
 		case '|':
 			if blk.nextChar() == '|' {
 				blk.charPos++
+				blk.syntaxTree.Add(node.H_OPERATOR, r, r)
 				if err := blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_FOLLOW_ON|fn.P_LOGIC_OR); err != nil {
 					return err
 				}
 				tree = nil
 
 			} else {
+				blk.syntaxTree.Add(node.H_PIPE, r)
 				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 					return err
 				}
@@ -242,6 +248,7 @@ func (blk *BlockT) ParseBlock() error {
 			switch {
 			case blk.nextChar() == '>':
 				blk.charPos++
+				blk.syntaxTree.Add(node.H_PIPE, r, '>')
 				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 					return err
 				}
@@ -258,6 +265,7 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '?':
+			blk.syntaxTree.Add(node.H_PIPE, r)
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err
 			}
@@ -267,6 +275,7 @@ func (blk *BlockT) ParseBlock() error {
 			switch {
 			case blk.nextChar() == '>':
 				blk.charPos++
+				blk.syntaxTree.Add(node.H_PIPE, r, '>')
 				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 					return err
 				}
@@ -296,7 +305,7 @@ func (blk *BlockT) ParseBlock() error {
 					!blk.Functions[len(blk.Functions)-1].Properties.Method() {
 					panic("ugh")
 				}*/
-
+				blk.syntaxTree.Add(node.H_PIPE, r, r)
 				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
 				if err != nil {
 					return err

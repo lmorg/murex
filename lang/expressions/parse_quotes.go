@@ -70,7 +70,9 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, error) {
 		}
 	}
 
-	tree.syntaxTree.Add(node.H_ERROR, value[1:]...)
+	if len(value) > 0 {
+		tree.syntaxTree.Add(node.H_ERROR, value[1:]...)
+	}
 	return value, raiseError(
 		tree.expression, nil, tree.charPos, fmt.Sprintf(
 			"missing closing quote (%s)",

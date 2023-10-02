@@ -10,19 +10,6 @@ type SyntaxTreeT interface {
 	SyntaxHighlight() []rune
 }
 
-/*Clone() ThemeT
-	BeginSubExpr()
-	UpdateParent()
-	Clear()
-	ClearExpr()
-	GetHighlighted() []rune
-	Begin(int, ...rune)
-	Append(...rune)
-	End(int, ...rune)
-	Highlight(int, ...rune)
-	IsHighlighter() bool
-}*/
-
 type Symbol int
 
 const (
@@ -39,8 +26,10 @@ const (
 	H_ESCAPE
 	H_QUOTED_STRING
 	H_ARRAY_ITEM
+	H_ARRAY_SEPARATOR
 	H_OBJECT_KEY
 	H_OBJECT_VALUE
+	H_OBJECT_SEPARATOR
 	H_OPERATOR
 	H_PIPE
 	H_COMMENT
@@ -61,8 +50,10 @@ const (
 	H_END_ESCAPE
 	H_END_QUOTED_STRING
 	H_END_ARRAY_ITEM
+	H_END_ARRAY_SEPARATOR
 	H_END_OBJECT_KEY
 	H_END_OBJECT_VALUE
+	H_END_OBJECT_SEPARATOR
 	H_END_OPERATOR
 	H_END_PIPE
 	H_END_COMMENT

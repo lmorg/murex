@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
@@ -60,7 +61,7 @@ func Start() {
 
 	lang.ShellProcess.StartTime = time.Now()
 
-	//node.InitialiseDefaultTheme()
+	node.InitialiseDefaultTheme()
 
 	// disable this for Darwin (macOS) because the messages it pops up might
 	// spook many macOS users.

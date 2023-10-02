@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -61,10 +62,12 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 
 		case '\'', '"':
 			// quoted string
+			tree.syntaxTree.Add(node.H_BRACE_OPEN, r)
 			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return nil, nil, err
 			}
+			tree.syntaxTree.Add(node.H_BRACE_CLOSE, r)
 			slice = append(slice, string(value))
 			tree.charPos++
 
@@ -74,6 +77,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				// do nothing because action covered in the next iteration
 			case '(':
 				// start nested string
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '(')
 				tree.charPos++
 				value, err := tree.parseParenthesis(exec)
 				if err != nil {
@@ -81,11 +85,17 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				}
 				slice = append(slice, string(value))
 			default:
+				tree.syntaxTree.Add(node.H_ERROR, tree.nextChar())
 				return nil, nil, fmt.Errorf("'%%' token should be followed with '[', '{', or '(', instead got '%s'", string(r))
 			}
 
 		case '[':
 			// start nested array
+			if tree.prevChar() == '%' {
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '[')
+			} else {
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '[')
+			}
 			_, dt, err := tree.parseArray(exec)
 			if err != nil {
 				return nil, nil, err
@@ -99,10 +109,16 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 
 		case ']':
 			// end array
+			tree.syntaxTree.Add(node.H_BRACE_CLOSE, ']')
 			goto endArray
 
 		case '{':
 			// start nested object
+			if tree.prevChar() == '%' {
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '{')
+			} else {
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '{')
+			}
 			_, dt, err := tree.parseObject(exec)
 			if err != nil {
 				return nil, nil, err
@@ -193,6 +209,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			//fallthrough
 
 		case ',', ' ', '\t', '\r':
+			tree.syntaxTree.Add(node.H_ARRAY_SEPARATOR, r)
 			// do nothing
 
 		default:
@@ -201,9 +218,21 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			if err == nil {
 				// is a number
 				slice = append(slice, v)
+				tree.syntaxTree.Add(node.H_NUMBER, value...)
 			} else {
 				// is a string
-				slice = append(slice, formatArrayValue(value))
+				v = formatArrayValue(value)
+				slice = append(slice, v)
+				switch v.(type) {
+				case bool:
+					tree.syntaxTree.Add(node.H_BOOLEAN, value...)
+				case nil:
+					tree.syntaxTree.Add(node.H_NULL, value...)
+				case string:
+					tree.syntaxTree.Add(node.H_ARRAY_ITEM, value...)
+				default:
+					panic(fmt.Sprintf("unexpected data type: %T", v))
+				}
 			}
 		}
 	}

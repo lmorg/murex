@@ -3,6 +3,4 @@
 
 package signaltrap
 
-import "syscall"
-
-var interrupts = map[string]syscall.Signal{}
+var interrupts = map[string]nil{}

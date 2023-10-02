@@ -40,8 +40,8 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		case '\\':
 			tree.statement.validFunction = false
-			runes, escape := tree.parseEscape()
-			tree.syntaxTree.Add(node.H_ESCAPE, runes...)
+			escape := tree.parseEscape()
+			tree.syntaxTree.Add(node.H_PARAMETER)
 			r := tree.expression[tree.charPos]
 			if r == '\n' {
 				tree.crLf()
@@ -306,7 +306,8 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				if err != nil {
 					return err
 				}
-				tree.syntaxTree.Add(node.H_BRACE_CLOSE, ']')
+				//tree.charPos++
+				//tree.syntaxTree.Add(node.H_BRACE_CLOSE, ']')
 			case '{':
 				// JSON object
 				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '{')
@@ -329,7 +330,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 					return err
 				}
 				appendToParam(tree, value...)
-				tree.syntaxTree.Add(node.H_BRACE_CLOSE, ')')
+				//tree.syntaxTree.Add(node.H_BRACE_CLOSE, ')')
 			default:
 				tree.syntaxTree.Append('%')
 				appendToParam(tree, r)
@@ -503,6 +504,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				return err
 			default:
 				// assign value
+				tree.syntaxTree.Append(r)
 				appendToParam(tree, r)
 			}
 

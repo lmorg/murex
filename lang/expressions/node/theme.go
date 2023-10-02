@@ -7,47 +7,51 @@ import (
 )
 
 type ThemeT struct {
-	Command      string
-	CmdModifier  string
-	Parameter    string
-	Glob         string
-	Number       string
-	Bareword     string
-	Boolean      string
-	Null         string
-	Variable     string
-	Macro        string
-	Escape       string
-	QuotedString string
-	ArrayItem    string
-	ObjectKey    string
-	ObjectValue  string
-	Operator     string
-	Pipe         string
-	Comment      string
-	Error        string
-	Braces       []string
+	Command         string
+	CmdModifier     string
+	Parameter       string
+	Glob            string
+	Number          string
+	Bareword        string
+	Boolean         string
+	Null            string
+	Variable        string
+	Macro           string
+	Escape          string
+	QuotedString    string
+	ArrayItem       string
+	ArraySeparator  string
+	ObjectKey       string
+	ObjectValue     string
+	ObjectSeparator string
+	Operator        string
+	Pipe            string
+	Comment         string
+	Error           string
+	Braces          []string
 
-	EndCommand      string
-	EndCmdModifier  string
-	EndParameter    string
-	EndGlob         string
-	EndNumber       string
-	EndBareword     string
-	EndBoolean      string
-	EndNull         string
-	EndVariable     string
-	EndMacro        string
-	EndEscape       string
-	EndQuotedString string
-	EndArrayItem    string
-	EndObjectKey    string
-	EndObjectValue  string
-	EndOperator     string
-	EndPipe         string
-	EndComment      string
-	EndError        string
-	EndBraces       []string
+	EndCommand         string
+	EndCmdModifier     string
+	EndParameter       string
+	EndGlob            string
+	EndNumber          string
+	EndBareword        string
+	EndBoolean         string
+	EndNull            string
+	EndVariable        string
+	EndMacro           string
+	EndEscape          string
+	EndQuotedString    string
+	EndArrayItem       string
+	EndArraySeparator  string
+	EndObjectKey       string
+	EndObjectValue     string
+	EndObjectSeparator string
+	EndOperator        string
+	EndPipe            string
+	EndComment         string
+	EndError           string
+	EndBraces          []string
 
 	lookup [][]rune
 	//previousState [][]rune
@@ -69,7 +73,7 @@ func (theme *ThemeT) CompileTheme() error {
 	}
 
 	theme.lookup = make([][]rune, 100) //H_END_BRACE+len(theme.EndBraces))
-	theme.bracePair = -1
+	//theme.bracePair = -1
 
 	noColour := !ansi.IsAllowed()
 
@@ -86,8 +90,10 @@ func (theme *ThemeT) CompileTheme() error {
 	theme.lookup[H_ESCAPE] = []rune(ansi.ForceExpandConsts(theme.Escape, noColour))
 	theme.lookup[H_QUOTED_STRING] = []rune(ansi.ForceExpandConsts(theme.QuotedString, noColour))
 	theme.lookup[H_ARRAY_ITEM] = []rune(ansi.ForceExpandConsts(theme.ArrayItem, noColour))
+	theme.lookup[H_ARRAY_SEPARATOR] = []rune(ansi.ForceExpandConsts(theme.ArraySeparator, noColour))
 	theme.lookup[H_OBJECT_KEY] = []rune(ansi.ForceExpandConsts(theme.ObjectKey, noColour))
 	theme.lookup[H_OBJECT_VALUE] = []rune(ansi.ForceExpandConsts(theme.ObjectValue, noColour))
+	theme.lookup[H_OBJECT_SEPARATOR] = []rune(ansi.ForceExpandConsts(theme.ObjectSeparator, noColour))
 	theme.lookup[H_OPERATOR] = []rune(ansi.ForceExpandConsts(theme.Operator, noColour))
 	theme.lookup[H_PIPE] = []rune(ansi.ForceExpandConsts(theme.Pipe, noColour))
 	theme.lookup[H_COMMENT] = []rune(ansi.ForceExpandConsts(theme.Comment, noColour))
@@ -109,8 +115,10 @@ func (theme *ThemeT) CompileTheme() error {
 	theme.lookup[H_END_ESCAPE] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndEscape), noColour))
 	theme.lookup[H_END_QUOTED_STRING] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndQuotedString), noColour))
 	theme.lookup[H_END_ARRAY_ITEM] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndArrayItem), noColour))
+	theme.lookup[H_END_ARRAY_SEPARATOR] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndArraySeparator), noColour))
 	theme.lookup[H_END_OBJECT_KEY] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndObjectKey), noColour))
 	theme.lookup[H_END_OBJECT_VALUE] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndObjectValue), noColour))
+	theme.lookup[H_END_OBJECT_SEPARATOR] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndObjectSeparator), noColour))
 	theme.lookup[H_END_OPERATOR] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndOperator), noColour))
 	theme.lookup[H_END_PIPE] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndPipe), noColour))
 	theme.lookup[H_END_COMMENT] = []rune(ansi.ForceExpandConsts(_resetStyle(theme.EndComment), noColour))
@@ -127,7 +135,7 @@ func (theme *ThemeT) highlight(keyword Symbol, block ...rune) []rune {
 
 	r := theme.lookup[v]
 	r = append(r, block...)
-	r = append(r, theme.lookup[v+_adjust+1]...)
+	r = append(r, theme.lookup[v+ADJUST]...)
 	//r = append(r, theme.previousStyle()...)
 
 	return r
@@ -136,6 +144,8 @@ func (theme *ThemeT) highlight(keyword Symbol, block ...rune) []rune {
 func (theme *ThemeT) braceAdj(keyword Symbol) Symbol {
 	switch keyword {
 	case H_BRACE_OPEN:
+		return _H_BRACE
+		//panic(fmt.Sprintf("%d %d", _H_BRACE+theme.bracePair, _H_BRACE+theme.bracePair+ADJUST))
 		adj := _H_BRACE + theme.bracePair
 		theme.bracePair++
 		if theme.bracePair != 0 && len(theme.lookup[_H_BRACE+theme.bracePair]) == 0 {
@@ -144,6 +154,7 @@ func (theme *ThemeT) braceAdj(keyword Symbol) Symbol {
 		return adj
 
 	case H_BRACE_CLOSE:
+		return _H_BRACE
 		theme.bracePair--
 		adj := _H_BRACE + theme.bracePair
 		if adj < 0 {
@@ -155,17 +166,3 @@ func (theme *ThemeT) braceAdj(keyword Symbol) Symbol {
 		return keyword
 	}
 }
-
-/*func (theme *ThemeT) addStyle(style []rune) {
-	theme.previousState = append(theme.previousState, style)
-}
-
-func (theme *ThemeT) restoreStyle() []rune {
-	if len(theme.previousState) == 0 {
-		return []rune{}
-	}
-	style := theme.previousState[len(theme.previousState)-1]
-	theme.previousState = theme.previousState[:len(theme.previousState)-1]
-	return style
-}
-*/
