@@ -71,12 +71,12 @@ func (blk *BlockT) preParser(tree *ParserT) (int, error) {
 	}
 
 	if expErr == nil {
-		blk.syntaxTree.Merge(blk.syntaxTree)
+		blk.syntaxTree.Merge(tree.syntaxTree)
 		return tree.charPos, nil
 	}
 
 	tree.syntaxTree = blk.syntaxTree.New()
-	defer blk.syntaxTree.Merge(blk.syntaxTree)
+	defer blk.syntaxTree.Merge(tree.syntaxTree)
 
 	stErr := tree.ParseStatement(false)
 	if stErr != nil {
@@ -158,6 +158,7 @@ var formatGeneric = []rune("format " + types.Generic)
 
 func (blk *BlockT) ParseBlock() error {
 	var tree *ParserT
+	//blk.syntaxTree.Add(node.H_COMMAND)
 
 	for ; blk.charPos < len(blk.expression); blk.charPos++ {
 		r := blk.expression[blk.charPos]

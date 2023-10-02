@@ -32,7 +32,7 @@ func testSyntaxHighlighter(t *testing.T, tests []string) {
 	}
 }
 
-func TestSingleQuotes(t *testing.T) {
+func TestHlSingleQuotes(t *testing.T) {
 	testSyntaxHighlighter(t, []string{
 		`echo 'hello world`,
 		`echo hello world'`,
@@ -56,7 +56,7 @@ func TestSingleQuotes(t *testing.T) {
 	})
 }
 
-func TestDoubleQuotes(t *testing.T) {
+func TestHlDoubleQuotes(t *testing.T) {
 	testSyntaxHighlighter(t, []string{
 		`echo "hello world`,
 		`echo hello world"`,
@@ -80,7 +80,7 @@ func TestDoubleQuotes(t *testing.T) {
 	})
 }
 
-func TestBraceQuotesExpr(t *testing.T) {
+func TestHlBraceQuotesExpr(t *testing.T) {
 	testSyntaxHighlighter(t, []string{
 		`echo (hello world`,
 		`echo hello world)`,
@@ -104,7 +104,7 @@ func TestBraceQuotesExpr(t *testing.T) {
 	})
 }
 
-func TestBraceQuotesStr(t *testing.T) {
+func TestHlBraceQuotesStr(t *testing.T) {
 	testSyntaxHighlighter(t, []string{
 		`echo %(hello world`,
 		`echo hello world)`,
@@ -125,5 +125,15 @@ func TestBraceQuotesStr(t *testing.T) {
 		`echo %(hello ~world`,
 		`echo hello ~world)`,
 		`echo %(hello ~world)`,
+	})
+}
+
+func TestHlExpression(t *testing.T) {
+	testSyntaxHighlighter(t, []string{
+		`5*5`, `5 * 5`,
+		`1=2+3`, `1 = 2 + 3`,
+		`$foo='bar'`, `$foo = ' bar '`,
+		`$foo="bar"`, `$foo = " bar "`,
+		`$foo=%(bar)`, `$foo = %( bar )`,
 	})
 }

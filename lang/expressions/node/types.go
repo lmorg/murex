@@ -2,7 +2,9 @@ package node
 
 type SyntaxTreeT interface {
 	New() SyntaxTreeT
-	Append(Symbol, []rune)
+	Add(Symbol, ...rune)
+	Append(...rune)
+	ChangeSymbol(Symbol)
 	Merge(SyntaxTreeT)
 	_nodes() []*nodeT
 	SyntaxHighlight() []rune

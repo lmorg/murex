@@ -4,6 +4,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/functions"
 	"github.com/lmorg/murex/lang/expressions/node"
+	"github.com/lmorg/murex/shell"
 )
 
 type BlockT struct {
@@ -41,9 +42,13 @@ func init() {
 	lang.ParseBlock = ParseBlock
 }
 
-func SyntaxHighlight(block []rune) []rune {
+func init() {
+	shell.SyntaxHighlight = SyntaxHighlight
+}
+
+func SyntaxHighlight(block []rune) string {
 	blk := NewBlock(block)
 	blk.syntaxTree = node.NewHighlighter(&node.DefaultTheme)
 	_ = blk.ParseBlock()
-	return blk.syntaxTree.SyntaxHighlight()
+	return string(blk.syntaxTree.SyntaxHighlight())
 }

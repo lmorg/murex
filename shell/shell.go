@@ -337,7 +337,7 @@ func getSyntaxHighlighting() {
 		highlight = false
 	}
 	if highlight.(bool) {
-		Prompt.SyntaxHighlighter = syntaxHighlight
+		Prompt.SyntaxHighlighter = SyntaxHighlight
 	} else {
 		Prompt.SyntaxHighlighter = nil
 	}

@@ -3,6 +3,7 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/utils/ansi"
 )
@@ -69,6 +70,7 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, error) {
 		}
 	}
 
+	tree.syntaxTree.Add(node.H_ERROR, value[1:]...)
 	return value, raiseError(
 		tree.expression, nil, tree.charPos, fmt.Sprintf(
 			"missing closing quote (%s)",
@@ -77,6 +79,7 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, error) {
 endString:
 	tree.charPos--
 	if !exec {
+		tree.syntaxTree.Add(node.H_QUOTED_STRING, value[1:]...)
 		value = append(value, qEnd)
 	}
 
@@ -294,6 +297,7 @@ func (tree *ParserT) parseNamedPipe() []rune {
 		}
 
 		if r == '>' {
+			tree.syntaxTree.Add(node.H_CMD_MODIFIER, tree.expression[start:tree.charPos+1]...)
 			return tree.expression[start+1 : tree.charPos]
 		}
 

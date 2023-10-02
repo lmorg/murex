@@ -49,8 +49,9 @@ type ThemeT struct {
 	EndError        string
 	EndBraces       []string
 
-	lookup    [][]rune
-	bracePair int
+	lookup [][]rune
+	//previousState [][]rune
+	bracePair Symbol
 }
 
 func _resetStyle(s string) string {
@@ -120,3 +121,51 @@ func (theme *ThemeT) CompileTheme() error {
 
 	return nil
 }
+
+func (theme *ThemeT) highlight(keyword Symbol, block ...rune) []rune {
+	v := theme.braceAdj(keyword)
+
+	r := theme.lookup[v]
+	r = append(r, block...)
+	r = append(r, theme.lookup[v+_adjust+1]...)
+	//r = append(r, theme.previousStyle()...)
+
+	return r
+}
+
+func (theme *ThemeT) braceAdj(keyword Symbol) Symbol {
+	switch keyword {
+	case H_BRACE_OPEN:
+		adj := _H_BRACE + theme.bracePair
+		theme.bracePair++
+		if theme.bracePair != 0 && len(theme.lookup[_H_BRACE+theme.bracePair]) == 0 {
+			theme.bracePair = 0
+		}
+		return adj
+
+	case H_BRACE_CLOSE:
+		theme.bracePair--
+		adj := _H_BRACE + theme.bracePair
+		if adj < 0 {
+			return H_ERROR
+		}
+		return adj
+
+	default:
+		return keyword
+	}
+}
+
+/*func (theme *ThemeT) addStyle(style []rune) {
+	theme.previousState = append(theme.previousState, style)
+}
+
+func (theme *ThemeT) restoreStyle() []rune {
+	if len(theme.previousState) == 0 {
+		return []rune{}
+	}
+	style := theme.previousState[len(theme.previousState)-1]
+	theme.previousState = theme.previousState[:len(theme.previousState)-1]
+	return style
+}
+*/

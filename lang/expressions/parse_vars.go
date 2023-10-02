@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/home"
@@ -37,6 +38,7 @@ func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatti
 
 	if !isBareChar(tree.nextChar()) {
 		// always print $
+		tree.syntaxTree.Append('$')
 		return []rune{'$'}, "$", types.String, nil
 	}
 
@@ -58,6 +60,7 @@ func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatti
 		return r, v, dataType, err
 	}
 
+	tree.syntaxTree.Add(node.H_VARIABLE, r...)
 	return r, nil, "", nil
 }
 
@@ -295,6 +298,7 @@ endTilde:
 	tree.charPos--
 
 	if !exec {
+		tree.syntaxTree.Add(node.H_VARIABLE, tree.expression[start-1:tree.charPos+1]...)
 		return "~" + user
 	}
 

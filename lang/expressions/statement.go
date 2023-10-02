@@ -3,6 +3,7 @@ package expressions
 import (
 	"errors"
 
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/utils/lists"
 )
@@ -53,12 +54,14 @@ func (tree *ParserT) nextParameter() error {
 		st.command = st.paramTemp
 		st.possibleGlob = false
 		st.validFunction = true
+		tree.syntaxTree.Add(node.H_PARAMETER)
 
 	case st.possibleGlob:
 		// glob
 		st.possibleGlob = false
 		st.canHaveZeroLenStr = false
 		st.validFunction = true
+		tree.syntaxTree.Add(node.H_PARAMETER)
 
 		if !tree.ExpandGlob() || lists.Match(noglob.GetNoGlobCmds(), st.String()) {
 			st.parameters = append(st.parameters, st.paramTemp)
@@ -81,6 +84,7 @@ func (tree *ParserT) nextParameter() error {
 		st.parameters = append(st.parameters, st.paramTemp)
 		st.canHaveZeroLenStr = false
 		st.validFunction = true
+		tree.syntaxTree.Add(node.H_PARAMETER)
 
 	case len(st.paramTemp) == 0:
 		// just empty space. Nothing to do
@@ -90,6 +94,7 @@ func (tree *ParserT) nextParameter() error {
 		// just a regular old parameter
 		st.parameters = append(st.parameters, st.paramTemp)
 		st.validFunction = true
+		tree.syntaxTree.Add(node.H_PARAMETER)
 	}
 
 	st.paramTemp = []rune{}

@@ -28,7 +28,8 @@ var DefaultTheme = ThemeT{
 	Braces: []string{
 		"{CYAN}", "{YELLOW}", "{BLUE}", "{MAGENTA}",
 	},
-	Comment:  "{BG-GREEN}",
-	Error:    "{RED}",
-	EndError: "{RESET}",
+	Comment: "{BG-GREEN}",
+	//Comment:    "->",
+	//EndComment: "<-",
+	Error: "{RED}",
 }

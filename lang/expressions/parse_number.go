@@ -1,5 +1,7 @@
 package expressions
 
+import "github.com/lmorg/murex/lang/expressions/node"
+
 func (tree *ParserT) parseNumber() []rune {
 	start := tree.charPos
 
@@ -17,5 +19,7 @@ func (tree *ParserT) parseNumber() []rune {
 	}
 
 endNumber:
-	return tree.expression[start:tree.charPos]
+	value := tree.expression[start:tree.charPos]
+	tree.syntaxTree.Add(node.H_NUMBER, value...)
+	return value
 }

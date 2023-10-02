@@ -3,11 +3,14 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
 func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
+	//tree.syntaxTree.Add(node.H_COMMAND)
+
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 		switch r {
@@ -16,6 +19,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			return nil
 
 		case ' ', '\t', '\r':
+			tree.syntaxTree.Append(r)
 			// whitespace. do nothing
 
 		case '\n':
@@ -37,10 +41,12 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '?':
 				// elvis
 				tree.appendAst(symbols.NullCoalescing)
+				tree.syntaxTree.Add(node.H_OPERATOR, '?', '?')
 				tree.charPos++
 			case ':':
 				// elvis
 				tree.appendAst(symbols.Elvis)
+				tree.syntaxTree.Add(node.H_OPERATOR, '?', ':')
 				tree.charPos++
 			default:
 				// end expression
@@ -52,6 +58,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			if incLogicalOps && tree.nextChar() == '|' {
 				// equals
 				tree.appendAst(symbols.LogicalOr)
+				tree.syntaxTree.Add(node.H_OPERATOR, '|', '|')
 				tree.charPos++
 			} else {
 				// end expression
@@ -64,6 +71,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				if incLogicalOps {
 					// equals
 					tree.appendAst(symbols.LogicalAnd)
+					tree.syntaxTree.Add(node.H_OPERATOR, '|', '|')
 					tree.charPos++
 					continue
 				} else {
@@ -80,10 +88,12 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// equals
 				tree.appendAst(symbols.EqualTo)
+				tree.syntaxTree.Add(node.H_OPERATOR, '=', '=')
 				tree.charPos++
 			case '~':
 				// regexp
 				tree.appendAst(symbols.Regexp)
+				tree.syntaxTree.Add(node.H_OPERATOR, '=', '~')
 				tree.charPos++
 			case '>':
 				// generic pipe
@@ -91,6 +101,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				return nil
 			default:
 				// assign value
+				tree.syntaxTree.Add(node.H_OPERATOR, '=')
 				tree.appendAst(symbols.Assign)
 			}
 
@@ -99,6 +110,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// update variable
 				tree.appendAst(symbols.AssignUpdate)
+				tree.syntaxTree.Add(node.H_OPERATOR, ':', '=')
 				tree.charPos++
 			default:
 				// less than
@@ -110,14 +122,17 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// not equal
 				tree.appendAst(symbols.NotEqualTo)
+				tree.syntaxTree.Add(node.H_OPERATOR, '!', '=')
 				tree.charPos++
 			case '~':
 				// not regexp
 				tree.appendAst(symbols.NotRegexp)
+				tree.syntaxTree.Add(node.H_OPERATOR, '!', '~')
 				tree.charPos++
 			case '!':
 				// not like
 				tree.appendAst(symbols.NotLike)
+				tree.syntaxTree.Add(node.H_OPERATOR, '!', '!')
 				tree.charPos++
 			default:
 				//  might be a function
@@ -143,10 +158,12 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '~':
 				// like
 				tree.appendAst(symbols.Like)
+				tree.syntaxTree.Add(node.H_OPERATOR, '~', '~')
 				tree.charPos++
 			case '>':
 				// merge into
 				tree.appendAst(symbols.MergeInto)
+				tree.syntaxTree.Add(node.H_OPERATOR, '~', '>')
 				tree.charPos++
 			default:
 				// tilde
@@ -165,6 +182,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// greater than or equal to
 				tree.appendAst(symbols.GreaterThanOrEqual)
+				tree.syntaxTree.Add(node.H_OPERATOR, '>', '=')
 				tree.charPos++
 			case '>':
 				// redirect (append)
@@ -173,6 +191,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			default:
 				// greater than
 				tree.appendAst(symbols.GreaterThan)
+				tree.syntaxTree.Add(node.H_OPERATOR, '>')
 			}
 
 		case '<':
@@ -180,22 +199,27 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// less than or equal to
 				tree.appendAst(symbols.LessThanOrEqual)
+				tree.syntaxTree.Add(node.H_OPERATOR, '<', '=')
 				tree.charPos++
 			case '~':
 				// assign and merge
 				tree.appendAst(symbols.AssignAndMerge)
+				tree.syntaxTree.Add(node.H_OPERATOR, '<', '~')
 				tree.charPos++
 			default:
 				// less than
 				tree.appendAst(symbols.LessThan)
+				tree.syntaxTree.Add(node.H_OPERATOR, '<')
 			}
 
 		case '(':
 			// create sub expression
 			tree.charPos++
+			tree.syntaxTree.Add(node.H_BRACE_OPEN, '(')
 			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0, tree.syntaxTree.New())
 			branch.charOffset = tree.charPos + tree.charOffset
 			branch.subExp = true
+			tree.syntaxTree.Merge(branch.syntaxTree)
 			err := branch.parseExpression(exec, true)
 			if err != nil {
 				return err
@@ -220,6 +244,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			switch {
 			case tree.subExp:
 				// end sub expression
+				tree.syntaxTree.Add(node.H_BRACE_CLOSE, ')')
 				return nil
 			default:
 				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.SubExpressionEnd])
@@ -229,25 +254,32 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			switch tree.nextChar() {
 			case '[':
 				tree.charPos++
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '[')
 				err := tree.createArrayAst(exec)
 				if err != nil {
 					return err
 				}
+				tree.syntaxTree.Add(node.H_BRACE_CLOSE, ']')
 			case '{':
 				tree.charPos++
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '{')
 				err := tree.createObjectAst(exec)
 				if err != nil {
 					return err
 				}
+				tree.syntaxTree.Add(node.H_BRACE_CLOSE, '}')
 			case '(':
 				tree.charPos++
+				tree.syntaxTree.Add(node.H_BRACE_OPEN, '%', '(')
 				err := tree.createStringAst('(', ')', exec)
 				if err != nil {
 					return err
 				}
+				tree.syntaxTree.Add(node.H_BRACE_CLOSE, ')')
 			default:
 				tree.appendAst(symbols.Unexpected, r)
-				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
+				tree.syntaxTree.Add(node.H_ERROR, r)
+				//raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
 			}
 
 		case '[':
@@ -278,20 +310,24 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 
 		case '\'', '`':
 			// start string / end string
+			tree.syntaxTree.Add(node.H_QUOTED_STRING, r)
 			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
 			tree.appendAst(symbols.QuoteSingle, value...)
+			tree.syntaxTree.Add(node.H_QUOTED_STRING, r)
 			tree.charPos++
 
 		case '"':
 			// start string / end string
+			tree.syntaxTree.Add(node.H_QUOTED_STRING, r)
 			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
 			tree.appendAst(symbols.QuoteDouble, value...)
+			tree.syntaxTree.Add(node.H_QUOTED_STRING, r)
 			tree.charPos++
 
 		case '$':
@@ -357,10 +393,12 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// equal add
 				tree.appendAst(symbols.AssignAndAdd)
+				tree.syntaxTree.Add(node.H_OPERATOR, r, '=')
 				tree.charPos++
 			default:
 				// add (+append)
 				tree.appendAst(symbols.Add)
+				tree.syntaxTree.Add(node.H_OPERATOR, r)
 			}
 
 		case '-':
@@ -369,6 +407,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case c == '=':
 				// equal subtract
 				tree.appendAst(symbols.AssignAndSubtract)
+				tree.syntaxTree.Add(node.H_OPERATOR, r, '=')
 				tree.charPos++
 			case c >= '0' && '9' >= c:
 				if len(tree.ast) == 0 || tree.ast[len(tree.ast)-1].key > symbols.Operations {
@@ -379,6 +418,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				} else {
 					// subtract
 					tree.appendAst(symbols.Subtract)
+					tree.syntaxTree.Add(node.H_OPERATOR, r)
 				}
 			case c == '>':
 				// arrow pipe
@@ -386,6 +426,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				return nil
 			default:
 				tree.appendAst(symbols.Subtract)
+				tree.syntaxTree.Add(node.H_OPERATOR, r)
 				// invalid hyphen
 				//tree.appendAst(symbols.InvalidHyphen)
 			}
@@ -395,10 +436,12 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// equal multiply
 				tree.appendAst(symbols.AssignAndMultiply)
+				tree.syntaxTree.Add(node.H_OPERATOR, r, '=')
 				tree.charPos++
 			default:
 				// multiply
 				tree.appendAst(symbols.Multiply)
+				tree.syntaxTree.Add(node.H_OPERATOR, r)
 			}
 
 		case '/':
@@ -406,6 +449,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			case '=':
 				// equal divide
 				tree.appendAst(symbols.AssignAndDivide)
+				tree.syntaxTree.Add(node.H_OPERATOR, r, '=')
 				tree.charPos++
 			case '#':
 				// multi-line comment
@@ -415,6 +459,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			default:
 				// divide
 				tree.appendAst(symbols.Divide)
+				tree.syntaxTree.Add(node.H_OPERATOR, r)
 			}
 
 		default:
