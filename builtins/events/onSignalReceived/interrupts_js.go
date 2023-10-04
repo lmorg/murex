@@ -3,6 +3,8 @@
 
 package signaltrap
 
-import "syscall"
+type syscall string
 
-var interrupts = map[string]syscall.Signal{}
+func (s syscall) String() string { return "" }
+
+var interrupts = map[string]syscall{}
