@@ -44,7 +44,7 @@ page to select your platform.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<a href="DOWNLOAD.html" alt="download murex"><img src="/download.png" class="centre-image"/></a>
+<a href="DOWNLOAD.html" alt="download murex"><img src="/download.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/></a>
 <!-- markdownlint-restore -->
 {{ end }}
 
