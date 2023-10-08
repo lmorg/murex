@@ -55,7 +55,7 @@ shells available today.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<a href="terminal-keys.html" alt="supported hotkeys"><img src="/keyboard.png" class="centre-image"/></a>
+<a href="terminal-keys.html" alt="supported hotkeys"><img src="/keyboard.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/></a>
 <!-- markdownlint-restore -->
 {{ end }}
 

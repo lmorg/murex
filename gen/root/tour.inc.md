@@ -74,7 +74,7 @@ shells.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<a href="user-guide/interactive-shell.html" alt="interactive shell"><img src="/git-autocomplete.png" class="centre-image"/></a>
+<a href="user-guide/interactive-shell.html" alt="interactive shell"><img src="/git-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/></a>
 <!-- markdownlint-restore -->
 {{ end }}
 
