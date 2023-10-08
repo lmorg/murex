@@ -95,6 +95,18 @@ blockquote {
         border-style: solid;
         border-color: #0f600f;
     }
+
+    // vuepress tabbed code
+
+    .vp-code-tab-nav {
+        padding-bottom: 20px;
+    }
+
+    .vp-code-tab .line-numbers-mode {
+        border-width: 0px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
 }
 
 html[data-theme="dark"] ::marker {
@@ -140,17 +152,3 @@ html[data-theme="dark"] p code {
     background: inherit !important;
     color: #eefff0;
 }*/
-
-// vuepress tabbed code
-
-@media (min-width: 420px) {
-    .vp-code-tab-nav {
-        padding-bottom: 20px;
-    }
-
-    .vp-code-tab .line-numbers-mode {
-        border-width: 0px;
-        padding-top: 1px;
-        padding-bottom: 1px;
-    }
-}
