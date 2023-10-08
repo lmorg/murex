@@ -41,13 +41,11 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 
 > The null coalescing operator (called the Logical Defined-Or operator in Perl)
 > is a binary operator that is part of the syntax for a basic conditional
-> expression in several programming languages, including C#, PowerShell as of
-> version 7.0.0, Perl as of version 5.10, Swift, and PHP 7.0.0. While its
-> behavior differs between implementations, the null coalescing operator
-> generally returns the result of its left-most operand if it exists and is not
-> null, and otherwise returns the right-most operand. This behavior allows a
-> default value to be defined for cases where a more specific value is not
-> available.
+> expression in several programming languages. While its behavior differs
+> between implementations, the null coalescing operator generally returns the
+> result of its left-most operand if it exists and is not null, and otherwise
+> returns the right-most operand. This behavior allows a default value to be
+> defined for cases where a more specific value is not available.
 >
 > In contrast to the ternary conditional if operator used as `x ? x : y`, but
 > like the binary Elvis operator used as `x ?: y`, the null coalescing operator

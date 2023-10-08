@@ -36,7 +36,7 @@ func errVarCannotUpdateIndexOrElement(name string) error {
 }
 
 func errVarNoParam(i int, err error) error {
-	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
+	return fmt.Errorf("variable '%d' is not set because the scope returned the following error when querying parameter %d: %s", i, i, err.Error())
 }
 
 func errVarZeroLengthPath(name string) error {
