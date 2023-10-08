@@ -35,8 +35,8 @@ func _() {
 	_ = x[AssignAndDivide-25]
 	_ = x[AssignAndMultiply-26]
 	_ = x[AssignAndMerge-27]
-	_ = x[NullCoalescing-28]
-	_ = x[Elvis-29]
+	_ = x[Elvis-28]
+	_ = x[NullCoalescing-29]
 	_ = x[LogicalOr-30]
 	_ = x[LogicalAnd-31]
 	_ = x[EqualTo-32]
@@ -58,11 +58,11 @@ func _() {
 
 const (
 	_Exp_name_0 = "Undefined"
-	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeNullCoalescingElvisLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
+	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeElvisNullCoalescingLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
 )
 
 var (
-	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 287, 301, 306, 315, 325, 332, 342, 346, 353, 359, 368, 379, 397, 405, 420, 423, 431, 440, 448, 454}
+	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 287, 292, 306, 315, 325, 332, 342, 346, 353, 359, 368, 379, 397, 405, 420, 423, 431, 440, 448, 454}
 )
 
 func (i Exp) String() string {

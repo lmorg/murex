@@ -1,0 +1,62 @@
+- DocumentID: null-coalescing
+  Title: >-
+    `??` Null Coalescing Operator
+  CategoryID: parser
+  Summary: >-
+    Returns the right operand if the left operand is empty / undefined
+  Description: |-
+    The null coalescing operator is a little like a conditional where the result of the
+    operation is the first non-empty value from left to right.
+
+    An empty value is any of the following:
+    
+    * an unset / undefined variable
+    * any value with a `null` data type
+
+    Other "falsy" values such as numerical values of `0`, boolean `false`, zero
+    length strings and strings containing `"null"` are not considered empty by the
+    null coalescing operator.
+  Examples: |-
+    **Assign a variable with a default value:**
+
+    ```
+    » $foo = $bar ?? "baz"
+    ```
+
+    If `$bar` is unset then the value of `$foo` will be **"baz"**.
+
+    **Multiple operators:**
+
+    ```
+    » $unset_variable ?? null ?? "foobar"
+    foobar
+    ```
+  Detail: |-
+    The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/Null_coalescing_operator):
+    
+    > The null coalescing operator (called the Logical Defined-Or operator in Perl)
+    > is a binary operator that is part of the syntax for a basic conditional
+    > expression in several programming languages, including C#, PowerShell as of
+    > version 7.0.0, Perl as of version 5.10, Swift, and PHP 7.0.0. While its
+    > behavior differs between implementations, the null coalescing operator
+    > generally returns the result of its left-most operand if it exists and is not
+    > null, and otherwise returns the right-most operand. This behavior allows a
+    > default value to be defined for cases where a more specific value is not
+    > available.
+    >
+    > In contrast to the ternary conditional if operator used as `x ? x : y`, but
+    > like the binary Elvis operator used as `x ?: y`, the null coalescing operator
+    > is a binary operator and thus evaluates its operands at most once, which is
+    > significant if the evaluation of `x` has side-effects. 
+  Related:
+  - elvis
+  - pipe-err
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe
+  - logical-and
+  - logical-or
+  - "null"

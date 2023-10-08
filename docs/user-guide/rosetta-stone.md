@@ -88,11 +88,11 @@ if you want to learn more about shell scripting in Murex.
 ### Variables
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex) |
+| [Printing a variable](../parser/scalar.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex) |
 | [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set $foo` |
 | [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global $foo` |
 | [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export $foo` [[3]](#footnotes) |
-| Assign with a default value | `FOOBAR="${VARIABLE:-default}"` | `$foobar = $variable ?: "default"` <br/><br/> (the elvis operator can be used in any part of expressions and just for assignments)
+| [Assign with a default value](../parser/null-coalescing.md) | `FOOBAR="${VARIABLE:-default}"` | `$foobar = $variable ?: "default"` <br/><br/> (the elvis operator can be used in any part of expressions and just for assignments)
 
 ### Arrays
 (eg arrays, lists)

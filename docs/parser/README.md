@@ -56,7 +56,9 @@ files.
 * [`>>` Append Pipe](../parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
 * [`?:` Elvis Operator](../parser/elvis.md):
-  Returns the right operand if the left operand is empty
+  Returns the right operand if the left operand is falsy
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`[..range]`](../parser/range.md):
