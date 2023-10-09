@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "**/*.go"
+    branches:
+      - "!master"
 
   workflow_dispatch:
 
