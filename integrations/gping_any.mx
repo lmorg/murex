@@ -15,8 +15,15 @@ private autocomplete.gping {
         StdoutRegex: '--cmd'
     }
 
-    gping --help -> [Options..]re -> foreach --step 2 line {
-        out "$line[0]\t$line[1]"
+    gping --help -> [Options..]re -> foreach line {
+        if { $line =~ '^[\s]+-' } then {
+            $flag = $line
+        } else {
+            !if { is-null flag } then {
+                out "$flag\t$line"
+                !set flag
+            }
+        }
     } -> :str: mtac <test_notempty> -> tabulate --map --split-comma --key-inc-hint
 }
 
