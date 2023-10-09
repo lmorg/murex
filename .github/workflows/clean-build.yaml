@@ -5,7 +5,7 @@ on:
     paths:
       - "**/*.go"
     branches:
-      - "!master"
+      - "!v*"
 
   workflow_dispatch:
 
