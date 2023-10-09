@@ -367,7 +367,7 @@ func init() {
 		"changelog/v4.3":                   "This brings improved support on Windows plus one breaking change from the previous release (v4.2)",
 		"changelog/v4.4":                   "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
 		"changelog/v5.0":                   "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
-		"changelog/v5.1":                   "",
+		"changelog/v5.1":                   "This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.",
 	}
 
 	Synonym = map[string]string{
