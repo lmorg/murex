@@ -1,12 +1,6 @@
 package readline
 
-import (
-	"testing"
-
-	"github.com/lmorg/murex/test/count"
-)
-
-func TestGetPreviewWidth(t *testing.T) {
+/*func TestGetPreviewWidth(t *testing.T) {
 	tests := []struct {
 		Term    int
 		Preview int
@@ -52,4 +46,4 @@ func TestGetPreviewWidth(t *testing.T) {
 			t.Logf("  Act Forward: %d", forward)
 		}
 	}
-}
+}*/

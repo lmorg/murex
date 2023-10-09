@@ -189,7 +189,7 @@ const (
 	seqAltY = "\x1by"
 	seqAltZ = "\x1bz"
 
-	seqAltShiftA = "\x1bA"
+	/*seqAltShiftA = "\x1bA"
 	seqAltShiftB = "\x1bB"
 	seqAltShiftC = "\x1bC"
 	seqAltShiftD = "\x1bD"
@@ -214,5 +214,5 @@ const (
 	seqAltShiftW = "\x1bW"
 	seqAltShiftX = "\x1bX"
 	seqAltShiftY = "\x1bY"
-	seqAltShiftZ = "\x1bZ"
+	seqAltShiftZ = "\x1bZ"*/
 )

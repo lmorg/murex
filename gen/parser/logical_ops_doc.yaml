@@ -12,7 +12,7 @@
     This has no effect in `try` nor `trypipe` run modes because they automatically
     apply stricter error handling.
   Examples: |-
-    Second command runs because the first command doesn't error:
+    **Second command runs because the first command doesn't error:**
 
     ```
     » out one && out two
@@ -20,14 +20,14 @@
     two
     ```
 
-    Second command does not run because the first command produces an error:
+    **Second command does not run because the first command produces an error:**
 
     ```
     » err one && out two
     one
     ```
   Detail: |-
-    This is equivelent to a `try` block:
+    This is equivalent to a `try` block:
 
     ```
     try {
@@ -43,6 +43,8 @@
   - err
   - try
   - trypipe
+  - logical-or
+  - elvis
 
 
 
@@ -60,14 +62,14 @@
     This has no effect in `try` nor `trypipe` run modes because they automatically
     apply stricter error handling. See detail below.
   Examples: |-
-    Second command does not run because the first command doesn't error:
+    **Second command does not run because the first command doesn't error:**
 
     ```
     » out one || out two
     one
     ```
 
-    Second command does run because the first command produces an error:
+    **Second command does run because the first command produces an error:**
 
     ```
     » err one || out two
@@ -94,3 +96,5 @@
   - err
   - try
   - trypipe
+  - logical-and
+  - elvis

@@ -1,0 +1,57 @@
+- DocumentID: is-null
+  Title: >+
+    `is-null`
+  CategoryID: commands
+  Summary: >-
+    Checks is a variable is null or undefined
+  Description: |-
+    `is-null` checks if a variable is null or undefined. If multiple variables are
+    passed in `is-null`'s parameters, the exit number will be a count of the number
+    of non-null variables checked.
+
+    `is-null` is intended to be run non-interactively, where it doesn't write to
+    stdout but instead communicates its results via exit number. However if stdout
+    is a TTY `is-null` will additionally write to the terminal.
+
+    The following conditions are considered "null" by `is-null`:
+
+    * a variable not being defined
+    * a property not existed, eg an object key or array index
+    * any other error reading from a variable
+    * or the value of the variable or property being the data-type `null` or a
+      value of null.
+
+    Zero length strings, strings containing the word "null" and numeric data types
+    (eg `num`, `int`, `float` with the value of `0`) are all **not null**.
+  Usage: |-
+    ```
+    is-null variable_name... -> <stdout>
+    ```
+  Examples: |-
+    **Interactive output:**
+
+    ```
+    » $baz = ""
+    » is-null foo bar baz
+    foo: undefined or null
+    bar: undefined or null
+    baz: defined and not null
+    ```
+
+    **None interactive output:**
+
+    ```
+    if { is-null foobar } then {
+        out "baz is undefined"
+    }
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  Related:
+    - set
+    - global
+    - export
+    - null-coalescing
+    - reserved-vars
+    - scoping

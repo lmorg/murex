@@ -48,14 +48,6 @@ func (rl *Instance) getTabCompletion() {
 		// map in their API call.
 		rl.tcDescriptions = make(map[string]string)
 	}
-	/*if len(rl.tcSuggestions) == 0 && len(rl.tcPrefix) > 0 {
-
-			rl.tcr = rl.TabCompleter(rl.line.Runes(), rl.line.RunePos(), rl.delayedTabContext)
-			if rl.tcr == nil {
-				return
-			}
-
-	}*/
 	rl.tabMutex.Unlock()
 
 	rl.initTabCompletion()
@@ -78,35 +70,34 @@ func (rl *Instance) moveTabCompletionHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabCompletion(resetCursorPos bool) {
+func (rl *Instance) writeTabCompletionStr() string {
 	if !rl.modeTabCompletion {
-		return
+		return ""
 	}
 
-	_, posY := rl.lineWrapCellPos()
+	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
-	moveCursorDown(rl.hintY + lineY - posY)
-	print("\r\n" + seqClearScreenBelow)
+	output := moveCursorDownStr(rl.hintY + lineY - posY)
+	output += "\r\n" + seqClearScreenBelow
 
 	switch rl.tcDisplayType {
 	case TabDisplayGrid:
-		rl.writeTabGrid()
+		output += rl.writeTabGridStr()
 
 	case TabDisplayMap:
-		rl.writeTabMap()
+		output += rl.writeTabMapStr()
 
 	case TabDisplayList:
-		rl.writeTabMap()
+		output += rl.writeTabMapStr()
 
 	default:
-		rl.writeTabGrid()
+		output += rl.writeTabGridStr()
 	}
 
-	if resetCursorPos {
-		moveCursorUp(rl.hintY + rl.tcUsedY)
-		print("\r")
-		rl.moveCursorFromStartToLinePos()
-	}
+	output += moveCursorUpStr(rl.hintY + rl.tcUsedY + lineY - posY)
+	output += "\r" + moveCursorForwardsStr(posX)
+
+	return output
 }
 
 func (rl *Instance) resetTabCompletion() {

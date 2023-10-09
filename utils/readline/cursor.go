@@ -103,62 +103,51 @@ func moveCursorBackwardsStr(i int) string {
 	return fmt.Sprintf(cursorBackf, i)
 }
 
-func moveCursorUp(i int)        { printf(moveCursorUpStr(i)) }
-func moveCursorDown(i int)      { printf(moveCursorDownStr(i)) }
-func moveCursorForwards(i int)  { printf(moveCursorForwardsStr(i)) }
-func moveCursorBackwards(i int) { printf(moveCursorBackwardsStr(i)) }
-
-func (rl *Instance) moveCursorToStart() {
+func (rl *Instance) moveCursorToStartStr() string {
 	posX, posY := rl.lineWrapCellPos()
-
-	moveCursorBackwards(posX - rl.promptLen)
-	moveCursorUp(posY)
+	return moveCursorBackwardsStr(posX-rl.promptLen) + moveCursorUpStr(posY)
 }
 
-func (rl *Instance) moveCursorFromStartToLinePos() {
+func (rl *Instance) moveCursorFromStartToLinePosStr() string {
 	posX, posY := rl.lineWrapCellPos()
-	moveCursorForwards(posX)
-	moveCursorDown(posY)
+	output := moveCursorForwardsStr(posX)
+	output += moveCursorDownStr(posY)
+	return output
 }
 
-func (rl *Instance) moveCursorFromEndToLinePos() {
+func (rl *Instance) moveCursorFromEndToLinePosStr() string {
 	lineX, lineY := rl.lineWrapCellLen()
 	posX, posY := rl.lineWrapCellPos()
-	moveCursorBackwards(lineX - posX)
-	moveCursorUp(lineY - posY)
+	output := moveCursorBackwardsStr(lineX - posX)
+	output += moveCursorUpStr(lineY - posY)
+	return output
 }
 
-func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
+func (rl *Instance) moveCursorByRuneAdjustStr(rAdjust int) string {
 	oldX, oldY := rl.lineWrapCellPos()
 
 	rl.line.SetRunePos(rl.line.RunePos() + rAdjust)
 
-	if rl.line.RunePos() < 0 {
-		rl.line.SetRunePos(0)
-	}
-	if rl.line.RunePos() > rl.line.RuneLen() {
-		rl.line.SetRunePos(rl.line.RuneLen())
-	}
-
-	if rl.modeViMode != vimInsert && rl.line.RunePos() == rl.line.RuneLen() {
-		rl.line.SetRunePos(rl.line.RunePos() - 1)
-	}
-
 	newX, newY := rl.lineWrapCellPos()
 
 	y := newY - oldY
+
+	var output string
+
 	switch {
 	case y < 0:
-		moveCursorUp(-y)
+		output += moveCursorUpStr(-y)
 	case y > 0:
-		moveCursorDown(y)
+		output += moveCursorDownStr(y)
 	}
 
 	x := newX - oldX
 	switch {
 	case x < 0:
-		moveCursorBackwards(-x)
+		output += moveCursorBackwardsStr(-x)
 	case x > 0:
-		moveCursorForwards(x)
+		output += moveCursorForwardsStr(x)
 	}
+
+	return output
 }

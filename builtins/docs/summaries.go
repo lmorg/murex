@@ -61,6 +61,7 @@ func init() {
 		"global":                "Define a global variable and set it's value",
 		"history":               "Outputs murex's command history",
 		"if":                    "Conditional statement to execute different blocks of code depending on the result of the condition",
+		"is-null":               "Checks is a variable is null or undefined",
 		"ja":                    "A sophisticated yet simply way to build a JSON array",
 		"jsplit":                "Splits STDIN into a JSON array based on a regex parameter",
 		"left":                  "Left substring every item in a list",
@@ -184,6 +185,7 @@ func init() {
 		"commands/global":                  "Define a global variable and set it's value",
 		"commands/history":                 "Outputs murex's command history",
 		"commands/if":                      "Conditional statement to execute different blocks of code depending on the result of the condition",
+		"commands/is-null":                 "Checks is a variable is null or undefined",
 		"commands/ja":                      "A sophisticated yet simply way to build a JSON array",
 		"commands/jsplit":                  "Splits STDIN into a JSON array based on a regex parameter",
 		"commands/left":                    "Left substring every item in a list",
@@ -272,7 +274,9 @@ func init() {
 		"parser/equ":                       "Evaluate a mathematical function (deprecated)",
 		"parser/greater-than-greater-than": "Writes STDIN to disk - appending contents if file already exists",
 		"parser/pipe-append":               "Redirects STDOUT to a file and append its contents",
-		"parser/pipe-err":                  "Pipes STDERR from the left hand command to STDIN of the right hand command",
+		"parser/elvis":                     "Returns the right operand if the left operand is falsy",
+		"parser/null-coalescing":           "Returns the right operand if the left operand is empty / undefined",
+		"parser/pipe-err":                  "Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)",
 		"parser/range":                     "Outputs a ranged subset of data from STDIN",
 		"parser/element":                   "Outputs an element from a nested structure",
 		"parser/item-index":                "Outputs an element from an array, map or table",
@@ -363,6 +367,7 @@ func init() {
 		"changelog/v4.3":                   "This brings improved support on Windows plus one breaking change from the previous release (v4.2)",
 		"changelog/v4.4":                   "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
 		"changelog/v5.0":                   "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
+		"changelog/v5.1":                   "",
 	}
 
 	Synonym = map[string]string{
@@ -441,6 +446,7 @@ func init() {
 		"history":               "history",
 		"if":                    "if",
 		"!if":                   "if",
+		"is-null":               "is-null",
 		"ja":                    "ja",
 		"jsplit":                "jsplit",
 		"list.split":            "jsplit",
@@ -609,6 +615,7 @@ func init() {
 		"commands/history":                "commands/history",
 		"commands/if":                     "commands/if",
 		"commands/!if":                    "commands/if",
+		"commands/is-null":                "commands/is-null",
 		"commands/ja":                     "commands/ja",
 		"commands/jsplit":                 "commands/jsplit",
 		"commands/list.split":             "commands/jsplit",
@@ -727,6 +734,8 @@ func init() {
 		"parser/>>":                       "parser/greater-than-greater-than",
 		"parser/fappend":                  "parser/greater-than-greater-than",
 		"parser/pipe-append":              "parser/pipe-append",
+		"parser/elvis":                    "parser/elvis",
+		"parser/null-coalescing":          "parser/null-coalescing",
 		"parser/pipe-err":                 "parser/pipe-err",
 		"parser/@[":                       "parser/range",
 		"parser/[[":                       "parser/element",
@@ -857,5 +866,6 @@ func init() {
 		"changelog/v4.3":                  "changelog/v4.3",
 		"changelog/v4.4":                  "changelog/v4.4",
 		"changelog/v5.0":                  "changelog/v5.0",
+		"changelog/v5.1":                  "changelog/v5.1",
 	}
 }

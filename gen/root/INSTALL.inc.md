@@ -44,7 +44,7 @@ page to select your platform.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<a href="DOWNLOAD.html" alt="download murex"><img src="/download.png" class="centre-image"/></a>
+<a href="DOWNLOAD.html" alt="download murex"><img src="/download.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/></a>
 <!-- markdownlint-restore -->
 {{ end }}
 
@@ -109,7 +109,7 @@ package manager first but see further reading below if you get stuck.
 Installation from source is as simple as the following one liner:
 
 ```bash
-GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
+GOBIN="$(pwd)" go install -v github.com/lmorg/murex@latest
 ```
 
 However you can change the `GOBIN` value to point to any writable location you

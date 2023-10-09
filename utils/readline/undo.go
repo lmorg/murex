@@ -2,8 +2,6 @@ package readline
 
 import (
 	"strings"
-
-	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 func (rl *Instance) undoAppendHistory() {
@@ -15,11 +13,11 @@ func (rl *Instance) undoAppendHistory() {
 	rl.viUndoHistory = append(rl.viUndoHistory, rl.line.Duplicate())
 }
 
-func (rl *Instance) undoLast() {
-	var undo *unicode.UnicodeT
+func (rl *Instance) undoLastStr() string {
+	var undo *UnicodeT
 	for {
 		if len(rl.viUndoHistory) == 0 {
-			return
+			return ""
 		}
 		undo = rl.viUndoHistory[len(rl.viUndoHistory)-1]
 		rl.viUndoHistory = rl.viUndoHistory[:len(rl.viUndoHistory)-1]
@@ -28,19 +26,22 @@ func (rl *Instance) undoLast() {
 		}
 	}
 
-	rl.clearHelpers()
+	output := rl.clearHelpersStr()
 
-	moveCursorBackwards(rl.line.CellPos())
-	print(strings.Repeat(" ", rl.line.CellLen()))
-	moveCursorBackwards(rl.line.CellLen())
-	moveCursorForwards(undo.CellPos())
+	output += moveCursorBackwardsStr(rl.line.CellPos())
+	output += strings.Repeat(" ", rl.line.CellLen())
+	output += moveCursorBackwardsStr(rl.line.CellLen())
+	output += moveCursorForwardsStr(undo.CellPos())
 
 	rl.line = undo.Duplicate()
 
-	rl.echo()
+	output += rl.echoStr()
 
+	// TODO: check me
 	if rl.modeViMode != vimInsert && rl.line.RuneLen() > 0 && rl.line.RunePos() == rl.line.RuneLen() {
 		rl.line.SetRunePos(rl.line.RuneLen() - 1)
-		moveCursorBackwards(1)
+		output += moveCursorBackwardsStr(1)
 	}
+
+	return output
 }

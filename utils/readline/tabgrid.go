@@ -9,6 +9,7 @@ import (
 
 func (rl *Instance) initTabGrid() {
 	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	var suggestions *suggestionsT
 	if rl.modeTabFind {
@@ -18,11 +19,7 @@ func (rl *Instance) initTabGrid() {
 	}
 
 	rl.tcMaxLength = rl.MinTabItemLength
-	/*for i := range suggestions {
-		if len(rl.tcPrefix+suggestions[i]) > rl.tcMaxLength {
-			rl.tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
-		}
-	}*/
+
 	for i := 0; i < suggestions.Len(); i++ {
 		l := suggestions.ItemLen(i)
 		if l > rl.tcMaxLength {
@@ -55,8 +52,6 @@ func (rl *Instance) initTabGrid() {
 		max = len(rl.tcSuggestions)
 	}
 	subset := rl.tcSuggestions[:max]
-
-	rl.tabMutex.Unlock()
 
 	if rl.tcr.HintCache == nil {
 		return
@@ -131,8 +126,9 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabGrid() {
+func (rl *Instance) writeTabGridStr() string {
 	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	var suggestions *suggestionsT
 	if rl.modeTabFind {
@@ -176,11 +172,9 @@ func (rl *Instance) writeTabGrid() {
 		output += fmt.Sprintf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}
 
-	print(output)
 	rl.tcUsedY = y
-	rl.tabMutex.Unlock()
 
-	//rl.writePreview(item)
+	return output
 }
 
 func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {

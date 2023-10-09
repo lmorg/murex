@@ -3,8 +3,6 @@ package readline
 import (
 	"os"
 	"sync"
-
-	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 var (
@@ -117,7 +115,7 @@ type Instance struct {
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
-	line          *unicode.UnicodeT
+	line          *UnicodeT
 	lineChange    string // cache what had changed from previous line
 	termWidth     int
 	multiline     []byte
@@ -125,7 +123,7 @@ type Instance struct {
 	skipStdinRead bool
 
 	// history
-	lineBuf *unicode.UnicodeT
+	lineBuf *UnicodeT
 	histPos int
 
 	// hint text
@@ -134,7 +132,7 @@ type Instance struct {
 
 	ScreenRefresh func()
 
-	previewMode  previewModeT
+	previewMode   previewModeT
 	previewItem   string
 	previewCache  *previewCacheT
 	PreviewImages bool
@@ -165,7 +163,7 @@ type Instance struct {
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
-	viUndoHistory    []*unicode.UnicodeT
+	viUndoHistory    []*UnicodeT
 	viUndoSkipAppend bool
 	viYankBuffer     string
 
@@ -181,8 +179,8 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
-	rl.line = new(unicode.UnicodeT)
-	rl.lineBuf = new(unicode.UnicodeT)
+	rl.line = new(UnicodeT)
+	rl.lineBuf = new(UnicodeT)
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
 	rl.MaxTabCompleterRows = 4

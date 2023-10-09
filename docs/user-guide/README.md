@@ -93,8 +93,12 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
+* [`?:` Elvis Operator](parser/elvis.md):
+  Returns the right operand if the left operand is falsy
+* [`??` Null Coalescing Operator](parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`[..range]`](parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[[ element ]]`](parser/element.md):
@@ -224,6 +228,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Outputs murex's command history
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [`is-null`](../commands/is-null.md):
+  Checks is a variable is null or undefined
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):

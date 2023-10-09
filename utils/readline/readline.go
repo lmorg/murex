@@ -6,8 +6,6 @@ import (
 	"regexp"
 	"strings"
 	"sync/atomic"
-
-	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -28,7 +26,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 
 	defer func() {
-		rl.clearPreview()
+		print(rl.clearPreviewStr())
 
 		rl.fdMutex.Lock()
 
@@ -57,10 +55,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 	print(rl.prompt)
 
-	rl.line.Set([]rune{})
+	rl.line.Set(rl, []rune{})
 	rl.line.SetRunePos(0)
 	rl.lineChange = ""
-	rl.viUndoHistory = []*unicode.UnicodeT{rl.line.Duplicate()}
+	rl.viUndoHistory = []*UnicodeT{rl.line.Duplicate()}
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
@@ -69,8 +67,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	if len(rl.multiSplit) > 0 {
 		r := []rune(rl.multiSplit[0])
-		rl.readlineInput(r)
-		rl.carriageReturn()
+		print(rl.readlineInputStr(r))
+		print(rl.carriageReturnStr())
 		if len(rl.multiSplit) > 1 {
 			rl.multiSplit = rl.multiSplit[1:]
 		} else {
@@ -81,7 +79,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	rl.termWidth = GetTermWidth()
 	rl.getHintText()
-	rl.renderHelpers()
+	print(rl.renderHelpersStr())
 
 	for {
 		if rl.line.RuneLen() == 0 {
@@ -123,8 +121,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 			r = []rune(rl.multiSplit[0])
 			rl.modeViMode = vimInsert
-			rl.readlineInput(r)
-			rl.carriageReturn()
+			print(rl.readlineInputStr(r))
+			print(rl.carriageReturnStr())
 			rl.multiline = []byte{}
 			if len(rl.multiSplit) > 1 {
 				rl.multiSplit = rl.multiSplit[1:]
@@ -139,28 +137,30 @@ func (rl *Instance) Readline() (_ string, err error) {
 			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
 
 			rl.clearPrompt()
-			rl.line.Set(append(ret.NewLine, []rune{}...))
-			rl.echo()
+			rl.line.Set(rl, append(ret.NewLine, []rune{}...))
+			print(rl.echoStr())
 			// TODO: should this be above echo?
 			rl.line.SetRunePos(ret.NewPos)
 
 			if ret.ClearHelpers {
 				rl.resetHelpers()
 			} else {
-				rl.updateHelpers()
-				rl.renderHelpers()
+				output := rl.updateHelpersStr()
+				output += rl.renderHelpersStr()
+				print(output)
 			}
 
 			if len(ret.HintText) > 0 {
 				rl.hintText = ret.HintText
-				rl.clearHelpers()
-				rl.renderHelpers()
+				output := rl.clearHelpersStr()
+				output += rl.renderHelpersStr()
+				print(output)
 			}
 			if !ret.ForwardKey {
 				continue
 			}
 			if ret.CloseReadline {
-				rl.clearHelpers()
+				print(rl.clearHelpersStr())
 				return rl.line.String(), nil
 			}
 		}
@@ -179,7 +179,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.delayedTabContext.cancel()
 			}
 			rl.modeTabCompletion = false
-			rl.updateHelpers()
+			print(rl.updateHelpersStr())
 		}
 
 		switch b[0] {
@@ -187,14 +187,16 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnMoveToStartOfLine(rl)
 
 		case charCtrlC:
-			rl.clearPreview()
-			rl.clearHelpers()
+			output := rl.clearPreviewStr()
+			output += rl.clearHelpersStr()
+			print(output)
 			return "", CtrlC
 
 		case charEOF:
 			if rl.line.RuneLen() == 0 {
-				rl.clearPreview()
-				rl.clearHelpers()
+				output := rl.clearPreviewStr()
+				output += rl.clearHelpersStr()
+				print(output)
 				return "", EOF
 			}
 
@@ -236,74 +238,73 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
-			rl.clearPreview()
+			output := rl.clearPreviewStr()
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
-				rl.clearHelpers()
+				output += rl.clearHelpersStr()
 				rl.resetTabCompletion()
-				rl.renderHelpers()
+				output += rl.renderHelpersStr()
 				if suggestions.Len() > 0 {
 					prefix, line := suggestions.ItemCompletionReturn(cell)
 					if len(prefix) == 0 && len(rl.tcPrefix) > 0 {
 						l := -len(rl.tcPrefix)
 						if l == -1 && rl.line.RuneLen() > 0 && rl.line.RunePos() == rl.line.RuneLen() {
-							rl.line.Set(rl.line.Runes()[:rl.line.RuneLen()-1])
+							rl.line.Set(rl, rl.line.Runes()[:rl.line.RuneLen()-1])
 						} else {
-							rl.viDeleteByAdjust(l)
+							output += rl.viDeleteByAdjustStr(l)
 						}
 					}
-					rl.insert([]rune(line))
+					output += rl.insertStr([]rune(line))
 				} else {
-					rl.insert(tfLine)
+					output += rl.insertStr(tfLine)
 				}
+				print(output)
 				continue
 			}
-			rl.carriageReturn()
+			output += rl.carriageReturnStr()
+			print(output)
 			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
 			if rl.modeTabFind {
-				rl.backspaceTabFind()
+				print(rl.backspaceTabFindStr())
 				rl.viUndoSkipAppend = true
 			} else {
-				rl.backspace()
-				//rl.renderHelpers()
+				print(rl.backspaceStr())
 			}
 
 		case charEscape:
-			rl.escapeSeq(r[:i])
+			print(rl.escapeSeq(r[:i]))
 
 		default:
 			if rl.modeTabFind {
-				rl.updateTabFind(r[:i])
+				print(rl.updateTabFindStr(r[:i]))
 				rl.viUndoSkipAppend = true
 			} else {
-				rl.readlineInput(r[:i])
+				print(rl.readlineInputStr(r[:i]))
 				if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
 					rl.skipStdinRead = true
 				}
 			}
 		}
 
-		//if !rl.viUndoSkipAppend {
-		//	rl.viUndoHistory = append(rl.viUndoHistory, rl.line)
-		//}
 		rl.undoAppendHistory()
 	}
 }
 
-func (rl *Instance) escapeSeq(r []rune) {
+func (rl *Instance) escapeSeq(r []rune) string {
+	var output string
 	switch string(r) {
 	case seqEscape:
 		HkFnCancelAction(rl)
 
 	case seqDelete:
 		if rl.modeTabFind {
-			rl.backspaceTabFind()
+			output += rl.backspaceTabFindStr()
 		} else {
-			rl.delete()
+			output += rl.deleteStr()
 		}
 
 	case seqUp:
@@ -311,8 +312,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, -1)
-			rl.renderHelpers()
-			return
+			output += rl.renderHelpersStr()
+			return output
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
@@ -325,13 +326,13 @@ func (rl *Instance) escapeSeq(r []rune) {
 			offset := newX - posX
 			switch {
 			case offset > 0:
-				moveCursorForwards(offset)
+				output += moveCursorForwardsStr(offset)
 			case offset < 0:
-				moveCursorBackwards(offset * -1)
+				output += moveCursorBackwardsStr(offset * -1)
 			}
 
-			moveCursorUp(1)
-			return
+			output += moveCursorUpStr(1)
+			return output
 		}
 
 		rl.walkHistory(-1)
@@ -341,8 +342,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
-			rl.renderHelpers()
-			return
+			output += rl.renderHelpersStr()
+			return output
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
@@ -356,13 +357,13 @@ func (rl *Instance) escapeSeq(r []rune) {
 			offset := newX - posX
 			switch {
 			case offset > 0:
-				moveCursorForwards(offset)
+				output += moveCursorForwardsStr(offset)
 			case offset < 0:
-				moveCursorBackwards(offset * -1)
+				output += moveCursorBackwardsStr(offset * -1)
 			}
 
-			moveCursorDown(1)
-			return
+			output += moveCursorDownStr(1)
+			return output
 		}
 
 		rl.walkHistory(1)
@@ -370,56 +371,56 @@ func (rl *Instance) escapeSeq(r []rune) {
 	case seqBackwards:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(-1, 0)
-			rl.renderHelpers()
-			return
+			output += rl.renderHelpersStr()
+			return output
 		}
 
-		rl.moveCursorByRuneAdjust(-1)
+		output += rl.moveCursorByRuneAdjustStr(-1)
 		rl.viUndoSkipAppend = true
 
 	case seqForwards:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(1, 0)
-			rl.renderHelpers()
-			return
+			output += rl.renderHelpersStr()
+			return output
 		}
 
 		//if (rl.modeViMode == vimInsert && rl.line.RunePos() < rl.line.RuneLen()) ||
 		//	(rl.modeViMode != vimInsert && rl.line.RunePos() < rl.line.RuneLen()-1) {
-		rl.moveCursorByRuneAdjust(1)
+		output += rl.moveCursorByRuneAdjustStr(1)
 		//}
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
 		if rl.modeTabCompletion {
-			return
+			return output
 		}
 
-		rl.moveCursorByRuneAdjust(-rl.line.RunePos())
+		output += rl.moveCursorByRuneAdjustStr(-rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
 		if rl.modeTabCompletion {
-			return
+			return output
 		}
 
-		rl.moveCursorByRuneAdjust(rl.line.RuneLen() - rl.line.RunePos())
+		output += rl.moveCursorByRuneAdjustStr(rl.line.RuneLen() - rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(-1, 0)
-			rl.renderHelpers()
-			return
+			output += rl.renderHelpersStr()
+			return output
 		}
 
 	case seqPageUp, seqOptUp, seqCtrlUp:
-		rl.previewPageUp()
-		return
+		output += rl.previewPageUpStr()
+		return output
 
 	case seqPageDown, seqOptDown, seqCtrlDown:
-		rl.previewPageDown()
-		return
+		output += rl.previewPageDownStr()
+		return output
 
 	case seqF1, seqF1VT100:
 		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
@@ -428,7 +429,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			defer func() { rl.previewMode++ }()
 		}
 		HkFnPreviewToggle(rl)
-		return
+		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:
 		HkFnJumpForwards(rl)
@@ -436,6 +437,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 	case seqAltB, seqOptLeft, seqCtrlLeft:
 		HkFnJumpBackwards(rl)
 
+		// TODO: test me
 	case seqShiftF1:
 		HkFnRecallWord1(rl)
 	case seqShiftF2:
@@ -465,54 +467,60 @@ func (rl *Instance) escapeSeq(r []rune) {
 		if rl.modeTabFind /*|| rl.modeAutoFind*/ {
 			//rl.modeTabFind = false
 			//rl.modeAutoFind = false
-			return
+			return output
 		}
 		// alt+numeric append / delete
 		if len(r) == 2 && '1' <= r[1] && r[1] <= '9' {
 			if rl.modeViMode == vimDelete {
-				rl.vimDelete(r)
-				return
+				output += rl.vimDeleteStr(r)
+				return output
 			}
 
 		} else {
 			rl.viUndoSkipAppend = true
 		}
 	}
+
+	return output
 }
 
 // readlineInput is an unexported function used to determine what mode of text
 // entry readline is currently configured for and then update the line entries
 // accordingly.
-func (rl *Instance) readlineInput(r []rune) {
+func (rl *Instance) readlineInputStr(r []rune) string {
 	if len(r) == 0 {
-		return
+		return ""
 	}
+
+	var output string
 
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])
-		rl.viHintMessage()
+		output += rl.viHintMessageStr()
 
 	case vimDelete:
-		rl.vimDelete(r)
-		rl.viHintMessage()
+		output += rl.vimDeleteStr(r)
+		output += rl.viHintMessageStr()
 
 	case vimReplaceOnce:
 		rl.modeViMode = vimKeys
-		rl.delete()
-		rl.insert([]rune{r[0]})
-		rl.viHintMessage()
+		output += rl.deleteStr()
+		output += rl.insertStr([]rune{r[0]})
+		output += rl.viHintMessageStr()
 
 	case vimReplaceMany:
 		for _, char := range r {
-			rl.delete()
-			rl.insert([]rune{char})
+			output += rl.deleteStr()
+			output += rl.insertStr([]rune{char})
 		}
-		rl.viHintMessage()
+		output += rl.viHintMessageStr()
 
 	default:
-		rl.insert(r)
+		output += rl.insertStr(r)
 	}
+
+	return output
 }
 
 // SetPrompt will define the readline prompt string.
@@ -530,16 +538,17 @@ func (rl *Instance) SetPrompt(s string) {
 	rl.promptLen = strLen(s)
 }
 
-func (rl *Instance) carriageReturn() {
-	rl.clearHelpers()
-	print("\r\n")
+func (rl *Instance) carriageReturnStr() string {
+	output := rl.clearHelpersStr()
+	output += "\r\n"
 	if rl.HistoryAutoWrite {
 		var err error
 		rl.histPos, err = rl.History.Write(rl.line.String())
 		if err != nil {
-			print(err.Error() + "\r\n")
+			output += err.Error() + "\r\n"
 		}
 	}
+	return output
 }
 
 func isMultiline(r []rune) bool {
@@ -552,7 +561,7 @@ func isMultiline(r []rune) bool {
 }
 
 func (rl *Instance) allowMultiline(data []byte) bool {
-	rl.clearHelpers()
+	print(rl.clearHelpersStr())
 	printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
 	for {
 		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
@@ -566,7 +575,7 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 
 		if i > 1 {
 			rl.multiline = append(rl.multiline, b[:i]...)
-			moveCursorUp(2)
+			print(moveCursorUpStr(2))
 			return rl.allowMultiline(append(data, b[:i]...))
 		}
 

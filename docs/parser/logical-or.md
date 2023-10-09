@@ -15,14 +15,14 @@ apply stricter error handling. See detail below.
 
 ## Examples
 
-Second command does not run because the first command doesn't error:
+**Second command does not run because the first command doesn't error:**
 
 ```
 » out one || out two
 one
 ```
 
-Second command does run because the first command produces an error:
+**Second command does run because the first command produces an error:**
 
 ```
 » err one || out two
@@ -50,8 +50,12 @@ There is no workaround for `trypipe`.
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [`&&` And Logical Operator](../parser/logical-and.md):
+  Continues next operation if previous operation passes
+* [`?:` Elvis Operator](../parser/elvis.md):
+  Returns the right operand if the left operand is falsy
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

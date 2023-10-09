@@ -54,9 +54,9 @@
   - set
   - "!set"
   Related:
+  - is-null
+  - null-coalescing
   - global
-  - let
-  - equ
   - expr
   - export
   - exec
@@ -125,8 +125,8 @@
   - "!global"
   Related:
   - set
-  - let
-  - equ
+  - is-null
+  - null-coalescing
   - expr
   - export
   - brace-quote
@@ -210,8 +210,8 @@
   - unset
   Related:
   - set
-  - let
-  - equ
+  - is-null
+  - null-coalescing
   - expr
   - global
   - brace-quote

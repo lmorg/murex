@@ -36,7 +36,8 @@ func TestCreateIndexBlock(t *testing.T) {
 			test.Expected = "$" + test.Name + "-> [" + test.Index + "]"
 		}
 
-		block := createIndexBlock([]rune(test.Name), []rune(test.Index))
+		getIorE := &getVarIndexOrElementT{varName: []rune(test.Name), key: []rune(test.Index)}
+		block := createIndexBlock(getIorE)
 		if string(block) != test.Expected {
 			t.Errorf("block does not match expected in test %d", i)
 			t.Logf("  Name:     '%s'", test.Name)
@@ -70,7 +71,8 @@ func TestCreateElementBlock(t *testing.T) {
 			test.Expected = "$" + test.Name + "-> [[" + test.Index + "]]"
 		}
 
-		block := createElementBlock([]rune(test.Name), []rune(test.Index))
+		getIorE := &getVarIndexOrElementT{varName: []rune(test.Name), key: []rune(test.Index)}
+		block := createElementBlock(getIorE)
 		if string(block) != test.Expected {
 			t.Errorf("block does not match expected in test %d", i)
 			t.Logf("  Name:     '%s'", test.Name)

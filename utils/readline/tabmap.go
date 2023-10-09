@@ -79,7 +79,7 @@ func (rl *Instance) moveTabMapHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabMap() {
+func (rl *Instance) writeTabMapStr() string {
 	rl.tabMutex.Lock()
 	defer rl.tabMutex.Unlock()
 
@@ -92,7 +92,7 @@ func (rl *Instance) writeTabMap() {
 
 	if rl.termWidth < 10 {
 		// terminal too small. Probably better we do nothing instead of crash
-		return
+		return ""
 	}
 
 	maxLength := rl.tcMaxLength
@@ -142,13 +142,13 @@ func (rl *Instance) writeTabMap() {
 		}
 	}
 
-	print(output)
-
 	if suggestions.Len() < rl.tcMaxX {
 		rl.tcUsedY = suggestions.Len()
 	} else {
 		rl.tcUsedY = rl.tcMaxY
 	}
+
+	return output
 }
 
 func highlight(rl *Instance, y int) string {

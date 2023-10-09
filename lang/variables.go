@@ -31,8 +31,12 @@ func errVarCannotUpdateNested(name string, err error) error {
 	return fmt.Errorf("cannot update element inside %s: %s", name, err.Error())
 }
 
+func errVarCannotUpdateIndexOrElement(name string) error {
+	return fmt.Errorf("cannot update `[ indexes ]` nor `[[ elements ]]`, these are immutable objects.\nPlease reference values using dot notation instead, eg $variable_name.path.to.element\nVariable  : %s", name)
+}
+
 func errVarNoParam(i int, err error) error {
-	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
+	return fmt.Errorf("variable '%d' is not set because the scope returned the following error when querying parameter %d: %s", i, i, err.Error())
 }
 
 func errVarZeroLengthPath(name string) error {
@@ -526,6 +530,10 @@ func getEnvVarDataType(name string) string {
 }
 
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
+	if strings.Contains(path, "[") {
+		return errVarCannotUpdateIndexOrElement(path)
+	}
+
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
@@ -543,7 +551,6 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 			return errVarCannotUpdateNested(split[0], err)
 		}
 		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
-		//err = v.set(p, split[0], variable, v.getNestedDataType(split[0], split[1]), split[1:])
 		if err != nil {
 			return errVarCannotUpdateNested(split[0], err)
 		}

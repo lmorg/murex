@@ -1,4 +1,4 @@
-package unicode
+package readline
 
 import (
 	"testing"
@@ -69,7 +69,7 @@ func TestSetRunePos(t *testing.T) {
 
 	for i, test := range tests {
 		u := new(UnicodeT)
-		u.Set([]rune(test.Value))
+		u.Set(new(Instance), []rune(test.Value))
 		u.SetRunePos(test.Start)
 		u.SetRunePos(test.RunePos)
 		rPos := u.RunePos()
@@ -151,7 +151,7 @@ func TestSetCellPos(t *testing.T) {
 
 	for i, test := range tests {
 		u := new(UnicodeT)
-		u.Set([]rune(test.Value))
+		u.Set(new(Instance), []rune(test.Value))
 		u.SetRunePos(test.Start)
 		u.SetCellPos(test.CellPos)
 		rPos := u.RunePos()

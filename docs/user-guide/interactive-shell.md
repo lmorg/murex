@@ -57,7 +57,10 @@ shells available today.
 
 ### Hotkeys
 
-A full breakdown of supported hotkeys is available at [terminal-keys.md](terminal-keys.md).
+
+
+A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
+guide.
 
 ### Autocompletion
 

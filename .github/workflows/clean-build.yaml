@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Murex
         run: |
-          GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
+          GOBIN="$(pwd)" go install -v github.com/lmorg/murex@${{ github.ref_name }}
 
       - name: Display Murex version
         run: |

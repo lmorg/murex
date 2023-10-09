@@ -106,12 +106,19 @@ const (
 	getVarIsElement = 2
 )
 
-func (tree *ParserT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal varFormatting) (interface{}, string, error) {
+type getVarIndexOrElementT struct {
+	varName  []rune
+	key      []rune
+	isIorE   int
+	strOrVal varFormatting
+}
+
+func (tree *ParserT) getVarIndexOrElement(getIorE *getVarIndexOrElementT) (interface{}, string, error) {
 	var block []rune
-	if isIorE == getVarIsIndex {
-		block = createIndexBlock(name, key)
+	if getIorE.isIorE == getVarIsIndex {
+		block = createIndexBlock(getIorE)
 	} else {
-		block = createElementBlock(name, key)
+		block = createElementBlock(getIorE)
 	}
 
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
@@ -124,30 +131,30 @@ func (tree *ParserT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal
 	b = utils.CrLfTrim(b)
 	dataType := fork.Stdout.GetDataType()
 
-	v, err := formatBytes(b, dataType, strOrVal)
+	v, err := formatBytes(b, dataType, getIorE.strOrVal)
 	return v, dataType, err
 }
 
-func createIndexBlock(name, index []rune) []rune {
-	l := len(name) + 1
+func createIndexBlock(getIorE *getVarIndexOrElementT) []rune {
+	l := len(getIorE.varName) + 1
 
-	block := make([]rune, 6+len(name)+len(index))
+	block := make([]rune, 6+len(getIorE.varName)+len(getIorE.key))
 	block[0] = '$'
-	copy(block[1:], name)
+	copy(block[1:], getIorE.varName)
 	copy(block[l:], []rune{'-', '>', ' ', '['})
-	copy(block[l+4:], index)
+	copy(block[l+4:], getIorE.key)
 	block[len(block)-1] = ']'
 	return block
 }
 
-func createElementBlock(name, element []rune) []rune {
-	l := len(name) + 1
+func createElementBlock(getIorE *getVarIndexOrElementT) []rune {
+	l := len(getIorE.varName) + 1
 
-	block := make([]rune, 8+len(name)+len(element))
+	block := make([]rune, 8+len(getIorE.varName)+len(getIorE.key))
 	block[0] = '$'
-	copy(block[1:], name)
+	copy(block[1:], getIorE.varName)
 	copy(block[l:], []rune{'-', '>', ' ', '[', '['})
-	copy(block[l+5:], element)
+	copy(block[l+5:], getIorE.key)
 	copy(block[len(block)-2:], []rune{']', ']'})
 	return block
 }

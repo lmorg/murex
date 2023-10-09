@@ -22,7 +22,7 @@ func strLen(s string) int {
 	return runewidth.StringWidth(s)
 }
 
-func (rl *Instance) echo() {
+func (rl *Instance) echoStr() string {
 	if len(rl.multiSplit) == 0 {
 		rl.syntaxCompletion()
 	}
@@ -78,7 +78,8 @@ func (rl *Instance) echo() {
 	if x > 0 {
 		line += fmt.Sprintf(cursorBackf, x)
 	}
-	print(line)
+	//print(line)
+	return line
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {
@@ -153,32 +154,34 @@ func (rl *Instance) clearPrompt() {
 		return
 	}
 
-	rl.moveCursorToStart()
+	output := rl.moveCursorToStartStr()
 
 	if rl.termWidth > rl.promptLen {
-		print(strings.Repeat(" ", rl.termWidth-rl.promptLen))
+		output += strings.Repeat(" ", rl.termWidth-rl.promptLen)
 	}
-	print(seqClearScreenBelow)
+	output += seqClearScreenBelow
 
-	moveCursorBackwards(rl.termWidth)
-	print(rl.prompt)
+	output += moveCursorBackwardsStr(rl.termWidth)
+	output += rl.prompt
 
-	rl.line.Set([]rune{})
+	rl.line.Set(rl, []rune{})
 	rl.line.SetRunePos(0)
+
+	print(output)
 }
 
 func (rl *Instance) resetHelpers() {
 	rl.modeAutoFind = false
-	rl.clearPreview()
-	rl.clearHelpers()
+	output := rl.clearPreviewStr()
+	output += rl.clearHelpersStr()
+
 	rl.resetHintText()
 	rl.resetTabCompletion()
+
+	print(output)
 }
 
-func (rl *Instance) clearHelpers() {
-	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
-
+func (rl *Instance) clearHelpersStr() string {
 	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
 
@@ -190,21 +193,23 @@ func (rl *Instance) clearHelpers() {
 	output += moveCursorUpStr(y + 1)
 	output += moveCursorForwardsStr(posX)
 
-	print(output)
+	return output
 }
 
-func (rl *Instance) renderHelpers() {
-	rl.writeHintText(true)
-	rl.writeTabCompletion(true)
-	rl.writePreview()
+func (rl *Instance) renderHelpersStr() string {
+	output := rl.writeHintTextStr()
+	output += rl.writeTabCompletionStr()
+	output += rl.writePreviewStr()
+	return output
 }
 
-func (rl *Instance) updateHelpers() {
+func (rl *Instance) updateHelpersStr() string {
 	rl.tcOffset = 0
 	rl.getHintText()
 	if rl.modeTabCompletion {
 		rl.getTabCompletion()
 	}
-	rl.clearHelpers()
-	rl.renderHelpers()
+	output := rl.clearHelpersStr()
+	output += rl.renderHelpersStr()
+	return output
 }
