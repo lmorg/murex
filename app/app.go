@@ -15,7 +15,7 @@ const (
 	version  = "%d.%d.%d"
 	Major    = 5
 	Minor    = 1
-	Revision = 2100
+	Revision = 2200
 )
 
 // Copyright is the copyright owner string

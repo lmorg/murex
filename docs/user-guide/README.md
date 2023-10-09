@@ -228,6 +228,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Outputs murex's command history
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [`is-null`](../commands/is-null.md):
+  Checks is a variable is null or undefined
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):

@@ -551,7 +551,6 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 			return errVarCannotUpdateNested(split[0], err)
 		}
 		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
-		//err = v.set(p, split[0], variable, v.getNestedDataType(split[0], split[1]), split[1:])
 		if err != nil {
 			return errVarCannotUpdateNested(split[0], err)
 		}

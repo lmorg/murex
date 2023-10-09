@@ -66,6 +66,8 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`err`](../commands/err.md):
   Print a line to the STDERR
+* [`is-null`](../commands/is-null.md):
+  Checks is a variable is null or undefined
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`try`](../commands/try.md):
