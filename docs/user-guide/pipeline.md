@@ -78,7 +78,7 @@ document but you can read more on them in links the links below.
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`|` POSIX Pipe](../parser/pipe-posix.md):

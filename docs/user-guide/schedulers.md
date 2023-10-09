@@ -41,7 +41,7 @@ the pipeline.
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
 * [`try`](../commands/try.md):

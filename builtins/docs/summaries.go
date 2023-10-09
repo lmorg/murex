@@ -276,7 +276,7 @@ func init() {
 		"parser/pipe-append":               "Redirects STDOUT to a file and append its contents",
 		"parser/elvis":                     "Returns the right operand if the left operand is falsy",
 		"parser/null-coalescing":           "Returns the right operand if the left operand is empty / undefined",
-		"parser/pipe-err":                  "Pipes STDERR from the left hand command to STDIN of the right hand command",
+		"parser/pipe-err":                  "Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)",
 		"parser/range":                     "Outputs a ranged subset of data from STDIN",
 		"parser/element":                   "Outputs an element from a nested structure",
 		"parser/item-index":                "Outputs an element from an array, map or table",
@@ -367,6 +367,7 @@ func init() {
 		"changelog/v4.3":                   "This brings improved support on Windows plus one breaking change from the previous release (v4.2)",
 		"changelog/v4.4":                   "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
 		"changelog/v5.0":                   "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
+		"changelog/v5.1":                   "",
 	}
 
 	Synonym = map[string]string{
@@ -865,5 +866,6 @@ func init() {
 		"changelog/v4.3":                  "changelog/v4.3",
 		"changelog/v4.4":                  "changelog/v4.4",
 		"changelog/v5.0":                  "changelog/v5.0",
+		"changelog/v5.1":                  "changelog/v5.1",
 	}
 }

@@ -55,7 +55,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`ja` (mkarray)](../commands/ja.md):

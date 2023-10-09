@@ -55,7 +55,7 @@ There is no workaround for `trypipe`.
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
