@@ -3,7 +3,7 @@
     `is-null`
   CategoryID: commands
   Summary: >-
-    Checks is a variable is null or undefined
+    Checks if a variable is null or undefined
   Description: |-
     `is-null` checks if a variable is null or undefined. If multiple variables are
     passed in `is-null`'s parameters, the exit number will be a count of the number

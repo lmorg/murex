@@ -273,7 +273,7 @@ bar
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
 * [`is-null`](../commands/is-null.md):
-  Checks is a variable is null or undefined
+  Checks if a variable is null or undefined
 
 <hr/>
 
