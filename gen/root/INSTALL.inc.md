@@ -57,7 +57,7 @@ page to select your platform.
 
 ### ArchLinux
 
-From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/packages/murex)
+From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
 
 ```bash
 wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'

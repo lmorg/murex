@@ -1,6 +1,6 @@
 # `is-null`
 
-> Checks is a variable is null or undefined
+> Checks if a variable is null or undefined
 
 ## Description
 

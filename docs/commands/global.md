@@ -270,7 +270,7 @@ bar
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`is-null`](../commands/is-null.md):
-  Checks is a variable is null or undefined
+  Checks if a variable is null or undefined
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 
