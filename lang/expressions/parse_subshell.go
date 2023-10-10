@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormatting) ([]rune, primitives.FunctionT, error) {
+func (tree *ParserT) parseSubShell(exec bool, sigil rune, strOrVal varFormatting) ([]rune, primitives.FunctionT, error) {
 	start := tree.charPos
 
 	tree.charPos += 2
@@ -27,7 +27,7 @@ func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormattin
 		return value, nil, nil
 	}
 
-	switch prefix {
+	switch sigil {
 	case '$':
 		fn := func() (*primitives.Value, error) {
 			return execSubShellScalar(tree, block, strOrVal)
@@ -40,7 +40,7 @@ func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormattin
 		}
 		return value, fn, nil
 	default:
-		err = fmt.Errorf("invalid prefix in expression '%s'. %s", string(prefix), consts.IssueTrackerURL)
+		err = fmt.Errorf("invalid prefix in expression '%s'. %s", string(sigil), consts.IssueTrackerURL)
 		return nil, nil, err
 	}
 }

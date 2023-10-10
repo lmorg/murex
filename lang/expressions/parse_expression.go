@@ -253,12 +253,13 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 		case '[':
 			switch tree.nextChar() {
 			case '{':
-				runes, v, err := tree.parseLambdaStatement(exec)
+				runes, v, mxDt, err := tree.parseLambdaStatement(exec, '$')
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
-					primitives.Array, v), runes...)
+				/*tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
+				primitives.Array, v), runes...)*/
+				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewScalar(mxDt, v), runes...)
 			default:
 				if !exec {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s' (%d)",
@@ -297,7 +298,6 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 		case '$':
 			switch {
 			case tree.nextChar() == '{':
-				//runes, fn, err := tree.parseSubShell(false, r, varAsValue)
 				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
@@ -307,7 +307,6 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			default:
 				// scalar
 				runes, v, mxDt, fn, err := tree.parseVarScalarExpr(exec, false, varAsValue)
-				//runes, v, mxDt, err := tree.parseVarScalar(exec, false, varAsValue)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))
@@ -317,7 +316,6 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
 				} else {
 					dt := primitives.NewFunction(fn)
-					//dt := primitives.NewScalar(mxDt, v)
 					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
 				}
 			}
