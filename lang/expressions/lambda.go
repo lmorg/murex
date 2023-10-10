@@ -27,18 +27,35 @@ func (tree *ParserT) parseLambda(varName []rune) ([]rune, interface{}, error) {
 	}
 
 	switch t := v.(type) {
+	case nil:
+		if tree.StrictArrays() {
+			return nil, nil, fmt.Errorf("cannot run lambda: value is a null object")
+		}
+		return parseLambdaArray(tree, []string{}, path)
+
+		/*case string:
+			return parseLambdaArray(tree, []string{t}, path)
+		case []byte:
+			return parseLambdaArray(tree, []string{string(t)}, path)
+		case []rune:
+			return parseLambdaArray(tree, []string{string(t)}, path)*/
+
 	case string:
 		return parseLambdaString(tree, t, path)
 	case []byte:
 		return parseLambdaString(tree, string(t), path)
 	case []rune:
 		return parseLambdaString(tree, string(t), path)
+
 	case []string:
 		return parseLambdaArray(tree, t, path)
 	case []float64:
 		return parseLambdaArray(tree, t, path)
 	case []int:
 		return parseLambdaArray(tree, t, path)
+	case []bool:
+		return parseLambdaArray(tree, t, path)
+
 	case []interface{}:
 		return parseLambdaArray(tree, t, path)
 	case map[string]string:
@@ -47,7 +64,7 @@ func (tree *ParserT) parseLambda(varName []rune) ([]rune, interface{}, error) {
 		return parseLambdaMap(tree, t, path)
 
 	default:
-		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array or map, instead got '%T' in '%s'", t, path)
+		return nil, nil, fmt.Errorf("cannot run lambda: expecting an array or map, instead got '%T' in '%s'", t, path)
 	}
 }
 
@@ -99,6 +116,18 @@ var (
 	errUnableToGetLambdaVar = "unable to retrieve value of `$.`: %s"
 	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
 )
+
+func writeKeyValVariable[K comparable](p *lang.Process, key K, value any) error {
+	element, err := json.Marshal(map[string]interface{}{
+		"key": key,
+		"val": value,
+	})
+	if err != nil {
+		return fmt.Errorf("unable to encode element: %s", err.Error())
+	}
+
+	return p.Variables.Set(p, "", string(element), types.Json)
+}
 
 func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{}, error) {
 	var (
@@ -160,16 +189,16 @@ func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interfa
 
 	for i := range t {
 		tree.charPos = pos
-		element := fmt.Sprintf("%s.%d", path, i)
 
+		/*element := fmt.Sprintf("%s.%d", path, i)
 		value, err := tree.p.Variables.GetValue(element)
 		if err != nil {
 			return nil, nil, err
 		}
 
 		dataType := tree.p.Variables.GetDataType(element)
-
-		err = tree.p.Variables.Set(tree.p, "", value, dataType)
+		err = tree.p.Variables.Set(tree.p, "", value, dataType)*/
+		err := writeKeyValVariable(tree.p, i, t[i])
 		if err != nil {
 			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
@@ -206,15 +235,7 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 	for key, value := range t {
 		tree.charPos = pos
 
-		element, err := json.Marshal(map[string]interface{}{
-			"key": key,
-			"val": value,
-		})
-		if err != nil {
-			return nil, nil, fmt.Errorf("unable to encode element: %s", err.Error())
-		}
-
-		err = tree.p.Variables.Set(tree.p, "", string(element), types.Json)
+		err := writeKeyValVariable(tree.p, key, value)
 		if err != nil {
 			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
