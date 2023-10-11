@@ -259,8 +259,8 @@ bar
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`=` (arithmetic evaluation)](../parser/equ.md):
-  Evaluate a mathematical function (deprecated)
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined
 * [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`[index]`](../parser/item-index.md):
@@ -269,8 +269,8 @@ bar
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+* [`is-null`](../commands/is-null.md):
+  Checks if a variable is null or undefined
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 

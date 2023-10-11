@@ -3,4 +3,9 @@
 
 package signaltrap
 
-var interrupts = map[string]nil{}
+type syscall string
+
+func (s syscall) String() string { return "" }
+
+var interrupts = map[string]syscall{}
+>>>>>>> lambda

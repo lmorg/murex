@@ -12,6 +12,10 @@ on:
       - "**/*.tmpl"
       - "**/*.ts"
       - "**/*.scss"
+      - "**/*.png"
+      - "**/*.jpeg"
+      - "**/*.gif"
+      - "**/*.svg"
   
   workflow_dispatch:
 

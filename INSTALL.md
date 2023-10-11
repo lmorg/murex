@@ -48,7 +48,7 @@ page to select your platform.
 
 ### ArchLinux
 
-From AUR: [https://aur.archlinux.org/packages/murex(https://aur.archlinux.org/packages/murex)
+From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
 
 ```bash
 wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
@@ -100,7 +100,7 @@ package manager first but see further reading below if you get stuck.
 Installation from source is as simple as the following one liner:
 
 ```bash
-GOBIN="$(pwd)" go install github.com/lmorg/murex@latest
+GOBIN="$(pwd)" go install -v github.com/lmorg/murex@latest
 ```
 
 However you can change the `GOBIN` value to point to any writable location you

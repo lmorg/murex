@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 09.10.2023 - [v5.1](../changelog/v5.1.md)
+
+This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.
+
+
 ### 07.09.2023 - [v5.0](../changelog/v5.0.md)
 
 v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event

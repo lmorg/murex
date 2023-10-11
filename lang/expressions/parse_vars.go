@@ -2,7 +2,6 @@ package expressions
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/expressions/primitives"
@@ -15,10 +14,15 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool, strOrVal varForm
 
 	if exec {
 		fn := func() (*primitives.Value, error) {
-			switch v.(type) {
+			switch t := v.(type) {
 			case *getVarIndexOrElementT:
-				val, mxDt, err := tree.getVarIndexOrElement(v.(*getVarIndexOrElementT))
+				val, mxDt, err := tree.getVarIndexOrElement(t)
 				return &primitives.Value{Value: val, DataType: mxDt}, err
+
+			case parseLambdaExecTrueT:
+				_, val, mxDt, err := t()
+				return &primitives.Value{Value: val, DataType: mxDt}, err
+
 			default:
 				val, mxDt, err := tree.getVar(scalarNameDetokenised(runes), varAsValue)
 				return &primitives.Value{Value: val, DataType: mxDt}, err
@@ -46,7 +50,7 @@ func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatti
 	value := tree.parseBareword()
 
 	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
-		return tree.parseVarIndexElement(execScalars, value, strOrVal)
+		return tree.parseVarIndexElement(execScalars, '$', value, strOrVal)
 	}
 
 	tree.charPos--
@@ -94,9 +98,21 @@ endParenthesis:
 	return value, v, dt, nil
 }
 
-func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarIndexElement(exec bool, sigil rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '{' {
-		return tree.parseLambdaScala(exec, '$', varName, strOrVal)
+		//return tree.parseLambdaScala(exec, '$', varName, strOrVal)
+		//return tree.parseLambdaStatement(exec, '$')
+		if exec {
+			return tree.parseLambdaExecTrue(varName, sigil, "")
+		}
+		r, err := tree.parseLambdaExecFalse(sigil, varName)
+		value := append([]rune{sigil}, varName...)
+		value = append(value, r...)
+		value = append(value, ']')
+		var fn parseLambdaExecTrueT = func() ([]rune, any, string, error) {
+			return _parseLambdaExecTrue(tree.p, varName, sigil, "", value, r[1:], tree.StrictArrays())
+		}
+		return value, fn, "", err
 	}
 
 	var (
@@ -158,41 +174,6 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
-func (tree *ParserT) parseLambdaScala(exec bool, prefix rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
-	defer treePlusPlus(tree)
-	if exec {
-		if tree.p == nil {
-			panic("`tree.p` is undefined")
-		}
-
-		path := string(varName)
-
-		value, err := tree.p.Variables.GetValue(path)
-		if err != nil {
-			return nil, nil, "", err
-		}
-
-		dataType := tree.p.Variables.GetDataType(path)
-
-		err = tree.p.Variables.Set(tree.p, "", value, dataType)
-		if err != nil {
-			return nil, nil, "", fmt.Errorf("unable to set `$.`: %s", err.Error())
-		}
-	}
-
-	r, fn, err := tree.parseSubShell(exec, prefix, strOrVal)
-	if err != nil {
-		return r, nil, "", err
-	}
-
-	if exec {
-		val, err := fn()
-		return r, val.Value, val.DataType, err
-	}
-
-	return r, nil, "", nil
-}
-
 func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
@@ -220,10 +201,16 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
 	if tree.nextChar() == '{' {
 		if exec {
-			return tree.parseLambda(varName)
-		} else {
-			r, v, _, err := tree.parseLambdaScala(false, '@', varName, varAsValue) // just parsing source
+			r, v, _, err := tree.parseLambdaExecTrue(varName, '@', "") // TODO: test me
 			return r, v, err
+		} else {
+			// just parsing source
+			//r, _, err := tree.parseSubShell(false, '@', varAsValue)
+			r, err := tree.parseLambdaExecFalse('@', nil)
+			return r, nil, err
+
+			//r, v, _, err := tree.parseLambdaScala(false, '@', varName, varAsValue) // just parsing source
+			//return r, v, err
 		}
 	}
 
