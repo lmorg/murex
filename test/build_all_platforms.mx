@@ -1,7 +1,11 @@
 #!/usr/bin/env murex
 
-project = "github.com/lmorg/murex"
-tags    = open(builtins/optional/standard-opts.txt)
+$project = "github.com/lmorg/murex"
+
+$ENV.GOARM = 7
+#$ENV.GOFLAGS = "-trimpath -modcacherw"
+$LD_FLAGS = "-extldflags=-static"
+$tags     = "${open builtins/optional/standard-opts.txt},sqlite_omit_load_extension,osusergo,netgo"
 
 args: args %{
     AllowAdditional: false,
@@ -68,28 +72,22 @@ status = 0
 # Assumes the same version is running this script as the source.
 # This is a bad assumption to make and ideally there should be a pre-compiled
 # version.
-version = ${version --short}
+$version = version(--short)
 
 go mod download
 
 $targets -> formap os cpus {
     $cpus -> foreach arch {
-        set ext
-        if { $os == "windows" } then { set ext=".exe" }
+        if { $os == "windows" } then { $ext = ".exe" } else { $ext = "" }
 
         try {
             ({BLUE}Building $(os)/$(arch)....{RESET})
             export GOOS=$os
             export GOARCH=$arch
-            export GOARM=7
-            #export GOFLAGS="-trimpath -modcacherw"
 
-            #if { = `$GOARCH` == `amd64` } then {
-            #    export GOFLAGS="$GOFLAGS -buildmode=pie"
-            #}
+            $bin = "./bin/murex-$version-$os-$arch$ext"
 
-            set bin=./bin/murex-$version-$os-$arch$ext
-            go build -tags $tags -o $bin $project
+            go build -ldflags $LD_FLAGS -tags $tags -o $bin $project
             
             !if { $args->[[/Flags/--compress]] } else { compress $bin $ext }
             
