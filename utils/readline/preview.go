@@ -6,11 +6,15 @@ import (
 )
 
 type previewModeT int
+type previewRefT int
 
 const (
 	previewModeClosed       previewModeT = 0
 	previewModeOpen         previewModeT = 1
 	previewModeAutocomplete previewModeT = 2
+
+	previewRefDefault previewRefT = 0
+	previewRefLine    previewRefT = 1
 )
 
 const previewPromptHSpace = 3
@@ -73,41 +77,52 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 }
 
 func (rl *Instance) writePreviewStr() string {
-	if rl.previewMode > previewModeClosed && rl.tcr != nil && rl.tcr.Preview != nil {
-		size, err := rl.getPreviewXY()
-		if err != nil || size.Height < 8 || size.Width < 40 {
-			rl.previewCache = nil
-			return ""
-		}
+	if rl.previewMode == previewModeClosed || rl.tcr == nil {
+		rl.previewCache = nil
+		return ""
+	}
 
-		item := rl.previewItem
-		item = strings.ReplaceAll(item, "\\", "")
-		item = strings.TrimSpace(item)
+	var fn PreviewFuncT
+	if rl.previewRef == previewRefLine {
+		fn = rl.tcr.PreviewLine
+	} else {
+		fn = rl.tcr.Preview
+	}
 
-		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
+	if fn == nil {
+		rl.previewCache = nil
+		return ""
+	}
 
-		if err != nil {
-			rl.ForceHintTextUpdate(err.Error())
-		}
-		output, err := rl.previewDrawStr(lines[pos:], size)
-		if err != nil {
-			rl.previewCache = nil
-			return output
-		}
+	size, err := rl.getPreviewXY()
+	if err != nil || size.Height < 8 || size.Width < 40 {
+		rl.previewCache = nil
+		return ""
+	}
 
-		rl.previewCache = &previewCacheT{
-			pos:   pos,
-			len:   size.Height,
-			lines: lines,
-			size:  size,
-		}
+	item := rl.previewItem
+	item = strings.ReplaceAll(item, "\\", "")
+	item = strings.TrimSpace(item)
 
+	lines, pos, err := fn(rl.line.Runes(), item, rl.PreviewImages, size)
+
+	if err != nil {
+		rl.ForceHintTextUpdate(err.Error())
+	}
+	output, err := rl.previewDrawStr(lines[pos:], size)
+	if err != nil {
+		rl.previewCache = nil
 		return output
 	}
 
-	rl.previewCache = nil
+	rl.previewCache = &previewCacheT{
+		pos:   pos,
+		len:   size.Height,
+		lines: lines,
+		size:  size,
+	}
 
-	return ""
+	return output
 }
 
 const (

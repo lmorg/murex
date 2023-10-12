@@ -168,6 +168,15 @@ func hkFnRecallWord(rl *Instance, i int) {
 }
 
 func HkFnPreviewToggle(rl *Instance) {
+	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+		rl.previewMode == previewModeClosed {
+		HkFnAutocomplete(rl)
+		defer func() { rl.previewMode++ }()
+	}
+	_HkFnPreviewToggle(rl)
+}
+
+func _HkFnPreviewToggle(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	var output string
 
@@ -194,6 +203,21 @@ func HkFnPreviewToggle(rl *Instance) {
 	output += rl.echoStr()
 	output += rl.renderHelpersStr()
 	print(output)
+}
+
+func HkFnPreviewLine(rl *Instance) {
+	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+		rl.previewMode == previewModeClosed {
+		HkFnAutocomplete(rl)
+		defer func() { rl.previewMode++ }()
+	}
+
+	rl.previewRef = previewRefLine
+
+	if rl.previewMode == previewModeClosed {
+		_HkFnPreviewToggle(rl)
+	}
+
 }
 
 func HkFnUndo(rl *Instance) {

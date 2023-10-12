@@ -70,6 +70,9 @@ const (
 
 	// F_NO_STDERR will ensure stderr will be a nil interface
 	F_NO_STDERR
+
+	// F_PREVIEW
+	F_PREVIEW
 )
 
 var ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
@@ -79,6 +82,7 @@ type Fork struct {
 	*Process
 	fidRegistered bool
 	newTestScope  bool
+	preview       bool
 }
 
 const ForkSuffix = " (fork)"
@@ -101,6 +105,8 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.Previous = p.Previous
 	fork.Next = p.Next
+
+	fork.preview = flags&F_PREVIEW != 0
 
 	if p.Id == ShellProcess.Id {
 		fork.ExitNum = ShellExitNum
@@ -264,11 +270,11 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return errNo, errors.New(errMsg)
 	}
 	if len(*procs) == 0 {
-		/*if debug.Enabled {
-		/	return 0, fmt.Errorf("compilation Error at %d,%d+0 (%s): empty code block",
-				fork.FileRef.Line, fork.FileRef.Column, fork.FileRef.Source.Module)
-		}*/
 		return 0, nil
+	}
+
+	if fork.preview {
+		procs = previewCache.compile(tree, procs)
 	}
 
 	id := fork.Process.Forks.add(procs)
@@ -308,10 +314,6 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 			}
 		}
 	}
-
-	/*if fork.RunMode.IsStrict() && exitNum > 0 {
-		return exitNum, fmt.Errorf("non-zero exit code: %d", exitNum)
-	}*/
 
 	return
 }

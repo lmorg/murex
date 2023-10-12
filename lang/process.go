@@ -250,6 +250,13 @@ func executeProcess(p *Process) {
 		panic(err)
 	}
 
+	if p.cache != nil {
+		_, _ = p.Stdout.Write(p.cache.stdout)
+		_, _ = p.Stderr.Write(p.cache.stderr)
+		err = nil
+		goto cleanUpProcess
+	}
+
 executeProcess:
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {

@@ -22,6 +22,7 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
+	cache              *cacheT
 	raw                []rune
 	Name               process.Name
 	Parameters         parameters.Parameters

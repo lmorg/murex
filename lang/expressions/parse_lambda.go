@@ -37,12 +37,6 @@ func (tree *ParserT) parseLambdaExecTrue(varName []rune, sigil rune, dt string) 
 		return nil, nil, "", err
 	}
 
-	/*if sigil == '$' {
-		fn := func() ([]rune, any, string, error) {
-			return _parseLambdaExecTrue(tree.p, varName, sigil, dt, r, block, tree.StrictArrays())
-		}
-		return r, fn, "", nil
-	}*/
 	return _parseLambdaExecTrue(tree.p, varName, sigil, dt, r, block, tree.StrictArrays())
 }
 
@@ -152,10 +146,15 @@ var (
 	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
 )
 
+const (
+	LAMBDA_KEY   = "Key"
+	LAMBDA_VALUE = "Value"
+)
+
 func writeKeyValVariable[K comparable](p *lang.Process, key K, value any) error {
 	element, err := json.Marshal(map[string]interface{}{
-		"key": key,
-		"val": value,
+		LAMBDA_KEY:   key,
+		LAMBDA_VALUE: value,
 	})
 	if err != nil {
 		return fmt.Errorf("unable to encode element: %s", err.Error())
@@ -172,9 +171,9 @@ func readKeyValVariable(p *lang.Process) (any, any, error) {
 
 	switch t := kv.(type) {
 	case map[string]any:
-		return t["key"], t["val"], nil
+		return t[LAMBDA_KEY], t[LAMBDA_VALUE], nil
 	default:
-		return nil, nil, fmt.Errorf("expecting $. to be '{key: str, val ...}', instead got '%T'", kv)
+		return nil, nil, fmt.Errorf("expecting $. to be '{%s: str, %s ...}', instead got '%T'", LAMBDA_KEY, LAMBDA_VALUE, kv)
 	}
 }
 
@@ -257,7 +256,7 @@ func parseLambdaArray[V any](p *lang.Process, sigil rune, t []V, dt string, r []
 			return nil, nil, "", fmt.Errorf(errUnableToUpdateValue, err.Error())
 		}
 		if fmt.Sprint(newKey) != fmt.Sprint(i) {
-			return nil, nil, "", fmt.Errorf("arrays cannot have their $.key changed: old key '%v', new key '%v'", i, newKey)
+			return nil, nil, "", fmt.Errorf("arrays cannot have their $.%s changed: old key '%v', new key '%v'", LAMBDA_KEY, i, newKey)
 		}
 
 		array = append(array, newVal)

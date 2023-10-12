@@ -156,6 +156,25 @@ func (rl *Instance) Readline() (_ string, err error) {
 				output += rl.renderHelpersStr()
 				print(output)
 			}
+
+			if ret.DisplayPreview {
+				if rl.previewMode == previewModeClosed {
+					HkFnPreviewToggle(rl)
+				}
+			}
+
+			//rl.previewItem
+
+			if ret.Callback != nil {
+				err = ret.Callback()
+				if err != nil {
+					rl.hintText = []rune(err.Error())
+					output := rl.clearHelpersStr()
+					output += rl.renderHelpersStr()
+					print(output)
+				}
+			}
+
 			if !ret.ForwardKey {
 				continue
 			}
@@ -423,12 +442,11 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		return output
 
 	case seqF1, seqF1VT100:
-		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
-			rl.previewMode == previewModeClosed {
-			HkFnAutocomplete(rl)
-			defer func() { rl.previewMode++ }()
-		}
 		HkFnPreviewToggle(rl)
+		return output
+
+	case seqF9:
+		HkFnPreviewLine(rl)
 		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:

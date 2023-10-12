@@ -27,6 +27,8 @@ type TabCompleterReturnT struct {
 	DisplayType  TabDisplayType
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
+	PreviewLine  PreviewFuncT
+	previewRef   previewRefT
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -133,6 +135,7 @@ type Instance struct {
 	ScreenRefresh func()
 
 	previewMode   previewModeT
+	previewRef    previewRefT
 	previewItem   string
 	previewCache  *previewCacheT
 	PreviewImages bool
