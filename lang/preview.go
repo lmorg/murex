@@ -9,10 +9,17 @@ import (
 )
 
 type previewCacheT struct {
-	mutex   sync.Mutex
-	raw     []string
-	cache   []*cacheT
-	streams []cacheStreamT
+	mutex sync.Mutex
+	raw   []string
+	cache []cacheBytesT
+	dt    []cacheDataTypeT
+}
+
+type cacheT struct {
+	b   *cacheBytesT
+	dt  *cacheDataTypeT
+	tee cacheStreamT
+	use bool
 }
 
 type cacheStreamT struct {
@@ -20,21 +27,24 @@ type cacheStreamT struct {
 	stderr stdio.Io
 }
 
-type cacheT struct {
+type cacheBytesT struct {
 	stdout []byte
 	stderr []byte
+}
+
+type cacheDataTypeT struct {
+	stdout string
+	stderr string
 }
 
 var previewCache = new(previewCacheT)
 
 // compare returns index+1 for last match, 0 for no match, or -1 for no change
 func (pc *previewCacheT) compare(s []string) int {
-	if len(pc.raw) > len(s) {
-		return len(s)
-	}
-
 	if len(pc.raw) < len(s) {
-		return len(pc.raw)
+		l := len(pc.raw)
+		pc.grow(s)
+		return l
 	}
 
 	for i := range pc.raw {
@@ -43,33 +53,76 @@ func (pc *previewCacheT) compare(s []string) int {
 		}
 	}
 
+	if len(pc.raw) > len(s) {
+		pc.shrink(s)
+		return len(s)
+	}
+
 	return -1
 }
 
-func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) *[]Process {
+func (pc *previewCacheT) grow(s []string) {
+	pc.raw = s
+
+	cache := make([]cacheBytesT, len(s))
+	copy(cache, pc.cache)
+	pc.cache = cache
+
+	dt := make([]cacheDataTypeT, len(s))
+	copy(dt, pc.dt)
+	pc.dt = dt
+}
+
+func (pc *previewCacheT) shrink(s []string) {
+	pc.raw = s
+
+	pc.cache = pc.cache[:len(s)]
+	pc.dt = pc.dt[:len(s)]
+}
+
+func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) int {
 	s := make([]string, len(*tree))
 	for i := range s {
 		s[i] = string((*tree)[i].Raw)
 	}
 
-	comp := pc.compare(s)
-	switch comp {
+	offset := pc.compare(s)
+	switch offset {
 	case -1:
-		(*procs)[len(pc.raw)-1].cache = previewCache.cache[len(pc.raw)-1]
-		p := (*procs)[len(pc.raw):]
-		return &p
+		i := len(*procs) - 1
+		(*procs)[i].cache = new(cacheT)
+		(*procs)[i].cache.b = &pc.cache[i]
+		(*procs)[i].cache.dt = &pc.dt[i]
+		(*procs)[i].cache.use = true
+		// we don't want to create any tee's because there's been no change to the pipeline
+		return offset
 
 	case 0:
-		previewCache = new(previewCacheT)
+		// do nothing. Basically we need to run the entire pipeline
 
 	default:
-		(*procs)[comp-1].cache = previewCache.cache[comp-1]
+		i := offset - 1
+		(*procs)[i].cache = new(cacheT)
+		(*procs)[i].cache.b = &pc.cache[i]
+		(*procs)[i].cache.dt = &pc.dt[i]
+		(*procs)[i].cache.use = true
 	}
 
-	for i := comp; i < len(*tree); i++ {
-		(*procs)[i].Stdout, pc.streams[i].stdout = streams.NewTee((*procs)[i].Stdout)
-		(*procs)[i].Stderr, pc.streams[i].stderr = streams.NewTee((*procs)[i].Stderr)
+	for i := 0; i < offset; i++ {
+		(*procs)[i].Stdout.Close()
+		(*procs)[i].Stderr.Close()
+		(*procs)[i].hasTerminatedM.Lock()
+		(*procs)[i].hasTerminatedV = true
+		(*procs)[i].hasTerminatedM.Unlock()
 	}
 
-	return procs
+	for i := offset; i < len(*procs); i++ {
+		(*procs)[i].cache = new(cacheT)
+		(*procs)[i].cache.b = &pc.cache[i]
+		(*procs)[i].cache.dt = &pc.dt[i]
+		(*procs)[i].Stdout, (*procs)[i].cache.tee.stdout = streams.NewTee((*procs)[i].Stdout)
+		(*procs)[i].Stderr, (*procs)[i].cache.tee.stderr = streams.NewTee((*procs)[i].Stderr)
+	}
+
+	return offset
 }

@@ -250,9 +250,12 @@ func executeProcess(p *Process) {
 		panic(err)
 	}
 
-	if p.cache != nil {
-		_, _ = p.Stdout.Write(p.cache.stdout)
-		_, _ = p.Stderr.Write(p.cache.stderr)
+	if p.cache != nil && p.cache.use {
+		// we have a preview cache, lets just write that and skip execution
+		_, _ = p.Stdout.Write(p.cache.b.stdout)
+		p.Stdout.SetDataType(p.cache.dt.stdout)
+		_, _ = p.Stderr.Write(p.cache.b.stderr)
+		p.Stderr.SetDataType(p.cache.dt.stderr)
 		err = nil
 		goto cleanUpProcess
 	}
@@ -334,6 +337,13 @@ executeProcess:
 			err = fmt.Errorf("Not a valid expression:\n    %v\nNor a valid statement:\n    %v",
 				indentError(cpErr), indentError(err))
 		}
+	}
+
+	if p.cache != nil {
+		p.cache.b.stdout, _ = p.cache.tee.stdout.ReadAll()
+		p.cache.dt.stdout = p.cache.tee.stdout.GetDataType()
+		p.cache.b.stderr, _ = p.cache.tee.stderr.ReadAll()
+		p.cache.dt.stderr = p.cache.tee.stderr.GetDataType()
 	}
 
 cleanUpProcess:

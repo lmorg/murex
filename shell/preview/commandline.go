@@ -8,8 +8,7 @@ import (
 )
 
 func CommandLine(block []rune, _ string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
-	//fork := lang.ShellProcess.Fork(lang.F_NEW_CONFIG | lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NEW_TESTS | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_BACKGROUND | lang.F_PREVIEW)
 	fork.FileRef = ref.NewModule(app.ShellModule)
 	fork.Stderr = fork.Stdout
 	_, err := fork.Execute(block)

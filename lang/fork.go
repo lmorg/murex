@@ -274,7 +274,17 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	}
 
 	if fork.preview {
-		procs = previewCache.compile(tree, procs)
+		i := previewCache.compile(tree, procs)
+		switch i {
+		case -1:
+			p := (*procs)[len(*procs):]
+			procs = &p
+		case 0:
+			// do nothing. Basically we need to run the entire pipeline
+		default:
+			p := (*procs)[i:]
+			procs = &p
+		}
 	}
 
 	id := fork.Process.Forks.add(procs)

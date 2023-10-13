@@ -36,6 +36,7 @@ type TabCompleterReturnT struct {
 // captures without having to repeatedly unload configuration.
 type Instance struct {
 	fdMutex sync.Mutex
+	//fdMutex debug.BadMutex
 
 	Active        bool
 	closeSigwinch func()

@@ -217,7 +217,6 @@ func HkFnPreviewLine(rl *Instance) {
 	if rl.previewMode == previewModeClosed {
 		_HkFnPreviewToggle(rl)
 	}
-
 }
 
 func HkFnUndo(rl *Instance) {

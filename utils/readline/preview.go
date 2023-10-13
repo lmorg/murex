@@ -46,6 +46,7 @@ type PreviewSizeT struct {
 }
 
 type previewCacheT struct {
+	item  string
 	pos   int
 	len   int
 	lines []string
@@ -104,11 +105,22 @@ func (rl *Instance) writePreviewStr() string {
 	item = strings.ReplaceAll(item, "\\", "")
 	item = strings.TrimSpace(item)
 
-	lines, pos, err := fn(rl.line.Runes(), item, rl.PreviewImages, size)
+	var (
+		lines []string
+		pos   int
+	)
+
+	//if rl.previewCache != nil && rl.previewCache.item == item {
+	//	lines = rl.previewCache.lines
+	//	pos = rl.previewCache.pos
+	//} else {
+	lines, pos, err = fn(rl.line.Runes(), item, rl.PreviewImages, size)
+	//}
 
 	if err != nil {
-		rl.ForceHintTextUpdate(err.Error())
+		//rl.ForceHintTextUpdate(err.Error())
 	}
+
 	output, err := rl.previewDrawStr(lines[pos:], size)
 	if err != nil {
 		rl.previewCache = nil
@@ -116,6 +128,7 @@ func (rl *Instance) writePreviewStr() string {
 	}
 
 	rl.previewCache = &previewCacheT{
+		item:  item,
 		pos:   pos,
 		len:   size.Height,
 		lines: lines,
