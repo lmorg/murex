@@ -9,10 +9,11 @@ import (
 )
 
 type previewCacheT struct {
-	mutex sync.Mutex
-	raw   []string
-	cache []cacheBytesT
-	dt    []cacheDataTypeT
+	mutex  sync.Mutex
+	raw    []string
+	cache  []cacheBytesT
+	dt     []cacheDataTypeT
+	Cancel func(func(int))
 }
 
 type cacheT struct {
@@ -36,8 +37,6 @@ type cacheDataTypeT struct {
 	stdout string
 	stderr string
 }
-
-var previewCache = new(previewCacheT)
 
 // compare returns index+1 for last match, 0 for no match, or -1 for no change
 func (pc *previewCacheT) compare(s []string) int {
@@ -81,6 +80,9 @@ func (pc *previewCacheT) shrink(s []string) {
 }
 
 func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) int {
+	pc.mutex.Lock()
+	defer pc.mutex.Unlock()
+
 	s := make([]string, len(*tree))
 	for i := range s {
 		s[i] = string((*tree)[i].Raw)
@@ -95,6 +97,13 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 		(*procs)[i].cache.dt = &pc.dt[i]
 		(*procs)[i].cache.use = true
 		// we don't want to create any tee's because there's been no change to the pipeline
+		/*for j := 0; j < len(*procs); j++ {
+			(*procs)[i].Stdout.Close()
+			(*procs)[i].Stderr.Close()
+			(*procs)[i].hasTerminatedM.Lock()
+			(*procs)[i].hasTerminatedV = true
+			(*procs)[i].hasTerminatedM.Unlock()
+		}*/
 		return offset
 
 	case 0:
@@ -108,13 +117,13 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 		(*procs)[i].cache.use = true
 	}
 
-	for i := 0; i < offset; i++ {
+	/*for i := 0; i < offset; i++ {
 		(*procs)[i].Stdout.Close()
 		(*procs)[i].Stderr.Close()
 		(*procs)[i].hasTerminatedM.Lock()
 		(*procs)[i].hasTerminatedV = true
 		(*procs)[i].hasTerminatedM.Unlock()
-	}
+	}*/
 
 	for i := offset; i < len(*procs); i++ {
 		(*procs)[i].cache = new(cacheT)

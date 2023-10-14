@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -273,8 +274,16 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return 0, nil
 	}
 
+	id := fork.Process.Forks.add(procs)
+	defer fork.Process.Forks.delete(id)
+
 	if fork.preview {
-		i := previewCache.compile(tree, procs)
+		go func() {
+			time.Sleep(5 * time.Second)
+			fork.KillForks(1)
+		}()
+
+		/*i := PreviewCache.compile(tree, procs)
 		switch i {
 		case -1:
 			p := (*procs)[len(*procs):]
@@ -284,11 +293,8 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		default:
 			p := (*procs)[i:]
 			procs = &p
-		}
+		}*/
 	}
-
-	id := fork.Process.Forks.add(procs)
-	defer fork.Process.Forks.delete(id)
 
 	if !fork.Background.Get() {
 		ForegroundProc.Set(&(*procs)[0])

@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"context"
 	"os"
 	"sync"
 )
@@ -18,7 +19,7 @@ func SetTTY(primaryTTY, replicaTTY *os.File) {
 var ForceCrLf = true
 
 type HintCacheFuncT func(prefix string, items []string) []string
-type PreviewFuncT func(line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
+type PreviewFuncT func(ctx context.Context, line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
 
 type TabCompleterReturnT struct {
 	Prefix       string
@@ -28,7 +29,6 @@ type TabCompleterReturnT struct {
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
 	PreviewLine  PreviewFuncT
-	previewRef   previewRefT
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -140,6 +140,7 @@ type Instance struct {
 	previewItem   string
 	previewCache  *previewCacheT
 	PreviewImages bool
+	previewCancel context.CancelFunc
 
 	// tab completion
 	modeTabCompletion bool

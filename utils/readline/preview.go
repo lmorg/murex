@@ -78,9 +78,16 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 }
 
 func (rl *Instance) writePreviewStr() string {
+	//rl.tabMutex.Lock()
+	//defer rl.tabMutex.Unlock()
+
 	if rl.previewMode == previewModeClosed || rl.tcr == nil {
 		rl.previewCache = nil
 		return ""
+	}
+
+	if rl.previewCancel != nil {
+		rl.previewCancel()
 	}
 
 	var fn PreviewFuncT
@@ -105,26 +112,25 @@ func (rl *Instance) writePreviewStr() string {
 	item = strings.ReplaceAll(item, "\\", "")
 	item = strings.TrimSpace(item)
 
-	var (
+	/*var (
 		lines []string
 		pos   int
-	)
+	)*/
 
 	//if rl.previewCache != nil && rl.previewCache.item == item {
 	//	lines = rl.previewCache.lines
 	//	pos = rl.previewCache.pos
 	//} else {
-	lines, pos, err = fn(rl.line.Runes(), item, rl.PreviewImages, size)
+	go delayedPreviewTimer(rl, fn, size, item)
 	//}
 
-	if err != nil {
-		//rl.ForceHintTextUpdate(err.Error())
-	}
+	return ""
 
-	output, err := rl.previewDrawStr(lines[pos:], size)
+	/*output, err := rl.previewDrawStr(lines[pos:], size)
 	if err != nil {
 		rl.previewCache = nil
 		return output
+		//return ""
 	}
 
 	rl.previewCache = &previewCacheT{
@@ -135,7 +141,7 @@ func (rl *Instance) writePreviewStr() string {
 		size:  size,
 	}
 
-	return output
+	return output*/
 }
 
 const (
