@@ -28,7 +28,6 @@ type TabCompleterReturnT struct {
 	DisplayType  TabDisplayType
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
-	PreviewLine  PreviewFuncT
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -142,6 +141,7 @@ type Instance struct {
 	previewCache  *previewCacheT
 	PreviewImages bool
 	previewCancel context.CancelFunc
+	PreviewLine   PreviewFuncT
 
 	// tab completion
 	modeTabCompletion bool

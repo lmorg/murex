@@ -35,8 +35,6 @@ var (
 func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
 	r := new(readline.TabCompleterReturnT)
 
-	r.PreviewLine = preview.CommandLine
-
 	if pos < 0 {
 		return r
 	}

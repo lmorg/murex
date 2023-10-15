@@ -213,7 +213,6 @@ func HkFnPreviewLine(rl *Instance) {
 
 	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
 		rl.previewMode == previewModeClosed {
-		HkFnAutocomplete(rl)
 		defer func() { rl.previewMode++ }()
 	}
 

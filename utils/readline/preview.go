@@ -81,7 +81,7 @@ func (rl *Instance) writePreviewStr() string {
 	//rl.tabMutex.Lock()
 	//defer rl.tabMutex.Unlock()
 
-	if rl.previewMode == previewModeClosed || rl.tcr == nil {
+	if rl.previewMode == previewModeClosed {
 		rl.previewCache = nil
 		return ""
 	}
@@ -92,8 +92,12 @@ func (rl *Instance) writePreviewStr() string {
 
 	var fn PreviewFuncT
 	if rl.previewRef == previewRefLine {
-		fn = rl.tcr.PreviewLine
+		fn = rl.PreviewLine
 	} else {
+		if rl.tcr == nil {
+			rl.previewCache = nil
+			return ""
+		}
 		fn = rl.tcr.Preview
 	}
 
@@ -198,6 +202,7 @@ func (rl *Instance) clearPreviewStr() string {
 		output = seqRestoreBuffer
 		output += rl.echoStr()
 		rl.previewMode = previewModeClosed
+		rl.previewRef = previewRefDefault
 	}
 
 	return output
