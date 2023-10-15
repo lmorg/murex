@@ -249,6 +249,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case '\r':
 			fallthrough
 		case '\n':
+			var output string
 			rl.tabMutex.Lock()
 			var suggestions *suggestionsT
 			if rl.modeTabFind {
@@ -257,7 +258,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
-			output := rl.clearPreviewStr()
+
+			if rl.previewRef == previewRefDefault {
+				output = rl.clearPreviewStr()
+			}
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine

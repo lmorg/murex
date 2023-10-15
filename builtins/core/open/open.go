@@ -161,8 +161,8 @@ func preview(p *lang.Process, path, dataType string) error {
 	p.Stdout.SetDataType(dataType)
 	agent, err := OpenAgents.Get(dataType)
 
-	// we check if stderr is a TTY because stdout might be a fake TTY in preview pane
-	if p.Stderr.IsTTY() && dataType == types.Generic {
+	// we check if std(in|err) is a TTY because stdout might be a fake TTY in preview pane
+	if (p.Stdout.IsTTY() || (p.Stdin.IsTTY() && p.Stderr.IsTTY())) && dataType == types.Generic {
 		return openSystemCommand(p, path)
 	}
 
