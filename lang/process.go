@@ -242,7 +242,7 @@ func executeProcess(p *Process) {
 	}
 	p.Parameters.DefineParsed(params)
 
-	// Execute function.
+	// Execute function
 	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
@@ -252,11 +252,19 @@ func executeProcess(p *Process) {
 
 	if p.cache != nil && p.cache.use {
 		// we have a preview cache, lets just write that and skip execution
-		_, _ = p.Stdout.Write(p.cache.b.stdout)
+		_, err = p.Stdout.Write(p.cache.b.stdout)
+		//panic(fmt.Sprintf("%v: '%s'", previewCache.raw, string(p.cache.b.stdout)))
 		p.Stdout.SetDataType(p.cache.dt.stdout)
+		if err != nil {
+			panic(err)
+		}
 		_, _ = p.Stderr.Write(p.cache.b.stderr)
+
 		p.Stderr.SetDataType(p.cache.dt.stderr)
-		err = nil
+		if err != nil {
+			panic(err)
+		}
+
 		goto cleanUpProcess
 	}
 
@@ -391,7 +399,7 @@ cleanUpProcess:
 	for !p.Previous.HasTerminated() {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Microsecond)
 	}
 
 	//debug.Json("Execute process (destroyProcess)", p)

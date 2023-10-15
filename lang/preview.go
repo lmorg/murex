@@ -1,19 +1,25 @@
 package lang
 
 import (
+	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/expressions/functions"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/utils/lists"
+	"github.com/lmorg/murex/utils/parser"
 )
 
+var previewCache = new(previewCacheT)
+
 type previewCacheT struct {
-	mutex  sync.Mutex
-	raw    []string
-	cache  []cacheBytesT
-	dt     []cacheDataTypeT
-	Cancel func(func(int))
+	mutex sync.Mutex
+	err   error
+	raw   []string
+	cache []cacheBytesT
+	dt    []cacheDataTypeT
 }
 
 type cacheT struct {
@@ -38,26 +44,34 @@ type cacheDataTypeT struct {
 	stderr string
 }
 
-// compare returns index+1 for last match, 0 for no match, or -1 for no change
-func (pc *previewCacheT) compare(s []string) int {
-	if len(pc.raw) < len(s) {
-		l := len(pc.raw)
-		pc.grow(s)
-		return l
+func PreviewInit() {
+	previewCache = new(previewCacheT)
+}
+
+const errPressF9 = "for your safety, press [f9] to confirm preview reload"
+
+// compare returns:
+// -1     == new / no match
+// len(s) == all matched
+func (pc *previewCacheT) compare(s []string) (int, error) {
+	if len(pc.raw) > 0 {
+
+		if len(s) != len(pc.raw) {
+			return 0, fmt.Errorf("new commands added to the command line: %s", errPressF9)
+		}
+
 	}
 
-	for i := range pc.raw {
-		if pc.raw[i] != s[i] {
-			return i
+	sLen, rLen := len(s), len(pc.raw)
+
+	var i int
+	for ; i < sLen && i < rLen; i++ {
+		if s[i] != pc.raw[i] {
+			break
 		}
 	}
 
-	if len(pc.raw) > len(s) {
-		pc.shrink(s)
-		return len(s)
-	}
-
-	return -1
+	return i - 1, nil
 }
 
 func (pc *previewCacheT) grow(s []string) {
@@ -72,66 +86,49 @@ func (pc *previewCacheT) grow(s []string) {
 	pc.dt = dt
 }
 
-func (pc *previewCacheT) shrink(s []string) {
-	pc.raw = s
-
-	pc.cache = pc.cache[:len(s)]
-	pc.dt = pc.dt[:len(s)]
-}
-
-func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) int {
+func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) error {
 	pc.mutex.Lock()
 	defer pc.mutex.Unlock()
+
+	if pc.err != nil {
+		return pc.err
+	}
 
 	s := make([]string, len(*tree))
 	for i := range s {
 		s[i] = string((*tree)[i].Raw)
 	}
 
-	offset := pc.compare(s)
-	switch offset {
-	case -1:
-		i := len(*procs) - 1
-		(*procs)[i].cache = new(cacheT)
-		(*procs)[i].cache.b = &pc.cache[i]
-		(*procs)[i].cache.dt = &pc.dt[i]
-		(*procs)[i].cache.use = true
-		// we don't want to create any tee's because there's been no change to the pipeline
-		/*for j := 0; j < len(*procs); j++ {
-			(*procs)[i].Stdout.Close()
-			(*procs)[i].Stderr.Close()
-			(*procs)[i].hasTerminatedM.Lock()
-			(*procs)[i].hasTerminatedV = true
-			(*procs)[i].hasTerminatedM.Unlock()
-		}*/
-		return offset
-
-	case 0:
-		// do nothing. Basically we need to run the entire pipeline
-
-	default:
-		i := offset - 1
-		(*procs)[i].cache = new(cacheT)
-		(*procs)[i].cache.b = &pc.cache[i]
-		(*procs)[i].cache.dt = &pc.dt[i]
-		(*procs)[i].cache.use = true
+	offset, err := pc.compare(s)
+	if err != nil {
+		pc.err = err
+		return err
 	}
 
-	/*for i := 0; i < offset; i++ {
-		(*procs)[i].Stdout.Close()
-		(*procs)[i].Stderr.Close()
-		(*procs)[i].hasTerminatedM.Lock()
-		(*procs)[i].hasTerminatedV = true
-		(*procs)[i].hasTerminatedM.Unlock()
-	}*/
+	safe := parser.GetSafeCmds()
+	for i := offset + 1; i < len(*tree); i++ {
+		cmd := string((*tree)[i].CommandName())
+		switch {
+		case !strings.HasPrefix(s[i], cmd):
+			return fmt.Errorf("a command executable has changed name: %s", errPressF9)
+		case !lists.Match(safe, cmd):
+			return fmt.Errorf("a command line change has been made prior to potentially unsafe commands: %s", errPressF9)
+		}
+	}
 
-	for i := offset; i < len(*procs); i++ {
+	pc.grow(s)
+
+	for i := range *procs {
 		(*procs)[i].cache = new(cacheT)
 		(*procs)[i].cache.b = &pc.cache[i]
 		(*procs)[i].cache.dt = &pc.dt[i]
 		(*procs)[i].Stdout, (*procs)[i].cache.tee.stdout = streams.NewTee((*procs)[i].Stdout)
 		(*procs)[i].Stderr, (*procs)[i].cache.tee.stderr = streams.NewTee((*procs)[i].Stderr)
+
+		if i <= offset {
+			(*procs)[i].cache.use = true
+		}
 	}
 
-	return offset
+	return nil
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -62,6 +61,10 @@ const (
 
 	// F_CREATE_STDERR will create a new stderr stdio.Io interface
 	F_CREATE_STDERR
+
+	// F_FAKETTY_STDOUT is an stdio.Io interface that pretends to be a term
+	// (albeit without a PTY fd)
+	F_FAKETTY_STDOUT
 
 	// F_NO_STDIN will ensure stdin will be a nil interface
 	F_NO_STDIN
@@ -195,6 +198,8 @@ func (p *Process) Fork(flags int) *Fork {
 	switch {
 	case flags&F_CREATE_STDOUT != 0:
 		fork.Stdout = streams.NewStdin()
+	case flags&F_FAKETTY_STDOUT != 0:
+		fork.Stdout = streams.NewFakeTTY()
 	case flags&F_NO_STDOUT != 0:
 		if debug.Enabled {
 			// This is TermErr despite being a Stdout stream because it is a debug
@@ -278,22 +283,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	defer fork.Process.Forks.delete(id)
 
 	if fork.preview {
-		go func() {
-			time.Sleep(5 * time.Second)
-			fork.KillForks(1)
-		}()
-
-		/*i := PreviewCache.compile(tree, procs)
-		switch i {
-		case -1:
-			p := (*procs)[len(*procs):]
-			procs = &p
-		case 0:
-			// do nothing. Basically we need to run the entire pipeline
-		default:
-			p := (*procs)[i:]
-			procs = &p
-		}*/
+		err := previewCache.compile(tree, procs)
+		if err != nil {
+			return 0, err
+		}
 	}
 
 	if !fork.Background.Get() {

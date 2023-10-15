@@ -173,10 +173,10 @@ func HkFnPreviewToggle(rl *Instance) {
 		HkFnAutocomplete(rl)
 		defer func() { rl.previewMode++ }()
 	}
-	_HkFnPreviewToggle(rl)
+	_fnPreviewToggle(rl)
 }
 
-func _HkFnPreviewToggle(rl *Instance) {
+func _fnPreviewToggle(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	var output string
 
@@ -206,6 +206,11 @@ func _HkFnPreviewToggle(rl *Instance) {
 }
 
 func HkFnPreviewLine(rl *Instance) {
+	if rl.PreviewInit != nil {
+		rl.PreviewInit()
+		rl.previewCache = nil
+	}
+
 	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
 		rl.previewMode == previewModeClosed {
 		HkFnAutocomplete(rl)
@@ -215,7 +220,10 @@ func HkFnPreviewLine(rl *Instance) {
 	rl.previewRef = previewRefLine
 
 	if rl.previewMode == previewModeClosed {
-		_HkFnPreviewToggle(rl)
+		_fnPreviewToggle(rl)
+		rl.previewMode++
+	} else {
+		print(rl.renderHelpersStr())
 	}
 }
 

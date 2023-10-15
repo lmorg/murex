@@ -135,6 +135,7 @@ type Instance struct {
 
 	ScreenRefresh func()
 
+	PreviewInit   func()
 	previewMode   previewModeT
 	previewRef    previewRefT
 	previewItem   string

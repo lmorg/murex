@@ -116,6 +116,8 @@ func ShowPrompt() {
 		block    []rune
 	)
 
+	Prompt.PreviewInit = lang.PreviewInit
+
 	Prompt.GetMultiLine = func(r []rune) []rune {
 		var multiLine []rune
 		if len(block) == 0 {

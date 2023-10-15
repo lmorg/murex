@@ -175,5 +175,4 @@ func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item
 	}
 
 	print(output)
-	//panic(output)
 }

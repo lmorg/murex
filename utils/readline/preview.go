@@ -112,36 +112,9 @@ func (rl *Instance) writePreviewStr() string {
 	item = strings.ReplaceAll(item, "\\", "")
 	item = strings.TrimSpace(item)
 
-	/*var (
-		lines []string
-		pos   int
-	)*/
-
-	//if rl.previewCache != nil && rl.previewCache.item == item {
-	//	lines = rl.previewCache.lines
-	//	pos = rl.previewCache.pos
-	//} else {
 	go delayedPreviewTimer(rl, fn, size, item)
-	//}
 
 	return ""
-
-	/*output, err := rl.previewDrawStr(lines[pos:], size)
-	if err != nil {
-		rl.previewCache = nil
-		return output
-		//return ""
-	}
-
-	rl.previewCache = &previewCacheT{
-		item:  item,
-		pos:   pos,
-		len:   size.Height,
-		lines: lines,
-		size:  size,
-	}
-
-	return output*/
 }
 
 const (
