@@ -81,7 +81,7 @@
 
 - DocumentID: brace-quote
   Title: >-
-    %(Brace Quote)`
+    `%(Brace Quote)`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)

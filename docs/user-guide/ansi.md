@@ -215,10 +215,10 @@ it persistent.
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
+* [`%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
 * [`err`](../commands/err.md):

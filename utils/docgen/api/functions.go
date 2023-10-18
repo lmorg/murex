@@ -22,6 +22,7 @@ var funcMap = template.FuncMap{
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
 	"link":       funcLink,
+	"linkbm":     funcLinkBookmark,
 	"file":       funcFile,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
@@ -94,20 +95,40 @@ func funcRenderedCategories(cat string, index int) (string, error) {
  *   Link   *
  ************/
 
-// Takes: string (path, description)
+// Takes: string (doc, description, relativePath prefix...)
 // Returns: URL to document
-func funcLink(path, description string) string {
-	split := strings.Split(path, "/")
-	if len(split) != 2 {
-		panic(fmt.Sprintf("Invalid length of path (%d). Expecting 'cat/doc' instead got '%s'", len(split), path))
-	}
+func funcLink(description, docId string, relativePath ...string) string {
+	return funcLinkBookmark(description, docId, "", relativePath...)
+}
 
-	doc := Documents.ByID("", split[0], split[1])
+/************
+ *  LinkBM  *
+ ************/
+
+// Takes: string (doc, description, bookmark (w/o hash), relativePath prefix...)
+// Returns: URL to document
+func funcLinkBookmark(description, docId, bookmark string, relativePath ...string) string {
+	doc := Documents.ByID("", "???", docId)
 	if doc == nil {
-		panic(fmt.Sprintf("nil document (%s)", path))
+		panic(fmt.Sprintf("nil document (%s)", docId))
 	}
 
-	return doc.Hierarchy()
+	cat := Config.Categories.ByID(doc.CategoryID)
+	path := cat.Templates[0].DocumentFilePath(doc)
+
+	if bookmark != "" {
+		path += "#" + bookmark
+	}
+
+	//if len(relativePath) > 0 {
+	path = strings.Join(relativePath, "/") + "/" + path
+	//}
+
+	if os.Getenv("DOCGEN_TARGET") == "vuepress" {
+		path = strings.Replace(path, "/docs", "", 1)
+	}
+
+	return fmt.Sprintf("[%s](%s)", description, path)
 }
 
 /************

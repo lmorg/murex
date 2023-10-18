@@ -21,8 +21,6 @@ files.
 
 ## Pages
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
 * [Tilde (`~`) Token](../parser/tilde.md):
@@ -33,6 +31,8 @@ files.
   Initiates or terminates a string (variables expanded)
 * [`$variable`](../parser/scalar.md):
   Expand values as a scalar
+* [`%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`%[]` Create array](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create object](../parser/create-object.md):

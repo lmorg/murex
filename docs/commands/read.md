@@ -87,7 +87,7 @@ with the `--datatype` flag as per the **script usage**.
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`>>` (append file)](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
