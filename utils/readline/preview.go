@@ -130,28 +130,33 @@ const (
 func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
 	var output string
 
-	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
+	pf := fmt.Sprintf("║%%-%ds║\r\n", size.Width)
+	pj := fmt.Sprintf("╟%%-%ds╢\r\n", size.Width)
 
 	output += curHome
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	hr := strings.Repeat("─", size.Width)
-	output += "╭" + hr + "╮\r\n"
+	hr := strings.Repeat("═", size.Width)
+	output += "╔" + hr + "╗\r\n"
 
 	for i := 0; i <= size.Height; i++ {
 		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			output += "│" + blank + "│\r\n"
+			output += "║" + blank + "║\r\n"
 			continue
 		}
 
-		output += fmt.Sprintf(pf, preview[i])
+		if strings.HasPrefix(preview[i], "─") {
+			output += fmt.Sprintf(pj, preview[i])
+		} else {
+			output += fmt.Sprintf(pf, preview[i])
+		}
 	}
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	output += "╰" + hr + "╯\r\n"
+	output += "╚" + hr + "╝\r\n"
 
 	output += rl.previewMoveToPromptStr(size)
 	return output, nil

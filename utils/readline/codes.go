@@ -104,7 +104,7 @@ const (
 
 	seqSetCursorPosTopLeft = "\x1b[1;1H"
 	seqSaveBuffer          = "\x1b[?47h"
-	seqRestoreBuffer       = "\x1b[?47l"
+	seqRestoreBuffer       = "\x1b[?47l" //+ curPosSave
 )
 
 // Text effects
