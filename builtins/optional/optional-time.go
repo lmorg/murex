@@ -1,5 +1,5 @@
-//go:build windows || opt_time
-// +build windows opt_time
+//go:build windows || opt_cmd_time
+// +build windows opt_cmd_time
 
 package optional
 

@@ -3,6 +3,7 @@ package net
 import (
 	"context"
 	"net"
+	"os"
 	"sync"
 
 	"github.com/lmorg/murex/lang/tty"
@@ -27,6 +28,10 @@ func (n *Net) DefaultDataType(bool) {}
 
 // IsTTY always returns false because net Io interfaces are not a pseudo-TTY
 func (n *Net) IsTTY() bool { return false }
+
+func (n *Net) File() *os.File {
+	return nil
+}
 
 // SetDataType assigns a data type to the stream.Io interface
 func (n *Net) SetDataType(dt string) {

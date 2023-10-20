@@ -1,5 +1,5 @@
-//go:build opt_barcode
-// +build opt_barcode
+//go:build opt_cmd_barcode
+// +build opt_cmd_barcode
 
 package optional
 

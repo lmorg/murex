@@ -4,6 +4,8 @@
 package term
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
@@ -14,6 +16,10 @@ import (
 // Out is the Stdout interface for term
 type Out struct {
 	term
+}
+
+func (t *Out) File() *os.File {
+	return tty.Stdout
 }
 
 func OutSetDataTypeIPC() {

@@ -3,6 +3,7 @@ package streams
 import (
 	"context"
 	"io"
+	"os"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/stdio"
@@ -34,6 +35,10 @@ func NewTee(primary stdio.Io) (primaryTee *Tee, secondaryTee *Stdin) {
 // IsTTY calls the primary STDOUT stream in tee to see if it's a TTY
 func (tee *Tee) IsTTY() bool {
 	return tee.primary.IsTTY()
+}
+
+func (tee *Tee) File() *os.File {
+	return nil
 }
 
 // Stats is stored against the primary STDOUT stream in tee

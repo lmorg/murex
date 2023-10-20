@@ -4,6 +4,8 @@
 package term
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
@@ -15,6 +17,10 @@ import (
 // ErrRed is the Stderr interface for term - with output coloured red
 type ErrRed struct {
 	term
+}
+
+func (t *ErrRed) File() *os.File {
+	return tty.Stderr
 }
 
 // SetDataType is a null method because the term interface is write-only

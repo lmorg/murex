@@ -2,6 +2,7 @@ package term
 
 import (
 	"errors"
+	"os"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/stdio"
@@ -28,6 +29,10 @@ func backgroundRead(t *In) {
 	if err != nil {
 		tty.Stderr.WriteString("Error reading from STDIN: " + err.Error())
 	}
+}
+
+func (t *In) File() *os.File {
+	return tty.Stdin
 }
 
 // Write is the io.Writer() interface for term

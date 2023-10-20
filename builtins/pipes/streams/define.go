@@ -2,6 +2,7 @@ package streams
 
 import (
 	"context"
+	"os"
 	"sync"
 	"sync/atomic"
 
@@ -54,6 +55,10 @@ func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (st
 	stdin.ctx = ctx
 	stdin.forceClose = forceClose
 	return
+}
+
+func (stdin *Stdin) File() *os.File {
+	return nil
 }
 
 // Open the stream.Io interface for another dependant
