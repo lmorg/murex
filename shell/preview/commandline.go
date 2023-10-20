@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/builtins/pipes/psuedotty"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils/ansi"
@@ -14,11 +15,20 @@ import (
 var cacheCommandLine []string
 
 func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_FAKETTY_STDOUT | lang.F_BACKGROUND | lang.F_PREVIEW)
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR | lang.F_BACKGROUND | lang.F_PREVIEW)
+	//fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_BACKGROUND | lang.F_PREVIEW)
 	fork.FileRef = ref.NewModule(app.ShellModule)
-	fork.Stderr = fork.Stdout
 
 	var err error
+	fork.Stdout, err = psuedotty.NewPTY(size.Width, size.Height)
+	if err != nil {
+		panic("TODO")
+	}
+
+	//fork.Stdout = streams.NewStdin()
+
+	fork.Stderr = fork.Stdout
+
 	fin := make(chan (bool), 1)
 	go func() {
 		_, err = fork.Execute(block)

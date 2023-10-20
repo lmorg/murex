@@ -19,6 +19,28 @@ const (
 
 const previewPromptHSpace = 3
 
+const (
+	boxTL = "╔"
+	boxTR = "╗"
+	boxBL = "╚"
+	boxBR = "╝"
+	boxH  = "═"
+	boxV  = "║"
+	boxVL = "╟"
+	boxVR = "╢"
+)
+
+/*const (
+	boxTL = "┏"
+	boxTR = "┓"
+	boxBL = "┗"
+	boxBR = "┛"
+	boxH  = "━"
+	boxV  = "┃"
+	boxVL = "┠"
+	boxVR = "┨"
+)*/
+
 func getPreviewWidth(width int) (preview, forward int) {
 	/*switch {
 	case width < 5:
@@ -130,21 +152,21 @@ const (
 func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
 	var output string
 
-	pf := fmt.Sprintf("║%%-%ds║\r\n", size.Width)
-	pj := fmt.Sprintf("╟%%-%ds╢\r\n", size.Width)
+	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, boxV)
+	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
 
 	output += curHome
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	hr := strings.Repeat("═", size.Width)
-	output += "╔" + hr + "╗\r\n"
+	hr := strings.Repeat(boxH, size.Width)
+	output += boxTL + hr + boxTR + "\r\n"
 
 	for i := 0; i <= size.Height; i++ {
 		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			output += "║" + blank + "║\r\n"
+			output += boxV + blank + boxV + "\r\n"
 			continue
 		}
 
@@ -156,7 +178,7 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	}
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	output += "╚" + hr + "╝\r\n"
+	output += boxBL + hr + boxBR + "\r\n"
 
 	output += rl.previewMoveToPromptStr(size)
 	return output, nil

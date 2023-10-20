@@ -109,6 +109,8 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 	for i := offset + 1; i < len(*tree); i++ {
 		cmd := string((*tree)[i].CommandName())
 		switch {
+		case cmd == ExpressionFunctionName:
+			continue
 		case !strings.HasPrefix(s[i], cmd):
 			return fmt.Errorf("a command executable has changed name: %s", errPressF9)
 		case !lists.Match(safe, cmd):

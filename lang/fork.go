@@ -62,10 +62,6 @@ const (
 	// F_CREATE_STDERR will create a new stderr stdio.Io interface
 	F_CREATE_STDERR
 
-	// F_FAKETTY_STDOUT is an stdio.Io interface that pretends to be a term
-	// (albeit without a PTY fd)
-	F_FAKETTY_STDOUT
-
 	// F_NO_STDIN will ensure stdin will be a nil interface
 	F_NO_STDIN
 
@@ -198,8 +194,6 @@ func (p *Process) Fork(flags int) *Fork {
 	switch {
 	case flags&F_CREATE_STDOUT != 0:
 		fork.Stdout = streams.NewStdin()
-	case flags&F_FAKETTY_STDOUT != 0:
-		fork.Stdout = streams.NewFakeTTY()
 	case flags&F_NO_STDOUT != 0:
 		if debug.Enabled {
 			// This is TermErr despite being a Stdout stream because it is a debug

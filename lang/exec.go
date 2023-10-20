@@ -98,8 +98,9 @@ func execute(p *Process) error {
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
 		//osSyscalls(cmd, int(p.ttyout.Fd()))
-		osSyscalls(cmd, int(os.Stdin.Fd()))
-		cmd.Stdout = p.ttyout
+		//osSyscalls(cmd, int(os.Stdin.Fd()))
+		osSyscalls(cmd, int(p.Stdout.File().Fd()))
+		cmd.Stdout = p.Stdout.File()
 	} else {
 		// ....otherwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout
@@ -116,7 +117,8 @@ func execute(p *Process) error {
 	//
 	//     config set proc force-tty true
 	if p.Stderr.IsTTY() && forceTTY(p) {
-		cmd.Stderr = tty.Stderr
+		//cmd.Stderr = tty.Stderr
+		cmd.Stderr = p.Stderr.File()
 	} else {
 		cmd.Stderr = p.Stderr
 	}
