@@ -6,16 +6,6 @@ import (
 	"sync"
 )
 
-var (
-	primary *os.File = os.Stdout
-	replica *os.File = os.Stdin
-)
-
-func SetTTY(primaryTTY, replicaTTY *os.File) {
-	primary = primaryTTY
-	replica = replicaTTY
-}
-
 var ForceCrLf = true
 
 type HintCacheFuncT func(prefix string, items []string) []string

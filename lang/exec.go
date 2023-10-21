@@ -90,7 +90,7 @@ func execute(p *Process) error {
 		cmd.Stdin = new(null.Null)
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
-		cmd.Stdin = p.Stdin.File() //p.ttyin
+		cmd.Stdin = os.Stdin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 	cmd.Env = append(cmd.Env, p.Exec.Env...)
@@ -107,6 +107,7 @@ func execute(p *Process) error {
 		//	osSyscalls(cmd, int(p.ttyout.Fd()))
 		//	cmd.Stdout = p.ttyout
 		//} else {
+		osSyscalls(cmd, int(p.Stdout.File().Fd()))
 		cmd.Stdout = p.Stdout.File()
 		//}
 	} else {

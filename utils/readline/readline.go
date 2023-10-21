@@ -3,6 +3,7 @@ package readline
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 	"sync/atomic"
@@ -16,13 +17,13 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
 
-	state, err := MakeRaw(int(replica.Fd()))
+	state, err := MakeRaw(int(os.Stdin.Fd()))
 	rl.sigwinch()
 
 	rl.fdMutex.Unlock()
 
 	if err != nil {
-		return "", fmt.Errorf("unable to modify fd %d: %s", replica.Fd(), err.Error())
+		return "", fmt.Errorf("unable to modify fd %d: %s", os.Stdout.Fd(), err.Error())
 	}
 
 	defer func() {
@@ -36,7 +37,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF
 		// that needs to be returned
-		r := Restore(int(replica.Fd()), state)
+		r := Restore(int(os.Stdin.Fd()), state)
 		if r != nil {
 			err = r
 		}

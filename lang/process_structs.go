@@ -159,9 +159,6 @@ func (p *Process) KillForks(exitNum int) {
 		for i := range *procs {
 			(*procs)[i].ExitNum = exitNum
 			(*procs)[i].Done()
-			(*procs)[i].Kill()
-			(*procs)[i].WaitForTermination <- false
-			(*procs)[i].hasTerminatedV = true
 		}
 	}
 }

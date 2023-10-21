@@ -31,7 +31,7 @@ func backgroundRead(t *In) {
 }
 
 func (t *In) File() *os.File {
-	return os.Stdin
+	return nil
 }
 
 // Write is the io.Writer() interface for term

@@ -256,11 +256,13 @@ func ShowPrompt() {
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef = ref.NewModule(app.ShellModule)
+			//fork.Stdin = term.NewIn(types.Null)
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
 			fork.CCEvent = lang.ShellProcess.CCEvent
 			fork.CCExists = lang.ShellProcess.CCExists
 			lang.ShellExitNum, err = fork.Execute(expanded)
+
 			if err != nil {
 				fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
 			}

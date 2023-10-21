@@ -2,6 +2,7 @@ package readline
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -76,7 +77,7 @@ type previewCacheT struct {
 }
 
 func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
-	width, height, err := GetSize(int(primary.Fd()))
+	width, height, err := GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return nil, err
 	}
