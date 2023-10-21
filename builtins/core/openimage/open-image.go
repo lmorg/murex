@@ -7,7 +7,6 @@ import (
 
 	"github.com/eliukblau/pixterm/pkg/ansimage"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -47,7 +46,7 @@ func cmdOpenImage(p *lang.Process) error {
 		}
 	}
 
-	tx, ty, err := readline.GetSize(int(tty.Stdout.Fd()))
+	tx, ty, err := readline.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return err
 	}

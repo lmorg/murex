@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"reflect"
 	"strings"
 	"syscall"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -24,7 +25,10 @@ const (
 	envDataType = consts.EnvDataType + "="
 )
 
-var envMurexPid = fmt.Sprintf("%s=%d", consts.EnvMurexPid, os.Getpid())
+var (
+	envMurexPid = fmt.Sprintf("%s=%d", consts.EnvMurexPid, os.Getpid())
+	termOut     = reflect.TypeOf(new(term.Out)).String()
+)
 
 // External executes an external process.
 func External(p *Process) error {
@@ -65,7 +69,7 @@ func execute(p *Process) error {
 				return
 			}
 			name, _ := p.Args()
-			tty.Stderr.WriteString(
+			os.Stderr.WriteString(
 				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
 		}
 	}
@@ -86,7 +90,7 @@ func execute(p *Process) error {
 		cmd.Stdin = new(null.Null)
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
-		cmd.Stdin = p.ttyin
+		cmd.Stdin = p.Stdin.File() //p.ttyin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 	cmd.Env = append(cmd.Env, p.Exec.Env...)
@@ -99,8 +103,12 @@ func execute(p *Process) error {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
 		//osSyscalls(cmd, int(p.ttyout.Fd()))
 		//osSyscalls(cmd, int(os.Stdin.Fd()))
-		osSyscalls(cmd, int(p.Stdout.File().Fd()))
+		//if reflect.TypeOf(p.Stdout).String() == termOut {
+		//	osSyscalls(cmd, int(p.ttyout.Fd()))
+		//	cmd.Stdout = p.ttyout
+		//} else {
 		cmd.Stdout = p.Stdout.File()
+		//}
 	} else {
 		// ....otherwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout

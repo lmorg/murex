@@ -38,7 +38,7 @@ func (tee *Tee) IsTTY() bool {
 }
 
 func (tee *Tee) File() *os.File {
-	return nil
+	return tee.primary.File()
 }
 
 // Stats is stored against the primary STDOUT stream in tee

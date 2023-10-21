@@ -1,7 +1,12 @@
+//go:build !windows && !plan9 && !js
+// +build !windows,!plan9,!js
+
 package preview
 
 import (
+	"bytes"
 	"context"
+	"io"
 	"strings"
 
 	"github.com/lmorg/murex/app"
@@ -15,17 +20,29 @@ import (
 var cacheCommandLine []string
 
 func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR | lang.F_BACKGROUND | lang.F_PREVIEW)
-	//fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_BACKGROUND | lang.F_PREVIEW)
+	usePty := false
+
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_PREVIEW | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.FileRef = ref.NewModule(app.ShellModule)
 
-	var err error
-	fork.Stdout, err = psuedotty.NewPTY(size.Width, size.Height)
-	if err != nil {
-		panic("TODO")
-	}
+	var (
+		err, ioErr error
+		buf        *bytes.Buffer
+	)
 
-	//fork.Stdout = streams.NewStdin()
+	if usePty {
+		fork.Stdout, err = psuedotty.NewPTY(size.Width, size.Height)
+		if err != nil {
+			panic("TODO")
+		}
+
+		fork.Stdout.Open()
+
+		buf = bytes.NewBuffer(nil)
+		go func() {
+			_, ioErr = io.Copy(buf, fork.Stdout)
+		}()
+	}
 
 	fork.Stderr = fork.Stdout
 
@@ -37,7 +54,8 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 
 	select {
 	case <-ctx.Done():
-		fork.KillForks(1)
+		go fork.KillForks(1)
+		fork.Stdout.ForceClose()
 		return nil, 0, nil
 
 	case <-fin:
@@ -48,8 +66,13 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 		return clErrorCacheMerge(err, size)
 	}
 
-	b, err := fork.Stdout.ReadAll()
-	if err != nil {
+	var b []byte
+	if usePty {
+		b = buf.Bytes()
+	} else {
+		b, ioErr = fork.Stdout.ReadAll()
+	}
+	if ioErr != nil {
 		return clErrorCacheMerge(err, size)
 	}
 

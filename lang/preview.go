@@ -106,11 +106,17 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 	}
 
 	safe := parser.GetSafeCmds()
-	for i := offset + 1; i < len(*tree); i++ {
+	for i := offset + 1; i < len(*tree)-1; i++ {
 		cmd := string((*tree)[i].CommandName())
+	check:
 		switch {
 		case cmd == ExpressionFunctionName:
 			continue
+		case cmd == "exec" && !strings.HasPrefix(s[i], cmd):
+			if len((*tree)[i].Parameters) > 0 {
+				cmd = string((*tree)[i].Parameters[0])
+				goto check
+			}
 		case !strings.HasPrefix(s[i], cmd):
 			return fmt.Errorf("a command executable has changed name: %s", errPressF9)
 		case !lists.Match(safe, cmd):
@@ -120,7 +126,8 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 
 	pc.grow(s)
 
-	for i := range *procs {
+	//for i := range *procs {
+	for i := 0; i < len(*procs)-1; i++ {
 		(*procs)[i].cache = new(cacheT)
 		(*procs)[i].cache.b = &pc.cache[i]
 		(*procs)[i].cache.dt = &pc.dt[i]

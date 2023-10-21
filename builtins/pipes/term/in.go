@@ -6,7 +6,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/tty"
 )
 
 // Terminal: Standard In
@@ -25,14 +24,14 @@ func NewIn(dataType string) stdio.Io {
 }
 
 func backgroundRead(t *In) {
-	_, err := t.ReadFrom(tty.Stdin)
+	_, err := t.ReadFrom(os.Stdin)
 	if err != nil {
-		tty.Stderr.WriteString("Error reading from STDIN: " + err.Error())
+		os.Stderr.WriteString("Error reading from STDIN: " + err.Error())
 	}
 }
 
 func (t *In) File() *os.File {
-	return tty.Stdin
+	return os.Stdin
 }
 
 // Write is the io.Writer() interface for term

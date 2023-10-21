@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -31,9 +30,9 @@ func (t *Err) Write(b []byte) (i int, err error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	i, err = tty.Stderr.Write(b)
+	i, err = os.Stderr.Write(b)
 	if err != nil {
-		tty.Stdout.WriteString(err.Error())
+		os.Stdout.WriteString(err.Error())
 	}
 
 	return

@@ -13,7 +13,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/pipes"
 	"github.com/lmorg/murex/lang/state"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -272,7 +271,7 @@ executeProcess:
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
 			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-			tty.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 		}
 
 		if tmux.(bool) {

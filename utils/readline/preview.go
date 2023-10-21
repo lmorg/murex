@@ -19,7 +19,7 @@ const (
 
 const previewPromptHSpace = 3
 
-const (
+/*const (
 	boxTL = "╔"
 	boxTR = "╗"
 	boxBL = "╚"
@@ -28,9 +28,9 @@ const (
 	boxV  = "║"
 	boxVL = "╟"
 	boxVR = "╢"
-)
+)*/
 
-/*const (
+const (
 	boxTL = "┏"
 	boxTR = "┓"
 	boxBL = "┗"
@@ -39,7 +39,7 @@ const (
 	boxV  = "┃"
 	boxVL = "┠"
 	boxVR = "┨"
-)*/
+)
 
 func getPreviewWidth(width int) (preview, forward int) {
 	/*switch {

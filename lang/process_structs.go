@@ -3,7 +3,6 @@ package lang
 import (
 	"context"
 	"fmt"
-	"os"
 	"sync"
 	"time"
 
@@ -21,18 +20,18 @@ import (
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
-	Id                 uint32
-	cache              *cacheT
-	raw                []rune
-	Name               process.Name
-	Parameters         parameters.Parameters
-	namedPipes         []string
-	Context            context.Context
-	Stdin              stdio.Io
-	ttyin              *os.File
-	Stdout             stdio.Io
-	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
-	ttyout             *os.File
+	Id         uint32
+	cache      *cacheT
+	raw        []rune
+	Name       process.Name
+	Parameters parameters.Parameters
+	namedPipes []string
+	Context    context.Context
+	Stdin      stdio.Io
+	//ttyin              *os.File
+	Stdout       stdio.Io
+	stdoutOldPtr stdio.Io // only used when stdout is a tmp named pipe
+	//ttyout             *os.File
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
@@ -160,6 +159,9 @@ func (p *Process) KillForks(exitNum int) {
 		for i := range *procs {
 			(*procs)[i].ExitNum = exitNum
 			(*procs)[i].Done()
+			(*procs)[i].Kill()
+			(*procs)[i].WaitForTermination <- false
+			(*procs)[i].hasTerminatedV = true
 		}
 	}
 }

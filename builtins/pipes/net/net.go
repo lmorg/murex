@@ -6,7 +6,6 @@ import (
 	"os"
 	"sync"
 
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -76,7 +75,7 @@ func (n *Net) Close() {
 	if n.dependents == 0 {
 		err := n.conn.Close()
 		if err != nil {
-			tty.Stderr.WriteString(err.Error() + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
 	}
 
