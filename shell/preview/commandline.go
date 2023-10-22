@@ -4,15 +4,14 @@
 package preview
 
 import (
-	"bytes"
 	"context"
-	"io"
+	"encoding/json"
 	"strings"
 
 	"github.com/lmorg/murex/app"
-	"github.com/lmorg/murex/builtins/pipes/psuedotty"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -20,31 +19,10 @@ import (
 var cacheCommandLine []string
 
 func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
-	usePty := false
-
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_PREVIEW | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_PREVIEW | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.FileRef = ref.NewModule(app.ShellModule)
 
-	var (
-		err, ioErr error
-		buf        *bytes.Buffer
-	)
-
-	if usePty {
-		fork.Stdout, err = psuedotty.NewPTY(size.Width, size.Height)
-		if err != nil {
-			panic("TODO")
-		}
-
-		fork.Stdout.Open()
-
-		buf = bytes.NewBuffer(nil)
-		go func() {
-			_, ioErr = io.Copy(buf, fork.Stdout)
-		}()
-	}
-
-	fork.Stderr = fork.Stdout
+	var err error
 
 	fin := make(chan (bool), 1)
 	go func() {
@@ -66,19 +44,45 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 		return clErrorCacheMerge(err, size)
 	}
 
-	var b []byte
-	if usePty {
-		b = buf.Bytes()
-	} else {
-		b, ioErr = fork.Stdout.ReadAll()
+	b, ioErr := fork.Stdout.ReadAll()
+	if fork.Stdout.GetDataType() == types.Json {
+		var v interface{}
+		err = json.Unmarshal(b, &v)
+		if err != nil {
+			goto output
+		}
+		j, err := json.MarshalIndent(v, "", "    ")
+		if err != nil {
+			goto output
+		}
+		b = j
 	}
+
+output:
+
 	if ioErr != nil {
 		return clErrorCacheMerge(err, size)
 	}
 
-	s, i, err := parse(b, size)
-	cacheCommandLine = s
-	return s, i, err
+	sPreview, i, err := parse(b, size)
+
+	b, _ = fork.Stderr.ReadAll()
+	if len(b) > 0 {
+		if len(sPreview) == 1 && strings.TrimSpace(sPreview[0]) == "" {
+			sPreview = []string{}
+		}
+		if len(sPreview) > 0 {
+			sPreview = append(sPreview, strings.Repeat("─", size.Width))
+		}
+		s, _, _ := parse(b, size)
+		for i := range s {
+			s[i] = ansi.ExpandConsts("{RED}") + s[i] + ansi.ExpandConsts("{RESET}") + strings.Repeat(" ", size.Width-len(s[i]))
+		}
+		sPreview = append(sPreview, s...)
+	}
+
+	cacheCommandLine = sPreview
+	return sPreview, i, err
 }
 
 func clErrorCacheMerge(err error, size *readline.PreviewSizeT) ([]string, int, error) {
