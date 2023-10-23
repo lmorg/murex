@@ -1,5 +1,5 @@
-//go:build windows || opt_encoders
-// +build windows opt_encoders
+//go:build windows || opt_cmd_encoders
+// +build windows opt_cmd_encoders
 
 package optional
 

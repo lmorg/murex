@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"net/smtp"
+	"os"
 	"sync"
 
 	"github.com/lmorg/murex/config"
@@ -31,6 +32,10 @@ type Mail struct {
 	smtpAuth   smtp.Auth
 	subject    string
 	recipients []string
+}
+
+func (m *Mail) File() *os.File {
+	return nil
 }
 
 // Read is an empty method because you cannot read a sent email

@@ -3,13 +3,13 @@ package oncommandcompletion
 import (
 	"errors"
 	"fmt"
+	"os"
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/tty"
 )
 
 const eventType = "onCommandCompletion"
@@ -120,7 +120,7 @@ func (evt *commandCompletionEvents) exists(command string) bool {
 }
 
 func writeErr(desc string, err error, name string, cmd string) {
-	tty.Stderr.WriteString(
+	os.Stderr.WriteString(
 		fmt.Sprintf(
 			"ERROR: cannot execute event '%s' (command `%s`): %s: %s",
 			name, cmd, desc, err))

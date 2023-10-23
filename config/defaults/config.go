@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/noglob"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -260,20 +259,9 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "tty-buffer-enabled", config.Properties{
-		Description: "EXPERIMENTAL: creates a PTY to buffer STDOUT and STDERR. Mostly works but might cause some edge problems in specific circumstances",
-		Default:     tty.Enabled(),
-		DataType:    types.Boolean,
-		Global:      true,
-		GoFunc: config.GoFuncProperties{
-			Read:  tty.ConfigRead,
-			Write: tty.ConfigWrite,
-		},
-	})
-
 	c.Define("shell", "preview-images", config.Properties{
 		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
-		Default:     true, //tty.Enabled(),
+		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})

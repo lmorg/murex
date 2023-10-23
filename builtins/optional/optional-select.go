@@ -1,4 +1,5 @@
-// +build opt_select
+//go:build opt_cmd_select
+// +build opt_cmd_select
 
 package optional
 

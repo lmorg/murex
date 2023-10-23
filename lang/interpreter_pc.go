@@ -98,8 +98,8 @@ func runModeTry(procs *[]Process) (exitNum int) {
 		if next == len((*procs)) || !(*procs)[next].IsMethod {
 			waitProcess(&(*procs)[i])
 			exitNum = (*procs)[i].ExitNum
-			outSize, _ := (*procs)[i].Stdout.Stats()
-			errSize, _ := (*procs)[i].Stderr.Stats()
+			outSize, _ := 0, 0 //(*procs)[i].Stdout.Stats()
+			errSize, _ := 0, 0 //(*procs)[i].Stderr.Stats()
 
 			if exitNum < 1 && errSize > outSize {
 				exitNum = 1
@@ -148,8 +148,8 @@ func runModeTryPipe(procs *[]Process) (exitNum int) {
 		waitProcess(&(*procs)[i])
 
 		exitNum = (*procs)[i].ExitNum
-		outSize, _ := (*procs)[i].Stdout.Stats()
-		errSize, _ := (*procs)[i].Stderr.Stats()
+		outSize, _ := 0, 0 // (*procs)[i].Stdout.Stats()
+		errSize, _ := 0, 0 // (*procs)[i].Stderr.Stats()
 
 		if exitNum == 0 && errSize > outSize {
 			exitNum = 1

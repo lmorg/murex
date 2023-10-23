@@ -47,10 +47,11 @@ import (
 	_ "github.com/lmorg/murex/builtins/events/onSignalReceived"    // OS signal management
 
 	// Pipes:
-	_ "github.com/lmorg/murex/builtins/pipes/file"    // writing to a file (required for history)
-	_ "github.com/lmorg/murex/builtins/pipes/null"    // null interface (required!)
-	_ "github.com/lmorg/murex/builtins/pipes/streams" // standard interfaces for pipes (required!)
-	_ "github.com/lmorg/murex/builtins/pipes/term"    // writing to the terminal / TTY (required!)
+	_ "github.com/lmorg/murex/builtins/pipes/file"      // writing to a file (required for history)
+	_ "github.com/lmorg/murex/builtins/pipes/null"      // null interface (required!)
+	_ "github.com/lmorg/murex/builtins/pipes/psuedotty" // pseudo-TTYs (required for F9 preview)
+	_ "github.com/lmorg/murex/builtins/pipes/streams"   // standard interfaces for pipes (required!)
+	_ "github.com/lmorg/murex/builtins/pipes/term"      // writing to the terminal / TTY (required!)
 
 	// Data types:
 	_ "github.com/lmorg/murex/builtins/types/apachelogs"  // Apache httpd "commonlog" parsing

@@ -3,10 +3,12 @@
 
 package readline
 
+import "os"
+
 func print(s string) {
-	primary.WriteString(s)
+	os.Stdout.WriteString(s)
 }
 
 func printErr(s string) {
-	primary.WriteString(s)
+	os.Stderr.WriteString(s)
 }

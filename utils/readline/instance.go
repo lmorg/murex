@@ -1,24 +1,15 @@
 package readline
 
 import (
+	"context"
 	"os"
 	"sync"
 )
 
-var (
-	primary *os.File = os.Stdout
-	replica *os.File = os.Stdin
-)
-
-func SetTTY(primaryTTY, replicaTTY *os.File) {
-	primary = primaryTTY
-	replica = replicaTTY
-}
-
 var ForceCrLf = true
 
 type HintCacheFuncT func(prefix string, items []string) []string
-type PreviewFuncT func(line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
+type PreviewFuncT func(ctx context.Context, line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
 
 type TabCompleterReturnT struct {
 	Prefix       string
@@ -34,6 +25,7 @@ type TabCompleterReturnT struct {
 // captures without having to repeatedly unload configuration.
 type Instance struct {
 	fdMutex sync.Mutex
+	//fdMutex debug.BadMutex
 
 	Active        bool
 	closeSigwinch func()
@@ -132,10 +124,14 @@ type Instance struct {
 
 	ScreenRefresh func()
 
+	PreviewInit   func()
 	previewMode   previewModeT
+	previewRef    previewRefT
 	previewItem   string
 	previewCache  *previewCacheT
 	PreviewImages bool
+	previewCancel context.CancelFunc
+	PreviewLine   PreviewFuncT
 
 	// tab completion
 	modeTabCompletion bool

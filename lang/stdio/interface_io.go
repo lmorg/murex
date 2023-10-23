@@ -3,6 +3,7 @@ package stdio
 import (
 	"context"
 	"io"
+	"os"
 
 	"github.com/lmorg/murex/config"
 )
@@ -16,6 +17,7 @@ type Io interface {
 	GetDataType() string
 	SetDataType(string)
 	IsTTY() bool
+	File() *os.File
 
 	Read([]byte) (int, error)
 	ReadLine(callback func([]byte)) error

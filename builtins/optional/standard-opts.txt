@@ -1,1 +1,1 @@
-opt_hcl,opt_sexp,opt_select,opt_barcode
+opt_pipe_net,opt_type_hcl,opt_type_sexp,opt_cmd_select,opt_cmd_barcode
