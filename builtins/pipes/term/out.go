@@ -4,8 +4,9 @@
 package term
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -14,6 +15,10 @@ import (
 // Out is the Stdout interface for term
 type Out struct {
 	term
+}
+
+func (t *Out) File() *os.File {
+	return os.Stdout
 }
 
 func OutSetDataTypeIPC() {
@@ -54,9 +59,9 @@ func (t *Out) Write(b []byte) (i int, err error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	i, err = tty.Stdout.Write(b)
+	i, err = os.Stdout.Write(b)
 	if err != nil {
-		tty.Stderr.WriteString(err.Error())
+		os.Stderr.WriteString(err.Error())
 	}
 
 	return

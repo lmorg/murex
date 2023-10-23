@@ -42,7 +42,7 @@ variable.
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output

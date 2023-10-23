@@ -269,12 +269,12 @@ bar
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [`%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined
 * [`expr`](../commands/expr.md):

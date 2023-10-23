@@ -332,14 +332,17 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			tree.charPos++
 
 		case '$':
+			next := tree.nextChar()
 			switch {
-			case tree.nextChar() == '{':
+			case next == '{':
 				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}
 				dt := primitives.NewFunction(fn)
 				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+			case next == 0:
+				tree.appendAst(symbols.Unexpected, r)
 			default:
 				// scalar
 				runes, v, mxDt, fn, err := tree.parseVarScalarExpr(exec, false, varAsValue)

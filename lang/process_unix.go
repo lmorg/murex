@@ -10,50 +10,46 @@ import (
 	"syscall"
 
 	"github.com/creack/pty"
+	"github.com/lmorg/murex/builtins/pipes/psuedotty"
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/tty"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func ttys(p *Process) {
-	p.ttyin = tty.Stdin
-	p.ttyout = tty.Stdout
-
 	if p.CCExists != nil && p.CCExists(p.Name.String()) {
 		p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
 		p.CCErr.SetDataType(types.Generic)
 
-		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
-
 		if p.Stdout.IsTTY() {
-			primary, replica, err := pty.Open()
+			width, height, err := readline.GetSize(int(p.Stdout.File().Fd()))
 			if err != nil {
-				return
+				panic(err) // TODO: don't panic
 			}
 
-			_ = pty.InheritSize(tty.Stdout, primary)
+			var tee stdio.Io
+			p.Stdout, tee, p.CCOut, err = psuedotty.NewTeePTY(width, height)
+			if err != nil {
+				panic(err) // TODO: don't panic
+			}
+
 			ch := make(chan os.Signal, 1)
 			signal.Notify(ch, syscall.SIGWINCH)
 			go func() {
 				for range ch {
-					_ = pty.InheritSize(tty.Stdout, primary)
+					_ = pty.InheritSize(os.Stdout, p.Stdout.File())
 				}
 			}()
 
-			_, err = readline.MakeRaw(int(primary.Fd()))
-			if err != nil {
-				return
-			}
-
-			p.ttyin = tty.Stdin
-			p.ttyout = primary
 			go func() {
-				_, _ = io.Copy(p.Stdout, replica)
+				_, _ = io.Copy(os.Stdout, tee)
 				signal.Stop(ch)
 				close(ch)
 			}()
-		}
 
+		} else {
+			p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
+		}
 	}
 }

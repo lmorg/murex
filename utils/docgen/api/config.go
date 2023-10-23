@@ -14,7 +14,7 @@ type config struct {
 	SourceExt string `yaml:"SourceExt"`
 
 	// Categories, templates, etc
-	Categories []category `yaml:"Categories"`
+	Categories categories `yaml:"Categories"`
 
 	renderedCategories map[string][]string
 	renderedDocuments  map[string]map[string][]string
@@ -22,6 +22,17 @@ type config struct {
 
 // Config is the global configuration for docgen
 var Config = new(config)
+
+type categories []category
+
+func (c *categories) ByID(catID string) *category {
+	for i := range *c {
+		if (*c)[i].ID == catID {
+			return &(*c)[i]
+		}
+	}
+	panic(fmt.Sprintf("no category found with ID '%s'", catID))
+}
 
 // ReadConfig loads a config file from disk
 func ReadConfig(path string) (err error) {

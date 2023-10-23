@@ -175,11 +175,11 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%{}` Create object](../parser/create-object.md):
   Quickly generate objects and maps

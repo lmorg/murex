@@ -6,7 +6,6 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -54,12 +53,12 @@ var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
 
 func sigquit(interactive bool) {
 	if !interactive {
-		tty.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
+		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
 		lang.Exit(2)
 	}
 
 	//tty.Stderr.WriteString(PromptSIGQUIT)
-	tty.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
+	os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
 
 	fids := lang.GlobalFIDs.ListAll()
 	for _, p := range fids {

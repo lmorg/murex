@@ -14,10 +14,10 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/node"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -53,7 +53,7 @@ func Start() {
 	if debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
-				tty.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
+				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
 				Start()
 			}
 		}()
@@ -96,7 +96,7 @@ func Start() {
 	if pwd != "" {
 		err := cd.Chdir(lang.ShellProcess, pwd.(string))
 		if err != nil {
-			tty.Stderr.WriteString(err.Error())
+			os.Stderr.WriteString(err.Error())
 		}
 	}
 
@@ -118,6 +118,9 @@ func ShowPrompt() {
 		merged   string
 		block    []rune
 	)
+
+	Prompt.PreviewLine = preview.CommandLine
+	Prompt.PreviewInit = lang.PreviewInit
 
 	Prompt.GetMultiLine = func(r []rune) []rune {
 		var multiLine []rune
@@ -148,10 +151,6 @@ func ShowPrompt() {
 		Prompt.DelayedSyntaxWorker = Spellchecker
 		Prompt.HistoryAutoWrite = false
 
-		if tty.Enabled() {
-			Prompt.ScreenRefresh = tty.BufferGet
-		}
-
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
@@ -168,10 +167,6 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 
-		if tty.MissingCrLf() {
-			tty.WriteCrLf()
-		}
-
 		Prompt.SetPrompt(string(prompt))
 
 		line, err := Prompt.Readline()
@@ -180,12 +175,12 @@ func ShowPrompt() {
 			case readline.CtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Fprintln(tty.Stdout, PromptSIGINT)
+				fmt.Fprintln(os.Stdout, PromptSIGINT)
 				callEvents("cancel", nil)
 				continue
 
 			case readline.EOF:
-				fmt.Fprintln(tty.Stdout, utils.NewLineString)
+				fmt.Fprintln(os.Stdout, utils.NewLineString)
 				callEvents("eof", nil)
 				lang.Exit(0)
 
@@ -210,7 +205,7 @@ func ShowPrompt() {
 		}
 
 		if string(expanded) != string(block) {
-			tty.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
+			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
 		}
 
 		pt, _ := parse(block)
@@ -254,7 +249,7 @@ func ShowPrompt() {
 
 			_, err = Prompt.History.Write(merged)
 			if err != nil {
-				fmt.Fprintf(tty.Stdout, ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
+				fmt.Fprintf(os.Stdout, ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
 			}
 
 			nLines = 1
@@ -269,12 +264,9 @@ func ShowPrompt() {
 			fork.CCEvent = lang.ShellProcess.CCEvent
 			fork.CCExists = lang.ShellProcess.CCExists
 			lang.ShellExitNum, err = fork.Execute(expanded)
-			if err != nil {
-				fmt.Fprintln(tty.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
-			}
 
-			if tty.MissingCrLf() {
-				tty.WriteCrLf()
+			if err != nil {
+				fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
 			}
 
 			if PromptId.NotEqual(thisProc) {
@@ -315,7 +307,7 @@ func getMacroVars(s string) ([]string, []string, error) {
 			if vars[i] != "" {
 				break
 			}
-			tty.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
+			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
 		assigned[match[i]] = true
 	}

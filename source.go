@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/integrations"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -53,7 +52,7 @@ func diskSource(filename string) ([]byte, error) {
 
 func execSource(source []rune, sourceRef *ref.Source, exitOnError bool) {
 	if debug.Enabled {
-		tty.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
+		os.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
 	}
 
 	var stdin int
@@ -73,7 +72,7 @@ func execSource(source []rune, sourceRef *ref.Source, exitOnError bool) {
 		if exitNum == 0 {
 			exitNum = 1
 		}
-		tty.Stderr.WriteString(err.Error() + utils.NewLineString)
+		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		lang.Exit(exitNum)
 	}
 
