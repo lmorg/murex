@@ -260,8 +260,20 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 			rl.tabMutex.Unlock()
 
-			if rl.previewRef == previewRefDefault {
-				output = rl.clearPreviewStr()
+			switch {
+			case rl.previewMode == previewModeOpen:
+				output += rl.clearPreviewStr()
+				output += rl.clearHelpersStr()
+				print(output)
+				continue
+			case rl.previewMode == previewModeAutocomplete:
+				rl.previewMode = previewModeOpen
+				if !rl.modeTabCompletion {
+					output += rl.clearPreviewStr()
+					output += rl.clearHelpersStr()
+					print(output)
+					continue
+				}
 			}
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {

@@ -227,7 +227,7 @@ func (rl *Instance) clearPreviewStr() string {
 	var output string
 
 	if rl.previewMode > previewModeClosed {
-		output = seqRestoreBuffer
+		output = seqRestoreBuffer + curPosRestore
 		output += rl.echoStr()
 		rl.previewMode = previewModeClosed
 		rl.previewRef = previewRefDefault
