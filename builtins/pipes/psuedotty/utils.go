@@ -3,6 +3,7 @@ package psuedotty
 import (
 	"os"
 	"sync/atomic"
+	"time"
 )
 
 // GetDataType returns the murex data type for the stream.Io interface
@@ -34,14 +35,14 @@ func (p *PTY) Close() {
 	}
 	p.out.Close()
 	if i == 0 {
-		go p.close()
+		//go p.close()
 	}
 }
 
 func (p *PTY) close() {
 	for {
-		//time.Sleep(10 * time.Second)
-		w, r := p.out.Stats()
+		time.Sleep(1 * time.Second)
+		/*w, r := p.out.Stats()
 		if r >= w {
 			err := p.in.Close()
 			if err != nil {
@@ -52,7 +53,7 @@ func (p *PTY) close() {
 				panic(err)
 			}
 			return
-		}
+		}*/
 	}
 }
 
