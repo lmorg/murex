@@ -1,5 +1,5 @@
-//go:build opt_hcl
-// +build opt_hcl
+//go:build opt_type_hcl
+// +build opt_type_hcl
 
 package optional
 

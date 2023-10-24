@@ -69,11 +69,11 @@ shells.
 
 
 If you want to learn more about the interactive shell then there is a dedicated
-document detailing [Murex's REPL features](user-guide/interactive-shell.md).
+document detailing [Murex's REPL features](/docs/user-guide/interactive-shell.md).
 
 ### Barewords
 
-Shells need to [balance scripting with an efficient interactive terminal](blog/split_personalities.md)
+Shells need to [balance scripting with an efficient interactive terminal](/docs/blog/split_personalities.md)
 interface. One of the most common approaches to solving that conflict between
 readability and terseness is to make heavy use of barewords. Barewords are
 ostensibly just instructions that are not quoted. In our case, command names
@@ -140,7 +140,7 @@ respective builtin.
 ## Rosetta Stone
 
 If you already know Bash and looking for the equivalent syntax in Murex, then
-our [Rosetta Stone](user-guide/rosetta-stone.md) reference will help you to
+our [Rosetta Stone](/docs/user-guide/rosetta-stone.md) reference will help you to
 translate your Bash code into Murex code.
 
 ## Basic Syntax
@@ -152,9 +152,9 @@ translate your Bash code into Murex code.
 
 There are three ways to quote a string in Murex:
 
-* `'single quote'`: use this for string literals    ([read more](parser/single-quote.md))
-* `"double quote"`: use this for infixing variables ([read more](parser/double-quote.md))
-* `%(brace quote)`: use this for nesting quotes     ([read more](parser/brace-quote.md))
+* `'single quote'`: use this for string literals    ([read more](/docs/parser/single-quote.md))
+* `"double quote"`: use this for infixing variables ([read more](/docs/parser/double-quote.md))
+* `%(brace quote)`: use this for nesting quotes     ([read more](/docs/parser/brace-quote.md))
 
 ### Code Comments
 
@@ -226,7 +226,7 @@ Environmental variables can be assigned using the `$ENV` namespace:
 ```
 » $ENV.foo = "bar"
 ```
-as well as using the `export` statement like with traditional shells. ([read more](commands/export.md))
+as well as using the `export` statement like with traditional shells. ([read more](/docs/commands/export.md))
 
 Like with global variables, you can force Murex to read the environmental
 variable, bypassing and local or global variables of the same name, by also
@@ -237,7 +237,7 @@ using the `$ENV` namespace prefix.
 In general, Murex will try to infer the data type of a variable or pipe. It
 can do this by checking the `Content-Type` HTTP header, the file name
 extension or just looking at how that data was constructed (when defined via
-expressions). However sometimes you may need to annotate your types. [Read more](commands/set.md#type-annotations)
+expressions). However sometimes you may need to annotate your types. ([read more](/docs/commands/set.md#type-annotations))
 
 ### Scalars
 
@@ -273,19 +273,19 @@ file1.txt  file2.txt
 Murex supports multiple different pipe tokens. The main two being `|` and
 `->`.
 
-* `|` works exactly the same as in any normal shell ([read more](parser/pipe-posix.md))
+* `|` works exactly the same as in any normal shell. ([read more](/docs/parser/pipe-posix.md))
 
 * `->` displays all of the supported methods (commands that support the output
   of the previous command). Think of it a little like object orientated
-  programming where an object will have functions (methods) attached. ([read more](parser/pipe-arrow.md))
+  programming where an object will have functions (methods) attached. ([read more](/docs/parser/pipe-arrow.md))
 
 In Murex scripts you can use `|` and `->` interchangeably, so there's no need
 to remember which commands are methods and which are not. The difference only
 applies in the interactive shell where `->` can be used with tab-autocompletion
 to display a shortlist of supported functions that can manipulate the data from
 the previous command. It's purely a clue to the parser to generate different
-autocompletion suggestions to help with your discovery of different commandline
-tools.
+autocompletion suggestions to help with your discovery of different command
+line tools.
 
 ### Redirection
 
@@ -316,7 +316,7 @@ command <null>  # ignore stdout
 ```
 
 You can also create your own pipes that are files, network connections, or any
-other custom data input or output endpoint. [read more](user-guide/namedpipes.md)
+other custom data input or output endpoint. ([read more](/docs/user-guide/namedpipes.md))
 
 ### Redirecting to files
 
@@ -381,9 +381,9 @@ While glob expansion is supported in the interactive shell, there isn't
 auto-expansion of globbing in shell scripts. This is to protect against
 accidental damage. Instead globbing is achieved via sub-shells using either:
 
-* `g`  - traditional globbing ([read more](commands/g.md))
-* `rx` - regexp matching in current directory only ([read more](commands/rx.md))
-* `f`  - file type matching ([read more](commands/f.md))
+* `g`  - traditional globbing                      ([read more](/docs/commands/g.md))
+* `rx` - regexp matching in current directory only ([read more](/docs/commands/rx.md))
+* `f`  - file type matching                        ([read more](/docs/commands/f.md))
 
 **Examples:**
 
@@ -418,7 +418,7 @@ rm @{g *.txt | f +s}
 In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
 using the following syntax: `a{1..5}b`. In Murex, like with globbing, brace
 expansion is a function: `a a[1..5]b` and supports a much wider range of lists
-that can be expanded. ([read more](commands/a.md))
+that can be expanded. ([read more](/docs/commands/a.md))
 
 ## Executables
 
@@ -430,11 +430,11 @@ example:
 alias gc=git commit
 ```
 
-`alias` behaves slightly differently to Bash. ([read more](commands/alias.md))
+`alias` behaves slightly differently to Bash. ([read more](/docs/commands/alias.md))
 
 ### Public Functions
 
-You can create custom functions in Murex using `function`. ([read more](commands/function.md))
+You can create custom functions in Murex using `function`. ([read more](/docs/commands/function.md))
 ```
 function gc (message: str) {
     # shorthand for `git commit`
@@ -446,12 +446,12 @@ function gc (message: str) {
 ### Private Functions
 
 `private` functions are like [public functions](#public-functions) except they
-are only available within their own modules namespace. ([read more](commands/private.md))
+are only available within their own modules namespace. ([read more](/docs/commands/private.md))
 
 ### External Executables
 
 External executables (including any programs located in `$PATH`) are invoked
-via the `exec` builtin ([read more](commands/exec.md)) however if a command
+via the `exec` builtin ([read more](/docs/commands/exec.md)) however if a command
 isn't an expression, alias, function nor builtin, then Murex assumes it is an
 external executable and automatically invokes `exec`.
 
@@ -475,7 +475,7 @@ if { true } then {
 }
 ```
 
-`if` supports a flexible variety of incarnation to solve different problems. ([read more](commands/if.md))
+`if` supports a flexible variety of incarnation to solve different problems. ([read more](/docs/commands/if.md))
 
 ### Using `switch` Statements
 
@@ -493,18 +493,18 @@ switch $USER {
 ```
 
 `switch` supports a flexible variety of different usages to solve different
-problems. ([read more](commands/switch.md))
+problems. ([read more](/docs/commands/switch.md))
 
 ### Using `foreach` Loops
 
-`foreach` allows you to easily iterate through an array or list of any type: ([read more](commands/foreach.md))
+`foreach` allows you to easily iterate through an array or list of any type: ([read more](/docs/commands/foreach.md))
 ```
 %[ apples bananas oranges ] | foreach fruit { out "I like $fruit" }
 ```
 
 ### Using `formap` Loops
 
-`formap` loops are the equivalent of `foreach` but against map objects: ([read more](commands/formap.md))
+`formap` loops are the equivalent of `foreach` but against map objects: ([read more](/docs/commands/formap.md))
 ```
 %{
     Bob:     {age: 10},
@@ -533,7 +533,7 @@ problems. ([read more](commands/switch.md))
 ```
 
 `continue` requires a parameter to define while block to iterate on. This means
-you can use `continue` within nested loops and still have readable code. ([read more](commands/continue.md))
+you can use `continue` within nested loops and still have readable code. ([read more](/docs/commands/continue.md))
 
 ### The `break` Statement
 
@@ -564,31 +564,33 @@ function example {
 }
 ```
 
-`break` cannot exit anything above it's callers scope. ([read more](commands/break.md))
+`break` cannot exit anything above it's callers scope. ([read more](/docs/commands/break.md))
 
 ### The `return` Statement
 
-`return` ends the current scope (typically a function). ([read more](commands/return.md))
+`return` ends the current scope (typically a function). ([read more](/docs/commands/return.md))
 
 ### The `exit` Statement
 
 `exit` terminates Murex. It is not scope aware; if it is included in a function
-then the whole shell will still exist and not just that function. ([read more](commands/exit.md))
+then the whole shell will still exist and not just that function. ([read more](/docs/commands/exit.md))
 
 ### Signal: SIGINT
 
-This can be invoked by pressing `Ctrl` + `c`. 
+This can be invoked by pressing `Ctrl` + `c`.
+
+This is functionally the same as `fid-kill`. (([read more](/docs/commands/fid-kill.md)))
 
 ### Signal: SIGQUIT
 
-This can be invoked by pressing `Ctrl` + `\`
+This can be invoked by pressing `Ctrl` + `\`. ([read more](/docs/user-guide/terminal-keys.md))
 
 Sending SIGQUIT will terminate all running functions in the current Murex
 session. Which is a handy escape hatch if your shell code starts misbehaving.
 
 ### Signal: SIGTSTP
 
-This can be invoked by pressing `Ctrl` + `z`
+This can be invoked by pressing `Ctrl` + `z`. ([read more](/docs/user-guide/job-control.md))
 
 ## See Also
 

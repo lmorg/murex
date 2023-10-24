@@ -3,6 +3,7 @@ package readline
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 	"sync/atomic"
@@ -16,13 +17,13 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
 
-	state, err := MakeRaw(int(replica.Fd()))
+	state, err := MakeRaw(int(os.Stdin.Fd()))
 	rl.sigwinch()
 
 	rl.fdMutex.Unlock()
 
 	if err != nil {
-		return "", fmt.Errorf("unable to modify fd %d: %s", replica.Fd(), err.Error())
+		return "", fmt.Errorf("unable to modify fd %d: %s", os.Stdout.Fd(), err.Error())
 	}
 
 	defer func() {
@@ -36,7 +37,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF
 		// that needs to be returned
-		r := Restore(int(replica.Fd()), state)
+		r := Restore(int(os.Stdin.Fd()), state)
 		if r != nil {
 			err = r
 		}
@@ -156,6 +157,25 @@ func (rl *Instance) Readline() (_ string, err error) {
 				output += rl.renderHelpersStr()
 				print(output)
 			}
+
+			if ret.DisplayPreview {
+				if rl.previewMode == previewModeClosed {
+					HkFnPreviewToggle(rl)
+				}
+			}
+
+			//rl.previewItem
+
+			if ret.Callback != nil {
+				err = ret.Callback()
+				if err != nil {
+					rl.hintText = []rune(err.Error())
+					output := rl.clearHelpersStr()
+					output += rl.renderHelpersStr()
+					print(output)
+				}
+			}
+
 			if !ret.ForwardKey {
 				continue
 			}
@@ -230,6 +250,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case '\r':
 			fallthrough
 		case '\n':
+			var output string
 			rl.tabMutex.Lock()
 			var suggestions *suggestionsT
 			if rl.modeTabFind {
@@ -238,7 +259,22 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
-			output := rl.clearPreviewStr()
+
+			switch {
+			case rl.previewMode == previewModeOpen:
+				output += rl.clearPreviewStr()
+				output += rl.clearHelpersStr()
+				print(output)
+				continue
+			case rl.previewMode == previewModeAutocomplete:
+				rl.previewMode = previewModeOpen
+				if !rl.modeTabCompletion {
+					output += rl.clearPreviewStr()
+					output += rl.clearHelpersStr()
+					print(output)
+					continue
+				}
+			}
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine
@@ -423,12 +459,11 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		return output
 
 	case seqF1, seqF1VT100:
-		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
-			rl.previewMode == previewModeClosed {
-			HkFnAutocomplete(rl)
-			defer func() { rl.previewMode++ }()
-		}
 		HkFnPreviewToggle(rl)
+		return output
+
+	case seqF9:
+		HkFnPreviewLine(rl)
 		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:

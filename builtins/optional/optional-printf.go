@@ -1,5 +1,5 @@
-//go:build opt_printf
-// +build opt_printf
+//go:build opt_cmd_printf
+// +build opt_cmd_printf
 
 package optional
 

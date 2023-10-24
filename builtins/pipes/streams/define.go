@@ -2,6 +2,7 @@ package streams
 
 import (
 	"context"
+	"os"
 	"sync"
 	"sync/atomic"
 
@@ -28,8 +29,7 @@ type Stdin struct {
 	bWritten   uint64
 	dependents int32
 	dataType   string
-	//dtLock     sync.Mutex
-	max int
+	max        int
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
@@ -57,10 +57,13 @@ func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (st
 	return
 }
 
+func (stdin *Stdin) File() *os.File {
+	return nil
+}
+
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
 	stdin.mutex.Lock()
-	//stdin.dependents++
 	atomic.AddInt32(&stdin.dependents, 1)
 	stdin.mutex.Unlock()
 }
@@ -68,8 +71,6 @@ func (stdin *Stdin) Open() {
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
-
-	//stdin.dependents--
 
 	i := atomic.AddInt32(&stdin.dependents, -1)
 	if i < 0 {

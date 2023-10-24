@@ -5,12 +5,12 @@ package shell
 
 import (
 	"fmt"
+	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
 )
@@ -37,7 +37,7 @@ func SignalHandler(interactive bool) {
 				sigtstp()
 
 			default:
-				tty.Stderr.WriteString("Unhandled signal: " + sig.String())
+				os.Stderr.WriteString("Unhandled signal: " + sig.String())
 			}
 		}
 	}()

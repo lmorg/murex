@@ -60,21 +60,21 @@ var (
 	seqCtrlRight = string([]byte{27, 91, 49, 59, 53, 67})
 
 	seqF1VT100 = string([]byte{27, 79, 80})
-	//seqF2VT100 = string([]byte{27, 79, 81})
-	//seqF3VT100 = string([]byte{27, 79, 82})
-	//seqF4VT100 = string([]byte{27, 79, 83})
-	seqF1 = string([]byte{27, 91, 49, 49, 126})
-	//seqF2      = string([]byte{27, 91, 49, 50, 126})
-	//seqF3      = string([]byte{27, 91, 49, 51, 126})
-	//seqF4      = string([]byte{27, 91, 49, 52, 126})
-	//seqF5      = string([]byte{27, 91, 49, 53, 126})
-	//seqF6      = string([]byte{27, 91, 49, 55, 126})
-	//seqF7      = string([]byte{27, 91, 49, 56, 126})
-	//seqF8      = string([]byte{27, 91, 49, 57, 126})
-	//seqF9      = string([]byte{27, 91, 50, 48, 126})
-	//seqF10     = string([]byte{27, 91, 50, 49, 126})
-	//seqF11     = string([]byte{27, 91, 50, 51, 126})
-	//seqF12     = string([]byte{27, 91, 50, 52, 126})
+	seqF2VT100 = string([]byte{27, 79, 81})
+	seqF3VT100 = string([]byte{27, 79, 82})
+	seqF4VT100 = string([]byte{27, 79, 83})
+	seqF1      = string([]byte{27, 91, 49, 49, 126})
+	seqF2      = string([]byte{27, 91, 49, 50, 126})
+	seqF3      = string([]byte{27, 91, 49, 51, 126})
+	seqF4      = string([]byte{27, 91, 49, 52, 126})
+	seqF5      = string([]byte{27, 91, 49, 53, 126})
+	seqF6      = string([]byte{27, 91, 49, 55, 126})
+	seqF7      = string([]byte{27, 91, 49, 56, 126})
+	seqF8      = string([]byte{27, 91, 49, 57, 126})
+	seqF9      = string([]byte{27, 91, 50, 48, 126})
+	seqF10     = string([]byte{27, 91, 50, 49, 126})
+	seqF11     = string([]byte{27, 91, 50, 51, 126})
+	seqF12     = string([]byte{27, 91, 50, 52, 126})
 
 	seqShiftF1  = string([]byte{27, 91, 49, 59, 50, 80})
 	seqShiftF2  = string([]byte{27, 91, 49, 59, 50, 81})
@@ -104,7 +104,7 @@ const (
 
 	seqSetCursorPosTopLeft = "\x1b[1;1H"
 	seqSaveBuffer          = "\x1b[?47h"
-	seqRestoreBuffer       = "\x1b[?47l"
+	seqRestoreBuffer       = "\x1b[?47l" //+ curPosSave
 )
 
 // Text effects

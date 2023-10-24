@@ -13,7 +13,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/pipes"
 	"github.com/lmorg/murex/lang/state"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -242,7 +241,7 @@ func executeProcess(p *Process) {
 	}
 	p.Parameters.DefineParsed(params)
 
-	// Execute function.
+	// Execute function
 	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
@@ -250,11 +249,29 @@ func executeProcess(p *Process) {
 		panic(err)
 	}
 
+	if p.cache != nil && p.cache.use {
+		// we have a preview cache, lets just write that and skip execution
+		_, err = p.Stdout.Write(p.cache.b.stdout)
+		//panic(fmt.Sprintf("%v: '%s'", previewCache.raw, string(p.cache.b.stdout)))
+		p.Stdout.SetDataType(p.cache.dt.stdout)
+		if err != nil {
+			panic(err)
+		}
+		_, _ = p.Stderr.Write(p.cache.b.stderr)
+
+		p.Stderr.SetDataType(p.cache.dt.stderr)
+		if err != nil {
+			panic(err)
+		}
+
+		goto cleanUpProcess
+	}
+
 executeProcess:
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
 			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-			tty.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 		}
 
 		if tmux.(bool) {
@@ -329,6 +346,13 @@ executeProcess:
 		}
 	}
 
+	if p.cache != nil {
+		p.cache.b.stdout, _ = p.cache.tee.stdout.ReadAll()
+		p.cache.dt.stdout = p.cache.tee.stdout.GetDataType()
+		p.cache.b.stderr, _ = p.cache.tee.stderr.ReadAll()
+		p.cache.dt.stderr = p.cache.tee.stderr.GetDataType()
+	}
+
 cleanUpProcess:
 	//debug.Json("Execute process (cleanUpProcess)", p)
 
@@ -374,7 +398,7 @@ cleanUpProcess:
 	for !p.Previous.HasTerminated() {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Microsecond)
 	}
 
 	//debug.Json("Execute process (destroyProcess)", p)

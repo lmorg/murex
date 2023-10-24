@@ -50,10 +50,10 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [`%(Brace Quote)`](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`%[]` Create array](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create object](../parser/create-object.md):

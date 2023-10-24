@@ -1,6 +1,7 @@
 package preview
 
 import (
+	"context"
 	"errors"
 	"os"
 	"regexp"
@@ -25,7 +26,7 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 
 var rxImage = regexp.MustCompile(`\.(bmp|jpg|jpeg|png|gif|tiff|webp)$`)
 
-func File(_ []rune, filename string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
+func File(ctx context.Context, _ []rune, filename string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	p := make([]byte, 1*1024*1024)
 	var i int
 
@@ -123,13 +124,15 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	return lines, 0, nil
 }
 
-func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
+func Command(ctx context.Context, _ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	if lang.GlobalAliases.Exists(command) {
 		alias := lang.GlobalAliases.Get(command)
 		if len(alias) == 0 {
 			return nil, 0, nil
 		}
-		return Command(nil, alias[0], false, size)
+		if alias[0] != command {
+			return Command(ctx, nil, alias[0], false, size)
+		}
 	}
 
 	if lang.MxFunctions.Exists(command) {
@@ -153,20 +156,32 @@ func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]s
 	return nil, 0, nil
 }
 
-func Parameter(block []rune, parameter string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
+func Parameter(ctx context.Context, block []rune, parameter string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	parameter = variables.ExpandString(parameter)
 	if utils.Exists(parameter) {
-		return File(nil, parameter, incImages, size)
+		return File(ctx, nil, parameter, incImages, size)
 	}
 
 	pt, _ := parser.Parse(block, 0)
-	lines, _, err := Command(nil, pt.FuncName, false, size)
+	lines, _, err := Command(ctx, nil, pt.FuncName, false, size)
 	if err != nil {
 		return lines, 0, err
 	}
 	for i := range lines {
-		if strings.Contains(lines[i], "  "+parameter) {
-			return lines, i, nil
+		switch {
+		case strings.HasPrefix(parameter, "--"):
+			switch {
+			case strings.Contains(lines[i], ", "+parameter):
+				return lines, i, nil
+			case strings.Contains(lines[i], "  "+parameter):
+				return lines, i, nil
+			default:
+				continue
+			}
+		default:
+			if strings.Contains(lines[i], "  "+parameter) {
+				return lines, i, nil
+			}
 		}
 	}
 

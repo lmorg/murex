@@ -34,7 +34,7 @@ if you want to learn more about shell scripting in Murex.
 | Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`|
 | Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`|
 | [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash \| grep Bash` | `echo "Hello Murex \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
-| [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl murex.rocks ? less` <br/><br/> `curl <!out> murex.rocks \| less` |
+| [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
 | Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
 | Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
 | Output [ANSI colors and styles](../user-guide/ansi_doc.md) | `echo -e "\n\032[0m\033[1mComplete!\033[0m\n"` | `out "{GREEN}{BOLD}Complete!{RESET}"` |
@@ -84,11 +84,11 @@ if you want to learn more about shell scripting in Murex.
 ### Variables
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex) |
+| [Printing a variable](../parser/scalar.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex) |
 | [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set $foo` |
 | [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global $foo` |
 | [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export $foo` [[3]](#footnotes) |
-| Assign with a default value | `FOOBAR="${VARIABLE:-default}"` | `$foobar = $variable ?: "default"` <br/><br/> (the elvis operator can be used in any part of expressions and just for assignments)
+| [Assign with a default value](../parser/null-coalescing.md) | `FOOBAR="${VARIABLE:-default}"` | `$foobar = $variable ?? "default"` |
 
 ### Arrays
 (eg arrays, lists)

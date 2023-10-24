@@ -1,13 +1,18 @@
 # `?` STDERR Pipe
 
-> Pipes STDERR from the left hand command to STDIN of the right hand command
+> Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 
 ## Description
 
 This token swaps the STDOUT and STDERR streams of the left hand command.
 
 Please note that this token is only effective when it is prefixed by white
-space. 
+space.
+
+> This feature has been deprecated. Please use `<err> <!out>` instead. For example:
+> ```
+> command <err> <!out> parameter-1 parameter-2 -> next-command parameter-1
+> ```
 
 
 

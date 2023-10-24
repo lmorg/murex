@@ -87,6 +87,10 @@ func HkFnAutocomplete(rl *Instance) {
 		rl.getTabCompletion()
 	}
 
+	if rl.previewMode == previewModeOpen || rl.previewRef == previewRefLine {
+		rl.previewMode = previewModeAutocomplete
+	}
+
 	print(rl.renderHelpersStr())
 }
 
@@ -107,17 +111,17 @@ func HkFnCancelAction(rl *Instance) {
 	var output string
 	switch {
 	case rl.modeAutoFind:
-		output = rl.clearPreviewStr()
+		//output += rl.clearPreviewStr()
 		output += rl.resetTabFindStr()
 		output += rl.clearHelpersStr()
 		rl.resetTabCompletion()
 		output += rl.renderHelpersStr()
 
 	case rl.modeTabFind:
-		output = rl.resetTabFindStr()
+		output += rl.resetTabFindStr()
 
 	case rl.modeTabCompletion:
-		output = rl.clearPreviewStr()
+		//output = rl.clearPreviewStr()
 		output += rl.clearHelpersStr()
 		rl.resetTabCompletion()
 		output += rl.renderHelpersStr()
@@ -168,12 +172,27 @@ func hkFnRecallWord(rl *Instance, i int) {
 }
 
 func HkFnPreviewToggle(rl *Instance) {
+	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+		rl.previewMode == previewModeClosed {
+
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(1, 0)
+		} else {
+			rl.getTabCompletion()
+		}
+		defer func() { rl.previewMode++ }()
+	}
+
+	_fnPreviewToggle(rl)
+}
+
+func _fnPreviewToggle(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	var output string
 
 	switch rl.previewMode {
 	case previewModeClosed:
-		output = seqSaveBuffer + seqClearScreen
+		output = curPosSave + seqSaveBuffer + seqClearScreen
 		rl.previewMode++
 		size, _ := rl.getPreviewXY()
 		if size != nil {
@@ -181,19 +200,42 @@ func HkFnPreviewToggle(rl *Instance) {
 		}
 
 	case previewModeOpen:
-		rl.previewMode = previewModeClosed
-		output = seqRestoreBuffer
+		//rl.previewMode = previewModeClosed
+		print(rl.clearPreviewStr())
 
 	case previewModeAutocomplete:
-		if rl.modeTabFind {
+		/*if rl.modeTabFind {
 			print(rl.resetTabFindStr())
 		}
-		HkFnCancelAction(rl)
+		HkFnCancelAction(rl)*/
+		print(rl.clearPreviewStr())
+		rl.resetHelpers()
 	}
 
 	output += rl.echoStr()
 	output += rl.renderHelpersStr()
 	print(output)
+}
+
+func HkFnPreviewLine(rl *Instance) {
+	if rl.PreviewInit != nil {
+		// forced rerun of command line preview
+		rl.PreviewInit()
+		rl.previewCache = nil
+	}
+
+	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+		rl.previewMode == previewModeClosed {
+		defer func() { rl.previewMode++ }()
+	}
+
+	rl.previewRef = previewRefLine
+
+	if rl.previewMode == previewModeClosed {
+		_fnPreviewToggle(rl)
+	} else {
+		print(rl.renderHelpersStr())
+	}
 }
 
 func HkFnUndo(rl *Instance) {

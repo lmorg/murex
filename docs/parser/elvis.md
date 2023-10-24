@@ -1,20 +1,21 @@
 # `?:` Elvis Operator
 
-> Returns the right operand if the left operand is empty
+> Returns the right operand if the left operand is falsy
 
 ## Description
 
 The elvis operator is a little like a conditional where the result of the
-operation is the first non-empty value from left to right.
+operation is the first non-falsy value from left to right.
 
-An empty value is any of the following:
+A falsy value is any of the following:
 
-* An unset / undefined variable
-* Any value with a `null` data type
-
-Other "falsy" values such as numerical values of `0`, boolean `false`, zero
-length strings and strings containing `"null"` are not considered empty by the
-elvis operator.
+* an unset / undefined variable
+* any value with a `null` data type
+* a `str` or generic with the value `false`, `null`, `0`, `no`, `off`, `fail`,
+  `failed`, or `disabled`
+* a number (`num`, `float` or `int`) with the value `0`
+* an empty object or zero length array 
+* and, of course, a boolean with the value `false`
 
 
 
@@ -26,12 +27,12 @@ elvis operator.
 » $foo = $bar ?: "baz"
 ```
 
-If `$bar` is unset then the value of `$foo` will be **"baz"**.
+If `$bar` is falsy, then the value of `$foo` will be **"baz"**.
 
 **Multiple elvis operators:**
 
 ```
-» $unset_variable ?: null ?: "foobar"
+» $unset_variable ?: null ?: false ?: "foobar"
 foobar
 ```
 
@@ -43,7 +44,7 @@ foobar
 where it says:
 
 > The name "Elvis operator" refers to the fact that when its common notation,
-> ?:, is viewed sideways, it resembles an emoticon of Elvis Presley with his
+> `?:`, is viewed sideways, it resembles an emoticon of Elvis Presley with his
 > signature hairstyle.
 
 ## See Also
@@ -54,8 +55,10 @@ where it says:
   Overview of the different schedulers (or 'run modes') in Murex
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

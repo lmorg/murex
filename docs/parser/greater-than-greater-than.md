@@ -34,7 +34,7 @@ g * >> files.txt
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`pipe`](../commands/pipe.md):

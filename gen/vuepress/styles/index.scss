@@ -66,27 +66,46 @@ h4 {
     display: block;
 }
 
+// custom styles
 
 blockquote {
-    border-color: #885500 !important;
-    color: #885500;
-    border-width: 2px;
-    border-style: solid;
-    padding-left: 0px;
-    border-radius: 5px;
-    border-left-width: 10px;
-    padding-left: 10px;
+    border-color:#850!important;
+    color:#850;
 }
+  
+@media (min-width: 420px) {
+    blockquote {
+        border-color: #885500 !important;
+        color: #885500;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 5px;
+        border-left-width: 10px;
+        padding-left: 10px;
+    }
 
-pre, code{
-    padding-top: 2px !important;
-    padding-bottom: 5px !important;
-}
+    pre, code{
+        padding-top: 2px !important;
+        padding-bottom: 5px !important;
+    }
 
-.line-numbers-mode  {
-    border-width: 2px;
-    border-style: solid;
-    border-color: #0f600f;
+    .line-numbers-mode  {
+        border-width: 2px;
+        border-style: solid;
+        border-color: #0f600f;
+    }
+
+    // vuepress tabbed code
+
+    .vp-code-tab-nav {
+        padding-bottom: 20px;
+    }
+
+    .vp-code-tab .line-numbers-mode {
+        border-width: 0px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
 }
 
 html[data-theme="dark"] ::marker {
@@ -97,6 +116,7 @@ html[data-theme="dark"] ::marker {
     color: #7070e5;
 }
 
+/*
 code {
     background: inherit !important;
     color: #063928;
@@ -130,16 +150,4 @@ html[data-theme="dark"] p code {
     //background: #063928 !important;
     background: inherit !important;
     color: #eefff0;
-}
-
-// vuepress tabbed code
-
-.vp-code-tab-nav {
-    padding-bottom: 20px;
-}
-
-.vp-code-tab .line-numbers-mode {
-    border-width: 0px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
+}*/

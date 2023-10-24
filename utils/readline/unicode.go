@@ -89,8 +89,7 @@ func (u *UnicodeT) SetCellPos(cPos int) {
 	i := u._offByOne(u.rPos)
 	if i != u.rPos {
 		u.rPos--
-		// TODO: this isn't wide character compliant
-		u.cPos--
+		u.cPos -= runewidth.RuneWidth(u.value[u.rPos])
 	}
 }
 

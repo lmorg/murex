@@ -2,18 +2,48 @@ package readline
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
 type previewModeT int
+type previewRefT int
 
 const (
 	previewModeClosed       previewModeT = 0
 	previewModeOpen         previewModeT = 1
 	previewModeAutocomplete previewModeT = 2
+
+	previewRefDefault previewRefT = 0
+	previewRefLine    previewRefT = 1
 )
 
-const previewPromptHSpace = 3
+const (
+	previewHeadingHeight = 3
+	previewPromptHSpace  = 3
+)
+
+const (
+	boxTL = "┏"
+	boxTR = "┓"
+	boxBL = "┗"
+	boxBR = "┛"
+	boxH  = "━"
+	boxV  = "┃"
+	boxVL = "┠"
+	boxVR = "┨"
+)
+
+const (
+	headingTL = "╔"
+	headingTR = "╗"
+	headingBL = "╚"
+	headingBR = "╝"
+	headingH  = "═"
+	headingV  = "║"
+	headingVL = "╟"
+	headingVR = "╢"
+)
 
 func getPreviewWidth(width int) (preview, forward int) {
 	/*switch {
@@ -42,6 +72,7 @@ type PreviewSizeT struct {
 }
 
 type previewCacheT struct {
+	item  string
 	pos   int
 	len   int
 	lines []string
@@ -49,7 +80,7 @@ type previewCacheT struct {
 }
 
 func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
-	width, height, err := GetSize(int(primary.Fd()))
+	width, height, err := GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return nil, err
 	}
@@ -73,39 +104,42 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 }
 
 func (rl *Instance) writePreviewStr() string {
-	if rl.previewMode > previewModeClosed && rl.tcr != nil && rl.tcr.Preview != nil {
-		size, err := rl.getPreviewXY()
-		if err != nil || size.Height < 8 || size.Width < 40 {
+	if rl.previewMode == previewModeClosed {
+		rl.previewCache = nil
+		return ""
+	}
+
+	if rl.previewCancel != nil {
+		rl.previewCancel()
+	}
+
+	var fn PreviewFuncT
+	if rl.previewRef == previewRefLine {
+		fn = rl.PreviewLine
+	} else {
+		if rl.tcr == nil {
 			rl.previewCache = nil
 			return ""
 		}
-
-		item := rl.previewItem
-		item = strings.ReplaceAll(item, "\\", "")
-		item = strings.TrimSpace(item)
-
-		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
-
-		if err != nil {
-			rl.ForceHintTextUpdate(err.Error())
-		}
-		output, err := rl.previewDrawStr(lines[pos:], size)
-		if err != nil {
-			rl.previewCache = nil
-			return output
-		}
-
-		rl.previewCache = &previewCacheT{
-			pos:   pos,
-			len:   size.Height,
-			lines: lines,
-			size:  size,
-		}
-
-		return output
+		fn = rl.tcr.Preview
 	}
 
-	rl.previewCache = nil
+	if fn == nil {
+		rl.previewCache = nil
+		return ""
+	}
+
+	size, err := rl.getPreviewXY()
+	if err != nil || size.Height < 8 || size.Width < 40 {
+		rl.previewCache = nil
+		return ""
+	}
+
+	item := rl.previewItem
+	item = strings.ReplaceAll(item, "\\", "")
+	item = strings.TrimSpace(item)
+
+	go delayedPreviewTimer(rl, fn, size, item)
 
 	return ""
 }
@@ -119,36 +153,67 @@ const (
 func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
 	var output string
 
-	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
+	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, boxV)
+	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
 
 	output += curHome
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	hr := strings.Repeat("─", size.Width)
-	output += "╭" + hr + "╮\r\n"
+	hr := strings.Repeat(headingH, size.Width)
+	output += headingTL + hr + headingTR + "\r\n "
+	output += headingV + rl.previewTitleStr(size.Width) + headingV + "\r\n "
+	output += headingBL + hr + headingBR + "\r\n "
+
+	hr = strings.Repeat(boxH, size.Width)
+	output += boxTL + hr + boxTR + "\r\n"
 
 	for i := 0; i <= size.Height; i++ {
 		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			output += "│" + blank + "│\r\n"
+			output += boxV + blank + boxV + "\r\n"
 			continue
 		}
 
-		output += fmt.Sprintf(pf, preview[i])
+		if strings.HasPrefix(preview[i], "─") {
+			output += fmt.Sprintf(pj, preview[i])
+		} else {
+			output += fmt.Sprintf(pf, preview[i])
+		}
 	}
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	output += "╰" + hr + "╯\r\n"
+	output += boxBL + hr + boxBR + "\r\n"
 
 	output += rl.previewMoveToPromptStr(size)
 	return output, nil
 }
 
+func (rl *Instance) previewTitleStr(width int) string {
+	var title string
+
+	if rl.previewRef == previewRefDefault {
+		title = " Autocomplete Preview" + title
+	} else {
+		title = " Command Line Preview" + title
+	}
+	title += "    |    [F1] to exit    |    [ENTER] to commit"
+
+	l := len(title) + 1
+	switch {
+	case l > width:
+		return title[:width-2] + "… "
+	case l == width:
+		return title + " "
+	default:
+		return title + strings.Repeat(" ", width-l+1)
+	}
+}
+
 func (rl *Instance) previewMoveToPromptStr(size *PreviewSizeT) string {
 	output := curHome
-	output += moveCursorDownStr(size.Height + previewPromptHSpace)
+	output += moveCursorDownStr(size.Height + previewPromptHSpace + previewHeadingHeight)
 	output += rl.moveCursorFromStartToLinePosStr()
 	return output
 }
@@ -188,9 +253,10 @@ func (rl *Instance) clearPreviewStr() string {
 	var output string
 
 	if rl.previewMode > previewModeClosed {
-		output = seqRestoreBuffer
+		output = seqRestoreBuffer + curPosRestore
 		output += rl.echoStr()
 		rl.previewMode = previewModeClosed
+		rl.previewRef = previewRefDefault
 	}
 
 	return output

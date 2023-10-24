@@ -59,8 +59,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## Operators And Tokens
 
-* [%(Brace Quote)`](parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](parser/array.md):
   Expand values as an array
 * [Tilde (`~`) Token](parser/tilde.md):
@@ -71,6 +69,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Initiates or terminates a string (variables expanded)
 * [`$variable`](parser/scalar.md):
   Expand values as a scalar
+* [`%(Brace Quote)`](parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`%[]` Create array](parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create object](parser/create-object.md):
@@ -94,9 +94,11 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`>>` Append Pipe](parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
 * [`?:` Elvis Operator](parser/elvis.md):
-  Returns the right operand if the left operand is empty
+  Returns the right operand if the left operand is falsy
+* [`??` Null Coalescing Operator](parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command
+  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`[..range]`](parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[[ element ]]`](parser/element.md):
@@ -226,6 +228,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Outputs murex's command history
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [`is-null`](../commands/is-null.md):
+  Checks if a variable is null or undefined
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):

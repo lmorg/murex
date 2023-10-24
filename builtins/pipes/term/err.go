@@ -4,8 +4,9 @@
 package term
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -14,6 +15,10 @@ import (
 // Err is the Stderr interface for term
 type Err struct {
 	term
+}
+
+func (t *Err) File() *os.File {
+	return os.Stderr
 }
 
 // SetDataType is a null method because the term interface is write-only
@@ -25,9 +30,9 @@ func (t *Err) Write(b []byte) (i int, err error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	i, err = tty.Stderr.Write(b)
+	i, err = os.Stderr.Write(b)
 	if err != nil {
-		tty.Stdout.WriteString(err.Error())
+		os.Stdout.WriteString(err.Error())
 	}
 
 	return
