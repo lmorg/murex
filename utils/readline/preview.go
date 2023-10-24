@@ -238,8 +238,8 @@ func (rl *Instance) previewPageDownStr() string {
 	}
 
 	rl.previewCache.pos += rl.previewCache.len
-	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-2 {
-		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 2
+	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-1 {
+		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 1
 		if rl.previewCache.pos < 0 {
 			rl.previewCache.pos = 0
 		}

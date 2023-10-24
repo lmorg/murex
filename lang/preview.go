@@ -130,7 +130,6 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 
 	pc.grow(s)
 
-	//for i := range *procs {
 	for i := 0; i < len(*procs)-1; i++ {
 		(*procs)[i].cache = new(cacheT)
 		(*procs)[i].cache.b = &pc.cache[i]
