@@ -18,18 +18,10 @@ const (
 	previewRefLine    previewRefT = 1
 )
 
-const previewPromptHSpace = 3
-
-/*const (
-	boxTL = "╔"
-	boxTR = "╗"
-	boxBL = "╚"
-	boxBR = "╝"
-	boxH  = "═"
-	boxV  = "║"
-	boxVL = "╟"
-	boxVR = "╢"
-)*/
+const (
+	previewHeadingHeight = 3
+	previewPromptHSpace  = 3
+)
 
 const (
 	boxTL = "┏"
@@ -40,6 +32,17 @@ const (
 	boxV  = "┃"
 	boxVL = "┠"
 	boxVR = "┨"
+)
+
+const (
+	headingTL = "╔"
+	headingTR = "╗"
+	headingBL = "╚"
+	headingBR = "╝"
+	headingH  = "═"
+	headingV  = "║"
+	headingVL = "╟"
+	headingVR = "╢"
 )
 
 func getPreviewWidth(width int) (preview, forward int) {
@@ -101,9 +104,6 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 }
 
 func (rl *Instance) writePreviewStr() string {
-	//rl.tabMutex.Lock()
-	//defer rl.tabMutex.Unlock()
-
 	if rl.previewMode == previewModeClosed {
 		rl.previewCache = nil
 		return ""
@@ -159,7 +159,12 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	output += curHome
 
 	output += fmt.Sprintf(cursorForwf, size.Forward)
-	hr := strings.Repeat(boxH, size.Width)
+	hr := strings.Repeat(headingH, size.Width)
+	output += headingTL + hr + headingTR + "\r\n "
+	output += headingV + rl.previewTitleStr(size.Width) + headingV + "\r\n "
+	output += headingBL + hr + headingBR + "\r\n "
+
+	hr = strings.Repeat(boxH, size.Width)
 	output += boxTL + hr + boxTR + "\r\n"
 
 	for i := 0; i <= size.Height; i++ {
@@ -185,9 +190,30 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	return output, nil
 }
 
+func (rl *Instance) previewTitleStr(width int) string {
+	var title string
+
+	if rl.previewRef == previewRefDefault {
+		title = " Autocomplete Preview" + title
+	} else {
+		title = " Command Line Preview" + title
+	}
+	title += "    |    [F1] to exit    |    [ENTER] to commit"
+
+	l := len(title) + 1
+	switch {
+	case l > width:
+		return title[:width-2] + "… "
+	case l == width:
+		return title + " "
+	default:
+		return title + strings.Repeat(" ", width-l+1)
+	}
+}
+
 func (rl *Instance) previewMoveToPromptStr(size *PreviewSizeT) string {
 	output := curHome
-	output += moveCursorDownStr(size.Height + previewPromptHSpace)
+	output += moveCursorDownStr(size.Height + previewPromptHSpace + previewHeadingHeight)
 	output += rl.moveCursorFromStartToLinePosStr()
 	return output
 }

@@ -130,7 +130,9 @@ func Command(ctx context.Context, _ []rune, command string, _ bool, size *readli
 		if len(alias) == 0 {
 			return nil, 0, nil
 		}
-		return Command(ctx, nil, alias[0], false, size)
+		if alias[0] != command {
+			return Command(ctx, nil, alias[0], false, size)
+		}
 	}
 
 	if lang.MxFunctions.Exists(command) {
@@ -166,8 +168,20 @@ func Parameter(ctx context.Context, block []rune, parameter string, incImages bo
 		return lines, 0, err
 	}
 	for i := range lines {
-		if strings.Contains(lines[i], "  "+parameter) {
-			return lines, i, nil
+		switch {
+		case strings.HasPrefix(parameter, "--"):
+			switch {
+			case strings.Contains(lines[i], ", "+parameter):
+				return lines, i, nil
+			case strings.Contains(lines[i], "  "+parameter):
+				return lines, i, nil
+			default:
+				continue
+			}
+		default:
+			if strings.Contains(lines[i], "  "+parameter) {
+				return lines, i, nil
+			}
 		}
 	}
 
