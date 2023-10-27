@@ -16,7 +16,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -116,7 +115,7 @@ func ShowPrompt() {
 		block    []rune
 	)
 
-	Prompt.PreviewLine = preview.CommandLine
+	Prompt.PreviewLine = CommandLine
 	Prompt.PreviewInit = lang.PreviewInit
 
 	Prompt.GetMultiLine = func(r []rune) []rune {
