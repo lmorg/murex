@@ -108,9 +108,6 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		if isMultiline(r[:i]) || len(rl.multiline) > 0 {
 			rl.multiline = append(rl.multiline, b[:i]...)
-			//if i == len(b) {
-			//	continue
-			//}
 
 			if !rl.allowMultiline(rl.multiline) {
 				rl.multiline = []byte{}

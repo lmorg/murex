@@ -143,36 +143,38 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item string) {
 	var ctx context.Context
 
-	ctx, rl.previewCancel = context.WithCancel(context.Background())
-	lines, pos, err := fn(ctx, rl.line.Runes(), item, rl.PreviewImages, size)
+	callback := func(lines []string, pos int, err error) {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			// continue
+		}
 
-	select {
-	case <-ctx.Done():
-		return
-	default:
-		// continue
-	}
+		if err != nil {
+			rl.ForceHintTextUpdate(err.Error())
+			return
+		}
 
-	if err != nil {
-		rl.ForceHintTextUpdate(err.Error())
-		return
-	}
+		output, err := rl.previewDrawStr(lines[pos:], size)
 
-	output, err := rl.previewDrawStr(lines[pos:], size)
+		if err != nil {
+			rl.previewCache = nil
+			print(output)
+			return
+		}
 
-	if err != nil {
-		rl.previewCache = nil
+		rl.previewCache = &previewCacheT{
+			item:  item,
+			pos:   pos,
+			len:   size.Height,
+			lines: lines,
+			size:  size,
+		}
+
 		print(output)
-		return
 	}
 
-	rl.previewCache = &previewCacheT{
-		item:  item,
-		pos:   pos,
-		len:   size.Height,
-		lines: lines,
-		size:  size,
-	}
-
-	print(output)
+	ctx, rl.previewCancel = context.WithCancel(context.Background())
+	fn(ctx, rl.line.Runes(), item, rl.PreviewImages, size, callback)
 }

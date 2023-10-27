@@ -10,7 +10,6 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
@@ -117,7 +116,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 
 		r.HintCache = cacheHints
-		r.Preview = preview.Command
+		r.Preview = PreviewCommand
 
 		switch pt.PipeToken {
 		case parser.PipeTokenNone:
@@ -197,7 +196,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 
 		autocomplete.MatchFlags(&act)
-		r.Preview = preview.Parameter
+		r.Preview = PreviewParameter
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength

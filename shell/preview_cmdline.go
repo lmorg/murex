@@ -1,7 +1,7 @@
 //go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
-package preview
+package shell
 
 import (
 	"context"
@@ -18,7 +18,7 @@ import (
 
 var cacheCommandLine []string
 
-func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
+func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
 	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_PREVIEW | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.FileRef = ref.NewModule(app.ShellModule)
 
@@ -34,14 +34,15 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 	case <-ctx.Done():
 		go fork.KillForks(1)
 		fork.Stdout.ForceClose()
-		return nil, 0, nil
+		return //nil, 0, nil
 
 	case <-fin:
 		// continue
 	}
 
 	if err != nil {
-		return clErrorCacheMerge(err, size)
+		callback(clErrorCacheMerge(err, size))
+		return
 	}
 
 	b, ioErr := fork.Stdout.ReadAll()
@@ -61,10 +62,11 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 output:
 
 	if ioErr != nil {
-		return clErrorCacheMerge(err, size)
+		callback(clErrorCacheMerge(err, size))
+		return
 	}
 
-	sPreview, i, err := parse(b, size)
+	sPreview, i, err := previewParse(b, size)
 
 	b, _ = fork.Stderr.ReadAll()
 	if len(b) > 0 {
@@ -74,7 +76,7 @@ output:
 		if len(sPreview) > 0 {
 			sPreview = append(sPreview, strings.Repeat("─", size.Width))
 		}
-		s, _, _ := parse(b, size)
+		s, _, _ := previewParse(b, size)
 		for i := range s {
 			s[i] = ansi.ExpandConsts("{RED}") + s[i] + ansi.ExpandConsts("{RESET}") + strings.Repeat(" ", size.Width-len(s[i]))
 		}
@@ -82,19 +84,5 @@ output:
 	}
 
 	cacheCommandLine = sPreview
-	return sPreview, i, err
-}
-
-func clErrorCacheMerge(err error, size *readline.PreviewSizeT) ([]string, int, error) {
-	s, _, err := parse([]byte(err.Error()), size)
-	for i := range s {
-		s[i] = ansi.ExpandConsts("{RED}") + s[i] + ansi.ExpandConsts("{RESET}") + strings.Repeat(" ", size.Width-len(s[i]))
-	}
-
-	if len(cacheCommandLine) == 0 {
-		return s, 0, err
-	}
-
-	s = append(s, strings.Repeat("─", size.Width))
-	return append(s, cacheCommandLine...), 0, err
+	callback(sPreview, i, err)
 }
