@@ -1,5 +1,5 @@
-//go:build no_cgo
-// +build no_cgo
+//go:build no_cgo && linux
+// +build no_cgo,linux
 
 /*
 	This file uses a pure Go driver for sqlite. Unlike lib_c.go, this one does
