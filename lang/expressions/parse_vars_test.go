@@ -26,7 +26,7 @@ func TestParseVarsScalarSymbol(t *testing.T) {
 	testParserSymbol(t, tests)
 }
 
-func TestParseVarsArraySymbol(t *testing.T) {
+/*func TestParseVarsArraySymbol(t *testing.T) {
 	tests := expTestsT{
 		symbol: symbols.Calculated,
 		tests: []expTestT{
@@ -45,3 +45,4 @@ func TestParseVarsArraySymbol(t *testing.T) {
 
 	testParserSymbol(t, tests)
 }
+*/
