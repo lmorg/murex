@@ -35,14 +35,16 @@ func (p *PTY) Close() {
 	}
 	p.out.Close()
 	if i == 0 {
-		//go p.close()
+		go p.close()
 	}
 }
 
 func (p *PTY) close() {
+	defer p.out.ForceClose()
+
 	for {
 		time.Sleep(1 * time.Second)
-		/*w, r := p.out.Stats()
+		w, r := p.out.Stats()
 		if r >= w {
 			err := p.in.Close()
 			if err != nil {
@@ -53,7 +55,7 @@ func (p *PTY) close() {
 				panic(err)
 			}
 			return
-		}*/
+		}
 	}
 }
 
