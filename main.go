@@ -96,7 +96,12 @@ func runCommandLine(commandLine string) {
 
 	// read block from command line parameters
 	term.OutSetDataTypeIPC()
-	execSource([]rune(commandLine), nil, true)
+	sourceRef := ref.Source{
+		DateTime: time.Now(),
+		Filename: "",
+		Module:   "murex/-c",
+	}
+	execSource([]rune(commandLine), &sourceRef, true)
 
 	if fInteractive {
 		shell.Start()
@@ -134,7 +139,7 @@ func runSource(filename string) {
 	sourceRef := ref.Source{
 		DateTime: time.Now(),
 		Filename: filename,
-		Module:   "murex/shebang",
+		Module:   "murex/#!",
 	}
 	execSource([]rune(string(disk)), &sourceRef, true)
 }
