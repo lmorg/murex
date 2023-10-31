@@ -5,6 +5,7 @@ package main
 
 import (
 	"os"
+	"time"
 
 	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
@@ -13,6 +14,7 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -128,7 +130,13 @@ func runSource(filename string) {
 		}
 		lang.Exit(1)
 	}
-	execSource([]rune(string(disk)), nil, true)
+
+	sourceRef := ref.Source{
+		DateTime: time.Now(),
+		Filename: filename,
+		Module:   "murex/shebang",
+	}
+	execSource([]rune(string(disk)), &sourceRef, true)
 }
 
 func startMurex() {

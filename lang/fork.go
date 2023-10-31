@@ -296,13 +296,15 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		exitNum = runModeTry(procs)
 
 	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
+		//panic(string((*procs)[0].raw))
+		fmt.Println(string((*procs)[0].raw))
 		exitNum = runModeTryPipe(procs)
 
 	case runmode.Evil:
 		panic("Not yet implemented")
 
 	default:
-		panic("Unknown run mode")
+		panic("unknown run mode")
 	}
 
 	if fork.newTestScope {
