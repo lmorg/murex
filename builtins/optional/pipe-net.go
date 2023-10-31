@@ -1,5 +1,5 @@
-//go:build opt_pipe_net
-// +build opt_pipe_net
+//go:build no_pipe_net
+// +build no_pipe_net
 
 package optional
 

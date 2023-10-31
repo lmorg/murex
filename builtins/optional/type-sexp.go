@@ -1,5 +1,5 @@
-//go:build opt_type_sexp
-// +build opt_type_sexp
+//go:build no_type_sexp
+// +build no_type_sexp
 
 package optional
 
