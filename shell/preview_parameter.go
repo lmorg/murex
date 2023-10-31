@@ -36,9 +36,11 @@ func PreviewParameter(ctx context.Context, block []rune, parameter string, incIm
 			case strings.HasPrefix(parameter, "--"):
 				switch {
 				case strings.Contains(lines[i], ", "+parameter):
+					// comma separated
 					callback(lines, i, nil)
 					return
 				case strings.Contains(lines[i], "  "+parameter):
+					// whitespace separated
 					callback(lines, i, nil)
 					return
 				default:
