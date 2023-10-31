@@ -13,24 +13,52 @@ is executed in parallel. The scheduler only pauses launching new commands when
 the last command in any pipeline is still executing. A pipeline could be multiple
 commands (like above) or a single command (eg `top`).
 
+**Normal** is the default run mode. When running in a stricter mode, you can not
+reset the run mode back to **normal**. You can, however, switch to `unsafe`.
+
+## Unsafe
+
+This is the same as **normal** except that `unsafe` blocks always return zero
+exit numbers. The purpose for this is to enable "normal" like scheduling inside
+stricter code blocks that might exit if the last function was a non-zero exit
+number.
+
 ## Try
 
-This is similar to normal where commands in a pipeline are run in parallel except
-Murex validates the stderr and exit status of the last command in any pipeline.
+This is the weakest of all the stricter run modes. It does check the exit number
+to confirm if the last function was successful, but only the last function in
+any given pipeline. So in `cmd1 -> cmd2 -> cmd3`, if `cmd1` or `cmd2` fail, the
+`try` block doesn't exit.
 
-If stderr is greater than stdout (per bytes written) **OR** the exit status is
-non-zero then the scheduler exits that entire block.
+The benefit of run mode is that it still supports commands running in parallel.
 
 ## Try Pipe
 
-This runs the commands sequentially because the stderr and the exit status of
+This runs the commands sequentially because the stderr and the exit number of
 each command is checked irrespective of whether that command is at the start of
 the pipeline (eg `start -> middle -> end`), or anywhere else.
 
-Like with `try`, if stderr is greater than stdout (per bytes written) **OR**
-the exit status is non-zero then the scheduler exits that entire block. Unlike
-with `try`, this check happens on every command rather than the last command in
-the pipeline. 
+This offers better coverage of exit numbers but at the cost of parallelisation.
+
+## Try Err
+
+This is similar to `try` and **normal** where commands in a pipeline are run in
+parallel. The key difference with `tryerr` is that  Murex validates the stderr
+as well as the exit number of the last command in any pipeline.
+
+If stderr is greater than stdout (per bytes written) **OR** the exit number is
+non-zero then the scheduler exits that entire block.
+
+## Try Pipe Err
+
+This runs the commands sequentially because the stderr and the exit number of
+each command is checked irrespective of whether that command is at the start of
+the pipeline (eg `start -> middle -> end`), or anywhere else.
+
+Like with `tryerr`, if stderr is greater than stdout (per bytes written) **OR**
+the exit number is non-zero then the scheduler exits that entire block. Unlike
+with `tryerr`, this check happens on every command rather than the last command
+in the pipeline. 
 
 ## See Also
 

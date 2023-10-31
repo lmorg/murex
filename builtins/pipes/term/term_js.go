@@ -4,6 +4,7 @@
 package term
 
 import (
+	"os"
 	"sync"
 	"syscall/js"
 
@@ -24,4 +25,8 @@ func vtermWrite(r []rune) {
 	outElement.Set("innerHTML", html)
 
 	divMutex.Unlock()
+}
+
+func (t *term) File() *os.File {
+	return nil
 }
