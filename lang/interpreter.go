@@ -35,28 +35,51 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		}
 
 		switch strings.Join(params, " ") {
+
+		// function wide scopes
+
+		case "unsafe function":
+			rm = runmode.FunctionUnsafe
+
 		case "try function":
 			rm = runmode.FunctionTry
-			parent.Scope.RunMode = rm
 
 		case "trypipe function":
 			rm = runmode.FunctionTryPipe
-			parent.Scope.RunMode = rm
+
+		case "tryerr function":
+			rm = runmode.FunctionTryErr
+
+		case "trypipeerr function":
+			rm = runmode.FunctionTryPipeErr
+
+			// module wide scopes
+
+		case "unsafe module":
+			rm = runmode.ModuleUnsafe
+			ModuleRunModes[parent.FileRef.Source.Module] = rm
 
 		case "try module":
 			rm = runmode.ModuleTry
-			parent.Scope.RunMode = rm
 			ModuleRunModes[parent.FileRef.Source.Module] = rm
 
 		case "trypipe module":
 			rm = runmode.ModuleTryPipe
-			parent.Scope.RunMode = rm
+			ModuleRunModes[parent.FileRef.Source.Module] = rm
+
+		case "tryerr module":
+			rm = runmode.ModuleTryErr
+			ModuleRunModes[parent.FileRef.Source.Module] = rm
+
+		case "trypipeerr module":
+			rm = runmode.ModuleTryPipeErr
 			ModuleRunModes[parent.FileRef.Source.Module] = rm
 
 		default:
 			return nil, ErrInvalidParametersInRunmode
 		}
 
+		parent.Scope.RunMode = rm
 		*tree = (*tree)[1:]
 	}
 
@@ -168,4 +191,13 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 	}
 
 	return &procs, 0
+}
+
+func checkTryErr(p *Process, exitNum *int) {
+	outSize, _ := p.Stdout.Stats()
+	errSize, _ := p.Stderr.Stats()
+
+	if *exitNum < 1 && errSize > outSize {
+		*exitNum = 1
+	}
 }

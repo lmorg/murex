@@ -1,55 +1,39 @@
-# `catch`
+# `unsafe`
 
-> Handles the exception code raised by `try` or `trypipe`
+> Execute a block of code, always returning a zero exit number
 
 ## Description
 
-`catch` is designed to be used in conjunction with `try` and `trypipe` as it
-handles the exceptions raised by the aforementioned.
+`unsafe` is similar to normal execution except that the exit number for the
+last function in the `unsafe` block is ignored. `unsafe` always returns `0`.
+
+This is useful in any situations where you might want errors ignored.
 
 ## Usage
 
 ```
-[ try | trypipe ] { code-block } -> <stdout>
+unsafe { code-block } -> <stdout>
 
-catch { code-block } -> <stdout>
-
-!catch { code-block } -> <stdout>
+<stdin> -> unsafe { -> code-block } -> <stdout>
 ```
 
 ## Examples
 
 ```
 try {
-    out "Hello, World!" -> grep: "non-existent string"
-    out "This command will be ignored"
-}
-
-catch {
-    out "An error was caught"
-}
-
-!catch {
-    out "No errors were raised"
+    unsafe { err "foobar" }
+    out "This message still displays because the error is inside an `unsafe` block"
 }
 ```
-
-## Detail
-
-`catch` can be used with a bang prefix to check for a lack of errors.
-
-`catch` forwards on the STDIN and exit number of the calling function.
-
-## Synonyms
-
-* `catch`
-* `!catch`
-
 
 ## See Also
 
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [`catch`](../commands/catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+* [`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`runmode`](../commands/runmode.md):
@@ -64,8 +48,6 @@ catch {
   Checks for non-zero exits of each function in a pipeline
 * [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
-* [`unsafe`](../commands/unsafe.md):
-  Execute a block of code, always returning a zero exit number
 
 <hr/>
 

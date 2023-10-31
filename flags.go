@@ -44,6 +44,8 @@ func readFlags() {
 
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
+	flag.BoolVar(&lang.FlagTryErr, "tryerr", false, "Enable a global `tryerr` block")
+	flag.BoolVar(&lang.FlagTryPipeErr, "trypipeerr", false, "Enable a global `trypipeerr` block")
 
 	flag.Parse()
 

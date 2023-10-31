@@ -292,14 +292,21 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	case runmode.Default, runmode.Normal:
 		exitNum = runModeNormal(procs)
 
+	case runmode.BlockUnsafe, runmode.FunctionUnsafe, runmode.ModuleUnsafe:
+		_ = runModeNormal(procs)
+		exitNum = 0
+
 	case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
-		exitNum = runModeTry(procs)
+		exitNum = runModeTry(procs, false)
 
 	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
-		exitNum = runModeTryPipe(procs)
+		exitNum = runModeTryPipe(procs, false)
 
-	case runmode.Evil:
-		panic("Not yet implemented")
+	case runmode.BlockTryErr, runmode.FunctionTryErr, runmode.ModuleTryErr:
+		exitNum = runModeTry(procs, true)
+
+	case runmode.BlockTryPipeErr, runmode.FunctionTryPipeErr, runmode.ModuleTryPipeErr:
+		exitNum = runModeTryPipe(procs, true)
 
 	default:
 		panic("unknown run mode")

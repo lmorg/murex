@@ -1,6 +1,6 @@
 # `trypipe`
 
-> Checks state of each function in a pipeline and exits block on error
+> Checks for non-zero exits of each function in a pipeline
 
 ## Description
 
@@ -40,7 +40,6 @@ func pless {
 A failure is determined by:
 
 * Any process that returns a non-zero exit number
-* Any process that returns more output via STDERR than it does via STDOUT
 
 You can see which run mode your functions are executing under via the `fid-list`
 command.
@@ -60,7 +59,13 @@ command.
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
+* [`tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
+* [`trypipeerr`](../commands/trypipeerr.md):
+  Checks state of each function in a pipeline and exits block on error
+* [`unsafe`](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
 
 <hr/>
 

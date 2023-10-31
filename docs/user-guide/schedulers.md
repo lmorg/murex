@@ -45,9 +45,9 @@ the pipeline.
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 

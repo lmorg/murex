@@ -62,9 +62,9 @@ are unsuccessful.
 * [`true`](../commands/true.md):
   Returns a `true` value
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 
 <hr/>
 

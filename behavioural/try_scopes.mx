@@ -1,26 +1,3 @@
-# control
-
-function: control.scope.block.fn.fail {
-    a: [1..2] -> foreach i { err: $i | out: bar }
-}
-
-test: unit function control.scope.block.fn.fail {
-    "StderrMatch": "1\n2\n",
-    "StdoutMatch": "bar\nbar\n"
-}
-
-function: control.runmode.fail {
-    out "foo"
-    runmode try function
-    out "bar"
-}
-
-test: unit function control.runmode.fail {
-    "StdoutMatch": "foo\nbar\n",
-    "StderrRegex": "should only be used as the first statement in a block",
-    "ExitNum": 0
-}
-
 # try
 
 function: try.scope.block.pass {
@@ -68,7 +45,7 @@ function: try.scope.block.foreach.fail {
 
 test: unit function try.scope.block.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 ## function
@@ -91,7 +68,7 @@ function: try.scope.fn.foreach.fail {
 
 test: unit function try.scope.fn.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 function try.scope.fn.read.fail {
@@ -103,12 +80,12 @@ function try.scope.fn.read.fail {
         read: q "? "
         out: "!"
     }
-    sleep: 2
+    sleep: 1
 }
 
 test: unit function try.scope.fn.read.fail {
     "StderrRegex": "cannot read from",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 ## module
@@ -131,7 +108,7 @@ function: try.scope.mod.foreach.fail {
 
 test: unit function try.scope.mod.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 function try.scope.mod.read.fail {
@@ -143,12 +120,12 @@ function try.scope.mod.read.fail {
         read: q "? "
         out: "!"
     }
-    sleep: 2
+    sleep: 1
 }
 
 test: unit function try.scope.mod.read.fail {
     "StderrRegex": "cannot read from",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 # trypipe
@@ -199,7 +176,7 @@ function: trypipe.scope.block.foreach.fail {
 
 test: unit function trypipe.scope.block.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 ### function
@@ -222,7 +199,7 @@ function: trypipe.scope.fn.foreach.fail {
 
 test: unit function trypipe.scope.fn.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 function trypipe.scope.fn.read.fail {
@@ -234,12 +211,12 @@ function trypipe.scope.fn.read.fail {
         read: q "? "
         out: "!"
     }
-    sleep: 2
+    sleep: 1
 }
 
 test: unit function trypipe.scope.fn.read.fail {
     "StderrRegex": "cannot read from",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 ## module
@@ -262,7 +239,7 @@ function: trypipe.scope.mod.foreach.fail {
 
 test: unit function trypipe.scope.mod.foreach.fail {
     "StderrMatch": "1\n2\n",
-    "ExitNum": 1
+    "ExitNum": 0
 }
 
 function trypipe.scope.mod.read.fail {
@@ -274,10 +251,10 @@ function trypipe.scope.mod.read.fail {
         read: q "? "
         out: "!"
     }
-    sleep: 2
+    sleep: 1
 }
 
 test: unit function trypipe.scope.mod.read.fail {
     "StderrRegex": "cannot read from",
-    "ExitNum": 1
+    "ExitNum": 0
 }

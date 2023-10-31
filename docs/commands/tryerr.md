@@ -1,32 +1,32 @@
-# `try`
+# `tryerr`
 
-> Handles non-zero exits inside a block of code
+> Handles errors inside a block of code
 
 ## Description
 
-`try` forces a different execution behavior where a failed process at the end
+`tryerr` forces a different execution behavior where a failed process at the end
 of a pipeline will cause the block to terminate regardless of any functions that
 might follow.
 
 It's usage is similar to try blocks in other languages (eg Java) but a closer
 functional example would be `set -e` in Bash.
 
-To maintain concurrency within the pipeline, `try` will only check the last
+To maintain concurrency within the pipeline, `tryerr` will only check the last
 function in any given pipeline (ie series of functions joined via `|`, `->`, or
 similar operators). If you need the entire pipeline checked then use `trypipe`.
 
 ## Usage
 
 ```
-try { code-block } -> <stdout>
+tryerr { code-block } -> <stdout>
 
-<stdin> -> try { -> code-block } -> <stdout>
+<stdin> -> tryerr { -> code-block } -> <stdout>
 ```
 
 ## Examples
 
 ```
-try {
+tryerr {
     out "Hello, World!" -> grep: "non-existent string"
     out "This command will be ignored"
 }
@@ -37,6 +37,7 @@ try {
 A failure is determined by:
 
 * Any process that returns a non-zero exit number
+* Any process that returns more output via STDERR than it does via STDOUT
 
 You can see which run mode your functions are executing under via the `fid-list`
 command.
@@ -55,8 +56,8 @@ command.
   Alter the scheduler's behaviour at higher scoping level
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [`tryerr`](../commands/tryerr.md):
-  Handles errors inside a block of code
+* [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
 * [`trypipeerr`](../commands/trypipeerr.md):
@@ -66,4 +67,4 @@ command.
 
 <hr/>
 
-This document was generated from [builtins/core/structs/try_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/try_doc.yaml).
+This document was generated from [builtins/core/structs/tryerr_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/tryerr_doc.yaml).
