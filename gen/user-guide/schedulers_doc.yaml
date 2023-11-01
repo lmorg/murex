@@ -65,6 +65,9 @@
   Related:
   - try
   - trypipe
+  - tryerr
+  - trypipeerr
+  - unsafe
   - runmode
   - pipeline
   - pipe-arrow
