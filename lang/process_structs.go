@@ -39,7 +39,6 @@ type Process struct {
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
 	Exec               process.Exec
-	PromptId           int
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
 	Previous           *Process `json:"-"`
@@ -84,7 +83,6 @@ func (p *Process) Dump() interface{} {
 	dump["Done_Set"] = p.Done != nil
 	dump["Kill_Set"] = p.Kill != nil
 	dump["Exec"] = &p.Exec
-	dump["PromptId"] = p.PromptId
 	dump["Scope.Id"] = p.Scope.Id
 	dump["Parent.Id"] = p.Parent.Id
 	dump["Previous.Id"] = p.Previous.Id

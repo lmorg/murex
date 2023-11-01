@@ -102,7 +102,6 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables
-		procs[i].PromptId = parent.PromptId
 		procs[i].CCEvent = parent.CCEvent
 		procs[i].CCExists = parent.CCExists
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}

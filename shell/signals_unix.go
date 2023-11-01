@@ -74,7 +74,7 @@ func sigtstp() {
 			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
 		} else {
 			p.State.Set(state.Stopped)
-			go ShowPrompt()
+			lang.ShowPrompt <- true
 		}
 
 	} else {

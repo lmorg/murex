@@ -10,7 +10,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
 )
 
 func mkbg(p *lang.Process) error {
@@ -75,7 +74,7 @@ func mkbg(p *lang.Process) error {
 
 	f.State.Set(state.Executing)
 
-	shell.ShowPrompt()
+	lang.ShowPrompt <- true
 	return nil
 }
 
@@ -113,6 +112,7 @@ func cmdForeground(p *lang.Process) error {
 	//}
 
 	f.State.Set(state.Executing)
-	shell.PromptId.Set(f.PromptId)
+	<-f.Context.Done()
+	lang.HidePrompt <- true
 	return nil
 }
