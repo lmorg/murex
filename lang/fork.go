@@ -75,7 +75,12 @@ const (
 	F_PREVIEW
 )
 
-var ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+var (
+	ShowPrompt = make(chan bool, 1)
+	HidePrompt = make(chan bool, 1)
+
+	ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+)
 
 // Fork is a forked process
 type Fork struct {
@@ -96,7 +101,6 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
-	fork.PromptId = p.PromptId
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd

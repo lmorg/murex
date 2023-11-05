@@ -10,7 +10,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
 )
 
 func mkbg(p *lang.Process) error {
@@ -29,53 +28,19 @@ func mkbg(p *lang.Process) error {
 	}
 
 	pid, cmd := f.Exec.Get()
-	if pid == 0 {
-		return errors.New("this FID doesn't have an associated PID. Murex functions currently don't support `bg`")
+	if pid > 0 && cmd != nil {
+		err = cmd.Process.Signal(syscall.SIGCONT)
+		if err != nil {
+			return err
+		}
 	}
-
-	if cmd == nil {
-		return errors.New("something went wrong trying to communicate back to the OS process")
-	}
+	go unstop(f)
 
 	updateTree(f, true)
 
-	/*if !f.IsMethod {
-		// This doesn't work. But we would need something clever like this:
-		//f.Exec.Cmd.Stdin = streams.NewStdin()
-	}*/
-
-	// This doesn't belong here. It should only be called if the requesting program tries to access STDIN while backgrounded:
-	/*err = f.Exec.Cmd.Process.Signal(syscall.SIGTTIN)
-	if err != nil {
-		return err
-	}*/
-
-	/*f.Exec.PipeR, f.Exec.PipeW, err = os.Pipe()
-	if err != nil {
-		return err
-	}
-
-	f.Stdin = streams.NewReadCloser(f.Exec.PipeR)
-
-	f.Exec.Cmd.SysProcAttr.Setctty = true
-	f.Exec.Cmd.SysProcAttr.Ctty = int(f.Exec.PipeR.Fd())
-	f.Exec.Cmd.SysProcAttr.Foreground = false*/
-
-	/*= &syscall.SysProcAttr{
-		Setsid:     true,
-		Setctty:    true,
-		Ctty:       int(f.Exec.PipeR.Fd()),
-		Foreground: false,
-	}*/
-
-	err = cmd.Process.Signal(syscall.SIGCONT)
-	if err != nil {
-		return err
-	}
-
 	f.State.Set(state.Executing)
 
-	shell.ShowPrompt()
+	lang.ShowPrompt <- true
 	return nil
 }
 
@@ -92,27 +57,26 @@ func cmdForeground(p *lang.Process) error {
 		return err
 	}
 
+	lang.HidePrompt <- true
+
 	pid, cmd := f.Exec.Get()
-	if pid == 0 {
-		return errors.New("this FID doesn't have an associated PID. Murex functions currently don't support `fg`")
+	if pid > 0 && cmd != nil {
+		err = cmd.Process.Signal(syscall.SIGCONT)
+		if err != nil {
+			return err
+		}
 	}
-	if cmd == nil {
-		return errors.New("something went wrong trying to communicate back to the OS process")
-	}
+	go unstop(f)
 
 	updateTree(f, false)
 
-	//lang.ForegroundProc = f
 	lang.ForegroundProc.Set(f)
 
-	//if !f.Exec.Cmd.ProcessState.Exited() {
-	err = cmd.Process.Signal(syscall.SIGCONT)
-	if err != nil {
-		return err
-	}
-	//}
-
 	f.State.Set(state.Executing)
-	shell.PromptId.Set(f.PromptId)
+	<-f.Context.Done()
 	return nil
+}
+
+func unstop(p *lang.Process) {
+	p.WaitForStopped <- true
 }

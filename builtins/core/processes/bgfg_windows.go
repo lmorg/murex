@@ -19,3 +19,5 @@ func cmdForeground(p *lang.Process) error {
 
 	return errors.New("This function is currently not supported on Windows")
 }
+
+func unstop(p *lang.Process) {}
