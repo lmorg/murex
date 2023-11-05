@@ -98,6 +98,8 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)
+		procs[i].WaitForStopped = make(chan bool)
+		procs[i].HasStopped = make(chan bool)
 		procs[i].RunMode = rm //parent.RunMode
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests

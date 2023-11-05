@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"sync/atomic"
 	"time"
 
 	"github.com/lmorg/murex/app"
@@ -32,6 +33,8 @@ var (
 
 	// Events is a callback for onPrompt events
 	Events func(string, []rune)
+
+	promptShown atomic.Bool
 )
 
 func callEvents(interrupt string, cmdLine []rune) {
@@ -84,11 +87,10 @@ func Start() {
 	}
 
 	go func() { lang.ShowPrompt <- true }()
-
 	for {
 		select {
 		case <-lang.ShowPrompt:
-			showPrompt()
+			go showPrompt()
 		case <-lang.HidePrompt:
 			continue
 		}
@@ -97,6 +99,12 @@ func Start() {
 
 // ShowPrompt display's the shell command line prompt
 func showPrompt() {
+	if promptShown.Swap(true) {
+		return
+	}
+
+	defer promptShown.Store(false)
+
 	if !lang.Interactive {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}

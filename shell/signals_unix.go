@@ -52,7 +52,6 @@ func signalRegister(interactive bool) {
 		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	}
 }
-
 func sigtstp() {
 	p := lang.ForegroundProc.Get()
 	//debug.Json("p =", p)
@@ -72,14 +71,16 @@ func sigtstp() {
 		err = cmd.Process.Signal(syscall.SIGSTOP)
 		if err != nil {
 			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
-		} else {
-			p.State.Set(state.Stopped)
-			lang.ShowPrompt <- true
 		}
-
-	} else {
-		lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
 	}
+
+	p.State.Set(state.Stopped)
+	go func() { p.HasStopped <- true }()
+	lang.ShowPrompt <- true
+
+	//} else {
+	//	lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
+	//}
 }
 
 func stopStatus(p *lang.Process) {

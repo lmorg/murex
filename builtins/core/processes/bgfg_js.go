@@ -19,3 +19,5 @@ func cmdForeground(p *lang.Process) error {
 
 	return errors.New("This function is currently not supported on js/wasm")
 }
+
+func unstop(p *lang.Process) {}

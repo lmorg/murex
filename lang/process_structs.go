@@ -20,22 +20,22 @@ import (
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
-	Id         uint32
-	cache      *cacheT
-	raw        []rune
-	Name       process.Name
-	Parameters parameters.Parameters
-	namedPipes []string
-	Context    context.Context
-	Stdin      stdio.Io
-	//ttyin              *os.File
-	Stdout       stdio.Io
-	stdoutOldPtr stdio.Io // only used when stdout is a tmp named pipe
-	//ttyout             *os.File
+	Id                 uint32
+	cache              *cacheT
+	raw                []rune
+	Name               process.Name
+	Parameters         parameters.Parameters
+	namedPipes         []string
+	Context            context.Context
+	Stdin              stdio.Io
+	Stdout             stdio.Io
+	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
 	WaitForTermination chan bool `json:"-"`
+	WaitForStopped     chan bool `json:"-"`
+	HasStopped         chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
 	Exec               process.Exec
@@ -125,11 +125,24 @@ func (p *Process) HasTerminated() (state bool) {
 }
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
-func (p *Process) HasCancelled() (state bool) {
+func (p *Process) HasCancelled() bool {
 	select {
 	case <-p.Context.Done():
 		return true
+
 	default:
+		if p.State.Get() == state.Stopped {
+			return p.hasCancelledStopped()
+		}
+		return false
+	}
+}
+
+func (p *Process) hasCancelledStopped() bool {
+	select {
+	case <-p.Context.Done():
+		return true
+	case <-p.WaitForStopped:
 		return false
 	}
 }

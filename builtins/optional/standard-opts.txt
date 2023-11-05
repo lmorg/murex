@@ -1,1 +1,1 @@
-opt_type_hcl,opt_cmd_barcode
+opt_type_hcl,opt_cmd_barcode,opt_cmd_time
