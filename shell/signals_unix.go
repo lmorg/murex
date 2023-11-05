@@ -77,10 +77,6 @@ func sigtstp() {
 	p.State.Set(state.Stopped)
 	go func() { p.HasStopped <- true }()
 	lang.ShowPrompt <- true
-
-	//} else {
-	//	lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
-	//}
 }
 
 func stopStatus(p *lang.Process) {
@@ -95,20 +91,20 @@ func stopStatus(p *lang.Process) {
 	)
 
 	if p.Stdin != nil {
-		stdinR, stdinW = p.Stdin.Stats()
+		stdinW, stdinR = p.Stdin.Stats()
 	}
 	if p.Stdout != nil {
-		stdoutR, stdoutW = p.Stdout.Stats()
+		stdoutW, stdoutR = p.Stdout.Stats()
 	}
 	if p.Stderr != nil {
-		stderrR, stderrW = p.Stderr.Stats()
+		stderrW, stderrR = p.Stderr.Stats()
 	}
 
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s read / %s written\nSTDOUT: %s read / %s written\nSTDERR: %s read / %s written",
-		humannumbers.Bytes(stdinR), humannumbers.Bytes(stdinW),
-		humannumbers.Bytes(stdoutR), humannumbers.Bytes(stdoutW),
-		humannumbers.Bytes(stderrR), humannumbers.Bytes(stderrW),
+		"\nSTDIN:  %s written / %s read\nSTDOUT: %s written / %s read\nSTDERR: %s written / %s read",
+		humannumbers.Bytes(stdinW), humannumbers.Bytes(stdinR),
+		humannumbers.Bytes(stdoutW), humannumbers.Bytes(stdoutR),
+		humannumbers.Bytes(stderrW), humannumbers.Bytes(stderrR),
 	)
 	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
@@ -128,10 +124,10 @@ func stopStatus(p *lang.Process) {
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}
-
-		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-			"FID %d has been stopped. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
-			p.Id, p.Id, p.Id,
-		)))
 	}
+
+	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+		"FID %d has been stopped.\nUse `fg %d` / `bg %d` to manage the FID or `jobs` to see a list of background and suspended functions",
+		p.Id, p.Id, p.Id,
+	)))
 }
