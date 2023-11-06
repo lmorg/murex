@@ -62,6 +62,7 @@ var orderOfOperations = []symbols.Exp{
 
 	// 13. Conditional expression (ternary)
 	symbols.Elvis,
+
 	// 14. Assignment operators (right to left)
 	symbols.Assign,
 
@@ -91,7 +92,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignAndDivide:
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
-			err = expAssignAndOperate(tree, _assMult)
+			err = expAssignAndOperate(tree, _assMulti)
 		case symbols.AssignAndMerge:
 			err = expAssignMerge(tree)
 

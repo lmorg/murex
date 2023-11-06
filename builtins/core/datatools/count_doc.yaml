@@ -96,12 +96,27 @@
     9
     ```
   Flags:
-    "--duplications": Output a JSON map of items and the number of their occurrences in a list or array
-    "-d": Alias for `--duplications`
-    "--unique": Print the number of unique elements in a list or array
-    "-u": Alias for `--unique`
-    "--total": Read an array, list or map from STDIN and output the length for that array (default behaviour)
-    "-t": Alias for `--total`
+    "--duplications": >-
+        Output a JSON map of items and the number of their occurrences in a list or array
+    "-d": >- 
+        Alias for `--duplications`
+    
+    "--unique": >-
+        Print the number of unique elements in a list or array
+    "-u": >-
+        Alias for `--unique`
+    
+    "--sum": >-
+        Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)
+    "-s": >-
+        Alias for `--sum`
+    "--sum-strict": >-
+        Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)
+
+    "--total": >-
+        Read an array, list or map from STDIN and output the length for that array (default behaviour)
+    "-t": >-
+        Alias for `--total`
   Synonyms:
     - count
     - len

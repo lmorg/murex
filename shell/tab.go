@@ -193,6 +193,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		autocomplete.InitExeFlags(pt.FuncName)
 		if !pt.ExpectParam && len(act.ParsedTokens.Parameters) > 0 {
 			r.Prefix = pt.Parameters[len(pt.Parameters)-1]
+			//act.ParsedTokens.Parameters = pt.Parameters[:len(pt.Parameters)-1]
 		}
 
 		autocomplete.MatchFlags(&act)
@@ -214,6 +215,16 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 	}
 
+	// start experimental
+	/*var n []string
+	for i := range act.Items {
+		if strings.Contains(act.Items[i], r.Prefix) {
+			n = append(n, "\x02"+act.Items[i])
+		}
+	}
+	act.Items = n*/
+	// end experimental
+
 	var i int
 	if act.DoNotSort {
 		i = len(act.Items)
@@ -229,6 +240,38 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 	r.DisplayType = act.TabDisplayType
 	return r
 }
+
+/*func tabCompletionDropPartial(line []rune, pos int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+	r := new(readline.TabCompleterReturnT)
+
+	if pos < 0 {
+		return r
+	}
+
+	if len(line) > pos-1 {
+		line = line[:pos]
+	}
+
+	pt, _ := parser.Parse(line, pos)
+
+	act := autocomplete.AutoCompleteT{
+		Definitions:       make(map[string]string),
+		ErrCallback:       errCallback,
+		DelayedTabContext: dtc,
+		ParsedTokens:      pt,
+	}
+
+	autocomplete.InitExeFlags(pt.FuncName)
+	if !pt.ExpectParam && len(act.ParsedTokens.Parameters) > 0 {
+		r.Prefix = pt.Parameters[len(pt.Parameters)-1]
+		pt.Parameters = pt.Parameters[:len(pt.Parameters)-1]
+	}
+
+	autocomplete.MatchFlags(&act)
+	r.Preview = PreviewParameter
+
+	return r
+}*/
 
 func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	act.TabDisplayType = readline.TabDisplayGrid
