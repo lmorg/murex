@@ -51,6 +51,10 @@ func diskSource(filename string) ([]byte, error) {
 }
 
 func execSource(source []rune, sourceRef *ref.Source, exitOnError bool) {
+	if sourceRef == nil {
+		panic("sourceRef is not defined")
+	}
+
 	if debug.Enabled {
 		os.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
 	}
@@ -62,9 +66,7 @@ func execSource(source []rune, sourceRef *ref.Source, exitOnError bool) {
 	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | stdin)
 	fork.Stdout = new(term.Out)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	if sourceRef != nil {
-		fork.FileRef.Source = sourceRef
-	}
+	fork.FileRef.Source = sourceRef
 	fork.RunMode = lang.ShellProcess.RunMode
 	exitNum, err := fork.Execute(source)
 

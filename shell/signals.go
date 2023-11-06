@@ -94,5 +94,5 @@ func sigquit(interactive bool) {
 	}
 
 	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
-	go ShowPrompt()
+	lang.ShowPrompt <- true
 }

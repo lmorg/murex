@@ -162,9 +162,9 @@ if you want to learn more about shell scripting in Murex.
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 * [`|>` (truncate file)](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`||` Or Logical Operator](../parser/logical-or.md):

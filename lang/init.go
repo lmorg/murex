@@ -25,6 +25,12 @@ var (
 	// FlagTryPipe is true if murex was started with `--trypipe`
 	FlagTryPipe bool
 
+	// FlagTryErr is true if murex was started with `--tryerr`
+	FlagTryErr bool
+
+	// FlagTryPipeErr is true if murex was started with `--trypipeerr`
+	FlagTryPipeErr bool
+
 	hasMurexAlreadyBeenInitialised int32 = -1
 )
 
@@ -54,12 +60,15 @@ func InitEnv() {
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Forks = NewForkManagement()
 
-	if FlagTry {
+	switch {
+	case FlagTry:
 		ShellProcess.RunMode = runmode.ModuleTry
-	}
-
-	if FlagTryPipe {
+	case FlagTryPipe:
 		ShellProcess.RunMode = runmode.ModuleTryPipe
+	case FlagTryErr:
+		ShellProcess.RunMode = runmode.ModuleTryErr
+	case FlagTryPipeErr:
+		ShellProcess.RunMode = runmode.ModuleTryPipeErr
 	}
 
 	// Sets $SHELL to be murex

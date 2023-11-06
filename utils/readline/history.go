@@ -88,7 +88,9 @@ func (h *NullHistory) Dump() interface{} {
 
 // Browse historic lines
 func (rl *Instance) walkHistory(i int) {
-	rl._walkHistory(i, rl.line.String())
+	line := rl.line.String()
+	line = strings.TrimSpace(line)
+	rl._walkHistory(i, line)
 }
 
 func (rl *Instance) _walkHistory(i int, oldLine string) {
@@ -126,9 +128,10 @@ func (rl *Instance) _walkHistory(i int, oldLine string) {
 			rl._walkHistory(i, newLine)
 			return
 		}
+
 		if len(rl.viUndoHistory) > 0 {
 			last := rl.viUndoHistory[len(rl.viUndoHistory)-1]
-			if !strings.HasPrefix(newLine, last.String()) {
+			if !strings.HasPrefix(newLine, strings.TrimSpace(last.String())) {
 				rl._walkHistory(i, oldLine)
 				return
 			}

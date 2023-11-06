@@ -75,7 +75,12 @@ const (
 	F_PREVIEW
 )
 
-var ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+var (
+	ShowPrompt = make(chan bool, 1)
+	HidePrompt = make(chan bool, 1)
+
+	ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+)
 
 // Fork is a forked process
 type Fork struct {
@@ -96,7 +101,6 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
-	fork.PromptId = p.PromptId
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd
@@ -292,17 +296,24 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	case runmode.Default, runmode.Normal:
 		exitNum = runModeNormal(procs)
 
+	case runmode.BlockUnsafe, runmode.FunctionUnsafe, runmode.ModuleUnsafe:
+		_ = runModeNormal(procs)
+		exitNum = 0
+
 	case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
-		exitNum = runModeTry(procs)
+		exitNum = runModeTry(procs, false)
 
 	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
-		exitNum = runModeTryPipe(procs)
+		exitNum = runModeTryPipe(procs, false)
 
-	case runmode.Evil:
-		panic("Not yet implemented")
+	case runmode.BlockTryErr, runmode.FunctionTryErr, runmode.ModuleTryErr:
+		exitNum = runModeTry(procs, true)
+
+	case runmode.BlockTryPipeErr, runmode.FunctionTryPipeErr, runmode.ModuleTryPipeErr:
+		exitNum = runModeTryPipe(procs, true)
 
 	default:
-		panic("Unknown run mode")
+		panic("unknown run mode")
 	}
 
 	if fork.newTestScope {

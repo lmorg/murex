@@ -40,6 +40,9 @@ func cmdGetType(p *lang.Process) error {
 		dt = p.Variables.GetDataType(v[1:])
 
 	case v == "stdin":
+		if (p.Scope.Stdin == nil) {
+			return errors.New("stdin must be used within a function or code block. Run `murex-docs stdin` for more information.")
+		}
 		dt = p.Scope.Stdin.GetDataType()
 
 	default:

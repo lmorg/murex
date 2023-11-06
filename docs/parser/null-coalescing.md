@@ -71,9 +71,9 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [null](../commands/devnull.md):

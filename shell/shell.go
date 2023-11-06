@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"sync/atomic"
 	"time"
 
 	"github.com/lmorg/murex/app"
@@ -17,14 +18,12 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -33,12 +32,10 @@ var (
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// PromptId is an custom defined ID for each prompt Goprocess so we don't
-	// accidentally end up with multiple prompts running
-	PromptId = new(counter.MutexCounter)
-
 	// Events is a callback for onPrompt events
 	Events func(string, []rune)
+
+	promptShown atomic.Bool
 )
 
 func callEvents(interrupt string, cmdLine []rune) {
@@ -83,14 +80,6 @@ func Start() {
 	definePromptHistory()
 	Prompt.AutocompleteHistory = autocompleteHistoryLine
 
-	SignalHandler(true)
-
-	v, err = lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
-	if err != nil {
-		v = 4
-	}
-	Prompt.MaxTabCompleterRows = v.(int)
-
 	pwd, _ := lang.ShellProcess.Config.Get("shell", "start-directory", types.String)
 	pwd = strings.TrimSpace(pwd.(string))
 	if pwd != "" {
@@ -100,26 +89,44 @@ func Start() {
 		}
 	}
 
-	ShowPrompt()
-
-	noQuit := make(chan int)
-	<-noQuit
+	go func() { lang.ShowPrompt <- true }()
+	for {
+		select {
+		case <-lang.ShowPrompt:
+			go showPrompt()
+		case <-lang.HidePrompt:
+			continue
+		}
+	}
 }
 
 // ShowPrompt display's the shell command line prompt
-func ShowPrompt() {
+func showPrompt() {
+	if promptShown.Swap(true) {
+		return
+	}
+
+	defer promptShown.Store(false)
+
 	if !lang.Interactive {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
+	SignalHandler(true)
+
+	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	if err != nil {
+		v = 4
+	}
+	Prompt.MaxTabCompleterRows = v.(int)
+
 	var (
-		thisProc = PromptId.Add()
-		nLines   = 1
-		merged   string
-		block    []rune
+		nLines = 1
+		merged string
+		block  []rune
 	)
 
-	Prompt.PreviewLine = preview.CommandLine
+	Prompt.PreviewLine = CommandLine
 	Prompt.PreviewInit = lang.PreviewInit
 
 	Prompt.GetMultiLine = func(r []rune) []rune {
@@ -257,21 +264,22 @@ func ShowPrompt() {
 
 			callEvents("after", block)
 
-			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-			fork.FileRef = ref.NewModule(app.ShellModule)
-			fork.Stderr = term.NewErr(ansi.IsAllowed())
-			fork.PromptId = thisProc
-			fork.CCEvent = lang.ShellProcess.CCEvent
-			fork.CCExists = lang.ShellProcess.CCExists
-			lang.ShellExitNum, err = fork.Execute(expanded)
+			go func() {
+				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+				fork.FileRef = ref.NewModule(app.ShellModule)
+				fork.Stderr = term.NewErr(ansi.IsAllowed())
+				fork.CCEvent = lang.ShellProcess.CCEvent
+				fork.CCExists = lang.ShellProcess.CCExists
+				lang.ShellExitNum, err = fork.Execute(expanded)
 
-			if err != nil {
-				fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
-			}
+				if err != nil {
+					fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+				}
 
-			if PromptId.NotEqual(thisProc) {
-				return
-			}
+				lang.ShowPrompt <- true
+			}()
+
+			return
 		}
 	}
 }

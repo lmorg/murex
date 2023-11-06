@@ -1,7 +1,7 @@
 //go:build plan9 || windows || js
 // +build plan9 windows js
 
-package preview
+package shell
 
 import (
 	"github.com/lmorg/murex/utils/readline"

@@ -105,28 +105,31 @@ func (pc *previewCacheT) compile(tree *[]functions.FunctionT, procs *[]Process) 
 		return err
 	}
 
-	safe := parser.GetSafeCmds()
-	for i := offset + 1; i < len(*tree)-1; i++ {
-		cmd := string((*tree)[i].CommandName())
-	check:
-		switch {
-		case cmd == ExpressionFunctionName:
-			continue
-		case cmd == "exec" && !strings.HasPrefix(s[i], cmd):
-			if len((*tree)[i].Parameters) > 0 {
-				cmd = string((*tree)[i].Parameters[0])
-				goto check
+	if len(pc.raw) > 0 {
+
+		safe := parser.GetSafeCmds()
+		for i := offset + 1; i < len(*tree)-1; i++ {
+			cmd := string((*tree)[i].CommandName())
+		check:
+			switch {
+			case cmd == ExpressionFunctionName:
+				continue
+			case cmd == "exec" && !strings.HasPrefix(s[i], cmd):
+				if len((*tree)[i].Parameters) > 0 {
+					cmd = string((*tree)[i].Parameters[0])
+					goto check
+				}
+			case !strings.HasPrefix(s[i], cmd):
+				return fmt.Errorf("a command executable has changed name: %s", errPressF9)
+			case !lists.Match(safe, cmd):
+				return fmt.Errorf("a command line change has been made prior to potentially unsafe commands: %s", errPressF9)
 			}
-		case !strings.HasPrefix(s[i], cmd):
-			return fmt.Errorf("a command executable has changed name: %s", errPressF9)
-		case !lists.Match(safe, cmd):
-			return fmt.Errorf("a command line change has been made prior to potentially unsafe commands: %s", errPressF9)
 		}
+
 	}
 
 	pc.grow(s)
 
-	//for i := range *procs {
 	for i := 0; i < len(*procs)-1; i++ {
 		(*procs)[i].cache = new(cacheT)
 		(*procs)[i].cache.b = &pc.cache[i]

@@ -63,7 +63,9 @@ jobs:
               echo "Compiling WebAssembly...."
               export GOOS=js
               export GOARCH=wasm
-              go build -o ./gen/website/wasm/murex.wasm
+              export LD_FLAGS="-extldflags=-static"
+              export tags="$(cat builtins/optional/standard-opts.txt),sqlite_omit_load_extension,osusergo,netgo"
+              go build -ldflags "$LD_FLAGS" -tags "$tags" -o ./gen/website/wasm/murex.wasm
               cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
           #fi
   

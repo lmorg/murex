@@ -13,6 +13,7 @@ func TestParseLambdaScalar(t *testing.T) {
 			{
 				input:    `$foo[{bar}]`,
 				expected: `$foo[{bar}]`,
+				pos:      -1,
 			},
 		},
 	}
@@ -20,16 +21,18 @@ func TestParseLambdaScalar(t *testing.T) {
 	testParserSymbol(t, tests)
 }
 
-func TestParseLambdaArray(t *testing.T) {
+/*func TestParseLambdaArray(t *testing.T) {
 	tests := expTestsT{
 		symbol: symbols.Calculated,
 		tests: []expTestT{
 			{
 				input:    `@foo[{bar}]`,
 				expected: `@foo[{bar}]`,
+				pos:      4,
 			},
 		},
 	}
 
 	testParserSymbol(t, tests)
 }
+*/

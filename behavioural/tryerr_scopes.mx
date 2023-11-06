@@ -1,0 +1,260 @@
+# tryerr
+
+function: tryerr.scope.block.pass {
+    tryerr { out: "foo"; out "bar" }
+}
+
+test: unit function tryerr.scope.block.pass {
+    "StdoutMatch": "foo\nbar\n"
+}
+
+function: tryerr.scope.block.fail {
+    tryerr { err: "foo"; out "bar" }
+}
+
+test: unit function tryerr.scope.block.fail {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function: tryerr.scope.block.fn {
+    function: fn.tryerr.foobar { err: "foo"; out "bar" }
+    tryerr { fn.tryerr.foobar }
+}
+
+test: unit function tryerr.scope.block.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: tryerr.scope.block.pvt {
+    private: pvt.tryerr.foobar { err: "foo"; out "bar" }
+    tryerr { pvt.tryerr.foobar }
+}
+
+test: unit function tryerr.scope.block.pvt {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: tryerr.scope.block.foreach.fail {
+    tryerr {
+        a: [1..2] -> foreach i { err: $i; out: bar }
+    }
+}
+
+test: unit function tryerr.scope.block.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+## function
+
+function: tryerr.scope.fn.fn {
+    runmode tryerr function
+    function: fn.tryerr.foobar { err: "foo"; out "bar" }
+    fn.tryerr.foobar
+}
+
+test: unit function tryerr.scope.fn.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: tryerr.scope.fn.foreach.fail {
+    runmode tryerr function
+    a: [1..2] -> foreach i { err: $i; out: bar }
+}
+
+test: unit function tryerr.scope.fn.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function tryerr.scope.fn.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: tryerr function
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 1
+}
+
+test: unit function tryerr.scope.fn.read.fail {
+    "StderrRegex": "cannot read from",
+    "ExitNum": 1
+}
+
+## module
+
+function: tryerr.scope.fn.mod {
+    runmode tryerr module
+    function: fn.tryerr.foobar { err: "foo"; out "bar" }
+    fn.tryerr.foobar
+}
+
+test: unit function tryerr.scope.fn.mod {
+    "StderrMatch": "foo\n",
+    "ExitNum": 1
+}
+
+function: tryerr.scope.mod.foreach.fail {
+    runmode tryerr module
+    a: [1..2] -> foreach i { err: $i; out: bar }
+}
+
+test: unit function tryerr.scope.mod.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function tryerr.scope.mod.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: tryerr module
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 1
+}
+
+test: unit function tryerr.scope.mod.read.fail {
+    "StderrRegex": "cannot read from",
+    "ExitNum": 1
+}
+
+# trypipeerr
+
+function: trypipeerr.scope.block.pass {
+    trypipeerr { out: "foo" | out "bar" }
+}
+
+test: unit function trypipeerr.scope.block.pass {
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipeerr.scope.block.fail {
+    trypipeerr { err: "foo" | out "bar" }
+}
+
+test: unit function trypipeerr.scope.block.fail {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function: trypipeerr.scope.block.fn {
+    function: fn.trypipeerr.foobar { err: "foo" | out "bar" }
+    trypipeerr { fn.trypipeerr.foobar }
+}
+
+test: unit function trypipeerr.scope.block.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n",
+    "ExitNum": 0
+}
+
+function: trypipeerr.scope.block.pvt {
+    private:  pvt.trypipeerr.foobar { err: "foo" | out "bar" }
+    trypipeerr { pvt.trypipeerr.foobar }
+}
+
+test: unit function trypipeerr.scope.block.pvt {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipeerr.scope.block.foreach.fail {
+    trypipeerr {
+        a: [1..2] -> foreach i { err: $i | out: bar }
+    }
+}
+
+test: unit function trypipeerr.scope.block.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+### function
+
+function: trypipeerr.scope.fn.fn {
+    runmode trypipeerr function
+    function: fn.tryerr.foobar { err: "foo" | out "bar" }
+    fn.trypipeerr.foobar
+}
+
+test: unit function trypipeerr.scope.fn.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipeerr.scope.fn.foreach.fail {
+    runmode trypipeerr function
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function trypipeerr.scope.fn.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function trypipeerr.scope.fn.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: trypipeerr function
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 1
+}
+
+test: unit function trypipeerr.scope.fn.read.fail {
+    "StderrRegex": "cannot read from",
+    "ExitNum": 1
+}
+
+## module
+
+function: trypipeerr.scope.fn.mod {
+    runmode trypipeerr module
+    function: trypipeerr.tryerr.foobar { err: "foo" | out "bar" }
+    fn.trypipeerr.foobar
+}
+
+test: unit function trypipeerr.scope.fn.mod {
+    "StderrMatch": "foo\n",
+    "ExitNum": 1
+}
+
+function: trypipeerr.scope.mod.foreach.fail {
+    runmode trypipeerr module
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function trypipeerr.scope.mod.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function trypipeerr.scope.mod.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: trypipeerr module
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 1
+}
+
+test: unit function trypipeerr.scope.mod.read.fail {
+    "StderrRegex": "cannot read from",
+    "ExitNum": 1
+}

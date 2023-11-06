@@ -1,9 +1,49 @@
+- DocumentID: unsafe
+  Title: >+
+    `unsafe`
+  CategoryID: commands
+  Summary: >-
+    Execute a block of code, always returning a zero exit number
+  Description: |-
+    `unsafe` is similar to normal execution except that the exit number for the
+    last function in the `unsafe` block is ignored. `unsafe` always returns `0`.
+
+    This is useful in any situations where you might want errors ignored.
+  Usage: |-
+    ```
+    unsafe { code-block } -> <stdout>
+
+    <stdin> -> unsafe { -> code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    try {
+        unsafe { err "foobar" }
+        out "This message still displays because the error is inside an `unsafe` block"
+    }
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  Related:
+    - try
+    - trypipe
+    - tryerr
+    - trypipeerr
+    - catch
+    - runmode
+    - fid-list
+    - if
+    - switch
+    - schedulers
+
+
 - DocumentID: try
   Title: >+
     `try`
   CategoryID: commands
   Summary: >-
-    Handles errors inside a block of code
+    Handles non-zero exits inside a block of code
   Description: |-
     `try` forces a different execution behavior where a failed process at the end
     of a pipeline will cause the block to terminate regardless of any functions that
@@ -33,13 +73,15 @@
     A failure is determined by:
 
     * Any process that returns a non-zero exit number
-    * Any process that returns more output via STDERR than it does via STDOUT
 
     You can see which run mode your functions are executing under via the `fid-list`
     command.
   Synonyms:
   Related:
+    - unsafe
     - trypipe
+    - tryerr
+    - trypipeerr
     - catch
     - runmode
     - fid-list
@@ -47,12 +89,14 @@
     - switch
     - schedulers
 
+
+
 - DocumentID: trypipe
   Title: >+
     `trypipe`
   CategoryID: commands
   Summary: >-
-    Checks state of each function in a pipeline and exits block on error
+    Checks for non-zero exits of each function in a pipeline
   Description: |-
     `trypipe` checks the state of each function and exits the block if any of them
     fail. Where `trypipe` differs from regular `try` blocks is `trypipe` will check
@@ -85,19 +129,23 @@
     A failure is determined by:
 
     * Any process that returns a non-zero exit number
-    * Any process that returns more output via STDERR than it does via STDOUT
 
     You can see which run mode your functions are executing under via the `fid-list`
     command.
   Synonyms:
   Related:
+    - unsafe
     - try
+    - tryerr
+    - trypipeerr
     - catch
     - runmode
     - fid-list
     - if
     - switch
     - schedulers
+
+
 
 - DocumentID: catch
   Title: >+
@@ -140,12 +188,17 @@
     - catch
     - "!catch"
   Related:
-    - trypipe
+    - unsafe
     - try
+    - trypipe
+    - tryerr
+    - trypipeerr
     - runmode
     - if
     - switch
     - schedulers
+
+
 
 - DocumentID: runmode
   Title: >+
@@ -187,6 +240,10 @@
 
     ### 1st parameter
 
+    #### unsafe
+
+    Always return a zero exit number.
+
     #### try
 
     Checks only the last command in the pipeline for errors. However still allows
@@ -196,6 +253,17 @@
 
     Checks every command in the pipeline before executing the next. However this
     blocks pipelines from running every command in parallel.
+
+    #### tryerr
+
+    Checks last command in the pipeline for errors (still allowing commands to run
+    in parallel) plus also checks if STDERR contains excessive output.
+
+    #### trypipeerr
+
+    Checks every command in the pipeline before executing the next (blocking
+    commands from running in parallel) plus also checks if STDERR contains
+    excessive output.
 
     ### 2nd parameter
 
@@ -208,12 +276,15 @@
 
     Sets the runmode for all blocks within that module when placed at the start of
     the module. This include any functions, privates, autocompletes, events, etc
-    that are inside that module. The do not need a separate `runmode ... function`
+    that are inside that module. They do not need a separate `runmode ... function`
     if `runmode ... module` is set.
   Synonyms:
   Related:
+    - unsafe
     - try
     - trypipe
+    - tryerr
+    - trypipeerr
     - catch
     - read
     - out

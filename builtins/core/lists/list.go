@@ -19,39 +19,3 @@ func init() {
 		alias list.split   = jsplit
 	`)
 }
-
-/*func cmdList(p *lang.Process) error {
-	cmd, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-
-	p.Parameters.DefineParsed(p.Parameters.StringArray()[1:])
-
-	switch cmd {
-	case "sort":
-		return cmdMSort(p)
-	case "reverse":
-		return cmdMtac(p)
-	case "prepend":
-		return cmdPrepend(p)
-	case "append":
-		return cmdAppend(p)
-	case "prefix":
-		return cmdPrefix(p)
-	case "suffix":
-		return cmdSuffix(p)
-	case "left":
-		return cmdPrefix(p)
-	case "right":
-		return cmdSuffix(p)
-	case "regex":
-		return cmdRegexp(p)
-	case "string":
-		return cmdMatch(p)
-	case "split":
-		return cmdJsplit(p)
-	}
-
-	return nil
-}*/

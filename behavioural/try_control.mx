@@ -1,0 +1,22 @@
+# control
+
+function: control.scope.block.fn.fail {
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function control.scope.block.fn.fail {
+    "StderrMatch": "1\n2\n",
+    "StdoutMatch": "bar\nbar\n"
+}
+
+function: control.runmode.fail {
+    out "foo"
+    runmode try function
+    out "bar"
+}
+
+test: unit function control.runmode.fail {
+    "StdoutMatch": "foo\nbar\n",
+    "StderrRegex": "should only be used as the first statement in a block",
+    "ExitNum": 0
+}

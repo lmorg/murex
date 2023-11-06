@@ -9,7 +9,8 @@ import (
 var ForceCrLf = true
 
 type HintCacheFuncT func(prefix string, items []string) []string
-type PreviewFuncT func(ctx context.Context, line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
+type PreviewFuncT func(ctx context.Context, line []rune, item string, incImages bool, size *PreviewSizeT, callback PreviewFuncCallbackT)
+type PreviewFuncCallbackT func(lines []string, pos int, err error)
 
 type TabCompleterReturnT struct {
 	Prefix       string

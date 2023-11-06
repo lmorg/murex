@@ -19,10 +19,18 @@ func cmdSleep(p *lang.Process) error {
 		return err
 	}
 
-	select {
-	case <-p.Context.Done():
-		return nil
-	case <-time.After(time.Duration(int64(i)) * time.Second):
-		return nil
+	sleep := time.After(time.Duration(int64(i)) * time.Second)
+
+	for {
+		select {
+		case <-p.Context.Done():
+			return nil
+
+		case <-sleep:
+			return nil
+
+		case <-p.HasStopped:
+			<-p.WaitForStopped
+		}
 	}
 }

@@ -25,13 +25,14 @@ func ttys(p *Process) {
 		if p.Stdout.IsTTY() {
 			width, height, err := readline.GetSize(int(p.Stdout.File().Fd()))
 			if err != nil {
-				panic(err) // TODO: don't panic
+				width, height = 80, 25
 			}
 
 			var tee stdio.Io
 			p.Stdout, tee, p.CCOut, err = psuedotty.NewTeePTY(width, height)
 			if err != nil {
-				panic(err) // TODO: don't panic
+				p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
+				return
 			}
 
 			ch := make(chan os.Signal, 1)

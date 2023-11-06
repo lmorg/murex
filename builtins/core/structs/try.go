@@ -12,8 +12,13 @@ import (
 
 func init() {
 	lang.DefineFunction("runmode", cmdRunmode, types.Null)
+
+	lang.DefineFunction("unsafe", cmdUnsafe, types.Any)
 	lang.DefineFunction("try", cmdTry, types.Any)
 	lang.DefineFunction("trypipe", cmdTryPipe, types.Any)
+	lang.DefineFunction("tryerr", cmdTryErr, types.Any)
+	lang.DefineFunction("trypipeerr", cmdTryPipeErr, types.Any)
+
 	lang.DefineFunction("catch", cmdCatch, types.Any)
 	lang.DefineFunction("!catch", cmdCatch, types.Any)
 }
@@ -23,38 +28,48 @@ func cmdRunmode(p *lang.Process) error {
 	return errors.New("`runmode` should only be used as the first statement in a block")
 }
 
-func cmdTry(p *lang.Process) error     { return tryModes(p, 0) }
-func cmdTryPipe(p *lang.Process) error { return tryModes(p, 1) }
+func cmdTry(p *lang.Process) error        { return tryModes(p, runmode.BlockTry) }
+func cmdTryPipe(p *lang.Process) error    { return tryModes(p, runmode.BlockTryPipe) }
+func cmdTryErr(p *lang.Process) error     { return tryModes(p, runmode.BlockTryErr) }
+func cmdTryPipeErr(p *lang.Process) error { return tryModes(p, runmode.BlockTryPipeErr) }
 
-func tryModes(p *lang.Process, adjust runmode.RunMode) (err error) {
+func tryModes(p *lang.Process, runMode runmode.RunMode) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	scope, err := p.Parameters.String(0)
+	block, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	switch scope {
-	/*case "function":
-		p.Scope.RunMode = runmode.FunctionTry + adjust
-		return nil
-
-	case "module":
-		p.Scope.RunMode = runmode.ModuleTry + adjust
-		lang.ModuleRunModes[p.FileRef.Source.Module] = runmode.ModuleTry + adjust
-		return nil*/
-
-	default:
-		r := []rune(scope)
-		if types.IsBlockRune(r) {
-			p.RunMode = runmode.BlockTry + adjust
-			p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE).Execute(r)
-			return
-		}
-
-		//return fmt.Errorf("unexpected parameter '%s'\nExpecting either 'function', 'module' or a code block inside curly braces", scope)
-		return fmt.Errorf("unexpected parameter '%s'.\nExpecting either a code block inside curly braces", scope)
+	r := []rune(block)
+	if types.IsBlockRune(r) {
+		p.RunMode = runMode
+		p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE).Execute(r)
+		return
 	}
+
+	return fmt.Errorf("unexpected parameter '%s', expecting a code block inside curly braces", block)
+}
+
+func cmdUnsafe(p *lang.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	block, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	r := []rune(block)
+	if types.IsBlockRune(r) {
+		p.RunMode = runmode.BlockUnsafe
+		p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE).Execute(r)
+		if err != nil {
+			p.Stderr.Writeln([]byte(err.Error()))
+		}
+		return nil
+	}
+
+	return fmt.Errorf("unexpected parameter '%s', expecting a code block inside curly braces", block)
 }
 
 func cmdCatch(p *lang.Process) error {

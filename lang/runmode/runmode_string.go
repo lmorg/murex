@@ -10,18 +10,26 @@ func _() {
 	var x [1]struct{}
 	_ = x[Default-0]
 	_ = x[Normal-1]
-	_ = x[Evil-2]
-	_ = x[BlockTry-3]
-	_ = x[BlockTryPipe-4]
-	_ = x[ModuleTry-5]
-	_ = x[ModuleTryPipe-6]
-	_ = x[FunctionTry-7]
-	_ = x[FunctionTryPipe-8]
+	_ = x[BlockUnsafe-2]
+	_ = x[FunctionUnsafe-3]
+	_ = x[ModuleUnsafe-4]
+	_ = x[BlockTry-5]
+	_ = x[BlockTryPipe-6]
+	_ = x[BlockTryErr-7]
+	_ = x[BlockTryPipeErr-8]
+	_ = x[FunctionTry-9]
+	_ = x[FunctionTryPipe-10]
+	_ = x[FunctionTryErr-11]
+	_ = x[FunctionTryPipeErr-12]
+	_ = x[ModuleTry-13]
+	_ = x[ModuleTryPipe-14]
+	_ = x[ModuleTryErr-15]
+	_ = x[ModuleTryPipeErr-16]
 }
 
-const _RunMode_name = "DefaultNormalEvilBlockTryBlockTryPipeModuleTryModuleTryPipeFunctionTryFunctionTryPipe"
+const _RunMode_name = "DefaultNormalBlockUnsafeFunctionUnsafeModuleUnsafeBlockTryBlockTryPipeBlockTryErrBlockTryPipeErrFunctionTryFunctionTryPipeFunctionTryErrFunctionTryPipeErrModuleTryModuleTryPipeModuleTryErrModuleTryPipeErr"
 
-var _RunMode_index = [...]uint8{0, 7, 13, 17, 25, 37, 46, 59, 70, 85}
+var _RunMode_index = [...]uint8{0, 7, 13, 24, 38, 50, 58, 70, 81, 96, 107, 122, 136, 154, 163, 176, 188, 204}
 
 func (i RunMode) String() string {
 	if i < 0 || i >= RunMode(len(_RunMode_index)-1) {

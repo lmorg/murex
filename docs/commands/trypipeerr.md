@@ -1,34 +1,37 @@
-# `try`
+# `trypipeerr`
 
-> Handles non-zero exits inside a block of code
+> Checks state of each function in a pipeline and exits block on error
 
 ## Description
 
-`try` forces a different execution behavior where a failed process at the end
-of a pipeline will cause the block to terminate regardless of any functions that
-might follow.
-
-It's usage is similar to try blocks in other languages (eg Java) but a closer
-functional example would be `set -e` in Bash.
-
-To maintain concurrency within the pipeline, `try` will only check the last
-function in any given pipeline (ie series of functions joined via `|`, `->`, or
-similar operators). If you need the entire pipeline checked then use `trypipe`.
+`trypipeerr` checks the state of each function and exits the block if any of them
+fail. Where `trypipeerr` differs from regular `tryerr` blocks is `trypipeerr` will
+check every process along the pipeline as well as the terminating function (which
+`tryerr` only validates against). The downside to this is that piped functions can
+no longer run in parallel.
 
 ## Usage
 
 ```
-try { code-block } -> <stdout>
+trypipeerr { code-block } -> <stdout>
 
-<stdin> -> try { -> code-block } -> <stdout>
+<stdin> -> trypipeerr { -> code-block } -> <stdout>
 ```
 
 ## Examples
 
 ```
-try {
-    out "Hello, World!" -> grep: "non-existent string"
+trypipeerr {
+    out "Hello, World!" -> grep: "non-existent string" -> cat
     out "This command will be ignored"
+}
+```
+
+Formated pager (`less`) where the pager isn't called if the formatter (`pretty`) fails (eg input isn't valid JSON):
+
+```
+func pless {
+    -> trypipeerr { -> pretty -> less }
 }
 ```
 
@@ -37,6 +40,7 @@ try {
 A failure is determined by:
 
 * Any process that returns a non-zero exit number
+* Any process that returns more output via STDERR than it does via STDOUT
 
 You can see which run mode your functions are executing under via the `fid-list`
 command.
@@ -55,15 +59,15 @@ command.
   Alter the scheduler's behaviour at higher scoping level
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+* [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [`trypipeerr`](../commands/trypipeerr.md):
-  Checks state of each function in a pipeline and exits block on error
 * [`unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
 
 <hr/>
 
-This document was generated from [builtins/core/structs/try_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/try_doc.yaml).
+This document was generated from [builtins/core/structs/tryerr_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/tryerr_doc.yaml).

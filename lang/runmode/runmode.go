@@ -10,21 +10,30 @@ const (
 	Default RunMode = iota
 
 	Normal
-	Evil
+
+	BlockUnsafe
+	FunctionUnsafe
+	ModuleUnsafe
 
 	BlockTry
 	BlockTryPipe
-
-	ModuleTry
-	ModuleTryPipe
+	BlockTryErr
+	BlockTryPipeErr
 
 	FunctionTry
 	FunctionTryPipe
+	FunctionTryErr
+	FunctionTryPipeErr
+
+	ModuleTry
+	ModuleTryPipe
+	ModuleTryErr
+	ModuleTryPipeErr
 )
 
 // IsStrict checks if RunMode is a Try or TryPipe block
 func (i RunMode) IsStrict() bool {
-	if i > Evil {
+	if i > ModuleUnsafe {
 		return true
 	}
 

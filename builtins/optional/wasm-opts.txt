@@ -1,0 +1,1 @@
+opt_cmd_printf,no_cmd_select,opt_cmd_time,no_pipe_net,no_type_sexp,no_pty
