@@ -374,7 +374,7 @@ func init() {
 		"changelog/v4.4":                   "v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness",
 		"changelog/v5.0":                   "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
 		"changelog/v5.1":                   "This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.",
-		"changelog/v5.2":                   "This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.",
+		"changelog/v5.2":                   "The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex",
 	}
 
 	Synonym = map[string]string{
