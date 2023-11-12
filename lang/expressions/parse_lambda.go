@@ -3,7 +3,6 @@ package expressions
 import (
 	"encoding/json"
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -143,7 +142,8 @@ var (
 	errUnableToSetLambdaVar = "unable to set `$.`: %s"
 	errUnableToGetLambdaVar = "unable to retrieve value of `$.`: %s"
 	errUnableToUpdateValue  = "cannot update value from lambda: %s"
-	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
+
+	//rxLineSeparator = regexp.MustCompile(`(\r*\n)+`)
 )
 
 const (

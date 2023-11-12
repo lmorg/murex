@@ -1,12 +1,18 @@
-- DocumentID: v5.1
+- DocumentID: v5.2
   Title: >-
-    v5.1
+    v5.2
   CategoryID: changelog
-  DateTime: 2023-10-09 22:13
+  DateTime: 2023-11-09 22:13
   Summary: >-
     This release brings new operators and a builtin, all for managing null types.
     There is also a substantial revamp to readline's responsiveness.
   Description: |-
-    {{ include "gen/changelog/v5.1.inc.md" }}
+    {{ include "gen/changelog/v5.2.inc.md" }}
   Related:
+    - CONTRIBUTING
+    - job-control
+    - bg
+    - fg
     - debug
+    - terminal-keys
+    - INSTALL
