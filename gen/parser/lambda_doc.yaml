@@ -1,0 +1,15 @@
+- DocumentID: lambda
+  Title: >-
+     `[{lambda}]`
+  CategoryID: parser
+  Summary: >-
+    Iterate through structured data
+  Description: |-
+    Lambdas, in Murex, are a concise way of performing various actions against
+    structured data. They're a convenience tool to range over arrays and objects,
+    similar to `foreach` and `formap`.
+  Examples:
+  Detail: |-
+  Related:
+    - foreach
+    - formap

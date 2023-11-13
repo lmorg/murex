@@ -67,6 +67,8 @@ files.
   Outputs an element from a nested structure
 * [`[index]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[{lambda}]`](../parser/lambda.md):
+  Iterate through structured data
 * [`{Curly Brace}`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|>` (truncate file)](../parser/greater-than.md):
