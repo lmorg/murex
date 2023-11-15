@@ -112,22 +112,7 @@
       `<int>` Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
 
   Detail: |-
-    ### Meta values
-
-    Meta values are a JSON object stored as the variable `$.`. The meta variable
-    will get overwritten by any other block which invokes meta values. So if you
-    wish to persist meta values across blocks you will need to reassign `$.`, eg
-
-    ```
-    %[1..3] -> foreach {
-        meta_parent = $.
-        %[7..9] -> foreach {
-            out "$(meta_parent.i): $.i"
-        }
-    }
-    ```
-
-    The following meta values are defined:
+    {{ include "gen/includes/meta-values.inc.md" }}
 
     * `i`: iteration number
 

@@ -8,8 +8,17 @@
     Lambdas, in Murex, are a concise way of performing various actions against
     structured data. They're a convenience tool to range over arrays and objects,
     similar to `foreach` and `formap`.
+
+    Code running inside a lambda inherit a special variable, named **meta values**,
+    which hold the state for each iteration.
   Examples:
   Detail: |-
+      {{ include "gen/includes/meta-values.inc.md" }}
+
+      * `i`: iteration number (counts from one)
+      * `k`: key name (for arrays / lists this will count from zero)
+      * `v`: item value of map / object or array / list
   Related:
     - foreach
     - formap
+    - while
