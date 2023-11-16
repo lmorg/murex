@@ -528,7 +528,7 @@ func (rl *Instance) readlineInputStr(r []rune) string {
 
 	switch rl.modeViMode {
 	case vimKeys:
-		rl.vi(r[0])
+		output += rl.vi(r[0])
 		output += rl.viHintMessageStr()
 
 	case vimDelete:
