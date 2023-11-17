@@ -381,6 +381,9 @@ func parseLambdaRunSubShell(p *lang.Process, block []rune) (int, []byte, error) 
 
 	if fork.Stdout.GetDataType() == types.Boolean {
 		if types.IsTrue(b, exitNum) {
+			if string(b) == types.TrueString {
+				return 0, nil, nil
+			}
 			return 0, b, nil
 		}
 		return 1, nil, nil
