@@ -1,10 +1,10 @@
-# `??` Null Coalescing Operator
+# `??` Null Coalescing Operator (expr)
 
 > Returns the right operand if the left operand is empty / undefined
 
 ## Description
 
-The null coalescing operator is a little like a conditional where the result of the
+The Null Coalescing operator is a little like a conditional where the result of the
 operation is the first non-empty value from left to right.
 
 An empty value is any of the following:
@@ -60,12 +60,14 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Overview of the different schedulers (or 'run modes') in Murex
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`?:` Elvis Operator](../parser/elvis.md):
+* [`?:` Elvis Operator (expr)](../parser/elvis.md):
   Returns the right operand if the left operand is falsy
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
+* [`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [`is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
 * [`out`](../commands/out.md):
@@ -81,4 +83,4 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 
 <hr/>
 
-This document was generated from [gen/parser/null_coalescing_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/null_coalescing_op_doc.yaml).
+This document was generated from [gen/expr/null_coalescing_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/null_coalescing_op_doc.yaml).

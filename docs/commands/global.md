@@ -259,7 +259,7 @@ bar
   How scoping works within Murex
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+* [`??` Null Coalescing Operator (expr)](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined
 * [`[[ element ]]`](../parser/element.md):
   Outputs an element from a nested structure

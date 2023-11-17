@@ -1,0 +1,36 @@
+- DocumentID: division
+  Title: >-
+    `/` Division Operator (expr)
+  CategoryID: parser
+  Summary: >-
+    Divides one numeric value from another
+  Description: |-
+    The Division Operator divides the left hand number by the right hand number in
+    an expression.
+  Examples: |-
+    #### Expression
+
+    ```
+    » 3/2
+    1.5
+    ```
+
+    #### Statement
+
+    ```
+    out (3/2)
+    » 1.5
+    ```
+  Detail: |-
+    {{ include "gen/includes/expr-strict-types.inc.md" }}
+  Related:
+  - expr
+  - divide-by
+  - subtraction
+  - multiplication
+  - addition
+  - int
+  - float
+  - num
+  - config
+  - cast
