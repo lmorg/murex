@@ -88,6 +88,10 @@ func (h *NullHistory) Dump() interface{} {
 
 // Browse historic lines
 func (rl *Instance) walkHistory(i int) {
+	if rl.previewRef == previewRefLine {
+		return // don't walk history if [f9] preview open
+	}
+
 	line := rl.line.String()
 	line = strings.TrimSpace(line)
 	rl._walkHistory(i, line)
