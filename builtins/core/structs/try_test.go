@@ -111,3 +111,18 @@ func TestCatch(t *testing.T) {
 
 	test.RunBooleanTests(tests, t)
 }
+
+func TestUnsafe(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `try {
+						unsafe { err "foo" }
+						out "bar"
+					}`,
+			Stdout: "bar\n",
+			Stderr: "foo\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

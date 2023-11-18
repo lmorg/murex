@@ -2,12 +2,13 @@ package readline
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
 )
 
 func leftMost() []byte {
-	fd := int(primary.Fd())
+	fd := int(os.Stdout.Fd())
 	w, _, err := GetSize(fd)
 	if err != nil {
 		return []byte{'\r', '\n'}

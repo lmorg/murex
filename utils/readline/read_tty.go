@@ -3,6 +3,8 @@
 
 package readline
 
+import "os"
+
 func read(b []byte) (int, error) {
-	return replica.Read(b)
+	return os.Stdin.Read(b)
 }

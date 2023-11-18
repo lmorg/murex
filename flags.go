@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -44,18 +44,20 @@ func readFlags() {
 
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
+	flag.BoolVar(&lang.FlagTryErr, "tryerr", false, "Enable a global `tryerr` block")
+	flag.BoolVar(&lang.FlagTryPipeErr, "trypipeerr", false, "Enable a global `trypipeerr` block")
 
 	flag.Parse()
 
 	if fHelp1 || fHelp2 {
-		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version())
+		fmt.Fprintf(os.Stdout, "%s v%s\n", app.Name, app.Version())
 		flag.Usage()
 		lang.Exit(1)
 	}
 
 	if fVersion1 || fVersion2 {
-		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version())
-		fmt.Fprintf(tty.Stdout, "%s\n%s\n", app.License, app.Copyright)
+		fmt.Fprintf(os.Stdout, "%s v%s\n", app.Name, app.Version())
+		fmt.Fprintf(os.Stdout, "%s\n%s\n", app.License, app.Copyright)
 		lang.Exit(0)
 	}
 

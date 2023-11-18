@@ -1,6 +1,6 @@
 # `try`
 
-> Handles errors inside a block of code
+> Handles non-zero exits inside a block of code
 
 ## Description
 
@@ -37,7 +37,6 @@ try {
 A failure is determined by:
 
 * Any process that returns a non-zero exit number
-* Any process that returns more output via STDERR than it does via STDOUT
 
 You can see which run mode your functions are executing under via the `fid-list`
 command.
@@ -56,8 +55,14 @@ command.
   Alter the scheduler's behaviour at higher scoping level
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+* [`tryerr`](../commands/tryerr.md):
+  Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
+* [`unsafe`](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
 
 <hr/>
 

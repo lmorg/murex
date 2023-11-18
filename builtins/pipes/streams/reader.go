@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"sync"
 
 	"github.com/lmorg/murex/config"
@@ -42,6 +43,10 @@ func NewReader(reader io.Reader) (r *Reader) {
 
 // IsTTY returns false because the reader interface is not a pseudo-TTY
 func (r *Reader) IsTTY() bool { return false }
+
+func (t *Reader) File() *os.File {
+	return nil
+}
 
 // Stats provides real time stream stats. Useful for progress bars etc.
 func (r *Reader) Stats() (bytesWritten, bytesRead uint64) {

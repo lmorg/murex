@@ -42,11 +42,11 @@ force numeric or boolean looking values to be stored as strings.
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%[]` Create array](../parser/create-array.md):
   Quickly generate arrays

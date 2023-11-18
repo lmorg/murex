@@ -52,7 +52,7 @@ There is no workaround for `trypipe`.
   Overview of the different schedulers (or 'run modes') in Murex
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`?:` Elvis Operator](../parser/elvis.md):
+* [`?:` Elvis Operator (expr)](../parser/elvis.md):
   Returns the right operand if the left operand is falsy
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
@@ -61,9 +61,9 @@ There is no workaround for `trypipe`.
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 
 <hr/>
 

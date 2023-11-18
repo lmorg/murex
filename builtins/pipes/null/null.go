@@ -3,6 +3,7 @@ package null
 import (
 	"context"
 	"io"
+	"os"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/stdio"
@@ -18,6 +19,10 @@ import (
 
 // Null is null interface for named pipes
 type Null struct{}
+
+func (t *Null) File() *os.File {
+	return nil
+}
 
 // Read - null interface
 func (t *Null) Read([]byte) (int, error) { return 0, nil }

@@ -37,16 +37,20 @@ bar}
 
 ### Code Golfing
 
-Curly braces can be used to terminate the parsing of the command name / start
-the parsing of the first parameter however each new parameter would still need
-to be separated by whitespace:
+Curly braces can be used to terminate the parsing of the command name and/or
+parameters too:
 
 ```
-# Valid
-if{true} {out "Yipee"}
+if{true}{out Yipee}
+```
 
-# Invalid
-if{true}{out "Yipee"}
+### Nesting
+
+Curly braces can be nested:
+
+```
+» out {{foo} bar}
+{{foo} bar}
 ```
 
 ### ANSI Constants
@@ -64,8 +68,6 @@ constants are available.
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [Array (`@`) Token](../parser/array.md):
@@ -75,6 +77,8 @@ constants are available.
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)

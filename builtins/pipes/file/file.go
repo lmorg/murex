@@ -30,6 +30,10 @@ func NewFile(name string) (_ stdio.Io, err error) {
 	return f, err
 }
 
+func (f *File) File() *os.File {
+	return f.file
+}
+
 // Open file writer
 func (f *File) Open() {
 	f.mutex.Lock()

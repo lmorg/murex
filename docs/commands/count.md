@@ -25,12 +25,18 @@ Count number of items in a map, list or array:
 
 * `--duplications`
     Output a JSON map of items and the number of their occurrences in a list or array
+* `--sum`
+    Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)
+* `--sum-strict`
+    Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)
 * `--total`
     Read an array, list or map from STDIN and output the length for that array (default behaviour)
 * `--unique`
     Print the number of unique elements in a list or array
 * `-d`
     Alias for `--duplications`
+* `-s`
+    Alias for `--sum`
 * `-t`
     Alias for `--total`
 * `-u`
@@ -38,11 +44,9 @@ Count number of items in a map, list or array:
 
 ## Detail
 
-### Modes
-
 If no flags are set, `count` will default to using `--total`.
 
-#### Total: `--total` / `-t`
+### Total: `--total` / `-t`
 
 This will read an array, list or map from STDIN and output the length for
 that array.
@@ -79,7 +83,7 @@ instead. But be mindful that `wc` will also count new line characters.
 # (printf does not print a trailing new line)
 ```
 
-#### Duplications: `--duplications` / `-d`
+### Duplications: `--duplications` / `-d`
 
 This returns a JSON map of items and the number of their occurrences in a list
 or array.
@@ -102,7 +106,7 @@ only appear once in the quote.
 }
 ```
 
-#### Unique: `--unique` / `-u`
+### Unique: `--unique` / `-u`
 
 Returns the number of unique elements in a list or array.
 

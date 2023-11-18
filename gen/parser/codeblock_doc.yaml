@@ -35,16 +35,20 @@
 
     ### Code Golfing
 
-    Curly braces can be used to terminate the parsing of the command name / start
-    the parsing of the first parameter however each new parameter would still need
-    to be separated by whitespace:
+    Curly braces can be used to terminate the parsing of the command name and/or
+    parameters too:
 
     ```
-    # Valid
-    if{true} {out "Yipee"}
+    if{true}{out Yipee}
+    ```
 
-    # Invalid
-    if{true}{out "Yipee"}
+    ### Nesting
+
+    Curly braces can be nested:
+
+    ```
+    » out {{foo} bar}
+    {{foo} bar}
     ```
 
     ### ANSI Constants

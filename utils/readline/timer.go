@@ -139,3 +139,42 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 	output += dtc.rl.renderHelpersStr()
 	print(output)
 }
+
+func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item string) {
+	var ctx context.Context
+
+	callback := func(lines []string, pos int, err error) {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			// continue
+		}
+
+		if err != nil {
+			rl.ForceHintTextUpdate(err.Error())
+			return
+		}
+
+		output, err := rl.previewDrawStr(lines[pos:], size)
+
+		if err != nil {
+			rl.previewCache = nil
+			print(output)
+			return
+		}
+
+		rl.previewCache = &previewCacheT{
+			item:  item,
+			pos:   pos,
+			len:   size.Height,
+			lines: lines,
+			size:  size,
+		}
+
+		print(output)
+	}
+
+	ctx, rl.previewCancel = context.WithCancel(context.Background())
+	fn(ctx, rl.line.Runes(), item, rl.PreviewImages, size, callback)
+}

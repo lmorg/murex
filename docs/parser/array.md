@@ -109,13 +109,13 @@ foo  1 2 3 4 5  bar
 
 ## See Also
 
-* [%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)

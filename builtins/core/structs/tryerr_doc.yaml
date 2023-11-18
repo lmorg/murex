@@ -1,0 +1,108 @@
+- DocumentID: tryerr
+  Title: >+
+    `tryerr`
+  CategoryID: commands
+  Summary: >-
+    Handles errors inside a block of code
+  Description: |-
+    `tryerr` forces a different execution behavior where a failed process at the end
+    of a pipeline will cause the block to terminate regardless of any functions that
+    might follow.
+
+    It's usage is similar to try blocks in other languages (eg Java) but a closer
+    functional example would be `set -e` in Bash.
+
+    To maintain concurrency within the pipeline, `tryerr` will only check the last
+    function in any given pipeline (ie series of functions joined via `|`, `->`, or
+    similar operators). If you need the entire pipeline checked then use `trypipe`.
+  Usage: |-
+    ```
+    tryerr { code-block } -> <stdout>
+
+    <stdin> -> tryerr { -> code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    tryerr {
+        out "Hello, World!" -> grep: "non-existent string"
+        out "This command will be ignored"
+    }
+    ```
+  Flags:
+  Detail: |-
+    A failure is determined by:
+
+    * Any process that returns a non-zero exit number
+    * Any process that returns more output via STDERR than it does via STDOUT
+
+    You can see which run mode your functions are executing under via the `fid-list`
+    command.
+  Synonyms:
+  Related:
+    - unsafe
+    - try
+    - trypipe
+    - trypipeerr
+    - catch
+    - runmode
+    - fid-list
+    - if
+    - switch
+    - schedulers
+
+
+
+- DocumentID: trypipeerr
+  Title: >+
+    `trypipeerr`
+  CategoryID: commands
+  Summary: >-
+    Checks state of each function in a pipeline and exits block on error
+  Description: |-
+    `trypipeerr` checks the state of each function and exits the block if any of them
+    fail. Where `trypipeerr` differs from regular `tryerr` blocks is `trypipeerr` will
+    check every process along the pipeline as well as the terminating function (which
+    `tryerr` only validates against). The downside to this is that piped functions can
+    no longer run in parallel.
+  Usage: |-
+    ```
+    trypipeerr { code-block } -> <stdout>
+
+    <stdin> -> trypipeerr { -> code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    trypipeerr {
+        out "Hello, World!" -> grep: "non-existent string" -> cat
+        out "This command will be ignored"
+    }
+    ```
+
+    Formated pager (`less`) where the pager isn't called if the formatter (`pretty`) fails (eg input isn't valid JSON):
+
+    ```
+    func pless {
+        -> trypipeerr { -> pretty -> less }
+    }
+    ```
+  Flags:
+  Detail: |-
+    A failure is determined by:
+
+    * Any process that returns a non-zero exit number
+    * Any process that returns more output via STDERR than it does via STDOUT
+
+    You can see which run mode your functions are executing under via the `fid-list`
+    command.
+  Synonyms:
+  Related:
+    - unsafe
+    - try
+    - tryerr
+    - trypipe
+    - catch
+    - runmode
+    - fid-list
+    - if
+    - switch
+    - schedulers

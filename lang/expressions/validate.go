@@ -50,18 +50,6 @@ func (tree *ParserT) validateExpression(exec bool) error {
 				return raiseError(tree.expression, node, 0, "expecting a data value")
 			}
 
-			/*if node.key == symbols.Scalar && exec &&
-				(next == nil || next.key > symbols.AssignAndMerge) {
-
-				v, mxDt, err := tree.getVar(scalarNameDetokenised(node.value), varAsValue)
-				if err != nil {
-					return err
-				}
-				dt := primitives.NewScalar(mxDt, v)
-				node.key = symbols.Calculated
-				node.dt = dt
-			}*/
-
 			if node.dt != nil {
 				continue
 			}

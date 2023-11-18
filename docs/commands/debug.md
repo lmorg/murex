@@ -16,17 +16,46 @@ This will enable or disable debugging mode.
 
 ## Usage
 
+**Enable or disable debug output:**
+
+```
+debug boolean -> <stdout>
+```
+
+**Output whether debug mode is enabled or disabled:**
+
+```
+debug -> <stdout>
+```
+
+**Run a pipeline with debug mode enabled:**
+
+```
+debug { code-block } -> <stdout>
+```
+
+**Print debugging information about the previous command:**
+
 ```
 <stdin> -> debug -> <stdout>
-
-debug boolean -> <stdout>
-
-debug -> <stdout>
 ```
 
 ## Examples
 
-Return debugging information on the previous function:
+**Running a code block with debugging:**
+
+```
+» debug
+false
+
+» debug { out "debug mode is now ${debug}" }
+debug mode is now true
+
+» debug
+false
+```
+
+**Return debugging information on the previous function:**
 
 ```
 » out "hello, world!" -> debug 
@@ -103,7 +132,7 @@ Return debugging information on the previous function:
 }
 ```
 
-Enable or disable debug mode:
+**Enable or disable debug mode:**
 
 ```
 » debug on
@@ -113,7 +142,7 @@ true
 false
 ```
 
-Output whether debug mode is enabled or disabled:
+**Output whether debug mode is enabled or disabled:**
 
 ```
 » debug
@@ -153,4 +182,4 @@ framework
 
 <hr/>
 
-This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).
+This document was generated from [builtins/core/management/debug_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/debug_doc.yaml).

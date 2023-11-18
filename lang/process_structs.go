@@ -3,7 +3,6 @@ package lang
 import (
 	"context"
 	"fmt"
-	"os"
 	"sync"
 	"time"
 
@@ -22,24 +21,24 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
+	cache              *cacheT
 	raw                []rune
 	Name               process.Name
 	Parameters         parameters.Parameters
 	namedPipes         []string
 	Context            context.Context
 	Stdin              stdio.Io
-	ttyin              *os.File
 	Stdout             stdio.Io
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
-	ttyout             *os.File
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
 	WaitForTermination chan bool `json:"-"`
+	WaitForStopped     chan bool `json:"-"`
+	HasStopped         chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
 	Exec               process.Exec
-	PromptId           int
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
 	Previous           *Process `json:"-"`
@@ -84,7 +83,6 @@ func (p *Process) Dump() interface{} {
 	dump["Done_Set"] = p.Done != nil
 	dump["Kill_Set"] = p.Kill != nil
 	dump["Exec"] = &p.Exec
-	dump["PromptId"] = p.PromptId
 	dump["Scope.Id"] = p.Scope.Id
 	dump["Parent.Id"] = p.Parent.Id
 	dump["Previous.Id"] = p.Previous.Id
@@ -127,11 +125,24 @@ func (p *Process) HasTerminated() (state bool) {
 }
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
-func (p *Process) HasCancelled() (state bool) {
+func (p *Process) HasCancelled() bool {
 	select {
 	case <-p.Context.Done():
 		return true
+
 	default:
+		if p.State.Get() == state.Stopped {
+			return p.hasCancelledStopped()
+		}
+		return false
+	}
+}
+
+func (p *Process) hasCancelledStopped() bool {
+	select {
+	case <-p.Context.Done():
+		return true
+	case <-p.WaitForStopped:
 		return false
 	}
 }

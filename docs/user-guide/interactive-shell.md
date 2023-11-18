@@ -100,7 +100,6 @@ to what one expects from an IDE.
 Syntax highlighting can be disabled by running:
 
 ```
-
 config set shell syntax-highlighting off
 ```
 

@@ -57,9 +57,15 @@ catch {
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
+* [`tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
+* [`unsafe`](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
 
 <hr/>
 

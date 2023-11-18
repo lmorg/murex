@@ -47,7 +47,7 @@ try {
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`?:` Elvis Operator](../parser/elvis.md):
+* [`?:` Elvis Operator (expr)](../parser/elvis.md):
   Returns the right operand if the left operand is falsy
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
@@ -56,9 +56,9 @@ try {
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 

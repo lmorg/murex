@@ -1,7 +1,3 @@
-// place your custom styles here
-// footer {
-//   background-color: black;
-// }
 h1, h2, h3, h4 {
     font-family: 'Jura', sans-serif;
     font-weight: 700;
@@ -14,7 +10,7 @@ h1 {
     text-shadow: none;
     //color: #707070;
     padding-left: 0px;
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 h2 {
@@ -74,6 +70,11 @@ blockquote {
 }
   
 @media (min-width: 420px) {
+    body {
+        letter-spacing: 0.5px;
+        font-size: 16px !important;
+    }
+
     blockquote {
         border-color: #885500 !important;
         color: #885500;
@@ -85,8 +86,12 @@ blockquote {
     }
 
     pre, code{
-        padding-top: 2px !important;
-        padding-bottom: 5px !important;
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
+    }
+
+    div[class*=language-].line-numbers-mode .line-number {
+        line-height: unset !important;
     }
 
     .line-numbers-mode  {
@@ -115,39 +120,3 @@ html[data-theme="dark"] ::marker {
 ::marker {
     color: #7070e5;
 }
-
-/*
-code {
-    background: inherit !important;
-    color: #063928;
-}
-
-html[data-theme="dark"] code {
-    background: inherit !important;
-    color: #eefff0;
-}
-
-a:hover code, a:link code, a:visited code {
-    color: inherit;
-}
-
-html[data-theme="dark"] a:hover code, html[data-theme="dark"] a:link code, html[data-theme="dark"] a:visited code {
-    color: inherit;
-}
-
-html[data-theme="dark"] code {
-    background: inherit !important;
-    color: #eefff0;
-}
-
-p code {
-    //background: #eefff0 !important;
-    background: inherit !important;
-    color: #063928;
-}
-
-html[data-theme="dark"] p code {
-    //background: #063928 !important;
-    background: inherit !important;
-    color: #eefff0;
-}*/

@@ -1,5 +1,5 @@
-//go:build opt_mail
-// +build opt_mail
+//go:build opt_pipe_mail
+// +build opt_pipe_mail
 
 package optional
 

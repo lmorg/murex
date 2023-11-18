@@ -206,9 +206,9 @@ func expAssignAdd(tree *ParserT) error {
 
 type assFnT func(float64, float64) float64
 
-func _assSub(lv float64, rv float64) float64  { return lv - rv }
-func _assMult(lv float64, rv float64) float64 { return lv * rv }
-func _assDiv(lv float64, rv float64) float64  { return lv / rv }
+func _assSub(lv float64, rv float64) float64   { return lv - rv }
+func _assMulti(lv float64, rv float64) float64 { return lv * rv }
+func _assDiv(lv float64, rv float64) float64   { return lv / rv }
 
 func expAssignAndOperate(tree *ParserT, operation assFnT) error {
 	leftNode, rightNode, err := tree.getLeftAndRightSymbols()

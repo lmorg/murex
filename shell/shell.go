@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"sync/atomic"
 	"time"
 
 	"github.com/lmorg/murex/app"
@@ -13,7 +14,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
@@ -23,7 +23,6 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -32,12 +31,10 @@ var (
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// PromptId is an custom defined ID for each prompt Goprocess so we don't
-	// accidentally end up with multiple prompts running
-	PromptId = new(counter.MutexCounter)
-
 	// Events is a callback for onPrompt events
 	Events func(string, []rune)
+
+	promptShown atomic.Bool
 )
 
 func callEvents(interrupt string, cmdLine []rune) {
@@ -52,7 +49,7 @@ func Start() {
 	if debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
-				tty.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
+				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
 				Start()
 			}
 		}()
@@ -80,41 +77,54 @@ func Start() {
 	definePromptHistory()
 	Prompt.AutocompleteHistory = autocompleteHistoryLine
 
-	SignalHandler(true)
-
-	v, err = lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
-	if err != nil {
-		v = 4
-	}
-	Prompt.MaxTabCompleterRows = v.(int)
-
 	pwd, _ := lang.ShellProcess.Config.Get("shell", "start-directory", types.String)
 	pwd = strings.TrimSpace(pwd.(string))
 	if pwd != "" {
 		err := cd.Chdir(lang.ShellProcess, pwd.(string))
 		if err != nil {
-			tty.Stderr.WriteString(err.Error())
+			os.Stderr.WriteString(err.Error())
 		}
 	}
 
-	ShowPrompt()
-
-	noQuit := make(chan int)
-	<-noQuit
+	go func() { lang.ShowPrompt <- true }()
+	for {
+		select {
+		case <-lang.ShowPrompt:
+			go showPrompt()
+		case <-lang.HidePrompt:
+			continue
+		}
+	}
 }
 
 // ShowPrompt display's the shell command line prompt
-func ShowPrompt() {
+func showPrompt() {
+	if promptShown.Swap(true) {
+		return
+	}
+
+	defer promptShown.Store(false)
+
 	if !lang.Interactive {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
+	SignalHandler(true)
+
+	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	if err != nil {
+		v = 4
+	}
+	Prompt.MaxTabCompleterRows = v.(int)
+
 	var (
-		thisProc = PromptId.Add()
-		nLines   = 1
-		merged   string
-		block    []rune
+		nLines = 1
+		merged string
+		block  []rune
 	)
+
+	Prompt.PreviewLine = CommandLine
+	Prompt.PreviewInit = lang.PreviewInit
 
 	Prompt.GetMultiLine = func(r []rune) []rune {
 		var multiLine []rune
@@ -145,10 +155,6 @@ func ShowPrompt() {
 		Prompt.DelayedSyntaxWorker = Spellchecker
 		Prompt.HistoryAutoWrite = false
 
-		if tty.Enabled() {
-			Prompt.ScreenRefresh = tty.BufferGet
-		}
-
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
@@ -165,10 +171,6 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 
-		if tty.MissingCrLf() {
-			tty.WriteCrLf()
-		}
-
 		Prompt.SetPrompt(string(prompt))
 
 		line, err := Prompt.Readline()
@@ -177,12 +179,12 @@ func ShowPrompt() {
 			case readline.CtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Fprintln(tty.Stdout, PromptSIGINT)
+				fmt.Fprintln(os.Stdout, PromptSIGINT)
 				callEvents("cancel", nil)
 				continue
 
 			case readline.EOF:
-				fmt.Fprintln(tty.Stdout, utils.NewLineString)
+				fmt.Fprintln(os.Stdout, utils.NewLineString)
 				callEvents("eof", nil)
 				lang.Exit(0)
 
@@ -207,7 +209,7 @@ func ShowPrompt() {
 		}
 
 		if string(expanded) != string(block) {
-			tty.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
+			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
 		}
 
 		pt, _ := parse(block)
@@ -251,7 +253,7 @@ func ShowPrompt() {
 
 			_, err = Prompt.History.Write(merged)
 			if err != nil {
-				fmt.Fprintf(tty.Stdout, ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
+				fmt.Fprintf(os.Stdout, ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
 			}
 
 			nLines = 1
@@ -259,24 +261,22 @@ func ShowPrompt() {
 
 			callEvents("after", block)
 
-			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-			fork.FileRef = ref.NewModule(app.ShellModule)
-			fork.Stderr = term.NewErr(ansi.IsAllowed())
-			fork.PromptId = thisProc
-			fork.CCEvent = lang.ShellProcess.CCEvent
-			fork.CCExists = lang.ShellProcess.CCExists
-			lang.ShellExitNum, err = fork.Execute(expanded)
-			if err != nil {
-				fmt.Fprintln(tty.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
-			}
+			go func() {
+				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+				fork.FileRef = ref.NewModule(app.ShellModule)
+				fork.Stderr = term.NewErr(ansi.IsAllowed())
+				fork.CCEvent = lang.ShellProcess.CCEvent
+				fork.CCExists = lang.ShellProcess.CCExists
+				lang.ShellExitNum, err = fork.Execute(expanded)
 
-			if tty.MissingCrLf() {
-				tty.WriteCrLf()
-			}
+				if err != nil {
+					fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+				}
 
-			if PromptId.NotEqual(thisProc) {
-				return
-			}
+				lang.ShowPrompt <- true
+			}()
+
+			return
 		}
 	}
 }
@@ -312,7 +312,7 @@ func getMacroVars(s string) ([]string, []string, error) {
 			if vars[i] != "" {
 				break
 			}
-			tty.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
+			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
 		assigned[match[i]] = true
 	}

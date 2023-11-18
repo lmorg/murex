@@ -1,7 +1,7 @@
 //go:build !plan9 && !windows && !js
 // +build !plan9,!windows,!js
 
-package preview
+package shell
 
 import (
 	"bytes"
@@ -26,8 +26,8 @@ func previewFile(filename string) []byte {
 }
 
 func manPage(exe string, size *readline.PreviewSizeT) []byte {
-	b, err:=man.GetManPage(exe, size.Width).ReadAll()
-	if err!=nil {
+	b, err := man.GetManPage(exe, size.Width).ReadAll()
+	if err != nil {
 		return []byte{}
 	}
 

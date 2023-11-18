@@ -1,4 +1,4 @@
-# %(Brace Quote)`
+# `%(Brace Quote)`
 
 > Initiates or terminates a string (variables expanded)
 

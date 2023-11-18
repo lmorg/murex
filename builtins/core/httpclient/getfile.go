@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"io"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/file"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/readline"
@@ -66,7 +66,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
 
-		tty.Stderr.WriteString(fmt.Sprintf(
+		os.Stderr.WriteString(fmt.Sprintf(
 			"%sDownloaded %s to %s\n",
 			"\x1b["+strconv.Itoa(readline.GetTermWidth()+2)+"D"+codes.ClearLine+codes.Reset,
 			humannumbers.Bytes(written),
@@ -155,5 +155,5 @@ func printGaugeBar(value, max float64, message string) {
 		}
 	}
 
-	tty.Stderr.WriteString(s + codes.Reset)
+	os.Stderr.WriteString(s + codes.Reset)
 }

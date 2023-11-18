@@ -1,10 +1,10 @@
-# `?:` Elvis Operator
+# `?:` Elvis Operator (expr)
 
 > Returns the right operand if the left operand is falsy
 
 ## Description
 
-The elvis operator is a little like a conditional where the result of the
+The Elvis Operator is a little like a conditional where the result of the
 operation is the first non-falsy value from left to right.
 
 A falsy value is any of the following:
@@ -55,18 +55,20 @@ where it says:
   Overview of the different schedulers (or 'run modes') in Murex
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+* [`??` Null Coalescing Operator (expr)](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
+* [`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`try`](../commands/try.md):
-  Handles errors inside a block of code
+  Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
-  Checks state of each function in a pipeline and exits block on error
+  Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [null](../commands/devnull.md):
@@ -74,4 +76,4 @@ where it says:
 
 <hr/>
 
-This document was generated from [gen/parser/elvis_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/elvis_op_doc.yaml).
+This document was generated from [gen/expr/elvis_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/elvis_op_doc.yaml).

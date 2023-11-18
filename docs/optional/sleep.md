@@ -41,4 +41,4 @@ or similar platforms then you will need to launch with the `exec` builtin:
 
 <hr/>
 
-This document was generated from [builtins/optional/time/time_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/time/time_doc.yaml).
+This document was generated from [builtins/optional/time/sleep_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/optional/time/sleep_doc.yaml).

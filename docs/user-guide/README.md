@@ -59,8 +59,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## Operators And Tokens
 
-* [%(Brace Quote)`](parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
 * [Array (`@`) Token](parser/array.md):
   Expand values as an array
 * [Tilde (`~`) Token](parser/tilde.md):
@@ -71,6 +69,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Initiates or terminates a string (variables expanded)
 * [`$variable`](parser/scalar.md):
   Expand values as a scalar
+* [`%(Brace Quote)`](parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
 * [`%[]` Create array](parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create object](parser/create-object.md):
@@ -81,8 +81,24 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
+* [`*=` Multiply By Operator (expr)](parser/multiply-by.md):
+  Multiplies a variable by the right hand value
+* [`*` Multiplication Operator (expr)](parser/multiplication.md):
+  Multiplies one numeric value with another
+* [`+=` Add With Operator (expr)](parser/add-with.md):
+  Adds the right hand value to a variable
+* [`+` Addition Operator (expr)](parser/addition.md):
+  Adds two numeric values together
+* [`-=` Subtract By Operator (expr)](parser/subtract-by.md):
+  Subtracts a variable by the right hand value
 * [`->` Arrow Pipe](parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [`-` Subtraction Operator (expr)](parser/subtraction.md):
+  Subtracts one numeric value from another
+* [`/=` Divide By Operator (expr)](parser/divide-by.md):
+  Divides a variable by the right hand value
+* [`/` Division Operator (expr)](parser/division.md):
+  Divides one numeric value from another
 * [`<read-named-pipe>`](parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](parser/pipe-generic.md):
@@ -93,9 +109,9 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
-* [`?:` Elvis Operator](parser/elvis.md):
+* [`?:` Elvis Operator (expr)](parser/elvis.md):
   Returns the right operand if the left operand is falsy
-* [`??` Null Coalescing Operator](parser/null-coalescing.md):
+* [`??` Null Coalescing Operator (expr)](parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined
 * [`?` STDERR Pipe](parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
@@ -105,6 +121,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Outputs an element from a nested structure
 * [`[index]`](parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[{lambda}]`](parser/lambda.md):
+  Iterate through structured data
 * [`{Curly Brace}`](parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|>` (truncate file)](parser/greater-than.md):
@@ -339,11 +357,17 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`true`](../commands/true.md):
   Returns a `true` value
 * [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
+* [`tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
 * [`type`](../commands/type.md):
   Command type (function, builtin, alias, etc)
+* [`unsafe`](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
 * [`version`](../commands/version.md):
   Get Murex version
 * [`which`](../commands/which.md):

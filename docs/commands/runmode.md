@@ -42,6 +42,10 @@ function hello {
 
 ### 1st parameter
 
+#### unsafe
+
+Always return a zero exit number.
+
 #### try
 
 Checks only the last command in the pipeline for errors. However still allows
@@ -51,6 +55,17 @@ commands in a pipeline to run in parallel.
 
 Checks every command in the pipeline before executing the next. However this
 blocks pipelines from running every command in parallel.
+
+#### tryerr
+
+Checks last command in the pipeline for errors (still allowing commands to run
+in parallel) plus also checks if STDERR contains excessive output.
+
+#### trypipeerr
+
+Checks every command in the pipeline before executing the next (blocking
+commands from running in parallel) plus also checks if STDERR contains
+excessive output.
 
 ### 2nd parameter
 
@@ -63,7 +78,7 @@ the start of the function. This includes privates, autocompletes, events, etc.
 
 Sets the runmode for all blocks within that module when placed at the start of
 the module. This include any functions, privates, autocompletes, events, etc
-that are inside that module. The do not need a separate `runmode ... function`
+that are inside that module. They do not need a separate `runmode ... function`
 if `runmode ... module` is set.
 
 ## See Also
@@ -89,9 +104,15 @@ if `runmode ... module` is set.
 * [`read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`try`](../commands/try.md):
+  Handles non-zero exits inside a block of code
+* [`tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
 * [`trypipe`](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
+* [`unsafe`](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
 
 <hr/>
 
