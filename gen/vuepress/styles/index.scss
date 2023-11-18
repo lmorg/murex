@@ -85,8 +85,9 @@ blockquote {
     }
 
     pre, code{
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        line-height: 10px;
     }
 
     .line-numbers-mode  {
