@@ -87,6 +87,7 @@ blockquote {
     pre, code{
         padding-top: 3px !important;
         padding-bottom: 3px !important;
+        font-size: unset !important;
     }
 
     div[class*=language-].line-numbers-mode .line-number {
