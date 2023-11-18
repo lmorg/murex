@@ -14,7 +14,7 @@ export default sidebar({
         { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
         "/contributing",
       ],
-      collapsible: false,
+      collapsible: true,
     },
     {
       text: "User Guide",
@@ -45,6 +45,13 @@ export default sidebar({
       collapsible: true,
     },
     {
+      text: "Variables",
+      icon: "dollar",
+      prefix: "variables/",
+      children: "structure",
+      collapsible: true,
+    },
+    {
       text: "Data Types",
       icon: "table",
       prefix: "types/",
@@ -55,13 +62,6 @@ export default sidebar({
       text: "Events",
       icon: "bolt",
       prefix: "events/",
-      children: "structure",
-      collapsible: true,
-    },
-    {
-      text: "Variables",
-      icon: "dollar",
-      prefix: "variables/",
       children: "structure",
       collapsible: true,
     },
