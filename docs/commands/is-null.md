@@ -55,8 +55,8 @@ if { is-null foobar } then {
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`??` Null Coalescing Operator (expr)](../parser/null-coalescing.md):
-  Returns the right operand if the left operand is empty / undefined
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined (expression)
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`global`](../commands/global.md):

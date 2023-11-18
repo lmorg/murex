@@ -1,9 +1,9 @@
 - DocumentID: elvis
   Title: >-
-    `?:` Elvis Operator (expr)
+    `?:` Elvis Operator
   CategoryID: parser
   Summary: >-
-    Returns the right operand if the left operand is falsy
+    Returns the right operand if the left operand is falsy (expression)
   Description: |-
     The Elvis Operator is a little like a conditional where the result of the
     operation is the first non-falsy value from left to right.

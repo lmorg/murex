@@ -1,9 +1,9 @@
 - DocumentID: add-with
   Title: >-
-    `+=` Add With Operator (expr)
+    `+=` Add With Operator
   CategoryID: parser
   Summary: >-
-    Adds the right hand value to a variable
+    Adds the right hand value to a variable (expression)
   Description: |-
     The Add With operator takes the value of the variable specified on the left
     side of the operator and adds it with the value on the right hand side. Then

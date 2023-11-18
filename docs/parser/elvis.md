@@ -1,6 +1,6 @@
-# `?:` Elvis Operator (expr)
+# `?:` Elvis Operator
 
-> Returns the right operand if the left operand is falsy
+> Returns the right operand if the left operand is falsy (expression)
 
 ## Description
 
@@ -55,8 +55,8 @@ where it says:
   Overview of the different schedulers (or 'run modes') in Murex
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`??` Null Coalescing Operator (expr)](../parser/null-coalescing.md):
-  Returns the right operand if the left operand is empty / undefined
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):

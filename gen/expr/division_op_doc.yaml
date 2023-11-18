@@ -1,9 +1,9 @@
 - DocumentID: division
   Title: >-
-    `/` Division Operator (expr)
+    `/` Division Operator
   CategoryID: parser
   Summary: >-
-    Divides one numeric value from another
+    Divides one numeric value from another (expression)
   Description: |-
     The Division Operator divides the left hand number by the right hand number in
     an expression.

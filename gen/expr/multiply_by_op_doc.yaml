@@ -1,9 +1,9 @@
 - DocumentID: multiply-by
   Title: >-
-    `*=` Multiply By Operator (expr)
+    `*=` Multiply By Operator
   CategoryID: parser
   Summary: >-
-    Multiplies a variable by the right hand value
+    Multiplies a variable by the right hand value (expression)
   Description: |-
     The Multiply By operator takes the value of the variable specified on the left
     side of the operator and multiplies it with the value on the right hand side

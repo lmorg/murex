@@ -1,9 +1,9 @@
 - DocumentID: null-coalescing
   Title: >-
-    `??` Null Coalescing Operator (expr)
+    `??` Null Coalescing Operator
   CategoryID: parser
   Summary: >-
-    Returns the right operand if the left operand is empty / undefined
+    Returns the right operand if the left operand is empty / undefined (expression)
   Description: |-
     The Null Coalescing operator is a little like a conditional where the result of the
     operation is the first non-empty value from left to right.

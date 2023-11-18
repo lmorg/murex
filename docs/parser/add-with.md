@@ -1,6 +1,6 @@
-# `+=` Add With Operator (expr)
+# `+=` Add With Operator
 
-> Adds the right hand value to a variable
+> Adds the right hand value to a variable (expression)
 
 ## Description
 
@@ -45,14 +45,14 @@ Please note that this behaviour might change in a later release of Murex.
 
 ## See Also
 
-* [`*=` Multiply By Operator (expr)](../parser/multiply-by.md):
-  Multiplies a variable by the right hand value
-* [`+` Addition Operator (expr)](../parser/addition.md):
-  Adds two numeric values together
-* [`-=` Subtract By Operator (expr)](../parser/subtract-by.md):
-  Subtracts a variable by the right hand value
-* [`/=` Divide By Operator (expr)](../parser/divide-by.md):
-  Divides a variable by the right hand value
+* [`*=` Multiply By Operator](../parser/multiply-by.md):
+  Multiplies a variable by the right hand value (expression)
+* [`+` Addition Operator](../parser/addition.md):
+  Adds two numeric values together (expression)
+* [`-=` Subtract By Operator](../parser/subtract-by.md):
+  Subtracts a variable by the right hand value (expression)
+* [`/=` Divide By Operator](../parser/divide-by.md):
+  Divides a variable by the right hand value (expression)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):

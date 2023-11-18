@@ -1,6 +1,6 @@
-# `-` Subtraction Operator (expr)
+# `-` Subtraction Operator
 
-> Subtracts one numeric value from another
+> Subtracts one numeric value from another (expression)
 
 ## Description
 
@@ -56,14 +56,14 @@ Error in `expr` (0,1): cannot Add with string types
 
 ## See Also
 
-* [`*` Multiplication Operator (expr)](../parser/multiplication.md):
-  Multiplies one numeric value with another
-* [`+` Addition Operator (expr)](../parser/addition.md):
-  Adds two numeric values together
-* [`-=` Subtract By Operator (expr)](../parser/subtract-by.md):
-  Subtracts a variable by the right hand value
-* [`/` Division Operator (expr)](../parser/division.md):
-  Divides one numeric value from another
+* [`*` Multiplication Operator](../parser/multiplication.md):
+  Multiplies one numeric value with another (expression)
+* [`+` Addition Operator](../parser/addition.md):
+  Adds two numeric values together (expression)
+* [`-=` Subtract By Operator](../parser/subtract-by.md):
+  Subtracts a variable by the right hand value (expression)
+* [`/` Division Operator](../parser/division.md):
+  Divides one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):

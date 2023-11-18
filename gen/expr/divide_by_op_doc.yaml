@@ -1,9 +1,9 @@
 - DocumentID: divide-by
   Title: >-
-    `/=` Divide By Operator (expr)
+    `/=` Divide By Operator
   CategoryID: parser
   Summary: >-
-    Divides a variable by the right hand value
+    Divides a variable by the right hand value (expression)
   Description: |-
     The Divide By operator takes the value of the variable specified on the left
     side of the operator and divides it by the value on the right hand side. Then
