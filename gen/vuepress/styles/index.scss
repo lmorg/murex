@@ -72,6 +72,7 @@ blockquote {
 @media (min-width: 420px) {
     body {
         letter-spacing: 0.5px;
+        font-size: 16px !important;
     }
 
     blockquote {
@@ -87,7 +88,6 @@ blockquote {
     pre, code{
         padding-top: 3px !important;
         padding-bottom: 3px !important;
-        font-size: unset !important;
     }
 
     div[class*=language-].line-numbers-mode .line-number {
