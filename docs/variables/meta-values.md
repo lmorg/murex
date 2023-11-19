@@ -27,7 +27,7 @@ iteration structure's documentation to check what information is exposed via
 ## Synonyms
 
 * `meta-values`
-* `.`
+* `$.`
 
 
 ## See Also

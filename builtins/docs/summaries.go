@@ -811,7 +811,7 @@ func init() {
 		"types/yaml":                      "types/yaml",
 		"types/mxjson":                    "types/mxjson",
 		"variables/meta-values":           "variables/meta-values",
-		"variables/.":                     "variables/meta-values",
+		"variables/$.":                    "variables/meta-values",
 		"variables/numeric":               "variables/numeric",
 		"variables/argv":                  "variables/argv",
 		"variables/ARGV":                  "variables/argv",

@@ -23,7 +23,7 @@
   Detail:
   Synonyms:
   - meta-values
-  - "."
+  - "$."
   Related:
   - lambda
   - foreach
