@@ -261,10 +261,10 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):

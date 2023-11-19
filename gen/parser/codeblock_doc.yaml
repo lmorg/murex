@@ -1,6 +1,6 @@
 - DocumentID: curly-brace
   Title: >-
-     `{Curly Brace}`
+     `{ Curly Brace }`
   CategoryID: parser
   Summary: >-
     Initiates or terminates a code block

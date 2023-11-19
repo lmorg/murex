@@ -1,6 +1,6 @@
 - DocumentID: range
   Title: >-
-    `[..range]`
+    `[ ..Range ]`
   CategoryID: parser
   Summary: >-
     Outputs a ranged subset of data from STDIN

@@ -1,6 +1,6 @@
 - DocumentID: element
   Title: >+
-    `[[ element ]]`
+    `[[ Element ]]`
   CategoryID: parser
   Summary: >-
     Outputs an element from a nested structure

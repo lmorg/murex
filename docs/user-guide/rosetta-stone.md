@@ -153,9 +153,9 @@ if you want to learn more about shell scripting in Murex.
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](../parser/element.md):
+* [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level

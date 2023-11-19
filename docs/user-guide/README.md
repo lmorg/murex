@@ -67,7 +67,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$variable`](parser/scalar.md):
+* [`$Variable`](parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -115,15 +115,15 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` STDERR Pipe](parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
-* [`[..range]`](parser/range.md):
+* [`[ ..Range ]`](parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](parser/item-index.md):
+* [`[ Index ]`](parser/item-index.md):
   Outputs an element from an array, map or table
-* [`[{lambda}]`](parser/lambda.md):
+* [`[[ Element ]]`](parser/element.md):
+  Outputs an element from a nested structure
+* [`[{ Lambda }]`](parser/lambda.md):
   Iterate through structured data
-* [`{Curly Brace}`](parser/curly-brace.md):
+* [`{ Curly Brace }`](parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|>` (truncate file)](parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists

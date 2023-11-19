@@ -1,4 +1,4 @@
-# `{Curly Brace}`
+# `{ Curly Brace }`
 
 > Initiates or terminates a code block
 

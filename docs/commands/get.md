@@ -74,10 +74,10 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ## See Also
 
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`getfile`](../commands/getfile.md):

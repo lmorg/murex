@@ -74,7 +74,7 @@ brace block might be JSON).
   Quickly generate arrays
 * [`%{}` Create object](../parser/create-object.md):
   Quickly generate objects and maps
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 
 <hr/>

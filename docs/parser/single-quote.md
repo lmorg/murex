@@ -50,7 +50,7 @@ bar
   Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 
 <hr/>

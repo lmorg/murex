@@ -1,4 +1,4 @@
-# `[index]`
+# `[ Index ]`
 
 > Outputs an element from an array, map or table
 
@@ -131,9 +131,9 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
 
 ## See Also
 
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](../parser/element.md):
+* [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

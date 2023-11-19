@@ -1,4 +1,4 @@
-# `[{lambda}]`
+# `[{ Lambda }]`
 
 > Iterate through structured data
 

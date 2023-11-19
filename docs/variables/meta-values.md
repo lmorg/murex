@@ -1,11 +1,11 @@
-# Meta Values, `.` (json)
+# Meta Values (json)
 
 > State information for iteration blocks
 
 ## Description
 
-Meta Values provides state information for blocks like `foreach`, `formap`,
-`while` and lambdas.
+Meta Values, `$.`, provides state information for blocks like `foreach`,
+`formap`, `while` and lambdas.
 
 Meta Values are a specific to the block, so you will need to refer to each
 iteration structure's documentation to check what information is exposed via
@@ -32,7 +32,7 @@ iteration structure's documentation to check what information is exposed via
 
 ## See Also
 
-* [`[{lambda}]`](../parser/lambda.md):
+* [`[{ Lambda }]`](../parser/lambda.md):
   Iterate through structured data
 * [`foreach`](../commands/foreach.md):
   Iterate through an array

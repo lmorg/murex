@@ -1,12 +1,12 @@
 - DocumentID: meta-values
   Title: >-
-    Meta Values, `.` (json)
+    Meta Values (json)
   CategoryID: variables
   Summary: >-
     State information for iteration blocks
   Description: |-
-    Meta Values provides state information for blocks like `foreach`, `formap`,
-    `while` and lambdas.
+    Meta Values, `$.`, provides state information for blocks like `foreach`,
+    `formap`, `while` and lambdas.
 
     Meta Values are a specific to the block, so you will need to refer to each
     iteration structure's documentation to check what information is exposed via
