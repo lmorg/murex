@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/core/io"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func TestExportFunctionPositive(t *testing.T) {
@@ -83,6 +84,37 @@ func TestExportFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		// unsupported prior to 5.3
+		{
+			Block:    "export: -=foobar",
+			Name:     "-",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foo-bar=foobar",
+			Name:     "foo-bar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    `export: foo\\-bar=foobar`,
+			Name:     `foo\-bar`,
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foobar =foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foobar = foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
 	}
 
 	unset := []string{
@@ -96,6 +128,10 @@ func TestExportFunctionPositive(t *testing.T) {
 		"f_bar",
 		"foo_bar",
 		"foobar",
+		// unsupported prior to 5.3
+		"-",
+		"foo-bar",
+		`foo\-bar`,
 	}
 
 	VariableTests(set, t)
@@ -201,30 +237,10 @@ func TestExportFunctionNegative(t *testing.T) {
 	lang.InitEnv()
 
 	tests := []Test{
-		/*{
+		{
 			Block:    "export: =foobar",
-			Fail:     true, // todo: this should error but doesnt
+			Fail:     true,
 			DataType: types.Null,
-		},*/
-		{
-			Block: "export: -=foobar",
-			Fail:  true,
-		},
-		{
-			Block: "export: foo-bar=foobar",
-			Fail:  true,
-		},
-		{
-			Block: "export: foo\\-bar=foobar",
-			Fail:  true,
-		},
-		{
-			Block: "export: foobar =foobar",
-			Fail:  true,
-		},
-		{
-			Block: "export: foobar = foobar",
-			Fail:  true,
 		},
 	}
 
