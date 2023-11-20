@@ -1,9 +1,9 @@
 - DocumentID: subtract-by
   Title: >-
-    `-=` Subtract By Operator (expr)
+    `-=` Subtract By Operator
   CategoryID: parser
   Summary: >-
-    Subtracts a variable by the right hand value
+    Subtracts a variable by the right hand value (expression)
   Description: |-
     The Subtract By operator takes the value of the variable specified on the left
     side of the operator and subtracts it by the value on the right hand side. Then

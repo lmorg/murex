@@ -194,7 +194,7 @@ prompt:
   Define a methods supported data-types
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

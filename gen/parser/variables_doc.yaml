@@ -1,6 +1,6 @@
 - DocumentID: scalar
   Title: >-
-    `$variable`
+    `$Variable`
   CategoryID: parser
   Summary: >-
     Expand values as a scalar

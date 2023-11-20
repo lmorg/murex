@@ -1,4 +1,4 @@
-# `[[ element ]]`
+# `[[ Element ]]`
 
 > Outputs an element from a nested structure
 
@@ -118,9 +118,9 @@ bool
 
 ## See Also
 
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

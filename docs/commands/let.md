@@ -403,10 +403,10 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`=` (arithmetic evaluation)](../parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):

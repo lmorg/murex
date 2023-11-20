@@ -1,6 +1,6 @@
 - DocumentID: pwd
   Title: >-
-    `PWD` (str)
+    `PWD` (path)
   CategoryID: variables
   Summary: >-
     Current working directory
@@ -16,6 +16,5 @@
   Related:
   - path
   - pwdhist
-  - string
   - export
   - cd

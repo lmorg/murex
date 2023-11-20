@@ -41,7 +41,7 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`PWD` (str)](../variables/pwd.md):
+* [`PWD` (path)](../variables/pwd.md):
   Current working directory
 * [`cd`](../commands/cd.md):
   Change (working) directory

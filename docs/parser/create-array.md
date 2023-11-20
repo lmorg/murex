@@ -1,4 +1,4 @@
-# `%[]` Create array
+# `%[]` Create Array
 
 > Quickly generate arrays
 
@@ -181,7 +181,7 @@ arrays. For more details on these please refer to the documents for each format
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%{}` Create object](../parser/create-object.md):
+* [`%{}` Create Map](../parser/create-object.md):
   Quickly generate objects and maps
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)

@@ -70,11 +70,11 @@ brace block might be JSON).
   Overview of the different schedulers (or 'run modes') in Murex
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create object](../parser/create-object.md):
+* [`%{}` Create Map](../parser/create-object.md):
   Quickly generate objects and maps
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 
 <hr/>

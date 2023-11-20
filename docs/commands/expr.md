@@ -23,14 +23,34 @@ expr expression -> <stdout>
 
 ## Examples
 
-**Order of operations:**
+**Expressions:**
 
 ```
-» 3 * (3 + 1)                                                                                                                                                                                                                         
+» 3 * (3 + 1)
 12
 ```
 
-(For more details see below)
+**Statements with inlined expressions:**
+
+Any parameter surrounded by parenthesis is first evaluated as an expression,
+then as a string.
+
+```
+» out (3 * 2)
+6
+```
+
+**Expressions with inlined statements:**
+
+Functions can be inlined as a statement using `function(parameters...)` syntax.
+
+```
+» datetime(--in {now} --out {unix}) / 60
+28339115.783333335
+```
+
+Please note that currently the only functions supported are ones who's names
+are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
 
 **JSON array:**
 
@@ -237,26 +257,30 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 ## See Also
 
-* [`*=` Multiply By Operator (expr)](../parser/multiply-by.md):
-  Multiplies a variable by the right hand value
-* [`*` Multiplication Operator (expr)](../parser/multiplication.md):
-  Multiplies one numeric value with another
-* [`+=` Add With Operator (expr)](../parser/add-with.md):
-  Adds the right hand value to a variable
-* [`+` Addition Operator (expr)](../parser/addition.md):
-  Adds two numeric values together
-* [`-=` Subtract By Operator (expr)](../parser/subtract-by.md):
-  Subtracts a variable by the right hand value
-* [`-` Subtraction Operator (expr)](../parser/subtraction.md):
-  Subtracts one numeric value from another
-* [`/=` Divide By Operator (expr)](../parser/divide-by.md):
-  Divides a variable by the right hand value
-* [`/` Division Operator (expr)](../parser/division.md):
-  Divides one numeric value from another
-* [`?:` Elvis Operator (expr)](../parser/elvis.md):
-  Returns the right operand if the left operand is falsy
-* [`??` Null Coalescing Operator (expr)](../parser/null-coalescing.md):
-  Returns the right operand if the left operand is empty / undefined
+* [`%[]` Create Array](../parser/create-array.md):
+  Quickly generate arrays
+* [`%{}` Create Map](../parser/create-object.md):
+  Quickly generate objects and maps
+* [`*=` Multiply By Operator](../parser/multiply-by.md):
+  Multiplies a variable by the right hand value (expression)
+* [`*` Multiplication Operator](../parser/multiplication.md):
+  Multiplies one numeric value with another (expression)
+* [`+=` Add With Operator](../parser/add-with.md):
+  Adds the right hand value to a variable (expression)
+* [`+` Addition Operator](../parser/addition.md):
+  Adds two numeric values together (expression)
+* [`-=` Subtract By Operator](../parser/subtract-by.md):
+  Subtracts a variable by the right hand value (expression)
+* [`-` Subtraction Operator](../parser/subtraction.md):
+  Subtracts one numeric value from another (expression)
+* [`/=` Divide By Operator](../parser/divide-by.md):
+  Divides a variable by the right hand value (expression)
+* [`/` Division Operator](../parser/division.md):
+  Divides one numeric value from another (expression)
+* [`?:` Elvis Operator](../parser/elvis.md):
+  Returns the right operand if the left operand is falsy (expression)
+* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
+  Returns the right operand if the left operand is empty / undefined (expression)
 
 <hr/>
 

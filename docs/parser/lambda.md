@@ -1,4 +1,4 @@
-# `[{lambda}]`
+# `[{ Lambda }]`
 
 > Iterate through structured data
 
@@ -181,9 +181,9 @@ The following meta values are defined:
 
 ## See Also
 
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create object](../parser/create-object.md):
+* [`%{}` Create Map](../parser/create-object.md):
   Quickly generate objects and maps
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input

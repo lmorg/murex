@@ -50,7 +50,7 @@ roles:
   
 * `ctrl`+`f`: fuzzy find in the suggestions
 
-* `f1`: enable / disable preview box. This will hide your terminal output while
+* `f1`: show / hide preview box. This will hide your terminal output while
   enabled. The preview box supports additional key bindings (see below)
 
 ### Fuzzy Find Autocomplete
@@ -94,7 +94,7 @@ While the fuzzy finder is open, the following keys are assigned roles:
   
 * `esc`: cancel search
 
-* `f1`: enable / disable preview box. This will hide your terminal output while
+* `f1`: show / hide preview box. This will hide your terminal output while
   enabled. The preview box supports additional key bindings (see below)
 
 ### Preview Box

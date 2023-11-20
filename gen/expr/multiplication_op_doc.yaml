@@ -1,9 +1,9 @@
 - DocumentID: multiplication
   Title: >-
-    `*` Multiplication Operator (expr)
+    `*` Multiplication Operator
   CategoryID: parser
   Summary: >-
-    Multiplies one numeric value with another
+    Multiplies one numeric value with another (expression)
   Description: |-
     The Multiplication Operator takes the left hand number and right hand values
     and multiplies them together in an expression.

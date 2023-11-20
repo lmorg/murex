@@ -1,9 +1,9 @@
 - DocumentID: addition
   Title: >-
-    `+` Addition Operator (expr)
+    `+` Addition Operator
   CategoryID: parser
   Summary: >-
-    Adds two numeric values together
+    Adds two numeric values together (expression)
   Description: |-
     The Addition Operator adds two numeric values together in an expression. Those
     values are placed either side of the addition operator.

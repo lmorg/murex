@@ -561,7 +561,7 @@ flags.
 
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):
   Create an alias for a command
