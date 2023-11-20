@@ -71,9 +71,9 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create array](parser/create-array.md):
+* [`%[]` Create Array](parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create object](parser/create-object.md):
+* [`%{}` Create Map](parser/create-object.md):
   Quickly generate objects and maps
 * [`&&` And Logical Operator](parser/logical-and.md):
   Continues next operation if previous operation passes
@@ -105,7 +105,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`=` (arithmetic evaluation)](parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`>>` (append file)](parser/greater-than-greater-than.md):
+* [`>>` Append File](parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
@@ -125,7 +125,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Iterate through structured data
 * [`{ Curly Brace }`](parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` (truncate file)](parser/greater-than.md):
+* [`|>` Truncate File](parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

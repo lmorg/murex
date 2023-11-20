@@ -777,6 +777,7 @@ func init() {
 		"parser/element":                  "parser/element",
 		"parser/lambda":                   "parser/lambda",
 		"parser/curly-brace":              "parser/curly-brace",
+		"parser/|>":                       "parser/greater-than",
 		"parser/>":                        "parser/greater-than",
 		"parser/fwrite":                   "parser/greater-than",
 		"parser/pipe-posix":               "parser/pipe-posix",
