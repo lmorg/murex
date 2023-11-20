@@ -255,10 +255,10 @@ func TestExportMethodNegative(t *testing.T) {
 			Block: "out: foobar -> export",
 			Fail:  true,
 		},
-		/*{ TODO@ this should fail
+		{
 			Block: "out: foobar -> export: =",
 			Fail:  true,
-		},*/
+		},
 		{
 			Block: "out: foobar -> export: -",
 			Fail:  true,
