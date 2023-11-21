@@ -20,6 +20,7 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
+	DynamicPreview   string             // `f1`` preview
 	IncFiles         bool               // `true` to include file name completion
 	FileRegexp       string             // Regexp match for files if IncFiles set
 	IncDirs          bool               // `true` to include directory navigation completion
@@ -143,6 +144,10 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	matchPartialFlags(f, partial, act)
 	matchDynamic(f, partial, args, act)
 
+	if f.DynamicPreview != "" {
+		act.PreviewBlock = f.DynamicPreview
+	}
+
 	if f.IncExeAll {
 		pathall := allExecutables(true)
 		act.append(matchExes(partial, pathall)...)
@@ -178,6 +183,7 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 
 	return len(act.Items)
 }
+
 func getFlagStructFromPath(flags []Flags, path []string) ([]Flags, int, error) {
 	if len(flags) == 0 {
 		return nil, 0, errors.New("empty []Flags struct found in autocomplete nest")
@@ -333,8 +339,6 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 					return 0
 				}
 
-				//b, _ := json.Marshal(f[i], true)
-				//tty.Stderr.WriteString(fmt.Sprintf("%d: %s", i, string(b)))
 				return matchFlags(f, i, partial, exe, params, pIndex, args, act)
 			}
 

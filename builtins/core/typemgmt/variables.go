@@ -9,7 +9,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -135,9 +134,9 @@ func cmdExport(p *lang.Process) error {
 		return err
 	}
 
-	if name == "PATH" {
-		autocomplete.UpdateGlobalExeList()
-	}
+	//if name == "PATH" {
+	//	autocomplete.UpdateGlobalExeList()
+	//}
 
 	return nil
 }
