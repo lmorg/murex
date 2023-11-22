@@ -7,6 +7,7 @@ murex.upx
 /docgen.exe
 bin/
 VERSION
+deleteme.db
 
 # WebAssembly 
 murex.wasm
