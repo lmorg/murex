@@ -28,11 +28,11 @@ This is where `fid-list` (or its alias `jobs`) comes into play. The builtin is u
 
 That includes:
 
-- any aliases within Murex
-- public and private Murex functions
-- builtins (eg fid-list is a builtin command)
-- any external processes that were launched from within this shell session
-- any background functions or processes of any of the above
+* any aliases within Murex
+* public and private Murex functions
+* builtins (eg `fid-list` is a builtin command)
+* any external processes that were launched from within this shell session
+* any background functions or processes of any of the above
 
 ```shell
 » jobs
@@ -40,6 +40,7 @@ PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
 5053  Stopped    true        exec     sleep 10000
+
 » fid-list
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
@@ -58,7 +59,7 @@ The builtin supports two modes:
 1. It can either be run as a marker which executes the function block in the background
 
 ```shell
->> bg { sleep 5; out "Morning" }
+» bg { sleep 5; out "Morning" }
 ```
 
 2. or it can daemonize stopped job and daemonize it.
@@ -69,6 +70,7 @@ PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
 4996  Executing  true        exec     sleep 10000
 5053  Stopped    true        exec     sleep 10000
+
 # Run PID 5053 in the background
 # Note that `bg` is context aware, hit TAB to visually select the id
 » bg 5053
@@ -83,6 +85,7 @@ Users can bring a background job to the foreground, making it the active task an
 » bg { sleep 10000; out "Task 1" }
 » bg { sleep 10000; out "Task 2" }
 » bg { sleep 10000; out "Task 3" }
+
 » jobs
 PID   State      Background  Process  Parameters
 4939  Executing  true        exec     sleep 10000
@@ -92,14 +95,13 @@ PID   State      Background  Process  Parameters
 # bring back one of them to the foreground, it will block on sleep
 # Note that `fg` is context aware, hit TAB to visually select the function id
 » fg 5053
-
 ```
 
 ### Suspension
 
 Users can suspend and pause the execution of a running job, which will temporarily halt its progress.
 
-From an interactive session, press `CTRL Z` to suspend the currently running job in the foreground.
+From an interactive session, press `ctrl`+`z` to suspend the currently running job in the foreground.
 
 ```shell
 » sleep 10000; out "Task 1"
@@ -115,19 +117,17 @@ PID   State      Background  Process  Parameters
 
 Last but not least, users have the option to terminate or halt an execution. This action can be carried out interactively or through built-in functions.
 
-When running an execution in the foreground from an interactive shell, simply press `CTRL C` to terminate the process. This method is straightforward and efficient.
+When running an execution in the foreground from an interactive shell, simply press `ctrl`+`c` to terminate the process. This method is straightforward and efficient.
 
-Alternatively, from a scripting perspective, there are two built-in functions that serve the same purpose: "fid-kill"
-
-
+Alternatively, from a scripting perspective, there are two built-in functions that serve the same purpose: `fid-kill`
 
 ```shell
 » bg { sleep 10000; out "Task 1" }
+
 » jobs
 PID   State      Background  Process  Parameters
 4944  Executing  true        exec     sleep 10000
-» kill 4944
-Task 1
-» 
-```
 
+» fid-kill 4944
+Task 1
+```

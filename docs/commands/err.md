@@ -57,7 +57,7 @@ a new Murex named pipe.
   Write a string to the STDOUT without new line (deprecated)
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../parser/greater-than-greater-than.md):
+* [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`bg`](../commands/bg.md):
   Run processes in the background
@@ -73,7 +73,7 @@ a new Murex named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`|>` (truncate file)](../parser/greater-than.md):
+* [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 
 <hr/>

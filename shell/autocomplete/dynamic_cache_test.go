@@ -10,7 +10,7 @@ import (
 func TestDynamicCache(t *testing.T) {
 	count.Tests(t, 5)
 
-	cache := NewDynamicCache()
+	dc := NewDynamicCache()
 
 	var (
 		exe      = "bob"
@@ -18,38 +18,38 @@ func TestDynamicCache(t *testing.T) {
 		block    = []rune("out: hello world")
 		stdout   = []byte("hello world")
 		dataType = "str"
-		hash     = cache.CreateHash(exe, params, block)
+		hash     = dc.CreateHash(exe, params, block)
 	)
 
-	cache.Set(hash, stdout, dataType, -1)
-	out, _ := cache.Get(hash)
+	dc.Set(hash, stdout, dataType, -1)
+	out, _ := dc.Get(hash)
 	if len(out) > 0 {
 		t.Errorf("out should be empty: '%s'", string(out))
 	}
 
-	cache.Set(hash, stdout, dataType, 10)
-	out, _ = cache.Get(hash)
+	dc.Set(hash, stdout, dataType, 10)
+	out, _ = dc.Get(hash)
 	if string(out) != string(stdout) {
 		t.Errorf("out doesn't match expected: '%s'", string(out))
 	}
 
-	cache.mutex.Lock()
-	cache.gcSleep = 0
-	cache.mutex.Unlock()
-	go cache.garbageCollection()
+	dc.mutex.Lock()
+	dc.gcSleep = 0
+	dc.mutex.Unlock()
+	go dc.garbageCollection()
 
 	time.Sleep(1 * time.Second)
-	cache.mutex.Lock()
-	if cache.hash[string(hash)].dataType != "str" {
+	dc.mutex.Lock()
+	if dc.hash[string(hash)].DataType != "str" {
 		t.Errorf("dataType should be set")
 	}
-	cache.mutex.Unlock()
+	dc.mutex.Unlock()
 
-	cache.Set(hash, stdout, dataType, -1)
+	dc.Set(hash, stdout, dataType, -1)
 	time.Sleep(1 * time.Second)
-	cache.mutex.Lock()
-	if cache.hash[string(hash)].dataType != "" {
+	dc.mutex.Lock()
+	if dc.hash[string(hash)].DataType != "" {
 		t.Errorf("dataType should be unset")
 	}
-	cache.mutex.Unlock()
+	dc.mutex.Unlock()
 }

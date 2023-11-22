@@ -257,9 +257,9 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 ## See Also
 
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create object](../parser/create-object.md):
+* [`%{}` Create Map](../parser/create-object.md):
   Quickly generate objects and maps
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)

@@ -1,10 +1,11 @@
 package autocomplete
 
 import (
-	"crypto/md5"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/lmorg/murex/utils/cache"
 )
 
 type dynamicCacheT struct {
@@ -15,8 +16,8 @@ type dynamicCacheT struct {
 
 type dynamicCacheItemT struct {
 	time     time.Time
-	stdout   []byte
-	dataType string
+	Stdout   []byte
+	DataType string
 }
 
 var dynamicCache = NewDynamicCache()
@@ -30,53 +31,43 @@ func NewDynamicCache() *dynamicCacheT {
 }
 
 func (dc *dynamicCacheT) CreateHash(exe string, args []string, block []rune) []byte {
-	h := md5.New()
-
-	_, err := h.Write([]byte(exe))
-	if err != nil {
-		return nil
-	}
-
-	s := strings.Join(args, " ")
-	_, err = h.Write([]byte(s))
-	if err != nil {
-		return nil
-	}
-
-	b := []byte(string(block))
-	_, err = h.Write(b)
-	if err != nil {
-		return nil
-	}
-
-	hash := h.Sum(nil)
-	return hash
+	s := exe + " " + strings.Join(args, " ")
+	return []byte(s)
 }
 
 func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
-	dc.mutex.Lock()
+	sHash := string(hash)
 
-	cache := dc.hash[string(hash)]
-	if cache.time.After(time.Now()) {
-		b, s := cache.stdout, cache.dataType
-		dc.mutex.Unlock()
-		return b, s
+	dc.mutex.Lock()
+	item := dc.hash[sHash]
+	dc.mutex.Unlock()
+
+	if item.time.After(time.Now()) {
+		return item.Stdout, item.DataType
 	}
 
-	dc.mutex.Unlock()
+	if cache.Read(cache.AUTOCOMPLETE_DYNAMIC, sHash, &item) {
+		return item.Stdout, item.DataType
+	}
+
 	return nil, ""
 }
 
 func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL int) {
-	dc.mutex.Lock()
-
-	dc.hash[string(hash)] = dynamicCacheItemT{
+	sHash := string(hash)
+	item := dynamicCacheItemT{
 		time:     time.Now().Add(time.Duration(TTL) * time.Second),
-		stdout:   stdout,
-		dataType: dataType,
+		Stdout:   stdout,
+		DataType: dataType,
 	}
 
+	dc.mutex.Lock()
+	dc.hash[sHash] = item
 	dc.mutex.Unlock()
+
+	if TTL >= 60*60*24 { // 1 day
+		cache.Write(cache.AUTOCOMPLETE_DYNAMIC, sHash, item, item.time)
+	}
 }
 
 func (dc *dynamicCacheT) garbageCollection() {

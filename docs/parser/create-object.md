@@ -1,4 +1,4 @@
-# `%{}` Create object
+# `%{}` Create Map
 
 > Quickly generate objects and maps
 
@@ -48,7 +48,7 @@ force numeric or boolean looking values to be stored as strings.
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
