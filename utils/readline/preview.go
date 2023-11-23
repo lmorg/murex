@@ -59,7 +59,7 @@ func getScrollBarPos(height, pos, max int) int {
 }
 
 func getPreviewWidth(width int) (preview, forward int) {
-	preview = width - 4 //3
+	preview = width - 3
 
 	forward = width - preview
 	forward -= 2
