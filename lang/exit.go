@@ -12,10 +12,9 @@ var (
 )
 
 func Exit(exitNum int) {
-	cachelib.CloseDb()
-
 	ProfCpuCleanUp()
 	ProfMemCleanUp()
 
+	cachelib.CloseDb()
 	os.Exit(exitNum)
 }

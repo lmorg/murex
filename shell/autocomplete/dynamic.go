@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/parser"
 )
@@ -72,7 +73,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			params = params[:len(params)-1]
 		}
 
-		cacheHash := dynamicCache.CreateHash(args.exe, params, block)
+		cacheHash := cache.CreateHash(args.exe, params, block)
 		cacheB, cacheDT := dynamicCache.Get(cacheHash)
 		stdout := streams.NewStdin()
 

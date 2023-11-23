@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/cache"
 )
 
 func TestDynamicCache(t *testing.T) {
@@ -18,7 +19,7 @@ func TestDynamicCache(t *testing.T) {
 		block    = []rune("out: hello world")
 		stdout   = []byte("hello world")
 		dataType = "str"
-		hash     = dc.CreateHash(exe, params, block)
+		hash     = cache.CreateHash(exe, params, block)
 	)
 
 	dc.Set(hash, stdout, dataType, -1)

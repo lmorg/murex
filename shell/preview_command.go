@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -63,25 +64,32 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 			get https://cheat.sh/$(COMMAND)?T -> [ Body ]
 		}`,
 	)
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-	fork.Name.Set("(f1)")
-	err = fork.Variables.Set(fork.Process, "COMMAND", command, types.String)
-	if err != nil {
-		s, _, err := previewError(err, size)
-		callback(append(lines, s...), 0, err)
-		return
-	}
-	_, err = fork.Execute(block)
-	if err != nil {
-		s, _, err := previewError(err, size)
-		callback(append(lines, s...), 0, err)
-		return
-	}
-	b, err = fork.Stdout.ReadAll()
-	if err != nil {
-		s, _, err := previewError(err, size)
-		callback(append(lines, s...), 0, err)
-		return
+
+	hash := cache.CreateHash(command, nil, block)
+	if !cache.Read(cache.PREVIEW_COMMAND, hash, &b) {
+
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork.Name.Set("(f1)")
+		err = fork.Variables.Set(fork.Process, "COMMAND", command, types.String)
+		if err != nil {
+			s, _, err := previewError(err, size)
+			callback(append(lines, s...), 0, err)
+			return
+		}
+		_, err = fork.Execute(block)
+		if err != nil {
+			s, _, err := previewError(err, size)
+			callback(append(lines, s...), 0, err)
+			return
+		}
+		b, err = fork.Stdout.ReadAll()
+		if err != nil {
+			s, _, err := previewError(err, size)
+			callback(append(lines, s...), 0, err)
+			return
+		}
+
+		cache.Write(cache.PREVIEW_COMMAND, hash, b, cache.Days(30))
 	}
 
 	s, _, err := previewParse(append(msgCheatSheet, b...), size)

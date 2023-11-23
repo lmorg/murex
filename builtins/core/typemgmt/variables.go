@@ -134,10 +134,6 @@ func cmdExport(p *lang.Process) error {
 		return err
 	}
 
-	//if name == "PATH" {
-	//	autocomplete.UpdateGlobalExeList()
-	//}
-
 	return nil
 }
 

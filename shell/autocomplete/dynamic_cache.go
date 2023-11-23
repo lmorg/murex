@@ -1,7 +1,6 @@
 package autocomplete
 
 import (
-	"strings"
 	"sync"
 	"time"
 
@@ -30,31 +29,23 @@ func NewDynamicCache() *dynamicCacheT {
 	return dc
 }
 
-func (dc *dynamicCacheT) CreateHash(exe string, args []string, block []rune) []byte {
-	s := exe + " " + strings.Join(args, " ")
-	return []byte(s)
-}
-
-func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
-	sHash := string(hash)
-
+func (dc *dynamicCacheT) Get(hash string) ([]byte, string) {
 	dc.mutex.Lock()
-	item := dc.hash[sHash]
+	item := dc.hash[hash]
 	dc.mutex.Unlock()
 
 	if item.time.After(time.Now()) {
 		return item.Stdout, item.DataType
 	}
 
-	if cache.Read(cache.AUTOCOMPLETE_DYNAMIC, sHash, &item) {
+	if cache.Read(cache.AUTOCOMPLETE_DYNAMIC, hash, &item) {
 		return item.Stdout, item.DataType
 	}
 
 	return nil, ""
 }
 
-func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL int) {
-	sHash := string(hash)
+func (dc *dynamicCacheT) Set(hash string, stdout []byte, dataType string, TTL int) {
 	item := dynamicCacheItemT{
 		time:     time.Now().Add(time.Duration(TTL) * time.Second),
 		Stdout:   stdout,
@@ -62,11 +53,11 @@ func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL in
 	}
 
 	dc.mutex.Lock()
-	dc.hash[sHash] = item
+	dc.hash[hash] = item
 	dc.mutex.Unlock()
 
 	if TTL >= 60*60*24 { // 1 day
-		cache.Write(cache.AUTOCOMPLETE_DYNAMIC, sHash, item, item.time)
+		cache.Write(cache.AUTOCOMPLETE_DYNAMIC, hash, item, item.time)
 	}
 }
 

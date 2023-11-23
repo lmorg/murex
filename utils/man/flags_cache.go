@@ -3,7 +3,11 @@
 
 package man
 
-import "sync"
+import (
+	"sync"
+
+	"github.com/lmorg/murex/utils/cache"
+)
 
 type flagsCacheT struct {
 	mutex sync.Mutex
@@ -28,6 +32,12 @@ func (fc *flagsCacheT) Get(cmd string) *flagsT {
 	if ok {
 		return flags
 	}
+
+	ok = cache.Read(cache.MAN_FLAGS, cmd, flags)
+	if ok {
+		return flags
+	}
+
 	return nil
 }
 
@@ -36,9 +46,12 @@ func (fc *flagsCacheT) Set(cmd string, flags []string, descriptions map[string]s
 		Flags:        flags,
 		Descriptions: descriptions,
 	}
+
 	fc.mutex.Lock()
 	fc.flags[cmd] = f
 	fc.mutex.Unlock()
+
+	cache.Write(cache.MAN_FLAGS, cmd, *f, cacheTtl())
 }
 
 var Flags = NewFlagsCache()

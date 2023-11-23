@@ -5,7 +5,6 @@ package man
 
 import (
 	"sync"
-	"time"
 
 	"github.com/lmorg/murex/utils/cache"
 )
@@ -13,8 +12,7 @@ import (
 var SummaryCache = NewSummaryCache()
 
 type summaryCacheT struct {
-	mutex sync.Mutex
-	//mutex   debug.BadMutex
+	mutex   sync.Mutex
 	summary map[string]string
 }
 
@@ -39,6 +37,7 @@ func (sc *summaryCacheT) Get(path string) string {
 func (sc *summaryCacheT) Set(path, summary string) {
 	sc.mutex.Lock()
 	sc.summary[path] = summary
-	cache.Write(cache.MAN_SUMMARY, path, summary, time.Now().Add(time.Hour*24*31))
 	sc.mutex.Unlock()
+
+	cache.Write(cache.MAN_SUMMARY, path, summary, cacheTtl())
 }
