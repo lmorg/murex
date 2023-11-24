@@ -33,6 +33,7 @@ func (fc *flagsCacheT) Get(cmd string) *flagsT {
 		return flags
 	}
 
+	flags = new(flagsT)
 	ok = cache.Read(cache.MAN_FLAGS, cmd, flags)
 	if ok {
 		return flags

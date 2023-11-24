@@ -46,10 +46,12 @@ func CreateTable(namespace string) {
 }
 
 func dbFailed(message string, err error) {
-	os.Stderr.WriteString(fmt.Sprintf(
-		"Error %s: %s: '%s'\n!!! Disabling persistent cache !!!", message, err.Error(), dbPath,
-	))
-	disabled = true
+	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n", message, err.Error(), dbPath))
+
+	if os.Getenv("MUREX_DEV") != "true" {
+		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+		disabled = true
+	}
 }
 
 func CloseDb() {
@@ -57,7 +59,7 @@ func CloseDb() {
 }
 
 func Read(namespace string, key string, ptr any) bool {
-	if disabled {
+	if disabled || ptr == nil {
 		return false
 	}
 
@@ -85,6 +87,10 @@ func Read(namespace string, key string, ptr any) bool {
 		return false
 	}
 
+	if len(s) == 0 { // nothing returned
+		return false
+	}
+
 	if err = json.Unmarshal([]byte(s), ptr); err != nil {
 		dbFailed("unmarshalling cache in "+namespace, err)
 		return false
@@ -94,7 +100,7 @@ func Read(namespace string, key string, ptr any) bool {
 }
 
 func Write(namespace string, key string, value any, ttl time.Time) {
-	if disabled {
+	if disabled || value == nil {
 		return
 	}
 
