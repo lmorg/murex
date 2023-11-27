@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
@@ -59,6 +60,7 @@ func Start() {
 
 	globalcache.SetPath(profile.ModulePath() + "cache.db")
 	globalcache.InitCache()
+	whatsnew.Display()
 
 	lang.ShellProcess.StartTime = time.Now()
 
