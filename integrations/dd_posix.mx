@@ -1,19 +1,19 @@
-autocomplete set dd { [
+autocomplete set dd %[
     {
-        "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
-        "FlagValues": {
-            "if": [{ 
-                "IncFiles": true
-            }],
-            "of": [{ 
-                "IncFiles": true
-            }],
+        Flags: [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+        FlagValues: {
+            "if": [{
+                IncFiles: true
+            }]
+            "of": [{
+                IncFiles: true
+            }]
             "*": [{
-                "AllowAny": true
+                AllowAny: true
             }]
         }
     },
     {
-        "Goto": "/0"
+        Goto: "/0"
     }
-] }
+]
