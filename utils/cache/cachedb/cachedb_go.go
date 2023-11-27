@@ -8,7 +8,7 @@
 	the C driver for sqlite.
 */
 
-package cachelib
+package cachedb
 
 import (
 	_ "modernc.org/sqlite"

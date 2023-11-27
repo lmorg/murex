@@ -3,7 +3,7 @@ package lang
 import (
 	"os"
 
-	"github.com/lmorg/murex/utils/cache/cachelib"
+	"github.com/lmorg/murex/utils/cache"
 )
 
 var (
@@ -15,6 +15,6 @@ func Exit(exitNum int) {
 	ProfCpuCleanUp()
 	ProfMemCleanUp()
 
-	cachelib.CloseDb()
+	cache.CloseDb()
 	os.Exit(exitNum)
 }

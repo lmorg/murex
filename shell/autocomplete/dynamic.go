@@ -74,10 +74,19 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		}
 
 		cacheHash := cache.CreateHash(args.exe, params, block)
-		cacheB, cacheDT := dynamicCache.Get(cacheHash)
-		stdout := streams.NewStdin()
+		dc := new(dynamicCacheItemT)
+		ok := cache.Read(cache.AUTOCOMPLETE_DYNAMIC, cacheHash, dc)
+		var stdout stdio.Io
 
-		if len(cacheB) == 0 {
+		if ok {
+			stdout = streams.NewStdin()
+			stdout.SetDataType(dc.DataType)
+			_, err := stdout.Write(dc.Stdout)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete cache error: " + err.Error()))
+			}
+		} else {
+
 			// Run the commandline if ExecCmdline flag set AND commandline considered safe
 			var fStdin int
 			cmdlineStdout := streams.NewStdin()
@@ -97,7 +106,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			tee, stdout = streams.NewTee(stdin)
 
 			// Execute the dynamic code block
-			fork = lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+			fork = lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_NO_STDERR)
 			fork.Name.Set(args.exe)
 			fork.Parameters.DefineParsed(params)
 			fork.FileRef = ExesFlagsFileRef[args.exe]
@@ -116,18 +125,13 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
 			}
 
-			b, err := tee.ReadAll()
+			dc.DataType = tee.GetDataType()
+			dc.Stdout, err = tee.ReadAll()
 			if err != nil {
 				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete cache error: " + err.Error()))
 			}
-			dynamicCache.Set(cacheHash, b, tee.GetDataType(), ExesFlags[args.exe][0].CacheTTL)
-
-		} else {
-			stdout.SetDataType(cacheDT)
-			_, err := stdout.Write(cacheB)
-			if err != nil {
-				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete cache error: " + err.Error()))
-			}
+			ttl := cache.Seconds(ExesFlags[args.exe][0].CacheTTL)
+			cache.Write(cache.AUTOCOMPLETE_DYNAMIC, cacheHash, dc, ttl)
 		}
 
 		select {

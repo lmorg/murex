@@ -10,7 +10,7 @@
 	compiled against this C library instead.
 */
 
-package cachelib
+package cachedb
 
 import (
 	_ "github.com/mattn/go-sqlite3"

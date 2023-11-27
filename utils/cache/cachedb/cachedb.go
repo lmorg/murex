@@ -1,4 +1,4 @@
-package cachelib
+package cachedb
 
 import (
 	"database/sql"
@@ -17,28 +17,35 @@ const (
 )
 
 var (
-	disabled bool
-	dbPath   string  = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
-	db       *sql.DB = dbConnect()
+	disabled bool   = true
+	Path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
+	db       *sql.DB
 )
 
-func init() {
-	if os.Getenv("MUREX_DEV") == "true" {
-		fmt.Printf("cache DB: %s\n", dbPath)
-	}
-}
-
 func dbConnect() *sql.DB {
-	db, err := sql.Open(driverName, "file:"+dbPath)
+	if os.Getenv("MUREX_DEV") == "true" {
+		fmt.Printf("cache DB: %s\n", Path)
+	}
+
+	db, err := sql.Open(driverName, "file:"+Path)
 	if err != nil {
 		dbFailed("opening cache database", err)
 		return nil
 	}
 
+	disabled = false
 	return db
 }
 
 func CreateTable(namespace string) {
+	if db == nil {
+		db = dbConnect()
+	}
+
+	if disabled {
+		return
+	}
+
 	_, err := db.Exec(fmt.Sprintf(sqlCreateTable, namespace))
 	if err != nil {
 		dbFailed("creating table "+namespace, err)
@@ -46,7 +53,7 @@ func CreateTable(namespace string) {
 }
 
 func dbFailed(message string, err error) {
-	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n", message, err.Error(), dbPath))
+	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n", message, err.Error(), Path))
 
 	if os.Getenv("MUREX_DEV") != "true" {
 		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
@@ -55,15 +62,15 @@ func dbFailed(message string, err error) {
 }
 
 func CloseDb() {
-	_ = db.Close()
+	if db != nil {
+		_ = db.Close()
+	}
 }
 
 func Read(namespace string, key string, ptr any) bool {
 	if disabled || ptr == nil {
 		return false
 	}
-
-	var s string
 
 	rows, err := db.Query(fmt.Sprintf(sqlRead, namespace), key)
 	if err != nil {
@@ -76,6 +83,7 @@ func Read(namespace string, key string, ptr any) bool {
 		return false
 	}
 
+	var s string
 	err = rows.Scan(&s)
 	if err != nil {
 		dbFailed("reading cache in "+namespace, err)
@@ -91,7 +99,7 @@ func Read(namespace string, key string, ptr any) bool {
 		return false
 	}
 
-	if err = json.Unmarshal([]byte(s), ptr); err != nil {
+	if err := json.Unmarshal([]byte(s), ptr); err != nil {
 		dbFailed("unmarshalling cache in "+namespace, err)
 		return false
 	}
