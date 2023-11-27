@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/lmorg/murex/debug"
 )
 
 const (
@@ -23,7 +25,7 @@ var (
 )
 
 func dbConnect() *sql.DB {
-	if os.Getenv("MUREX_DEV") == "true" {
+	if debug.Enabled {
 		fmt.Printf("cache DB: %s\n", Path)
 	}
 
