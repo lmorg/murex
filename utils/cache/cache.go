@@ -13,6 +13,7 @@ import (
 func initCache(namespace string) {
 	cache[namespace] = new(localCacheT)
 	cache[namespace].cache = make(map[string]*cacheItemT)
+	disabled = false
 	createDb(namespace)
 }
 

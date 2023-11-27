@@ -7,7 +7,10 @@ import (
 	"unsafe"
 )
 
-var cache = make(map[string]*localCacheT)
+var (
+	cache    = make(map[string]*localCacheT)
+	disabled = true // avoid the cache for unit tests
+)
 
 type localCacheT struct {
 	mutex sync.Mutex
@@ -20,6 +23,10 @@ type cacheItemT struct {
 }
 
 func (lc *localCacheT) Read(key string, ptr unsafe.Pointer) bool {
+	if disabled {
+		return false
+	}
+
 	lc.mutex.Lock()
 	v, ok := lc.cache[key]
 	lc.mutex.Unlock()
@@ -37,6 +44,10 @@ func (lc *localCacheT) Read(key string, ptr unsafe.Pointer) bool {
 }
 
 func (lc *localCacheT) Write(key string, value *[]byte, ttl time.Time) {
+	if disabled {
+		return
+	}
+
 	lc.mutex.Lock()
 	lc.cache[key] = &cacheItemT{value, ttl}
 	lc.mutex.Unlock()
