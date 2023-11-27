@@ -51,6 +51,7 @@ define an autocomplete schema manually. **zls** stands for zero-length string
 - ["CacheTTL": int (5)](#cachettl-int-5)
 - ["Dynamic": string (zls)](#dynamic-string-zls)
 - ["DynamicDesc": string (zls)](#dynamicdesc-string-zls)
+- ["DynamicPreview": string (zls)](#dynamicpreview-string-zls)
 - ["ExecCmdline": boolean (false)](#execcmdline-boolean-false)
 - ["FileRegexp": string (zls)](#fileregexp-string-zls)
 - ["FlagValues": map of arrays (null)](#flagvalues-map-of-arrays-null)
@@ -101,10 +102,10 @@ in this index. For example the following will suggest directories on each tab
 for multiple parameters:
 
 ```
-autocomplete set example { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
+autocomplete set example %[{
+    IncDirs: true
+    AllowMultiple: true
+}]
 ```
 
 ### "AnyValue": boolean (false)
@@ -146,18 +147,18 @@ This directive needs to live in the very first definition and affects all
 autocompletes within the rest of the command. For example
 
 ```
-autocomplete set foobar { [
+autocomplete set foobar %[
     {
-        "Flags": [ "--foo", "--bar" ],
-        "CacheTTL": 60
-    },
-    {
-        "Dynamic": ({
-            a: [Monday..Friday]
-            sleep: 3
-        })
+        Flags: [ --foo, --bar ]
+        CacheTTL: 60
     }
-] }
+    {
+        Dynamic: '{
+            a [Monday..Friday]
+            sleep 3
+        }'
+    }
+]
 ```
 
 Here the days of the week take 3 seconds to show up as autocompletion
@@ -232,6 +233,12 @@ autocompletion suggestion, with the value being the description. For example:
 }
 ```
 
+### "DynamicPreview": string (zls)
+
+The **DynamicPreview** directive is used to populate the `[f1]` preview screen.
+
+STDOUT and STDERR are passed directly to the preview frame.
+
 ### "ExecCmdline": boolean (false)
 
 Sometimes you'd want your autocomplete suggestions to aware of the output
@@ -275,11 +282,11 @@ Remember that **ExecCmdline** is designed to be included with either
 from STDIN:
 
 ```
-autocomplete set "[" { [{
-    "AnyValue": true,
-    "AllowMultiple": true,
-    "ExecCmdline": true,
-    "Dynamic": ({
+autocomplete set "[" %[{
+    AnyValue: true
+    AllowMultiple: true
+    ExecCmdline: true
+    Dynamic: '{
         switch ${ get-type stdin } {
             case * {
                 <stdin> -> [ 0: ] -> format json -> [ 0 ]
@@ -289,8 +296,8 @@ autocomplete set "[" { [{
                 <stdin> -> formap k v { out $k } -> cast str -> append "]"
             }
         }
-    })
-}] }
+    }'
+}]
 ```
 
 ### "FileRegexp": string (zls)
@@ -300,10 +307,10 @@ files which match the regexp string. eg to only show ".txt" extensions you can
 use the following:
 
 ```
-autocomplete set notepad.exe { [{
-    "IncFiles": true,
-    "FileRegexp": (\.txt)
-}] }
+autocomplete set notepad.exe %[{
+    IncFiles: true
+    FileRegexp: (\.txt)
+}]
 ```
 
 > Please note that you may need to double escape any regexp strings: escaping
@@ -323,17 +330,17 @@ multiple parameters.
 **FlagValues** takes a map of arrays, eg
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
-        }],
-        "delete": [{
-            "Flags": [ "bar" ]
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
+        }]
+        delete: [{
+            Flags: [ bar ]
         }]
     }
-}] }
+}]
 ```
 
 ...will provide "foo" as a suggestion to `example add`, and "bar" as a
@@ -345,20 +352,20 @@ You can set default properties to all matched flags by using `*` as a
 **FlagValues** value. To expand the above example...
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
-        }],
-        "delete": [{
-            "Flags": [ "bar" ]
-        }],
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
+        }]
+        delete: [{
+            Flags: [ bar ]
+        }]
         "*": [{
-            "IncFiles"
+            IncFiles
         }]
     }
-}] }
+}]
 ```
 
 ...in this code we are saying not only does "add" support "foo" and "delete"
@@ -372,20 +379,20 @@ If you wanted a default which applied to all **FlagValues**, even when the flag
 wasn't matched, then you can use a zero length string (""). For example
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
         }],
-        "delete": [{
-            "Flags": [ "bar" ]
+        delete: [{
+            Flags: [ bar ]
         }],
         "": [{
-            "IncFiles"
+            IncFiles: true
         }]
     }
-}] }
+}]
 ```
 
 ### "Flags": array of strings (auto-populated from man pages)
@@ -394,9 +401,9 @@ Setting **Flags** is the fastest and easiest way to populate suggestions
 because it is just an array of strings. eg
 
 ```
-autocomplete set example { [{
-    "Flags": [ "foo", "bar" ]
-}] }
+autocomplete set example %[{
+    Flags: [ foo, bar ]
+}]
 ```
 
 If a command doesn't **Flags** already defined when you request a completion
@@ -441,25 +448,25 @@ of that autocomplete definition. The path should look something like:
 An example of a really simple **Goto**:
 
 ```
-autocomplete set dd { [
+autocomplete set dd %[
     {
-        "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
-        "FlagValues": {
+        Flags: [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+        FlagValues: {
             "if": [{
-                "IncFiles": true
-            }],
+                IncFiles: true
+            }]
             "of": [{
-                "IncFiles": true
-            }],
+                IncFiles: true
+            }]
             "*": [{
-                "AllowAny": true
+                AllowAny: true
             }]
         }
     },
     {
-        "Goto": "/0"
+        Goto: "/0"
     }
-] }
+]
 ```
 
 **Goto** is given precedence over any other directive. So ensure it's the only
@@ -478,7 +485,7 @@ in purpose to **NestedCommand** except where **NestedCommand** will dynamically
 select the command name, **ImportCompletion** hardcodes it. For example:
 
 ```
-autocomplete: set murex-package %[{
+autocomplete set murex-package %[{
     FlagsDesc: {
         # ...cropped out...
         git: "Run `git` against a package"

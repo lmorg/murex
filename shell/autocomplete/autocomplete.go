@@ -27,6 +27,7 @@ type AutoCompleteT struct {
 	DoNotSort         bool
 	DoNotEscape       bool
 	TimeOut           time.Time
+	PreviewBlock      string
 }
 
 func (act *AutoCompleteT) append(items ...string) {

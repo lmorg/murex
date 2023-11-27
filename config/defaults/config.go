@@ -123,7 +123,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
 		Description: "Run the command hint summary pre-cache",
-		Default:     "on-tab",
+		Default:     "on-start",
 		Options:     []string{"on-start", "on-tab", "false"},
 		DataType:    types.String,
 		Global:      true,

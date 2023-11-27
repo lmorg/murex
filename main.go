@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
@@ -157,6 +156,5 @@ func startMurex() {
 	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
-	whatsnew.Display()
 	shell.Start()
 }
