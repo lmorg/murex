@@ -16,7 +16,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -24,11 +23,6 @@ const (
 	interactive    bool = true
 	nonInteractive bool = false
 )
-
-func init() {
-	cache.SetPath(profile.ModulePath() + "cache.db")
-	cache.InitCache()
-}
 
 func main() {
 	readFlags()
