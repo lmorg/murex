@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/which"
@@ -16,12 +17,12 @@ var (
 )
 
 func Get(cmd string, checkManPage bool) (r []rune) {
-	summary := Cache.Get(cmd)
-	if summary != "" {
-		return []rune(summary)
+	var summary string
+	if cache.Read(cache.HINT_SUMMARY, cmd, &summary) {
+		return r
 	}
 
-	defer func() { Cache.Set(cmd, r) }()
+	defer func() { cache.Write(cache.HINT_SUMMARY, cmd, string(r), cache.Days(30)) }()
 
 	custom := Summary.Get(cmd)
 	if custom != "" {

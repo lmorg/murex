@@ -77,7 +77,6 @@
     » runtime --help
     [
         "--aliases",
-        "--astcache",
         "--config",
         "--debug",
         "--events",
@@ -195,8 +194,6 @@
       generated one
     --memstats: >-
       Outputs the running state of Go's runtime
-    --astcache: >-
-      Lists some data about cached ASTs 
     --tests: >-
       Lists defined tests
     --test-results: >-

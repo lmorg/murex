@@ -51,7 +51,7 @@ func GetManPages(exe string) []string {
 	}
 
 	paths = strings.Split(s, ":")
-	cache.Write(cache.MAN_FLAGS, exe, paths, cache.Days(30))
+	cache.Write(cache.MAN_PATHS, exe, paths, cache.Days(30))
 	return paths
 }
 

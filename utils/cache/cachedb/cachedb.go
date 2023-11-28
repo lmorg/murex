@@ -102,7 +102,7 @@ func Read(namespace string, key string, ptr any) bool {
 	}
 
 	if err := json.Unmarshal([]byte(s), ptr); err != nil {
-		dbFailed("unmarshalling cache in "+namespace, err)
+		dbFailed(fmt.Sprintf("unmarshalling cache in %s: %T (%s)", namespace, ptr, s), err)
 		return false
 	}
 
@@ -116,7 +116,7 @@ func Write(namespace string, key string, value any, ttl time.Time) {
 
 	b, err := json.Marshal(value)
 	if err != nil {
-		dbFailed("marshalling cache in "+namespace, err)
+		dbFailed(fmt.Sprintf("marshalling cache in %s: %T (%v)", namespace, value, value), err)
 		return
 	}
 

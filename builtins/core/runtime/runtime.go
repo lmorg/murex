@@ -55,7 +55,6 @@ const (
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
 	fCachedFilePaths    = "--cached-file-paths"
-	fCachedHints        = "--cached-hints"
 	fHelp               = "--help"
 )
 
@@ -92,7 +91,6 @@ var flags = map[string]string{
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
 	fCachedFilePaths:    types.Boolean,
-	fCachedHints:        types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -214,8 +212,6 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fSummaries[2:]] = hintsummary.Summary.Dump()
 		case fCachedFilePaths:
 			ret[fCachedFilePaths[2:]] = cdcache.DumpCompletions()
-		case fCachedHints:
-			ret[fCachedHints[2:]] = hintsummary.Cache.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:
