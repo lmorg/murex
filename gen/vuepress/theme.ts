@@ -15,7 +15,7 @@ export default hopeTheme({
   fullscreen: false,
 
   //iconAssets: "fontawesome-with-brands",
-  iconAssets: "/fontawesome/css/brands.css",
+  iconAssets: "public/fontawesome/css/brands.css",
 
   logo: "/murex.svg",
 

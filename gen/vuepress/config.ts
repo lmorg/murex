@@ -35,14 +35,6 @@ const config = {
     [
       "link",
       {
-        href: "/fontawesome/css/brands.css",
-        rel: "stylesheet",
-      },
-    ],
-
-    [
-      "link",
-      {
         href: "/favicon.ico?v="+commitHash,
         rel: "icon",
         type: "image/png",

@@ -77,11 +77,13 @@ jobs:
       - name: Download fontawesome
         env:
           FONT_VERSION: "6.5.1"
+          FONT_PATH: "gen/vuepress/public"
+          # docs/.vuepress/dist
         run: |-
-          wget https://use.fontawesome.com/releases/v${FONT_VERSION}/fontawesome-free-${FONT_VERSION}-web.zip -O docs/.vuepress/dist/fontawesome.zip
-          unzip docs/.vuepress/dist/fontawesome.zip -d docs/.vuepress/dist
-          mv docs/.vuepress/dist/fontawesome-free-${FONT_VERSION}-web docs/.vuepress/dist/fontawesome
-          rm docs/.vuepress/dist/fontawesome.zip
+          wget https://use.fontawesome.com/releases/v${FONT_VERSION}/fontawesome-free-${FONT_VERSION}-web.zip -O ${FONT_PATH}/fontawesome.zip
+          unzip ${FONT_PATH}/fontawesome.zip -d ${FONT_PATH}
+          mv ${FONT_PATH}/fontawesome-free-${FONT_VERSION}-web ${FONT_PATH}/fontawesome
+          rm ${FONT_PATH}/fontawesome.zip
 
       - name: Deploy Docs
         env:
