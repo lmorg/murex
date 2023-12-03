@@ -75,9 +75,12 @@ jobs:
           > docs/.vuepress/dist/.nojekyll
 
       - name: Download fontawesome
+        env:
+          FONT_VERSION: "6.5.1"
         run: |-
-          wget https://use.fontawesome.com/releases/v6.5.1/fontawesome-free-6.5.1-web.zip -O docs/.vuepress/dist/fontawesome.zip
-          unzip docs/.vuepress/dist/fontawesome.zip -d  docs/.vuepress/dist/fontawesome
+          wget https://use.fontawesome.com/releases/v${FONT_VERSION}/fontawesome-free-${FONT_VERSION}-web.zip -O docs/.vuepress/dist/fontawesome.zip
+          unzip docs/.vuepress/dist/fontawesome.zip -d docs/.vuepress/dist
+          mv docs/.vuepress/dist/fontawesome-free-${FONT_VERSION}-web docs/.vuepress/dist/fontawesome
           rm docs/.vuepress/dist/fontawesome.zip
 
       - name: Deploy Docs
