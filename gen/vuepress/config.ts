@@ -31,6 +31,15 @@ const config = {
         rel: "stylesheet",
       },
     ],
+
+    [
+      "link",
+      {
+        href: "/fontawesome/css/brands.css",
+        rel: "stylesheet",
+      },
+    ],
+
     [
       "link",
       {
