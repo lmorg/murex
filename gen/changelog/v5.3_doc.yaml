@@ -1,0 +1,14 @@
+- DocumentID: v5.3
+  Title: >-
+    v5.3
+  CategoryID: changelog
+  DateTime: 2023-12-06 08:00
+  Summary: >-
+    Caching is vastly improved in this release due to a new sqlite3-backed
+    persistent `cache.db`. 
+  Description: |-
+    {{ include "gen/changelog/v5.3.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - autocomplete
+    - export
