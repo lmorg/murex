@@ -1,9 +1,10 @@
-name: Deploy Docs
+name: Deploy Dev Docs
 
 on:
   push:
     branches:
-      - master
+      - develop
+      - website
     paths:
       - "**/*.md"
       - "**/*.yaml"
@@ -72,7 +73,18 @@ jobs:
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
-  
+
+      - name: Download fontawesome
+        env:
+          FONT_VERSION: "6.5.1"
+          FONT_PATH: "gen/vuepress/public"
+          # docs/.vuepress/dist
+        run: |-
+          wget https://use.fontawesome.com/releases/v${FONT_VERSION}/fontawesome-free-${FONT_VERSION}-web.zip -O ${FONT_PATH}/fontawesome.zip
+          unzip ${FONT_PATH}/fontawesome.zip -d ${FONT_PATH}
+          mv ${FONT_PATH}/fontawesome-free-${FONT_VERSION}-web ${FONT_PATH}/fontawesome
+          rm ${FONT_PATH}/fontawesome.zip
+
       - name: Deploy Docs
         env:
           AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
@@ -80,5 +92,6 @@ jobs:
           AWS_DEFAULT_REGION:    eu-west-1
           AWS_DEFAULT_OUTPUT:    json
         run: |
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/master --exclude "*.md" --no-progress
-          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER }}" --paths "/*"
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/develop --exclude "*.md" --no-progress
+          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"
+    

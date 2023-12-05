@@ -14,10 +14,11 @@ actions:
     type: primary
   - text: Rosetta Stone 🪨
     link: user-guide/rosetta-stone/
-  - text: Builtins 🧱
-    link: commands/
   - text: Interactive Shell 🐚
     link: user-guide/interactive-shell/
+  - text: Install 📦
+    link: install/ 
+
 
 highlights:
   - header: A Modern shell for the rest of us
