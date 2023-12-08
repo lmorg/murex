@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 const (
@@ -55,12 +56,9 @@ func CreateTable(namespace string) {
 }
 
 func dbFailed(message string, err error) {
-	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n", message, err.Error(), Path))
-
-	if os.Getenv("MUREX_DEV") != "true" {
-		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
-		disabled = true
-	}
+	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
+	os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+	disabled = true
 }
 
 func CloseDb() {
