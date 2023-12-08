@@ -385,7 +385,7 @@ func init() {
 		"changelog/v5.0":                   "v5.0 is a massive release. It brings along changes to syntax, new operators as well as new builtins, reserved variables and a new event",
 		"changelog/v5.1":                   "This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.",
 		"changelog/v5.2":                   "The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex.",
-		"changelog/v5.3":                   "Caching is vastly improved in this release due to a new sqlite3-backed persistent `cache.db`.",
+		"changelog/v5.3":                   "Caching has been vastly improved in this release due to a new sqlite3-backed persistent `cache.db`. There have also been some improvements to `[f1]` help pages",
 	}
 
 	Synonym = map[string]string{

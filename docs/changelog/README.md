@@ -6,7 +6,7 @@ Track new features, any breaking changes, and the release history here.
 
 ### 08.12.2023 - [v5.3](../changelog/v5.3.md)
 
-Caching is vastly improved in this release due to a new sqlite3-backed persistent `cache.db`.
+Caching has been vastly improved in this release due to a new sqlite3-backed persistent `cache.db`. There have also been some improvements to `[f1]` help pages
 
 
 ### 18.11.2023 - [v5.2](../changelog/v5.2.md)

@@ -54,6 +54,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
@@ -124,7 +125,7 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
 	default:
-		return fmt.Errorf("cannot turn %T into an array", v) // TODO: this error doesn't get surfaced
+		return fmt.Errorf("cannot turn %T into an array\n%s", v, consts.IssueTrackerURL)
 	}
 }
 
