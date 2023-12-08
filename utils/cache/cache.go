@@ -11,6 +11,10 @@ import (
 )
 
 func initCache(namespace string) {
+	if configCache {
+		return
+	}
+
 	cache[namespace] = new(localCacheT)
 	cache[namespace].cache = make(map[string]*cacheItemT)
 	disabled = false

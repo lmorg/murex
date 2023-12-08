@@ -5,11 +5,13 @@ import (
 	"runtime"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
@@ -127,6 +129,17 @@ func Config(c *config.Config, isInteractive bool) {
 		Options:     []string{"on-start", "on-tab", "false"},
 		DataType:    types.String,
 		Global:      true,
+	})
+
+	c.Define("shell", "cache.db-enabled", config.Properties{
+		Description: "Enable or disable the persistent cache.db. Typically located in: " + profile.ModulePath(),
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  cache.ReadStatus,
+			Write: cache.WriteStatus,
+		},
 	})
 
 	var defaultTitleBarFunc string

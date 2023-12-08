@@ -2,7 +2,7 @@
   Title: >-
     v5.3
   CategoryID: changelog
-  DateTime: 2023-12-06 08:00
+  DateTime: 2023-12-08 12:32
   Summary: >-
     Caching is vastly improved in this release due to a new sqlite3-backed
     persistent `cache.db`.
@@ -12,3 +12,4 @@
     - CONTRIBUTING
     - autocomplete
     - export
+    - config
