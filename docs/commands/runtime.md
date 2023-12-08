@@ -80,7 +80,6 @@ To get a list of every flag supported by `runtime`
 » runtime --help
 [
     "--aliases",
-    "--astcache",
     "--config",
     "--debug",
     "--events",
@@ -149,8 +148,6 @@ flag names. eg
 
 * `--aliases`
     Lists all aliases
-* `--astcache`
-    Lists some data about cached ASTs 
 * `--autocomplete`
     Lists all `autocomplete` schemas - both user defined and automatically generated one
 * `--builtins`

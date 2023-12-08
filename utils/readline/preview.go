@@ -45,19 +45,20 @@ const (
 	headingVR = "╢"
 )
 
+const (
+	glyphScrollUp   = "▲"
+	glyphScrollRail = "■"
+	glyphScrollBar  = "▣"
+	glyphScrollDown = "▼"
+)
+
+func getScrollBarPos(height, pos, max int) int {
+	height -= 2
+
+	return (height / max) * pos
+}
+
 func getPreviewWidth(width int) (preview, forward int) {
-	/*switch {
-	case width < 5:
-		return 0, 0
-	case width < 85:
-		preview = width - 4
-	case width < 105:
-		preview = 80
-	case width < 120+5:
-		preview = width - 4
-	default:
-		preview = 120
-	}*/
 	preview = width - 3
 
 	forward = width - preview

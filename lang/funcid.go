@@ -34,6 +34,9 @@ func (f *funcID) Register(p *Process) (fid uint32) {
 	//f.mutex.Unlock()
 
 	p.Id = fid
+
+	//ptr := (*unsafe.Pointer)(unsafe.Pointer(&p.Variables.process))
+	//atomic.StorePointer(ptr, unsafe.Pointer(p))
 	p.Variables.process = p
 	f.mutex.Unlock()
 

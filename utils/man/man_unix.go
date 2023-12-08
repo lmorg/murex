@@ -13,6 +13,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
@@ -31,8 +32,9 @@ var (
 
 // GetManPages executes `man -w` to locate the manual files
 func GetManPages(exe string) []string {
-	paths := Paths.Get(exe)
-	if paths != nil {
+	var paths []string
+
+	if cache.Read(cache.MAN_PATHS, exe, &paths) {
 		return paths
 	}
 
@@ -49,18 +51,18 @@ func GetManPages(exe string) []string {
 	}
 
 	paths = strings.Split(s, ":")
-	Paths.Set(exe, paths)
+	cache.Write(cache.MAN_PATHS, exe, paths, cache.Days(30))
 	return paths
 }
 
 // ParseByPaths runs the parser to locate any flags with hyphen prefixes
 func ParseByPaths(command string, paths []string) ([]string, map[string]string) {
-	f := Flags.Get(command)
-	if f != nil {
+	var f flagsT
+	if cache.Read(cache.MAN_FLAGS, command, &f) {
 		return f.Flags, f.Descriptions
 	}
 
-	fMap := make(map[string]string)
+	f.Descriptions = make(map[string]string)
 
 	for i := range paths {
 		if !rxMatchManSection.MatchString(paths[i]) {
@@ -74,23 +76,23 @@ func ParseByPaths(command string, paths []string) ([]string, map[string]string) 
 		case scanner == nil:
 			return []string{errPrefix + "scanner is undefined"}, map[string]string{}
 		default:
-			parseFlags(&fMap, scanner)
+			parseFlags(&f.Descriptions, scanner)
 			closer()
 		}
 	}
 
-	parseDescriptions(command, &fMap)
+	parseDescriptions(command, &f.Descriptions)
 
-	flags := make([]string, len(fMap))
+	f.Flags = make([]string, len(f.Descriptions))
 	var i int
-	for f := range fMap {
-		flags[i] = f
+	for flag := range f.Descriptions {
+		f.Flags[i] = flag
 		i++
 	}
-	sort.Strings(flags)
+	sort.Strings(f.Flags)
 
-	Flags.Set(command, flags, fMap)
-	return flags, fMap
+	cache.Write(cache.MAN_FLAGS, command, f, cache.Days(30))
+	return f.Flags, f.Descriptions
 }
 
 func createScanner(filename string) (*bufio.Scanner, func() error, error) {

@@ -117,5 +117,8 @@ func profile(name, path string) error {
 	fork.FileRef.Source = ref.History.AddSource(path, moduleName, b)
 
 	_, err = fork.Execute(block)
+
+	autocomplete.UpdateGlobalExeList()
+
 	return err
 }

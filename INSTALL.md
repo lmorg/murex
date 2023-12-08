@@ -4,14 +4,15 @@
 
 <div id="toc">
 
-- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Installing From A Package Manager](#installing-from-a-package-manager)
   - [ArchLinux](#archlinux)
   - [FreeBSD Ports](#freebsd-ports)
   - [Homebrew](#homebrew)
   - [MacPorts](#macports)
+- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Compiling From Source](#compiling-from-source)
-  - [Installation From Source Steps](#installation-from-source-steps)
+  - [Prerequisites](#prerequisites)
+  - [Compiling](#compiling)
 - [External Dependencies (Optional)](#external-dependencies-optional)
 - [Recommended Terminal Typeface](#recommended-terminal-typeface)
 
@@ -28,16 +29,6 @@ software to provide those utilities.
 
 There is a more detailed breakdown of known compatibility issues in the
 [docs/supported platforms](docs/supported-platforms.md) document.
-
-## Pre-Compiled Binaries (HTTPS download)
-
-[![Version](version.svg)](DOWNLOAD.md)
-[![Build Murex Downloads](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml)
-
-If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
-page to select your platform.
-
-
 
 ## Installing From A Package Manager
 
@@ -73,11 +64,27 @@ brew install murex
 sudo port install murex
 ```
 
+## Pre-Compiled Binaries (HTTPS download)
+
+[![Version](version.svg)](DOWNLOAD.md)
+[![Build Murex Downloads](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml)
+
+If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
+page to select your platform.
+
+
+
 ## Compiling From Source
 
 [![Test Clean Install](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml)
 
-**Prerequisites:**
+> Murex is designed to be as easy to compile as possible. However if you do not
+> have any prior experience with compiling software from source then the
+> recommended approach for installing Murex is either via a package manager (if
+> your platform is already supported) or downloading one of our pre-compiled
+> binaries.
+
+### Prerequisites
 
 You will need `go` (Golang) compiler, and `git` installed.
 
@@ -92,10 +99,7 @@ package manager first but see further reading below if you get stuck.
 * [How to install Go](https://golang.org/doc/install)
 * [How to install git](https://github.com/git-guides/install-git)
 
-### Installation From Source Steps
-
-> Compiling from source is not recommended unless you already have a reasonable
-> understanding of compiling Go projects for your specific platform.
+### Compiling
 
 Installation from source is as simple as the following one liner:
 

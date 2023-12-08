@@ -1,6 +1,10 @@
 package lang
 
-import "os"
+import (
+	"os"
+
+	"github.com/lmorg/murex/utils/cache"
+)
 
 var (
 	ProfCpuCleanUp func() = func() {}
@@ -11,5 +15,6 @@ func Exit(exitNum int) {
 	ProfCpuCleanUp()
 	ProfMemCleanUp()
 
+	cache.CloseDb()
 	os.Exit(exitNum)
 }

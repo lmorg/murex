@@ -28,6 +28,10 @@ func init() {
 		{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
 		{{ quote .DocumentID }}: {{ quote "optional/" .DocumentID }},{{ end }}{{ end }}{{ end }}
 
+	{{ if otherdocs "parser" }}{{ range otherdocs "parser" }}{{ if .Synonyms }}{{ $ID := quote "parser/" .DocumentID }}{{ range .Synonyms }}
+		{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
+		{{ quote .DocumentID }}: {{ quote "parser/" .DocumentID }},{{ end }}{{ end }}{{ end }}
+
 	{{ range $i,$cat := othercats }}{{ if (and (ne $cat.ID "Murex") (ne $cat.ID "blog")) }}{{ range otherdocs $cat.ID }}{{ if .Synonyms }}{{ $ID := quote $cat.ID "/" .DocumentID }}{{ range .Synonyms }}
 		{{ quote $cat.ID "/" . }}: {{ $ID }},{{ end }}{{ else }}
 		{{ quote $cat.ID "/" .DocumentID }}: {{ quote $cat.ID "/" .DocumentID }},{{ end }}{{ end }}{{ end }}{{ end }}

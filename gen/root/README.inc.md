@@ -9,15 +9,16 @@ heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex.Rocks
 tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
 actions:
-  - text: Language Tour 🛟
+  - text: "🛟 Language Tour"
     link: tour/
     type: primary
-  - text: Rosetta Stone 🪨
+  - text: "🪨 Rosetta Stone"
     link: user-guide/rosetta-stone/
-  - text: Builtins 🧱
-    link: commands/
-  - text: Interactive Shell 🐚
+  - text: "🐚 Interactive Shell"
     link: user-guide/interactive-shell/
+  - text: "📦 Install"
+    link: install/ 
+
 
 highlights:
   - header: A Modern shell for the rest of us

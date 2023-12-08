@@ -16,12 +16,11 @@ private git-refs {
     } 
 }
 
-autocomplete: set git %[{
+autocomplete set git %[{
     DynamicDesc: '{
         cast json
 
         # extract git commands from `git help`
-        #git help -a -> tabulate: --map -> set commands
         git help -a -> @[..^Ancillary]re -> tabulate: --map -> set commands
 
         # list all the git aliases
@@ -114,8 +113,11 @@ autocomplete: set git %[{
         }]
 
         "": [{
+            DynamicPreview: '{
+                exec git --help $1
+            }'
             DynamicDesc: '{
-                git --help $1 -> man-get-flags -d
+                exec git --help $1 -> man-get-flags -d
             }'
             AllowMultiple: true
             AllowAny: true

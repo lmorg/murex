@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -26,6 +27,14 @@ func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) 
 			b = p[j]
 		} else {
 			b = ' '
+		}
+
+		if b == 8 {
+			// handle backspace gracefully
+			if len(line) > 0 {
+				line = line[:len(line)-1]
+			}
+			continue
 		}
 
 		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
@@ -62,4 +71,28 @@ func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) 
 	}
 
 	return lines, 0, nil
+}
+
+func previewPos(lines []string, item string) int {
+	for i := range lines {
+		switch {
+		case strings.HasPrefix(item, "--"):
+			switch {
+			case strings.Contains(lines[i], ", "+item):
+				// comma separated
+				return i
+			case strings.Contains(lines[i], "  "+item):
+				// whitespace separated
+				return i
+			default:
+				continue
+			}
+		default:
+			if strings.Contains(lines[i], "  "+item) {
+				return i
+			}
+		}
+	}
+
+	return 0
 }

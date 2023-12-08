@@ -1,11 +1,17 @@
-autocomplete set aws [{
-    "CacheTTL": 31536000, # 1 year
-    "Dynamic": ({
-        cast: str
-        config: set proc strict-arrays false
-        exec aws @PARAMS help -> @[^AVAILABLE..^SEE ALSO]re8bt -> regexp: (f/^o (.*)/)
-        exec aws @PARAMS help -> man-get-flags -> format: str 
-    }),
-    "AllowMultiple": true,
-    "AllowAny": true
-}]
+autocomplete set aws %[
+    {
+        CacheTTL: 31536000 # 1 year
+        Dynamic: '{
+            cast str
+            config set proc strict-arrays false
+            exec aws @PARAMS help -> [^AVAILABLE..^SEE ALSO]re8bt -> regexp (f/^o (.*)/)
+            exec aws @PARAMS help -> man-get-flags -> format str 
+        }'
+        DynamicPreview: '{
+            config set proc strict-arrays false
+            exec aws @PARAMS help
+        }'
+        AllowMultiple: true
+        AllowAny: true
+    }
+]

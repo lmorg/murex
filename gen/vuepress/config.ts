@@ -31,6 +31,7 @@ const config = {
         rel: "stylesheet",
       },
     ],
+
     [
       "link",
       {
