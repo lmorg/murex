@@ -188,7 +188,7 @@ Install `Murex` from your favorite package manager:
 brew install murex
 
 # via MacPorts:
-sudo port install murex
+port install murex
 ```
 
 @tab ArchLinux

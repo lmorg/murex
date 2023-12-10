@@ -15,7 +15,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["tabulate"] = cmdTabulate
 	lang.DefineMethod("tabulate", cmdTabulate, types.Generic, types.Any)
 
 	defaults.AppendProfile(`
@@ -31,10 +30,8 @@ const (
 )
 
 var (
-	rxWhitespaceLeft  = regexp.MustCompile(`^[\t\s]+`)
-	rxWhitespaceRight = regexp.MustCompile(`[\t\s]+$`)
-	rxSplitComma      = regexp.MustCompile(`[\s\t]*,[\s\t]*`)
-	rxSplitSpace      = regexp.MustCompile(`[\s\t]+-`)
+	rxSplitComma = regexp.MustCompile(`[\s\t]*,[\s\t]*`)
+	rxSplitSpace = regexp.MustCompile(`[\s\t]+-`)
 )
 
 // flags
@@ -64,7 +61,7 @@ var flags = map[string]string{
 }
 
 var desc = map[string]string{
-	fSeparator:   "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
+	fSeparator:   "String, custom regex pattern for splitting fields (default: `" + constSeparator + "`)",
 	fSplitComma:  "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
 	fSplitSpace:  "Boolean, split first field and duplicate the line if white space found in first field (eg parsing flags in help pages)",
 	fKeyIncHint:  "Boolean, used with " + fMap + " to split any space or equal delimited hints/examples (eg parsing flags)",
