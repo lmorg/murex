@@ -42,8 +42,13 @@ func cmdExpressions(p *lang.Process) error {
 		}
 	}
 
-	if val.DataType == types.Boolean && !types.IsTrue(b, 0) {
-		p.ExitNum = 1
+	if val.DataType == types.Boolean {
+		if !types.IsTrue(b, 0) {
+			p.ExitNum = 1
+		}
+		if p.Next.OperatorLogicAnd || p.Next.OperatorLogicOr {
+			return nil
+		}
 	}
 
 	_, err = p.Stdout.Write(b)

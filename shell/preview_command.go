@@ -14,10 +14,9 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 	if lang.GlobalAliases.Exists(command) {
 		alias := lang.GlobalAliases.Get(command)
 		if len(alias) == 0 {
-			return //nil, 0, nil
+			return
 		}
 		if alias[0] != command {
-			//return previewCommand(ctx, nil, alias[0], false, size)
 			PreviewCommand(ctx, nil, alias[0], false, size, callback)
 			return
 		}
@@ -26,9 +25,8 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 	if lang.MxFunctions.Exists(command) {
 		r, err := lang.MxFunctions.Block(command)
 		if err != nil {
-			return //nil, 0, err
+			return
 		}
-		//return previewParse([]byte(string(r)), size)
 		callback(previewParse([]byte(string(r)), size))
 		return
 	}
@@ -36,13 +34,11 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 	syn := docs.Synonym[command]
 	b := docs.Definition(syn)
 	if len(b) != 0 {
-		//return previewParse(b, size)
 		callback(previewParse(b, size))
 		return
 	}
 
 	if !(*autocomplete.GlobalExes.Get())[command] {
-		//return []string{"not a valid command"}, 0, nil
 		callback([]string{"not a valid command"}, 0, nil)
 		return
 	}
@@ -54,14 +50,11 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 	)
 
 	if len(b) > 0 {
-		//return previewParse(b, size)
 		lines, _, err = previewParse(b, size)
 
 		callback(lines, 0, err)
 		lines = previewHr(lines, size)
 	}
-
-	//callEvents("preview")
 
 	block := []rune(`
 		config set http user-agent curl/1.0
@@ -74,27 +67,25 @@ func PreviewCommand(ctx context.Context, _ []rune, command string, _ bool, size 
 	fork.Name.Set("(f1)")
 	err = fork.Variables.Set(fork.Process, "COMMAND", command, types.String)
 	if err != nil {
-		//return previewError(err, size)
 		s, _, err := previewError(err, size)
 		callback(append(lines, s...), 0, err)
 		return
 	}
 	_, err = fork.Execute(block)
 	if err != nil {
-		//return previewError(err, size)
 		s, _, err := previewError(err, size)
 		callback(append(lines, s...), 0, err)
 		return
 	}
 	b, err = fork.Stdout.ReadAll()
 	if err != nil {
-		//return previewError(err, size)
 		s, _, err := previewError(err, size)
 		callback(append(lines, s...), 0, err)
 		return
 	}
 
-	//return previewParse(b, size)
-	s, _, err := previewParse(b, size)
+	s, _, err := previewParse(append(msgCheatSheet, b...), size)
 	callback(append(lines, s...), 0, err)
 }
+
+var msgCheatSheet = []byte("The following is taken from https://cheat.sh:\n=============================================\n\n")

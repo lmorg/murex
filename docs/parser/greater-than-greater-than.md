@@ -1,4 +1,4 @@
-# `>>` (append file)
+# `>>` Append File
 
 > Writes STDIN to disk - appending contents if file already exists
 
@@ -41,7 +41,7 @@ g * >> files.txt
   Manage Murex named pipes
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
-* [`|>` (truncate file)](../parser/greater-than.md):
+* [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

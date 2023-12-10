@@ -161,14 +161,14 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):

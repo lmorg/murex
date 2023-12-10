@@ -1,3 +1,5 @@
+* [Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
 * [Numeric (str)](../variables/numeric.md):
   Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
 * [`ARGV` (json)](../variables/argv.md):
@@ -14,7 +16,7 @@
   Array of the parameters within a given scope
 * [`PWDHIST` (json)](../variables/pwdhist.md):
   History of each change to the sessions working directory
-* [`PWD` (str)](../variables/pwd.md):
+* [`PWD` (path)](../variables/pwd.md):
   Current working directory
 * [`SELF` (json)](../variables/self.md):
   Meta information about the running scope.

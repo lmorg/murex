@@ -54,11 +54,11 @@ Any block quoted by this method will be converted to the following valid JSON:
   Overview of how code blocks are parsed
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create array](../parser/create-array.md):
+* [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create object](../parser/create-object.md):
+* [`%{}` Create Map](../parser/create-object.md):
   Quickly generate objects and maps
-* [`[[ element ]]`](../parser/element.md):
+* [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
@@ -86,7 +86,7 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table

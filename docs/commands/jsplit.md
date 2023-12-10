@@ -45,12 +45,12 @@ unwanted "noise" is stripped from the output.
 
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):

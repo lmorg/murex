@@ -48,7 +48,7 @@ try {
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
 * [`?:` Elvis Operator](../parser/elvis.md):
-  Returns the right operand if the left operand is falsy
+  Returns the right operand if the left operand is falsy (expression)
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):

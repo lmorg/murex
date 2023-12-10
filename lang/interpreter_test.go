@@ -177,51 +177,51 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 1; true || echo foobar`,
-			Stdout: "1\ntrue",
+			Stdout: "1\n",
 		},
 		{
 			Block:  `out: 1.1; true || true || echo foobar`,
-			Stdout: "1.1\ntrue",
+			Stdout: "1.1\n",
 		},
 		{
 			Block:  `out: 1.2; true || false || echo foobar`,
-			Stdout: "1.2\ntrue",
+			Stdout: "1.2\n",
 		},
 		{
 			Block:  `out: 1.3; false || true || echo foobar`,
-			Stdout: "1.3\nfalsetrue",
+			Stdout: "1.3\n",
 		},
 		{
 			Block:  `out: 2; true && echo foobar`,
-			Stdout: "2\ntruefoobar\n",
+			Stdout: "2\nfoobar\n",
 		},
 		{
 			Block:   `out: 2.1; false && false && echo foobar`,
-			Stdout:  "2.1\nfalse",
+			Stdout:  "2.1\n",
 			ExitNum: 1,
 		},
 		{
 			Block:   `out: 2.2; true && false && echo foobar`,
-			Stdout:  "2.2\ntruefalse",
+			Stdout:  "2.2\n",
 			ExitNum: 1,
 		},
 		{
 			Block:   `out: 2.3; false && true && echo foobar`,
-			Stdout:  "2.3\nfalse",
+			Stdout:  "2.3\n",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 3; false || echo foobar`,
-			Stdout: "3\nfalsefoobar\n",
+			Stdout: "3\nfoobar\n",
 		},
 		{
 			Block:   `out: 4; false && echo foobar`,
-			Stdout:  "4\nfalse",
+			Stdout:  "4\n",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 4.1; true || true && echo foobar`,
-			Stdout: "4.1\ntrue",
+			Stdout: "4.1\n",
 		},
 		///
 		{
@@ -231,28 +231,28 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 6; try { true || echo foobar }`,
-			Stdout: "6\ntrue",
+			Stdout: "6\n",
 		},
 		{
 			Block:  `out: 7; try { true && echo foobar }`,
-			Stdout: "7\ntruefoobar\n",
+			Stdout: "7\nfoobar\n",
 		},
 		{
 			Block:  `out: 8; try { false || echo foobar }`,
-			Stdout: "8\nfalsefoobar\n",
+			Stdout: "8\nfoobar\n",
 		},
 		{
 			Block:   `out: 9; try { false && echo foobar }`,
-			Stdout:  "9\nfalse",
+			Stdout:  "9\n",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 9.1; try { true || true; echo foobar }`,
-			Stdout: "9.1\ntruefoobar\n",
+			Stdout: "9.1\nfoobar\n",
 		},
 		{
 			Block:  `out: 9.1; try { true || true && echo foobar }`,
-			Stdout: "9.1\ntruefoobar\n",
+			Stdout: "9.1\nfoobar\n",
 		},
 		///
 		{
@@ -262,28 +262,28 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 11; trypipe { true || echo foobar }`,
-			Stdout: "11\ntrue",
+			Stdout: "11\n",
 		},
 		{
 			Block:  `out: 12; trypipe { true && echo foobar }`,
-			Stdout: "12\ntruefoobar\n",
+			Stdout: "12\nfoobar\n",
 		},
 		{
 			Block:  `out: 13; trypipe { false || echo foobar }`,
-			Stdout: "13\nfalsefoobar\n",
+			Stdout: "13\nfoobar\n",
 		},
 		{
 			Block:   `out: 14; trypipe { false && echo foobar }`,
-			Stdout:  "14\nfalse",
+			Stdout:  "14\n",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 14.1; trypipe { true || true ; echo foobar }`,
-			Stdout: "14.1\ntruefoobar\n",
+			Stdout: "14.1\nfoobar\n",
 		},
 		{
 			Block:  `out: 14.1; trypipe { true || true && echo foobar }`,
-			Stdout: "14.1\ntruefoobar\n",
+			Stdout: "14.1\nfoobar\n",
 		},
 	}
 

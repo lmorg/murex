@@ -1,4 +1,4 @@
-# `$variable`
+# `$Variable`
 
 > Expand values as a scalar
 

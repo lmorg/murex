@@ -76,7 +76,7 @@ hosts = [
 
 ## See Also
 
-* [`[[ element ]]`](../parser/element.md):
+* [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output

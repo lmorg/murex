@@ -3,9 +3,9 @@
     `??` Null Coalescing Operator
   CategoryID: parser
   Summary: >-
-    Returns the right operand if the left operand is empty / undefined
+    Returns the right operand if the left operand is empty / undefined (expression)
   Description: |-
-    The null coalescing operator is a little like a conditional where the result of the
+    The Null Coalescing operator is a little like a conditional where the result of the
     operation is the first non-empty value from left to right.
 
     An empty value is any of the following:
@@ -47,6 +47,7 @@
     > is a binary operator and thus evaluates its operands at most once, which is
     > significant if the evaluation of `x` has side-effects. 
   Related:
+  - expr
   - is-null
   - elvis
   - pipe-err

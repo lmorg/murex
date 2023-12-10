@@ -5,20 +5,51 @@
   Summary: >-
     Expressions: mathematical, string comparisons, logical operators
   Description: |-
+    `expr` is the underlying builtin which handles all expression parsing and
+    evaluation in Murex. Though typically that would happen transparently without
+    you having to explicit call `expr`.
 
+    For a full list of operators supported exclusively in expression, see the
+    last section in this document.
   Usage: |-
     ```
+    expression -> <stdout>
+
+    statement (expression)
+
     expr expression -> <stdout>
     ```
   Examples: |-
-    Order of operations:
+    **Expressions:**
 
     ```
-    » 3 * (3 + 1)                                                                                                                                                                                                                         
+    » 3 * (3 + 1)
     12
     ```
 
-    JSON array:
+    **Statements with inlined expressions:**
+
+    Any parameter surrounded by parenthesis is first evaluated as an expression,
+    then as a string.
+
+    ```
+    » out (3 * 2)
+    6
+    ```
+
+    **Expressions with inlined statements:**
+
+    Functions can be inlined as a statement using `function(parameters...)` syntax.
+
+    ```
+    » datetime(--in {now} --out {unix}) / 60
+    28339115.783333335
+    ```
+
+    Please note that currently the only functions supported are ones who's names
+    are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
+
+    **JSON array:**
 
     ```
     » %[apples oranges grapes]
@@ -29,9 +60,30 @@
     ]
     ```
   Detail: |-
+    ### Order of Operations
 
+    The order of operations follows the same rules as the C programming language,
+    which itself is an extension of the order of operations in mathematics, often
+    referred to as PEMDAS or MODMAS ([read more](https://en.wikipedia.org/wiki/Order_of_operations)).
+
+    The [Wikipedia article](https://en.wikipedia.org/wiki/Order_of_operations#Programming_languages)
+    summarises that order succinctly however the detailed specification is defined
+    by its implementation, as seen in the code below:
+
+    ```go
+    {{ include "lang/expressions/expression.go" }}
+    ```
   Synonyms:
   Related:
-    - equ
-    - set
-    - let
+    - addition
+    - subtraction
+    - multiplication
+    - division
+    - add-with
+    - subtract-by
+    - multiply-by
+    - divide-by
+    - elvis
+    - null-coalescing
+    - create-array
+    - create-object

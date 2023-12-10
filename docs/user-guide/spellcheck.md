@@ -175,7 +175,7 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Splits STDIN into a JSON array based on a regex parameter
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [`{Curly Brace}`](../parser/curly-brace.md):
+* [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 
 <hr/>

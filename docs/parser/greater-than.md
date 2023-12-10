@@ -1,4 +1,4 @@
-# `|>` (truncate file)
+# `|>` Truncate File
 
 > Writes STDIN to disk - overwriting contents if file already exists
 
@@ -23,6 +23,7 @@ g * |> files.txt
 
 ## Synonyms
 
+* `|>`
 * `>`
 * `fwrite`
 
@@ -33,7 +34,7 @@ g * |> files.txt
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../parser/greater-than-greater-than.md):
+* [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)

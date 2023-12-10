@@ -218,11 +218,11 @@ func TestParseExprLogicalAnd(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  "true == true && true == true",
-			Stdout: "truetrue",
+			Stdout: "true",
 		},
 		{
 			Block:   "true == false && true == true",
-			Stdout:  "false",
+			Stdout:  "",
 			ExitNum: 1,
 		},
 	}

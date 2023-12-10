@@ -1,6 +1,6 @@
 - DocumentID: item-index
   Title: >+
-    `[index]`
+    `[ Index ]`
   CategoryID: parser
   Summary: >-
     Outputs an element from an array, map or table

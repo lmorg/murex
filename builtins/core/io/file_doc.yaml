@@ -1,6 +1,6 @@
 - DocumentID: greater-than
   Title: >+
-    `|>` (truncate file)
+    `|>` Truncate File
   CategoryID: parser
   Summary: >-
     Writes STDIN to disk - overwriting contents if file already exists
@@ -19,6 +19,7 @@
     ```
   Detail:
   Synonyms:
+    - "|>"
     - ">"
     - "fwrite"
   Related:
@@ -33,7 +34,7 @@
 
 - DocumentID: greater-than-greater-than
   Title: >+
-    `>>` (append file)
+    `>>` Append File
   CategoryID: parser
   Summary: >-
     Writes STDIN to disk - appending contents if file already exists

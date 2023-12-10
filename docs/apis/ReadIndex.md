@@ -77,7 +77,7 @@ both agnostic to the bang prefix.
   Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
-* [parser/`[[ element ]]`](../parser/element.md):
+* [parser/`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure

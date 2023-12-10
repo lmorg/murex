@@ -48,10 +48,10 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 
 ## See Also
 
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](../commands/addheading.md):

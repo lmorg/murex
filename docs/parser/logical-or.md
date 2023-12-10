@@ -53,7 +53,7 @@ There is no workaround for `trypipe`.
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`?:` Elvis Operator](../parser/elvis.md):
-  Returns the right operand if the left operand is falsy
+  Returns the right operand if the left operand is falsy (expression)
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):

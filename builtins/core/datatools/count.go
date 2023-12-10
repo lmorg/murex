@@ -3,6 +3,7 @@ package datatools
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -18,19 +19,23 @@ func init() {
 	defaults.AppendProfile(`
 		alias len=count --total
 		
-		autocomplete: set count { [{
-			"FlagsDesc": {
-				"--duplications": "Output a JSON map of items and the number of their occurrences in a list or array",
-				"--unique": "Print the number of unique elements in a list or array",
+		autocomplete: set count %[{
+			FlagsDesc: {
+				"--duplications": "Output a JSON map of items and the number of their occurrences in a list or array"
+				"--unique": "Print the number of unique elements in a list or array"
+				"--sum": "Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)"
+				"--sum-strict": "Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)"
 				"--total": "Read an array, list or map from STDIN and output the length for that array (default behaviour)"
 			}
-		} ]}
+		}]
 	`)
 }
 
 const (
 	argDuplications = "--duplications"
 	argUnique       = "--unique"
+	argSum          = "--sum"
+	argSumStrict    = "--sum-strict"
 	argTotal        = "--total"
 )
 
@@ -41,6 +46,9 @@ var argsCount = parameters.Arguments{
 		"-d":            argDuplications,
 		argUnique:       types.Boolean,
 		"-u":            argUnique,
+		argSum:          types.Boolean,
+		"-s":            argSum,
+		argSumStrict:    types.Boolean,
 		argTotal:        types.Boolean,
 		"-t":            argTotal,
 	},
@@ -102,6 +110,17 @@ func cmdCount(p *lang.Process) error {
 
 			p.Stdout.SetDataType(types.Integer)
 			_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
+			return err
+
+		case argSum, argSumStrict:
+			f, err := countSum(p, flags[argSumStrict] == types.TrueString)
+			if err != nil {
+				p.Stdout.SetDataType(types.Null)
+				return err
+			}
+
+			p.Stdout.SetDataType(types.Number)
+			_, err = p.Stdout.Write([]byte(types.FloatToString(f)))
 			return err
 		}
 	}
@@ -182,4 +201,133 @@ func countTotal(p *lang.Process) (int, error) {
 	default:
 		return 0, fmt.Errorf("data type (%T) not supported, please report this at https://github.com/lmorg/murex/issues", v)
 	}
+}
+
+func countSum(p *lang.Process, strict bool) (float64, error) {
+	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())
+	if err != nil {
+		return 0, err
+	}
+
+	switch t := v.(type) {
+	case nil:
+		return 0, nil
+
+	case int:
+		return float64(t), nil
+	case float64:
+		return t, nil
+
+	case []int:
+		return sumArrayNum(t)
+	case []float64:
+		return sumArrayNum(t)
+
+	case []string:
+		return sumArrayStr(t, strict)
+	case []interface{}:
+		return sumArrayStr(t, strict)
+
+	case map[string]int:
+		return sumMapNum(t)
+	case map[string]float64:
+		return sumMapNum(t)
+	case map[int]int:
+		return sumMapNum(t)
+	case map[int]float64:
+		return sumMapNum(t)
+	case map[float64]int:
+		return sumMapNum(t)
+	case map[float64]float64:
+		return sumMapNum(t)
+	case map[any]int:
+		return sumMapNum(t)
+	case map[any]float64:
+		return sumMapNum(t)
+
+	case map[string]string:
+		return sumMapStr(t, strict)
+	case map[string]any:
+		return sumMapStr(t, strict)
+	case map[int]string:
+		return sumMapStr(t, strict)
+	case map[int]any:
+		return sumMapStr(t, strict)
+	case map[float64]string:
+		return sumMapStr(t, strict)
+	case map[float64]any:
+		return sumMapStr(t, strict)
+	case map[any]string:
+		return sumMapStr(t, strict)
+	case map[any]any:
+		return sumMapStr(t, strict)
+
+	case [][]string:
+		slice := make([]string, len(t))
+		for i := range t {
+			slice[i] = strings.Join(t[i], " ")
+		}
+		return sumArrayStr(slice, strict)
+
+	default:
+		return 0, fmt.Errorf("data type (%T) not supported, please report this at https://github.com/lmorg/murex/issues", v)
+	}
+}
+
+func sumArrayNum[N int | float64](slice []N) (float64, error) {
+	var n N
+
+	for _, v := range slice {
+		n += v
+	}
+
+	return float64(n), nil
+}
+
+func sumArrayStr[V any](slice []V, strict bool) (float64, error) {
+	var f float64
+
+	for i := range slice {
+		v, err := types.ConvertGoType(slice[i], types.Number)
+		if err != nil {
+			if strict {
+				return 0, fmt.Errorf(`cannot convert index %d to %s ("%v"): %s`,
+					i, types.Number, slice[i], err.Error())
+			} else {
+				continue
+			}
+		}
+		f += v.(float64)
+	}
+
+	return f, nil
+}
+
+func sumMapNum[K comparable, V int | float64](m map[K]V) (float64, error) {
+	var n V
+
+	for _, v := range m {
+		n += v
+	}
+
+	return float64(n), nil
+}
+
+func sumMapStr[K comparable, V string | any](m map[K]V, strict bool) (float64, error) {
+	var f float64
+
+	for k, v := range m {
+		v, err := types.ConvertGoType(v, types.Number)
+		if err != nil {
+			if strict {
+				return 0, fmt.Errorf(`cannot convert index %v to %s ("%v"): %s`,
+					k, types.Number, v, err.Error())
+			} else {
+				continue
+			}
+		}
+		f += v.(float64)
+	}
+
+	return f, nil
 }

@@ -276,7 +276,7 @@ bar
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
-  Returns the right operand if the left operand is empty / undefined
+  Returns the right operand if the left operand is empty / undefined (expression)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`global`](../commands/global.md):

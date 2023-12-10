@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 18.11.2023 - [v5.2](../changelog/v5.2.md)
+
+The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex.
+
+
 ### 09.10.2023 - [v5.1](../changelog/v5.1.md)
 
 This release brings new operators and a builtin, all for managing null types. There is also a substantial revamp to readline's responsiveness.

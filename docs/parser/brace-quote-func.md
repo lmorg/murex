@@ -50,7 +50,7 @@ characters if you don't want them nested.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`>>` (append file)](../parser/greater-than-greater-than.md):
+* [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
@@ -62,7 +62,7 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`|>` (truncate file)](../parser/greater-than.md):
+* [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 
 <hr/>

@@ -2,8 +2,8 @@ package expressions
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -11,6 +11,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
+
+var errCancelled = errors.New("cancelled")
 
 func treePlusPlus(tree *ParserT) { tree.charPos++ }
 
@@ -143,18 +145,21 @@ var (
 	errUnableToSetLambdaVar = "unable to set `$.`: %s"
 	errUnableToGetLambdaVar = "unable to retrieve value of `$.`: %s"
 	errUnableToUpdateValue  = "cannot update value from lambda: %s"
-	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
+
+	//rxLineSeparator = regexp.MustCompile(`(\r*\n)+`)
 )
 
 const (
-	LAMBDA_KEY   = "Key"
-	LAMBDA_VALUE = "Value"
+	LAMBDA_ITERATION = "i"
+	LAMBDA_KEY       = "k"
+	LAMBDA_VALUE     = "v"
 )
 
-func writeKeyValVariable[K comparable](p *lang.Process, key K, value any) error {
+func writeKeyValVariable[K comparable](p *lang.Process, iteration int, key K, value any) error {
 	element, err := json.Marshal(map[string]interface{}{
-		LAMBDA_KEY:   key,
-		LAMBDA_VALUE: value,
+		LAMBDA_ITERATION: iteration,
+		LAMBDA_KEY:       key,
+		LAMBDA_VALUE:     value,
 	})
 	if err != nil {
 		return fmt.Errorf("unable to encode element: %s", err.Error())
@@ -232,7 +237,11 @@ func parseLambdaArray[V any](p *lang.Process, sigil rune, t []V, dt string, r []
 	)
 
 	for i := range t {
-		err := writeKeyValVariable(p, i, t[i])
+		if p.HasCancelled() {
+			return nil, nil, "", errCancelled
+		}
+
+		err := writeKeyValVariable(p, i+1, i, t[i])
 		if err != nil {
 			return nil, nil, "", fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
@@ -288,8 +297,14 @@ func parseLambdaMap[K comparable, V any](p *lang.Process, sigil rune, t map[K]V,
 		stdout []string
 	)
 
+	var i int
 	for key, value := range t {
-		err := writeKeyValVariable(p, key, value)
+		if p.HasCancelled() {
+			return nil, nil, "", errCancelled
+		}
+
+		i++
+		err := writeKeyValVariable(p, i, key, value)
 		if err != nil {
 			return nil, nil, "", fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
@@ -366,7 +381,10 @@ func parseLambdaRunSubShell(p *lang.Process, block []rune) (int, []byte, error) 
 
 	if fork.Stdout.GetDataType() == types.Boolean {
 		if types.IsTrue(b, exitNum) {
-			return 0, nil, nil
+			if string(b) == types.TrueString {
+				return 0, nil, nil
+			}
+			return 0, b, nil
 		}
 		return 1, nil, nil
 	}

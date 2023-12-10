@@ -3,25 +3,33 @@ package lists
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/lmorg/murex/lang/types"
 )
 
 func Count(slice interface{}) (map[string]int, error) {
-	switch v := slice.(type) {
+	switch t := slice.(type) {
 	case []int:
-		return countInt(v), nil
+		return countInt(t), nil
 	case []float64:
-		return countFloat64(v), nil
+		return countFloat64(t), nil
 	case []string:
-		return countString(v), nil
+		return countString(t), nil
 	case []bool:
-		return countBool(v), nil
+		return countBool(t), nil
 	case []interface{}:
-		return countInterface(v)
+		return countInterface(t)
+
+	case [][]string:
+		slice := make([]string, len(t))
+		for i := range t {
+			slice[i] = strings.Join(t[i], " ")
+		}
+		return countString(slice), nil
 
 	default:
-		return make(map[string]int), fmt.Errorf("data type '%T' not supported in lists.Count(). Please report this at https://github.com/lmorg/murex/issues", v)
+		return make(map[string]int), fmt.Errorf("data type '%T' not supported in lists.Count(). Please report this at https://github.com/lmorg/murex/issues", t)
 	}
 }
 

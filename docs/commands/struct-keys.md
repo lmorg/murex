@@ -150,10 +150,10 @@ Separator can also be multiple characters:
 
 ## See Also
 
-* [`[[ element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[index]`](../parser/item-index.md):
+* [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [`[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`set`](../commands/set.md):

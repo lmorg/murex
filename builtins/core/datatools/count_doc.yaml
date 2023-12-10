@@ -18,11 +18,9 @@
     3
     ```
   Detail: |-
-    ### Modes
-
     If no flags are set, `count` will default to using `--total`.
 
-    #### Total: `--total` / `-t`
+    ### Total: `--total` / `-t`
 
     This will read an array, list or map from STDIN and output the length for
     that array.
@@ -59,7 +57,7 @@
     # (printf does not print a trailing new line)
     ```
 
-    #### Duplications: `--duplications` / `-d`
+    ### Duplications: `--duplications` / `-d`
 
     This returns a JSON map of items and the number of their occurrences in a list
     or array.
@@ -82,7 +80,7 @@
     }
     ```
 
-    #### Unique: `--unique` / `-u`
+    ### Unique: `--unique` / `-u`
 
     Returns the number of unique elements in a list or array.
 
@@ -96,12 +94,27 @@
     9
     ```
   Flags:
-    "--duplications": Output a JSON map of items and the number of their occurrences in a list or array
-    "-d": Alias for `--duplications`
-    "--unique": Print the number of unique elements in a list or array
-    "-u": Alias for `--unique`
-    "--total": Read an array, list or map from STDIN and output the length for that array (default behaviour)
-    "-t": Alias for `--total`
+    "--duplications": >-
+        Output a JSON map of items and the number of their occurrences in a list or array
+    "-d": >- 
+        Alias for `--duplications`
+    
+    "--unique": >-
+        Print the number of unique elements in a list or array
+    "-u": >-
+        Alias for `--unique`
+    
+    "--sum": >-
+        Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)
+    "-s": >-
+        Alias for `--sum`
+    "--sum-strict": >-
+        Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)
+
+    "--total": >-
+        Read an array, list or map from STDIN and output the length for that array (default behaviour)
+    "-t": >-
+        Alias for `--total`
   Synonyms:
     - count
     - len

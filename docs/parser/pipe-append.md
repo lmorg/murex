@@ -51,13 +51,13 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`<read-named-pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../parser/greater-than-greater-than.md):
+* [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`|>` (truncate file)](../parser/greater-than.md):
+* [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

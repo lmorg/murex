@@ -35,6 +35,11 @@ func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
 // https://en.wikipedia.org/wiki/Order_of_operations#Programming_languages
 // Not all operations will be available in murex and some are likely to be added
 // in future versions of this package.
+//
+// Please also note that the slice below is just defining the groupings. Each
+// operator within the _same_ group will then be processed from left to right.
+// Read the `executeExpression` function further down this source file to view
+// every supported operator
 var orderOfOperations = []symbols.Exp{
 	// 01. Function call, scope, array/member access
 	// 02. (most) unary operators, sizeof and type casts (right to left)
@@ -62,6 +67,7 @@ var orderOfOperations = []symbols.Exp{
 
 	// 13. Conditional expression (ternary)
 	symbols.Elvis,
+
 	// 14. Assignment operators (right to left)
 	symbols.Assign,
 
@@ -91,11 +97,11 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignAndDivide:
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
-			err = expAssignAndOperate(tree, _assMult)
+			err = expAssignAndOperate(tree, _assMulti)
 		case symbols.AssignAndMerge:
 			err = expAssignMerge(tree)
 
-			// 13. Conditional expression (ternary)
+		// 13. Conditional expression (ternary)
 		case symbols.NullCoalescing:
 			err = expNullCoalescing(tree)
 		case symbols.Elvis:
@@ -125,6 +131,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expRegexp(tree, true)
 		case symbols.NotRegexp:
 			err = expRegexp(tree, false)
+
 		// 06. Comparisons: less-than and greater-than
 		case symbols.GreaterThan:
 			err = expGtLt(tree, _gtF, _gtS)

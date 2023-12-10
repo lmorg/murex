@@ -83,7 +83,7 @@ required.
 
 ## See Also
 
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

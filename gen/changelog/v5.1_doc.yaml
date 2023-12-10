@@ -9,8 +9,4 @@
   Description: |-
     {{ include "gen/changelog/v5.1.inc.md" }}
   Related:
-    - null-coalescing
-    - elvis
-    - is-null
-    - signal
-    - numeric
+    - debug

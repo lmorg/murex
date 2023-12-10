@@ -114,9 +114,9 @@ arrays such as JSON (`ja`).
   Making character arrays (a to z)
 * [Non-Decimal Ranges](../mkarray/non-decimal.md):
   Create arrays of integers from non-decimal number bases
-* [`[..range]`](../parser/range.md):
+* [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[ element ]]`](../parser/element.md):
+* [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

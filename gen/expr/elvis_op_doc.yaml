@@ -3,9 +3,9 @@
     `?:` Elvis Operator
   CategoryID: parser
   Summary: >-
-    Returns the right operand if the left operand is falsy
+    Returns the right operand if the left operand is falsy (expression)
   Description: |-
-    The elvis operator is a little like a conditional where the result of the
+    The Elvis Operator is a little like a conditional where the result of the
     operation is the first non-falsy value from left to right.
 
     A falsy value is any of the following:
@@ -42,6 +42,7 @@
     > `?:`, is viewed sideways, it resembles an emoticon of Elvis Presley with his
     > signature hairstyle.
   Related:
+  - expr
   - null-coalescing
   - pipe-err
   - pipeline
