@@ -12,7 +12,7 @@ import (
 )
 
 func initCache(namespace string) {
-	if configCache {
+	if configCacheDisabled {
 		return
 	}
 

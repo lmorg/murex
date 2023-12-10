@@ -16,7 +16,7 @@ type listT struct {
 }
 
 func List(ctx context.Context, namespace string) ([]listT, error) {
-	rows, err := db.QueryContext(ctx, fmt.Sprintf(sqlTrimRead, namespace))
+	rows, err := db.QueryContext(ctx, fmt.Sprintf(sqlList, namespace))
 	if err != nil {
 		return nil, err
 	}
@@ -25,15 +25,21 @@ func List(ctx context.Context, namespace string) ([]listT, error) {
 
 	var (
 		slice []listT
-		row   listT
+		key   string
+		value string
+		ttl   string
 	)
 
 	for rows.Next() {
-		err = rows.Scan(&row)
+		err = rows.Scan(&key, &value, &ttl)
 		if err != nil {
 			return slice, err
 		}
-		slice = append(slice, row)
+		slice = append(slice, listT{
+			Key:   key,
+			Value: value,
+			TTL:   ttl,
+		})
 	}
 
 	return slice, rows.Err()
