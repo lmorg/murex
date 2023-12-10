@@ -61,7 +61,7 @@ brew install murex
 ### MacPorts
 
 ```bash
-sudo port install murex
+port install murex
 ```
 
 ## Pre-Compiled Binaries (HTTPS download)
