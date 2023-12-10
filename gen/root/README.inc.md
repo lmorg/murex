@@ -105,9 +105,9 @@ highlights:
         details: Murex comes with a built-in package manager that allows you to search and manage the lifecycle of packages. This makes it easy to install and manage dependencies.
         link: commands/murex-package
 
-      - title: 80 builtins commands
+      - title: Smart builtins commands
         icon: building
-        details: Murex provides 80 built-in commands allowing for fast execution and portability. These built-in commands cover a wide range of functionalities.
+        details: Murex provides smart built-in commands allowing for fast execution and portability. These built-in commands cover a wide range of functionalities.
         link: commands/
 
       - title: Realtime Events

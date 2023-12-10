@@ -126,15 +126,15 @@ func cmdTabulate(p *lang.Process) error {
 	}
 
 	if splitSpace && splitComma {
-		return fmt.Errorf("Cannot have %s and %s both enabled. Please pick one or the other", fSplitComma, fSplitSpace)
+		return fmt.Errorf("cannot have %s and %s both enabled. Please pick one or the other", fSplitComma, fSplitSpace)
 	}
 
 	if !keyVal && keyIncHint {
-		return fmt.Errorf("Cannot use %s without %s or %s being set", fKeyIncHint, fKeyVal, fMap)
+		return fmt.Errorf("cannot use %s without %s or %s being set", fKeyIncHint, fKeyVal, fMap)
 	}
 
 	if !keyVal && columnWraps {
-		return fmt.Errorf("Cannot use %s without %s or %s being set", fColumnWraps, fKeyVal, fMap)
+		return fmt.Errorf("cannot use %s without %s or %s being set", fColumnWraps, fKeyVal, fMap)
 	}
 
 	if err := p.ErrIfNotAMethod(); err != nil {

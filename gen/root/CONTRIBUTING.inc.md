@@ -17,7 +17,7 @@ Murex is community project. We gratefully accept contributions.
   - [Raising Bug Reports or Feature Requests](#raising-bug-reports-or-feature-requests)
   - [Committing Code](#committing-code)
   - [Blogging](#blogging)
-- [Rasing Pull Requests](#rasing-pull-requests)
+- [Raising Pull Requests](#raising-pull-requests)
 - [Etiquette](#etiquette)
 - [Licensing](#licensing)
 
@@ -100,7 +100,7 @@ language.
 Articles must be in markdown format and credit will be attributed with links to
 your Github account, Twitter or other social platforms and/or promotions.
 
-## Rasing Pull Requests
+## Raising Pull Requests
 
 Pull requests should be raised against the `develop` branch. This allows us to
 stage and test changes before releasing them to everyone.
@@ -114,7 +114,7 @@ do also need to ensure that Murex has focus and a consistent design. This means
 sometimes a conversation might be needed to work that contribution into the
 wider, holistic, design of the shell.
 
-This need not put anyone off contributing. However if you are unsure about
+This should not put anyone off contributing. However if you are unsure about
 whether a contribution fits, then you're welcome to [start a discussion ](https://github.com/lmorg/murex/discussions) first.
 
 ## Licensing
