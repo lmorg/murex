@@ -1,0 +1,17 @@
+if { which code } then {
+    autocomplete code %[
+        {
+            DynamicDesc: '{
+                code --help -> tabulate --map --split-space --key-inc-hint
+            }'
+        }
+    ]
+}
+
+!if { man-summary atom } then {
+    summary atom "Github Atom - Text editor / IDE"
+}
+
+!if { man-summary code } then {
+    summary code "Microsoft Visual Studio Code - Text editor / IDE"
+}

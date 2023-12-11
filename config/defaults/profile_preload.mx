@@ -11,3 +11,21 @@ if { os darwin && %[ /opt/homebrew/bin/brew ] -> f +x } then {
     -> prefix "export " \
     -> source
 }
+
+function define-force-tty-func (CMD: str) {
+    # Fixes programs which expect STDERR to be a TTY
+    if { which $CMD } then {
+        function $CMD "{
+            # Wrapper script around `$CMD`
+            
+            config set proc strict-arrays false
+            config set proc force-tty true
+            
+            exec $CMD \@PARAMS
+        }"
+
+        trypipe <!null> {
+            summary $CMD ${man-summary $CMD}
+        }
+    }
+}

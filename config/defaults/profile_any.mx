@@ -96,20 +96,6 @@ test unit function aliases {
     })
 }
 
-autocomplete: set cd { [{
-    "IncDirs": true
-}] }
-
-autocomplete: set mkdir { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
-
-autocomplete: set rmdir { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
-
 autocomplete: set exec { [
     {
         "IncFiles": true,
@@ -588,14 +574,6 @@ config: eval shell safe-commands {
     -> alter --merge / ([
         "builtins", "jobs"
     ])
-}
-
-!if { man-summary atom } then {
-    summary atom "Github Atom - Text editor / IDE"
-}
-
-!if { man-summary code } then {
-    summary code "Microsoft Visual Studio Code - Text editor / IDE"
 }
 
 function sprintf {
