@@ -30,11 +30,13 @@ func dbConnect() *sql.DB {
 		fmt.Printf("cache DB: %s\n", Path)
 	}
 
-	db, err := sql.Open(driverName, "file:"+Path)
+	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?cache=shared", Path))
 	if err != nil {
 		dbFailed("opening cache database", err)
 		return nil
 	}
+
+	db.SetMaxOpenConns(1)
 
 	disabled = false
 	return db

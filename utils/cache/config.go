@@ -6,24 +6,30 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-var configCache bool
+var configCacheDisabled bool
 
 // ReadMimes returns boolean
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
 func ReadStatus() (interface{}, error) {
-	return configCache && !disabled, nil
+	return !configCacheDisabled && !disabled, nil
 }
 
 // WriteStatus takes a bool
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
 func WriteStatus(v interface{}) error {
-	switch v := v.(type) {
-	case bool:
-		configCache = v
-		disabled = !v
-		return nil
+	v, err := types.ConvertGoType(v, types.Boolean)
 
-	default:
-		return fmt.Errorf("invalid data-type. Expecting a %s", types.Boolean)
+	if err != nil {
+		return err
 	}
+
+	boolean, ok := v.(bool)
+
+	if !ok {
+		return fmt.Errorf("cannot set cache enabled value because value is not a boolean")
+	}
+
+	configCacheDisabled = !boolean
+
+	return nil
 }

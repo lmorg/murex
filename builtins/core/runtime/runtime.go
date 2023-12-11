@@ -17,6 +17,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
+	"github.com/lmorg/murex/utils/cache"
 	cdcache "github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
@@ -55,6 +56,8 @@ const (
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
 	fCachedFilePaths    = "--cached-file-paths"
+	fCacheDump          = "--cache"
+	fCacheTrim          = "--trim-cache"
 	fHelp               = "--help"
 )
 
@@ -91,6 +94,8 @@ var flags = map[string]string{
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
 	fCachedFilePaths:    types.Boolean,
+	fCacheDump:          types.Boolean,
+	fCacheTrim:          types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -212,6 +217,18 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fSummaries[2:]] = hintsummary.Summary.Dump()
 		case fCachedFilePaths:
 			ret[fCachedFilePaths[2:]] = cdcache.DumpCompletions()
+		case fCacheDump:
+			v, err := cache.Dump(p.Context)
+			if err != nil {
+				return err
+			}
+			ret[fCacheDump[2:]] = v
+		case fCacheTrim:
+			v, err := cache.Trim(p.Context)
+			if err != nil {
+				return err
+			}
+			ret[fCacheTrim[2:]] = v
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:
