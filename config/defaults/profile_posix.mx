@@ -3,7 +3,7 @@ function pwd_short {
     pwd -> regexp "s#^$HOME#\~#"
 }
 
-config: set shell prompt {
+config set shell prompt {
     exitnum -> !if {
         out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {GREEN}»{RESET} "
     } else {
@@ -11,34 +11,18 @@ config: set shell prompt {
     }
 }
 
-config: set shell prompt-multiline {
+config set shell prompt-multiline {
     let len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
     printf "%${$len}s » " $linenum
 }
 
-/#if { which: less } then {
+/#if { which less } then {
     function murex-docs {
         # Wrapper around builtin to pipe to less
-        config: set proc strict-arrays false
-        fexec: builtin murex-docs @PARAMS | less
+        config set proc strict-arrays false
+        fexec builtin murex-docs @PARAMS | less
     }
 }#/
-
-autocomplete: set bg {
-    [{
-        "DynamicDesc": ({ fid-list --stopped }),
-        "ListView": true
-    }]
-}
-
-autocomplete: set fg {
-    [{
-        "DynamicDesc": ({
-            fid-list: --background -> alter -m / ${ fid-list --stopped }
-        }),
-        "ListView": true
-    }]
-}
 
 config eval shell safe-commands {
     -> alter --merge / ([

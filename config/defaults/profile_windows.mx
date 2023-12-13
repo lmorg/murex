@@ -1,7 +1,7 @@
-autocomplete set cast { [{
-    "Dynamic": ({ runtime: --unmarshallers })
-}] }
+autocomplete set cast %[{
+    Dynamic: '{ runtime --unmarshallers }'
+}]
 
-autocomplete set tout { [{
-    "Dynamic": ({ runtime: --marshallers })
-}] }
+autocomplete set tout %[{
+    Dynamic: '{ runtime --marshallers }'
+}]

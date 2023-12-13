@@ -1,15 +1,17 @@
-autocomplete: set zfs {
-    [{
-        "Dynamic": ({
-             zfs ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
+autocomplete set zfs %[{
+    Dynamic: %({
+            zfs <!out> \
+            -> grep -E "^\t[a-z]+" \
+            -> regexp 'f/\t+([a-z]+)/' \
+            -> uniq 
+    })
+}]
 
-autocomplete: set zpool {
-    [{
-        "Dynamic": ({
-             zpool ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
+autocomplete set zpool %[{
+    Dynamic: %({
+            zpool <!out> \
+            -> grep -E "^\t[a-z]+" \
+            -> regexp 'f/\t+([a-z]+)/' \
+            -> uniq 
+    })
+}]

@@ -2,7 +2,7 @@
 #
 # This example demonstrates `foreach`
 
-%[ 1..5 ] | foreach i {
+%[ 1..5 ] -> foreach i {
     echo $i
 }
 
