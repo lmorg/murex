@@ -69,25 +69,10 @@ func indexTable(p *lang.Process, params []string) error {
 			var v []interface{}
 			err2 := json.Unmarshal(b, &v)
 			if err2 != nil {
-				//close(cRecords)
 				status <- err2
 				return
 			}
 			cRecords <- iface2Str(v)
-
-			/*switch v.(type) {
-			case []string:
-				cRecords <- v.([]string)
-				return
-			case []interface{}:
-			cRecords <- iface2Str(v.([]interface{}))
-			return
-			default:
-				//close(cRecords)
-				status <- fmt.Errorf("I don't know how to turn %T into []string", v)
-				return
-			}*/
-
 		})
 		if err1 != nil {
 			close(cRecords)
@@ -111,6 +96,5 @@ func indexTable(p *lang.Process, params []string) error {
 		status <- err4
 	}()
 
-	err0 := <-status
-	return err0
+	return <-status
 }

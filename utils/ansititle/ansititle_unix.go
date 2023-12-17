@@ -27,11 +27,13 @@ func formatTitle(title []byte) []byte {
 		return nil
 	}
 	title = sanatise(title)
-	ansi := make([]byte, len(title)+5)
+	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '2', ';'})
 	copy(ansi[4:len(title)+4], title)
-	ansi[len(ansi)-1] = 7
+	//ansi[len(ansi)-1] = 7
+	ansi[len(ansi)-2] = 'S'
+	ansi[len(ansi)-1] = 'T'
 
 	return ansi
 }
@@ -50,11 +52,13 @@ func formatIcon(title []byte) []byte {
 		return nil
 	}
 	title = sanatise(title)
-	ansi := make([]byte, len(title)+5)
+	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '1', ';'})
 	copy(ansi[4:len(title)+4], title)
-	ansi[len(ansi)-1] = 7
+	//ansi[len(ansi)-1] = 7
+	ansi[len(ansi)-2] = 'S'
+	ansi[len(ansi)-1] = 'T'
 
 	return ansi
 }

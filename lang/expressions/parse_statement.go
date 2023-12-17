@@ -339,6 +339,8 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '[':
 			tree.statement.validFunction = false
 			switch {
+			//case len(tree.statement.command) == 1 && tree.prevChar() != '!':
+			//	kjhkjhkjhkjhkjhkh
 			case len(tree.statement.command) > 0 || len(tree.statement.paramTemp) > 0:
 				appendToParam(tree, r)
 			case tree.nextChar() == '[':
