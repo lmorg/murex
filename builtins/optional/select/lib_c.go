@@ -1,5 +1,8 @@
-//go:build !no_cgo && !linux && !windows && !darwin
-// +build !no_cgo,!linux,!windows,!darwin
+//go:build !no_cgo && !linux && !(windows && amd64) && !darwin
+// +build !no_cgo
+// +build !linux
+// +build !windows !amd64
+// +build !darwin
 
 /*
 	This file uses the C SQLite3 library. To compile it you will need gcc
