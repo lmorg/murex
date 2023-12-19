@@ -9,13 +9,14 @@ private autocomplete.su {
     }
 }
 
-test unit private autocomplete.su {
-    "StdoutType": "json",
-    "StdoutRegex": "\\[\\\".*?\\\"(,|)\\]"
+test unit private autocomplete.su %{
+    StdoutType:        json
+    StdoutGreaterThan: 1
+	StdoutIsArray:     true
 }
 
-autocomplete set su {
-    [{
-        "Dynamic": ({ autocomplete.su })
-    }]
-}
+autocomplete set su %[{
+    Dynamic:    %({ autocomplete.su })
+    IncManPage: true
+}]
+

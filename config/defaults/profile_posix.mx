@@ -3,7 +3,7 @@ function pwd_short {
     pwd -> regexp "s#^$HOME#\~#"
 }
 
-config: set shell prompt {
+config set shell prompt {
     exitnum -> !if {
         out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {GREEN}»{RESET} "
     } else {
@@ -11,132 +11,18 @@ config: set shell prompt {
     }
 }
 
-config: set shell prompt-multiline {
+config set shell prompt-multiline {
     let len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
     printf "%${$len}s » " $linenum
 }
 
-if { which: less } then {
+/#if { which less } then {
     function murex-docs {
         # Wrapper around builtin to pipe to less
-        config: set proc strict-arrays false
-        fexec: builtin murex-docs @PARAMS | less
+        config set proc strict-arrays false
+        fexec builtin murex-docs @PARAMS | less
     }
-}
-
-autocomplete set man { [{
-    "IncExePath": true
-}] }
-
-autocomplete set man-summary { [{
-    "IncExePath": true,
-    "AllowMultiple": true
-}] }
-
-autocomplete set which { [{
-    "IncExePath": true
-}] }
-
-autocomplete set whereis { [{
-    "IncExePath": true
-}] }
-
-autocomplete set sudo { [
-    {
-        "IncFiles": true,
-        "IncDirs": true,
-        "IncExePath": true
-    },
-    {
-        "NestedCommand": true
-    }
-] }
-
-private getHostsFile {
-    # Parse the hosts file and return uniq host names and IPs
-    
-    cast: str
-    
-    cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq
-    
-    if { g ~/.ssh/config -> f +d } then {
-        cat ~/.ssh/config -> regexp 'f/Host\s([-.a-zA-Z0-9]+)/'
-    }
-}
-
-test unit private getHostsFile {
-    "StdoutRegex": "[-_.0-9a-zA-Z]+\n",
-    "StdoutType":  "str",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
-}
-
-private getHostsPrefixUser {
-    # prefixes getHostFile entries with $1 if that matches a `user@` pattern
-
-    cast str
-
-    if { $1 =~ '^[-_.a-zA-Z0-9]+@' } then {
-        $1 -> regexp 'f/(^[-_.a-zA-Z0-9]+@)' -> set prefix
-        getHostsFile -> prefix $prefix
-    } else {
-        getHostsFile
-    }
-}
-
-autocomplete set ssh %[
-    {
-        Dynamic: '{ getHostsPrefixUser $PREFIX }',
-        IncManPage: true,
-        AllowAny: true,
-        FlagValues: {
-            "-i": [{ 
-                IncFiles: true
-            }],
-        }
-    },
-    {
-        Goto: "/0"
-    }
-]
-
-autocomplete set ping { [ {
-    "Dynamic": ({ getHostsFile })
-}] }
-
-autocomplete set rsync { [
-    {
-        "DynamicDesc": ({
-            rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column-wraps --key-inc-hint
-        }),
-        "AllowMultiple": true,
-        "Optional": true
-    },
-    {
-        "Dynamic": ({ getHostsFile }),
-        "AllowMultiple": true
-    }
-] }
-
-autocomplete set sftp { [ {
-    "Dynamic": "{ getHostsFile }"
-}] }
-
-autocomplete: set bg {
-    [{
-        "DynamicDesc": ({ fid-list --stopped }),
-        "ListView": true
-    }]
-}
-
-autocomplete: set fg {
-    [{
-        "DynamicDesc": ({
-            fid-list: --background -> alter -m / ${ fid-list --stopped }
-        }),
-        "ListView": true
-    }]
-}
+}#/
 
 config eval shell safe-commands {
     -> alter --merge / ([

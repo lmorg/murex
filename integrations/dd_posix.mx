@@ -12,7 +12,7 @@ autocomplete set dd %[
                 AllowAny: true
             }]
         }
-    },
+    }
     {
         Goto: "/0"
     }

@@ -58,6 +58,7 @@ const (
 	fCachedFilePaths    = "--cached-file-paths"
 	fCacheDump          = "--cache"
 	fCacheTrim          = "--trim-cache"
+	fCacheFlush         = "--flush-cache"
 	fHelp               = "--help"
 )
 
@@ -96,6 +97,7 @@ var flags = map[string]string{
 	fCachedFilePaths:    types.Boolean,
 	fCacheDump:          types.Boolean,
 	fCacheTrim:          types.Boolean,
+	fCacheFlush:         types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -229,6 +231,12 @@ func cmdRuntime(p *lang.Process) error {
 				return err
 			}
 			ret[fCacheTrim[2:]] = v
+		case fCacheFlush:
+			v, err := cache.Flush(p.Context)
+			if err != nil {
+				return err
+			}
+			ret[fCacheFlush[2:]] = v
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:

@@ -70,7 +70,7 @@ func (lc *internalCacheT) Dump(ctx context.Context) interface{} {
 				s = append(s, internalDumpT{
 					Key:   key,
 					Value: string(*item.value),
-					TTL:   item.ttl.String(),
+					TTL:   item.ttl.Format(time.UnixDate),
 				})
 			}
 		}
@@ -111,6 +111,32 @@ func (lc *internalCacheT) Trim(ctx context.Context) []string {
 				delete(lc.cache, key)
 				s = append(s, key)
 			}
+		}
+	}
+
+	lc.mutex.Unlock()
+
+	return s
+}
+
+func (lc *internalCacheT) Flush(ctx context.Context) []string {
+	if disabled {
+		return nil
+	}
+
+	var s []string
+
+	lc.mutex.Lock()
+
+	for key := range lc.cache {
+		select {
+		case <-ctx.Done():
+			lc.mutex.Unlock()
+			return s
+
+		default:
+			delete(lc.cache, key)
+			s = append(s, key)
 		}
 	}
 

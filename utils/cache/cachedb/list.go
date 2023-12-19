@@ -3,6 +3,7 @@ package cachedb
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 const (
@@ -27,7 +28,7 @@ func List(ctx context.Context, namespace string) ([]listT, error) {
 		slice []listT
 		key   string
 		value string
-		ttl   string
+		ttl   int64
 	)
 
 	for rows.Next() {
@@ -38,7 +39,7 @@ func List(ctx context.Context, namespace string) ([]listT, error) {
 		slice = append(slice, listT{
 			Key:   key,
 			Value: value,
-			TTL:   ttl,
+			TTL:   time.Unix(ttl, 0).Format(time.UnixDate),
 		})
 	}
 

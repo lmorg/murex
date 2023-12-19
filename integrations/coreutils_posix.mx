@@ -1,0 +1,29 @@
+autocomplete set man %[{
+    IncExePath: true
+}]
+
+autocomplete set man-summary %[{
+    IncExePath:    true
+    AllowMultiple: true
+}]
+
+autocomplete set which %[{
+    IncExePath: true
+    AllowMultiple: true
+}]
+
+autocomplete set whereis %[{
+    IncExePath:    true
+    AllowMultiple: true
+}]
+
+autocomplete set sudo %[
+    {
+        IncFiles:   true
+        IncDirs:    true
+        IncExePath: true
+    }
+    {
+        NestedCommand: true
+    }
+]

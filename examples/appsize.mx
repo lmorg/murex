@@ -1,13 +1,15 @@
 #!/usr/bin/env murex
 
-set: name=murex
+$name = "murex"
+
 try {
-    ls -lh ${which: $name} -> regexp: (f/([0-9.]+[A-Z])/) -> set: size
+    ls -lh ${which $name} -> regexp %(f/([0-9.]+[A-Z])/) -> set size
     # The above line is equivalent to the follow:
-    # which: $name -> set path
+    # which $name -> set path
     # ls -lh $path -> regexp f/[0-9.]+M/ -> set size
-    out: "The $name executable is $size big!"
+
+    out "The $name executable is $size big!"
 }
 catch {
-    err: "`$(name)` not found in \$PATH"
+    err "`$(name)` not found in \$PATH"
 }

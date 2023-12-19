@@ -1,13 +1,12 @@
-autocomplete: set terraform-docs {[
+autocomplete: set terraform-docs %[
     {
-        "DynamicDesc": ({
+        DynamicDesc: '{
             cast json
-            config: set proc strict-arrays false
-            terraform-docs: @PARAMS --help -> tabulate: --key-value --map --split-comma --key-inc-hint
-        }),
-        #"IncDirs": true,
-        "AllowMultiple": true,
-        "AllowAny": true,
-        "ListView": true
+            config set proc strict-arrays false
+            terraform-docs @PARAMS --help -> tabulate --key-value --map --split-comma --key-inc-hint
+        }'
+        AllowMultiple: true
+        AllowAny:      true
+        ListView:      true
     }
-]}
+]

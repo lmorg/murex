@@ -32,7 +32,7 @@ args var-name { json-block } -> <stdout>
 # --num: num == numeric data type
 # --bool: bool == flag used == true, missing == false
 # -b: --bool == alias of --bool flag
-args: args %{
+args args %{
     AllowAdditional: true
     Flags: {
         --str:  str

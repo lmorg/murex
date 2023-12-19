@@ -114,3 +114,19 @@ func Trim(ctx context.Context) (interface{}, error) {
 
 	return trimmed, nil
 }
+
+func Flush(ctx context.Context) (interface{}, error) {
+	flushed := make(map[string]trimmedT)
+
+	for namespace := range cache {
+		internal := cache[namespace].Flush(ctx)
+		cacheDb, err := flushDb(ctx, namespace)
+		flushed[namespace] = trimmedT{internal, cacheDb}
+
+		if err != nil {
+			return flushed, err
+		}
+	}
+
+	return flushed, nil
+}

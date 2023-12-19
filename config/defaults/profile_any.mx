@@ -25,9 +25,7 @@ method define echo %{
     Stdout: str
 }
 config eval shell safe-commands {
-    -> alter --merge / ([
-        "echo"
-    ])
+    -> alter --merge / %[ echo ]
 }
 
 private autocomplete.test.run-unit {
@@ -38,133 +36,135 @@ private autocomplete.test.run-unit {
 }
 
 test unit private autocomplete.test.run-unit %{
-    StdoutRegex: %(^(([-_./a-zA-Z0-9]+|\*)\n)+)
-	StdoutType:  str
+    StdoutRegex:       '^(([-_./a-zA-Z0-9]+|\*)\n)+'
+	StdoutType:        str
     StdoutGreaterThan: 1
-	StdoutIsArray: true
+	StdoutIsArray:     true
 }
 
-autocomplete set test { [
+autocomplete set test %[
     {
-        "FlagsDesc": {
-			"config":   "Enable or disable boolean test states (more options available in `config test ...`)",
-			"define":   "Define an inlined test",
-            "state":    "Define a state report",
-            "run":      "Execute a code block, function or unit test with inline testing enabled",
-			"unit": 	"Define a unit test",
-			"report":   "Write the test report (happens automatically by default)"
-		},
-        "FlagValues": {
-			"config": [{
-				"FlagsDesc": {
-					"enable":       "Enable inlined tests",
-					"!enable":      "Disable inlined tests",
-					"auto-report":  "Automatically output report (default)",
-					"!auto-report": "Do not automatically output report",
-					"verbose":      "Verbose report",
-					"!verbose":     "Consice report (default)"
-				},
-				"AllowMultiple": true,
-				"Optional": false
-    		}],
-            "run": [{
-                "Dynamic": ({ autocomplete.test.run-unit })
+        FlagsDesc: {
+			config: "Enable or disable boolean test states (more options available in `config test ...`)"
+			define: "Define an inlined test"
+            state:  "Define a state report"
+            run:    "Execute a code block, function or unit test with inline testing enabled"
+			unit:   "Define a unit test"
+			report: "Write the test report (happens automatically by default)"
+		}
+        FlagValues: {
+			config: [{
+				FlagsDesc: {
+					enable:       "Enable inlined tests"
+					!enable:      "Disable inlined tests"
+					auto-report:  "Automatically output report (default)"
+					!auto-report: "Do not automatically output report"
+					verbose:      "Verbose report"
+					!verbose:     "Concise report (default)"
+				}
+				AllowMultiple: true
+				Optional:      false
+    		}]
+            run: [{
+                Dynamic: '{ autocomplete.test.run-unit }'
             }]
         }
     }
-] }
+]
 
 function h {
     # Output the murex history log in a human readable format
-    history -> foreach { -> set json line; out "$line[Index]: $line[Block]" } -> cast *
+
+    history \
+    -> foreach {
+            -> set json line    
+            out "$line[Index]: $line[Block]"
+        } \
+    -> cast *
 }
 
 function aliases {
-   # Output the aliases in human readable format
-   cast str
-   runtime --aliases -> formap k v { out "$k => ${esccli @v.Alias}" } -> sort
+    # Output the aliases in human readable format
+
+    cast str
+    runtime --aliases \
+    -> formap k v {
+            out "$k => ${esccli @v.Alias}"
+        } \
+    -> sort
 }
 
-test unit function aliases {
-    "PreBlock": ({
+test unit function aliases %{
+    PreBlock: '{
         alias ALIAS_UNIT_TEST=example param1 param2 param3
-    }),
-    "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
-    "StdoutType": "str",
-    "PostBlock": ({
+    }'
+    PostBlock: '{
         !alias ALIAS_UNIT_TEST
-    })
+    }'
+    StdoutRegex: '([- _0-9a-zA-Z]+ => .*?\n)+'
+    StdoutType:  str
 }
 
-autocomplete: set cd { [{
-    "IncDirs": true
-}] }
-
-autocomplete: set mkdir { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
-
-autocomplete: set rmdir { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
-
-autocomplete: set exec { [
+autocomplete set exec %[
     {
-        "IncFiles": true,
-        "IncDirs": true,
-        "IncExePath": true
-    },
-    {
-        "NestedCommand": true
+        IncFiles:   true
+        IncDirs:    true
+        IncExePath: true
     }
-] }
+    {
+        NestedCommand: true
+    }
+]
 
-autocomplete: set format { [{
-    "Dynamic": ({ runtime: --marshallers })
-}] }
+autocomplete set format %[{
+    Dynamic: '{ runtime --marshallers }'
+}]
 
 private autocomplete.data-types {
     # Returns all murex data-types compiled
-    runtime: --readarray         -> format: str
-    runtime: --readarraywithtype -> format: str
-    runtime: --writearray        -> format: str
-    runtime: --readmap           -> format: str
-    runtime: --marshallers       -> format: str
-    runtime: --unmarshallers     -> format: str
+
+    cast str
+    runtime --readarray         -> format str
+    runtime --readarraywithtype -> format str
+    runtime --writearray        -> format str
+    runtime --readmap           -> format str
+    runtime --marshallers       -> format str
+    runtime --unmarshallers     -> format str
 }
 
-test unit private autocomplete.data-types {
-    "StdoutRegex": (^(([a-z0-9]+|\*)\n)+),
-    "StdoutType":  "str",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
+test unit private autocomplete.data-types %{
+    StdoutRegex:       '^(([a-z0-9]+|\*)\n)+'
+    StdoutType:        str
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
-autocomplete: set cast { [{
-    "Dynamic": ({ autocomplete.data-types })
-}] }
+autocomplete set cast %[{
+    Dynamic: '{ autocomplete.data-types }'
+}]
 
-autocomplete: set tout { [{
-    "Dynamic": ({ autocomplete.data-types })
-}] }
+autocomplete set tout %[{
+    Dynamic: '{ autocomplete.data-types }'
+}]
 
 private autocomplete.variables.locals {
     # Returns all local variable names
-    cast: str
-    runtime: --variables -> formap k v { out $k }
+    
+    cast str
+    runtime --variables -> formap k v { out $k }
 }
 
 private autocomplete.variables.globals {
     # Returns all global variable names
-    cast: str
-    runtime: --globals -> formap k v { out $k }
+    
+    cast str
+    runtime --globals -> formap k v { out $k }
 }
 
 private autocomplete.variables {
     # Returns all global and local variable names
-    cast: str
+
+    cast str
     autocomplete.variables.locals
     autocomplete.variables.globals
 }
@@ -182,325 +182,373 @@ test unit private autocomplete.variables %{
     StdoutIsArray:     true
 }
 
-autocomplete: set set { [{
-    "Dynamic": ({ autocomplete.variables.locals }),
-    "AnyValue": true
-}] }
+autocomplete: set set %[{
+    Dynamic:  '{ autocomplete.variables.locals }'
+    AnyValue: true
+}]
 
-autocomplete: set !set { [{
-    "Dynamic": ({ autocomplete.variables.locals })
-}] }
+autocomplete: set !set %[{
+    Dynamic: '{ autocomplete.variables.locals }'
+}]
 
-autocomplete: set global { [{
-    "Dynamic": ({ autocomplete.variables.globals }),
-    "AnyValue": true
-}] }
+autocomplete set global %[{
+    Dynamic:  '{ autocomplete.variables.globals }'
+    AnyValue: true
+}]
 
-autocomplete: set !global { [{
-    "Dynamic": ({ autocomplete.variables.globals })
-}] }
+autocomplete set !global %[{
+    Dynamic: '{ autocomplete.variables.globals }'
+}]
 
-autocomplete: set export { [
+autocomplete set export %[
     {
-        "Dynamic": ({ autocomplete.variables }),
-        "AnyValue": true
-    },
-    {
-        "IncDirs": true
+        Dynamic:  '{ autocomplete.variables }'
+        AnyValue: true
     }
-] }
+    {
+        IncDirs: true
+    }
+]
 
-autocomplete: set !export { [{
-    "DynamicDesc": ({ runtime --exports })
-}] }
+autocomplete set !export %[{
+    DynamicDesc: '{ runtime --exports }'
+}]
 
-autocomplete: set unset { [{
-    "DynamicDesc": ({ runtime --exports })
-}] }
+autocomplete set unset %[{
+    DynamicDesc: '{ runtime --exports }'
+}]
 
 private autocomplete.pipe-types {
-    # Returns CLI flags for ` + "`pipe`" + `
-    runtime: --pipes -> !match: std -> prefix: "--"
+    # Returns CLI flags for pipe
+
+    runtime --pipes \
+    -> !match std \
+    -> prefix "--"
 }
 
-test unit private autocomplete.pipe-types {
-    "StdoutRegex": "--file"
+test unit private autocomplete.pipe-types %{
+    StdoutRegex: "--file"
 }
 
-autocomplete set pipe { [
+autocomplete set pipe %[
     {
-        "AnyValue": true
-    },
+        AnyValue: true
+    }
     {
-        "Dynamic": ({ autocomplete.pipe-types }),
-        "FlagValues": {
-            "--file": [{
-                "IncFiles": true
-            }]
+        Dynamic:    '{ autocomplete.pipe-types }'
+        FlagValues: {
+            --file: [{ IncFiles: true }]
         }
     }
-] }
+]
 
 private autocomplete.!pipe-list {
     # Returns CLI flags for ` + "`!pipe`" + `
     runtime: --named-pipes -> ![ null ]
 }
 
-test unit private autocomplete.!pipe-list {
-    "PreBlock": ({
-        pipe: autocompleteunittest
-    }),
-    "StdoutRegex": "autocompleteunittest",
-    "PostBlock": ({
-        !pipe: autocompleteunittest
-    })
+test unit private autocomplete.!pipe-list %{
+    PreBlock:    '{ pipe  autocompleteunittest }'
+    PostBlock:   '{ !pipe autocompleteunittest }'
+    StdoutRegex: "autocompleteunittest"
 }
 
-autocomplete set !pipe { [
-    {
-        "DynamicDesc": ({ autocomplete.!pipe-list }),
-        "AllowMultiple": true
-    }
-] }
+autocomplete set !pipe %[{
+    DynamicDesc:   '{ autocomplete.!pipe-list }'
+    AllowMultiple: true
+}]
 
-autocomplete: set "[" { [{
-    "AnyValue": true,
-    "AllowMultiple": true,
-    "ExecCmdline": true,
-    "Dynamic": ({
-        switch ${ get-type: stdin } {
-            case * {
-                #<stdin> -> tabulate -> [ 0: ] -> format json -> [ 0 ]
-                <stdin> -> [ 0: ] -> format json -> [ 0 ] -> append "]"
-            }
+private autocomplete.index {   
+    switch ${ get-type stdin } {
 
-            case csv {
-                <stdin> -> [ 0: ] -> format json -> [ 0 ] -> append "]"
-            }
+        case * {
+            <stdin> \
+            -> [ 0: ] \
+            -> format json \
+            -> [ 0 ] \
+            -> append "]"
+        }
+
+        case csv {
+            <stdin> \
+            -> [ 0: ] \
+            -> format json \
+            -> [ 0 ] \
+            -> append "]"
+        }
+        
+        case jsonl {
+            <stdin> \
+            -> [ 0 ] \
+            -> set header
             
-            case jsonl {
-                <stdin> -> [ 0 ] -> set header
-                $header -> cast utf8 -> [ 0 -1 ] -> set jsonl_format
-                if { = jsonl_format==`[]` } then {
-                    tout json $header -> append "]"
-                }
-            }
+            $header \
+            -> cast utf8 \
+            -> [ 0 -1 ] \
+            -> set jsonl_format
 
-            catch {
-                <stdin> -> formap k v { out $k } -> cast str -> append "]"
+            if { $jsonl_format == "[]" } then {
+                tout json $header \
+                -> append "]"
             }
         }
-    })
-}] }
 
-autocomplete: set "[[" { [{
-    "AnyValue": true,
-    "ExecCmdline": true,
-    "AutoBranch": true,
-    "Dynamic": ({ -> struct-keys -> append "]]" })
-} ]}
+        catch {
+            <stdin> \
+            -> formap k v { out $k } \
+            -> cast str \
+            -> append "]" \
+            -> format json
+        }
+    }
+}
+
+autocomplete set "[" %[{
+    AnyValue:      true
+    AllowMultiple: true
+    ExecCmdline:   true
+    Dynamic:       '{ autocomplete.index }'
+
+}]
+
+autocomplete: set "[[" %[{
+    AnyValue:    true
+    ExecCmdline: true
+    AutoBranch:  true
+    Dynamic:     '{ -> struct-keys -> append "]]" }'
+}]
 
 private autocomplete.config.get.apps {
     # Returns all app names for the 'app' field in `config`
     config: -> formap k v { out $k } -> cast: str -> msort
 }
 
-test unit private autocomplete.config.get.apps {
-    "StdoutRegex": (shell),
-    "StdoutType":  "str",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
+test unit private autocomplete.config.get.apps %{
+    StdoutRegex:       "shell"
+    StdoutType:        str
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
 private autocomplete.config.get.keys {
     # Returns all keys for the 'app' field in `config`
-    config -> [ $PARAMS[0] ] -> formap k v { out $k } -> cast: str
+
+    config \
+    -> [ $PARAMS[0] ] \
+    -> formap k v { out $k } \
+    -> cast str
 }
 
-test unit private autocomplete.config.get.keys {
-    "Parameters": [ "shell" ],
-    "StdoutRegex": (prompt),
-    "StdoutType":  "str",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
+test unit private autocomplete.config.get.keys %{
+    Parameters:        [ shell ]
+    StdoutRegex:       prompt
+    StdoutType:        str
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
-autocomplete: set config { [{
-    "Flags": [ "get", "set", "eval", "define", "default" ],
-    "FlagValues": {
-        "get": [
-            { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+autocomplete: set config %[{
+    Flags: [ get set eval define default ]
+    FlagValues: {
+        get: [
+            { Dynamic: '{ autocomplete.config.get.apps }'            }
+            { Dynamic: '{ autocomplete.config.get.keys $PARAMS[1] }' }
         ],               
-        "set": [
-            { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) },
-            { "Dynamic": ({
+        set: [
+            { Dynamic: '{ autocomplete.config.get.apps }'            }
+            { Dynamic: '{ autocomplete.config.get.keys $PARAMS[1] }' }
+            { Dynamic: '{
 				switch {
 					case { ${ config -> [[ /$PARAMS[1]/$PARAMS[2]/Data-Type ]] } == "bool" } {
-						ja [true,false]
+						%[true false]
 					}
 
 					case { config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ <!null> Options ] } {
-						config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Options ]
+						config -> [[ /$PARAMS[1]/$PARAMS[2]/Options ]]
 					}
 					
                 	catch {
-						out ${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Default ]}
+						config -> [[ /$PARAMS[1]/$PARAMS[2]/Default ]]
 					}
 				}
-			}) }
+			}' }
+        ]
+        eval: [
+            { Dynamic: '{ autocomplete.config.get.apps }'            }
+            { Dynamic: '{ autocomplete.config.get.keys $PARAMS[1] }' }
         ],
-        "eval": [
-            { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
-        ],
-        "default": [
-            { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+        default: [
+            { Dynamic: '{ autocomplete.config.get.apps }'            }
+            { Dynamic: '{ autocomplete.config.get.keys $PARAMS[1] }' }
         ]
     }
-}] }
+}]
 
-autocomplete: set test-autocomplete { [{
-    "Flags": [ "111", "222", "333", "444" ],
-    "FlagValues": {
+autocomplete set test-autocomplete %[{
+    Flags: [ "111", "222", "333", "444" ]
+    FlagValues: {
         "111": [
-            { "Dynamic": ({ out aaa\nbbb\nccc\n$PARAMS }) },
-            { "Dynamic": ({ out ddd\neee\nfff\n$PARAMS }) }
+            { Dynamic: %({ out aaa\nbbb\nccc\n$PARAMS }) }
+            { Dynamic: %({ out ddd\neee\nfff\n$PARAMS }) }
         ],               
         "222": [
-            { "Dynamic": ({ out ggg\nhhh\niii\n$PARAMS }) },
-            { "Dynamic": ({ out jjj\nkkk\nlll\n$PARAMS }) }
+            { Dynamic: %({ out ggg\nhhh\niii\n$PARAMS }) }
+            { Dynamic: %({ out jjj\nkkk\nlll\n$PARAMS }) }
         ],
         "333": [
-            { "Dynamic": ({ out mmm\nnnn\nooo\n$PARAMS }) },
-            { "Dynamic": ({ out ppp\nqqq\nrrr\n$PARAMS }) }
+            { Dynamic: %({ out mmm\nnnn\nooo\n$PARAMS }) }
+            { Dynamic: %({ out ppp\nqqq\nrrr\n$PARAMS }) }
         ],
         "444": [
-            { "Dynamic": ({ out sss\nttt\nuuu\n$PARAMS }) },
-            { "Dynamic": ({ out vvv\nwww\nxxx\n$PARAMS }) }
+            { Dynamic: %({ out sss\nttt\nuuu\n$PARAMS }) }
+            { Dynamic: %({ out vvv\nwww\nxxx\n$PARAMS }) }
         ]
     }
-}] }
+}]
 
-autocomplete: set !config { [
-    { "Dynamic": ({ autocomplete.config.get.apps }) },
-    { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[0] }) }
-] }
+autocomplete set !config %[
+    { Dynamic: '{ autocomplete.config.get.apps }'            }
+    { Dynamic: '{ autocomplete.config.get.keys $PARAMS[0] }' }
+]
 
 
-autocomplete: set event { [
+autocomplete set event %[{
+    Dynamic: '{
+        runtime --events \
+        -> formap k v { out $k }
+    }'
+}]
+
+autocomplete set !event %[
     {
-        "Dynamic": ({ runtime: --events -> formap k v { out $k } })
-    }
-] }
-
-autocomplete: set !event { [
-    {
-        "Dynamic": ({ runtime: --events -> formap k v { out $k } -> msort })
+        Dynamic: '{
+            runtime --events \
+            -> formap k v { out $k } \
+            -> msort
+        }'
     },
     {
-        "Dynamic": ({ runtime: --events -> [ $ARGS[1] ] -> formap k v { out $k } -> msort })
+        Dynamic: '{
+            runtime: --events \
+            -> [ $ARGS[1] ] \
+            -> formap k v { out $k } \
+            -> msort
+        }'
     }
-] }
+]
 
 private autocomplete.alias {
     # Returns a map of all alises and the code they execute
-    runtime: --aliases -> formap --jmap name value { $name } { out @value }
+
+    runtime --aliases \
+    -> formap --jmap name value { $name } { out @value }
 }
 
-test unit private autocomplete.alias {
-    "StdoutRegex": (jobs),
-	"StdoutType":  "json",
-    "StdoutGreaterThan": 1,
-    "StdoutIsMap": true
+test unit private autocomplete.alias %{
+    StdoutRegex:       jobs
+	StdoutType:        json
+    StdoutGreaterThan: 1
+    StdoutIsMap:       true
 }
 
-autocomplete: set !alias { [{
-    "DynamicDesc": ({ autocomplete.alias }),
-    "ListView": true
-}] }
+autocomplete set !alias %[{
+    DynamicDesc: %({ autocomplete.alias })
+    ListView:    true
+}]
 
 private autocomplete.functions {
     # Returns a map of all murex public functions
-    runtime: --functions -> formap --jmap k v { $k } { out: $v[summary] }
+    runtime --functions -> formap --jmap k v { $k } { out $v[summary] }
 }
 
-test unit private autocomplete.functions {
-    "PreBlock": ({
+test unit private autocomplete.functions %{
+    PreBlock: %({
         function unit.test.autocomplete.functions {
             out "This is only a dummy function for testing"
         }
-    }),
-    "PostBlock": ({
-        !function unit.test.autocomplete.functions
-    }),
-    "StdoutRegex": (unit.test.autocomplete.functions),
-	"StdoutType":  "json",
-    "StdoutIsMap": true,
-    "StdoutGreaterThan": 1
+    })
+    PostBlock:         %({ !function unit.test.autocomplete.functions })
+    StdoutRegex:       unit.test.autocomplete.functions
+	StdoutType:        json
+    StdoutIsMap:       true
+    StdoutGreaterThan: 1
 }
 
-autocomplete: set !function { [{
-    "DynamicDesc": ({ autocomplete.functions }),
-    "ListView": true
-} ]}
+autocomplete set !function %[{
+    DynamicDesc: %({ autocomplete.functions })
+    ListView:    true
+}]
 
 private autocomplete.privates {
     # Returns a map of all murex private functions
-    runtime: --privates -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
+
+    runtime --privates \
+    -> struct-keys 3 \
+    -> regexp m,/.*?/.*?/, \
+    -> foreach --jmap private { $private } { 
+            runtime --privates \
+            -> [[ $private/Summary ]]
+        }
 }
 
-test unit private autocomplete.privates {
-	"StdoutType":  "json",
-    "StdoutGreaterThan": 1,
-    "StdoutIsMap": true
+test unit private autocomplete.privates %{
+	StdoutType:        json
+    StdoutGreaterThan: 1
+    StdoutIsMap: true
 }
 
-autocomplete set fexec { [{
-    "DynamicDesc": ({ fexec help }),
-    "FlagValues": {
-        "function": [{
-            "DynamicDesc": ({ autocomplete.functions }),
-            "ListView": true
-        }],
-        "private": [{
-            "DynamicDesc": ({ autocomplete.privates }),
-            "ListView": true
-        }],
-        "builtin": [{
-            "DynamicDesc": ({ autocomplete.builtins }),
-            "ListView": true
+autocomplete set fexec %[{
+    DynamicDesc: %({ fexec help })
+
+    FlagValues: {
+        function: [{
+            DynamicDesc: %({ autocomplete.functions })
+            ListView:    true
+        }]
+
+        private: [{
+            DynamicDesc: %({ autocomplete.privates })
+            ListView:    true
+        }]
+
+        builtin: [{
+            DynamicDesc: %({ autocomplete.builtins })
+            ListView:    true
         }]
     }
-}] }
+}]
 
 private autocomplete.builtins {
     # Returns a map of all murex builtins
-    runtime --builtins -> foreach --jmap builtin { $builtin } { fexec <!null> builtin murex-docs --summary $builtin || fexec builtin murex-docs --summary parser/$builtin }
+    runtime --builtins \
+    -> foreach --jmap builtin { $builtin } {
+            fexec <!null> builtin murex-docs --summary $builtin \
+            || fexec builtin murex-docs --summary parser/$builtin
+        }
 }
 
-test unit private autocomplete.builtins {
-	"StdoutType":  "json",
-    "StdoutGreaterThan": 1,
-    "StdoutIsMap": true
+test unit private autocomplete.builtins %{
+	StdoutType:        json
+    StdoutGreaterThan: 1
+    StdoutIsMap:       true
 }
 
-autocomplete: set autocomplete { [{
-    "Flags": [ "get", "set" ],
-    "FlagValues": {
-        "get": [{
-            "Dynamic": ({
-                runtime: --autocomplete -> formap: cmd ! { out $cmd } -> cast: str
-            })
+autocomplete: set autocomplete %[{
+    Flags: [ get set ]
+    FlagValues: {
+        get: [{
+            Dynamic: '{
+                runtime --autocomplete \
+                -> formap cmd ! { out $cmd } \
+                -> cast str
+            }'
         }]
     }
-}] }
+}]
 
-autocomplete: set debug { [{
-    "Flags": ["on", "off"]
-}] }
+autocomplete: set debug %[{
+    Flags: [ on off ]
+}]
 
 autocomplete: set murex-package %[{
     FlagsDesc: {
@@ -542,7 +590,7 @@ autocomplete: set murex-package %[{
                 Dynamic: %({ murex-package list packages })
             }
             {
-                "ImportCompletion": "git"
+                ImportCompletion: git
             }
         ]
         cd: [{
@@ -551,59 +599,47 @@ autocomplete: set murex-package %[{
     }
 }]
 
-alias: builtins=runtime --builtins
+alias builtins=runtime --builtins
 
-private: test.alias.builtins {
+private test.alias.builtins {
     # Wrapper function around the alias for `builtins` for unit testing
     builtins
 }
 
-test: unit private test.alias.builtins {
-    "StdoutRegex": ("[a-z0-9]+",),
-    "StdoutType":  "json",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
+test unit private test.alias.builtins %{
+    StdoutType:        json
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
-private: autocomplete.aliases.and.builtins {
+private autocomplete.aliases.and.builtins {
     # Returns a list of aliases and builtins
-    runtime: --aliases -> formap k ! { out: $k } -> cast str
+    cast str
+    runtime --aliases -> formap k ! { out $k } -> cast str
     builtins -> format str
 }
 
-test: unit private autocomplete.aliases.and.builtins {
-    "StdoutType":  "str",
-    "StdoutGreaterThan": 1,
-    "StdoutIsArray": true
+test unit private autocomplete.aliases.and.builtins %{
+    StdoutType:        str
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
-autocomplete: set summary { [{
-    "IncExePath": true,
-    "Dynamic": ({
-        autocomplete.aliases.and.builtins
-    })
-}] }
+autocomplete set summary %[{
+    IncExePath: true
+    Dynamic:    %({ autocomplete.aliases.and.builtins })
+}]
 
-config: eval shell safe-commands {
-    -> alter --merge / ([
-        "builtins", "jobs"
-    ])
-}
-
-!if { man-summary atom } then {
-    summary atom "Github Atom - Text editor / IDE"
-}
-
-!if { man-summary code } then {
-    summary code "Microsoft Visual Studio Code - Text editor / IDE"
+config eval shell safe-commands {
+    -> alter --merge / %[ builtins jobs ]
 }
 
 function sprintf {
     # This is a wrapper around the OS's default `printf`, replacing the now deprecated builtin of the same name
     -> set params
     switch {
-        case  { $params -> ! } { err: "No parameters passed via STDIN" }
-        case  { $ARGS[1]-> ! } { err: "No string supplied to print"    }
+        case  { $params -> ! } { err "No parameters passed via STDIN" }
+        case  { $ARGS[1]-> ! } { err "No string supplied to print"    }
         catch {
             printf "$ARGS[1]\n" @params
         }
@@ -612,35 +648,36 @@ function sprintf {
 
 summary docgen "Document generator for murex development"
 
-autocomplete set docgen { [
+autocomplete set docgen %[
     {
-        "AllowMultiple": true,
-        "Optional": true,
-        "FlagsDesc": {
-            "-panic": "Write a stack trace on error",
-            "-readonly": "Don't write output to disk. Use this to test the config",
-            "-verbose": "Verbose output (all log messages inc warnings)",
-            "-version": "Output docgen version number and exit",
-            "-warning": "Display warning messages (will also return a non-zero exit status if warnings found)"
+        AllowMultiple: true
+        Optional:      true
+        FlagsDesc: {
+            -panic:    "Write a stack trace on error"
+            -readonly: "Don't write output to disk. Use this to test the config"
+            -verbose:  "Verbose output (all log messages inc warnings)"
+            -version:  "Output docgen version number and exit"
+            -warning:  "Display warning messages (will also return a non-zero exit status if warnings found)"
         }
-    },
+    }
     {
-        "FlagsDesc": {
-            "-config": "Location of the base docgen config file"
-        },
-        "FlagValues": {
-            "-config": [{
-                "IncFiles": true
+        FlagsDesc: {
+            -config: "Location of the base docgen config file"
+        }
+        
+        FlagValues: {
+            -config: [{
+                IncFiles: true
             }]
         }
     }
-] }
+]
 
 config define open image %{
     Description:  Which mode to render images to the terminal
     DataType:     str
     Default:      auto
-    Options:      [ auto, compatible, kitty, iterm, terminology, sixel ]
+    Options:      [ auto compatible kitty iterm terminology sixel ]
 }
 
 openagent set image {
@@ -721,11 +758,13 @@ openagent set image {
 }
 
 private autocomplete.openagents {
-    runtime: --open-agents -> formap k _ { out $k } -> cast str
+    runtime --open-agents \
+    -> formap k ! { out $k } \
+    -> cast str
 }
 
 autocomplete set openagent %[{
-    Flags: [ get, set ],
+    Flags: [ get, set ]
     FlagValues: {
         get: [{
             Dynamic: %({ autocomplete.openagents })
@@ -740,19 +779,32 @@ autocomplete set !openagent %[
 ]
 
 private autocomplete.fid-kill {
-	# Returns a 2D array FIDs 
-    fid-list: --jsonl -> [ FID Command Parameters ]
+	# Returns a 2D array FIDs
+    fid-list --jsonl -> [ FID Command Parameters ]
 }
 
 test unit private autocomplete.fid-kill %{
-    StdoutRegex: '^\["FID","Command","Parameters"\]\n.*(\["[0-9]+",")'
-	StdoutType:  jsonl
-	ExitNum: 0
+    StdoutRegex:       %(^\["FID","Command","Parameters"\]\n.*(\["[0-9]+","))
+	StdoutType:        jsonl
+	ExitNum:           0
     StdoutGreaterThan: 1
 }
 
 autocomplete: set fid-kill %[{
-    DynamicDesc: '{ autocomplete.fid-kill }'
-    ListView: true,
+    DynamicDesc:   '{ autocomplete.fid-kill }'
+    ListView:      true
     AllowMultiple: true
+}]
+
+autocomplete set bg %[{
+    DynamicDesc: '{ fid-list --stopped }'
+    ListView:    true
+}]
+
+autocomplete set fg %[{
+    DynamicDesc: '{
+        fid-list --background \
+        -> alter -m / ${ fid-list --stopped }
+    }'
+    ListView: true
 }]

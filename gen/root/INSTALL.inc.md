@@ -87,11 +87,11 @@ page to select your platform.
 
 [![Test Clean Install](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml)
 
-> Murex is designed to be as easy to compile as possible. However if you do not
-> have any prior experience with compiling software from source then the
-> recommended approach for installing Murex is either via a package manager (if
-> your platform is already supported) or downloading one of our pre-compiled
-> binaries.
+Murex is designed to be as easy to compile as possible. However if you do not
+have any prior experience with compiling software from source then the
+recommended approach for installing Murex is either via a package manager (if
+your platform is already supported) or downloading one of our pre-compiled
+binaries.
 
 ### Prerequisites
 
