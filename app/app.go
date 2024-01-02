@@ -15,11 +15,11 @@ const (
 	version  = "%d.%d.%d"
 	Major    = 5
 	Minor    = 3
-	Revision = 5000
+	Revision = 6000
 )
 
 // Copyright is the copyright owner string
-const Copyright = "© 2018-2023 Laurence Morgan"
+const Copyright = "© 2018-2024 Laurence Morgan"
 
 // License is the projects software license
 const License = "License GPL v2"

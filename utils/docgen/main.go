@@ -14,7 +14,7 @@ const (
 	Version = "3.1.0"
 
 	// Copyright is the copyright owner string
-	Copyright = "(c) 2018-2023 Laurence Morgan"
+	Copyright = "(c) 2018-2024 Laurence Morgan"
 
 	// License is the projects software license
 	License = "Licence GPL v2"
