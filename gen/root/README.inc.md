@@ -131,7 +131,15 @@ More options are available in the [INSTALL](install/) document.
 
 ## 🛟 Getting Started
 
-Take your your first steps with `Murex` by following our [Language Tutorial](tour/).
+* Read the [language tour](https://murex.rocks/tour.html) to get started.
+
+* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line $SHELL as opposed to a
+scripting language.
 
 {{ else }}# Murex: A Smarter Shell
 
