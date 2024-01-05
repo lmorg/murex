@@ -33,7 +33,7 @@ highlights:
         details: |-
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
           <br/><br/>
-          <em>Never worry about file names with weird characters, nor running equations in "bc" again.</em>
+          <b>Never worry about file names with weird characters, nor running equations in "bc" again.</b>
         link: tour/#scalars
 
       - title: Smartly Interactive
@@ -41,15 +41,15 @@ highlights:
         details: |-
           Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
           <br/><br/>
-          <b>Navigating the command line navigation faster, more intuitive and efficient than ever before.</b>
+          <b>Navigating the command line is faster, more intuitive and efficient than ever before.</b>
         link: user-guide/interactive-shell
 
       - title: Easily Extended
         icon: cubes
         details: |-
-          Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
+          Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
           <br/><br/>
-          <em>The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.</em>
+          <b>Configure once, use everywhere.</b>
         link: user-guide/modules
 
 copyright: false
