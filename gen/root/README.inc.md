@@ -32,11 +32,11 @@ highlights:
         icon: check-double
         details: |-
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
-
+          <br/><br/>
           Never worry about file names with weird characters, nor running equations in "bc" again.
         link: tour/#scalars
 
-      - title: Smart Autocomplete
+      - title: Smartly Interactive
         icon: wand-magic-sparkles
         details: |-
           Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
@@ -44,7 +44,7 @@ highlights:
           Navigating the command line navigation faster, more intuitive and efficient than ever before.
         link: user-guide/interactive-shell
 
-      - title: Extension Framework
+      - title: Easily Extended
         icon: cubes
         details: |-
           Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
