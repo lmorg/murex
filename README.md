@@ -48,9 +48,9 @@ More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-* Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
-guide walks you through using Murex as a command line $SHELL as opposed to a
-scripting language.
+* The [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
 
 ## Install instructions
 
