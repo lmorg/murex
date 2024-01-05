@@ -42,13 +42,13 @@ More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
 ## Language Guides
 
-Read the [language tour](https://murex.rocks/tour.html) to get started.
+* Read the [language tour](https://murex.rocks/tour.html) to get started.
 
-The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+* Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
 guide walks you through using Murex as a command line $SHELL as opposed to a
 scripting language.
 

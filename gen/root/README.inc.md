@@ -22,30 +22,34 @@ highlights:
     features:
       - title: Content Aware
         icon: arrows-to-circle
-        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
-        
-        Data types can be explicitly cast and reformatted, but also inferred if preferred.
+        details: |-
+          Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
+
+          Data types can be explicitly cast and reformatted, but also inferred if preferred.
         link: types/
 
       - title: Expressions
         icon: check-double
-        details: Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
-        
-        Never worry about file names with weird characters, nor running equations in "bc" again.
+        details: |-
+          Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
+
+          Never worry about file names with weird characters, nor running equations in "bc" again.
         link: tour/#scalars
 
       - title: Smart Autocomplete
         icon: wand-magic-sparkles
-        details: Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
+        details: |-
+          Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
         
-        Navigating the command line navigation faster, more intuitive and efficient than ever before.
+          Navigating the command line navigation faster, more intuitive and efficient than ever before.
         link: user-guide/interactive-shell
 
       - title: Extension Framework
         icon: cubes
-        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
-        
-        The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
+        details: |-
+          Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
+
+          The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
         link: user-guide/modules
 
 copyright: false
@@ -173,13 +177,13 @@ More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
 ## Language Guides
 
-Read the [language tour](https://murex.rocks/tour.html) to get started.
+* Read the [language tour](https://murex.rocks/tour.html) to get started.
 
-The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+* Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
 guide walks you through using Murex as a command line $SHELL as opposed to a
 scripting language.
 
