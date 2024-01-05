@@ -18,26 +18,34 @@ actions:
 
 highlights:
   - header: A Modern shell for the rest of us
-    description: Murex carries tons of unique features...
+    description: Murex carries tons of unique features. Some highlights include...
     features:
       - title: Content Aware
         icon: arrows-to-circle
-        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in these formats.
+        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
+        
+        Data types can be explicitly cast and reformatted, but also inferred if preferred.
         link: types/
 
       - title: Expressions
         icon: check-double
         details: Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
+        
+        Never worry about file names with weird characters, nor running equations in "bc" again.
         link: tour/#scalars
 
       - title: Smart Autocomplete
         icon: wand-magic-sparkles
-        details: Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and `fzf`-like functionality baked in. Thus making command line navigation faster and more efficient.
+        details: Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
+        
+        Navigating the command line navigation faster, more intuitive and efficient than ever before.
         link: user-guide/interactive-shell
 
       - title: Extension Framework
         icon: cubes
-        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions such as `auto-jump` or `starship`. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
+        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
+        
+        The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
         link: user-guide/modules
 
 copyright: false
