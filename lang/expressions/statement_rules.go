@@ -49,6 +49,9 @@ func (tree *ParserT) tokeniseScalar() bool {
 				return false
 			}
 		}
+
+	case "is-null":
+		return false
 	}
 
 	return true

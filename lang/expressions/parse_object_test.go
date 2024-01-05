@@ -159,3 +159,24 @@ func TestParseObjectBool(t *testing.T) {
 
 	testParserObject(t, tests)
 }
+
+// https://github.com/lmorg/murex/issues/781
+func TestParseObjectNull(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    `%{foo:null}`,
+				expected: `{"foo":null}`,
+				pos:      9,
+			},
+			{
+				input:    `%{foo:"null"}`,
+				expected: `{"foo":"null"}`,
+				pos:      11,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
