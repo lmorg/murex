@@ -68,24 +68,24 @@ block defined from the `Read` and `Write` mapped values. eg
 
 ```
 # Create the example config file
-(this is the default value) -> > example.conf
+out "this is the default value" |> example.conf
 
-# mxjson format, so we can have comments and block quotes: #, (, )
-config define example test ({
-    "Description": "This is only an example",
-    "DataType": "str",
-    "Global": true,
-    "Dynamic": {
-        "Read": ({
+config define example test5 %{
+    Description: This is only an example
+    DataType: str
+    Global: true
+    Dynamic: {
+        Read: '{
             open example.conf
-        }),
-        "Write": ({
-            -> > example.conf
-        })
+        }'
+        Write: '{
+            |> example.conf
+        }'
     },
+    
     # read the config file to get the default value
-    "Default": "${open example.conf}"
-})
+    Default: ${open example.conf}
+}
 ```
 
 It's also worth noting the different syntax between **Read** and **Default**.
@@ -97,8 +97,6 @@ In technical terms, the **Default** code block is being executed by Murex
 when `config define` is getting executed where as the **Read** and **Write**
 code blocks are getting stored as a JSON string and then executed only when
 those hooks are getting triggered.
-
-See the `mxjson` data-type for more details.
 
 #### Dynamic Read
 

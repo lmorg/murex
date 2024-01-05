@@ -36,7 +36,7 @@
     Define a new config setting:
 
     ```
-    config define app key { mxjson }
+    config define app key { json }
     ```
 
     Reset a setting to it's default value:
@@ -103,7 +103,7 @@
     another executing function (same concept as global variables).
 
     ## Directives
-    
+
     {{ include "builtins/core/config/config_doc.inc.md" }}
   Synonyms:
   - config
@@ -112,7 +112,6 @@
   - runtime
   - open
   - event
-  - mxjson
   - append
   - function
   - match
@@ -121,4 +120,5 @@
   - getfile
   - item-index
   - element
+  - create-object
 
