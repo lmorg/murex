@@ -4,6 +4,8 @@
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 
+<img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="readme">
+
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.
 
@@ -38,13 +40,21 @@ A non-exhaustive list features would include:
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
+## Language Guides
+
+Read the [language tour](https://murex.rocks/tour.html) to get started.
+
+The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+Lastly the [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line $SHELL as opposed to a
+scripting language.
+
 ## Install instructions
 
 See [INSTALL](https://murex.rocks/INSTALL.html) for details.
-
-## Language Tour
-
-Read the [language tour](https://murex.rocks/tour.html) to get started.
 
 ## Discuss Murex
 
