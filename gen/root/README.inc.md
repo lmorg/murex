@@ -24,7 +24,7 @@ highlights:
         icon: arrows-to-circle
         details: |-
           Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
-
+          <br/><br/>
           Data types can be explicitly cast and reformatted, but also inferred if preferred.
         link: types/
 
@@ -40,7 +40,7 @@ highlights:
         icon: wand-magic-sparkles
         details: |-
           Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
-        
+          <br/><br/>
           Navigating the command line navigation faster, more intuitive and efficient than ever before.
         link: user-guide/interactive-shell
 
