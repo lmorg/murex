@@ -48,7 +48,7 @@ highlights:
         icon: cubes
         details: |-
           Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality.
-
+          <br/><br/>
           The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
         link: user-guide/modules
 
