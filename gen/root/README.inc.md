@@ -107,7 +107,7 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 
 <!-- markdownlint-restore -->
 
-Check out the [language tour](/tour.html) and [Interactive Shell guide](user-guide/interactive-shell.html)!
+Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
 ## 📦 Easy to Install
 
@@ -228,7 +228,7 @@ language.
 
 **Plus More!**
 
-Check out the [language tour](/tour.html) and [Interactive Shell guide](user-guide/interactive-shell.html)!
+Check out the [Language Tour](https://murex.rocks/tour.html) and [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html) guides!
 
 ## Install instructions
 
