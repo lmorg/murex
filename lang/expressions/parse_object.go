@@ -275,6 +275,8 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					o.keyValueI[o.stage&1] = true
 				case "false":
 					o.keyValueI[o.stage&1] = false
+				case "null":
+					o.keyValueI[o.stage&1] = nil
 				default:
 					o.keyValueI[o.stage&1] = s
 				}

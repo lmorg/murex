@@ -8,14 +8,14 @@
 - [Command Prompt](#command-prompt)
   - [Autocomplete](#autocomplete)
   - [Fuzzy Find Autocomplete](#fuzzy-find-autocomplete)
-  - [Preview Box](#preview-box)
+  - [Autocomplete Preview](#autocomplete-preview)
+  - [Command Line Preview](#command-line-preview)
   - [Search Shell History](#search-shell-history)
   - [Line Editing](#line-editing)
     - [Navigation](#navigation)
     - [General Hotkeys](#general-hotkeys)
   - [Vim Keys](#vim-keys)
     - [Supported Keys](#supported-keys)
-    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
   - [Recalling Previous Words](#recalling-previous-words)
 - [Job Control](#job-control)
 - [Miscellaneous](#miscellaneous)
@@ -23,6 +23,7 @@
   - [End Of File](#end-of-file)
   - [Alternative Cancel Key](#alternative-cancel-key)
   - [Clear Screen](#clear-screen)
+  - [EDITOR](#editor)
 
 </div>
 
@@ -54,8 +55,12 @@ roles:
   
 * `ctrl`+`f`: fuzzy find in the suggestions
 
-* `f1`: show / hide preview box. This will hide your terminal output while
-  enabled. The preview box supports additional key bindings (see below)
+* `f1`: show / hide autocomplete preview box. This will hide your terminal
+  output while enabled. The preview box supports additional key bindings
+  ([see below](#autocomplete-preview))
+
+* `f9`: show the command line preview box. This will output the contents of
+  your command pipeline ([see below](#command-line-preview))
 
 ### Fuzzy Find Autocomplete
 
@@ -99,20 +104,56 @@ While the fuzzy finder is open, the following keys are assigned roles:
 * `esc`: cancel search
 
 * `f1`: show / hide preview box. This will hide your terminal output while
-  enabled. The preview box supports additional key bindings (see below)
+  enabled. The preview box supports additional key bindings ([see below](#autocomplete-preview))
 
-### Preview Box
+* `f9`: show the command line preview box. This will output the contents of
+  your command pipeline ([see below](#command-line-preview))
 
-The preview box is a way of quickly examining the contents of a function, man
-page, text file or even image, based on what autocomplete suggestion is
-highlighted.
+### Autocomplete Preview
+
+
+
+The autocomplete preview is a way of quickly examining the contents of a
+function, man page, text file or even image, based on what autocomplete
+suggestion is highlighted. ([read more](interactive-shell.md#autocomplete-preview))
 
 While the preview box is open, the rest of your terminal output will be hidden.
 However once you close it, that output will reappear.
 
 While the preview box is open, the following keys are assigned roles:
 
-* `f1`: closes the preview box
+* `f1` or `enter`: closes the preview box
+
+* `f9` switches to command line preview
+  
+* `page up` scroll up the contents of the preview box, one page at a time
+* `ctrl`+`arrow up` scroll up the contents of the preview box, one page at a
+  time (IBM keyboard layouts)
+* `option`+`arrow up` scroll up the contents of the preview box, one page at a
+  time (Apple keyboard layouts)
+
+* `page down` scroll down the contents of the preview box, one page at a time
+* `ctrl`+`arrow down` scroll down the contents of the preview box, one page at
+  a time (IBM keyboard layouts)
+* `option`+`arrow down` scroll down the contents of the preview box, one page
+  at a time (Apple keyboard layouts)
+
+### Command Line Preview
+
+
+
+The command line preview enables you to view the output of a command pipeline
+interactively while you type it. ([read more](interactive-shell.md#command-line-preview))
+
+While the preview box is open, the rest of your terminal output will be hidden.
+However once you close it, that output will reappear.
+
+While the preview box is open, the following keys are assigned roles:
+
+* `f1` or `enter`: closes the preview box
+
+* `f9` re-runs the command line and thus updates the contents in the preview
+  frame
   
 * `page up` scroll up the contents of the preview box, one page at a time
 * `ctrl`+`arrow up` scroll up the contents of the preview box, one page at a
@@ -217,11 +258,6 @@ Press `i` to return to normal editing mode.
 * `0` to `9`: repeat action _n_ times. eg `5x` would delete (`x`) five (`5`)
   characters
 
-#### Full Screen Editing via `$EDITOR`
-
-When in "vim keys" mode, press `v` to bring up the visual editor. The editor
-will be whichever command is stored in the `$EDITOR` environmental variable.
-
 ### Recalling Previous Words
 
 * `shift`+`f1` recalls the first word
@@ -274,7 +310,17 @@ shell.
 
 ### Clear Screen
 
-Pressing `ctrl`+`l` will clear the screen.
+Pressing `ctrl`+`l` will clear the screen.  
+
+### EDITOR
+
+Sometimes you might want to type your command line in a different editor. You
+can do via via `esc` followed by `v`.
+
+You will need to have an environmental variable named `$EDITOR` set to the file
+name and path of your preferred editor, otherwise Murex will default to `vi`.
+
+(this feature is not currently available on Windows)
 
 ## See Also
 
