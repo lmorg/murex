@@ -70,7 +70,7 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
   <img src="/screenshot-preview-custom-hints.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-previoew-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-supports-posix.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
@@ -178,6 +178,18 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
+## Language Guides
+
+* Read the [language tour](https://murex.rocks/tour.html) to get started.
+
+* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* The [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
+
 ## Examples
 
 **Smart data:**
@@ -215,18 +227,6 @@ A non-exhaustive list features would include:
 **Plus More!**
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
-
-## Language Guides
-
-* Read the [language tour](https://murex.rocks/tour.html) to get started.
-
-* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
-great cheatsheet for those wishing to skip the tutorials and jump straight in.
-This guide includes comparisons with Bash.
-
-* The [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
-guide walks you through using Murex as a command line as opposed to a scripting
-language.
 
 ## Install instructions
 
