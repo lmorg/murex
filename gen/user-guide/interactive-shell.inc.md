@@ -304,6 +304,6 @@ give you as much useful detail as it can.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-error-messages?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}

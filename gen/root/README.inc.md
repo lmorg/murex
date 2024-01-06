@@ -71,7 +71,7 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
   <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-paste-safety?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
