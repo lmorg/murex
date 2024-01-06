@@ -71,7 +71,7 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
   <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-supports-posix.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-paste-safety?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
@@ -224,9 +224,9 @@ language.
 
 <img src="images/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Plus More!**
+<img src="images/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
+**Plus More!**
 
 ## Install instructions
 

@@ -70,9 +70,9 @@ language.
 
 <img src="images/screenshot-error-messages.png?v=undef" class="readme">
 
-**Plus More!**
+<img src="images/screenshot-paste-safety.png?v=undef" class="readme">
 
-More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
+**Plus More!**
 
 ## Install instructions
 
