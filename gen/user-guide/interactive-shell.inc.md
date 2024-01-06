@@ -94,6 +94,7 @@ method define jq {
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
+<br/><br/>
 <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}
@@ -198,7 +199,7 @@ The following screenshot is of a custom hint text using Starship:
 <img src="/screenshot-hint-starship.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 
-Source: https://github.com/orefalo/murex-module-starship
+Source: [https://github.com/orefalo/murex-module-starship](https://github.com/orefalo/murex-module-starship)
 {{ end }}
 
 ### Disabling Hint Text
@@ -235,7 +236,7 @@ It can display:
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-
+<br/><br/>
 <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}
