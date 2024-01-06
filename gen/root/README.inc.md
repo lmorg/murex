@@ -61,9 +61,20 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 <!-- markdownlint-disable -->
 
 <div class="image-preview">
-  <img src="/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-custom-hints.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-previoew-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-supports-posix.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
 </div>
 
 <style>
@@ -169,17 +180,39 @@ A non-exhaustive list features would include:
 
 ## Examples
 
-**JSON wrangling:**
+**Smart data:**
 
-<img src="images/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+<img src="images/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 **Inline spellchecking:**
 
-<img src="images/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+<img src="images/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Autocomplete descriptions, process IDs accompanied by process names:**
+**Autocomplete:**
 
-<img src="images/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+<img src="images/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+**Preview screen:**
+
+<img src="images/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-preview-custom-hints.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+**Useful error messages:**
+
+<img src="images/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+**Plus More!**
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 

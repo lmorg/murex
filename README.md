@@ -26,17 +26,39 @@ A non-exhaustive list features would include:
 
 ## Examples
 
-**JSON wrangling:**
+**Smart data:**
 
-<img src="images/murex-open-foreach.png?v=undef" class="readme">
+<img src="images/screenshot-open-foreach.png?v=undef" class="readme">
+
+<img src="images/screenshot-ps-select.png?v=undef" class="readme">
 
 **Inline spellchecking:**
 
-<img src="images/murex-spellchecker.png?v=undef" class="readme">
+<img src="images/screenshot-spellchecker.png?v=undef" class="readme">
 
-**Autocomplete descriptions, process IDs accompanied by process names:**
+**Autocomplete:**
 
-<img src="images/murex-kill-autocomplete.png?v=undef" class="readme">
+<img src="images/screenshot-kill-autocomplete.png?v=undef" class="readme">
+
+<img src="images/screenshot-autocomplete-git.png?v=undef" class="readme">
+
+<img src="images/screenshot-history.png?v=undef" class="readme">
+
+**Preview screen:**
+
+<img src="images/screenshot-preview-man-page.png?v=undef" class="readme">
+
+<img src="images/screenshot-preview-custom-hints.png?v=undef" class="readme">
+
+<img src="images/screenshot-preview-image.png?v=undef" class="readme">
+
+<img src="images/screenshot-preview-command-line.png?v=undef" class="readme">
+
+**Useful error messages:**
+
+<img src="images/screenshot-error-messages.png?v=undef" class="readme">
+
+**Plus More!**
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
