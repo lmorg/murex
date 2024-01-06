@@ -94,7 +94,7 @@ method define jq {
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<br/><br/>
+<br/>
 <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}
@@ -236,7 +236,7 @@ It can display:
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-<br/><br/>
+<br/>
 <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}

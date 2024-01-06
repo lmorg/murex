@@ -12,7 +12,6 @@
     - [General Hotkeys](#general-hotkeys)
   - [Vim Keys](#vim-keys)
     - [Supported Keys](#supported-keys)
-    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
   - [Recalling Previous Words](#recalling-previous-words)
 - [Job Control](#job-control)
 - [Miscellaneous](#miscellaneous)
@@ -262,11 +261,6 @@ Press `i` to return to normal editing mode.
 * `%`: jump to either end of matching bracket
 * `0` to `9`: repeat action _n_ times. eg `5x` would delete (`x`) five (`5`)
   characters
-
-#### Full Screen Editing via `$EDITOR`
-
-When in "vim keys" mode, press `v` to bring up the visual editor. The editor
-will be whichever command is stored in the `$EDITOR` environmental variable.
 
 ### Recalling Previous Words
 
