@@ -107,7 +107,7 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 
 <!-- markdownlint-restore -->
 
-More examples are available on [Github](https://github.com/lmorg/murex/tree/master/examples).
+Check out the [language tour](/tour.html) and [Interactive Shell guide](user-guide/interactive-shell.html)!
 
 ## 📦 Easy to Install
 
@@ -227,6 +227,8 @@ language.
 <img src="images/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 **Plus More!**
+
+Check out the [language tour](/tour.html) and [Interactive Shell guide](user-guide/interactive-shell.html)!
 
 ## Install instructions
 

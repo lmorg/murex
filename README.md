@@ -74,6 +74,8 @@ language.
 
 **Plus More!**
 
+Check out the [language tour](/tour.html) and [Interactive Shell guide](user-guide/interactive-shell.html)!
+
 ## Install instructions
 
 See [INSTALL](https://murex.rocks/INSTALL.html) for details.
