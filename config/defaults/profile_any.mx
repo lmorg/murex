@@ -674,7 +674,7 @@ autocomplete set docgen %[
 ]
 
 config define open image %{
-    Description:  Which mode to render images to the terminal
+    Description:  "Which mode to render images to the terminal"
     DataType:     str
     Default:      auto
     Options:      [ auto compatible kitty iterm terminology sixel ]
