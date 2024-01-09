@@ -488,8 +488,8 @@ func (v *Variables) getDataType(name string) string {
 	}
 
 	// variable not found so lets fallback to the environmental variables
-	value := os.Getenv(name)
-	if value != "" {
+	_, exists = os.LookupEnv(name)
+	if exists {
 		return getEnvVarDataType(name)
 	}
 
