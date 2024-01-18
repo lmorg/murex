@@ -93,6 +93,9 @@ var constants = map[string][]byte{
 	"ALT-7": {27, 55},
 	"ALT-8": {27, 56},
 	"ALT-9": {27, 57},
+
+	// control seqs
+	"CSI": {27, 91},
 }
 
 var sgr = map[string][]byte{

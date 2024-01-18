@@ -677,7 +677,7 @@ config define open image %{
     Description:  "Which mode to render images to the terminal"
     DataType:     str
     Default:      auto
-    Options:      [ auto compatible kitty iterm terminology sixel ]
+    Options:      [ auto compatible mxtty kitty iterm terminology sixel ]
 }
 
 openagent set image {
@@ -687,6 +687,7 @@ openagent set image {
     if { = mode==`auto` } {
         switch {
             case { $TMUX }                        { set mode=compatible }
+            case { $MXTTY }                       { set mode=mxtty }     
             case { $ITERM_PROFILE }               { set mode=iterm }
             case { $TERM_PROGRAM == "iTerm.app" } { set mode=iterm }
             case { $KITTY_WINDOW_ID }             { set mode=kitty }
@@ -705,6 +706,15 @@ openagent set image {
     switch $mode {
         case compatible {
             open-image $file
+        }
+
+        case mxtty {
+            if { $SSH_TTY } {
+                $json = %{ base64: ${base64 -i $file -o -} } 
+            } else {
+                $json = %{ filename: $file }
+            }
+            out "{ESC}_insert;image;$(json){ESC}\\"
         }
 
         case kitty {
