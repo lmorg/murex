@@ -7,16 +7,6 @@ autocomplete set man-summary %[{
     AllowMultiple: true
 }]
 
-autocomplete set which %[{
-    IncExePath: true
-    AllowMultiple: true
-}]
-
-autocomplete set whereis %[{
-    IncExePath:    true
-    AllowMultiple: true
-}]
-
 autocomplete set sudo %[
     {
         IncFiles:   true
@@ -27,3 +17,9 @@ autocomplete set sudo %[
         NestedCommand: true
     }
 ]
+
+#alias ls=ls --color=auto
+alias grep=grep --color=auto
+alias egrep=grep -E --color=auto
+
+$ENV.CLICOLOR = true

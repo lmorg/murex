@@ -74,7 +74,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 
 	var table []byte
 	if os.Getenv("MXTTY") == "true" {
-		table = []byte("\x1b_begin;table;{\"format\":\"csv\"}\x1b\\")
+		table = []byte("\x1b_begin;table;{\"Format\":\"csv\"}\x1b\\")
 	}
 	table = append(table, buf.Bytes()...)
 	if os.Getenv("MXTTY") == "true" {

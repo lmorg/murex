@@ -710,9 +710,9 @@ openagent set image {
 
         case mxtty {
             if { $SSH_TTY } {
-                $json = %{ base64: ${base64 -i $file -o -} } 
+                $json = %{ Base64: ${base64 -i $file -o -} } 
             } else {
-                $json = %{ filename: $file }
+                $json = %{ Filename: $file }
             }
             out "{ESC}_insert;image;$(json){ESC}\\"
         }

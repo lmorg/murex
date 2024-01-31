@@ -1,0 +1,28 @@
+!if { $MXTTY } then {
+    echo "zzzzzzzzzzzzzzzzzzz"
+    return
+}
+
+function ps {
+    config set proc strict-arrays false
+
+    if { $SELF.TTY } then {
+        tout str '{ESC}_begin;table{ESC}\'
+        exec ps @PARAMS
+        tout str '{ESC}_end;table{ESC}\'
+    } else {
+        exec ps @PARAMS
+    }
+}
+
+function last {
+    config set proc strict-arrays false
+
+    if { $SELF.TTY } then {
+        tout str '{ESC}_begin;table;{ "HeadMissing": true }{ESC}\'
+        exec last @PARAMS
+        tout str '{ESC}_end;table{ESC}\'
+    } else {
+        exec last @PARAMS
+    }
+}
