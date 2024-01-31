@@ -1,5 +1,4 @@
 !if { $MXTTY } then {
-    echo "zzzzzzzzzzzzzzzzzzz"
     return
 }
 
