@@ -1,0 +1,18 @@
+- DocumentID: v6.0
+  Title: >-
+    v6.0
+  CategoryID: changelog
+  DateTime: 2024-02-17 20:47
+  Summary: >-
+    Despite this being a new major version release, it is a vary minor update.
+    Aside from a handful of bugfixes, the most significant change is notice of
+    deprecation for `=`, `let`, and `?`.
+  Description: |-
+    {{ include "gen/changelog/v6.0.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - autocomplete
+    - export
+    - config
+    - runtime
+    - is-null
