@@ -13,9 +13,9 @@ const Name = "murex"
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
 const (
 	version  = "%d.%d.%d"
-	Major    = 5
-	Minor    = 3
-	Revision = 7000
+	Major    = 6
+	Minor    = 0
+	Revision = 1000
 )
 
 // Copyright is the copyright owner string

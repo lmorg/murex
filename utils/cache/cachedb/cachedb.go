@@ -58,8 +58,10 @@ func CreateTable(namespace string) {
 }
 
 func dbFailed(message string, err error) {
-	os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
-	os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+	if debug.Enabled {
+		os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
+		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+	}
 	disabled = true
 }
 

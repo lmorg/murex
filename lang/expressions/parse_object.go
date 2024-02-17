@@ -16,45 +16,13 @@ func (tree *ParserT) createObjectAst(exec bool) error {
 	}
 	tree.appendAstWithPrimitive(symbols.ObjectBegin, dt)
 	tree.charPos++
-	return nil
-}
-
-type parseObjectT struct {
-	keyValueR [2][]rune
-	keyValueI [2]interface{}
-	stage     int
-	obj       map[string]interface{}
-}
-
-func newParseObjectT() *parseObjectT {
-	o := new(parseObjectT)
-	o.obj = make(map[string]interface{})
-	return o
-}
-
-func (o *parseObjectT) WriteKeyValuePair(pos int) error {
-	if o.keyValueI[0] == nil {
-		return fmt.Errorf("object key cannot be null before %d", pos)
-	}
-	if len(o.keyValueR[1]) != 0 {
-		o.keyValueI[1] = string(o.keyValueR[1])
-	}
-
-	s, err := types.ConvertGoType(o.keyValueI[0], types.String)
-	if err != nil {
-		return err
-	}
-	o.obj[s.(string)] = o.keyValueI[1]
-	o.keyValueR = [2][]rune{nil, nil}
-	o.keyValueI = [2]interface{}{nil, nil}
-	o.stage++
 
 	return nil
 }
 
 func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error) {
 	start := tree.charPos
-	o := newParseObjectT()
+	o := newParseObjectT(tree)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
@@ -69,16 +37,22 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					return nil, nil, err
 				}
 			} else {
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+				err := o.AppendRune(r)
+				if err != nil {
+					return nil, nil, err
+				}
 			}
 
 		case '\'', '"':
 			// quoted string
-			str, err := tree.parseString(r, r, exec)
+			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return nil, nil, err
 			}
-			o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], str...)
+			err = o.UpdateInterface(string(value))
+			if err != nil {
+				return nil, nil, err
+			}
 			tree.charPos++
 
 		case '%':
@@ -92,15 +66,21 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 				if err != nil {
 					return nil, nil, err
 				}
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], value...)
+				err = o.UpdateInterface(string(value))
+				if err != nil {
+					return nil, nil, err
+				}
 			default:
 				// string
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+				err := o.AppendRune(r)
+				if err != nil {
+					return nil, nil, err
+				}
 			}
 
 		case '[':
 			// start nested array
-			if o.stage&1 == 0 {
+			if o.stage == 0 {
 				return nil, nil, fmt.Errorf("object keys cannot be an array")
 			}
 			_, dt, err := tree.parseArray(exec)
@@ -111,12 +91,15 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			if err != nil {
 				return nil, nil, err
 			}
-			o.keyValueI[1] = v.Value
+			err = o.UpdateInterface(v.Value)
+			if err != nil {
+				return nil, nil, err
+			}
 			tree.charPos++
 
 		case '{':
 			// start nested object
-			if o.stage&1 == 0 {
+			if o.stage == 0 {
 				return nil, nil, raiseError(
 					tree.expression, nil, tree.charPos, "object keys cannot be another object")
 			}
@@ -128,14 +111,17 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			if err != nil {
 				return nil, nil, err
 			}
-			o.keyValueI[1] = v.Value
+			err = o.UpdateInterface(v.Value)
+			if err != nil {
+				return nil, nil, err
+			}
 			tree.charPos++
 
 		case '$':
 			switch {
 			case tree.nextChar() == '{':
 				// inline subshell
-				strOrVal := varFormatting(o.stage & 1)
+				strOrVal := varFormatting(o.stage)
 				subshell, fn, err := tree.parseSubShell(exec, r, strOrVal)
 				if err != nil {
 					return nil, nil, err
@@ -145,34 +131,44 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					if err != nil {
 						return nil, nil, err
 					}
-					o.keyValueI[o.stage&1] = val.Value
+					err = o.UpdateInterface(val.Value)
+					if err != nil {
+						return nil, nil, err
+					}
 				} else {
-					o.keyValueI[o.stage&1] = string(subshell)
+					err = o.UpdateInterface(string(subshell))
+					if err != nil {
+						return nil, nil, err
+					}
 				}
 			default:
 				// inline scalar
-				strOrVal := varFormatting(o.stage & 1)
+				strOrVal := varFormatting(o.stage)
 				scalar, v, _, err := tree.parseVarScalar(exec, exec, strOrVal)
 				if err != nil {
 					return nil, nil, err
 				}
 				if exec {
-					o.keyValueI[o.stage&1] = v
+					err = o.UpdateInterface(v)
+					if err != nil {
+						return nil, nil, err
+					}
 				} else {
-					o.keyValueI[o.stage&1] = string(scalar)
+					err = o.UpdateInterface(string(scalar))
+					if err != nil {
+						return nil, nil, err
+					}
 				}
 			}
 
 		case '~':
 			// tilde
-			o.keyValueI[o.stage&1] = tree.parseVarTilde(exec)
+			err := o.AppendRune([]rune(tree.parseVarTilde(exec))...)
+			if err != nil {
+				return nil, nil, err
+			}
 
 		case '@':
-			// inline array
-			if o.stage&1 == 0 {
-				return nil, nil, raiseError(
-					tree.expression, nil, tree.charPos, "arrays cannot be object keys")
-			}
 			switch tree.nextChar() {
 			case '{':
 				subshell, fn, err := tree.parseSubShell(exec, r, varAsValue)
@@ -184,81 +180,61 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					if err != nil {
 						return nil, nil, err
 					}
-					o.keyValueI[o.stage&1] = val.Value
+					err = o.UpdateInterface(val.Value)
+					if err != nil {
+						return nil, nil, err
+					}
 				} else {
-					o.keyValueI[o.stage&1] = string(subshell)
+					err = o.UpdateInterface(string(subshell))
+					if err != nil {
+						return nil, nil, err
+					}
 				}
 			default:
 				_, v, err := tree.parseVarArray(exec)
 				if err != nil {
 					return nil, nil, err
 				}
-				o.keyValueI[1] = v
+				err = o.UpdateInterface(v)
+				if err != nil {
+					return nil, nil, err
+				}
 			}
 
 		case ':':
-			if o.stage&1 == 1 {
+			if o.stage != OBJ_STAGE_KEY {
 				return nil, nil, raiseError(
 					tree.expression, nil, tree.charPos, "invalid symbol ':' expecting ',' or '}' instead")
 			}
 			o.stage++
-			if o.keyValueI[0] != nil {
-				continue
-			}
-			o.keyValueI[0] = string(o.keyValueR[0])
 
 		case '\n':
-			if o.stage&1 == 0 {
-				if len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil {
-					return nil, nil, raiseError(
-						tree.expression, nil, tree.charPos,
-						"unexpected new line, expecting ':' instead")
-				}
-				continue
-			}
-
-			err := o.WriteKeyValuePair(tree.charPos)
+			err := o.WriteKeyValuePair()
 			if err != nil {
 				return nil, nil, err
 			}
 			tree.crLf()
 
 		case ',':
-			if o.stage&1 == 0 && (len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil) {
-				return nil, nil, raiseError(
-					tree.expression, nil, tree.charPos, fmt.Sprintf(
-						"invalid symbol '%s', expecting ':' instead",
-						string(r)))
-			}
-
-			err := o.WriteKeyValuePair(tree.charPos)
+			err := o.WriteKeyValuePair()
 			if err != nil {
 				return nil, nil, err
 			}
 
 		case '}':
-			if o.stage&1 == 0 {
-				if len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil {
-					return nil, nil, raiseError(
-						tree.expression, nil, tree.charPos, fmt.Sprintf(
-							"invalid symbol '%s', expecting ':' instead",
-							string(r)))
-				} else {
-					// empty object
-					goto endObject
-				}
-			}
-
-			err := o.WriteKeyValuePair(tree.charPos)
+			err := o.WriteKeyValuePair()
 			if err != nil {
 				return nil, nil, err
 			}
+			goto endObject
 
-			if r == '}' {
-				goto endObject
+		case '\r':
+			continue
+
+		case ' ', '\t':
+			if !o.IsValueUndefined() {
+				o.keyValue[o.stage].ValueSet = true
 			}
-
-		case ' ', '\t', '\r':
 			continue
 
 		default:
@@ -266,26 +242,29 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			v, err := types.ConvertGoType(value, types.Number)
 			if err == nil {
 				// is a number
-				o.keyValueI[o.stage&1] = v
+				err = o.UpdateInterface(v)
 			} else {
 				// is a string
 				s := string(value)
 				switch s {
 				case "true":
-					o.keyValueI[o.stage&1] = true
+					err = o.UpdateInterface(true)
 				case "false":
-					o.keyValueI[o.stage&1] = false
+					err = o.UpdateInterface(false)
 				case "null":
-					o.keyValueI[o.stage&1] = nil
+					err = o.UpdateInterface(nil)
 				default:
-					o.keyValueI[o.stage&1] = s
+					err = o.UpdateInterface(s)
 				}
+			}
+			if err != nil {
+				return nil, nil, err
 			}
 		}
 	}
 
 	return nil, nil, raiseError(
-		tree.expression, nil, tree.charPos, "missing closing bracket (})")
+		tree.expression, nil, tree.charPos, "missing closing bracket '}'")
 
 endObject:
 	value := tree.expression[start:tree.charPos]

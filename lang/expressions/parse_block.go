@@ -3,6 +3,7 @@ package expressions
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -251,6 +252,10 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '?':
+			message := fmt.Sprintf("!!! WARNING: The operator `?` has been deprecated and will be removed in the next release\n!!!        : Line:   %d\n!!!        : Column: %d\n",
+				blk.lineN, blk.charPos)
+			os.Stderr.WriteString(message)
+
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err
 			}

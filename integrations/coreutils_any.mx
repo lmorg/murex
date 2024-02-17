@@ -13,3 +13,13 @@ autocomplete set rmdir %[{
     AllowMultiple: true
     IncManPage:    true
 }]
+
+autocomplete set which %[{
+    IncExePath: true
+    AllowMultiple: true
+}]
+
+autocomplete set whereis %[{
+    IncExePath:    true
+    AllowMultiple: true
+}]
