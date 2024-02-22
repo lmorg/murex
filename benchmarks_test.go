@@ -79,17 +79,6 @@ func BenchmarkForkPipelineNTimes(b *testing.B) {
 	}
 }
 
-func BenchmarkMathLibsEqu(b *testing.B) {
-	lang.InitEnv()
-
-	block := fmt.Sprintf(`a [1..%d] -> foreach i { = 1 * %d }`, b.N, b.N)
-
-	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute([]rune(block))
-	if err != nil {
-		b.Error(err.Error())
-	}
-}
-
 func BenchmarkMathLibsExpr(b *testing.B) {
 	lang.InitEnv()
 

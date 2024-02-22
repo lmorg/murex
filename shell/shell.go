@@ -13,7 +13,6 @@ import (
 	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/profile"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -26,6 +25,7 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/crash"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -49,14 +49,7 @@ func callEvents(interrupt string, cmdLine []rune) {
 
 // Start the interactive shell
 func Start() {
-	if debug.Enabled {
-		defer func() {
-			if r := recover(); r != nil {
-				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
-				Start()
-			}
-		}()
-	}
+	defer crash.Handler()
 
 	globalcache.SetPath(profile.ModulePath() + "cache.db")
 	globalcache.InitCache()
@@ -93,6 +86,10 @@ func Start() {
 		}
 	}
 
+	start()
+}
+
+func start() {
 	go func() { lang.ShowPrompt <- true }()
 	for {
 		select {

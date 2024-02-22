@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/crash"
 )
 
 const (
@@ -230,6 +231,8 @@ func (p *Process) Fork(flags int) *Fork {
 
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
+	defer crash.Handler()
+
 	switch {
 	case fork.FileRef == nil:
 		panic("fork.FileRef == nil in (fork *Fork).Execute()")

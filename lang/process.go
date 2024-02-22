@@ -16,6 +16,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
+	"github.com/lmorg/murex/utils/crash"
 )
 
 var (
@@ -207,6 +208,8 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
+	defer crash.Handler()
+
 	testStates(p)
 
 	if p.HasTerminated() || p.HasCancelled() ||
