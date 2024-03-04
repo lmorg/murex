@@ -178,7 +178,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fOpenAgents:
 			ret[fOpenAgents[2:]] = open.OpenAgents.Dump()
 		case fFids:
-			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
+			ret[fFids[2:]] = lang.GlobalFIDs.Dump()
 		case fShellProc:
 			ret[fShellProc[2:]] = lang.ShellProcess.Dump()
 		case fReadArrays:

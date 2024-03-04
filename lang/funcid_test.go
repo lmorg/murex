@@ -11,12 +11,8 @@ func TestFuncId(t *testing.T) {
 	f := newFuncID()
 
 	bad := uint32(1337)
-	err := f.Executing(bad)
-	if err == nil {
-		t.Errorf("fid %d: err should NOT be nil", bad)
-	}
 
-	_, err = f.Proc(bad)
+	_, err := f.Proc(bad)
 	if err == nil {
 		t.Errorf("fid %d: err should NOT be nil", bad)
 	}
@@ -27,7 +23,7 @@ func TestFuncId(t *testing.T) {
 		t.Errorf("fid %d: err should NOT be nil", bad)
 	}
 
-	count.Tests(t, 3)
+	count.Tests(t, 2)
 
 	var tests [5]*Process
 
@@ -42,16 +38,6 @@ func TestFuncId(t *testing.T) {
 			t.Errorf("test %d: fid %d: fid != p.Id (%d)", i, fid, tests[i].Id)
 		}
 
-		_, err = f.Proc(fid)
-		if err == nil {
-			t.Errorf("test %d: fid %d: err should NOT be nil", i, fid)
-		}
-
-		err := f.Executing(fid)
-		if err != nil {
-			t.Errorf("test %d: fid %d: err should be nil: %s", i, fid, err.Error())
-		}
-
 		p, err := f.Proc(fid)
 		if err != nil {
 			t.Errorf("test %d: fid %d: unexpected error: %s", i, fid, err.Error())
@@ -62,28 +48,6 @@ func TestFuncId(t *testing.T) {
 		}
 
 		f.Deregister(fid)
-		err = f.Executing(fid)
-		if err == nil {
-			t.Errorf("test %d: fid %d: err should NOT be nil", i, fid)
-		}
-	}
-}
-
-func TestFuncIdListAllEmpty(t *testing.T) {
-	f := newFuncID()
-
-	count.Tests(t, 1)
-
-	c := 100
-
-	for i := 0; i < c; i++ {
-		p := NewTestProcess()
-		f.Register(p)
-	}
-
-	list := f.ListAll()
-	if len(list) != 0 {
-		t.Error("list includes non-executed processes")
 	}
 }
 
@@ -96,8 +60,7 @@ func TestFuncIdListAllFull(t *testing.T) {
 
 	for i := 0; i < c; i++ {
 		p := NewTestProcess()
-		fid := f.Register(p)
-		f.Executing(fid)
+		_ = f.Register(p)
 	}
 
 	list := f.ListAll()

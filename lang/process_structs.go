@@ -68,8 +68,8 @@ type Process struct {
 	CCErr              *streams.Stdin         `json:"-"`
 }
 
-func (p *Process) Dump() interface{} {
-	dump := make(map[string]interface{})
+func (p *Process) Dump() map[string]any {
+	/*dump := make(map[string]interface{})
 
 	dump["Id"] = p.Id
 	dump["Name"] = p.Name.String()
@@ -111,7 +111,54 @@ func (p *Process) Dump() interface{} {
 	dump["CCOut_Set"] = p.CCOut != nil
 	dump["CCErr_Set"] = p.CCErr != nil
 
-	return dump
+	return dump*/
+	return map[string]any{
+		"Id":         p.Id,
+		"Cache":      p.cache != nil && p.cache.use,
+		"Raw":        string(p.raw),
+		"Name":       p.Name.String(),
+		"Parameters": p.Parameters.Dump(),
+		"NamedPipes": p.namedPipes,
+		//"Context"
+		//Stdin              stdio.Io
+		//Stdout             stdio.Io
+		//stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
+		//Stderr             stdio.Io
+		"ExitNum": p.ExitNum,
+		//"Forks":            p.Forks.GetForks(),
+		//"Done":             p.Done,
+		//"Kill":             p.Kill,
+		"ExecPid":          p.Exec.Pid(),
+		"ScopeFid":         p.Scope.Id,
+		"ParentFid":        p.Parent.Id,
+		"PreviousFid":      p.Previous.Id,
+		"NextFid":          p.Next.Id,
+		"IsNot":            p.IsNot,
+		"IsMethod":         p.IsMethod,
+		"OperatorLogicAnd": p.OperatorLogicAnd,
+		"OperatorLogicOr":  p.OperatorLogicOr,
+		"NamedPipeOut":     p.NamedPipeOut,
+		"NamedPipeErr":     p.NamedPipeErr,
+		"NamedPipeTest":    p.NamedPipeTest,
+		"HasTerminated":    p.HasTerminated(),
+		"HasCancelled":     p.HasCancelled(),
+		//"HasStopped":       p.hasCancelledStopped(),
+		"State":         p.State.String(),
+		"Background":    p.Background.Get(),
+		"RunMode":       p.RunMode.String(),
+		"RunModeStrict": p.RunMode.IsStrict(),
+		//Config             *config.Config
+		//Tests              *Tests
+		//testState          []string
+		//Variables          *Variables
+		"CreationTime": p.CreationTime.String(),
+		"StartTime":    p.StartTime.String(),
+		"FileRef":      p.FileRef,
+		//CCEvent            func(string, *Process) `json:"-"`
+		//CCExists           func(string) bool      `json:"-"`
+		//CCOut              *streams.Stdin         `json:"-"`
+		//CCErr              *streams.Stdin         `json:"-"`
+	}
 }
 
 // HasTerminated checks if process has terminated.

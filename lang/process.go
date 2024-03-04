@@ -248,10 +248,6 @@ func executeProcess(p *Process) {
 	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
-	if err := GlobalFIDs.Executing(p.Id); err != nil {
-		panic(err)
-	}
-
 	if p.cache != nil && p.cache.use {
 		// we have a preview cache, lets just write that and skip execution
 		_, err = p.Stdout.Write(p.cache.b.stdout)
