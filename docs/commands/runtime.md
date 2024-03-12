@@ -340,4 +340,4 @@ functions.
 
 <hr/>
 
-This document was generated from [builtins/core/vis/runtime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/vis/runtime_doc.yaml).
+This document was generated from [builtins/core/runtime/runtime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/runtime/runtime_doc.yaml).

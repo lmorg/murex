@@ -33,6 +33,7 @@ type Process struct {
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
+	IsFork             bool
 	WaitForTermination chan bool `json:"-"`
 	WaitForStopped     chan bool `json:"-"`
 	HasStopped         chan bool `json:"-"`
@@ -66,52 +67,10 @@ type Process struct {
 	CCExists           func(string) bool      `json:"-"`
 	CCOut              *streams.Stdin         `json:"-"`
 	CCErr              *streams.Stdin         `json:"-"`
+	Trace              []any
 }
 
 func (p *Process) Dump() map[string]any {
-	/*dump := make(map[string]interface{})
-
-	dump["Id"] = p.Id
-	dump["Name"] = p.Name.String()
-	dump["Parameters"] = p.Parameters.Dump()
-	dump["Context_Set"] = p.Context != nil
-	dump["Stdin_Set"] = p.Stdin != nil
-	dump["Stdout_Set"] = p.Stdout != nil
-	dump["StdoutOldPtr_Set"] = p.stdoutOldPtr != nil
-	dump["Stderr_Set"] = p.Stderr != nil
-	dump["ExitNum"] = p.ExitNum
-	dump["Done_Set"] = p.Done != nil
-	dump["Kill_Set"] = p.Kill != nil
-	dump["Exec"] = &p.Exec
-	dump["Scope.Id"] = p.Scope.Id
-	dump["Parent.Id"] = p.Parent.Id
-	dump["Previous.Id"] = p.Previous.Id
-	dump["IsNot"] = p.IsNot
-	dump["IsMethod"] = p.IsMethod
-	dump["OperatorLogicAnd"] = p.OperatorLogicAnd
-	dump["OperatorLogicOr"] = p.OperatorLogicOr
-	dump["NamedPipeOut"] = p.NamedPipeOut
-	dump["NamedPipeErr"] = p.NamedPipeErr
-	dump["NamedPipeTest"] = p.NamedPipeTest
-	dump["HasTerminated"] = p.HasTerminated()
-	dump["HasCancelled"] = p.HasCancelled()
-	dump["State"] = p.State.String()
-	dump["Background"] = p.Background.String()
-	dump["RunMode"] = p.RunMode.String()
-	dump["RunMode.IsStrict"] = p.RunMode.IsStrict()
-	dump["Config_Set"] = p.Config != nil
-	dump["Tests_Set"] = p.Tests != nil
-	dump["testState"] = p.testState
-	dump["Variables_Set"] = p.Variables != nil
-	dump["CreationTime"] = p.CreationTime
-	dump["StartTime"] = p.StartTime
-	dump["FileRef"] = p.FileRef
-	dump["CCEvent_Set"] = p.CCEvent != nil
-	dump["CCExists_Set"] = p.CCExists != nil
-	dump["CCOut_Set"] = p.CCOut != nil
-	dump["CCErr_Set"] = p.CCErr != nil
-
-	return dump*/
 	return map[string]any{
 		"Id":         p.Id,
 		"Cache":      p.cache != nil && p.cache.use,
@@ -126,6 +85,7 @@ func (p *Process) Dump() map[string]any {
 		//Stderr             stdio.Io
 		"ExitNum": p.ExitNum,
 		//"Forks":            p.Forks.GetForks(),
+		"IsFork": p.IsFork,
 		//"Done":             p.Done,
 		//"Kill":             p.Kill,
 		"ExecPid":          p.Exec.Pid(),
@@ -158,6 +118,7 @@ func (p *Process) Dump() map[string]any {
 		//CCExists           func(string) bool      `json:"-"`
 		//CCOut              *streams.Stdin         `json:"-"`
 		//CCErr              *streams.Stdin         `json:"-"`
+		"Trace": p.Trace,
 	}
 }
 

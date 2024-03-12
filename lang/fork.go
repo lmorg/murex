@@ -99,6 +99,8 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.Process = new(Process)
 	fork.SetTerminatedState(true)
 	fork.Forks = p.Forks
+	trace(fork.Process)
+	fork.raw = p.raw
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
@@ -139,8 +141,9 @@ func (p *Process) Fork(flags int) *Fork {
 	} else {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
-		//fork.Parameters.CopyFrom(&p.Parameters)
-		fork.Context, fork.Done = p.Context, p.Done
+		//fork.Context, fork.Done = p.Context, p.Done
+		fork.Context = p.Context
+		fork.Done = func() { deregisterProcess(fork.Process) }
 
 		if p.Scope.RunMode > runmode.Default {
 			fork.RunMode = p.Scope.RunMode
@@ -161,6 +164,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
+			fork.IsFork = true
 
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
@@ -170,6 +174,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
+			fork.IsFork = true
 		}
 
 		if flags&F_NEW_CONFIG != 0 {

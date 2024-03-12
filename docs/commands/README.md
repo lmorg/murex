@@ -224,8 +224,6 @@ murex-docs trypipe
   Alter the scheduler's behaviour at higher scoping level
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](../commands/set.md):
