@@ -253,6 +253,14 @@ func (rl *Instance) previewPageDownStr() string {
 func (rl *Instance) clearPreviewStr() string {
 	var output string
 
+	if rl.previewCancel != nil {
+		rl.previewCancel()
+	}
+
+	if rl.PreviewInit != nil {
+		rl.PreviewInit()
+	}
+
 	if rl.previewMode > previewModeClosed {
 		output = seqRestoreBuffer + curPosRestore
 		output += rl.echoStr()

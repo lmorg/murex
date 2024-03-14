@@ -72,20 +72,19 @@ type Process struct {
 
 func (p *Process) Dump() map[string]any {
 	return map[string]any{
-		"Id":         p.Id,
-		"Cache":      p.cache != nil && p.cache.use,
-		"Raw":        string(p.raw),
-		"Name":       p.Name.String(),
-		"Parameters": p.Parameters.Dump(),
-		"NamedPipes": p.namedPipes,
-		//"Context"
-		//Stdin              stdio.Io
-		//Stdout             stdio.Io
-		//stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
-		//Stderr             stdio.Io
-		"ExitNum": p.ExitNum,
-		//"Forks":            p.Forks.GetForks(),
-		"IsFork": p.IsFork,
+		"Id":           p.Id,
+		"Cache":        p.cache != nil && p.cache.use,
+		"Raw":          string(p.raw),
+		"Name":         p.Name.String(),
+		"Parameters":   p.Parameters.Dump(),
+		"NamedPipes":   p.namedPipes,
+		"Stdin":        statsToStruct(p.Stdin),
+		"Stdout":       statsToStruct(p.Stdout),
+		"Stderr":       statsToStruct(p.Stderr),
+		"stdoutOldPtr": statsToStruct(p.stdoutOldPtr),
+		"ExitNum":      p.ExitNum,
+		"Forks":        p.Forks.GetForks(),
+		"IsFork":       p.IsFork,
 		//"Done":             p.Done,
 		//"Kill":             p.Kill,
 		"ExecPid":          p.Exec.Pid(),
@@ -119,6 +118,23 @@ func (p *Process) Dump() map[string]any {
 		//CCOut              *streams.Stdin         `json:"-"`
 		//CCErr              *streams.Stdin         `json:"-"`
 		"Trace": p.Trace,
+	}
+}
+
+type statsT struct {
+	Read    uint64
+	Written uint64
+}
+
+func statsToStruct(stdio stdio.Io) any {
+	if stdio == nil {
+		return nil
+	}
+
+	r, w := stdio.Stats()
+	return statsT{
+		Read:    r,
+		Written: w,
 	}
 }
 

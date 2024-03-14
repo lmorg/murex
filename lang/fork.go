@@ -144,6 +144,7 @@ func (p *Process) Fork(flags int) *Fork {
 		//fork.Context, fork.Done = p.Context, p.Done
 		fork.Context = p.Context
 		fork.Done = func() { deregisterProcess(fork.Process) }
+		fork.Kill = fork.Done
 
 		if p.Scope.RunMode > runmode.Default {
 			fork.RunMode = p.Scope.RunMode

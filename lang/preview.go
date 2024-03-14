@@ -45,7 +45,10 @@ type cacheDataTypeT struct {
 }
 
 func PreviewInit() {
-	previewCache = new(previewCacheT)
+	previewCache.raw = nil
+	previewCache.cache = nil
+	previewCache.dt = nil
+	previewCache.err = nil
 }
 
 const errPressF9 = "for your safety, press [f9] to confirm preview reload"
