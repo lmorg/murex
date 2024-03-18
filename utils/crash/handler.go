@@ -8,8 +8,10 @@ import (
 	"github.com/lmorg/murex/debug"
 )
 
+var disable_handler bool
+
 func Handler() bool {
-	if debug.Enabled {
+	if debug.Enabled || !disable_handler {
 		return false
 	}
 

@@ -30,7 +30,7 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 
 func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (interface{}, error) {
 	fork := parent.Fork(F_BACKGROUND | F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
-	defer fork.Done()
+	defer fork.Kill()
 
 	_, err := fork.Stdin.Write(b)
 	if err != nil {
