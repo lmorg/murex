@@ -70,8 +70,6 @@ func cmdContinue(p *lang.Process) error {
 	proc := p.Parent
 	for {
 		if proc.Name.String() == name {
-			//proc.IpcContinue <- true
-			//proc.Done()
 			return nil
 		}
 		if proc.Id == scope {
@@ -80,7 +78,7 @@ func cmdContinue(p *lang.Process) error {
 				name, p.Scope.Name.String(),
 			)
 		}
-		//go sendIpc(proc, true)
+
 		proc.Done()
 		proc = proc.Next
 	}

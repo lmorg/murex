@@ -50,9 +50,7 @@ func (f *File) Close() {
 		f.file.Close()
 	}
 
-	if f.dependents < 0 {
-		panic("more closed dependents than open")
-	}
+	panicOnNegDeps(f.dependents)
 
 	f.mutex.Unlock()
 }

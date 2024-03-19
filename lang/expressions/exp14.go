@@ -13,10 +13,26 @@ import (
 )
 
 func scalarNameDetokenised(r []rune) []rune {
-	if r[1] == '(' {
-		return r[2 : len(r)-1]
-	} else {
+	switch len(r) {
+	case 0:
+		return r
+
+	case 1:
 		return r[1:]
+
+	case 2, 3:
+		if r[1] == '(' {
+			return []rune{}
+		} else {
+			return r[1:]
+		}
+
+	default:
+		if r[1] == '(' {
+			return r[2 : len(r)-1]
+		} else {
+			return r[1:]
+		}
 	}
 }
 

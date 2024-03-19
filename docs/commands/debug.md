@@ -151,6 +151,8 @@ false
 
 ## Detail
 
+### Enable and Disable
+
 When enabling or disabling debug mode, because the parameter is a murex
 boolean type, it means you can use other boolean terms. eg
 
@@ -172,6 +174,15 @@ It is also worth noting that the debugging information needs to be written
 into the Go source code rather than in Murex's shell scripting language.
 If you require debugging those processes then please use Murex's `test`
 framework
+
+### Generating a Panic
+
+For testing purposes, you might want to force Murex to crash. You can do
+this via
+
+```
+debug panic
+```
 
 ## See Also
 

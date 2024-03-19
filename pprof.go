@@ -7,24 +7,26 @@ import (
 	"os"
 	"runtime"
 	"runtime/pprof"
+	"runtime/trace"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 )
 
 const (
-	fCpuProfile = "./cpu.pprof"
-	fMemProfile = "./mem.pprof"
+	fCpuProfile   = "./cpu.pprof"
+	fMemProfile   = "./mem.pprof"
+	fTraceProfile = "./trace.pprof"
 )
 
 func init() {
 	lang.ProfCpuCleanUp = cpuProfile()
 	lang.ProfMemCleanUp = memProfile()
+	lang.ProfTraceCleanUp = traceProfile()
 }
 
 func cpuProfile() func() {
 	if fCpuProfile != "" {
-		//fmt.Fprintf(tty.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
 
 		f, err := os.Create(fCpuProfile)
 		if err != nil {
@@ -39,8 +41,6 @@ func cpuProfile() func() {
 			if err = f.Close(); err != nil && debug.Enabled {
 				panic(err)
 			}
-
-			//fmt.Fprintf(tty.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
 		}
 	}
 
@@ -49,7 +49,6 @@ func cpuProfile() func() {
 
 func memProfile() func() {
 	if fMemProfile != "" {
-		//fmt.Fprintf(tty.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
 
 		f, err := os.Create(fMemProfile)
 		if err != nil {
@@ -64,9 +63,31 @@ func memProfile() func() {
 			if err = f.Close(); err != nil {
 				panic(err)
 			}
-			//fmt.Fprintf(tty.Stderr, "Memory profile written to '%s'\n", fMemProfile)
 		}
 	}
 
 	return func() {}
+}
+
+func traceProfile() func() {
+	if fTraceProfile != "" {
+
+		f, err := os.Create(fTraceProfile)
+		if err != nil {
+			panic(err)
+		}
+		if err := trace.Start(f); err != nil {
+			panic(err)
+		}
+
+		return func() {
+			trace.Stop()
+			if err = f.Close(); err != nil {
+				panic(err)
+			}
+		}
+	}
+
+	return func() {}
+
 }

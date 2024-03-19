@@ -16,6 +16,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
+	"github.com/lmorg/murex/utils/crash"
 )
 
 var (
@@ -207,6 +208,8 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
+	defer crash.Handler()
+
 	testStates(p)
 
 	if p.HasTerminated() || p.HasCancelled() ||
@@ -244,10 +247,6 @@ func executeProcess(p *Process) {
 	// Execute function
 	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
-
-	if err := GlobalFIDs.Executing(p.Id); err != nil {
-		panic(err)
-	}
 
 	if p.cache != nil && p.cache.use {
 		// we have a preview cache, lets just write that and skip execution
@@ -412,19 +411,19 @@ func waitProcess(p *Process) {
 }
 
 func destroyProcess(p *Process) {
-	//debug.Json("destroyProcess ()", p)
+	//debug.Json("destroyProcess ()", p.Dump())
 	// Clean up any context goroutines
 	go p.Done()
 
 	// Make special case for `bg` because that doesn't wait.
-	if p.Name.String() != "bg" {
-		//debug.Json("destroyProcess (p.WaitForTermination <- false)", p)
+	if p.Name.String() != "bg" && !p.IsFork {
+		//debug.Json("destroyProcess (p.WaitForTermination <- false)", p.Dump())
 		p.WaitForTermination <- false
 	}
 
-	//debug.Json("destroyProcess (deregisterProcess)", p)
+	//debug.Json("destroyProcess (deregisterProcess)", p.Dump())
 	deregisterProcess(p)
-	//debug.Json("destroyProcess (end)", p)
+	//debug.Json("destroyProcess (end)", p.Dump())
 }
 
 // deregisterProcess deregisters a murex process, FID and mark variables for

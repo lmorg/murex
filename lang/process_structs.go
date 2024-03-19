@@ -33,6 +33,7 @@ type Process struct {
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
+	IsFork             bool
 	WaitForTermination chan bool `json:"-"`
 	WaitForStopped     chan bool `json:"-"`
 	HasStopped         chan bool `json:"-"`
@@ -66,52 +67,75 @@ type Process struct {
 	CCExists           func(string) bool      `json:"-"`
 	CCOut              *streams.Stdin         `json:"-"`
 	CCErr              *streams.Stdin         `json:"-"`
+	Trace              []any
 }
 
-func (p *Process) Dump() interface{} {
-	dump := make(map[string]interface{})
+func (p *Process) Dump() map[string]any {
+	return map[string]any{
+		"Id":           p.Id,
+		"Cache":        p.cache != nil && p.cache.use,
+		"Raw":          string(p.raw),
+		"Name":         p.Name.String(),
+		"Parameters":   p.Parameters.Dump(),
+		"NamedPipes":   p.namedPipes,
+		"Stdin":        statsToStruct(p.Stdin),
+		"Stdout":       statsToStruct(p.Stdout),
+		"Stderr":       statsToStruct(p.Stderr),
+		"stdoutOldPtr": statsToStruct(p.stdoutOldPtr),
+		"ExitNum":      p.ExitNum,
+		"Forks":        p.Forks.GetForks(),
+		"IsFork":       p.IsFork,
+		//"Done":             p.Done,
+		//"Kill":             p.Kill,
+		"ExecPid":          p.Exec.Pid(),
+		"ScopeFid":         p.Scope.Id,
+		"ParentFid":        p.Parent.Id,
+		"PreviousFid":      p.Previous.Id,
+		"NextFid":          p.Next.Id,
+		"IsNot":            p.IsNot,
+		"IsMethod":         p.IsMethod,
+		"OperatorLogicAnd": p.OperatorLogicAnd,
+		"OperatorLogicOr":  p.OperatorLogicOr,
+		"NamedPipeOut":     p.NamedPipeOut,
+		"NamedPipeErr":     p.NamedPipeErr,
+		"NamedPipeTest":    p.NamedPipeTest,
+		"HasTerminated":    p.HasTerminated(),
+		"HasCancelled":     p.HasCancelled(),
+		//"HasStopped":       p.hasCancelledStopped(),
+		"State":         p.State.String(),
+		"Background":    p.Background.Get(),
+		"RunMode":       p.RunMode.String(),
+		"RunModeStrict": p.RunMode.IsStrict(),
+		//Config             *config.Config
+		//Tests              *Tests
+		//testState          []string
+		//Variables          *Variables
+		"CreationTime": p.CreationTime.String(),
+		"StartTime":    p.StartTime.String(),
+		"FileRef":      p.FileRef,
+		//CCEvent            func(string, *Process) `json:"-"`
+		//CCExists           func(string) bool      `json:"-"`
+		//CCOut              *streams.Stdin         `json:"-"`
+		//CCErr              *streams.Stdin         `json:"-"`
+		"Trace": p.Trace,
+	}
+}
 
-	dump["Id"] = p.Id
-	dump["Name"] = p.Name.String()
-	dump["Parameters"] = p.Parameters.Dump()
-	dump["Context_Set"] = p.Context != nil
-	dump["Stdin_Set"] = p.Stdin != nil
-	dump["Stdout_Set"] = p.Stdout != nil
-	dump["StdoutOldPtr_Set"] = p.stdoutOldPtr != nil
-	dump["Stderr_Set"] = p.Stderr != nil
-	dump["ExitNum"] = p.ExitNum
-	dump["Done_Set"] = p.Done != nil
-	dump["Kill_Set"] = p.Kill != nil
-	dump["Exec"] = &p.Exec
-	dump["Scope.Id"] = p.Scope.Id
-	dump["Parent.Id"] = p.Parent.Id
-	dump["Previous.Id"] = p.Previous.Id
-	dump["IsNot"] = p.IsNot
-	dump["IsMethod"] = p.IsMethod
-	dump["OperatorLogicAnd"] = p.OperatorLogicAnd
-	dump["OperatorLogicOr"] = p.OperatorLogicOr
-	dump["NamedPipeOut"] = p.NamedPipeOut
-	dump["NamedPipeErr"] = p.NamedPipeErr
-	dump["NamedPipeTest"] = p.NamedPipeTest
-	dump["HasTerminated"] = p.HasTerminated()
-	dump["HasCancelled"] = p.HasCancelled()
-	dump["State"] = p.State.String()
-	dump["Background"] = p.Background.String()
-	dump["RunMode"] = p.RunMode.String()
-	dump["RunMode.IsStrict"] = p.RunMode.IsStrict()
-	dump["Config_Set"] = p.Config != nil
-	dump["Tests_Set"] = p.Tests != nil
-	dump["testState"] = p.testState
-	dump["Variables_Set"] = p.Variables != nil
-	dump["CreationTime"] = p.CreationTime
-	dump["StartTime"] = p.StartTime
-	dump["FileRef"] = p.FileRef
-	dump["CCEvent_Set"] = p.CCEvent != nil
-	dump["CCExists_Set"] = p.CCExists != nil
-	dump["CCOut_Set"] = p.CCOut != nil
-	dump["CCErr_Set"] = p.CCErr != nil
+type statsT struct {
+	Read    uint64
+	Written uint64
+}
 
-	return dump
+func statsToStruct(stdio stdio.Io) any {
+	if stdio == nil {
+		return nil
+	}
+
+	r, w := stdio.Stats()
+	return statsT{
+		Read:    r,
+		Written: w,
+	}
 }
 
 // HasTerminated checks if process has terminated.

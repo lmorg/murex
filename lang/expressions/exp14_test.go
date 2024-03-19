@@ -4,7 +4,21 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test"
+	"github.com/lmorg/murex/test/count"
 )
+
+// https://github.com/lmorg/murex/issues/793
+func TestScalarNameDetokenised(t *testing.T) {
+	// this just tests for panics
+
+	test := []rune("$(test)")
+
+	count.Tests(t, len(test))
+
+	for i := range test {
+		scalarNameDetokenised(test[:i])
+	}
+}
 
 func TestExpAssign(t *testing.T) {
 	tests := []expressionTestT{

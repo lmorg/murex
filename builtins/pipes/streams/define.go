@@ -73,9 +73,7 @@ func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 
 	i := atomic.AddInt32(&stdin.dependents, -1)
-	if i < 0 {
-		panic("More closed dependents than open")
-	}
+	panicOnNegDeps(i)
 
 	stdin.mutex.Unlock()
 }

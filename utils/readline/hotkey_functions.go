@@ -200,14 +200,9 @@ func _fnPreviewToggle(rl *Instance) {
 		}
 
 	case previewModeOpen:
-		//rl.previewMode = previewModeClosed
 		print(rl.clearPreviewStr())
 
 	case previewModeAutocomplete:
-		/*if rl.modeTabFind {
-			print(rl.resetTabFindStr())
-		}
-		HkFnCancelAction(rl)*/
 		print(rl.clearPreviewStr())
 		rl.resetHelpers()
 	}
