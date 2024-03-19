@@ -63,19 +63,19 @@ func (stdin *Stdin) File() *os.File {
 
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
-	//stdin.mutex.Lock()
+	stdin.mutex.Lock()
 	atomic.AddInt32(&stdin.dependents, 1)
-	//stdin.mutex.Unlock()
+	stdin.mutex.Unlock()
 }
 
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
-	//stdin.mutex.Lock()
+	stdin.mutex.Lock()
 
 	i := atomic.AddInt32(&stdin.dependents, -1)
 	panicOnNegDeps(i)
 
-	//stdin.mutex.Unlock()
+	stdin.mutex.Unlock()
 }
 
 // ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
