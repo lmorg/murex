@@ -233,20 +233,16 @@ func (p *Process) Fork(flags int) *Fork {
 	return fork
 }
 
+const (
+	_TRY_EXIT_NUM = false
+	_TRY_STDERR   = true
+)
+
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	defer crash.Handler()
 
-	switch {
-	case fork.FileRef == nil:
-		panic("fork.FileRef == nil in (fork *Fork).Execute()")
-	case fork.FileRef.Source == nil:
-		panic("fork.FileRef.Source == nil in (fork *Fork).Execute()")
-	case fork.FileRef.Source.Module == "":
-		panic("missing module name in (fork *Fork).Execute()")
-	case fork.Name.String() == "":
-		panic("missing function name in (fork *Fork).Execute()")
-	}
+	forkCheckForNils(fork)
 
 	moduleRunMode := ModuleRunModes[fork.FileRef.Source.Module]
 	if moduleRunMode > 0 && fork.RunMode == 0 {
@@ -308,16 +304,16 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		exitNum = 0
 
 	case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
-		exitNum = runModeTry(procs, false)
+		exitNum = runModeTry(procs, _TRY_EXIT_NUM)
 
 	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
-		exitNum = runModeTryPipe(procs, false)
+		exitNum = runModeTryPipe(procs, _TRY_EXIT_NUM)
 
 	case runmode.BlockTryErr, runmode.FunctionTryErr, runmode.ModuleTryErr:
-		exitNum = runModeTry(procs, true)
+		exitNum = runModeTry(procs, _TRY_STDERR)
 
 	case runmode.BlockTryPipeErr, runmode.FunctionTryPipeErr, runmode.ModuleTryPipeErr:
-		exitNum = runModeTryPipe(procs, true)
+		exitNum = runModeTryPipe(procs, _TRY_STDERR)
 
 	default:
 		panic("unknown run mode")

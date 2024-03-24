@@ -45,8 +45,10 @@ func (stdin *Stdin) GetDataType() (dt string) {
 			// edge cases of a data race will have more desirable side effects
 			// than those edge case of deadlocks.
 			//stdin.dtLock.Lock()
+			//stdin.mutex.Lock()
 			dt = stdin.dataType
 			//stdin.dtLock.Unlock()
+			//stdin.mutex.Unlock()
 			if dt != "" {
 				return dt
 			}
@@ -58,6 +60,8 @@ func (stdin *Stdin) GetDataType() (dt string) {
 		//stdin.dtLock.Lock()
 		dt = stdin.dataType
 		//stdin.dtLock.Unlock()
+		//stdin.mutex.Unlock()
+		//defer stdin.mutex.Unlock()
 
 		if dt != "" {
 			stdin.mutex.Unlock()
@@ -67,11 +71,12 @@ func (stdin *Stdin) GetDataType() (dt string) {
 		fin := stdin.dependents < 1
 		stdin.mutex.Unlock()
 
+		//if atomic.LoadInt32(&stdin.dependents) < 1 {
 		if fin {
+			//	stdin.mutex.Unlock()
 			return types.Generic
 		}
-
-		//time.Sleep(3 * time.Millisecond)
+		//stdin.mutex.Unlock()
 	}
 }
 
