@@ -251,17 +251,16 @@ func executeProcess(p *Process) {
 	if p.cache != nil && p.cache.use {
 		// we have a preview cache, lets just write that and skip execution
 		_, err = p.Stdout.Write(p.cache.b.stdout)
-		//panic(fmt.Sprintf("%v: '%s'", previewCache.raw, string(p.cache.b.stdout)))
+		if err != nil {
+			panic(err)
+		}
 		p.Stdout.SetDataType(p.cache.dt.stdout)
-		if err != nil {
-			panic(err)
-		}
-		_, _ = p.Stderr.Write(p.cache.b.stderr)
 
-		p.Stderr.SetDataType(p.cache.dt.stderr)
+		_, err = p.Stderr.Write(p.cache.b.stderr)
 		if err != nil {
 			panic(err)
 		}
+		p.Stderr.SetDataType(p.cache.dt.stderr)
 
 		goto cleanUpProcess
 	}

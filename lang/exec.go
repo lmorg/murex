@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"reflect"
 	"strings"
 	"syscall"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
@@ -27,7 +25,7 @@ const (
 
 var (
 	envMurexPid = fmt.Sprintf("%s=%d", consts.EnvMurexPid, os.Getpid())
-	termOut     = reflect.TypeOf(new(term.Out)).String()
+	//termOut     = reflect.TypeOf(new(term.Out)).String()
 )
 
 // External executes an external process.

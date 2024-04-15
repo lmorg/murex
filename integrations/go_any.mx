@@ -26,7 +26,7 @@ autocomplete set go %[{
             })
         }]
 
-        tool: [{
+        tool: [{    
             Dynamic: %({
                 cast str
                 go tool
@@ -54,7 +54,6 @@ autocomplete set go %[{
                         }
                         Optional: true
                     }
-
                     {
                         IncFiles: true
                     }
@@ -63,7 +62,7 @@ autocomplete set go %[{
                 pprof: [
                     {
                         DynamicDesc: %({
-                            go <!out> tool pprof -> regexp 'm/^\s+-' -> tabulate --key-value --map
+                            go <!out> tool pprof -> regexp %(m/^\s+-) -> tabulate --key-value --map
                         })
                         FlagValues: {
                             -http: [{
@@ -81,9 +80,32 @@ autocomplete set go %[{
                         }
                         Optional: true
                     }
-                    
                     {
                         IncFiles: true
+                    }
+                ]
+
+                cgo: [
+                    {
+                        DynamicDesc: %({
+                            go <!out> tool cgo -> tabulate --column-wraps --map --key-inc-hint
+                        })
+                        AllowMultiple: true
+                    }
+                ]
+
+                vet: [
+                    {
+                        DynamicDesc: %({
+                            go tool vet help -> tabulate --column-wraps --map --key-inc-hint
+                        })
+                        AllowMultiple: true
+                    }
+                ]
+
+                "": [
+                    {
+                        DynamicPreview: '{ go doc cmd/$(2) }'
                     }
                 ]
             }

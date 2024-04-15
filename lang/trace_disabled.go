@@ -3,6 +3,4 @@
 
 package lang
 
-func trace(p *Process) {
-	return
-}
+func trace(_ *Process) {}
