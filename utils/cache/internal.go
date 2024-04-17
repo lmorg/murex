@@ -119,7 +119,7 @@ func (lc *internalCacheT) Trim(ctx context.Context) []string {
 	return s
 }
 
-func (lc *internalCacheT) Flush(ctx context.Context) []string {
+func (lc *internalCacheT) Clear(ctx context.Context) []string {
 	if disabled {
 		return nil
 	}

@@ -13,10 +13,8 @@ import (
 
 const (
 	sqlCreateTable = `CREATE TABLE IF NOT EXISTS %s (key STRING PRIMARY KEY, value STRING, ttl DATETIME KEY);`
-
-	sqlRead = `SELECT value FROM %s WHERE key == ? AND ttl > unixepoch();`
-
-	sqlWrite = `INSERT OR REPLACE INTO %s (key, value, ttl) VALUES (?, ?, ?);`
+	sqlRead        = `SELECT value FROM %s WHERE key == ? AND ttl > unixepoch();`
+	sqlWrite       = `INSERT OR REPLACE INTO %s (key, value, ttl) VALUES (?, ?, ?);`
 )
 
 var (

@@ -32,7 +32,7 @@ func trimDb(_ context.Context, _ string) ([]string, error) {
 	return nil, nil
 }
 
-func flushDb(_ context.Context, _ string) ([]string, error) {
+func clearDb(_ context.Context, _ string) ([]string, error) {
 	return nil, nil
 }
 

@@ -99,6 +99,7 @@ type trimmedT struct {
 	CacheDb  []string
 }
 
+// Trim removes stale cache values from the cache databases
 func Trim(ctx context.Context) (interface{}, error) {
 	trimmed := make(map[string]trimmedT)
 
@@ -115,12 +116,13 @@ func Trim(ctx context.Context) (interface{}, error) {
 	return trimmed, nil
 }
 
-func Flush(ctx context.Context) (interface{}, error) {
+// Clear the cache completely
+func Clear(ctx context.Context) (interface{}, error) {
 	flushed := make(map[string]trimmedT)
 
 	for namespace := range cache {
-		internal := cache[namespace].Flush(ctx)
-		cacheDb, err := flushDb(ctx, namespace)
+		internal := cache[namespace].Clear(ctx)
+		cacheDb, err := clearDb(ctx, namespace)
 		flushed[namespace] = trimmedT{internal, cacheDb}
 
 		if err != nil {

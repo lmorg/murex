@@ -7,18 +7,18 @@ import (
 )
 
 const (
-	sqlFlushRead   = `SELECT key FROM %s;`
-	sqlFlushDelete = `DELETE FROM %s;`
+	sqlClearRead   = `SELECT key FROM %s;`
+	sqlClearDelete = `DELETE FROM %s;`
 )
 
-func Flush(ctx context.Context, namespace string) ([]string, error) {
+func Clear(ctx context.Context, namespace string) ([]string, error) {
 	opts := new(sql.TxOptions)
 	tx, err := db.BeginTx(ctx, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	rows, err := tx.QueryContext(ctx, fmt.Sprintf(sqlFlushRead, namespace))
+	rows, err := tx.QueryContext(ctx, fmt.Sprintf(sqlClearRead, namespace))
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func Flush(ctx context.Context, namespace string) ([]string, error) {
 		slice = append(slice, key)
 	}
 
-	_, err = tx.ExecContext(ctx, fmt.Sprintf(sqlFlushDelete, namespace))
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(sqlClearDelete, namespace))
 	if err != nil {
 		return slice, err
 	}

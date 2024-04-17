@@ -38,8 +38,8 @@ func trimDb(ctx context.Context, namespace string) ([]string, error) {
 	return cachedb.Trim(ctx, namespace)
 }
 
-func flushDb(ctx context.Context, namespace string) ([]string, error) {
-	return cachedb.Flush(ctx, namespace)
+func clearDb(ctx context.Context, namespace string) ([]string, error) {
+	return cachedb.Clear(ctx, namespace)
 }
 
 func CloseDb() {
