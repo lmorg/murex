@@ -5,8 +5,10 @@ import (
 	"sort"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/state"
 )
 
 // FID (Function ID) table: ie table of murex `Process` processes
@@ -104,4 +106,16 @@ func (f *funcID) Dump() any {
 	}
 
 	return dump
+}
+
+func (f *funcID) WaitOnChildState(parent *Process, state state.State) {
+	for {
+		time.Sleep(100 * time.Millisecond)
+		fids := f.ListAll()
+		for _, f := range fids {
+			if f.Parent.Id == parent.Id && f.State.Get() >= state.Get() {
+				return
+			}
+		}
+	}
 }

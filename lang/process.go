@@ -245,7 +245,6 @@ func executeProcess(p *Process) {
 	p.Parameters.DefineParsed(params)
 
 	// Execute function
-	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
 	if p.cache != nil && p.cache.use {
@@ -289,6 +288,7 @@ executeProcess:
 			fork.Name.Set(name)
 			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
+			p.State.Set(state.Executing)
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
@@ -311,12 +311,14 @@ executeProcess:
 			fork.FileRef = fn.FileRef
 			err = fn.castParameters(fork.Process)
 			if err == nil {
+				p.State.Set(state.Executing)
 				p.ExitNum, err = fork.Execute(fn.Block)
 			}
 		}
 
 	case GoFunctions[name] != nil:
 		// murex builtins
+		p.State.Set(state.Executing)
 		err = GoFunctions[name](p)
 
 	default:
@@ -336,6 +338,7 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
+		// Don't here p.State.Set(state.Executing) - this should be done in `exec` builtin
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
 			_, cpErr := ParseExpression(p.raw, 0, false)

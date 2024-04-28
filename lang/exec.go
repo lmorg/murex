@@ -9,6 +9,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -150,6 +151,7 @@ func execute(p *Process) error {
 	// Start process
 	// ***
 
+	p.State.Set(state.Executing)
 	if err := cmd.Start(); err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
 		//mxdtW.Close()

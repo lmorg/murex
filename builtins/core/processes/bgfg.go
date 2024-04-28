@@ -36,6 +36,8 @@ func cmdBackground(p *lang.Process) (err error) {
 	fork.Parameters.CopyFrom(&p.Parameters)
 	go fork.Execute(block)
 
+	//lang.GlobalFIDs.WaitOnChildState(p, state.Executing.State())
+
 	return nil
 }
 
