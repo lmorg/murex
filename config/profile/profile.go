@@ -108,8 +108,7 @@ func profile(name, path string) error {
 	block := []rune(string(b))
 
 	quiet, _ := lang.ShellProcess.Config.Get("shell", "quiet", types.Boolean)
-
-	if !quiet.(bool) {
+	if v, ok := quiet.(bool); !ok || !v {
 		os.Stderr.WriteString("Loading profile `" + name + "`" + utils.NewLineString)
 	}
 

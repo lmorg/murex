@@ -130,8 +130,7 @@ func (m *Module) execute() error {
 	block := []rune(string(b))
 
 	quiet, _ := lang.ShellProcess.Config.Get("shell", "quiet", types.Boolean)
-
-	if !quiet.(bool) {
+	if v, ok := quiet.(bool); !ok || !v {
 		os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
 	}
 
