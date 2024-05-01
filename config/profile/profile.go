@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -106,7 +107,11 @@ func profile(name, path string) error {
 
 	block := []rune(string(b))
 
-	os.Stderr.WriteString("Loading profile `" + name + "`" + utils.NewLineString)
+	quiet, _ := lang.ShellProcess.Config.Get("shell", "quiet", types.Boolean)
+
+	if !quiet.(bool) {
+		os.Stderr.WriteString("Loading profile `" + name + "`" + utils.NewLineString)
+	}
 
 	// lets redirect all output to STDERR just in case this thing gets piped for any strange reason
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)

@@ -24,6 +24,7 @@ var (
 	fVersion2    bool
 	fSh          bool
 	fRunTests    bool
+	fQuiet       bool
 )
 
 func readFlags() {
@@ -41,6 +42,7 @@ func readFlags() {
 	flag.BoolVar(&fRunTests, "run-tests", false, "Run all tests and exit")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
+	flag.BoolVar(&fQuiet, "quiet", false, "Suppress messages about loading profiles and modules.")
 
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
@@ -64,6 +66,12 @@ func readFlags() {
 	config.InitConf.Define("proc", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
+		DataType:    types.Boolean,
+	})
+
+	config.InitConf.Define("shell", "quiet", config.Properties{
+		Description: "Prevent messages about loading profiles and modules from being printed at startup",
+		Default:     fQuiet,
 		DataType:    types.Boolean,
 	})
 
