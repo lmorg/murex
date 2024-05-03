@@ -70,9 +70,10 @@ func readFlags() {
 	})
 
 	config.InitConf.Define("shell", "quiet", config.Properties{
-		Description: "Prevent messages about loading profiles and modules from being printed at startup",
+		Description: "Prevent messages about loading profiles and modules from being printed at startup (this is set at launch via `--quiet`)",
 		Default:     fQuiet,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	fSource = flag.Args()
