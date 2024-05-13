@@ -1,0 +1,13 @@
+#if event isn't compiled
+
+event onPreview cheat-sh=exec {
+    -> set event
+
+    #out "The following is taken from https://cheat.sh:\n=============================================\n\n"
+
+    config set http user-agent curl/1.0
+    config set http timeout 2
+    trypipe {
+        get https://cheat.sh/$(event.Interrupt.PreviewItem)?T -> [ Body ]
+    }
+}

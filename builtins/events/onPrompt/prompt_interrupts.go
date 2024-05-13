@@ -3,22 +3,15 @@ package onprompt
 import (
 	"fmt"
 	"strings"
-)
 
-type opInterrupt string
-
-const (
-	opInterruptBefore = "before"
-	opInterruptAfter  = "after"
-	opInterruptEOF    = "eof"
-	opInterruptCancel = "cancel"
+	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 )
 
 var interrupts = []string{
-	opInterruptBefore,
-	opInterruptAfter,
-	opInterruptEOF,
-	opInterruptCancel,
+	promptops.Before,
+	promptops.After,
+	promptops.EOF,
+	promptops.Cancel,
 }
 
 func isValidInterrupt(interrupt string) error {

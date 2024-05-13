@@ -1,48 +1,53 @@
-package onprompt
+package onpreview
 
 import (
+	"context"
 	"fmt"
 	"sort"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/lists"
+	"github.com/lmorg/murex/utils/readline"
 )
 
-var eventType = "onPrompt"
+const eventType = "onPreview"
 
 func init() {
-	event := newOnPrompt()
+	event := newOnPreview()
 	events.AddEventType(eventType, event, nil)
-	shell.EventsPrompt = event.callback
+	shell.EventsPreview = event.callback
 }
 
 // Interrupt is a JSONable structure passed to the murex function
 type Interrupt struct {
-	Name      string
-	Operation string
-	CmdLine   string
+	Name        string
+	Operation   string
+	PreviewItem string
+	CmdLine     string
 }
 
-type promptEvent struct {
+type previewEvent struct {
 	Key     string
 	Block   []rune
 	FileRef *ref.File
 }
 
-type promptEvents struct {
-	events []promptEvent
+type previewEvents struct {
+	events []previewEvent
 	//mutex  sync.Mutex
 }
 
-func newOnPrompt() *promptEvents {
-	return new(promptEvents)
+func newOnPreview() *previewEvents {
+	return new(previewEvents)
 }
 
 // Add a command to the onPrompt
-func (evt *promptEvents) Add(name, interrupt string, block []rune, fileRef *ref.File) error {
+func (evt *previewEvents) Add(name, interrupt string, block []rune, fileRef *ref.File) error {
 	if err := isValidInterrupt(interrupt); err != nil {
 		return err
 	}
@@ -50,7 +55,7 @@ func (evt *promptEvents) Add(name, interrupt string, block []rune, fileRef *ref.
 	//evt.mutex.Lock()
 
 	key := compileInterruptKey(interrupt, name)
-	event := promptEvent{
+	event := previewEvent{
 		Key:     key,
 		Block:   block,
 		FileRef: fileRef,
@@ -71,7 +76,7 @@ func (evt *promptEvents) Add(name, interrupt string, block []rune, fileRef *ref.
 	return nil
 }
 
-func (evt *promptEvents) Remove(key string) error {
+func (evt *previewEvents) Remove(key string) error {
 	//evt.mutex.Lock()
 	//defer evt.mutex.Unlock()
 
@@ -105,22 +110,52 @@ func (evt *promptEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
-func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
+func (evt *previewEvents) callback(
+	ctx context.Context, interrupt string, // event
+	previewItem string, cmdLine []rune, // meta
+	previousLines []string, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT, // render
+) {
 	if err := isValidInterrupt(interrupt); err != nil {
 		panic(err.Error())
 	}
 
 	//evt.mutex.Lock()
 
+	var (
+		b              []byte
+		interruptValue Interrupt
+		stdout         stdio.Io
+	)
+
 	for i := range evt.events {
 		split := getInterruptFromKey(evt.events[i].Key)
 		if split[0] == interrupt {
-			interruptValue := Interrupt{
-				Name:      split[1],
-				Operation: interrupt,
-				CmdLine:   string(cmdLine),
+
+			hash := cache.CreateHash(previewItem, split, evt.events[i].Block)
+			if cache.Read(cache.PREVIEW_EVENT, hash, &b) {
+				goto callback
 			}
-			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, false)
+
+			interruptValue = Interrupt{
+				Name:        split[1],
+				Operation:   interrupt,
+				CmdLine:     string(cmdLine),
+				PreviewItem: previewItem,
+			}
+			stdout = streams.NewStdin()
+			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, stdout, true)
+			b, _ = stdout.ReadAll()
+			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(cacheTTL))
+
+		callback:
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, evt.events[i].Key)
+				callback(lines, -1, err)
+				previousLines = lines
+			}
 		}
 	}
 
@@ -129,7 +164,7 @@ func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
 
 const doesNotExist = -1
 
-func (evt *promptEvents) exists(key string) int {
+func (evt *previewEvents) exists(key string) int {
 	//evt.mutex.Lock()
 
 	for i := range evt.events {
@@ -143,7 +178,7 @@ func (evt *promptEvents) exists(key string) int {
 	return doesNotExist
 }
 
-func (evt *promptEvents) Dump() map[string]events.DumpT {
+func (evt *previewEvents) Dump() map[string]events.DumpT {
 	dump := make(map[string]events.DumpT)
 
 	//evt.mutex.Lock()
