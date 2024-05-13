@@ -41,7 +41,7 @@ func Request(ctx context.Context, method, url string, body io.Reader, conf *conf
 	var client *http.Client
 	if setTimeout {
 		tr := http.Transport{
-			Dial:            dialTimeout(toDur, toDur, conf),
+			Dial:            dialTimeout(toDur, toDur),
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
 		}
 
@@ -101,7 +101,7 @@ func Request(ctx context.Context, method, url string, body io.Reader, conf *conf
 
 // dialTimeout function unashamedly copy and pasted from:
 // https://stackoverflow.com/questions/16895294/how-to-set-timeout-for-http-get-requests-in-golang#16930649
-func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration, conf *config.Config) func(net, addr string) (c net.Conn, err error) {
+func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
 	return func(netw, addr string) (net.Conn, error) {
 		conn, err := net.DialTimeout(netw, addr, cTimeout)
 		if err != nil {

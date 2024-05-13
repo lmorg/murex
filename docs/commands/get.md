@@ -43,6 +43,7 @@ get url -> <stdout>
     },
     "Body": string
 }
+```
 
 The concept behind this is it provides and easier path for scripting eg pulling
 specific fields via the index, `[`, function.
