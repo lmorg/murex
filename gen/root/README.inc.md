@@ -55,7 +55,6 @@ highlights:
 copyright: false
 footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
-
 ## 🛟 Getting Started
 
 * Read the [language tour](/tour.html) to get started.
