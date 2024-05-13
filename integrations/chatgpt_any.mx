@@ -1,0 +1,91 @@
+if { runtime --event-types -> match onPreview } else {
+    return
+}
+
+/#
+    Example request:
+
+        curl https://api.openai.com/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -d '{
+            "model": "gpt-3.5-turbo",
+            "messages": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": "Hello!"
+            }
+            ]
+        }'
+
+    Example response:
+
+        {
+            "id": "chatcmpl-123",
+            "object": "chat.completion",
+            "created": 1677652288,
+            "model": "gpt-3.5-turbo-0125",
+            "system_fingerprint": "fp_44709d6fcb",
+            "choices": [{
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": "\n\nHello there, how may I assist you today?",
+                },
+                "logprobs": null,
+                "finish_reason": "stop"
+            }],
+            "usage": {
+                "prompt_tokens": 9,
+                "completion_tokens": 12,
+                "total_tokens": 21
+            }
+        }
+#/
+
+event onPreview chatgpt=exec {
+    cast str
+
+    $.CacheTTL = 0
+
+    !if { $OPENAI_API_KEY } then {
+        return
+    }
+
+    <stdin> -> set event
+
+    config set http timeout 120
+    config set http headers %{
+        api.openai.com: {
+            Content-Type: application/json
+            Authorization: "Bearer $OPENAI_API_KEY"
+        }
+    }
+
+    trypipe {
+        %{
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a command line cheatsheet for ${os}. When asked how to use a command, you will provide a brief description of that command, followed by a few commonly used examples."
+                },
+                {
+                    "role": "user",
+                    "content": "How do I use `$(event.Interrupt.PreviewItem)`?"
+                }
+            ]
+        } -> post https://api.openai.com/v1/chat/completions -> [ Body ] -> set json body
+
+        if { $body.error } then {
+            $body -> pretty
+        } else {
+            $.CacheTTL = 60 * 60 * 24 * 30 # 30 days
+            $body.choices.0.message.content
+        }
+    }
+}

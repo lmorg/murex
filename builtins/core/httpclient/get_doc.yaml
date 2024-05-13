@@ -62,7 +62,7 @@
 
     ```
     config set http user-agent "bob"
-    get: google.com
+    get google.com
     ```
 
     This enables sane, repeatable and readable defaults. Read the documents on

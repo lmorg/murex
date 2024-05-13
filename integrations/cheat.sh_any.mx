@@ -1,4 +1,4 @@
-!if { runtime --eventTypes -> match onPreview } then {
+if { runtime --event-types -> match onPreview } else {
     return
 }
 
