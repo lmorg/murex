@@ -3,6 +3,7 @@ package events
 import (
 	"fmt"
 	"os"
+	"slices"
 	"time"
 
 	"github.com/lmorg/murex/debug"
@@ -99,6 +100,21 @@ func DumpEvents() (dump map[string]interface{}) {
 	}
 
 	return
+}
+
+func DumpEventTypes() []string {
+	var (
+		s = make([]string, len(events))
+		i int
+	)
+
+	for name := range events {
+		s[i] = name
+		i++
+	}
+
+	slices.Sort(s)
+	return s
 }
 
 type DumpT struct {

@@ -47,6 +47,7 @@ const (
 	fMarshallers        = "--marshallers"
 	fUnmarshallers      = "--unmarshallers"
 	fEvents             = "--events"
+	fEventTypes         = "--event-types"
 	fAutocomplete       = "--autocomplete"
 	fMemstats           = "--memstats"
 	fTests              = "--tests"
@@ -87,6 +88,7 @@ var flags = map[string]string{
 	fMarshallers:        types.Boolean,
 	fUnmarshallers:      types.Boolean,
 	fEvents:             types.Boolean,
+	fEventTypes:         types.Boolean,
 	fAutocomplete:       types.Boolean,
 	fMemstats:           types.Boolean,
 	fTests:              types.Boolean,
@@ -201,6 +203,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fUnmarshallers[2:]] = lang.DumpUnmarshaller()
 		case fEvents:
 			ret[fEvents[2:]] = events.DumpEvents()
+		case fEventTypes:
+			ret[fEventTypes[2:]] = events.DumpEventTypes()
 		case fAutocomplete:
 			ret[fAutocomplete[2:]] = autocomplete.RuntimeDump()
 		case fMemstats:

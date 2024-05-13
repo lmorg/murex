@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/lists"
 )
 
-var eventType = "onPrompt"
+const eventType = "onPrompt"
 
 func init() {
 	event := newOnPrompt()

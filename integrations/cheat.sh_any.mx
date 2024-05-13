@@ -1,4 +1,6 @@
-#if event isn't compiled
+!if { runtime --eventTypes -> match onPreview } then {
+    return
+}
 
 event onPreview cheat-sh=exec {
     -> set event
