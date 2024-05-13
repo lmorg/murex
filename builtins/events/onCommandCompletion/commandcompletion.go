@@ -138,7 +138,7 @@ func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p
 		return
 	}
 
-	lang.GlobalPipes.ExposePipe(stderr, "std", p.CCErr)
+	err = lang.GlobalPipes.ExposePipe(stderr, "std", p.CCErr)
 	if err != nil {
 		writeErr(fmt.Sprintf("cannot expose stderr pipe '%s'", stderr), err, name, cce.Command)
 		return
@@ -152,10 +152,13 @@ func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p
 		ExitNum:    p.ExitNum,
 	}
 
-	events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false), false)
-
-	lang.GlobalPipes.Delete(stdout)
-	lang.GlobalPipes.Delete(stderr)
+	_, err = events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false), term.NewErr(false), nil, false)
+	_ = lang.GlobalPipes.Delete(stdout) // we don't actually care about any errors here
+	_ = lang.GlobalPipes.Delete(stderr) // nor here either
+	if err != nil {
+		writeErr("callback failed", err, name, cce.Command)
+		return
+	}
 }
 
 func (evt *commandCompletionEvents) Dump() map[string]events.DumpT {

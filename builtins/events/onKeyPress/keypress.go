@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
+	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
@@ -113,11 +114,23 @@ eventFound:
 	}
 
 	stdout := streams.NewStdin()
-	events.Callback(
-		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout, true)
+	_, err := events.Callback(
+		evt.events[i].name, interrupt, // event
+		block, evt.events[i].fileRef, // script
+		stdout, new(null.Null), // pipes
+		nil,  // meta
+		true, // background
+	)
+	if err != nil {
+		return &readline.EventReturn{
+			HintText: []rune("callback error: " + err.Error()),
+			NewLine:  line,
+			NewPos:   pos,
+		}
+	}
 
 	ret := make(map[string]string)
-	err := stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
+	err = stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
 		v, _ := types.ConvertGoType(readmap.Value, types.String)
 		ret[readmap.Key] = v.(string)
 	})

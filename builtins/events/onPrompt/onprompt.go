@@ -120,7 +120,12 @@ func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
 				Operation: interrupt,
 				CmdLine:   string(cmdLine),
 			}
-			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, false)
+			_, err := events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, nil, false)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+					"error in event callback: %s", err.Error(),
+				)))
+			}
 		}
 	}
 

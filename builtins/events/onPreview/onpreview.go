@@ -7,8 +7,10 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/lists"
@@ -110,6 +112,10 @@ func (evt *previewEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
+const (
+	metaCacheTTL = "CacheTTL"
+)
+
 func (evt *previewEvents) callback(
 	ctx context.Context, interrupt string, // event
 	previewItem string, cmdLine []rune, // meta
@@ -122,9 +128,14 @@ func (evt *previewEvents) callback(
 	//evt.mutex.Lock()
 
 	var (
-		b              []byte
+		b, e           []byte
 		interruptValue Interrupt
-		stdout         stdio.Io
+		stdout, stderr stdio.Io
+		err            error
+		meta           any
+		metaMap        map[string]any
+		ttl            int
+		ok             bool
 	)
 
 	for i := range evt.events {
@@ -142,17 +153,49 @@ func (evt *previewEvents) callback(
 				CmdLine:     string(cmdLine),
 				PreviewItem: previewItem,
 			}
-			stdout = streams.NewStdin()
-			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, stdout, true)
+			stdout, stderr = streams.NewStdin(), streams.NewStdin()
+			meta = map[string]any{
+				metaCacheTTL: cacheTTL,
+			}
+
+			meta, err = events.Callback(
+				evt.events[i].Key, interruptValue, // event
+				evt.events[i].Block, evt.events[i].FileRef, // script
+				stdout, stderr, // pipes
+				meta, // meta
+				true, // background
+			)
 			b, _ = stdout.ReadAll()
-			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(cacheTTL))
+			e, _ = stderr.ReadAll()
+			b = append(b, e...)
+			if err != nil {
+				b = append([]byte(err.Error()), b...)
+			}
+
+			metaMap, ok = meta.(map[string]any)
+			if !ok {
+				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+					"error decoding event meta variable: value is %T, expecting a map: %v", meta, meta,
+				)))
+				continue
+			}
+			ttl, ok = metaMap[metaCacheTTL].(int)
+			if !ok {
+				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+					"error decoding event meta variable: value is %T, expecting an %s: %v", metaMap[metaCacheTTL], types.Integer, metaMap[metaCacheTTL],
+				)))
+				continue
+			}
+
+			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(ttl))
 
 		callback:
+			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, evt.events[i].Key)
+
 			select {
 			case <-ctx.Done():
 				return
 			default:
-				lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, evt.events[i].Key)
 				callback(lines, -1, err)
 				previousLines = lines
 			}

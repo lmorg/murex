@@ -144,7 +144,8 @@ func (evt *watch) init() {
 				lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error: " + err.Error()))
 				continue
 			}
-			events.Callback(
+			
+			_, err = events.Callback(
 				source.name,
 				Interrupt{
 					Path:      event.Name,
@@ -153,8 +154,14 @@ func (evt *watch) init() {
 				source.block,
 				source.fileRef,
 				lang.ShellProcess.Stdout,
+				lang.ShellProcess.Stderr,
+				nil,
 				true,
 			)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error: " + err.Error()))
+				continue
+			}
 
 		case err := <-evt.watcher.Errors:
 			lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange watcher error: " + err.Error()))

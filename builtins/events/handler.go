@@ -40,7 +40,7 @@ type j struct {
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout stdio.Io, background bool) {
+func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout, stderr stdio.Io, meta any, background bool) (any, error) {
 	if fileRef == nil {
 		if debug.Enabled {
 			panic("fileRef should not be nil value")
@@ -60,8 +60,7 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 		Interrupt: interrupt,
 	}, false)
 	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("error building event input: " + err.Error()))
-		return
+		return nil, fmt.Errorf("error building event input: %s", err.Error())
 	}
 
 	var bgProc int
@@ -77,18 +76,29 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 	fork.CCExists = nil
 	_, err = fork.Stdin.Write(json)
 	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))
-		return
+		return nil, fmt.Errorf("error writing event input: %s", err.Error())
 	}
 
 	debug.Log("Event callback:", string(json), string(block))
 
 	fork.Stdout = stdout
+	fork.Stderr = stderr
+	if meta != nil {
+		err = fork.Variables.Set(fork.Process, "", meta, types.Json)
+		if err != nil {
+			return nil, fmt.Errorf("cannot compile meta for event '%s' (interrupt: %v): %s", name, interrupt, err.Error())
+		}
+	}
 
 	_, err = fork.Execute(block)
 	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("error compiling event callback: " + err.Error()))
+		return nil, fmt.Errorf("error compiling event callback: %s", err.Error())
 	}
+
+	if meta != nil {
+		return fork.Variables.GetValue("")
+	}
+	return nil, nil
 }
 
 // DumpEvents is used for `runtime` to output all the saved events
