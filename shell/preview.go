@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -11,6 +12,19 @@ const binaryFile = "file contains binary data"
 
 func errBinaryFile(b byte) error {
 	return fmt.Errorf("%s: %d", binaryFile, b)
+}
+
+func PreviewParseAppendEvent(previous []string, p []byte, size *readline.PreviewSizeT, title string) ([]string, error) {
+	heading := append(
+		previous,
+		strings.Repeat("─", size.Width),
+		fmt.Sprintf("%sEvent %s:%s", codes.Invert, title, codes.NoInvert),
+		strings.Repeat("─", size.Width),
+	)
+
+	lines, _, err := previewParse(p, size)
+
+	return append(heading, lines...), err
 }
 
 func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {

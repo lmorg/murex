@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"runtime"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -242,7 +241,7 @@ const (
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	defer crash.Handler()
-	defer runtime.GC() // just in case anyone fiddles with Go's garbage collector
+	//defer runtime.GC() // just in case anyone fiddles with Go's garbage collector
 
 	forkCheckForNils(fork)
 

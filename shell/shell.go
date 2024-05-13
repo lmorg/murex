@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"regexp"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/app/whatsnew"
+	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
@@ -34,17 +36,25 @@ var (
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// Events is a callback for onPrompt events
-	Events func(string, []rune)
+	// Events is a callback for onPrompt & onPreview events
+	EventsPrompt  func(string, []rune)
+	EventsPreview func(context.Context, string, string, []rune, []string, *readline.PreviewSizeT, readline.PreviewFuncCallbackT)
 
 	promptShown atomic.Bool
 )
 
-func callEvents(interrupt string, cmdLine []rune) {
-	if Events == nil {
+func callEventsPrompt(interrupt string, cmdLine []rune) {
+	if EventsPrompt == nil {
 		return
 	}
-	Events(interrupt, cmdLine)
+	EventsPrompt(interrupt, cmdLine)
+}
+
+func callEventsPreview(ctx context.Context, interrupt string, previewItem string, cmdLine []rune, previousLines []string, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
+	if EventsPreview == nil {
+		return
+	}
+	EventsPreview(ctx, interrupt, previewItem, cmdLine, previousLines, size, callback)
 }
 
 // Start the interactive shell
@@ -169,7 +179,7 @@ func showPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			callEvents("before", nil)
+			callEventsPrompt(promptops.Before, nil)
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -184,12 +194,12 @@ func showPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(os.Stdout, PromptSIGINT)
-				callEvents("cancel", nil)
+				callEventsPrompt(promptops.Cancel, nil)
 				continue
 
 			case readline.EOF:
 				fmt.Fprintln(os.Stdout, utils.NewLineString)
-				callEvents("eof", nil)
+				callEventsPrompt(promptops.EOF, nil)
 				lang.Exit(0)
 
 			default:
@@ -263,7 +273,7 @@ func showPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEvents("after", block)
+			callEventsPrompt(promptops.After, block)
 
 			go func() {
 				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
