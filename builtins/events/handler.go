@@ -3,7 +3,6 @@ package events
 import (
 	"fmt"
 	"os"
-	"slices"
 	"time"
 
 	"github.com/lmorg/murex/debug"
@@ -123,7 +122,6 @@ func DumpEventTypes() []string {
 		i++
 	}
 
-	slices.Sort(s)
 	return s
 }
 
