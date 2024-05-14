@@ -47,12 +47,27 @@ if { runtime --event-types -> match onPreview } else {
         }
 #/
 
+config define chatgpt preview-exec-api %{
+    Description: "ChatGPT API key with write access to /v1/chat/completions"
+    DataType:    str
+    Default:     ${ $OPENAI_API_KEY ?? "" }
+}
+
+config define chatgpt preview-exec-context %{
+    Description: "How ChatGPT should structure it's response for the [f1] preview of external executables"
+    DataType:    str
+    Default:     "You are a command line cheat sheet for command line usage. When asked how to use a command line tool, you will provide a brief description of that command, followed by a few commonly used examples as well as some potentially lesser known examples that are still likely to be useful."
+}
+
 event onPreview chatgpt=exec {
     cast str
 
     $.CacheTTL = 0
 
-    !if { $OPENAI_API_KEY } then {
+    config get chatgpt preview-exec-context -> set context
+    config get chatgpt preview-exec-api     -> set chatgpt_api
+
+    !if { $chatgpt_api } then {
         return
     }
 
@@ -62,21 +77,21 @@ event onPreview chatgpt=exec {
     config set http headers %{
         api.openai.com: {
             Content-Type: application/json
-            Authorization: "Bearer $OPENAI_API_KEY"
+            Authorization: "Bearer $chatgpt_api"
         }
     }
 
     trypipe {
         %{
-            "model": "gpt-3.5-turbo",
-            "messages": [
+            model:    gpt-3.5-turbo
+            messages: [
                 {
-                    "role": "system",
-                    "content": "You are a command line cheatsheet for ${os}. When asked how to use a command, you will provide a brief description of that command, followed by a few commonly used examples."
-                },
+                    role:    system,
+                    content: $context
+                }
                 {
-                    "role": "user",
-                    "content": "How do I use `$(event.Interrupt.PreviewItem)`?"
+                    role:    user,
+                    content: "How do I use `$(event.Interrupt.PreviewItem)` in ${os}?"
                 }
             ]
         } -> post https://api.openai.com/v1/chat/completions -> [ Body ] -> set json body
