@@ -3,7 +3,6 @@ package httpclient
 import (
 	"context"
 	"crypto/tls"
-	"io"
 	"net"
 	"net/http"
 	neturl "net/url"
@@ -11,6 +10,8 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -23,7 +24,7 @@ const (
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
 // Request generates a HTTP request
-func Request(ctx context.Context, method, url string, body io.Reader, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
+func Request(ctx context.Context, method, url string, body stdio.Io, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := conf.Get("http", "timeout", types.String)
 	if err != nil {
 		return
@@ -75,6 +76,10 @@ func Request(ctx context.Context, method, url string, body io.Reader, conf *conf
 	urlParsed, err := neturl.Parse(url)
 	if err != nil {
 		return
+	}
+
+	if body != nil {
+		request.Header.Add("Content-Type", lang.MurexToMime(body.GetDataType()))
 	}
 
 	// code in meta functions
