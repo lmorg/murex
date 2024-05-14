@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -18,8 +17,9 @@ func PreviewParseAppendEvent(previous []string, p []byte, size *readline.Preview
 	heading := append(
 		previous,
 		strings.Repeat("─", size.Width),
-		fmt.Sprintf("%sEvent %s:%s", codes.Invert, title, codes.NoInvert),
-		strings.Repeat("─", size.Width),
+		fmt.Sprintf("Event `%s`:", title),
+		//fmt.Sprintf("%sEvent %s:%s", codes.Invert, title, codes.NoInvert),
+		strings.Repeat("╶", size.Width),
 	)
 
 	lines, _, err := previewParse(p, size)

@@ -138,6 +138,9 @@ While the preview box is open, the following keys are assigned roles:
 * `option`+`arrow down` scroll down the contents of the preview box, one page
   at a time (Apple keyboard layouts)
 
+* `home` scroll up to the previous section
+* `end` scroll down to the next section
+
 ### Command Line Preview
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
@@ -170,6 +173,9 @@ While the preview box is open, the following keys are assigned roles:
   a time (IBM keyboard layouts)
 * `option`+`arrow down` scroll down the contents of the preview box, one page
   at a time (Apple keyboard layouts)
+
+* `home` scroll up to the previous section
+* `end` scroll down to the next section
 
 ### Search Shell History
 

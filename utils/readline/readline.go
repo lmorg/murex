@@ -425,20 +425,32 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
-		if rl.modeTabCompletion {
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewPreviousSectionStr()
 			return output
-		}
 
-		output += rl.moveCursorByRuneAdjustStr(-rl.line.RunePos())
-		rl.viUndoSkipAppend = true
+		case rl.modeTabCompletion:
+			return output
+
+		default:
+			output += rl.moveCursorByRuneAdjustStr(-rl.line.RunePos())
+			rl.viUndoSkipAppend = true
+		}
 
 	case seqEnd, seqEndSc:
-		if rl.modeTabCompletion {
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewNextSectionStr()
 			return output
-		}
 
-		output += rl.moveCursorByRuneAdjustStr(rl.line.RuneLen() - rl.line.RunePos())
-		rl.viUndoSkipAppend = true
+		case rl.modeTabCompletion:
+			return output
+
+		default:
+			output += rl.moveCursorByRuneAdjustStr(rl.line.RuneLen() - rl.line.RunePos())
+			rl.viUndoSkipAppend = true
+		}
 
 	case seqShiftTab:
 		if rl.modeTabCompletion {
