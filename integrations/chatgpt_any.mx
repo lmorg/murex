@@ -56,7 +56,7 @@ config define openai preview-exec-api %{
 config define openai preview-exec-context %{
     Description: "How ChatGPT should structure it's response for the [f1] preview of external executables"
     DataType:    str
-    Default:     "You are a command line cheat sheet for command line usage. When asked how to use a command line tool, you will provide a brief description of that command, followed by a few commonly used examples as well as some potentially lesser known examples that are still likely to be useful."
+    Default:     "You are a command line cheat sheet for command line usage. When asked how to use a command line tool, you will provide a brief description of that command, followed by a few commonly used examples as well as some potentially lesser known examples that are still likely to be useful. Your output should be formatted as plain text and without any markdown because your output will be displayed in the terminal."
 }
 
 event onPreview chatgpt=exec {
@@ -100,7 +100,7 @@ event onPreview chatgpt=exec {
         if { $body.error } then {
             $body -> pretty
         } else {
-            $.CacheTTL = 60 * 60 * 24 * 30 # 30 days
+            $.CacheTTL = 60 * 60 * 24 * 30 # 50 days
             $body.choices.0.message.content
         }
     }

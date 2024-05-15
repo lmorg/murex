@@ -11,5 +11,9 @@ event onPreview cheat-sh=exec {
     config set http timeout 2
     trypipe {
         get https://cheat.sh/$(event.Interrupt.PreviewItem)?T -> [ Body ]
+        $.CacheTTL = 60 * 60 * 24 * 25 # 25 days
+    }
+    catch {
+        $.CacheTTL = 60 * 60 * 24 * 3 # 3 days
     }
 }

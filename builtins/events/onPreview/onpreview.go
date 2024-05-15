@@ -31,6 +31,7 @@ type Interrupt struct {
 	Operation   string
 	PreviewItem string
 	CmdLine     string
+	Width       int
 }
 
 type previewEvent struct {
@@ -152,6 +153,7 @@ func (evt *previewEvents) callback(
 				Operation:   interrupt,
 				CmdLine:     string(cmdLine),
 				PreviewItem: previewItem,
+				Width:       size.Width,
 			}
 			stdout, stderr = streams.NewStdin(), streams.NewStdin()
 			meta = map[string]any{
@@ -190,7 +192,7 @@ func (evt *previewEvents) callback(
 			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(ttl))
 
 		callback:
-			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, evt.events[i].Key)
+			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, split[1])
 
 			select {
 			case <-ctx.Done():

@@ -21,6 +21,9 @@ func PreviewParseAppendEvent(previous []string, p []byte, size *readline.Preview
 		//fmt.Sprintf("%sEvent %s:%s", codes.Invert, title, codes.NoInvert),
 		strings.Repeat("╶", size.Width),
 	)
+	if len(previous) == 0 {
+		heading = heading[1:]
+	}
 
 	lines, _, err := previewParse(p, size)
 

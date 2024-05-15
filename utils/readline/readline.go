@@ -476,12 +476,25 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:
-		HkFnJumpForwards(rl)
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewNextSectionStr()
+			return output
+
+		default:
+			HkFnJumpForwards(rl)
+		}
 
 	case seqAltB, seqOptLeft, seqCtrlLeft:
-		HkFnJumpBackwards(rl)
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewPreviousSectionStr()
+			return output
 
-		// TODO: test me
+		default:
+			HkFnJumpBackwards(rl)
+		}
+
 	case seqShiftF1:
 		HkFnRecallWord1(rl)
 	case seqShiftF2:
