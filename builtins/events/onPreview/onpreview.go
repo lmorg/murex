@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"time"
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -142,6 +143,7 @@ func (evt *previewEvents) callback(
 	for i := range evt.events {
 		split := getInterruptFromKey(evt.events[i].Key)
 		if split[0] == interrupt {
+			dur := time.After(2 * time.Second)
 
 			hash := cache.CreateHash(previewItem, split, evt.events[i].Block)
 			if cache.Read(cache.PREVIEW_EVENT, hash, &b) {
@@ -200,6 +202,12 @@ func (evt *previewEvents) callback(
 			default:
 				callback(lines, -1, err)
 				previousLines = lines
+				select {
+				case <-dur:
+					shell.Prompt.ForceHintTextUpdate(fmt.Sprintf("Slow running event completed: %s", split[1]))
+				default:
+					continue
+				}
 			}
 		}
 	}
