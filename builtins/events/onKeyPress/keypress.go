@@ -29,6 +29,9 @@ type Interrupt struct {
 	Raw         string
 	Pos         int
 	KeySequence string
+	Invoker     string
+	IsMasked    bool
+	Mode        string
 }
 
 type keyPressEvent struct {
@@ -118,8 +121,8 @@ eventFound:
 		evt.events[i].name, interrupt, // event
 		block, evt.events[i].fileRef, // script
 		stdout, new(null.Null), // pipes
-		nil,  // meta
-		true, // background
+		createMeta(line, pos), // meta
+		true,                  // background
 	)
 	if err != nil {
 		return &readline.EventReturn{

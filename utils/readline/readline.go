@@ -157,7 +157,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 			if ret.DisplayPreview {
 				if rl.previewMode == previewModeClosed {
-					HkFnPreviewToggle(rl)
+					HkFnModePreviewToggle(rl)
 				}
 			}
 
@@ -201,7 +201,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		switch b[0] {
 		case charCtrlA:
-			HkFnMoveToStartOfLine(rl)
+			HkFnCursorMoveToStartOfLine(rl)
 
 		case charCtrlC:
 			output := rl.clearPreviewStr()
@@ -218,10 +218,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 
 		case charCtrlE:
-			HkFnMoveToEndOfLine(rl)
+			HkFnCursorMoveToEndOfLine(rl)
 
 		case charCtrlF:
-			HkFnFuzzyFind(rl)
+			HkFnModeFuzzyFind(rl)
 
 		case charCtrlG:
 			HkFnCancelAction(rl)
@@ -233,7 +233,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnClearScreen(rl)
 
 		case charCtrlR:
-			HkFnSearchHistory(rl)
+			HkFnModeSearchHistory(rl)
 
 		case charCtrlU:
 			HkFnClearLine(rl)
@@ -242,7 +242,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnUndo(rl)
 
 		case charTab:
-			HkFnAutocomplete(rl)
+			HkFnModeAutocomplete(rl)
 
 		case '\r':
 			fallthrough
@@ -468,11 +468,11 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		return output
 
 	case seqF1, seqF1VT100:
-		HkFnPreviewToggle(rl)
+		HkFnModePreviewToggle(rl)
 		return output
 
 	case seqF9:
-		HkFnPreviewLine(rl)
+		HkFnModePreviewLine(rl)
 		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:
@@ -482,7 +482,7 @@ func (rl *Instance) escapeSeq(r []rune) string {
 			return output
 
 		default:
-			HkFnJumpForwards(rl)
+			HkFnCursorJumpForwards(rl)
 		}
 
 	case seqAltB, seqOptLeft, seqCtrlLeft:
@@ -492,27 +492,27 @@ func (rl *Instance) escapeSeq(r []rune) string {
 			return output
 
 		default:
-			HkFnJumpBackwards(rl)
+			HkFnCursorJumpBackwards(rl)
 		}
 
 	case seqShiftF1:
-		HkFnRecallWord1(rl)
+		HkFnRecallWord01(rl)
 	case seqShiftF2:
-		HkFnRecallWord2(rl)
+		HkFnRecallWord02(rl)
 	case seqShiftF3:
-		HkFnRecallWord3(rl)
+		HkFnRecallWord03(rl)
 	case seqShiftF4:
-		HkFnRecallWord4(rl)
+		HkFnRecallWord04(rl)
 	case seqShiftF5:
-		HkFnRecallWord5(rl)
+		HkFnRecallWord05(rl)
 	case seqShiftF6:
-		HkFnRecallWord6(rl)
+		HkFnRecallWord06(rl)
 	case seqShiftF7:
-		HkFnRecallWord7(rl)
+		HkFnRecallWord07(rl)
 	case seqShiftF8:
-		HkFnRecallWord8(rl)
+		HkFnRecallWord08(rl)
 	case seqShiftF9:
-		HkFnRecallWord9(rl)
+		HkFnRecallWord09(rl)
 	case seqShiftF10:
 		HkFnRecallWord10(rl)
 	case seqShiftF11:
