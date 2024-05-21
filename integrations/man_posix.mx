@@ -4,13 +4,18 @@ if { runtime --event-types -> match onPreview } else {
 
 event onPreview 00-man-page=exec {
     -> set event
-
-    $.CacheTTL = 0
     
-    trypipe {
+	$.CacheTTL = 0
+
+	!if { man-summary $(event.Interrupt.PreviewItem)} then {
+		out "No man page exists for $(event.Interrupt.PreviewItem)"
+		return
+	}
+
+	trypipe {
 		/usr/bin/zcat -f ${man -w $(event.Interrupt.PreviewItem)} -> mandoc -O width=$(event.Interrupt.Width) -c
 	}
 	catch {
 		exec $MUREX_EXE -c "man <env:MANWIDTH=$(event.Interrupt.Width)> $(event.Interrupt.PreviewItem)"
-	}
+	}	
 }
