@@ -23,16 +23,6 @@ func init() {
 	events.AddEventType(eventType, newKeyPress(), nil)
 }
 
-// Interrupt is a JSONable structure passed to the murex function
-type Interrupt struct {
-	Line        string
-	Raw         string
-	Pos         int
-	KeySequence string
-	Invoker     string
-	IsMasked    bool
-	Mode        string
-}
 
 type keyPressEvent struct {
 	name    string

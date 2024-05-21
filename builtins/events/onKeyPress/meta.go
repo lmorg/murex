@@ -7,22 +7,22 @@ import (
 )
 
 const (
-	metaHotKeyActons = "Actions"
-	metaSetLine      = "SetLine"
-	metaSetPos       = "SetPos"
-	metaClose        = "CloseReadline"
-	metaHintText     = "SetHintText"
-	metaContinue     = "Continue"
+	metaHotKeyActions = "Actions"
+	metaSetLine       = "SetLine"
+	metaSetPos        = "SetPos"
+	metaClose         = "CloseReadline"
+	metaHintText      = "SetHintText"
+	metaContinue      = "Continue"
 )
 
 func createMeta(line []rune, pos int) map[string]any {
 	return map[string]any{
-		metaHotKeyActons: []string{},
-		metaSetLine:      string(line),
-		metaSetPos:       pos,
-		metaClose:        false,
-		metaHintText:     "",
-		metaContinue:     false,
+		metaHotKeyActions: []string{},
+		metaSetLine:       string(line),
+		metaSetPos:        pos,
+		metaClose:         false,
+		metaHintText:      "",
+		metaContinue:      false,
 	}
 }
 
