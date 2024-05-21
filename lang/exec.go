@@ -92,7 +92,19 @@ func execute(p *Process) error {
 		cmd.Stdin = os.Stdin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
-	cmd.Env = append(cmd.Env, p.Exec.Env...)
+
+	if len(p.Exec.Env) > 0 {
+		for i := range p.Exec.Env {
+			if !strings.Contains(p.Exec.Env[i], "=") {
+				v, err := p.Variables.GetString(p.Exec.Env[i])
+				if err != nil {
+					continue
+				}
+				p.Exec.Env[i] += "=" + v
+			}
+		}
+		cmd.Env = append(cmd.Env, p.Exec.Env...)
+	}
 
 	// ***
 	// Define STANDARD OUT (fd 1)

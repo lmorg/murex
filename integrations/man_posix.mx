@@ -7,15 +7,30 @@ event onPreview 00-man-page=exec {
     
 	$.CacheTTL = 0
 
-	!if { man-summary $(event.Interrupt.PreviewItem)} then {
-		out "No man page exists for $(event.Interrupt.PreviewItem)"
+	!if { man-summary $event.Interrupt.PreviewItem} then {
+		out "No man page exists for $event.Interrupt.PreviewItem"
+		return
+	}
+
+	if { os linux } then {
+		man_linux $event.Interrupt.Width $event.Interrupt.PreviewItem
 		return
 	}
 
 	trypipe {
-		/usr/bin/zcat -f ${man -w $(event.Interrupt.PreviewItem)} -> mandoc -O width=$(event.Interrupt.Width) -c
+		man_unix $event.Interrupt.Width $event.Interrupt.PreviewItem	
 	}
 	catch {
-		exec $MUREX_EXE -c "man <env:MANWIDTH=$(event.Interrupt.Width)> $(event.Interrupt.PreviewItem)"
+		man_linux $event.Interrupt.Width $event.Interrupt.PreviewItem
 	}	
+}
+
+private man_linux {
+	MANWIDTH = $1
+	man <env:MANWIDTH> $2
+}
+
+private man_unix {
+	/usr/bin/zcat -f ${man -w $2} \
+	-> mandoc -O width=$1 -c
 }
