@@ -88,12 +88,9 @@ func cmdDateTime(p *lang.Process) error {
 
 	case strings.HasPrefix(in, "{now}"):
 		datetime = time.Now()
-		if err != nil {
-			return err
-		}
 
 	default:
-		return errors.New("unknown or invalid input parser formatter")
+		return errors.New("unknown or invalid input parser formatter, expecting `{go}`, `{py}` or `{now}`")
 	}
 
 	// Write --out
@@ -116,7 +113,7 @@ func cmdDateTime(p *lang.Process) error {
 		return err
 
 	default:
-		return errors.New("unknown or invalid output parser formatter")
+		return errors.New("unknown or invalid output parser formatter, expecting `{go}`, `{py}`, or `{unix}`")
 	}
 
 }
