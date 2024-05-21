@@ -10,6 +10,11 @@ import (
 )
 
 func PreviewCommand(ctx context.Context, cmdLine []rune, command string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
+	if command == "" {
+		callback(previewParse([]byte("Nothing to preview"), size))
+		return
+	}
+
 	if lang.GlobalAliases.Exists(command) {
 		alias := lang.GlobalAliases.Get(command)
 		if len(alias) == 0 {
@@ -42,22 +47,6 @@ func PreviewCommand(ctx context.Context, cmdLine []rune, command string, _ bool,
 			return
 		}
 	}
-
-	/*if !(*autocomplete.GlobalExes.Get())[command] {
-		callback([]string{"not a valid command"}, 0, nil)
-		return
-	}
-
-	b := manPage(command, size)
-	var (
-		lines []string
-		err   error
-	)
-
-	if len(b) > 0 {
-		lines, _, err = previewParse(b, size)
-		callback(lines, 0, err)
-	}*/
 
 	callEventsPreview(ctx, previewops.Exec, command, cmdLine, []string{}, size, callback)
 }
