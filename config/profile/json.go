@@ -14,6 +14,7 @@ func ReadJson(path string, v interface{}) error {
 	if err != nil {
 		return fmt.Errorf("Cannot open `%s` for read: %s", path, err.Error())
 	}
+	defer file.Close()
 
 	b, err := io.ReadAll(file)
 	if err != nil {
