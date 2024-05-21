@@ -144,8 +144,8 @@ func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item
 	var ctx context.Context
 
 	callback := func(lines []string, pos int, err error) {
-		if pos == -1 && rl.previewCache != nil {
-			if rl.previewCache.pos < len(lines) {
+		if pos == -1 {
+			if rl.previewCache != nil && rl.previewCache.pos < len(lines) {
 				pos = rl.previewCache.pos
 			} else {
 				pos = 0
