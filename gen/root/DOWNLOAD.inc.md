@@ -37,8 +37,10 @@ refer to the [INSTALL](INSTALL.md) page for further instructions.
 ### Darwin (macOS)
 
 The `arm64` builds support the ARM-based M1, M2 and M3 processors. Older Macs
-will need to run `amd64`. Murex is also available on [Homebrew](https://murex.rocks/INSTALL.html#homebrew) and [MacPorts](https://murex.rocks/INSTALL.html#macports).
-[Install instructions](https://murex.rocks/DOWNLOAD.html#linux-unix-macos-instructions) 
+will need to run `amd64`. Murex is also available on {{ if env "DOCGEN_TARGET=vuepress" }}[Homebrew](install.html#homebrew) and [MacPorts](install.html#macports){{ else }}[Homebrew](INSTALL.md#homebrew) and [MacPorts](INSTALL.md#macports){{ end }}.
+
+
+[Install instructions](#linux-unix-macos-instructions) 
 can be found further down this page.
 
 * [murex-darwin-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
@@ -46,7 +48,7 @@ can be found further down this page.
 
 ### Linux
 
-[Install instructions](https://murex.rocks/DOWNLOAD.html#linux-unix-macos-instructions)
+[Install instructions](#linux-unix-macos-instructions)
 can be found further down this page.
 
 * [murex-linux-386.gz](https://nojs.murex.rocks/bin/latest/murex-linux-386.gz)
@@ -56,7 +58,7 @@ can be found further down this page.
 
 ### Windows
 
-[Install instructions](https://murex.rocks/DOWNLOAD.html#windows-instructions)
+[Install instructions](#windows-instructions)
 can be found further down this page.
 
 * [murex-windows-386.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-386.exe.zip)
@@ -64,7 +66,7 @@ can be found further down this page.
 
 ### BSD's
 
-[Install instructions](https://murex.rocks/DOWNLOAD.html#linux-unix-macos-instructions)
+[Install instructions](#linux-unix-macos-instructions)
 can be found further down this page.
 
 #### DragonflyBSD
@@ -124,13 +126,14 @@ Download the appropriate `.gz` file from the list above, one that matches both
 your OS and CPU architecture. Then extract it and make the resulting file
 executable.
 
-For example, in Bash, Zsh and similar shells, you can run the following:
+For example, in Bash, Zsh and similar shells, you can copy/paste the following
+to run on any Linux or UNIX-like OS from sh/bash/zsh. 
 
 ```sh
-MUREX_GZIP="murex-$(uname -o | tr [:upper:] [:lower:])-$(uname -m).gz"
-wget "https://nojs.murex.rocks/bin/latest/$MUREX_GZIP"
-gunzip "$MUREX_GZIP"
-chmod +x "$MUREX_GZIP"
+MUREX_BUILD="murex-$(uname -o | tr [:upper:] [:lower:])-$(uname -m)"
+wget "https://nojs.murex.rocks/bin/latest/${MUREX_GZIP}.gz"
+gunzip "${MUREX_BUILD}.gz"
+chmod +x "$MUREX_BUILD"
 ```
 
 Additionally you may wish to add Murex to `/etc/shells` if you want to expose
