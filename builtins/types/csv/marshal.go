@@ -17,8 +17,6 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 	buf := bytes.NewBuffer(b)
 	w := enc.NewWriter(buf)
 
-	//if term.
-
 	separator, err := p.Config.Get("csv", "separator", types.String)
 	if err != nil {
 		return nil, err
@@ -35,7 +33,6 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 				return buf.Bytes(), err
 			}
 		}
-		break
 
 	case [][]string:
 		for i := range v {
@@ -44,7 +41,6 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 				return buf.Bytes(), err
 			}
 		}
-		break
 
 	case []interface{}:
 		if len(v) == 0 {
@@ -72,17 +68,22 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 		return buf.Bytes(), err
 	}
 
+	w.Flush()
+	err = w.Error()
+	if err != nil {
+		return buf.Bytes(), err
+	}
+
 	var table []byte
-	if os.Getenv("MXTTY") == "true" {
+	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
 		table = []byte("\x1b_begin;table;{\"Format\":\"csv\"}\x1b\\")
 	}
 	table = append(table, buf.Bytes()...)
-	if os.Getenv("MXTTY") == "true" {
+	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
 		table = append(table, []byte("\x1b_end;table\x1b\\")...)
 	}
 
-	w.Flush()
-	return table, w.Error()
+	return table, nil
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {
