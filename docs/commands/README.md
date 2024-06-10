@@ -152,6 +152,8 @@ murex-docs trypipe
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
+* [`key-code`](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`let`](../commands/let.md):

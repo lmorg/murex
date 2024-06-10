@@ -1,0 +1,45 @@
+- DocumentID: key-code
+  Title: >+
+    `key-code`
+  CategoryID: commands
+  Summary: >-
+    Returns character sequences for any key pressed (ie sent from the terminal)
+  Description: |-
+    `key-code` is a tool used for querying what byte sequence the terminal emulator
+  Usage: |-
+    ```
+    key-code -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » key-code
+    Press any key to print its escape constants...
+    ```
+    
+    ...then press [f9] and `key-code` returns...
+
+    ```
+    ANSI Constants:   {F9}
+    Byte Sequence:    %[27 91 50 48 126]
+    Contains Unicode: false
+    ```
+  Flags:
+  
+  Detail: |-
+    ### Redirection
+
+    If stdout is not a TTY then only the thing written is the ANSI Constant. This
+    is so that it can be used as a variable. eg
+
+    ```
+    key-code -> set $key
+
+    event onKeyPress close=$key {
+        exit
+    }
+    ```
+  Synonyms:
+  Related:
+  - user-guide/ansi
+  - onkeypress
+  - event

@@ -1,8 +1,11 @@
+//go:generate ./actions.mx
+
 package onkeypress
 
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -33,6 +36,54 @@ type metaT struct {
 	CloseReadline bool
 	HintText      string
 	Continue      bool
+}
+
+func errInvalidMeta(property, dataType string, v any) ([]func(*readline.Instance), error) {
+	return nil, fmt.Errorf("meta variable property '%s' is invalid: expecting %s instead got %T")
+}
+
+func validateMeta(v any) (functions []func(*readline.Instance), err error) {
+	m, ok := v.(map[string]any)
+	if !ok {
+		return errInvalidMeta("$.", "map", v)
+	}
+
+	for property, value := range m {
+		switch property {
+		case metaHotKeyActions:
+			actions, ok := value.([]string)
+			if !ok {
+				return errInvalidMeta(property, "array", value)
+			}
+			functions, err = compileActionSlice(actions)
+			if err != nil {
+				return nil, err
+			}
+
+		case metaSetLine, metaHintText:
+			_, ok := value.(string)
+			if !ok {
+				return errInvalidMeta(property, types.String, value)
+			}
+
+		case metaSetPos:
+			_, ok := value.(int)
+			if !ok {
+				return errInvalidMeta(property, types.Integer, value)
+			}
+
+		case metaClose, metaContinue:
+			_, ok := value.(bool)
+			if !ok {
+				return errInvalidMeta(property, types.Boolean, value)
+			}
+
+		default:
+			return nil, fmt.Errorf("invalid meta variable property: '$.%s'", property)
+		}
+	}
+
+	return
 }
 
 func compileActionSlice(actions []string) ([]func(*readline.Instance), error) {
