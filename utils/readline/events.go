@@ -3,7 +3,7 @@ package readline
 // EventReturn is a structure returned by the callback event function.
 // This is used by readline to determine what state the API should
 // return to after the readline event.
-type EventReturn struct {
+/*type EventReturn struct {
 	ForwardKey     bool
 	ClearHelpers   bool
 	CloseReadline  bool
@@ -12,6 +12,15 @@ type EventReturn struct {
 	NewLine        []rune
 	NewPos         int
 	Callback       func() error
+}*/
+
+type EventReturn struct {
+	Actions   []func(rl *Instance)
+	HintText  []rune
+	SetLine   []rune
+	SetPos    int
+	NextEvent bool
+	//Close     bool
 }
 
 // AddEvent registers a new keypress handler

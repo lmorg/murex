@@ -20,10 +20,10 @@ func (rl *Instance) getHintText() {
 
 func (rl *Instance) writeHintTextStr() string {
 	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
 
 	if rl.HintText == nil {
 		rl.hintY = 0
+		rl.tabMutex.Unlock()
 		return ""
 	}
 
@@ -42,6 +42,14 @@ func (rl *Instance) writeHintTextStr() string {
 			hintText = description
 		}
 	}
+
+	rl.tabMutex.Unlock()
+	return rl._writeHintTextStr(hintText)
+}
+
+func (rl *Instance) _writeHintTextStr(hintText string) string {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	// fix bug https://github.com/lmorg/murex/issues/376
 	if rl.termWidth == 0 {
@@ -90,5 +98,5 @@ func (rl *Instance) resetHintText() {
 // ForceHintTextUpdate is a nasty function for force writing a new hint text. Use sparingly!
 func (rl *Instance) ForceHintTextUpdate(s string) {
 	rl.hintText = []rune(s)
-	print(rl.writeHintTextStr())
+	print(rl._writeHintTextStr(s))
 }

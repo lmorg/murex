@@ -12,10 +12,10 @@ import (
 const (
 	metaHotKeyActions = "Actions"
 	metaSetLine       = "SetLine"
-	metaSetPos        = "SetPos"
-	metaClose         = "CloseReadline"
+	metaSetPos        = "SetCursorPosition"
 	metaHintText      = "SetHintText"
-	metaContinue      = "Continue"
+	metaNextEvent     = "NextEvent"
+	//metaClose         = "CloseReadline"
 )
 
 func createMeta(line []rune, pos int) map[string]any {
@@ -23,30 +23,36 @@ func createMeta(line []rune, pos int) map[string]any {
 		metaHotKeyActions: []string{},
 		metaSetLine:       string(line),
 		metaSetPos:        pos,
-		metaClose:         false,
 		metaHintText:      "",
-		metaContinue:      false,
+		metaNextEvent:     false,
+		//metaClose:         false,
 	}
 }
 
-type metaT struct {
+/*type metaT struct {
 	Actions       []string
 	SetLine       string
 	SetPos        int
 	CloseReadline bool
 	HintText      string
 	Continue      bool
+}*/
+
+func errInvalidMeta(property, dataType string, v any) (*readline.EventReturn, error) {
+	return nil, fmt.Errorf("meta variable property '%s' is invalid: expecting %s instead got %T",
+		property, dataType, v)
 }
 
-func errInvalidMeta(property, dataType string, v any) ([]func(*readline.Instance), error) {
-	return nil, fmt.Errorf("meta variable property '%s' is invalid: expecting %s instead got %T")
-}
-
-func validateMeta(v any) (functions []func(*readline.Instance), err error) {
+func validateMeta(v any) (*readline.EventReturn, error) {
 	m, ok := v.(map[string]any)
 	if !ok {
 		return errInvalidMeta("$.", "map", v)
 	}
+
+	var (
+		evtReturn = new(readline.EventReturn)
+		err       error
+	)
 
 	for property, value := range m {
 		switch property {
@@ -55,35 +61,45 @@ func validateMeta(v any) (functions []func(*readline.Instance), err error) {
 			if !ok {
 				return errInvalidMeta(property, "array", value)
 			}
-			functions, err = compileActionSlice(actions)
+			evtReturn.Actions, err = compileActionSlice(actions)
 			if err != nil {
 				return nil, err
 			}
 
-		case metaSetLine, metaHintText:
-			_, ok := value.(string)
+		case metaSetLine:
+			s, ok := value.(string)
 			if !ok {
 				return errInvalidMeta(property, types.String, value)
 			}
+			evtReturn.SetLine = []rune(s)
+
+		case metaHintText:
+			s, ok := value.(string)
+			if !ok {
+				return errInvalidMeta(property, types.String, value)
+			}
+			evtReturn.HintText = []rune(s)
 
 		case metaSetPos:
-			_, ok := value.(int)
+			i, ok := value.(int)
 			if !ok {
 				return errInvalidMeta(property, types.Integer, value)
 			}
+			evtReturn.SetPos = i
 
-		case metaClose, metaContinue:
-			_, ok := value.(bool)
+		case /*metaClose,*/ metaNextEvent:
+			b, ok := value.(bool)
 			if !ok {
 				return errInvalidMeta(property, types.Boolean, value)
 			}
+			evtReturn.NextEvent = b
 
 		default:
 			return nil, fmt.Errorf("invalid meta variable property: '$.%s'", property)
 		}
 	}
 
-	return
+	return evtReturn, nil
 }
 
 func compileActionSlice(actions []string) ([]func(*readline.Instance), error) {

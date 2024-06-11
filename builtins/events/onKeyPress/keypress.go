@@ -6,12 +6,8 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/readline"
@@ -22,7 +18,6 @@ const eventType = "onKeyPress"
 func init() {
 	events.AddEventType(eventType, newKeyPress(), nil)
 }
-
 
 type keyPressEvent struct {
 	name    string
@@ -80,6 +75,14 @@ func (evt *keyPressEvents) Remove(name string) error {
 	return fmt.Errorf("unable to delete event as no event found with the name `%s` for event type `%s`", name, eventType)
 }
 
+func callbackError(err error, line []rune, pos int) *readline.EventReturn {
+	return &readline.EventReturn{
+		HintText: []rune(fmt.Sprintf("callback error: %s", err.Error())),
+		SetLine:  line,
+		SetPos:   pos,
+	}
+}
+
 func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *readline.EventReturn {
 	var i int
 
@@ -91,10 +94,7 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *read
 			goto eventFound
 		}
 	}
-	return &readline.EventReturn{
-		NewLine: line,
-		NewPos:  pos,
-	}
+	return &readline.EventReturn{SetLine: line, SetPos: pos}
 
 eventFound:
 	block := evt.events[i].block
@@ -106,60 +106,41 @@ eventFound:
 		KeySequence: keyPress,
 	}
 
-	stdout := streams.NewStdin()
-	_, err := events.Callback(
+	//stdout := streams.NewStdin()
+	meta, err := events.Callback(
 		evt.events[i].name, interrupt, // event
 		block, evt.events[i].fileRef, // script
-		stdout, new(null.Null), // pipes
+		//stdout, new(null.Null), // pipes
+		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
 		createMeta(line, pos), // meta
 		true,                  // background
 	)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, line, pos)
 	}
 
-	ret := make(map[string]string)
+	/*ret := make(map[string]string)
 	err = stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
 		v, _ := types.ConvertGoType(readmap.Value, types.String)
 		ret[readmap.Key] = v.(string)
 	})
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, line, pos)
 	}
 
 	forwardKey, err := types.ConvertGoType(ret["ForwardKey"], types.Boolean)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, line, pos)
 	}
 
 	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, line, pos)
 	}
 
 	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, line, pos)
 	}
 
 	var newLine []rune
@@ -173,11 +154,7 @@ eventFound:
 	if ret["NewPos"] != "" {
 		i, err := types.ConvertGoType(ret["NewPos"], types.Integer)
 		if err != nil {
-			return &readline.EventReturn{
-				HintText: []rune("callback error: " + err.Error()),
-				NewLine:  line,
-				NewPos:   pos,
-			}
+			return callbackError(err, line, pos)
 		}
 		newPos = i.(int)
 	} else {
@@ -185,13 +162,20 @@ eventFound:
 	}
 
 	return &readline.EventReturn{
-		ForwardKey:    forwardKey.(bool),
-		ClearHelpers:  clearHelpers.(bool),
-		CloseReadline: closeReadline.(bool),
-		HintText:      []rune(ret["HintText"]),
-		NewLine:       newLine,
-		NewPos:        newPos,
+		NextEvent: forwardKey.(bool),
+		//ClearHelpers:  clearHelpers.(bool),
+		//CloseReadline: closeReadline.(bool),
+		HintText: ret["HintText"],
+		NewLine:  string(newLine),
+		NewPos:   newPos,
+	}*/
+
+	evtReturn, err := validateMeta(meta)
+	if err != nil {
+		return callbackError(err, line, pos)
 	}
+
+	return evtReturn
 }
 
 func (evt *keyPressEvents) Dump() map[string]events.DumpT {

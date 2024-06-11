@@ -82,6 +82,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.getHintText()
 	print(rl.renderHelpersStr())
 
+readKey:
 	for {
 		if rl.line.RuneLen() == 0 {
 			// clear the cache when the line is cleared
@@ -132,7 +133,34 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
+			print(rl.clearHelpersStr())
+			evt := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
+
+			rl.line.Set(rl, evt.SetLine)
+			rl.line.SetRunePos(evt.SetPos)
+			/*if len(evt.HintText) > 0 {
+				rl.ForceHintTextUpdate(string(evt.HintText))
+			}*/
+
+			for _, function := range evt.Actions {
+				function(rl)
+			}
+
+			if len(evt.Actions) == 0 {
+				output := rl.echoStr()
+				output += rl.renderHelpersStr()
+				print(output)
+			}
+
+			if len(evt.HintText) > 0 {
+				rl.ForceHintTextUpdate(string(evt.HintText))
+			}
+
+			if !evt.NextEvent {
+				goto readKey
+			}
+
+			/*ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
 
 			rl.clearPrompt()
 			rl.line.Set(rl, append(ret.NewLine, []rune{}...))
@@ -161,8 +189,6 @@ func (rl *Instance) Readline() (_ string, err error) {
 				}
 			}
 
-			//rl.previewItem
-
 			if ret.Callback != nil {
 				err = ret.Callback()
 				if err != nil {
@@ -179,7 +205,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			if ret.CloseReadline {
 				print(rl.clearHelpersStr())
 				return rl.line.String(), nil
-			}
+			}*/
 		}
 
 		i = removeNonPrintableChars(b[:i])
@@ -496,23 +522,23 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		}
 
 	case seqShiftF1:
-		HkFnRecallWord01(rl)
+		HkFnRecallWord1(rl)
 	case seqShiftF2:
-		HkFnRecallWord02(rl)
+		HkFnRecallWord2(rl)
 	case seqShiftF3:
-		HkFnRecallWord03(rl)
+		HkFnRecallWord3(rl)
 	case seqShiftF4:
-		HkFnRecallWord04(rl)
+		HkFnRecallWord4(rl)
 	case seqShiftF5:
-		HkFnRecallWord05(rl)
+		HkFnRecallWord5(rl)
 	case seqShiftF6:
-		HkFnRecallWord06(rl)
+		HkFnRecallWord6(rl)
 	case seqShiftF7:
-		HkFnRecallWord07(rl)
+		HkFnRecallWord7(rl)
 	case seqShiftF8:
-		HkFnRecallWord08(rl)
+		HkFnRecallWord8(rl)
 	case seqShiftF9:
-		HkFnRecallWord09(rl)
+		HkFnRecallWord9(rl)
 	case seqShiftF10:
 		HkFnRecallWord10(rl)
 	case seqShiftF11:
