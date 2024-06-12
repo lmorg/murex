@@ -3,6 +3,7 @@
 package onkeypress
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/types"
@@ -48,10 +49,19 @@ func validateMeta(v any) (*readline.EventReturn, error) {
 	for property, value := range m {
 		switch property {
 		case metaHotKeyActions:
-			actions, ok := value.([]string)
-			if !ok {
+			var actions []string
+			switch t := value.(type) {
+			case string:
+				err = json.Unmarshal([]byte(t), &actions)
+				if err != nil {
+					return nil, err
+				}
+			case []string:
+				actions = t
+			default:
 				return errInvalidMeta(property, "array", value)
 			}
+
 			evtReturn.Actions, err = compileActionSlice(actions)
 			if err != nil {
 				return nil, err
