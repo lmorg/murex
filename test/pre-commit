@@ -38,8 +38,6 @@ sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
         gen/website/version.svg > version.svg
 
 echo "Updating git...."
-find . -name "*_string.go" -exec git add -v {} \;
-find . -name "*_generated.go" -exec git add -v {} \;
-git add -v *.md version.svg $docs $cdocs
+git add -v *.md *_string.go *_generated.go version.svg $docs $cdocs
 
 echo "Allowing git commit to proceed...."
