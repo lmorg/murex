@@ -29,15 +29,6 @@ func createMeta(line []rune, pos int) map[string]any {
 	}
 }
 
-/*type metaT struct {
-	Actions       []string
-	SetLine       string
-	SetPos        int
-	CloseReadline bool
-	HintText      string
-	Continue      bool
-}*/
-
 func errInvalidMeta(property, dataType string, v any) (*readline.EventReturn, error) {
 	return nil, fmt.Errorf("meta variable property '%s' is invalid: expecting %s instead got %T",
 		property, dataType, v)

@@ -106,11 +106,9 @@ eventFound:
 		KeySequence: keyPress,
 	}
 
-	//stdout := streams.NewStdin()
 	meta, err := events.Callback(
 		evt.events[i].name, interrupt, // event
 		block, evt.events[i].fileRef, // script
-		//stdout, new(null.Null), // pipes
 		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
 		createMeta(line, pos), // meta
 		true,                  // background
@@ -118,57 +116,6 @@ eventFound:
 	if err != nil {
 		return callbackError(err, line, pos)
 	}
-
-	/*ret := make(map[string]string)
-	err = stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
-		v, _ := types.ConvertGoType(readmap.Value, types.String)
-		ret[readmap.Key] = v.(string)
-	})
-	if err != nil {
-		return callbackError(err, line, pos)
-	}
-
-	forwardKey, err := types.ConvertGoType(ret["ForwardKey"], types.Boolean)
-	if err != nil {
-		return callbackError(err, line, pos)
-	}
-
-	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
-	if err != nil {
-		return callbackError(err, line, pos)
-	}
-
-	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
-	if err != nil {
-		return callbackError(err, line, pos)
-	}
-
-	var newLine []rune
-	if ret["NewLine"] != "" {
-		newLine = []rune(ret["NewLine"])
-	} else {
-		newLine = line
-	}
-
-	var newPos int
-	if ret["NewPos"] != "" {
-		i, err := types.ConvertGoType(ret["NewPos"], types.Integer)
-		if err != nil {
-			return callbackError(err, line, pos)
-		}
-		newPos = i.(int)
-	} else {
-		newPos = pos
-	}
-
-	return &readline.EventReturn{
-		NextEvent: forwardKey.(bool),
-		//ClearHelpers:  clearHelpers.(bool),
-		//CloseReadline: closeReadline.(bool),
-		HintText: ret["HintText"],
-		NewLine:  string(newLine),
-		NewPos:   newPos,
-	}*/
 
 	evtReturn, err := validateMeta(meta)
 	if err != nil {
