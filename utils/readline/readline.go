@@ -133,14 +133,13 @@ readKey:
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
+			var id int
+		nextEvent:
 			print(rl.clearHelpersStr())
-			evt := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
+			evt := rl.evtKeyPress[s](s, id, rl.line.Runes(), rl.line.RunePos())
 
 			rl.line.Set(rl, evt.SetLine)
 			rl.line.SetRunePos(evt.SetPos)
-			/*if len(evt.HintText) > 0 {
-				rl.ForceHintTextUpdate(string(evt.HintText))
-			}*/
 
 			for _, function := range evt.Actions {
 				function(rl)
@@ -156,56 +155,17 @@ readKey:
 				rl.ForceHintTextUpdate(string(evt.HintText))
 			}
 
-			if !evt.NextEvent {
+			switch {
+			case evt.MoreEvents && evt.NextEvent:
+				id++
+				goto nextEvent
+
+			case evt.NextEvent:
+				break
+
+			default:
 				goto readKey
 			}
-
-			/*ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
-
-			rl.clearPrompt()
-			rl.line.Set(rl, append(ret.NewLine, []rune{}...))
-			print(rl.echoStr())
-			// TODO: should this be above echo?
-			rl.line.SetRunePos(ret.NewPos)
-
-			if ret.ClearHelpers {
-				rl.resetHelpers()
-			} else {
-				output := rl.updateHelpersStr()
-				output += rl.renderHelpersStr()
-				print(output)
-			}
-
-			if len(ret.HintText) > 0 {
-				rl.hintText = ret.HintText
-				output := rl.clearHelpersStr()
-				output += rl.renderHelpersStr()
-				print(output)
-			}
-
-			if ret.DisplayPreview {
-				if rl.previewMode == previewModeClosed {
-					HkFnModePreviewToggle(rl)
-				}
-			}
-
-			if ret.Callback != nil {
-				err = ret.Callback()
-				if err != nil {
-					rl.hintText = []rune(err.Error())
-					output := rl.clearHelpersStr()
-					output += rl.renderHelpersStr()
-					print(output)
-				}
-			}
-
-			if !ret.ForwardKey {
-				continue
-			}
-			if ret.CloseReadline {
-				print(rl.clearHelpersStr())
-				return rl.line.String(), nil
-			}*/
 		}
 
 		i = removeNonPrintableChars(b[:i])

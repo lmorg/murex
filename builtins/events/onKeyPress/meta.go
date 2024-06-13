@@ -16,7 +16,6 @@ const (
 	metaSetPos        = "SetCursorPosition"
 	metaHintText      = "SetHintText"
 	metaNextEvent     = "NextEvent"
-	//metaClose         = "CloseReadline"
 )
 
 func createMeta(line []rune, pos int) map[string]any {
@@ -26,7 +25,6 @@ func createMeta(line []rune, pos int) map[string]any {
 		metaSetPos:        pos,
 		metaHintText:      "",
 		metaNextEvent:     false,
-		//metaClose:         false,
 	}
 }
 

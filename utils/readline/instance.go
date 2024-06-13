@@ -165,7 +165,7 @@ type Instance struct {
 	viYankBuffer     string
 
 	// event
-	evtKeyPress map[string]func(string, []rune, int) *EventReturn
+	evtKeyPress map[string]keyPressEventCallbackT
 
 	//ForceCrLf          bool
 	EnableGetCursorPos bool
@@ -184,7 +184,7 @@ func NewInstance() *Instance {
 	rl.prompt = ">>> "
 	rl.promptLen = 4
 	rl.HintFormatting = seqFgBlue
-	rl.evtKeyPress = make(map[string]func(string, []rune, int) *EventReturn)
+	rl.evtKeyPress = make(map[string]keyPressEventCallbackT)
 
 	rl.TempDirectory = os.TempDir()
 
