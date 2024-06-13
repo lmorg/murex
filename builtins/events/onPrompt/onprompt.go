@@ -49,7 +49,7 @@ func (evt *promptEvents) Add(name, interrupt string, block []rune, fileRef *ref.
 
 	//evt.mutex.Lock()
 
-	key := compileInterruptKey(interrupt, name)
+	key := events.CompileInterruptKey(interrupt, name)
 	event := promptEvent{
 		Key:     key,
 		Block:   block,
@@ -87,7 +87,7 @@ func (evt *promptEvents) Remove(key string) error {
 
 	var success bool
 	for _, interrupt := range interrupts {
-		newKey := compileInterruptKey(interrupt, key)
+		newKey := events.CompileInterruptKey(interrupt, key)
 		i = evt.exists(newKey)
 		if i != doesNotExist {
 			events, err := lists.RemoveOrdered(evt.events, i)
@@ -106,17 +106,14 @@ func (evt *promptEvents) Remove(key string) error {
 }
 
 func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
-	if err := isValidInterrupt(interrupt); err != nil {
-		panic(err.Error())
-	}
 
 	//evt.mutex.Lock()
 
 	for i := range evt.events {
-		split := getInterruptFromKey(evt.events[i].Key)
-		if split[0] == interrupt {
+		key := events.GetInterruptFromKey(evt.events[i].Key)
+		if key.Interrupt == interrupt {
 			interruptValue := Interrupt{
-				Name:      split[1],
+				Name:      key.Name,
 				Operation: interrupt,
 				CmdLine:   string(cmdLine),
 			}
@@ -155,7 +152,7 @@ func (evt *promptEvents) Dump() map[string]events.DumpT {
 
 	for i := range evt.events {
 		dump[evt.events[i].Key] = events.DumpT{
-			Interrupt: getInterruptFromKey(evt.events[i].Key)[0],
+			Interrupt: events.GetInterruptFromKey(evt.events[i].Key).Interrupt,
 			Block:     string(evt.events[i].Block),
 			FileRef:   evt.events[i].FileRef,
 		}

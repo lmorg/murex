@@ -58,7 +58,7 @@ func (evt *previewEvents) Add(name, interrupt string, block []rune, fileRef *ref
 
 	//evt.mutex.Lock()
 
-	key := compileInterruptKey(interrupt, name)
+	key := events.CompileInterruptKey(interrupt, name)
 	event := previewEvent{
 		Key:     key,
 		Block:   block,
@@ -96,7 +96,7 @@ func (evt *previewEvents) Remove(key string) error {
 
 	var success bool
 	for _, interrupt := range interrupts {
-		newKey := compileInterruptKey(interrupt, key)
+		newKey := events.CompileInterruptKey(interrupt, key)
 		i = evt.exists(newKey)
 		if i != doesNotExist {
 			events, err := lists.RemoveOrdered(evt.events, i)
@@ -123,9 +123,7 @@ func (evt *previewEvents) callback(
 	previewItem string, cmdLine []rune, // meta
 	previousLines []string, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT, // render
 ) {
-	if err := isValidInterrupt(interrupt); err != nil {
-		panic(err.Error())
-	}
+	isValidInterruptDebug(interrupt)
 
 	//evt.mutex.Lock()
 
@@ -141,17 +139,17 @@ func (evt *previewEvents) callback(
 	)
 
 	for i := range evt.events {
-		split := getInterruptFromKey(evt.events[i].Key)
-		if split[0] == interrupt {
+		key := events.GetInterruptFromKey(evt.events[i].Key)
+		if key.Interrupt == interrupt {
 			dur := time.After(2 * time.Second)
 
-			hash := cache.CreateHash(previewItem, split, evt.events[i].Block)
+			hash := cache.CreateHash(previewItem, []string{evt.events[i].Key}, evt.events[i].Block)
 			if cache.Read(cache.PREVIEW_EVENT, hash, &b) {
 				goto callback
 			}
 
 			interruptValue = Interrupt{
-				Name:        split[1],
+				Name:        key.Name,
 				Operation:   interrupt,
 				CmdLine:     string(cmdLine),
 				PreviewItem: previewItem,
@@ -194,7 +192,7 @@ func (evt *previewEvents) callback(
 			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(ttl))
 
 		callback:
-			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, split[1])
+			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, key.Name)
 
 			select {
 			case <-ctx.Done():
@@ -204,7 +202,7 @@ func (evt *previewEvents) callback(
 				previousLines = lines
 				select {
 				case <-dur:
-					shell.Prompt.ForceHintTextUpdate(fmt.Sprintf("Slow running event completed: %s", split[1]))
+					shell.Prompt.ForceHintTextUpdate(fmt.Sprintf("Slow running event completed: %s", key.Name))
 				default:
 					continue
 				}
@@ -238,7 +236,7 @@ func (evt *previewEvents) Dump() map[string]events.DumpT {
 
 	for i := range evt.events {
 		dump[evt.events[i].Key] = events.DumpT{
-			Interrupt: getInterruptFromKey(evt.events[i].Key)[0],
+			Interrupt: events.GetInterruptFromKey(evt.events[i].Key).Interrupt,
 			Block:     string(evt.events[i].Block),
 			FileRef:   evt.events[i].FileRef,
 		}

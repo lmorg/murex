@@ -13,7 +13,7 @@ section below.
 ```
 event onPrompt name=(before|after|abort|eof) { code block }
 
-!event onPrompt [before_|after_|abort_|eof_]name
+!event onPrompt name[.before|.after|.abort|.eof]
 ```
 
 ## Valid Interrupts
