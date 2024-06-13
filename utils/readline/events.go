@@ -1,5 +1,15 @@
 package readline
 
+// EventState presents a simplified view of the current readline state
+type EventState struct {
+	Line        string
+	CursorPos   int
+	KeyPress    string
+	IsMasked    bool
+	InputMode   string
+	PreviewMode string
+}
+
 // EventReturn is a structure returned by the callback event function.
 // This is used by readline to determine what state the API should
 // return to after the readline event.
@@ -13,7 +23,7 @@ type EventReturn struct {
 }
 
 // keyPressEventCallbackT: keyPress, eventId, line, pos
-type keyPressEventCallbackT func(string, int, []rune, int) *EventReturn
+type keyPressEventCallbackT func(int, *EventState) *EventReturn
 
 // AddEvent registers a new keypress handler
 func (rl *Instance) AddEvent(keyPress string, callback keyPressEventCallbackT) {
@@ -23,4 +33,66 @@ func (rl *Instance) AddEvent(keyPress string, callback keyPressEventCallbackT) {
 // DelEvent deregisters an existing keypress handler
 func (rl *Instance) DelEvent(keyPress string) {
 	delete(rl.evtKeyPress, keyPress)
+}
+
+func (rl *Instance) newEventState(keyPress string) *EventState {
+	return &EventState{
+		Line:        rl.line.String(),
+		CursorPos:   rl.line.RunePos(),
+		KeyPress:    keyPress,
+		IsMasked:    rl.PasswordMask > 0,
+		InputMode:   rl._getInputMode(),
+		PreviewMode: rl._getPreviewMode(),
+	}
+}
+
+const (
+	EventModeInputDefault        = "Normal"
+	EventModeInputVimKeys        = "VimKeys"
+	EventModeInputVimReplaceOnce = "VimReplaceOnce"
+	EventModeInputVimReplaceMany = "VimReplaceMany"
+	EventModeInputVimDelete      = "VimDelete"
+	EventModeInputAutocomplete   = "Autocomplete"
+	EventModeInputFuzzyFind      = "FuzzyFind"
+)
+
+// _getInputMode is used purely for event reporting
+func (rl *Instance) _getInputMode() string {
+	switch {
+	case rl.modeViMode == vimKeys:
+		return EventModeInputVimKeys
+	case rl.modeViMode == vimReplaceOnce:
+		return EventModeInputVimReplaceOnce
+	case rl.modeViMode == vimReplaceMany:
+		return EventModeInputVimReplaceMany
+	case rl.modeViMode == vimDelete:
+		return EventModeInputVimDelete
+	case rl.modeTabFind:
+		return EventModeInputFuzzyFind
+	case rl.modeTabCompletion:
+		return EventModeInputAutocomplete
+	default:
+		return EventModeInputDefault
+	}
+}
+
+const (
+	EventModePreviewOff     = "Disabled"
+	EventModePreviewItem    = "Item"
+	EventModePreviewLine    = "Line"
+	EventModePreviewUnknown = "Unknown"
+)
+
+// _getPreviewMode is used purely for event reporting
+func (rl *Instance) _getPreviewMode() string {
+	switch {
+	case rl.previewMode == previewModeClosed:
+		return EventModePreviewOff
+	case rl.previewRef == previewRefLine:
+		return EventModePreviewLine
+	case rl.previewRef == previewRefDefault:
+		return EventModePreviewItem
+	default:
+		return EventModePreviewUnknown
+	}
 }

@@ -18,11 +18,11 @@ const (
 	metaNextEvent     = "NextEvent"
 )
 
-func createMeta(line []rune, pos int) map[string]any {
+func createMeta(state *readline.EventState) map[string]any {
 	return map[string]any{
 		metaHotKeyActions: []string{},
-		metaSetLine:       string(line),
-		metaSetPos:        pos,
+		metaSetLine:       state.Line,
+		metaSetPos:        state.CursorPos,
 		metaHintText:      "",
 		metaNextEvent:     false,
 	}

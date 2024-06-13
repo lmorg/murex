@@ -131,12 +131,13 @@ readKey:
 			return rl.line.String(), nil
 		}
 
-		s := string(r[:i])
-		if rl.evtKeyPress[s] != nil {
+		keyPress := string(r[:i])
+		if rl.evtKeyPress[keyPress] != nil {
 			var id int
+			evtState := rl.newEventState(keyPress)
 		nextEvent:
 			print(rl.clearHelpersStr())
-			evt := rl.evtKeyPress[s](s, id, rl.line.Runes(), rl.line.RunePos())
+			evt := rl.evtKeyPress[keyPress](id, evtState)
 
 			rl.line.Set(rl, evt.SetLine)
 			rl.line.SetRunePos(evt.SetPos)

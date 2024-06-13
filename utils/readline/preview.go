@@ -7,13 +7,16 @@ import (
 )
 
 type previewModeT int
-type previewRefT int
 
 const (
 	previewModeClosed       previewModeT = 0
 	previewModeOpen         previewModeT = 1
 	previewModeAutocomplete previewModeT = 2
+)
 
+type previewRefT int
+
+const (
 	previewRefDefault previewRefT = 0
 	previewRefLine    previewRefT = 1
 )

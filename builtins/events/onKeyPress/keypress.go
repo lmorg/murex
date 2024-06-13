@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -110,25 +109,25 @@ func (evt *keyPressEvents) remove(key *events.Key) (err error) {
 	return fmt.Errorf("unable to delete event as no event found with the name `%s` for event type `%s`", key.Name, eventType)
 }
 
-func callbackError(err error, line []rune, pos int) *readline.EventReturn {
+func callbackError(err error, state *readline.EventState) *readline.EventReturn {
 	return &readline.EventReturn{
 		HintText: []rune(fmt.Sprintf("callback error: %s", err.Error())),
-		SetLine:  line,
-		SetPos:   pos,
+		SetLine:  []rune(state.Line),
+		SetPos:   state.CursorPos,
 	}
 }
 
-func (evt *keyPressEvents) readlineCallback(keyPress string, id int, line []rune, pos int) *readline.EventReturn {
+func (evt *keyPressEvents) readlineCallback(id int, state *readline.EventState) *readline.EventReturn {
 	evt.mutex.Lock()
 	defer evt.mutex.Unlock()
 
-	events := evt.events[keyPress]
+	events := evt.events[state.KeyPress]
 
 	if id >= len(events) {
 		return &readline.EventReturn{NextEvent: true}
 	}
 
-	ret := onKeyPressEvent(events[id], line, pos)
+	ret := onKeyPressEvent(events[id], state)
 	if id < len(events)-1 {
 		ret.MoreEvents = true
 	}
@@ -136,28 +135,21 @@ func (evt *keyPressEvents) readlineCallback(keyPress string, id int, line []rune
 	return ret
 }
 
-func onKeyPressEvent(event *keyPressEvent, line []rune, pos int) *readline.EventReturn {
-	interrupt := Interrupt{
-		Line:        variables.ExpandString(string(line)),
-		Raw:         string(line),
-		Pos:         pos,
-		KeySequence: event.keySeq,
-	}
-
+func onKeyPressEvent(event *keyPressEvent, state *readline.EventState) *readline.EventReturn {
 	meta, err := events.Callback(
-		event.name, interrupt, // event
+		event.name, state, // event
 		event.block, event.fileRef, // script
 		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
-		createMeta(line, pos), // meta
-		true,                  // background
+		createMeta(state), // meta
+		true,              // background
 	)
 	if err != nil {
-		return callbackError(err, line, pos)
+		return callbackError(err, state)
 	}
 
 	evtReturn, err := validateMeta(meta)
 	if err != nil {
-		return callbackError(err, line, pos)
+		return callbackError(err, state)
 	}
 
 	return evtReturn
