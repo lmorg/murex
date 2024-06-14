@@ -389,6 +389,7 @@ func init() {
 		"changelog/v5.2":                   "The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex.",
 		"changelog/v5.3":                   "Caching has been vastly improved in this release due to a new sqlite3-backed persistent `cache.db`. There have also been some improvements to `[f1]` help pages",
 		"changelog/v6.0":                   "Despite this being a new major version release, it is a vary minor update. Aside from a handful of bugfixes, the most significant change is notice of deprecation for `=`, `let`, and `?`.",
+		"changelog/v6.1":                   "TODO",
 	}
 
 	Synonym = map[string]string{
@@ -958,5 +959,6 @@ func init() {
 		"changelog/v5.2":                  "changelog/v5.2",
 		"changelog/v5.3":                  "changelog/v5.3",
 		"changelog/v6.0":                  "changelog/v6.0",
+		"changelog/v6.1":                  "changelog/v6.1",
 	}
 }
