@@ -136,7 +136,7 @@ func (rl *Instance) writePreviewStr() string {
 	}
 
 	size, err := rl.getPreviewXY()
-	if err != nil || size.Height < 8 || size.Width < 40 {
+	if err != nil || size.Height < 8 || size.Width < 10 {
 		rl.previewCache = nil
 		return ""
 	}
