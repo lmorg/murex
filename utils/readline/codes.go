@@ -94,9 +94,9 @@ const (
 	//seqPosSave    = "\x1b[s"
 	//seqPosRestore = "\x1b[u"
 
-	seqClearLineAfter   = "\x1b[0k"
-	seqClearLineBefore  = "\x1b[1k"
-	seqClearLine        = "\x1b[2k"
+	seqClearLineAfter   = "\x1b[0K"
+	seqClearLineBefore  = "\x1b[1K"
+	seqClearLine        = "\x1b[2K"
 	seqClearScreenBelow = "\x1b[J"
 	seqClearScreen      = "\x1b[2J"
 
