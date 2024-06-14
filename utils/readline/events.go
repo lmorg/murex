@@ -18,7 +18,7 @@ type EventReturn struct {
 	HintText   []rune
 	SetLine    []rune
 	SetPos     int
-	NextEvent  bool
+	Continue   bool
 	MoreEvents bool
 }
 

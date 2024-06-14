@@ -45,15 +45,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		rl.fdMutex.Unlock()
 	}()
 
-	x, _ := rl.getCursorPos()
-	switch x {
-	case -1:
-		print(string(leftMost()))
-	case 0:
-		// do nothing
-	default:
-		print("\r\n")
-	}
+	rl.forceNewLine()
 	print(rl.prompt)
 
 	rl.line.Set(rl, []rune{})
@@ -137,7 +129,9 @@ readKey:
 			evtState := rl.newEventState(keyPress)
 		nextEvent:
 			print(rl.clearHelpersStr())
+			print("\r" + seqClearLine)
 			evt := rl.evtKeyPress[keyPress](id, evtState)
+			rl.forceNewLine()
 
 			rl.line.Set(rl, evt.SetLine)
 			rl.line.SetRunePos(evt.SetPos)
@@ -157,11 +151,11 @@ readKey:
 			}
 
 			switch {
-			case evt.MoreEvents && evt.NextEvent:
+			case evt.MoreEvents && evt.Continue:
 				id++
 				goto nextEvent
 
-			case evt.NextEvent:
+			case evt.Continue:
 				break
 
 			default:
@@ -645,5 +639,17 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 		default:
 			print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
 		}
+	}
+}
+
+func (rl *Instance) forceNewLine() {
+	x, _ := rl.getCursorPos()
+	switch x {
+	case -1:
+		print(string(leftMost()))
+	case 0:
+		// do nothing
+	default:
+		print("\r\n")
 	}
 }

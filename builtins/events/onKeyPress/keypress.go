@@ -130,7 +130,7 @@ func (evt *keyPressEvents) readlineCallback(id int, state *readline.EventState) 
 	events := evt.events[state.KeyPress]
 
 	if id >= len(events) {
-		return &readline.EventReturn{NextEvent: true}
+		return &readline.EventReturn{Continue: true}
 	}
 
 	ret := onKeyPressEvent(events[id], state)

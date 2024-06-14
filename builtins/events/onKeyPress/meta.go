@@ -13,9 +13,9 @@ import (
 const (
 	metaHotKeyActions = "Actions"
 	metaSetLine       = "SetLine"
-	metaSetPos        = "SetCursorPosition"
+	metaSetPos        = "SetCursorPos"
 	metaHintText      = "SetHintText"
-	metaNextEvent     = "NextEvent"
+	metaContinue      = "Continue"
 )
 
 func createMeta(state *readline.EventState) map[string]any {
@@ -24,7 +24,7 @@ func createMeta(state *readline.EventState) map[string]any {
 		metaSetLine:       state.Line,
 		metaSetPos:        state.CursorPos,
 		metaHintText:      "",
-		metaNextEvent:     false,
+		metaContinue:      false,
 	}
 }
 
@@ -86,12 +86,12 @@ func validateMeta(v any) (*readline.EventReturn, error) {
 			}
 			evtReturn.SetPos = i
 
-		case /*metaClose,*/ metaNextEvent:
-			b, ok := value.(bool)
+		case metaContinue:
+			cont, ok := value.(bool)
 			if !ok {
 				return errInvalidMeta(property, types.Boolean, value)
 			}
-			evtReturn.NextEvent = b
+			evtReturn.Continue = cont
 
 		default:
 			return nil, fmt.Errorf("invalid meta variable property: '$.%s'", property)
