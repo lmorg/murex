@@ -165,6 +165,7 @@ const doesNotExist = -1
 
 func (evt *keyPressEvents) exists(name, keySeq string) int {
 	evt.mutex.Lock()
+	defer evt.mutex.Unlock()
 
 	events := evt.events[keySeq]
 	for i := range events {
@@ -173,7 +174,6 @@ func (evt *keyPressEvents) exists(name, keySeq string) int {
 		}
 	}
 
-	evt.mutex.Unlock()
 	return doesNotExist
 }
 
