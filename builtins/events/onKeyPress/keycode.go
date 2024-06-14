@@ -22,26 +22,41 @@ const (
 )
 
 func cmdKeyCodes(p *lang.Process) error {
-	if p.Background.Get() {
-		return fmt.Errorf("this builtin does not support running in the background")
+	if p.Background.Get() && !p.IsMethod {
+		return fmt.Errorf("this builtin does not support running in the background unless ran as a method")
 	}
+
+	var (
+		b   []byte
+		i   int
+		err error
+	)
 
 	if p.IsMethod {
-		return fmt.Errorf("this builtin does not support running as a method")
-	}
+		// read from stdin pipe
 
-	os.Stdout.WriteString("Press any key to print its escape constants...\n")
+		b, err = p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		i = len(b)
 
-	state, err := readline.MakeRaw(int(os.Stdin.Fd()))
-	if err != nil {
-		return err
-	}
-	defer readline.Restore(int(os.Stdin.Fd()), state)
+	} else {
+		// read from stdin keyboard
 
-	b := make([]byte, 1024)
-	i, err := os.Stdin.Read(b)
-	if err != nil {
-		return err
+		os.Stdout.WriteString("Press any key to print its escape constants...\n")
+
+		state, err := readline.MakeRaw(int(os.Stdin.Fd()))
+		if err != nil {
+			return err
+		}
+		defer readline.Restore(int(os.Stdin.Fd()), state)
+
+		b = make([]byte, 1024)
+		i, err = os.Stdin.Read(b)
+		if err != nil {
+			return err
+		}
 	}
 
 	escaped := ansi.GetConsts(b[:i])

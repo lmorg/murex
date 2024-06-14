@@ -9,8 +9,12 @@
   Usage: |-
     ```
     key-code -> <stdout>
+
+    <stdin> -> key-code -> <stdout>
     ```
   Examples: |-
+    ### Typical use case
+
     ```
     » key-code
     Press any key to print its escape constants...
@@ -19,6 +23,15 @@
     ...then press [f9] and `key-code` returns...
 
     ```
+    ANSI Constants:   {F9}
+    Byte Sequence:    %[27 91 50 48 126]
+    Contains Unicode: false
+    ```
+
+    ### As a method
+
+    ```
+    » tout str '{ESC}[20~' -> key-code
     ANSI Constants:   {F9}
     Byte Sequence:    %[27 91 50 48 126]
     Contains Unicode: false
@@ -43,3 +56,4 @@
   - user-guide/ansi
   - onkeypress
   - event
+  - tout

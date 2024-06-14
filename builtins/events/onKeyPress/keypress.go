@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -24,6 +25,7 @@ func init() {
 type keyPressEvent struct {
 	name    string
 	keySeq  string
+	escaped string
 	block   []rune
 	fileRef *ref.File
 }
@@ -47,14 +49,17 @@ func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.F
 		return errors.New(shellPromptIsNil)
 	}
 
+	keySeqEscaped := ansi.GetConsts([]byte(keySeq))
+
 	if evt.exists(name, keySeq) != doesNotExist {
-		evt.Remove(fmt.Sprintf("%s_%s", name, keySeq))
+		evt.Remove(events.CompileInterruptKey(keySeq, name))
 	}
 
 	shell.Prompt.AddEvent(keySeq, evt.readlineCallback) // doesn't matter if it's already registered
 
 	events := append(evt.events[keySeq], &keyPressEvent{
 		name:    name,
+		escaped: keySeqEscaped, // purely for a human readable representation
 		keySeq:  keySeq,
 		block:   block,
 		fileRef: fileRef,
@@ -81,7 +86,7 @@ func (evt *keyPressEvents) Remove(name string) (err error) {
 	switch key.Interrupt {
 	case "":
 		for key.Interrupt = range evt.events {
-			err = evt.remove(key)
+			err = evt._remove(key)
 			if err != nil && !strings.Contains(err.Error(), "no event found") {
 				return err
 			}
@@ -89,12 +94,13 @@ func (evt *keyPressEvents) Remove(name string) (err error) {
 		return err
 
 	default:
-		return evt.remove(key)
+		key.Interrupt = ansi.ForceExpandConsts(key.Interrupt, false)
+		return evt._remove(key)
 
 	}
 }
 
-func (evt *keyPressEvents) remove(key *events.Key) (err error) {
+func (evt *keyPressEvents) _remove(key *events.Key) (err error) {
 	for i := range evt.events[key.Interrupt] {
 		if evt.events[key.Interrupt][i].name == key.Name {
 			//shell.Prompt.DelEvent(evt.events[i].keySeq) // TODO: check if any further events exist...
@@ -178,8 +184,8 @@ func (evt *keyPressEvents) Dump() map[string]events.DumpT {
 
 	for _, evts := range evt.events {
 		for _, event := range evts {
-			dump[events.CompileInterruptKey(event.keySeq, event.name)] = events.DumpT{
-				Interrupt: event.keySeq,
+			dump[events.CompileInterruptKey(event.escaped, event.name)] = events.DumpT{
+				Interrupt: event.escaped,
 				Block:     string(event.block),
 				FileRef:   event.fileRef,
 			}

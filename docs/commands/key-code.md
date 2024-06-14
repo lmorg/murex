@@ -10,9 +10,13 @@
 
 ```
 key-code -> <stdout>
+
+<stdin> -> key-code -> <stdout>
 ```
 
 ## Examples
+
+### Typical use case
 
 ```
 » key-code
@@ -22,6 +26,15 @@ Press any key to print its escape constants...
 ...then press [f9] and `key-code` returns...
 
 ```
+ANSI Constants:   {F9}
+Byte Sequence:    %[27 91 50 48 126]
+Contains Unicode: false
+```
+
+### As a method
+
+```
+» tout str '{ESC}[20~' -> key-code
 ANSI Constants:   {F9}
 Byte Sequence:    %[27 91 50 48 126]
 Contains Unicode: false
@@ -48,6 +61,8 @@ event onKeyPress close=$key {
   Infixed constants that return ANSI escape sequences
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+* [`tout`](../commands/tout.md):
+  Print a string to the STDOUT and set it's data-type
 * [onkeypress](../commands/onkeypress.md):
   
 

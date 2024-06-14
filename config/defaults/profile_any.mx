@@ -422,16 +422,14 @@ autocomplete set event %[{
 autocomplete set !event %[
     {
         Dynamic: '{
-            runtime --events \
-            -> formap k v { out $k } \
-            -> msort
+            runtime --event-types -> msort
         }'
     },
     {
         Dynamic: '{
-            runtime: --events \
+            runtime --events \
             -> [ $ARGS[1] ] \
-            -> formap k v { out $k } \
+            -> formap k v { $k; out } \ # syntax is weird here but it is because {ANSI} will be replaced if `out`
             -> msort
         }'
     }
