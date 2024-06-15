@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/parser"
 )
 
@@ -29,6 +30,15 @@ func hintText(line []rune, pos int) []rune {
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := variables.ExpandString(pt.Parameters[0])
+		if path == "-" {
+			pwdHist, err := lang.ShellProcess.Variables.GetValue("PWDHIST")
+			if err == nil {
+				pwdStrings, err := lists.GenericToString(pwdHist)
+				if err == nil && len(pwdStrings) >= 2 {
+					path = pwdStrings[len(pwdStrings)-2]
+				}
+			}
+		}
 		path = utils.NormalisePath(path)
 		return []rune("Change directory: " + path)
 	}
