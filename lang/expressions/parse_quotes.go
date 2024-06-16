@@ -222,7 +222,13 @@ func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 
 		switch r {
 		case '#':
-			tree.parseComment()
+			if tree.prevChar() == '/' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return nil, err
+				}
+			} else {
+				tree.parseComment()
+			}
 
 		case '\n':
 			tree.crLf()
