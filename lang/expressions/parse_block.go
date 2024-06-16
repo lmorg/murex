@@ -28,7 +28,7 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 		return 0, err
 	}
 
-	err = tree.validateExpression(exec)
+	err = tree.validateExpression()
 	if err != nil {
 		return 0, err
 	}
@@ -66,7 +66,7 @@ func (tree *ParserT) preParser() (int, error) {
 	if expErr == nil {
 		// if successful parse, then also validate.
 		// no point validating if the parser has already failed
-		expErr = tree.validateExpression(false)
+		expErr = tree.validateExpression()
 	}
 
 	if expErr == nil {

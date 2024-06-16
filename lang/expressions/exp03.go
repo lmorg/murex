@@ -11,7 +11,7 @@ func expMultiply(tree *ParserT) error {
 		return err
 	}
 
-	lv, rv, err := validateNumericalDataTypes(tree, left, right, tree.currentSymbol())
+	lv, rv, err := validateNumericalDataTypes(tree, left, right)
 	if err != nil {
 		return err
 	}
@@ -29,7 +29,7 @@ func expDivide(tree *ParserT) error {
 		return err
 	}
 
-	lv, rv, err := validateNumericalDataTypes(tree, left, right, tree.currentSymbol())
+	lv, rv, err := validateNumericalDataTypes(tree, left, right)
 	if err != nil {
 		return err
 	}

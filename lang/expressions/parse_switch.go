@@ -224,7 +224,7 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				tree.statement.canHaveZeroLenStr = true
 			case isBareChar(tree.nextChar()):
 				// start scalar
-				_, v, _, err := tree.parseVarScalar(true, true, varAsString)
+				_, v, _, err := tree.parseVarScalar(true, varAsString)
 				if err != nil {
 					return 0, err
 				}
