@@ -31,13 +31,7 @@ func hintText(line []rune, pos int) []rune {
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := variables.ExpandString(pt.Parameters[0])
 		if path == "-" {
-			pwdHist, err := lang.ShellProcess.Variables.GetValue("PWDHIST")
-			if err == nil {
-				pwdStrings, err := lists.GenericToString(pwdHist)
-				if err == nil && len(pwdStrings) >= 2 {
-					path = pwdStrings[len(pwdStrings)-2]
-				}
-			}
+			return hintCdPrevious()
 		}
 		path = utils.NormalisePath(path)
 		return []rune("Change directory: " + path)
@@ -56,6 +50,28 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	return HintCodeBlock()
+}
+
+func hintCdPreviousPwdHistErr(err error) []rune {
+	return []rune(fmt.Sprintf("unable to decode $PWDHIST: %s", err.Error()))
+}
+
+func hintCdPrevious() []rune {
+	pwdHist, err := lang.ShellProcess.Variables.GetValue("PWDHIST")
+	if err != nil {
+		return hintCdPreviousPwdHistErr(err)
+	}
+
+	pwdStrings, err := lists.GenericToString(pwdHist)
+	if err != nil {
+		return hintCdPreviousPwdHistErr(err)
+	}
+
+	if len(pwdStrings) < 2 {
+		return []rune("already at first directory in $PWDHIST")
+	}
+
+	return []rune(pwdStrings[len(pwdStrings)-2])
 }
 
 func hintExpandVariables(line []rune) []rune {
