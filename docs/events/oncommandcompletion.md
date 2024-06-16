@@ -20,6 +20,14 @@ event onCommandCompletion name=command { code block }
 
 !event onCommandCompletion name
 ```
+
+## Valid Interrupts
+
+* `<command>`
+    Name of command that triggers this event
+
+## Payload
+
 The following payload is passed to the function via STDIN:
 
 ```
@@ -34,13 +42,6 @@ The following payload is passed to the function via STDIN:
     }
 }
 ```
-
-## Valid Interrupts
-
-* `<command>`
-    Name of command that triggers this event
-
-## Payload
 
 ### Name
 
