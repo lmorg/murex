@@ -4,7 +4,7 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
-### 17.02.2024 - [v6.1](../changelog/v6.1.md)
+### 17.06.2024 - [v6.1](../changelog/v6.1.md)
 
 TODO
 

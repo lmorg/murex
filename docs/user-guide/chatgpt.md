@@ -2,10 +2,6 @@
 
 > How to enable ChatGPT hints
 
-## Default settings
-
-This is disabled by default.
-
 ## Description
 
 While `man` pages are an invaluable resource, they can sometimes be verbose and
@@ -56,7 +52,7 @@ feature.
 
 By default, only the command name is sent to ChatGPT. So if your command line
 reads something like `rsync medical-records.csv secret-server:/CSVs/`, the only
-data leaked if `preview-exec-api` is enabled would be `rsync`packages.json
+data leaked if `preview-exec-api` is enabled would be `rsync`.
 
 However you might want more context specific help based on the entirety of your
 command line in situations where you know you aren't going to include sensitive
@@ -104,14 +100,12 @@ config set openai preview-exec-prompt "You are a medieval pirate transported int
 
 ...might produce output like the following:
 
-> Event `chatgpt`:                                                                                                                                                                                                                            ┃
-> 
 > Arrr matey! To use the powerful `reboot` command in the land of Linux, ye
 > must open thy terminal and type in `reboot`. This command will set sail the
 > process of restarting thy device, just like hoisting the anchor and setting
 > off on a new adventure on the high seas. But beware, for all unsaved
 > documents will walk the plank if not properly stashed away afore using this
-> command. Fair winds to ye!             
+> command. Fair winds to ye!
 
 You may need to clear the cache to see any changes:
 
@@ -134,163 +128,6 @@ Murex itself, eg
 !event onPreview chatgpt
 ```
 
-### Source code
-
-```
-if { runtime --event-types -> match onPreview } else {
-    return
-}
-
-/#
-    Example request:
-
-        curl https://api.openai.com/v1/chat/completions \
-        -H "Content-Type: application/json" \
-        -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -d '{
-            "model": "gpt-3.5-turbo",
-            "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant."
-            },
-            {
-                "role": "user",
-                "content": "Hello!"
-            }
-            ]
-        }'
-
-    Example response:
-
-        {
-            "id": "chatcmpl-123",
-            "object": "chat.completion",
-            "created": 1677652288,
-            "model": "gpt-3.5-turbo-0125",
-            "system_fingerprint": "fp_44709d6fcb",
-            "choices": [{
-                "index": 0,
-                "message": {
-                    "role": "assistant",
-                    "content": "\n\nHello there, how may I assist you today?",
-                },
-                "logprobs": null,
-                "finish_reason": "stop"
-            }],
-            "usage": {
-                "prompt_tokens": 9,
-                "completion_tokens": 12,
-                "total_tokens": 21
-            }
-        }
-#/
-
-config define openai preview-exec-api %{
-    Description: "OpenAI API key with write access to /v1/chat/completions"
-    DataType:    str
-    Default:     ""
-}
-
-config define openai preview-exec-prompt %{
-    Description: "How ChatGPT should structure it's response for the [f1] preview of external executables"
-    DataType:    str
-    Default:     %(You are a command line cheat sheet for command line usage. When asked how to use a command
-                line tool, you will provide several sections.
-                
-                The first section is a description of that command.
-                
-                The second section is only displayed if additional context of the full command line is
-                provided. Then your response should then also include specific and detailed descriptions of
-                that command line, and specifically any flags included within that command line. You should
-                explain in detail what those flags do, why you might want to use them, and any risks that
-                might arise because of their usage.
-                
-                The third section is commonly used examples of that tool, demonstrating other flags that are
-                supported by the tool. You should not repeat any flags used in the context command line and
-                there should be several examples.
-                
-                The forth section will be uncommon examples, ideally still likely to be useful but ultimately
-                intended to demonstrate the flexibility of that tool. These examples should be other flags
-                that differ from both the common examples and also those used in the command line context.
-
-                Each section should be separated by a title.
-
-                Your output should be formatted as plain text in a way that is easy to read from the
-                command line.)
-}
-
-config define openai preview-exec-model %{
-    Description: "ChatGPT model to use"
-    DataType:    str
-    Default:     "gpt-3.5-turbo"
-}
-
-config define openai preview-exec-send-cmdline %{
-    Description: "Should Murex also include the full command line for context specific help?"
-    DataType:    bool
-    Default:     false
-}
-
-event onPreview chatgpt=exec {
-    cast str
-
-    $.CacheTTL = 0
-
-    config get openai preview-exec-prompt       -> set prompt
-    config get openai preview-exec-api          -> set openai_api
-    config get openai preview-exec-model        -> set model
-    config get openai preview-exec-send-cmdline -> set cmdline
-
-    !if { $openai_api } then {
-        out "This feature requires an OpenAI API key with write access to /v1/chat/completions. eg"
-        out "config set openai preview-exec-api xxxxx\n"
-        out "Run `murex-docs help user-guide/chatgpt` for more details or visit:"
-        out "https://murex.rocks/user-guide/chatgpt"
-        return
-    }
-
-    <stdin> -> set event
-
-    if { $cmdline } then {
-        $context = "For context, my full command line is `$(event.Interrupt.CmdLine)`"
-    } else {
-        $context = ""
-    }
-
-    config set http timeout 120
-    config set http headers %{
-        api.openai.com: {
-            Authorization: "Bearer $(openai_api)"
-        }
-    }
-
-    trypipe {
-        %{
-            model:    $model
-            messages: [
-                {
-                    role:    system,
-                    content: $prompt
-                }
-                {
-                    role:    user,
-                    content: "How do I use `$(event.Interrupt.PreviewItem)` in ${os}? $context"
-                }
-            ]
-        } -> post https://api.openai.com/v1/chat/completions -> [ Body ] -> set json body
-
-        if { $body.error } then {
-            $body -> pretty
-
-        } else {
-            $.CacheTTL = 60 * 60 * 24 * 30  # 50 days
-            $body.choices.0.message.content # print output
-        }
-    }
-}
-```
-
 ## See Also
 
 * [Profile Files](../user-guide/profile.md):
@@ -299,12 +136,12 @@ event onPreview chatgpt=exec {
   A list of all the terminal hotkeys and their uses
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
+* [`event`](../commands/event.md):
+  Event driven programming for shell scripts
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
   Events triggered by changes in state of the interactive shell
-* [events](../user-guide/events.md):
-  
 
 <hr/>
 

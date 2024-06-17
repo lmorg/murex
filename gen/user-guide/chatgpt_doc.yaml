@@ -5,10 +5,6 @@
   Summary: >-
     How to enable ChatGPT hints
   Description: |-
-    ## Default settings
-
-    This is disabled by default.
-
     ## Description
 
     While `man` pages are an invaluable resource, they can sometimes be verbose and
@@ -59,7 +55,7 @@
 
     By default, only the command name is sent to ChatGPT. So if your command line
     reads something like `rsync medical-records.csv secret-server:/CSVs/`, the only
-    data leaked if `preview-exec-api` is enabled would be `rsync`packages.json
+    data leaked if `preview-exec-api` is enabled would be `rsync`.
 
     However you might want more context specific help based on the entirety of your
     command line in situations where you know you aren't going to include sensitive
@@ -107,14 +103,12 @@
 
     ...might produce output like the following:
 
-    > Event `chatgpt`:                                                                                                                                                                                                                            ┃
-    > 
     > Arrr matey! To use the powerful `reboot` command in the land of Linux, ye
     > must open thy terminal and type in `reboot`. This command will set sail the
     > process of restarting thy device, just like hoisting the anchor and setting
     > off on a new adventure on the high seas. But beware, for all unsaved
     > documents will walk the plank if not properly stashed away afore using this
-    > command. Fair winds to ye!             
+    > command. Fair winds to ye!
 
     You may need to clear the cache to see any changes:
 
@@ -136,18 +130,12 @@
     ```
     !event onPreview chatgpt
     ```
-
-    ### Source code
-
-    ```
-    {{ include "integrations/chatgpt_any.mx" }}
-    ```
   Synonyms:
   - chatgpt
   - ChatGPT
   Related:
   - config
-  - events
+  - event
   - terminal-keys
   - profile
   - murex-docs
