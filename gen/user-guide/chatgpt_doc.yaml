@@ -1,6 +1,6 @@
 - DocumentID: chatgpt
   Title: >-
-    ChatGPT integration
+    ChatGPT Integration
   CategoryID: user-guide
   Summary: >-
     How to enable ChatGPT hints
@@ -44,7 +44,7 @@
 
     If you're not working with sensitive command lines, then you might also wish
     to enable sending the whole command line rather than just the command name.
-    See [#working-with-sensitive-data](Working with sensitive data) for more
+    See [chatgpt.md#working-with-sensitive-data](Working with sensitive data) for more
     details. 
     
     ### Why config
@@ -139,7 +139,9 @@
 
     ### Source code
 
+    ```
     {{ include "integrations/chatgpt_any.mx" }}
+    ```
   Synonyms:
   - chatgpt
   - ChatGPT

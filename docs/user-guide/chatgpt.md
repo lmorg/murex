@@ -1,4 +1,4 @@
-# ChatGPT integration
+# ChatGPT Integration
 
 > How to enable ChatGPT hints
 
@@ -41,7 +41,7 @@ on OpenAI's website.
 
 If you're not working with sensitive command lines, then you might also wish
 to enable sending the whole command line rather than just the command name.
-See [#working-with-sensitive-data](Working with sensitive data) for more
+See [chatgpt.md#working-with-sensitive-data](Working with sensitive data) for more
 details. 
 
 ### Why config
@@ -136,6 +136,7 @@ Murex itself, eg
 
 ### Source code
 
+```
 if { runtime --event-types -> match onPreview } else {
     return
 }
@@ -288,6 +289,7 @@ event onPreview chatgpt=exec {
         }
     }
 }
+```
 
 ## See Also
 

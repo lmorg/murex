@@ -28,7 +28,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Infixed constants that return ANSI escape sequences
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [ChatGPT integration](../user-guide/chatgpt.md):
+* [ChatGPT Integration](../user-guide/chatgpt.md):
   How to enable ChatGPT hints
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
