@@ -28,6 +28,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Infixed constants that return ANSI escape sequences
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
+* [ChatGPT integration](../user-guide/chatgpt.md):
+  How to enable ChatGPT hints
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
@@ -439,6 +441,8 @@ are only included by default on Windows.
   Trigger an event upon a command's completion
 * [`onFileSystemChange`](../events/onfilesystemchange.md):
   Add a filesystem watch
+* [`onPreview`](../events/onpreview.md):
+  Events triggered by changes in state of the interactive shell
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):

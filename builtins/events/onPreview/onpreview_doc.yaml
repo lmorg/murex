@@ -1,6 +1,6 @@
 - DocumentID: onpreview
   Title: >+
-    `onPrompt`
+    `onPreview`
   CategoryID: events
   Summary: >-
     Events triggered by changes in state of the interactive shell
@@ -10,9 +10,9 @@
     section below.
   Usage: |-
     ```
-    event onPrompt name=(before|after|abort|eof) { code block }
+    event onPrompt name=(start|end|function|builtin|exec) { code block }
 
-    !event onPrompt name[.before|.after|.abort|.eof]
+    !event onPrompt name[.start|.end|.function|.builtin|.exec]
     ```
   Payload: |-
     The following payload is passed to the function via STDIN:
@@ -23,7 +23,9 @@
         "Interrupt": {
             "Name": "",
             "Operation": "",
-            "CmdLine": ""
+            "PreviewItem": "",
+            "CmdLine": "",
+            "Width": 80
         }
     }
     ```
@@ -97,18 +99,10 @@
 
     ### Namespacing
 
-    The `onPrompt` event differs a little from other events when it comes to the
-    namespacing of interrupts. Typically you cannot have multiple interrupts with
-    the same name for an event. However with `onPrompt` their names are further 
-    namespaced by the interrupt name. In layman's terms this means `example=before`
-    wouldn't overwrite `example=after`.
-    
-    The reason for this namespacing is because, unlike other events, you might
-    legitimately want the same name for different interrupts (eg a smart prompt
-    that has elements triggered from different interrupts).
+
   Synonyms:
-  - onprompt
-  - onPrompt
+  - onpreview
+  - onPreview
   Related:
   - onkeypress
   - oncommandcompletion

@@ -143,7 +143,7 @@ func (evt *previewEvents) callback(
 		if key.Interrupt == interrupt {
 			dur := time.After(2 * time.Second)
 
-			hash := cache.CreateHash(previewItem, []string{evt.events[i].Key}, evt.events[i].Block)
+			hash := cache.CreateHash(previewItem, []string{evt.events[i].Key, string(cmdLine)}, evt.events[i].Block)
 			if cache.Read(cache.PREVIEW_EVENT, hash, &b) {
 				goto callback
 			}

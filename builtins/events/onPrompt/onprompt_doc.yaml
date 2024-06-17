@@ -44,7 +44,7 @@
 
     ### CmdLine
 
-    This is the commandline you typed in the prompt.
+    This is the commandline executed, ie what you typed into the _readline_ prompt.
 
     Please note this is only populated if the interrupt is **after**.
   Flags:
@@ -97,21 +97,22 @@
 
     ### Namespacing
 
-    The `onPrompt` event differs a little from other events when it comes to the
-    namespacing of interrupts. Typically you cannot have multiple interrupts with
-    the same name for an event. However with `onPrompt` their names are further 
-    namespaced by the interrupt name. In layman's terms this means `example=before`
-    wouldn't overwrite `example=after`.
-    
-    The reason for this namespacing is because, unlike other events, you might
-    legitimately want the same name for different interrupts (eg a smart prompt
-    that has elements triggered from different interrupts).
+    With `onPrompt`, an event is namespaced as `$(NAME).$(OPERATION)`. For example,
+    if an event was defined as `example=eof` then its namespace would be
+    `example.eof` and thus a subsequent event with the same name but different
+    operation, eg `example=abort`, would not overwrite the former event defined
+    against the interrupt `eof`.
+
+    The reason for this namespacing is because you might legitimately want the same
+    name for different operations (eg a smart prompt that has elements triggered
+    from different interrupts).
   Synonyms:
   - onprompt
   - onPrompt
   Related:
   - onkeypress
   - oncommandcompletion
+  - onpreview
   - terminal-keys
   - interactive-shell
   - event
