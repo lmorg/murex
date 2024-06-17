@@ -187,6 +187,8 @@
       Lists all builtin data-types with marshallers (eg required for `format`)
     --unmarshallers: >-
       Lists all builtin data-types with unmarshallers (eg required for `format`)
+    --event-types: >-
+      Lists all builtin event types
     --events: >-
       Lists all builtin event types and any defined events
     --autocomplete: >-
@@ -284,8 +286,8 @@
     will contain more than just the currently defined variables and running
     functions.
   Synonyms:
-    - runtime
-    - builtins
+  - runtime
+  - builtins
   Related:
   - set
   - let

@@ -178,7 +178,7 @@ framework
 ### Generating a Panic
 
 For testing purposes, you might want to force Murex to crash. You can do
-this via
+this via:
 
 ```
 debug panic

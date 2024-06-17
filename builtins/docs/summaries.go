@@ -303,7 +303,8 @@ func init() {
 		"parser/logical-or":                "Continues next operation only if previous operation fails",
 		"events/oncommandcompletion":       "Trigger an event upon a command's completion",
 		"events/onfilesystemchange":        "Add a filesystem watch",
-		"events/onpreview":                 "Events triggered by changes in state of the interactive shell",
+		"events/onkeypress":                "TODO",
+		"events/onpreview":                 "TODO",
 		"events/onprompt":                  "Events triggered by changes in state of the interactive shell",
 		"events/onsecondselapsed":          "Events triggered by time intervals",
 		"events/onsignalreceived":          "Trap OS signals",
@@ -391,7 +392,7 @@ func init() {
 		"changelog/v5.2":                   "The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex.",
 		"changelog/v5.3":                   "Caching has been vastly improved in this release due to a new sqlite3-backed persistent `cache.db`. There have also been some improvements to `[f1]` help pages",
 		"changelog/v6.0":                   "Despite this being a new major version release, it is a vary minor update. Aside from a handful of bugfixes, the most significant change is notice of deprecation for `=`, `let`, and `?`.",
-		"changelog/v6.1":                   "TODO",
+		"changelog/v6.1":                   "This release sees a massive jump in event-driven capabilities as well as several new features and bug fixes.",
 	}
 
 	Synonym = map[string]string{
@@ -842,6 +843,8 @@ func init() {
 		"events/onCommandCompletion":      "events/oncommandcompletion",
 		"events/onfilesystemchange":       "events/onfilesystemchange",
 		"events/onFileSystemChange":       "events/onfilesystemchange",
+		"events/onkeypress":               "events/onkeypress",
+		"events/onKeyPress":               "events/onkeypress",
 		"events/onpreview":                "events/onpreview",
 		"events/onPreview":                "events/onpreview",
 		"events/onprompt":                 "events/onprompt",

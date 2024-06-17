@@ -3,16 +3,14 @@
     `onPreview`
   CategoryID: events
   Summary: >-
-    Events triggered by changes in state of the interactive shell
+    TODO
   Description: |-
-    `onPrompt` events are triggered by changes in state of the interactive shell
-    (often referred to as _readline_). Those states are defined in the interrupts
-    section below.
+    TODO
   Usage: |-
     ```
-    event onPrompt name=(start|end|function|builtin|exec) { code block }
+    event onPreview name=(function|builtin|exec) { code block }
 
-    !event onPrompt name[.start|.end|.function|.builtin|.exec]
+    !event onPreview name[.function|.builtin|.exec]
     ```
   Payload: |-
     The following payload is passed to the function via STDIN:
@@ -50,62 +48,26 @@
 
     Please note this is only populated if the interrupt is **after**.
   Flags:
-    before: >-
-      Triggered before readline displays the interactive prompt
-    after: >-
-      Triggered after user has written a command into the interactive prompt and then hit `enter`
-    abort: >-
-      Triggered if `ctrl`+`c` pressed while in the interactive prompt
-    eof: >-
-      Triggered if `ctrl`+`d` pressed while in the interactive prompt
-  Examples: |-
-    **Interrupt 'before':**
-
-    ```
-    event onPrompt example=before {
-        out "This will appear before your command prompt"
-    }
-    ```
-
-    **Interrupt 'after':**
-
-    ```
-    event onPrompt example=after {
-        out "This will appear after you've hit [enter] on your command prompt"
-        out "...but before the command executes"
-    }
-    ```
-
-    **Echo the command line:**
-
-    ```
-    » event onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
-    » echo hello world
-    echo hello world
-    hello world
-    ```
+    function: >-
+      Code to execute when previewing a Murex function (for example, the function source code)
+    builtin: >-
+      Code to execute when previewing a builtin (for example, a `murex-docs` page)
+    exec: >-
+      Code to execute when previewing an external executable (for example, a `man` page)
+  Examples:
   Detail: |-
     ### Stdout
 
-    Stdout is written to the terminal. So this can be used to provide multiple
-    additional lines to the prompt since readline only supports one line for the
-    prompt itself and three extra lines for the hint text.
+    Stdout is written to the preview pane.
   
-    ### Order of execution
-
-    Interrupts are run in alphabetical order. So an event named "alfa" would run
-    before an event named "zulu". If you are writing multiple events and the order
-    of execution matters, then you can prefix the names with a number, eg `10_jump`
-
-    ### Namespacing
-
-
+    {{ include "gen/includes/events-namespacing.inc.md" }}
   Synonyms:
   - onpreview
   - onPreview
   Related:
   - onkeypress
   - oncommandcompletion
+  - onprompt
   - terminal-keys
   - interactive-shell
   - event

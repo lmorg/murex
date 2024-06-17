@@ -6,7 +6,7 @@ Track new features, any breaking changes, and the release history here.
 
 ### 17.06.2024 - [v6.1](../changelog/v6.1.md)
 
-TODO
+This release sees a massive jump in event-driven capabilities as well as several new features and bug fixes.
 
 
 ### 17.02.2024 - [v6.0](../changelog/v6.0.md)

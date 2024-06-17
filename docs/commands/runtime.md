@@ -156,6 +156,8 @@ flag names. eg
     Lists all properties available to `config`
 * `--debug`
     Outputs the state of debug and inspect mode
+* `--event-types`
+    Lists all builtin event types
 * `--events`
     Lists all builtin event types and any defined events
 * `--exports`

@@ -141,7 +141,7 @@ Murex itself, eg
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
-  Events triggered by changes in state of the interactive shell
+  TODO
 
 <hr/>
 

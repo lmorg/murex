@@ -22,7 +22,7 @@ var funcMap = template.FuncMap{
 	"doc":        funcRenderedDocuments,
 	"cat":        funcRenderedCategories,
 	"link":       funcLink,
-	"linkbm":     funcLinkBookmark,
+	"bookmark":   funcLinkBookmark,
 	"file":       funcFile,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,

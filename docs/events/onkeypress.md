@@ -1,4 +1,4 @@
-# `onPreview`
+# `onKeyPress`
 
 > TODO
 
@@ -8,57 +8,11 @@ TODO
 
 ## Usage
 
-```
-event onPreview name=(function|builtin|exec) { code block }
-
-!event onPreview name[.function|.builtin|.exec]
-```
-
-## Valid Interrupts
-
-* `builtin`
-    Code to execute when previewing a builtin (for example, a `murex-docs` page)
-* `exec`
-    Code to execute when previewing an external executable (for example, a `man` page)
-* `function`
-    Code to execute when previewing a Murex function (for example, the function source code)
+TODO
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
-
-```
-{
-    "Name": "",
-    "Interrupt": {
-        "Name": "",
-        "Operation": "",
-        "PreviewItem": "",
-        "CmdLine": "",
-        "Width": 80
-    }
-}
-```
-
-### Name
-
-This is the **namespaced** name -- ie the name and operation.
-
-### Interrupt/Name
-
-This is the name you specified when defining the event.
-
-### Operation
-
-This is the interrupt you specified when defining the event.
-
-Valid interrupt operation values are specified below.
-
-### CmdLine
-
-This is the commandline you typed in the prompt.
-
-Please note this is only populated if the interrupt is **after**.
+TODO
 
 ## Detail
 
@@ -96,11 +50,11 @@ from different interrupts).
   Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [`onKeyPress`](../events/onkeypress.md):
+* [`onPreview`](../events/onpreview.md):
   TODO
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 
 <hr/>
 
-This document was generated from [builtins/events/onPreview/onpreview_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onPreview/onpreview_doc.yaml).
+This document was generated from [builtins/events/onKeyPress/onkeypress_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onKeyPress/onkeypress_doc.yaml).

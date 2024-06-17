@@ -107,8 +107,8 @@ of execution matters, then you can prefix the names with a number, eg `10_jump`
 ### Namespacing
 
 With `onPrompt`, an event is namespaced as `$(NAME).$(OPERATION)`. For example,
-if an event was defined as `example=eof` then its namespace would be
-`example.eof` and thus a subsequent event with the same name but different
+if an event in `onPrompt` was defined as `example=eof` then its namespace would
+be `example.eof` and thus a subsequent event with the same name but different
 operation, eg `example=abort`, would not overwrite the former event defined
 against the interrupt `eof`.
 
@@ -128,10 +128,10 @@ from different interrupts).
   Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
+* [`onKeyPress`](../events/onkeypress.md):
+  TODO
 * [`onPreview`](../events/onpreview.md):
-  Events triggered by changes in state of the interactive shell
-* [onkeypress](../events/onkeypress.md):
-  
+  TODO
 
 <hr/>
 

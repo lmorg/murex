@@ -1,0 +1,31 @@
+- DocumentID: onkeypress
+  Title: >+
+    `onKeyPress`
+  CategoryID: events
+  Summary: >-
+    TODO
+  Description: |-
+    TODO
+  Usage: |-
+    TODO
+  Payload: |-
+    TODO
+  Flags:
+  Examples:
+  Detail: |-
+    ### Stdout
+
+    Stdout is written to the preview pane.
+  
+    {{ include "gen/includes/events-namespacing.inc.md" }}
+  Synonyms:
+  - onkeypress
+  - onKeyPress
+  Related:
+  - onpreview
+  - oncommandcompletion
+  - onprompt
+  - terminal-keys
+  - interactive-shell
+  - event
+  - config
