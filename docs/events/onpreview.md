@@ -4,7 +4,12 @@
 
 ## Description
 
-TODO
+Murex's readline API supports {{bookmark "full screen previews" "interactive-shell" "autocomplete-preview"}}.
+For example when autocompleting command line parameters, if that parameter is a
+file then Murex can preview the contents if it is a text file or even an image.
+
+This preview can also provide guides to command usage. Such as `man` pages or
+AI generated cheatsheets.
 
 ## Usage
 
@@ -48,21 +53,73 @@ This is the **namespaced** name -- ie the name and operation.
 
 This is the name you specified when defining the event.
 
-### Operation
+### Interrupt/Operation
 
 This is the interrupt you specified when defining the event.
 
 Valid interrupt operation values are specified below.
 
-### CmdLine
+### Interrupt/PreviewItem
 
-This is the commandline you typed in the prompt.
+This will be the command name. For example if the command line is
+`sudo apt-get update` then the **PreviewItem** value will be `sudo`.
 
-Please note this is only populated if the interrupt is **after**.
+### Interrupt/CmdLine
+
+This is the full command line in the preview prompt (ie what you've typed).
+
+### Interrupt/Width
+
+Width of the preview pane. Please note that this will differ from the terminal
+width due to borders surrounding the preview pane.
+
+## Examples
+
+### Creating an event
+
+```
+event onPreview example=exec {
+    -> set event
+    out "Preview event for $(event.Interrupt.PreviewItem)"
+    
+    $.CacheTTL = 0 # don't cache this response.
+}
+```
+
+### ChatGPT
+
+Murex's {{link "ChatGPT integration" "chatgpt"}} also uses this event.
+The [source code can be found on Github](https://github.com/lmorg/murex/blob/master/integrations/chatgpt_any.mx),
+of viewed from the terminal via:
+
+```
+runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
+```
 
 ## Detail
 
-### Stdout
+### Meta values
+
+Meta values are variables named `$.` that store a structure that is sometimes
+writable to. ({{"read more" "meta-values"}})
+
+The `onPreview` event uses meta values as an API to write data back to the
+event caller.
+
+The meta values available to `onPreview` after:
+
+```
+{
+    "CacheTTL": 0
+}
+```
+
+#### $.CacheTTL
+
+This just defines how long to cache the results for this `onPreview` event for
+faster loading of `onPreview` events in the future.
+
+### Standard
 
 Stdout is written to the preview pane.
 
@@ -86,8 +143,12 @@ from different interrupts).
 
 ## See Also
 
+* [ChatGPT Integration](../user-guide/chatgpt.md):
+  How to enable ChatGPT hints
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`config`](../commands/config.md):

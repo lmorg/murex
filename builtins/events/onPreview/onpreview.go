@@ -8,7 +8,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -176,17 +175,17 @@ func (evt *previewEvents) callback(
 
 			metaMap, ok = meta.(map[string]any)
 			if !ok {
-				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-					"error decoding event meta variable: value is %T, expecting a map: %v", meta, meta,
-				)))
-				continue
+				b = append([]byte(fmt.Sprintf(
+					"!!! error decoding event meta variable: value is %T, expecting a map: %v !!!\n", meta, meta,
+				)), b...)
+				goto callback
 			}
 			ttl, ok = metaMap[metaCacheTTL].(int)
 			if !ok {
-				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-					"error decoding event meta variable: value is %T, expecting an %s: %v", metaMap[metaCacheTTL], types.Integer, metaMap[metaCacheTTL],
-				)))
-				continue
+				b = append([]byte(fmt.Sprintf(
+					"!!! error decoding event meta variable: value is %T, expecting an %s: %v !!!\n", metaMap[metaCacheTTL], types.Integer, metaMap[metaCacheTTL],
+				)), b...)
+				goto callback
 			}
 
 			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(ttl))

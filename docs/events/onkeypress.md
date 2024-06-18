@@ -16,9 +16,9 @@ TODO
 
 ## Detail
 
-### Stdout
+### Standard out and error
 
-Stdout is written to the preview pane.
+<stdout> and <stderr> are written to the terminal.
 
 ### Order of execution
 

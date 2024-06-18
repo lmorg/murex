@@ -38,7 +38,10 @@
         out "60 seconds has passed"
     }
     ```
-  Detail:
+  Detail: |-
+    ### Standard out and error
+
+    <stdout> and <stderr> are written to the terminal.
   Synonyms:
   - onsecondselapsed
   - onSecondsElapsed

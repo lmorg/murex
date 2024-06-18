@@ -79,7 +79,7 @@ func (evt *watch) findCallbackBlock(path string) (source, error) {
 	}
 
 	evt.mutex.Unlock()
-	return source{}, fmt.Errorf("cannot locate source for event '%s'. This is probably a bug in murex, please report to https://github.com/lmorg/murex/issues", path)
+	return source{}, fmt.Errorf("cannot locate source for event '%s'.\nThis is probably a bug in murex, please report to https://github.com/lmorg/murex/issues", path)
 }
 
 // Add a path to the watch event list
@@ -144,7 +144,7 @@ func (evt *watch) init() {
 				lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error: " + err.Error()))
 				continue
 			}
-			
+
 			_, err = events.Callback(
 				source.name,
 				Interrupt{

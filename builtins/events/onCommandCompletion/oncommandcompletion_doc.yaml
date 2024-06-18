@@ -96,11 +96,9 @@
     }
     ```
   Detail: |-
-    ### Stdout
+    ### Standard out and error
 
-    Stdout is written to the terminal. So this can be used to provide multiple
-    additional lines to the prompt since readline only supports one line for the
-    prompt itself and three extra lines for the hint text.
+    <stdout> and <stderr> are both written to the terminal's <stderr>.
   Synonyms:
   - oncommandcompletion
   - onCommandCompletion

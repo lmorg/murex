@@ -13,9 +13,9 @@
   Flags:
   Examples:
   Detail: |-
-    ### Stdout
+    ### Standard out and error
 
-    Stdout is written to the preview pane.
+    <stdout> and <stderr> are written to the terminal.
   
     {{ include "gen/includes/events-namespacing.inc.md" }}
   Synonyms:

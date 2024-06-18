@@ -72,9 +72,9 @@ event onFileSystemChange example=. {
 
 ## Detail
 
-### Stdout
+### Standard out and error
 
-Stdout is written to the terminal.
+<stdout> and <stderr> are written to the terminal.
 
 ### POSIX only
 

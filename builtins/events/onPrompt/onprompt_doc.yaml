@@ -83,11 +83,11 @@
     hello world
     ```
   Detail: |-
-    ### Stdout
+    ### Standard out and error
 
-    Stdout is written to the terminal. So this can be used to provide multiple
-    additional lines to the prompt since readline only supports one line for the
-    prompt itself and three extra lines for the hint text.
+    <stdout> and <stderr> are written to the terminal. So this event can be used to
+    provide multiple additional lines to the prompt since readline only supports
+    one line for the prompt itself and three extra lines for the hint text.
   
     {{ include "gen/includes/events-namespacing.inc.md" }}
   Synonyms:

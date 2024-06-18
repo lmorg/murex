@@ -137,7 +137,6 @@ func execute(p *Process) error {
 	//
 	//     config set proc force-tty true
 	if p.Stderr.IsTTY() && forceTTY(p) {
-		//cmd.Stderr = tty.Stderr
 		cmd.Stderr = p.Stderr.File()
 	} else {
 		cmd.Stderr = p.Stderr

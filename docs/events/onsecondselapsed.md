@@ -46,6 +46,12 @@ event onSecondsElapsed example=60 {
 }
 ```
 
+## Detail
+
+### Standard out and error
+
+<stdout> and <stderr> are written to the terminal.
+
 ## See Also
 
 * [`config`](../commands/config.md):

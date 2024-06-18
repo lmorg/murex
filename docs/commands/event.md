@@ -63,8 +63,10 @@ Destroy an event:
   Trigger an event upon a command's completion
 * [`onFileSystemChange`](../events/onfilesystemchange.md):
   Add a filesystem watch
+* [`onKeyPress`](../events/onkeypress.md):
+  TODO
 * [`onPreview`](../events/onpreview.md):
-  Events triggered by changes in state of the interactive shell
+  TODO
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
