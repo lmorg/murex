@@ -167,7 +167,8 @@ func hkFnRecallWord(rl *Instance, i int) {
 		return
 	}
 
-	output := rl.insertStr([]rune(tokens[i-1] + " "))
+	word := rTrimWhiteSpace(tokens[i-1])
+	output := rl.insertStr([]rune(word + " "))
 	print(output)
 }
 
