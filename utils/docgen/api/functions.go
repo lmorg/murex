@@ -284,12 +284,12 @@ func funcEnv(env string) any {
 // Returns: parsed string
 func funcFunctions(s string) string {
 	w := bytes.NewBuffer([]byte{})
-	t, err := template.New("functions").Funcs(funcMapMd).Parse(s)
+	t, err := template.New("__fn").Funcs(funcMapMd).Parse(s)
 	if err != nil {
 		panic(err.Error())
 	}
 	if err := t.Execute(w, nil); err != nil {
 		panic(err.Error())
 	}
-	return s
+	return w.String()
 }

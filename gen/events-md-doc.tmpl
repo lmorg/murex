@@ -16,7 +16,7 @@
 
 {{ if .Usage }}## Usage
 
-{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
+{{ md (fn (include .Usage)) }}{{ end }}{{ if .Flags }}
 
 ## Valid Interrupts
 
@@ -26,11 +26,11 @@
 
 ## Payload
 
-{{ md (include .Payload) }}{{ end }}{{ if .Examples }}
+{{ md (fn (include .Payload)) }}{{ end }}{{ if .Examples }}
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Detail }}
 
 ## Detail
 

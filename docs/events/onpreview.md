@@ -4,7 +4,7 @@
 
 ## Description
 
-Murex's readline API supports {{bookmark "full screen previews" "interactive-shell" "autocomplete-preview"}}.
+Murex's readline API supports [full screen previews](/docs/user-guide/interactive-shell.md#autocomplete-preview).
 For example when autocompleting command line parameters, if that parameter is a
 file then Murex can preview the contents if it is a text file or even an image.
 
@@ -88,7 +88,7 @@ event onPreview example=exec {
 
 ### ChatGPT
 
-Murex's {{link "ChatGPT integration" "chatgpt"}} also uses this event.
+Murex's [ChatGPT integration](/docs/user-guide/chatgpt.md) also uses this event.
 The [source code can be found on Github](https://github.com/lmorg/murex/blob/master/integrations/chatgpt_any.mx),
 of viewed from the terminal via:
 
@@ -101,7 +101,7 @@ runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
 ### Meta values
 
 Meta values are variables named `$.` that store a structure that is sometimes
-writable too. ({{link "read more" "meta-values"}})
+writable too. ([read more](/docs/variables/meta-values.md))
 
 The `onPreview` event uses meta values as an API to write data back to the
 event caller.
