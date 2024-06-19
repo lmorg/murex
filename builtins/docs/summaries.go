@@ -304,7 +304,7 @@ func init() {
 		"events/oncommandcompletion":       "Trigger an event upon a command's completion",
 		"events/onfilesystemchange":        "Add a filesystem watch",
 		"events/onkeypress":                "TODO",
-		"events/onpreview":                 "TODO",
+		"events/onpreview":                 "Full screen previews for files and command documentation",
 		"events/onprompt":                  "Events triggered by changes in state of the interactive shell",
 		"events/onsecondselapsed":          "Events triggered by time intervals",
 		"events/onsignalreceived":          "Trap OS signals",

@@ -122,9 +122,7 @@ Plan 9 is not supported.
 
 ### Stdout
 
-Stdout is written to the terminal. So this can be used to provide multiple
-additional lines to the prompt since readline only supports one line for the
-prompt itself and three extra lines for the hint text.
+Stdout and stderr are both written to the terminal.
 
 ### Order of execution
 

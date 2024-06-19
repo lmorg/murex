@@ -107,7 +107,7 @@ event onCommandCompletion sudo-pacman=pacman {
 
 ### Standard out and error
 
-<stdout> and <stderr> are both written to the terminal's <stderr>.
+Stdout and stderr are both written to the terminal's stderr.
 
 ## See Also
 

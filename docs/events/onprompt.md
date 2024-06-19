@@ -94,8 +94,8 @@ hello world
 
 ### Standard out and error
 
-<stdout> and <stderr> are written to the terminal. So this event can be used to
-provide multiple additional lines to the prompt since readline only supports
+Stdout and stderr are both written to the terminal. So this event can be used
+to provide multiple additional lines to the prompt since readline only supports
 one line for the prompt itself and three extra lines for the hint text.
 
 ### Order of execution
@@ -131,7 +131,7 @@ from different interrupts).
 * [`onKeyPress`](../events/onkeypress.md):
   TODO
 * [`onPreview`](../events/onpreview.md):
-  TODO
+  Full screen previews for files and command documentation
 
 <hr/>
 

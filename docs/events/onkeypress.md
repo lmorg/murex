@@ -18,7 +18,7 @@ TODO
 
 ### Standard out and error
 
-<stdout> and <stderr> are written to the terminal.
+Stdout and stderr are both written to the terminal.
 
 ### Order of execution
 
@@ -51,7 +51,7 @@ from different interrupts).
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onPreview`](../events/onpreview.md):
-  TODO
+  Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 

@@ -5,7 +5,7 @@
 * [`onKeyPress`](../events/onkeypress.md):
   TODO
 * [`onPreview`](../events/onpreview.md):
-  TODO
+  Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):

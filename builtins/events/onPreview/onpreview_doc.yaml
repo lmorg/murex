@@ -3,7 +3,7 @@
     `onPreview`
   CategoryID: events
   Summary: >-
-    TODO
+    Full screen previews for files and command documentation
   Description: |-
     Murex's readline API supports {{bookmark "full screen previews" "interactive-shell" "autocomplete-preview"}}.
     For example when autocompleting command line parameters, if that parameter is a
@@ -92,7 +92,7 @@
     ### Meta values
 
     Meta values are variables named `$.` that store a structure that is sometimes
-    writable to. ({{"read more" "meta-values"}})
+    writable to. ({{link "read more" "meta-values"}})
 
     The `onPreview` event uses meta values as an API to write data back to the
     event caller.
@@ -112,7 +112,8 @@
 
     ### Standard
 
-    Stdout is written to the preview pane.
+    Stdout and stderr are both written to the preview pane. Output is stripped of
+    any ANSI escape sequences and stderr isn't written in red.
   
     {{ include "gen/includes/events-namespacing.inc.md" }}
   Synonyms:

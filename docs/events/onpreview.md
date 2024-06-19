@@ -1,6 +1,6 @@
 # `onPreview`
 
-> TODO
+> Full screen previews for files and command documentation
 
 ## Description
 
@@ -101,7 +101,7 @@ runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
 ### Meta values
 
 Meta values are variables named `$.` that store a structure that is sometimes
-writable to. ({{"read more" "meta-values"}})
+writable to. ({{link "read more" "meta-values"}})
 
 The `onPreview` event uses meta values as an API to write data back to the
 event caller.
@@ -121,7 +121,8 @@ faster loading of `onPreview` events in the future.
 
 ### Standard
 
-Stdout is written to the preview pane.
+Stdout and stderr are both written to the preview pane. Output is stripped of
+any ANSI escape sequences and stderr isn't written in red.
 
 ### Order of execution
 
