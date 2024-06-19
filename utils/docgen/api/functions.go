@@ -31,6 +31,16 @@ var funcMap = template.FuncMap{
 	"othercats":  funcOtherCats,
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
+	"fn":         funcFunctions,
+}
+
+var funcMapMd = template.FuncMap{}
+
+func init() {
+	for k, v := range funcMap {
+		funcMapMd[k] = v
+	}
+	delete(funcMapMd, "fn")
 }
 
 /************
@@ -151,7 +161,6 @@ func funcInclude(s string) string {
 		b := bytes.TrimSpace(readAll(f))
 
 		w := bytes.NewBuffer([]byte{})
-
 		t := template.Must(template.New(path).Funcs(funcMap).Parse(string(b)))
 		if err := t.Execute(w, nil); err != nil {
 			panic(err.Error())
@@ -265,4 +274,22 @@ func funcEnv(env string) any {
 	envvars.All(v)
 	s, _ := v[key].(string)
 	return s == value
+}
+
+/************
+ *    fn    *
+ ************/
+
+// Takes: string, to use as template
+// Returns: parsed string
+func funcFunctions(s string) string {
+	w := bytes.NewBuffer([]byte{})
+	t, err := template.New("functions").Funcs(funcMapMd).Parse(s)
+	if err != nil {
+		panic(err.Error())
+	}
+	if err := t.Execute(w, nil); err != nil {
+		panic(err.Error())
+	}
+	return s
 }

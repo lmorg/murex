@@ -11,13 +11,13 @@ import (
 
 const (
 	// Version is the release ID of docgen
-	Version = "3.1.0"
+	Version = "3.2.0"
 
 	// Copyright is the copyright owner string
 	Copyright = "(c) 2018-2024 Laurence Morgan"
 
 	// License is the projects software license
-	License = "Licence GPL v2"
+	License = "License GPL v2"
 )
 
 // flags

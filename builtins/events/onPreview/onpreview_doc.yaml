@@ -92,7 +92,7 @@
     ### Meta values
 
     Meta values are variables named `$.` that store a structure that is sometimes
-    writable to. ({{link "read more" "meta-values"}})
+    writable too. ({{link "read more" "meta-values"}})
 
     The `onPreview` event uses meta values as an API to write data back to the
     event caller.

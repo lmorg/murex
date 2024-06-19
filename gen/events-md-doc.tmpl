@@ -12,7 +12,7 @@
 
 ## Description
 
-{{ md (include .Description) }}
+{{ md (fn (include .Description)) }}
 
 {{ if .Usage }}## Usage
 
@@ -34,7 +34,7 @@
 
 ## Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Related }}
+{{ md (fn (include .Detail)) }}{{ end }}{{ if .Related }}
 
 ## See Also
 
