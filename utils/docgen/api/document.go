@@ -33,6 +33,12 @@ type document struct {
 	// Payload is a document describing an APIs payload
 	Payload string `yaml:"Payload"`
 
+	// EventReturn is a document describing an events callback values
+	EventReturn string `yaml:"EventReturn"`
+
+	// MetaValues is a document describing the meta values supported by a command or API
+	MetaValues string `yaml:"MetaValues"`
+
 	// Flags is a map of supported flags
 	Flags map[string]string `yaml:"Flags"`
 
@@ -124,6 +130,8 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Description:         d.Description,
 		Usage:               d.Usage,
 		Payload:             d.Payload,
+		EventReturn:         d.EventReturn,
+		MetaValues:          d.MetaValues,
 		Examples:            d.Examples,
 		Detail:              d.Detail,
 		Synonyms:            d.Synonyms,
@@ -196,6 +204,8 @@ type documentValues struct {
 	Summary             string
 	Description         string
 	Payload             string
+	EventReturn         string
+	MetaValues          string
 	Usage               string
 	Examples            string
 	Flags               sortableFlagValues

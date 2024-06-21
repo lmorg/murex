@@ -83,6 +83,10 @@ You can read this with `read-named-pipe`. eg
 
 This is the exit number returned from the executed command.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 **Read STDERR:**

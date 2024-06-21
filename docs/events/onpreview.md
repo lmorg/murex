@@ -73,16 +73,36 @@ This is the full command line in the preview prompt (ie what you've typed).
 Width of the preview pane. Please note that this will differ from the terminal
 width due to borders surrounding the preview pane.
 
+## Event Return
+
+Event return, `$EVENT_RETURN`, is a special variable that stores a writable
+structure to return back to the event caller.
+
+The `$EVENT_RETURN` values available to `onPreview` are:
+
+```
+{
+    "CacheTTL": 0
+}
+```
+
+### $EVENT_RETURN.CacheTTL
+
+This just defines how long to cache the results for this `onPreview` event for
+faster loading of `onPreview` events in the future.
+
+**CacheTTL** takes an integer and is measured in seconds.
+
 ## Examples
 
-### Creating an event
+### Creating a basic event
 
 ```
 event onPreview example=exec {
     -> set event
     out "Preview event for $(event.Interrupt.PreviewItem)"
     
-    $.CacheTTL = 0 # don't cache this response.
+    $EVENT_RETURN.CacheTTL = 0 # don't cache this response.
 }
 ```
 
@@ -98,28 +118,7 @@ runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
 
 ## Detail
 
-### Meta values
-
-Meta values are variables named `$.` that store a structure that is sometimes
-writable too. ([read more](/docs/variables/meta-values.md))
-
-The `onPreview` event uses meta values as an API to write data back to the
-event caller.
-
-The meta values available to `onPreview` after:
-
-```
-{
-    "CacheTTL": 0
-}
-```
-
-#### $.CacheTTL
-
-This just defines how long to cache the results for this `onPreview` event for
-faster loading of `onPreview` events in the future.
-
-### Standard
+### Standard out and error
 
 Stdout and stderr are both written to the preview pane. Output is stripped of
 any ANSI escape sequences and stderr isn't written in red.

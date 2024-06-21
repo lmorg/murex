@@ -38,6 +38,10 @@ This is the name you specified when defining the event.
 
 This is the duration you defined the event to wait for.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 ```

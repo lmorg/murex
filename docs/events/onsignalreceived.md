@@ -77,6 +77,10 @@ This is the signal you specified when defining the event.
 Valid interrupt operation values are specified below. All interrupts / signals
 are UPPERCASE strings.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 **Interrupt 'SIGINT':**

@@ -62,6 +62,10 @@ This is the commandline executed, ie what you typed into the _readline_ prompt.
 
 Please note this is only populated if the interrupt is **after**.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 **Interrupt 'before':**

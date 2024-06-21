@@ -56,6 +56,10 @@ strings could be present in the **Operation** field:
 Sometimes you might see more than one operation per interrupt. If that happens
 the operation will be pipe delimited. For example `create|chmod`
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 This will automatically add any new files in your current working directory to

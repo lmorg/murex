@@ -14,6 +14,10 @@ TODO
 
 TODO
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Detail
 
 ### Standard out and error
