@@ -82,7 +82,8 @@ The `$EVENT_RETURN` values available to `onPreview` are:
 
 ```
 {
-    "CacheTTL": 0
+    "CacheTTL": 2592000,
+    "Display": true
 }
 ```
 
@@ -91,7 +92,14 @@ The `$EVENT_RETURN` values available to `onPreview` are:
 This just defines how long to cache the results for this `onPreview` event for
 faster loading of `onPreview` events in the future.
 
-**CacheTTL** takes an integer and is measured in seconds.
+**CacheTTL** takes an integer and is measured in seconds. It's default value is
+30 days.
+
+### $EVENT_RETURN.Display
+
+Defines whenever to output this event invocation.
+
+Defaults to `true`.
 
 ## Examples
 
