@@ -7,36 +7,37 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 const (
-	metaHotKeyActions = "Actions"
-	metaSetLine       = "SetLine"
-	metaSetPos        = "SetCursorPos"
-	metaHintText      = "SetHintText"
-	metaContinue      = "Continue"
+	retHotKeyActions = "Actions"
+	retSetLine       = "SetLine"
+	retSetPos        = "SetCursorPos"
+	retHintText      = "SetHintText"
+	retContinue      = "Continue"
 )
 
-func createMeta(state *readline.EventState) map[string]any {
+func createReturn(state *readline.EventState) map[string]any {
 	return map[string]any{
-		metaHotKeyActions: []string{},
-		metaSetLine:       state.Line,
-		metaSetPos:        state.CursorPos,
-		metaHintText:      "",
-		metaContinue:      false,
+		retHotKeyActions: []string{},
+		retSetLine:       state.Line,
+		retSetPos:        state.CursorPos,
+		retHintText:      "",
+		retContinue:      false,
 	}
 }
 
-func errInvalidMeta(property, dataType string, v any) (*readline.EventReturn, error) {
-	return nil, fmt.Errorf("meta variable property '%s' is invalid: expecting %s instead got %T",
-		property, dataType, v)
+func errInvalidReturn(property, dataType string, v any) (*readline.EventReturn, error) {
+	return nil, fmt.Errorf("$%s variable property '%s' is invalid: expecting %s instead got %T",
+		consts.EventReturn, property, dataType, v)
 }
 
-func validateMeta(v any) (*readline.EventReturn, error) {
+func validateReturn(v any) (*readline.EventReturn, error) {
 	m, ok := v.(map[string]any)
 	if !ok {
-		return errInvalidMeta("$.", "map", v)
+		return errInvalidReturn(consts.EventReturn, "map", v)
 	}
 
 	var (
@@ -46,7 +47,7 @@ func validateMeta(v any) (*readline.EventReturn, error) {
 
 	for property, value := range m {
 		switch property {
-		case metaHotKeyActions:
+		case retHotKeyActions:
 			var actions []string
 			switch t := value.(type) {
 			case string:
@@ -57,7 +58,7 @@ func validateMeta(v any) (*readline.EventReturn, error) {
 			case []string:
 				actions = t
 			default:
-				return errInvalidMeta(property, "array", value)
+				return errInvalidReturn(property, "array", value)
 			}
 
 			evtReturn.Actions, err = compileActionSlice(actions)
@@ -65,36 +66,36 @@ func validateMeta(v any) (*readline.EventReturn, error) {
 				return nil, err
 			}
 
-		case metaSetLine:
+		case retSetLine:
 			s, ok := value.(string)
 			if !ok {
-				return errInvalidMeta(property, types.String, value)
+				return errInvalidReturn(property, types.String, value)
 			}
 			evtReturn.SetLine = []rune(s)
 
-		case metaHintText:
+		case retHintText:
 			s, ok := value.(string)
 			if !ok {
-				return errInvalidMeta(property, types.String, value)
+				return errInvalidReturn(property, types.String, value)
 			}
 			evtReturn.HintText = []rune(s)
 
-		case metaSetPos:
+		case retSetPos:
 			i, ok := value.(int)
 			if !ok {
-				return errInvalidMeta(property, types.Integer, value)
+				return errInvalidReturn(property, types.Integer, value)
 			}
 			evtReturn.SetPos = i
 
-		case metaContinue:
+		case retContinue:
 			cont, ok := value.(bool)
 			if !ok {
-				return errInvalidMeta(property, types.Boolean, value)
+				return errInvalidReturn(property, types.Boolean, value)
 			}
 			evtReturn.Continue = cont
 
 		default:
-			return nil, fmt.Errorf("invalid meta variable property: '$.%s'", property)
+			return nil, fmt.Errorf("invalid %s property: '%s'", consts.EventReturn, property)
 		}
 	}
 

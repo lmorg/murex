@@ -10,7 +10,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/lists"
@@ -113,10 +112,6 @@ func (evt *previewEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
-const (
-	metaCacheTTL = "CacheTTL"
-)
-
 func (evt *previewEvents) callback(
 	ctx context.Context, interrupt string, // event
 	previewItem string, cmdLine []rune, // meta
@@ -130,11 +125,9 @@ func (evt *previewEvents) callback(
 		b, e           []byte
 		interruptValue Interrupt
 		stdout, stderr stdio.Io
+		v              any
+		evtReturn      *eventReturn
 		err            error
-		meta           any
-		metaMap        map[string]any
-		ttl            int
-		ok             bool
 	)
 
 	for i := range evt.events {
@@ -154,17 +147,15 @@ func (evt *previewEvents) callback(
 				PreviewItem: previewItem,
 				Width:       size.Width,
 			}
-			stdout, stderr = streams.NewStdin(), streams.NewStdin()
-			meta = map[string]any{
-				metaCacheTTL: cacheTTL,
-			}
 
-			meta, err = events.Callback(
+			stdout, stderr = streams.NewStdin(), streams.NewStdin()
+
+			v, err = events.Callback(
 				evt.events[i].Key, interruptValue, // event
 				evt.events[i].Block, evt.events[i].FileRef, // script
 				stdout, stderr, // pipes
-				meta, // meta
-				true, // background
+				createReturn(), // event return
+				true,           // background
 			)
 			b, _ = stdout.ReadAll()
 			e, _ = stderr.ReadAll()
@@ -173,22 +164,17 @@ func (evt *previewEvents) callback(
 				b = append([]byte(err.Error()), b...)
 			}
 
-			metaMap, ok = meta.(map[string]any)
-			if !ok {
-				b = append([]byte(fmt.Sprintf(
-					"!!! error decoding event meta variable: value is %T, expecting a map: %v !!!\n", meta, meta,
-				)), b...)
-				goto callback
-			}
-			ttl, ok = metaMap[metaCacheTTL].(int)
-			if !ok {
-				b = append([]byte(fmt.Sprintf(
-					"!!! error decoding event meta variable: value is %T, expecting an %s: %v !!!\n", metaMap[metaCacheTTL], types.Integer, metaMap[metaCacheTTL],
-				)), b...)
+			evtReturn, err = validateReturn(v)
+			if err != nil {
+				b = append([]byte(err.Error()), b...)
 				goto callback
 			}
 
-			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(ttl))
+			if !evtReturn.Display {
+				continue
+			}
+
+			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(evtReturn.CacheTTL))
 
 		callback:
 			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, key.Name)

@@ -96,7 +96,7 @@ config define openai preview-exec-send-cmdline %{
 event onPreview chatgpt=exec {
     cast str
 
-    $.CacheTTL = 0
+    $EVENT_RETURN.CacheTTL = 0
 
     config get openai preview-exec-prompt       -> set prompt
     config get openai preview-exec-api          -> set openai_api
@@ -104,7 +104,7 @@ event onPreview chatgpt=exec {
     config get openai preview-exec-send-cmdline -> set cmdline
 
     !if { $openai_api } then {
-        out "This feature requires an OpenAI API key with write access to /v1/chat/completions. eg"
+        out "This feature requires an OpenAI API key with write access to /v1/chat/completions. eg\n"
         out "config set openai preview-exec-api xxxxx\n"
         out "Run `murex-docs help user-guide/chatgpt` for more details or visit:"
         out "https://murex.rocks/user-guide/chatgpt"
@@ -114,7 +114,7 @@ event onPreview chatgpt=exec {
     <stdin> -> set event
 
     if { $cmdline } then {
-        $context = "For context, my full command line is `$(event.Interrupt.CmdLine)`"
+        $context = "For context, my full command line is `$(event.Interrupt.CmdLine)`."
     } else {
         $context = ""
     }
@@ -145,8 +145,8 @@ event onPreview chatgpt=exec {
             $body -> pretty
 
         } else {
-            $.CacheTTL = 60 * 60 * 24 * 30  # 50 days
-            $body.choices.0.message.content # print output
+            $EVENT_RETURN.CacheTTL = 60*60*24*30 # 50 days
+            $body.choices.0.message.content      # print output
         }
     }
 }

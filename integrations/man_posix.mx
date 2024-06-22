@@ -5,7 +5,7 @@ if { runtime --event-types -> match onPreview } else {
 event onPreview 00-man-page=exec {
     -> set event
     
-	$.CacheTTL = 0
+	$EVENT_RETURN.CacheTTL = 0
 
 	!if { man-summary $event.Interrupt.PreviewItem} then {
 		out "No man page exists for $event.Interrupt.PreviewItem"

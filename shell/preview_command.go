@@ -6,14 +6,17 @@ import (
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/events/onPreview/previewops"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/readline"
 )
 
-func PreviewCommand(ctx context.Context, cmdLine []rune, command string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
+func PreviewCommand(ctx context.Context, _cmdLine []rune, command string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
 	if command == "" {
 		callback(previewParse([]byte("Nothing to preview"), size))
 		return
 	}
+
+	cmdLine := utils.CrLfTrimRune(_cmdLine)
 
 	if lang.GlobalAliases.Exists(command) {
 		alias := lang.GlobalAliases.Get(command)

@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -39,7 +40,7 @@ type j struct {
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout, stderr stdio.Io, meta any, background bool) (any, error) {
+func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout, stderr stdio.Io, evtReturn any, background bool) (any, error) {
 	if fileRef == nil {
 		if debug.Enabled {
 			panic("fileRef should not be nil value")
@@ -82,10 +83,10 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 
 	fork.Stdout = stdout
 	fork.Stderr = stderr
-	if meta != nil {
-		err = fork.Variables.Set(fork.Process, "", meta, types.Json)
+	if evtReturn != nil {
+		err = fork.Variables.Set(fork.Process, consts.EventReturn, evtReturn, types.Json)
 		if err != nil {
-			return nil, fmt.Errorf("cannot compile meta for event '%s' (interrupt: %v): %s", name, interrupt, err.Error())
+			return nil, fmt.Errorf("cannot compile %s for event '%s' (interrupt: %v): %s", consts.EventReturn, name, interrupt, err.Error())
 		}
 	}
 
@@ -94,8 +95,8 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 		return nil, fmt.Errorf("error compiling event callback: %s", err.Error())
 	}
 
-	if meta != nil {
-		return fork.Variables.GetValue("")
+	if evtReturn != nil {
+		return fork.Variables.GetValue(consts.EventReturn)
 	}
 	return nil, nil
 }

@@ -142,18 +142,18 @@ func (evt *keyPressEvents) readlineCallback(id int, state *readline.EventState) 
 }
 
 func onKeyPressEvent(event *keyPressEvent, state *readline.EventState) *readline.EventReturn {
-	meta, err := events.Callback(
+	v, err := events.Callback(
 		event.name, state, // event
 		event.block, event.fileRef, // script
 		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
-		createMeta(state), // meta
-		true,              // background
+		createReturn(state), // event return
+		true,                // background
 	)
 	if err != nil {
 		return callbackError(err, state)
 	}
 
-	evtReturn, err := validateMeta(meta)
+	evtReturn, err := validateReturn(v)
 	if err != nil {
 		return callbackError(err, state)
 	}

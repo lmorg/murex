@@ -21,3 +21,5 @@ const (
 )
 
 const IssueTrackerURL = "This is a murex bug. Please raise an issue at https://github.com/lmorg/murex/issues"
+
+const EventReturn = "EVENT_RETURN"
