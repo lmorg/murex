@@ -120,7 +120,7 @@ runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
 
 ### Standard out and error
 
-Stdout and stderr are both written to the preview pane. Output is stripped of
+Stdout and stderr are both written to the preview pane. Output is stripped or
 any ANSI escape sequences and stderr isn't written in red.
 
 ### Order of execution
