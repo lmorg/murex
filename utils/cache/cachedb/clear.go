@@ -12,6 +12,9 @@ const (
 )
 
 func Clear(ctx context.Context, namespace string) ([]string, error) {
+	db := dbConnect()
+	defer db.Close()
+
 	opts := new(sql.TxOptions)
 	tx, err := db.BeginTx(ctx, opts)
 	if err != nil {

@@ -18,6 +18,9 @@ type listT struct {
 }
 
 func List(ctx context.Context, namespace string) ([]listT, error) {
+	db := dbConnect()
+	defer db.Close()
+
 	rows, err := db.QueryContext(ctx, fmt.Sprintf(sqlList, namespace))
 	if err != nil {
 		return nil, err
@@ -48,6 +51,9 @@ func List(ctx context.Context, namespace string) ([]listT, error) {
 }
 
 func ListNamespaces() []string {
+	db := dbConnect()
+	defer db.Close()
+
 	namespaces := []string{}
 
 	if Disabled {

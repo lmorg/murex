@@ -12,7 +12,7 @@ event onPreview 00-man-page=exec {
 		return
 	}
 
-	$EVENT_RETURN.CacheTTL = 60 * 60 * 24 # cache for 24 hours
+	$EVENT_RETURN.CacheTTL = 60 # cache for 60 seconds
 
 	if { os linux } then {
 		man_linux $event.Interrupt.Width $event.Interrupt.PreviewItem

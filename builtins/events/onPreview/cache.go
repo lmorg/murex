@@ -2,6 +2,8 @@ package onpreview
 
 import "github.com/lmorg/murex/utils/cache"
 
+const cacheRules = cache.PREVIEW_EVENT + ":cache_rules"
+
 func cacheNamespace(key string) string {
 	return cache.PREVIEW_EVENT + ":" + key
 }
@@ -9,7 +11,7 @@ func cacheNamespace(key string) string {
 func cacheHashGet(key string, item string, cmdLine []rune, block []rune) string {
 	var v bool
 
-	ok := cache.Read(cache.PREVIEW_EVENT, key, &v)
+	ok := cache.Read(cacheRules, key, &v)
 
 	if ok && v { // cacheCmdLine == true
 		return cache.CreateHash(string(cmdLine), block)
@@ -19,5 +21,5 @@ func cacheHashGet(key string, item string, cmdLine []rune, block []rune) string 
 }
 
 func cacheHashSet(key string, cacheCmdLine bool) {
-	cache.Write(cache.PREVIEW_EVENT, key, cacheCmdLine, cache.Days(365))
+	cache.Write(cacheRules, key, cacheCmdLine, cache.Days(365))
 }

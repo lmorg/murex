@@ -43,9 +43,9 @@ func clearDb(ctx context.Context, namespace string) ([]string, error) {
 	return cachedb.Clear(ctx, namespace)
 }
 
-func CloseDb() {
+/*func CloseDb() {
 	cachedb.CloseDb()
-}
+}*/
 
 func DbPath() string {
 	return cachedb.GetPath()

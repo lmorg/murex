@@ -19,7 +19,7 @@ const (
 var (
 	Disabled bool   = true
 	path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
-	db       *sql.DB
+	//db       *sql.DB
 )
 
 func dbConnect() *sql.DB {
@@ -40,9 +40,11 @@ func dbConnect() *sql.DB {
 }
 
 func CreateTable(namespace string) {
-	if db == nil {
+	db := dbConnect()
+	defer db.Close()
+	/*if db == nil {
 		db = dbConnect()
-	}
+	}*/
 
 	if Disabled {
 		return
@@ -63,13 +65,16 @@ func dbFailed(message string, err error) {
 	Disabled = true
 }
 
-func CloseDb() {
+/*func CloseDb() {
 	if db != nil {
 		_ = db.Close()
 	}
-}
+}*/
 
 func Read(namespace string, key string, ptr any) bool {
+	db := dbConnect()
+	defer db.Close()
+
 	if Disabled || ptr == nil {
 		return false
 	}
@@ -110,6 +115,9 @@ func Read(namespace string, key string, ptr any) bool {
 }
 
 func Write(namespace string, key string, value any, ttl time.Time) {
+	db := dbConnect()
+	defer db.Close()
+
 	if Disabled || value == nil {
 		return
 	}
@@ -128,11 +136,11 @@ func Write(namespace string, key string, value any, ttl time.Time) {
 }
 
 func SetPath(newPath string) {
-	if db == nil {
-		path = newPath
-	} else if debug.Enabled {
-		panic("db already initiated")
-	}
+	//if db == nil {
+	path = newPath
+	//} else if debug.Enabled {
+	//	panic("db already initiated")
+	//}
 }
 
 func GetPath() string {

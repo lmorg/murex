@@ -9,7 +9,7 @@ config define cheatsheet enabled %{
 }
 
 event onPreview cheat-sh=exec {
-    !if { config cheatsheet enabled } then {
+    !if { config get cheatsheet enabled } then {
         $EVENT_RETURN.Display = false
         return
     }
