@@ -1,0 +1,53 @@
+- DocumentID: man-pages
+  Title: >-
+    Man Pages
+  CategoryID: integrations
+  Summary: >-
+    Linux/UNIX `man` page integrations
+  Description: |-
+    ## Description
+
+    `man` page parsing is used extensively throughout Murex. From providing default
+    autocompletions through to quick access of those manuals via the `[f1]` preview
+    pane.
+
+    This document describes the various different integrations around those `man`
+    pages.
+
+    > Please note that this is only supported on Linux, macOS, BSD and other
+    > UNIX-like platforms. Windows and Plan 9 do not currently support these
+    > specific integrations.
+
+    ## Autocomplete
+
+    Autocomplete, sometimes referred to as "tab-completion", are command and
+    parameter suggestions offered when you press `[tab]`.
+
+    A lot of commands will have a bespoke {{link "autocomplete config" "autocomplete"}}
+    defined for them. However writing autocomplete rules for every command out
+    there would be hugely time consuming and impractical. Thus **Murex can
+    automatically generate autocompletions** based on the contents of a commands
+    `man` page.
+
+    ## Preview
+
+    If you want to quickly read a `man` page without disrupting your flow in the
+    command line, then you can press `[f1]` to preview it.
+    
+    This preview will allow you to keep typing out your command line while also
+    presenting the `man` page in an easy to read layout.
+
+    ## Summary
+
+    When you type a command in, you will see a brief description of what that
+    command is, in your {{bookmark "hint text" "interactive-shell" "hint-text"}}.
+    That command will generally be pulled from its accompanying `man` page.
+  Synonyms:
+  Related:
+  - chatgpt
+  - cheatsheet
+  - event
+  - terminal-keys
+  - murex-docs
+  - onpreview
+  - autocomplete

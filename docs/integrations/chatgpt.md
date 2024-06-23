@@ -125,6 +125,8 @@ under `/integrations`.
 
 ## See Also
 
+* [Man Pages](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
@@ -137,6 +139,8 @@ under `/integrations`.
   Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
+* [cheatsheet](../integrations/cheatsheet.md):
+  
 
 ## Other Integrations
 

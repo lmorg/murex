@@ -461,6 +461,8 @@ are only included by default on Windows.
 
 * [ChatGPT](../integrations/chatgpt.md):
   How to enable ChatGPT hints
+* [Man Pages](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
 
 ## API Reference
 
