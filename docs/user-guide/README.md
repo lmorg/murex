@@ -9,11 +9,14 @@ shell and Murex's numerous features.
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
+- [Integrations](#integrations)
+- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
 - [Events](#events)
+- [Integrations](#integrations-1)
 - [API Reference](#api-reference)
 
 </div>
@@ -28,12 +31,12 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Infixed constants that return ANSI escape sequences
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [ChatGPT Integration](../user-guide/chatgpt.md):
-  How to enable ChatGPT hints
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
+* [Integrations](../user-guide/integrations.md):
+  Default integrations shipped with Murex
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Job Control](../user-guide/job-control.md):
@@ -101,7 +104,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](parser/division.md):
   Divides one numeric value from another (expression)
-* [`<read-named-pipe>`](parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
@@ -451,6 +454,11 @@ are only included by default on Windows.
   Events triggered by time intervals
 * [`onSignalReceived`](../events/onsignalreceived.md):
   Trap OS signals
+
+## Integrations
+
+* [ChatGPT](../integrations/chatgpt.md):
+  How to enable ChatGPT hints
 
 ## API Reference
 

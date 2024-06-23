@@ -8,8 +8,6 @@ Variables named `0` and above are the equivalent index value of `@ARGV`.
 
 These are reserved variable so they cannot be changed.
 
-
-
 ## Examples
 
 ```
@@ -30,6 +28,33 @@ This returns parameter _n_ (like `$ARGS[n]`). If there is no parameter _n_
 then the variable will not be set thus the upper limit variable is determined
 by how many parameters are set. For example if you have 19 parameters passed
 then variables `$1` through to `$19` (inclusive) will all be set.
+
+## Other Reserved Variables
+
+* [Numeric (str)](../variables/numeric.md):
+  Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
+* [`$.`, Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
+* [`ARGV` (json)](../variables/argv.md):
+  Array of the command name and parameters within a given scope
+* [`COLUMNS` (int)](../variables/columns.md):
+  Character width of terminal
+* [`HOSTNAME` (str)](../variables/hostname.md):
+  Hostname of the current machine
+* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
+  Array of the command name and parameters passed to the current shell
+* [`MUREX_EXE` (path)](../variables/murex_exe.md):
+  Absolute path to running shell
+* [`PARAMS` (json)](../variables/params.md):
+  Array of the parameters within a given scope
+* [`PWDHIST` (json)](../variables/pwdhist.md):
+  History of each change to the sessions working directory
+* [`PWD` (path)](../variables/pwd.md):
+  Current working directory
+* [`SELF` (json)](../variables/self.md):
+  Meta information about the running scope.
+* [`SHELL` (str)](../variables/shell.md):
+  Path of current shell
 
 ## See Also
 

@@ -1,6 +1,6 @@
 - DocumentID: namedpipe
   Title: >+
-    `<read-named-pipe>`
+    `<pipe>` Read Named Pipe
   CategoryID: parser
   Summary: >-
     Reads from a Murex named pipe

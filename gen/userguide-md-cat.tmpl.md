@@ -15,11 +15,14 @@ category:
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
+- [Integrations](#integrations)
+- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
 - [Events](#events)
+- [Integrations](#integrations-1)
 - [API Reference](#api-reference)
 
 </div>
@@ -32,9 +35,15 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 {{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
-  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}{{ if env "DOCGEN_TARGET=vuepress" }}
+  
+## Integrations
 
-{{ if env "DOCGEN_TARGET=" }}## Operators And Tokens
+{{ if otherdocs "integrations" }}{{ range $i,$a := otherdocs "integrations" }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}{{ end }}{{ if env "DOCGEN_TARGET=" }}
+
+## Operators And Tokens
 
 {{ if otherdocs "parser" }}{{ range $i,$a := otherdocs "parser" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
@@ -67,6 +76,12 @@ are only included by default on Windows.
 ## Events
 
 {{ if otherdocs "events" }}{{ range $i,$a := otherdocs "events" }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+
+## Integrations
+
+{{ if otherdocs "integrations" }}{{ range $i,$a := otherdocs "integrations" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 

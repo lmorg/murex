@@ -36,7 +36,7 @@ Hello, world!
   Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command

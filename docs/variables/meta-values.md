@@ -1,4 +1,4 @@
-# Meta Values (json)
+# `$.`, Meta Values (json)
 
 > State information for iteration blocks
 
@@ -11,8 +11,6 @@ Meta Values are a specific to the block, so you will need to refer to each
 iteration structure's documentation to check what information is exposed via
 `$.`
 
-
-
 ## Examples
 
 ```
@@ -24,11 +22,32 @@ iteration structure's documentation to check what information is exposed via
 5: Friday
 ```
 
-## Synonyms
+## Other Reserved Variables
 
-* `meta-values`
-* `$.`
-
+* [Numeric (str)](../variables/numeric.md):
+  Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
+* [`$.`, Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
+* [`ARGV` (json)](../variables/argv.md):
+  Array of the command name and parameters within a given scope
+* [`COLUMNS` (int)](../variables/columns.md):
+  Character width of terminal
+* [`HOSTNAME` (str)](../variables/hostname.md):
+  Hostname of the current machine
+* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
+  Array of the command name and parameters passed to the current shell
+* [`MUREX_EXE` (path)](../variables/murex_exe.md):
+  Absolute path to running shell
+* [`PARAMS` (json)](../variables/params.md):
+  Array of the parameters within a given scope
+* [`PWDHIST` (json)](../variables/pwdhist.md):
+  History of each change to the sessions working directory
+* [`PWD` (path)](../variables/pwd.md):
+  Current working directory
+* [`SELF` (json)](../variables/self.md):
+  Meta information about the running scope.
+* [`SHELL` (str)](../variables/shell.md):
+  Path of current shell
 
 ## See Also
 

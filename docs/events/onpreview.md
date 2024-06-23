@@ -116,7 +116,7 @@ event onPreview example=exec {
 
 ### ChatGPT
 
-Murex's [ChatGPT integration](/docs/user-guide/chatgpt.md) also uses this event.
+Murex's [ChatGPT integration](/docs/integrations/chatgpt.md) also uses this event.
 The [source code can be found on Github](https://github.com/lmorg/murex/blob/master/integrations/chatgpt_any.mx),
 of viewed from the terminal via:
 
@@ -151,14 +151,14 @@ from different interrupts).
 
 ## See Also
 
-* [ChatGPT Integration](../user-guide/chatgpt.md):
+* [ChatGPT](../integrations/chatgpt.md):
   How to enable ChatGPT hints
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [Meta Values (json)](../variables/meta-values.md):
-  State information for iteration blocks
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
+* [`$.`, Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`event`](../commands/event.md):

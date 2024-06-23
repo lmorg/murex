@@ -61,7 +61,7 @@ files.
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
