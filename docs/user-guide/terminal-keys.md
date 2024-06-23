@@ -334,7 +334,7 @@ name and path of your preferred editor, otherwise Murex will default to `vi`.
   What's different about Murex's interactive shell?
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax
-* [Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
 
 <hr/>

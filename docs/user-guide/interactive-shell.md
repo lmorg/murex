@@ -273,7 +273,7 @@ give you as much useful detail as it can.
   Infixed constants that return ANSI escape sequences
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses

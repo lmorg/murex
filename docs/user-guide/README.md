@@ -55,8 +55,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [Spellcheck](../user-guide/spellcheck.md):
-  How to enable inline spellchecking
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -463,6 +461,8 @@ are only included by default on Windows.
   How to enable ChatGPT hints
 * [Man Pages](../integrations/man-pages.md):
   Linux/UNIX `man` page integrations
+* [Spellcheck](../integrations/spellcheck.md):
+  How to enable inline spellchecking
 
 ## API Reference
 

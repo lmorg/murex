@@ -18,6 +18,10 @@ Murex's base install.
 
 * [ChatGPT](../integrations/chatgpt.md):
   How to enable ChatGPT hints
+* [Man Pages](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
+* [Spellcheck](../integrations/spellcheck.md):
+  How to enable inline spellchecking
 
 ## See Also
 
@@ -27,7 +31,7 @@ Murex's base install.
   An introduction to Murex modules and packages
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
 
 <hr/>
