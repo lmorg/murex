@@ -39,3 +39,21 @@ func Profiles() []*defaults.DefaultProfileT {
 
 	return profiles
 }
+
+func Dump() any {
+	dump := make(map[string][]string)
+
+	for resName, res := range resources {
+
+		files, err := res.ReadDir(`.`)
+		if err != nil {
+			return nil // this shouldn't happen because we've already read this on start up
+		}
+
+		for _, f := range files {
+			dump[resName] = append(dump[resName], f.Name())
+		}
+	}
+
+	return dump
+}

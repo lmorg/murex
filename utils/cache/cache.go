@@ -11,24 +11,20 @@ import (
 	"github.com/lmorg/murex/debug"
 )
 
-func initCache(namespace string) {
-	if configCacheDisabled {
-		return
-	}
-
-	cache[namespace] = new(internalCacheT)
-	cache[namespace].cache = make(map[string]*cacheItemT)
-	disabled = false
-	createDb(namespace)
-}
-
 func read(namespace string, key string, ptr any) bool {
 	if ptr == nil {
 		return false
 	}
 
 	var b []byte
-	ok := cache[namespace].Read(key, unsafe.Pointer(&b))
+	ic, ok := cache[namespace]
+	if !ok {
+		//panic(fmt.Sprintf("invalid namespace: '%s'", namespace))
+		initNamespace(namespace)
+		ic = cache[namespace]
+	}
+
+	ok = ic.Read(key, unsafe.Pointer(&b))
 	if !ok {
 		return false
 	}
@@ -51,7 +47,7 @@ type dumpT struct {
 func Dump(ctx context.Context) (interface{}, error) {
 	dump := make(map[string]dumpT)
 
-	for namespace := range cache {
+	for _, namespace := range ListNamespaces() {
 		internal := cache[namespace].Dump(ctx)
 		cacheDb, err := listDb(ctx, namespace)
 		dump[namespace] = dumpT{internal, cacheDb}
@@ -78,20 +74,6 @@ func write(namespace string, key string, value any, ttl time.Time) {
 	}
 
 	cache[namespace].Write(key, &b, ttl)
-}
-
-func ListCaches() []string {
-	var (
-		ret = make([]string, len(cache))
-		i   int
-	)
-
-	for namespace := range cache {
-		ret[i] = namespace
-		i++
-	}
-
-	return ret
 }
 
 type trimmedT struct {

@@ -12,6 +12,7 @@ import (
 	// CLI functions:
 	_ "github.com/lmorg/murex/builtins/core/arraytools"   // tools for working with arrays and maps
 	_ "github.com/lmorg/murex/builtins/core/autocomplete" // autocompleter cli tools
+	_ "github.com/lmorg/murex/builtins/core/cache"        // management of Murex's cache
 	_ "github.com/lmorg/murex/builtins/core/config"       // config cli tools
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]

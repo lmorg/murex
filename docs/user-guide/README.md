@@ -279,6 +279,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [`murex-cache`](../commands/murex-cache.md):
+  Management interface for Murex's cache database
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`murex-package`](../commands/murex-package.md):

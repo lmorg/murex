@@ -3,6 +3,7 @@ package onpreview
 import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/cache"
 )
 
 var cacheTTL int
@@ -32,4 +33,8 @@ func cacheTtlWrite(v any) error {
 
 	cacheTTL = i.(int)
 	return nil
+}
+
+func cacheNamespace(key string) string {
+	return cache.PREVIEW_EVENT + ":" + key
 }

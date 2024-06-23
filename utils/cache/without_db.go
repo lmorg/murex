@@ -5,6 +5,7 @@ package cache
 
 import (
 	"context"
+	"sort"
 	"time"
 )
 
@@ -38,4 +39,22 @@ func clearDb(_ context.Context, _ string) ([]string, error) {
 
 func CloseDb() {
 	// do nothing
+}
+
+func DbPath() string  { return "" }
+func DbEnabled() bool { return false }
+
+func ListNamespaces() []string {
+	var (
+		ret = make([]string, len(cache))
+		i   int
+	)
+
+	for namespace := range cache {
+		ret[i] = namespace
+		i++
+	}
+
+	sort.Strings(ret)
+	return ret
 }

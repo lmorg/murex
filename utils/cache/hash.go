@@ -3,17 +3,16 @@ package cache
 import (
 	"crypto/sha256"
 	"encoding/base64"
-	"strings"
 )
 
-func CreateHash(exe string, args []string, block []rune) string {
-	argv := exe + " " + strings.Join(args, " ")
+func CreateHash(cmdLine string, block []rune) string {
 	code := []byte(string(block))
+	toHash := append([]byte(cmdLine), code...)
 
 	hash := sha256.New()
-	_, err := hash.Write(append([]byte(argv), code...))
+	_, err := hash.Write(toHash)
 	if err != nil {
-		return argv
+		return cmdLine
 	}
 
 	return base64.StdEncoding.EncodeToString(hash.Sum(nil))

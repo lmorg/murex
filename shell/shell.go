@@ -14,7 +14,6 @@ import (
 	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 	"github.com/lmorg/murex/builtins/pipes/term"
-	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -23,7 +22,6 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
-	globalcache "github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
@@ -61,8 +59,6 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 func Start() {
 	defer crash.Handler()
 
-	globalcache.SetPath(profile.ModulePath() + "cache.db")
-	globalcache.InitCache()
 	whatsnew.Display()
 
 	lang.ShellProcess.StartTime = time.Now()

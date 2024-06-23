@@ -57,6 +57,7 @@ func (evt *previewEvents) Add(name, interrupt string, block []rune, fileRef *ref
 	//evt.mutex.Lock()
 
 	key := events.CompileInterruptKey(interrupt, name)
+
 	event := previewEvent{
 		Key:     key,
 		Block:   block,
@@ -135,8 +136,8 @@ func (evt *previewEvents) callback(
 		if key.Interrupt == interrupt {
 			dur := time.After(2 * time.Second)
 
-			hash := cache.CreateHash(previewItem, []string{evt.events[i].Key, string(cmdLine)}, evt.events[i].Block)
-			if cache.Read(cache.PREVIEW_EVENT, hash, &b) {
+			hash := cache.CreateHash(string(cmdLine), evt.events[i].Block)
+			if cache.Read(cacheNamespace(evt.events[i].Key), hash, &b) {
 				goto callback
 			}
 
@@ -174,7 +175,7 @@ func (evt *previewEvents) callback(
 				continue
 			}
 
-			cache.Write(cache.PREVIEW_EVENT, hash, b, cache.Seconds(evtReturn.CacheTTL))
+			cache.Write(cacheNamespace(evt.events[i].Key), hash, b, cache.Seconds(evtReturn.CacheTTL))
 
 		callback:
 			lines, err := shell.PreviewParseAppendEvent(previousLines, b, size, key.Name)

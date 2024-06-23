@@ -13,7 +13,8 @@ func DynamicPreview(previewBlock string, exe string, params []string) readline.P
 	block := []rune(previewBlock)
 
 	return func(ctx context.Context, line []rune, item string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
-		hash := cache.CreateHash(exe, params, block)
+		hash := cache.CreateHash(string(line), block)
+
 		var b []byte
 
 		if !cache.Read(cache.PREVIEW_DYNAMIC, hash, &b) {

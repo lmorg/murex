@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	sqlClearRead   = `SELECT key FROM %s;`
-	sqlClearDelete = `DELETE FROM %s;`
+	sqlClearRead   = `SELECT key FROM '%s';`
+	sqlClearDelete = `DELETE FROM '%s';`
 )
 
 func Clear(ctx context.Context, namespace string) ([]string, error) {

@@ -77,33 +77,7 @@ List all the functions
 To get a list of every flag supported by `runtime`
 
 ```
-» runtime --help
-[
-    "--aliases",
-    "--config",
-    "--debug",
-    "--events",
-    "--fids",
-    "--flags",
-    "--functions",
-    "--help",
-    "--indexes",
-    "--marshallers",
-    "--memstats",
-    "--modules",
-    "--named-pipes",
-    "--open-agents",
-    "--pipes",
-    "--privates",
-    "--readarray",
-    "--readmap",
-    "--sources",
-    "--test-results",
-    "--tests",
-    "--unmarshallers",
-    "--variables",
-    "--writearray"
-]
+runtime --help
 ```
 
 Please also note that you can supply more than one flag. However when you
@@ -147,49 +121,63 @@ flag names. eg
 ## Flags
 
 * `--aliases`
-    Lists all aliases
+    Lists all [aliases](/docs/commands/alias.md)
 * `--autocomplete`
-    Lists all `autocomplete` schemas - both user defined and automatically generated one
+    Lists all `autocomplete` schemas - both [user defined](/docs/commands/autocomplete.md) and automatically generated ones
 * `--builtins`
     Lists all builtin commands, compiled into Murex
+* `--cache`
+    Returns a complete dump of everything in the local cache as well as cache DB (if compiled with persistent sqlite3 cache support)
+* `--cache-db-enabled`
+    Returns boolean value stating if the cache DB is enabled
+* `--cache-db-path`
+    Returns a string representation of the cache DB path (or a zero length string if cache DB support is not compiled)
+* `--cache-namespaces`
+    Lists namespaces in cache
+* `--clear-cache`
+    Clears all items from both the local cache and cache DB. Returns all items removed
 * `--config`
-    Lists all properties available to `config`
+    Lists all properties available to [`config`](/docs/commands/config.md)
 * `--debug`
-    Outputs the state of debug and inspect mode
+    Outputs the state of [debug mode](/docs/commands/debug.md)
 * `--event-types`
     Lists all builtin event types
 * `--events`
-    Lists all builtin event types and any defined events
+    Lists all builtin event types and any [defined events](/docs/commands/event.md)
 * `--exports`
-    Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables`
+    Outputs [environmental variables](/docs/commands/export.md)
 * `--fids`
     Lists all running processes / functions
 * `--functions`
-    Lists all Murex global functions
+    Lists all Murex [global functions](/docs/commands/function.md)
 * `--globals`
-    Lists all global variables
+    Lists all [global variables](/docs/commands/global.md)
+* `--go-gc`
+    Forces the Go runtime to run its garbage collection
 * `--help`
     Outputs a list of `runtimes`'s flags
 * `--indexes`
-    Lists all builtin data-types which are supported by index (`[`)
+    Lists all builtin data-types which are supported by [index](/docs/parser/item-index.md) (`[`)
+* `--integrations`
+    Lists all compiled [integrations](/docs/user-guide/integrations.md)
 * `--marshallers`
-    Lists all builtin data-types with marshallers (eg required for `format`)
+    Lists all builtin data-types with marshallers (eg required for [`format`](/docs/commands/format.md))
 * `--memstats`
     Outputs the running state of Go's runtime
 * `--methods`
     Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->`
 * `--modules`
-    Lists all installed modules
+    Lists all installed [modules](/docs/user-guide/modules.md)
 * `--named-pipes`
-    Lists all named pipes defined
+    Lists all [named pipes defined](/docs/commands/pipe.md)
 * `--not-indexes`
-    Lists all builtin data-types which are supported by index (`![`)
+    Lists all builtin data-types which are supported by [not-index](/docs/parser/item-index.md) (`![`)
 * `--open-agents`
-    Lists all registered `open` handlers 
+    Lists all registered [`open`](/docs/commands/open.md) handlers (defined with [`openagent`](/docs/commands/openagent.md))
 * `--pipes`
-    Lists builtin pipes compiled into Murex. These can be then be defined as named-pipes
+    Lists builtin pipes compiled into Murex. These can be then be defined as [named-pipes](/docs/user-guide/namedpipes.md)
 * `--privates`
-    Lists all Murex private functions
+    Lists all Murex [private functions](/docs/commands/private.md)
 * `--readarray`
     Lists all builtin data-types which support ReadArray()
 * `--readarraywithtype`
@@ -197,17 +185,19 @@ flag names. eg
 * `--readmap`
     Lists all builtin data-types which support ReadMap()
 * `--sources`
-    Lists all loaded murex sources
+    Lists all [loaded murex sources](/docs/user-guide/fileref.md)
 * `--summaries`
-    Outputs all the override summaries 
+    Outputs all the [override summaries](/docs/commands/summary.md)
 * `--test-results`
-    A dump of any unreported test results
+    A dump of any unreported [test](/docs/commands/test.md) results
 * `--tests`
-    Lists defined tests
+    Lists [defined tests](/docs/commands/test.md)
+* `--trim-cache`
+    Clears out-of-date items from both the local cache and cache DB. Returns all items removed
 * `--unmarshallers`
-    Lists all builtin data-types with unmarshallers (eg required for `format`)
+    Lists all builtin data-types with unmarshallers (eg required for [`format`](/docs/commands/format.md))
 * `--variables`
-    Lists all local Murex variables which doesn't include environmental nor global variables
+    Lists all [local variables](/docs/commands/set.md) (excludes [environmental](/docs/commands/export.md) and [global variables](/docs/commands/global.md))
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 
@@ -295,6 +285,8 @@ functions.
 
 ## See Also
 
+* [Integrations](../user-guide/integrations.md):
+  Default integrations shipped with Murex
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):

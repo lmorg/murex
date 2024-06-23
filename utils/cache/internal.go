@@ -23,14 +23,14 @@ type cacheItemT struct {
 	ttl   time.Time
 }
 
-func (lc *internalCacheT) Read(key string, ptr unsafe.Pointer) bool {
+func (ic *internalCacheT) Read(key string, ptr unsafe.Pointer) bool {
 	if disabled {
 		return false
 	}
 
-	lc.mutex.Lock()
-	v, ok := lc.cache[key]
-	lc.mutex.Unlock()
+	ic.mutex.Lock()
+	v, ok := ic.cache[key]
+	ic.mutex.Unlock()
 
 	if !ok {
 		return false
@@ -50,19 +50,23 @@ type internalDumpT struct {
 	TTL   string
 }
 
-func (lc *internalCacheT) Dump(ctx context.Context) interface{} {
+func (ic *internalCacheT) Dump(ctx context.Context) interface{} {
 	if disabled {
+		return nil
+	}
+
+	if ic == nil {
 		return nil
 	}
 
 	var s []internalDumpT
 
-	lc.mutex.Lock()
+	ic.mutex.Lock()
 
-	for key, item := range lc.cache {
+	for key, item := range ic.cache {
 		select {
 		case <-ctx.Done():
-			lc.mutex.Unlock()
+			ic.mutex.Unlock()
 			return nil
 
 		default:
@@ -76,71 +80,71 @@ func (lc *internalCacheT) Dump(ctx context.Context) interface{} {
 		}
 	}
 
-	lc.mutex.Unlock()
+	ic.mutex.Unlock()
 
 	return s
 }
 
-func (lc *internalCacheT) Write(key string, value *[]byte, ttl time.Time) {
+func (ic *internalCacheT) Write(key string, value *[]byte, ttl time.Time) {
 	if disabled {
 		return
 	}
 
-	lc.mutex.Lock()
-	lc.cache[key] = &cacheItemT{value, ttl}
-	lc.mutex.Unlock()
+	ic.mutex.Lock()
+	ic.cache[key] = &cacheItemT{value, ttl}
+	ic.mutex.Unlock()
 }
 
-func (lc *internalCacheT) Trim(ctx context.Context) []string {
+func (ic *internalCacheT) Trim(ctx context.Context) []string {
 	if disabled {
 		return nil
 	}
 
 	var s []string
 
-	lc.mutex.Lock()
+	ic.mutex.Lock()
 
-	for key, item := range lc.cache {
+	for key, item := range ic.cache {
 		select {
 		case <-ctx.Done():
-			lc.mutex.Unlock()
+			ic.mutex.Unlock()
 			return s
 
 		default:
 			if item.ttl.Before(time.Now()) {
-				delete(lc.cache, key)
+				delete(ic.cache, key)
 				s = append(s, key)
 			}
 		}
 	}
 
-	lc.mutex.Unlock()
+	ic.mutex.Unlock()
 
 	return s
 }
 
-func (lc *internalCacheT) Clear(ctx context.Context) []string {
+func (ic *internalCacheT) Clear(ctx context.Context) []string {
 	if disabled {
 		return nil
 	}
 
 	var s []string
 
-	lc.mutex.Lock()
+	ic.mutex.Lock()
 
-	for key := range lc.cache {
+	for key := range ic.cache {
 		select {
 		case <-ctx.Done():
-			lc.mutex.Unlock()
+			ic.mutex.Unlock()
 			return s
 
 		default:
-			delete(lc.cache, key)
+			delete(ic.cache, key)
 			s = append(s, key)
 		}
 	}
 
-	lc.mutex.Unlock()
+	ic.mutex.Unlock()
 
 	return s
 }
