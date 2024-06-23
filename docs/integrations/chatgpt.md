@@ -18,7 +18,7 @@ ChatGPT's response in the preview screen, by pressing `[f1]`.
 ## Enabling ChatGPT preview
 
 To enable, you must add your OpenAI key to your profile, which is typically
-`~/.murex_profile` (see [profile](profile.md) for more details):
+`~/.murex_profile` (see [profile](/docs/user-guide/profile.md) for more details):
 
 ```
 config set preview-exec-api xxxxx
@@ -118,15 +118,10 @@ runtime --clear-cache
 A successful ChatGPT response is cached for 50 days. You can clear that cache
 with `runtime --clear-cache`.
 
-## Show me the code
+## Source Code
 
-This feature is written in Murex's own scripting language, uses the `onPreview`
-event, and can be changed, modified or even removed completely from within
-Murex itself, eg
-
-```
-!event onPreview chatgpt
-```
+The source code is available on [Github](https://github.com/lmorg/murex/blob/master/integrations/chatgpt_any.mx)
+under `/integrations`.
 
 ## See Also
 
