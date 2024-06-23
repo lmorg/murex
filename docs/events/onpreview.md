@@ -82,10 +82,18 @@ The `$EVENT_RETURN` values available to `onPreview` are:
 
 ```
 {
+    "CacheCmdLine": false,
     "CacheTTL": 2592000,
-    "Display": true
+    "Display": true,
 }
 ```
+
+### $EVENT_RETURN.CacheCmdLine
+
+Should the cache be unique to the command or include the full command line? You
+would generally only want **CacheCmdLine** to be `true` if the generated
+preview is unique to the full command line (eg an AI generated page based on
+the full command line) vs only specific to the command name (eg a `man` page).
 
 ### $EVENT_RETURN.CacheTTL
 

@@ -101,7 +101,9 @@ event onPreview chatgpt=exec {
     config get openai preview-exec-prompt       -> set prompt
     config get openai preview-exec-api          -> set openai_api
     config get openai preview-exec-model        -> set model
-    config get openai preview-exec-send-cmdline -> set cmdline
+    config get openai preview-exec-send-cmdline -> set inc_cmdline
+
+    $EVENT_RETURN.CacheCmdLine = $inc_cmdline # cache mode, command name or full command line
 
     !if { $openai_api } then {
         out "This feature requires an OpenAI API key with write access to /v1/chat/completions. eg\n"
@@ -113,7 +115,7 @@ event onPreview chatgpt=exec {
 
     <stdin> -> set event
 
-    if { $cmdline } then {
+    if { $inc_cmdline } then {
         $context = "For context, my full command line is `$(event.Interrupt.CmdLine)`."
     } else {
         $context = ""

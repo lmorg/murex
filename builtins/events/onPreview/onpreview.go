@@ -136,7 +136,7 @@ func (evt *previewEvents) callback(
 		if key.Interrupt == interrupt {
 			dur := time.After(2 * time.Second)
 
-			hash := cache.CreateHash(string(cmdLine), evt.events[i].Block)
+			hash := cacheHashGet(evt.events[i].Key, previewItem, cmdLine, evt.events[i].Block)
 			if cache.Read(cacheNamespace(evt.events[i].Key), hash, &b) {
 				goto callback
 			}
@@ -175,6 +175,8 @@ func (evt *previewEvents) callback(
 				continue
 			}
 
+			cacheHashSet(evt.events[i].Key, evtReturn.CacheCmdLine)
+			hash = cacheHashGet(evt.events[i].Key, previewItem, cmdLine, evt.events[i].Block)
 			cache.Write(cacheNamespace(evt.events[i].Key), hash, b, cache.Seconds(evtReturn.CacheTTL))
 
 		callback:

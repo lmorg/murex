@@ -1,40 +1,23 @@
 package onpreview
 
-import (
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/cache"
-)
-
-var cacheTTL int
-
-func init() {
-	config.InitConf.Define("cache", "default-onPreview-TTL", config.Properties{
-		Description: "The delimiter for records in a CSV file.",
-		Default:     60 * 60 * 24 * 30, // 30 days
-		DataType:    types.Integer,
-		Global:      true,
-		GoFunc: config.GoFuncProperties{
-			Read:  cacheTtlRead,
-			Write: cacheTtlWrite,
-		},
-	})
-}
-
-func cacheTtlRead() (any, error) {
-	return cacheTTL, nil
-}
-
-func cacheTtlWrite(v any) error {
-	i, err := types.ConvertGoType(v, types.Integer)
-	if err != nil {
-		return err
-	}
-
-	cacheTTL = i.(int)
-	return nil
-}
+import "github.com/lmorg/murex/utils/cache"
 
 func cacheNamespace(key string) string {
 	return cache.PREVIEW_EVENT + ":" + key
+}
+
+func cacheHashGet(key string, item string, cmdLine []rune, block []rune) string {
+	var v bool
+
+	ok := cache.Read(cache.PREVIEW_EVENT, key, &v)
+
+	if ok && v { // cacheCmdLine == true
+		return cache.CreateHash(string(cmdLine), block)
+	}
+
+	return cache.CreateHash(item, block)
+}
+
+func cacheHashSet(key string, cacheCmdLine bool) {
+	cache.Write(cache.PREVIEW_EVENT, key, cacheCmdLine, cache.Days(365))
 }

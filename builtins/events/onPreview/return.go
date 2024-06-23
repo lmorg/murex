@@ -8,19 +8,22 @@ import (
 )
 
 const (
-	retCacheTTL = "CacheTTL"
-	retDisplay  = "Display"
+	retCacheCmdLine = "CacheCmdLine"
+	retCacheTTL     = "CacheTTL"
+	retDisplay      = "Display"
 )
 
 type eventReturn struct {
-	CacheTTL int
-	Display  bool
+	CacheCmdLine bool
+	CacheTTL     int
+	Display      bool
 }
 
 func createReturn() map[string]any {
 	return map[string]any{
-		retCacheTTL: 60 * 60 * 24 * 30, // 30 days
-		retDisplay:  true,
+		retCacheCmdLine: false,
+		retCacheTTL:     60 * 60 * 24 * 30, // 30 days
+		retDisplay:      true,
 	}
 }
 
@@ -39,6 +42,13 @@ func validateReturn(v any) (*eventReturn, error) {
 
 	for property, value := range m {
 		switch property {
+		case retCacheCmdLine:
+			incCmdLine, ok := value.(bool)
+			if !ok {
+				return errInvalidReturn(property, types.Boolean, value)
+			}
+			evtReturn.CacheCmdLine = incCmdLine
+
 		case retCacheTTL:
 			cacheTTL, ok := value.(int)
 			if !ok {
