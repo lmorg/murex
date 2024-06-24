@@ -1,12 +1,27 @@
-# `PWD` (path)
+# `EVENT_RETURN` (json)
 
-> Current working directory
+> Return values for events
 
 ## Description
 
-`PWD` is an environmental variable containing the current working directory.
+Some events support return parameters outside of your typical STDOUT and STDERR
+streams. `$EVENT_RETURN` allows you to modify those parameters.
 
-It is updated via `cd` however you can overwrite its value manually via `export`.
+## Examples
+
+```
+event onPreview example=exec {
+    -> set event
+    out "Preview event for $(event.Interrupt.PreviewItem)"
+    
+    $EVENT_RETURN.CacheTTL = 0 # don't cache this response.
+}
+```
+
+## Detail
+
+`$EVENT_RETURN` will support different values for different events. Please read
+the respective event document for details on using this variable.
 
 ## Other Reserved Variables
 
@@ -39,15 +54,15 @@ It is updated via `cd` however you can overwrite its value manually via `export`
 
 ## See Also
 
-* [`PWDHIST` (json)](../variables/pwdhist.md):
-  History of each change to the sessions working directory
-* [`cd`](../commands/cd.md):
-  Change (working) directory
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`path`](../types/path.md):
-  Structured object for working with file and directory paths
+* [`event`](../commands/event.md):
+  Event driven programming for shell scripts
+* [`json`](../types/json.md):
+  JavaScript Object Notation (JSON)
+* [`onKeyPress`](../events/onkeypress.md):
+  Custom definable key bindings and macros
+* [`onPreview`](../events/onpreview.md):
+  Full screen previews for files and command documentation
 
 <hr/>
 
-This document was generated from [gen/variables/PWD_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/PWD_doc.yaml).
+This document was generated from [gen/variables/EVENT_RETURN_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/EVENT_RETURN_doc.yaml).

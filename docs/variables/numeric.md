@@ -39,6 +39,8 @@ then variables `$1` through to `$19` (inclusive) will all be set.
   Array of the command name and parameters within a given scope
 * [`COLUMNS` (int)](../variables/columns.md):
   Character width of terminal
+* [`EVENT_RETURN` (json)](../variables/event_return.md):
+  Return values for events
 * [`HOSTNAME` (str)](../variables/hostname.md):
   Hostname of the current machine
 * [`MUREX_ARGV` (json)](../variables/murex_argv.md):

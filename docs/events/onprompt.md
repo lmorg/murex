@@ -50,15 +50,15 @@ This is the **namespaced** name -- ie the name and operation.
 
 This is the name you specified when defining the event.
 
-### Operation
+### Interrupt/Operation
 
 This is the interrupt you specified when defining the event.
 
 Valid interrupt operation values are specified below.
 
-### CmdLine
+### Interrupt/CmdLine
 
-This is the commandline executed, ie what you typed into the _readline_ prompt.
+This is the command line executed, ie what you typed into the _readline_ prompt.
 
 Please note this is only populated if the interrupt is **after**.
 

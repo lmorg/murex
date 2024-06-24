@@ -40,13 +40,12 @@
 
     This is the name you specified when defining the event.
 
-    ### Signal
+    ### Interrupt/Signal
 
     This is the signal you specified when defining the event.
 
     Valid interrupt operation values are specified below. All interrupts / signals
     are UPPERCASE strings.
-
   Examples: |-
     **Interrupt 'SIGINT':**
 

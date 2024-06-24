@@ -70,7 +70,7 @@ This is the **namespaced** name -- ie the name and operation.
 
 This is the name you specified when defining the event.
 
-### Signal
+### Interrupt/Signal
 
 This is the signal you specified when defining the event.
 

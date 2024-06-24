@@ -47,15 +47,17 @@ The following payload is passed to the function via STDIN:
 
 This is the name you specified when defining the event.
 
-### Command
+### Interrupt/Command
 
-Name of command executed prior to this event being triggered
+Name of command executed prior to this event being triggered.
 
-### Operation
+### Interrupt/Parameters
 
-The commandline parameters of the aforementioned command
+The command line parameters of the aforementioned command.
 
-### Stdout
+This will be an array of strings, like `@ARGV`.
+
+### Interrupt/Stdout
 
 This is the name of the Murex named pipe which contains a copy of the STDOUT
 from the command which executed prior to this event.
@@ -67,7 +69,7 @@ You can read this with `read-named-pipe`. eg
 » read-named-pipe: $event.Interrupt.Stdout -> ...
 ```
 
-### Stderr
+### Interrupt/Stderr
 
 This is the name of the Murex named pipe which contains a copy of the STDERR
 from the command which executed prior to this event.
@@ -79,7 +81,7 @@ You can read this with `read-named-pipe`. eg
 » read-named-pipe: $event.Interrupt.Stderr -> ...
 ```
 
-### ExitNum
+### Interrupt/ExitNum
 
 This is the exit number returned from the executed command.
 
@@ -119,6 +121,8 @@ Stdout and stderr are both written to the terminal's stderr.
   A detailed breakdown of named pipes in Murex
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
+* [`ARGV` (json)](../variables/argv.md):
+  Array of the command name and parameters within a given scope
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`config`](../commands/config.md):
