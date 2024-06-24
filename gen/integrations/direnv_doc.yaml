@@ -1,0 +1,25 @@
+- DocumentID: direnv
+  Title: >-
+    `direnv` Integrations
+  CategoryID: integrations
+  Summary: >-
+    Directory specific environmental variables
+  Description: |-
+    ## Description
+
+    From `direnv`'s [Github README](https://github.com/direnv/direnv):
+
+    > `direnv`` is an extension for your shell. It augments existing shells with a
+    > new feature that can load and unload environment variables depending on the
+    > current directory.
+
+    While this functionality isn't built into the core of Murex, `direnv` has
+    added their own hook to support Murex.
+    
+    More details can be found on their [hook.md](https://github.com/direnv/direnv/blob/master/docs/hook.md#murex)
+    document.
+  Synonyms:
+  Related:
+  - export
+  - profile
+

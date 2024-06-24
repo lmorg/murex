@@ -68,3 +68,6 @@ Preview mode is independent to input mode.
 * `Disabled`:     preview is not running
 * `Autocomplete`: regular preview mode
 * `CmdLine`:      command line preview
+
+More details about these modes can be found in the {{bookmark "Interactive Shell" "interactive-shell" "preview"}}
+document.

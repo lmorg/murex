@@ -23,7 +23,7 @@
   EventReturn: |-
     {{ include "gen/includes/event-return-summary.inc.md" }}
 
-    
+    {{ include "builtins/events/onKeyPress/onkeypress-event-return.inc.md" }}
   Flags:
   Examples: |-
     ### Arbitrary code execution

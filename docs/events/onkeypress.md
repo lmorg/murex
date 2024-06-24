@@ -93,12 +93,61 @@ Preview mode is independent to input mode.
 * `Autocomplete`: regular preview mode
 * `CmdLine`:      command line preview
 
+More details about these modes can be found in the [Interactive Shell](/docs/user-guide/interactive-shell.md#preview)
+document.
+
 ## Event Return
 
 `$EVENT_RETURN`, is a special variable that stores a writable structure to
 return back to the event caller.
 
 The `$EVENT_RETURN` values available for this event are:
+
+```
+{                                                                                                                 
+    "Actions": [],
+    "Continue": false,
+    "SetCursorPos": 0,
+    "SetHintText": "",
+    "SetLine": ""
+}
+```
+
+### $EVENT_RETURN.Actions
+
+This is an array of strings, each defining a hotkey function to execute after
+the event function has completed.
+
+You can supply multiple functions in the array.
+
+Supported values are:
+
+```
+builtins/events/onKeyPress/actions_generated.go
+```
+
+### $EVENT_RETURN.Continue
+
+This boolean value defines whether to execute other events for the same
+keypress after this one.
+
+On the surface of it, you might question why you'd wouldn't want multiple
+actions bound to the same keypress. However since _readline_ supports different
+operational modes, you might want different events bound to different states
+of _readline_. In which case you'd need to set `$EVENT_RETURN.Continue` to
+`true`.
+
+### $EVENT_RETURN.SetCursorPos
+
+This allows you to shift the text input cursor to an absolute location.
+
+### $EVENT_RETURN.SetHintText
+
+Forces a different message in the hint text.
+
+### $EVENT_RETURN.SetLine
+
+Change your input line in _readline_.
 
 ## Examples
 
