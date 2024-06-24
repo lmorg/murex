@@ -1,0 +1,107 @@
+- DocumentID: onsignalreceived
+  Title: >+
+    `onSignalReceived`
+  CategoryID: events
+  Summary: >-
+    Trap OS signals
+  Description: |-
+    `onSignalReceived` events are triggered by OS signals.
+
+    {{ include "builtins/events/onSignalReceived/signals.inc.md" }}
+
+    This event is designed to be used in shell scripts. While this event can be
+    used with the shell in interactive mode (ie from the REPL prompt), this might
+    result in unexpected behaviour. Thus it is only recommended to use
+    `onSignalReceived` for shell scripts.
+  Usage: |-
+    ```
+    event onSignalReceived name=SIGNAL { code block }
+
+    !event onSignalReceived [SIGNAL]name
+    ```
+  Payload: |-
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
+
+    ```
+    {
+        "Name": "",
+        "Interrupt": {
+            "Name": "",
+            "Signal": ""
+        }
+    }
+    ```
+
+    ### Name
+
+    This is the **namespaced** name -- ie the name and operation.
+
+    ### Interrupt/Name
+
+    This is the name you specified when defining the event.
+
+    ### Signal
+
+    This is the signal you specified when defining the event.
+
+    Valid interrupt operation values are specified below. All interrupts / signals
+    are UPPERCASE strings.
+
+  Examples: |-
+    **Interrupt 'SIGINT':**
+
+    ```
+    event onSignalReceived example=SIGINT {
+        out "SIGINT received, not quitting"
+    }
+    ```
+
+  Flags:
+    SIGHUP: >-
+      **"Signal hangup"** -- triggered when a controlling terminal is closed (eg the terminal emulator closed)
+    SIGINT: >-
+      **"Signal interrupt"** -- triggered when a user interrupts a process, typically via `ctrl`+`c`
+    SIGQUIT: >-
+      **"Signal quit"** -- when the user requests that the process quits and performs a core dump
+    SIGTERM: >-
+      **"Signal terminate"** -- triggered by a request for a processes termination. Similar to `SIGINT`
+    SIGWINCH: >-
+      **"Signal window change"** -- triggered when the TTY (eg terminal emulator) is resized
+    SIGUSR1: >-
+      **"Signal user 1"** -- user defined
+    SIGUSR2: >-
+      **"Signal user 2"** -- user defined
+
+  Detail: |-
+    {{ include "builtins/events/onSignalReceived/signal_detail.inc.md" }}
+
+    ### Stdout
+
+    Stdout and stderr are both written to the terminal.
+  
+    ### Order of execution
+
+    Interrupts are run in alphabetical order. So an event named "alfa" would run
+    before an event named "zulu". If you are writing multiple events and the order
+    of execution matters, then you can prefix the names with a number, eg `10_jump`
+
+    ### Namespacing
+
+    The `onSignalReceived` event differs a little from other events when it comes
+    to the namespacing of interrupts. Typically you cannot have multiple interrupts
+    with the same name for an event. However with `onPrompt` their names are
+    further namespaced by the interrupt name. In layman's terms this means
+    `example=SIGINT` wouldn't overwrite `example=SIGQUIT`.
+    
+    The reason for this namespacing is because, unlike other events, you might
+    legitimately want the same name for different interrupts.
+  Synonyms:
+  - onsignalreceived
+  - onSignalReceived
+  Related:
+  - onprompt
+  - oncommandcompletion
+  - terminal-keys
+  - interactive-shell
+  - event
+  - signal

@@ -78,8 +78,8 @@ func (rl *Instance) _getInputMode() string {
 
 const (
 	EventModePreviewOff     = "Disabled"
-	EventModePreviewItem    = "Item"
-	EventModePreviewLine    = "Line"
+	EventModePreviewItem    = "Autocomplete"
+	EventModePreviewLine    = "CmdLine"
 	EventModePreviewUnknown = "Unknown"
 )
 

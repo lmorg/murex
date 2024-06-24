@@ -71,7 +71,7 @@ keystrokes differently.
 
 This field is a string and the following constants are supported:
 
-*	`Normal`:         regular input
+* `Normal`:         regular input
 * `VimKeys`:        where input behaves like `vim`
 * `VimReplaceOnce`: `vim` mode, but next keystroke might normally overwrite
                     current character
@@ -87,7 +87,11 @@ document.
 
 ### Interrupt/PreviewMode
 
-TODO
+Preview mode is independent to input mode.
+
+* `Disabled`:     preview is not running
+* `Autocomplete`: regular preview mode
+* `CmdLine`:      command line preview
 
 ## Event Return
 
@@ -96,20 +100,6 @@ return back to the event caller.
 
 The `$EVENT_RETURN` values available for this event are:
 
-```
-{                                                                                                                                                                                                                                             
-    "Actions": [],                                                                                                                                                                                                                             
-    "Continue": false,                                                                                                                                                                                                                         
-    "SetCursorPos": 0,                                                                                                                                                                                                                         
-    "SetHintText": "",                                                                                                                                                                                                                         
-    "SetLine": ""                                                                                                                                                                                                                              
-} 
-```
-
-### $EVENT_RETURN.Actions
-
-TODO
-
 ## Examples
 
 ### Arbitrary code execution
@@ -117,8 +107,33 @@ TODO
 The following example will output "Ouch!" when you press `{f3}`:
 
 ```
-event onKeyPress example={F3} {
+event onKeyPress poke={F3} {
     out "Ouch!"
+}
+```
+
+### Actions
+
+The following code will perform two undo's:
+
+```
+event onKeyPress double-undo={F4} {
+    $EVENT_RETURN.Actions = %[
+        Undo
+        Undo
+    ]
+}
+```
+
+### Readline Modes
+
+The following code will output the operations modes of _readline_ to the
+hint text:
+
+```
+event onKeyPress status={F5} {
+    -> set event
+    $EVENT_RETURN.SetHintText = "Readline input mode is $event.Interrupt.InputMode and preview mode is $event.Interrupt.PreviewMode"
 }
 ```
 
