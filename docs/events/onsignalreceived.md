@@ -162,4 +162,4 @@ legitimately want the same name for different interrupts.
 
 <hr/>
 
-This document was generated from [builtins/events/onSignalReceived/signaltrap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/signaltrap_doc.yaml).
+This document was generated from [builtins/events/onSignalReceived/onSignalReceived_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/onSignalReceived_doc.yaml).

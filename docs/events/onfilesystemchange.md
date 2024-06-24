@@ -38,11 +38,11 @@ The following payload is passed to the function via STDIN:
 
 This is the name you specified when defining the event
 
-### Path
+### Interrupt/Path
 
 The path of the file that has triggered the event
 
-### Operation
+### Interrupt/Operation
 
 This is the filesystem operation that triggered the event. The following
 strings could be present in the **Operation** field:

@@ -1,6 +1,6 @@
 - DocumentID: yarn
   Title: >-
-    `yarn` integrations
+    `yarn` Integrations
   CategoryID: integrations
   Summary: >-
     Working with `yarn` and `package.json`

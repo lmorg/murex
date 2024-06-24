@@ -134,7 +134,7 @@ from different interrupts).
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onKeyPress`](../events/onkeypress.md):
-  TODO
+  Custom definable key bindings and macros
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 

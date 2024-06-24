@@ -62,7 +62,7 @@ event onKeyPress close=$key {
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`onKeyPress`](../events/onkeypress.md):
-  TODO
+  Custom definable key bindings and macros
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 

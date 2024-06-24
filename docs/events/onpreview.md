@@ -75,10 +75,10 @@ width due to borders surrounding the preview pane.
 
 ## Event Return
 
-Event return, `$EVENT_RETURN`, is a special variable that stores a writable
-structure to return back to the event caller.
+`$EVENT_RETURN`, is a special variable that stores a writable structure to
+return back to the event caller.
 
-The `$EVENT_RETURN` values available to `onPreview` are:
+The `$EVENT_RETURN` values available for this event are:
 
 ```
 {
@@ -175,7 +175,7 @@ from different interrupts).
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onKeyPress`](../events/onkeypress.md):
-  TODO
+  Custom definable key bindings and macros
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 

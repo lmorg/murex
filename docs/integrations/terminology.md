@@ -1,4 +1,4 @@
-# Terminology integrations
+# Terminology Integrations
 
 > Get more out of Terminology terminal emulator
 
@@ -21,13 +21,13 @@ beautifully.
 
 ## See Also
 
-* [Kitty integrations](../integrations/kitty.md):
+* [Kitty Integrations](../integrations/kitty.md):
   Get more out of Kitty terminal emulator
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`openagent`](../commands/openagent.md):
   Creates a handler function for `open`
-* [iTerm2 integrations](../integrations/iterm2.md):
+* [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator
 
 ## Other Integrations
@@ -36,19 +36,19 @@ beautifully.
   How to enable ChatGPT hints
 * [Cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
-* [Kitty integrations](../integrations/kitty.md):
+* [Kitty Integrations](../integrations/kitty.md):
   Get more out of Kitty terminal emulator
-* [Man Pages](../integrations/man-pages.md):
+* [Makefiles / `make`](../integrations/make.md):
+  `make` integrations
+* [Man Pages (POSIX)](../integrations/man-pages.md):
   Linux/UNIX `man` page integrations
 * [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
-* [Terminology integrations](../integrations/terminology.md):
+* [Terminology Integrations](../integrations/terminology.md):
   Get more out of Terminology terminal emulator
-* [`make` files](../integrations/make.md):
-  `make` integrations
-* [`yarn` integrations](../integrations/yarn.md):
+* [`yarn` Integrations](../integrations/yarn.md):
   Working with `yarn` and `package.json`
-* [iTerm2 integrations](../integrations/iterm2.md):
+* [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator
 
 

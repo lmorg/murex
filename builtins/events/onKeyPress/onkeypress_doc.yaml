@@ -3,15 +3,115 @@
     `onKeyPress`
   CategoryID: events
   Summary: >-
-    TODO
+    Custom definable key bindings and macros
   Description: |-
-    TODO
+    While Murex aims to have compatibility with common keyboard shortcuts favoured
+    in other shells, there is still a need for to define your own preferences.
+
+    `onKeyPress` enables you to write custom key bindings and macros in Murex using
+    Murex's scripting language.    
   Usage: |-
-    TODO
+    ```
+    event onKeyPress name=keystroke { code block }
+
+    !event onKeyPress name[.keystroke]
+    ```
   Payload: |-
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
+
+    ```
+    {
+        "Name": "",
+        "Interrupt": {
+            "Line": "",
+            "CursorPos": 0,
+            "KeyPress": "",
+            "IsMasked": false,
+            "InputMode": "",
+            "PreviewMode": ""
+        }
+    }
+    ```
+
+    ### Name
+
+    This is the **namespaced** name -- ie the name and operation.
+
+    ### Interrupt/Name
+
+    This is the name you specified when defining the event.
+
+    ### Interrupt/Line
+
+    The current line as it appears in _readline_.
+
+    ### Interrupt/CursorPos
+
+    Where the text input cursor is sat on the line
+
+    ### Interrupt/KeyPress
+
+    The key which was pressed.
+
+    If the key stroke is represented by an ANSI escape sequence, then this field
+    will be multiple multiple characters long.
+
+    ### Interrupt/IsMasked
+
+    This will be `true` if you have a password / input mask (eg `*`). Otherwise it
+    will be `false`.
+
+    ### Interrupt/InputMode
+
+    This is the input mode of _readline_. Different input modes will utilise
+    keystrokes differently.
+
+    This field is a string and the following constants are supported:
+
+    *	`Normal`:         regular input
+    * `VimKeys`:        where input behaves like `vim`
+    * `VimReplaceOnce`: `vim` mode, but next keystroke might normally overwrite
+                        current character
+    * `VimReplaceMany`: `vim` mode, but where every keystroke overwrites characters
+                        rather than inserts
+    * `VimDelete`:      `vim` mode, but where characters are deleted
+    * `Autocomplete`:   the autocomplete menu is shown
+    * `FuzzyFind`:      the autocomplete menu is shown with the Fuzzy Find input
+                        enabled
+
+    More details about these modes can be found in the {{link "Terminal Hotkeys" "terminal-keys"}}
+    document.
+
+    ### Interrupt/PreviewMode
+
+    TODO
+  EventReturn: |-
+    {{ include "gen/includes/event-return-summary.inc.md" }}
+
+    ```
+    {                                                                                                                                                                                                                                             
+        "Actions": [],                                                                                                                                                                                                                             
+        "Continue": false,                                                                                                                                                                                                                         
+        "SetCursorPos": 0,                                                                                                                                                                                                                         
+        "SetHintText": "",                                                                                                                                                                                                                         
+        "SetLine": ""                                                                                                                                                                                                                              
+    } 
+    ```
+
+    ### $EVENT_RETURN.Actions
+
     TODO
   Flags:
-  Examples:
+  Examples: |-
+    ### Arbitrary code execution
+
+    The following example will output "Ouch!" when you press `{f3}`:
+
+    ```
+    event onKeyPress example={F3} {
+        out "Ouch!"
+    }
+    ```
   Detail: |-
     ### Standard out and error
 

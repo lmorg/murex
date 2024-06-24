@@ -3,7 +3,7 @@
 * [`onFileSystemChange`](../events/onfilesystemchange.md):
   Add a filesystem watch
 * [`onKeyPress`](../events/onkeypress.md):
-  TODO
+  Custom definable key bindings and macros
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):

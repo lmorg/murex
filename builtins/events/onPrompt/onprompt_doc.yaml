@@ -15,7 +15,7 @@
     !event onPrompt name[.before|.after|.abort|.eof]
     ```
   Payload: |-
-    The following payload is passed to the function via STDIN:
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
 
     ```
     {

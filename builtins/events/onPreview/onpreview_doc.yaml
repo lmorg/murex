@@ -18,7 +18,7 @@
     !event onPreview name[.function|.builtin|.exec]
     ```
   Payload: |-
-    The following payload is passed to the function via STDIN:
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
 
     ```
     {
@@ -61,10 +61,7 @@
     Width of the preview pane. Please note that this will differ from the terminal
     width due to borders surrounding the preview pane.
   EventReturn: |-
-    Event return, `$EVENT_RETURN`, is a special variable that stores a writable
-    structure to return back to the event caller.
-
-    The `$EVENT_RETURN` values available to `onPreview` are:
+    {{ include "gen/includes/event-return-summary.inc.md" }}
 
     ```
     {

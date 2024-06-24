@@ -1,6 +1,6 @@
 - DocumentID: man-pages
   Title: >-
-    Man Pages
+    Man Pages (POSIX)
   CategoryID: integrations
   Summary: >-
     Linux/UNIX `man` page integrations
@@ -45,7 +45,7 @@
   Synonyms:
   Related:
   - chatgpt
-  - cheatsheet
+  - cheat.sh
   - event
   - terminal-keys
   - murex-docs
