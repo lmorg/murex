@@ -16,14 +16,6 @@ config set shell prompt-multiline {
     printf "%${$len}s » " $linenum
 }
 
-/#if { which less } then {
-    function murex-docs {
-        # Wrapper around builtin to pipe to less
-        config set proc strict-arrays false
-        fexec builtin murex-docs @PARAMS | less
-    }
-}#/
-
 config eval shell safe-commands {
     -> alter --merge / ([
         "cat", "ps", "grep", "egrep", "ls", "head", "tail", "printf", "awk", "sed", "tr", "cut"

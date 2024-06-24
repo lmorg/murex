@@ -1,0 +1,31 @@
+- DocumentID: terminology
+  Title: >-
+    Terminology integrations
+  CategoryID: integrations
+  Summary: >-
+    Get more out of Terminology terminal emulator
+  Description: |-
+    ## Description
+
+    Terminology it a cross platform terminal emulator. It supports several ANSI
+    escape codes that are bespoke to Terminology.
+
+    Murex can detect if it is running on Terminology and utilise those exclusive
+    ANSI escape codes, so you don't have to remember different ways of working with
+    different terminal emulators.
+
+    ## Opening Images
+
+    Using {{link "`open`" "open"}}, you can render an image directly in the
+    terminal. Normally that would be a blocky "pixellated" representation using
+    block characters. But if you're running Terminology, Murex will automatically
+    switch to Terminology's ANSI escape sequences to render those images
+    beautifully.
+  Synonyms:
+  Related:
+  - open
+  - openagent
+  - kitty
+  - iterm2
+
+

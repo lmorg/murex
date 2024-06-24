@@ -1,0 +1,30 @@
+- DocumentID: iterm2
+  Title: >-
+    iTerm2 integrations
+  CategoryID: integrations
+  Summary: >-
+    Get more out of iTerm2 terminal emulator
+  Description: |-
+    ## Description
+
+    iTerm2 it a macOS terminal emulator. It supports several ANSI escape codes that
+    are bespoke to iTerm2.
+
+    Murex can detect if it is running on iTerm2 and utilise those exclusive ANSI
+    escape codes, so you don't have to remember different ways of working with
+    different terminal emulators.
+
+    ## Opening Images
+
+    Using {{link "`open`" "open"}}, you can render an image directly in the
+    terminal. Normally that would be a blocky "pixellated" representation using
+    block characters. But if you're running iTerm2, Murex will automatically switch
+    to iTerm2's ANSI escape sequences to render those images beautifully.
+  Synonyms:
+  Related:
+  - open
+  - openagent
+  - kitty
+  - terminology
+
+

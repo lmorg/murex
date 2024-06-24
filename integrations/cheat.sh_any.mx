@@ -2,14 +2,14 @@ if { runtime --event-types -> match onPreview } else {
     return
 }
 
-config define cheatsheet enabled %{
+config define cheat.sh enabled %{
     Description: "Enable onPreview events to return a cheatsheet from https://cheat.sh"
     DataType:    bool
     Default:     false
 }
 
 event onPreview cheat-sh=exec {
-    !if { config get cheatsheet enabled } then {
+    !if { config get cheat.sh enabled } then {
         $EVENT_RETURN.Display = false
         return
     }

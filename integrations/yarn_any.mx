@@ -39,11 +39,11 @@ autocomplete: <!null> set yarn ({[
         "FlagValues": {
             ${
                 trypipe <!null> {
-                    yarn help -> @[Commands..Run]re -> [:1] -> foreach MOD.cmd {
-                        out ("$MOD.cmd":
+                    yarn help -> @[Commands..Run]re -> [:1] -> foreach MOD_cmd {
+                        out ("$MOD_cmd":
                             [{
                                 "DynamicDesc": ({ 
-                                    yarn help $MOD.cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                    yarn help $MOD_cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
                                 }),
                                 "AllowMultiple": true,
                                 "AllowNoFlagValue": true,

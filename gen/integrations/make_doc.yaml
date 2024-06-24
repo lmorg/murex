@@ -1,0 +1,36 @@
+- DocumentID: make
+  Title: >-
+    `make` files
+  CategoryID: integrations
+  Summary: >-
+    `make` integrations
+  Description: |-
+    ## Description
+
+    `Makefiles` can sometimes be hard to grok. So Murex provides out-of-the-box
+    support to make working with `make` a little easier.
+
+    ## Autocompletions
+
+    Custom {{link "autocomplete" "autocomplete"}} rules exist for `make` which will
+    not only include any `make` specific flags, but also include any parameters
+    defined in your `Makefile` too.
+
+    ## Preview
+
+    If you press `[f1]` with your command as `make`, and you have a `Makefile` in
+    your current working directory, then you will be presented with a preview of
+    your `Makefile`.
+    
+    ## Source Code
+   
+    The source code is available on [Github](https://github.com/lmorg/murex/blob/master/integrations/make_posix.mx)
+    under `/integrations`.
+  Synonyms:
+  - make
+  - Makefile
+  Related:
+  - autocomplete
+  - onpreview
+  - terminal-keys
+
