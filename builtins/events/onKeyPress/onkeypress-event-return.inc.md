@@ -18,7 +18,7 @@ You can supply multiple functions in the array.
 Supported values are:
 
 ```
-{{ include "builtins/events/onKeyPress/actions_generated.go" }}
+{{ file "builtins/events/onKeyPress/actions_generated.go" }}
 ```
 
 ### $EVENT_RETURN.Continue

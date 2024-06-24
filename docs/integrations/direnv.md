@@ -6,7 +6,7 @@
 
 From `direnv`'s [Github README](https://github.com/direnv/direnv):
 
-> `direnv`` is an extension for your shell. It augments existing shells with a
+> `direnv` is an extension for your shell. It augments existing shells with a
 > new feature that can load and unload environment variables depending on the
 > current directory.
 
@@ -39,6 +39,8 @@ document.
   How to enable inline spellchecking
 * [Terminology Integrations](../integrations/terminology.md):
   Get more out of Terminology terminal emulator
+* [`direnv` Integrations](../integrations/direnv.md):
+  Directory specific environmental variables
 * [`yarn` Integrations](../integrations/yarn.md):
   Working with `yarn` and `package.json`
 * [iTerm2 Integrations](../integrations/iterm2.md):
