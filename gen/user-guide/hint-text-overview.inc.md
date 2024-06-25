@@ -6,5 +6,6 @@ to be used if you want it while keeping out of the way when you don't want it.
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<img src="/screenshot-hint-text-egrep.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 {{ end }}
