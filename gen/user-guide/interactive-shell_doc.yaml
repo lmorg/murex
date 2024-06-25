@@ -22,5 +22,6 @@
   - pipe-posix
   - curly-brace
   - terminal-keys
+  - hint-text
 
 

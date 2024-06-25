@@ -35,6 +35,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
+* [Hint Text](../user-guide/hint-text.md):
+  A status bar for your shell
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
 * [Interactive Shell](../user-guide/interactive-shell.md):
