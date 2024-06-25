@@ -129,7 +129,7 @@ for more details.
 
 ## Hint Text
 
-{{ include "gen/user-guide/hint-text-overview.inc.md" }}
+{{ file "gen/user-guide/hint-text-overview.inc.md" }}
 
 {{link "Read more about Hint Text" "hint-text"}}.
 
@@ -149,8 +149,8 @@ command, without you having to run that command nor leave the half-completed
 command line.
 
 It can display:
-* `man` pages
-* custom guides like https://cheat.sh
+* {{link "`man` pages" "man-pages"}}
+* custom guides like {{link "https://cheat.sh" "cheat.sh"}} and {{link "AI generated docs" "chatgpt"}}
 * information about binary files
 * contents of text files
 * and even images too!

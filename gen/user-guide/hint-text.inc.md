@@ -14,7 +14,7 @@
 
 ## Overview
 
-{{ include "gen/user-guide/hint-text-overview.inc.md" }}
+{{ file "gen/user-guide/hint-text-overview.inc.md" }}
 
 ## Configuring Hint Text Colour
 

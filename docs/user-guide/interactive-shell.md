@@ -120,7 +120,13 @@ for more details.
 
 ## Hint Text
 
-gen/user-guide/hint-text-overview.inc.md
+The **hint text** is a (typically) blue status line that appears directly below
+your prompt. The idea behind the **hint text** is to provide clues to you as
+type instructions into the prompt; but without adding distractions. It is there
+to be used if you want it while keeping out of the way when you don't want it.
+
+
+
 
 [Read more about Hint Text](/docs/user-guide/hint-text.md).
 
@@ -140,8 +146,8 @@ command, without you having to run that command nor leave the half-completed
 command line.
 
 It can display:
-* `man` pages
-* custom guides like https://cheat.sh
+* [`man` pages](/docs/integrations/man-pages.md)
+* custom guides like [https://cheat.sh](/docs/integrations/cheatsh.md) and [AI generated docs](/docs/integrations/chatgpt.md)
 * information about binary files
 * contents of text files
 * and even images too!
@@ -223,6 +229,8 @@ give you as much useful detail as it can.
   Query or define Murex runtime settings
 * [`method`](../commands/method.md):
   Define a methods supported data-types
+* [`onPreview`](../events/onpreview.md):
+  Full screen previews for files and command documentation
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 * [`{ Curly Brace }`](../parser/curly-brace.md):
