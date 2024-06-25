@@ -33,5 +33,6 @@ var fnLookup = map[string]func(*readline.Instance){
 	"RecallWord7":             readline.HkFnRecallWord7,
 	"RecallWord8":             readline.HkFnRecallWord8,
 	"RecallWord9":             readline.HkFnRecallWord9,
+	"RecallWordLast":          readline.HkFnRecallWordLast,
 	"Undo":                    readline.HkFnUndo,
 }
