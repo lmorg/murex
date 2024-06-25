@@ -7,11 +7,11 @@ to be used if you want it while keeping out of the way when you don't want it.
 <!-- markdownlint-disable -->
 <figure>
     <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>`rsync` flag, with example, pulled from `man` pages ({{link "read more" "man-pages"}})</figcaption>
+    <figcaption><code>rsync</code> flag, with example, pulled from <code>man</code> pages</figcaption>
 </figure>
 <figure>
     <img src="/screenshot-hint-text-egrep.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>`egrep` is an {{link "alias" "alias"}} so also show the destination command</figcaption>
+    <figcaption><code>egrep</code> is an alias, so also show the destination command</figcaption>
 </figure>    
 <!-- markdownlint-restore -->
 {{ end }}

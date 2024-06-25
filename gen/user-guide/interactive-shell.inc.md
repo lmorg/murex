@@ -157,9 +157,14 @@ It can display:
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-<br/>
-<img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Previewing a command flag, from the commands <code>man</code> page</figcaption>
+</figure>
+<figure>
+    <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Previewing a file. In this specific instance it is an image</figcaption>
+</figure>
 <!-- markdownlint-restore -->
 {{ end }}
 
