@@ -19,6 +19,8 @@ block characters. But if you're running Terminology, Murex will automatically
 switch to Terminology's ANSI escape sequences to render those images
 beautifully.
 
+![opening an image in Kitty](https://nojs.murex/rocks/images/screenshot-terminology-open.png)
+
 ## See Also
 
 * [Kitty Integrations](../integrations/kitty.md):

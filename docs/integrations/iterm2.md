@@ -18,6 +18,12 @@ terminal. Normally that would be a blocky "pixellated" representation using
 block characters. But if you're running iTerm2, Murex will automatically switch
 to iTerm2's ANSI escape sequences to render those images beautifully.
 
+For example:
+
+```
+open https://murex.rocks/git-autocomplete.png
+```
+
 ## See Also
 
 * [Kitty Integrations](../integrations/kitty.md):

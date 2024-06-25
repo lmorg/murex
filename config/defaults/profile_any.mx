@@ -688,21 +688,21 @@ openagent set image {
 
     if { $mode == "auto" } {
         switch {
-            case { $TMUX }                        { mode = compatible }
-            case { $MXTTY }                       { mode = mxtty }     
-            case { $ITERM_PROFILE }               { mode = iterm }
-            case { $TERM_PROGRAM == "iTerm.app" } { mode = iterm }
-            case { $KITTY_WINDOW_ID }             { mode = kitty }
-            case { $TERM == "xterm-kitty" }       { mode = kitty }
-            case { $TERMINOLOGY }                 { mode = terminology }
-            catch                                 { mode = compatible }
+            case { $TMUX }                        { $mode = "compatible" }
+            case { $MXTTY }                       { $mode = "mxtty" }     
+            case { $ITERM_PROFILE }               { $mode = "iterm" }
+            case { $TERM_PROGRAM == "iTerm.app" } { $mode = "iterm" }
+            case { $KITTY_WINDOW_ID }             { $mode = "kitty" }
+            case { $TERM == "xterm-kitty" }       { $mode = "kitty" }
+            case { $TERMINOLOGY }                 { $mode = "terminology" }
+            catch                                 { $mode = "compatible" }
         }
     }
 
     # If Kitty but running inside a screen / tmux session, fallback to compatible.
     # We do this because tmux doesn't support reporting screen sizes via the TIOCGWINSZ ioctl.
     if { $mode == "kitty" && $TERM == "screen" } {
-        set mode=compatible
+        $mode = "compatible"
     }
 
     switch $mode {

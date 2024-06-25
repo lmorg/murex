@@ -5,7 +5,13 @@ to be used if you want it while keeping out of the way when you don't want it.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-<img src="/screenshot-hint-text-egrep.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>`rsync` flag, with example, pulled from `man` pages ({{link "read more" "man-pages"}})</figcaption>
+</figure>
+<figure>
+    <img src="/screenshot-hint-text-egrep.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>`egrep` is an {{link "alias" "alias"}} so also show the destination command</figcaption>
+</figure>    
 <!-- markdownlint-restore -->
 {{ end }}
