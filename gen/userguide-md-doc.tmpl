@@ -10,7 +10,7 @@
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
-{{ md (include .Description) }}{{ if .Related }}
+{{ md (fn (include .Description)) }}{{ if .Related }}
 
 ## See Also
 
