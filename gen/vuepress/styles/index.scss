@@ -53,16 +53,33 @@ h4 {
     font-family: 'Jura', sans-serif;
 }
 
+figure{
+    margin-left: 0px;
+    margin-right: 0px;
+    
+}
+
 figcaption {
-    font-size: 12px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    color: #606060;
+    font-size:12px;
+    padding-top:5px;
+    padding-bottom:5px;
+    color:#606060;
+    text-align: center;
+}
+
+figcaption code {
+    background: inherit !important;
+    color: #909090;
+    padding: 2px;
+}
+
+[data-theme=light] figcaption code {
+    color: #202020;
 }
 
 .centre-image {
     max-width: 100%;
-    max-height: 450px;
+    max-height: 600px;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -106,10 +123,7 @@ blockquote {
         border-color: #0f600f;
     }
 
-    figure {
-        margin-left: 0px;
-        margin-right: 0px;
-    }
+
 
     // vuepress tabbed code
 
