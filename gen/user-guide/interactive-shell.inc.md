@@ -91,7 +91,10 @@ method define jq {
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <br/>
-<img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Context aware data-types without reinventing coreutils</figcaption>
+</figure>
 <!-- markdownlint-restore -->
 {{ end }}
 
@@ -123,7 +126,10 @@ for more details.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Inline spellchecking</figcaption>
+</figure>
 <!-- markdownlint-restore -->
 {{ end }}
 
@@ -179,7 +185,10 @@ complex documents like machine generated JSON becomes very easy.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Command line preview allows a faster way to iterate over a command line logic</figcaption>
+</figure>
 <!-- markdownlint-restore -->
 {{ end }}
 
@@ -218,7 +227,10 @@ about to execute.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Murex presets a menu to double check what you're pasting before the shell executes it</figcaption>
+</figure>
 <!-- markdownlint-restore -->
 {{ end }}
 
@@ -232,6 +244,10 @@ give you as much useful detail as it can.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<figure>
+    <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+    <figcaption>Meaningful error messages</figcaption>
+</figure>
+
 <!-- markdownlint-restore -->
 {{ end }}
