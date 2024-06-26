@@ -4,6 +4,8 @@ icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex.Rocks
 tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
+head:
+  - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
 actions:
   - text: "🛟 Language Tour"
     link: tour/

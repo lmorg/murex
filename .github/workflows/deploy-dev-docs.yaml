@@ -75,17 +75,6 @@ jobs:
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
 
-      #- name: Download fontawesome
-      #  env:
-      #    FONT_VERSION: "6.5.1"
-      #    FONT_PATH: "gen/vuepress/public"
-      #    # docs/.vuepress/dist
-      #  run: |-
-      #    wget https://use.fontawesome.com/releases/v${FONT_VERSION}/fontawesome-free-${FONT_VERSION}-web.zip -O ${FONT_PATH}/fontawesome.zip
-      #    unzip ${FONT_PATH}/fontawesome.zip -d ${FONT_PATH}
-      #    mv ${FONT_PATH}/fontawesome-free-${FONT_VERSION}-web ${FONT_PATH}/fontawesome
-      #    rm ${FONT_PATH}/fontawesome.zip
-
       - name: Deploy Docs
         env:
           AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
