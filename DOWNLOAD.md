@@ -125,8 +125,8 @@ For example, in Bash, Zsh and similar shells, you can copy/paste the following
 to run on any Linux or UNIX-like OS from sh/bash/zsh. 
 
 ```sh
-MUREX_BUILD="murex-linux-amd64.gz"
-wget "https://nojs.murex.rocks/bin/latest/${MUREX_GZIP}.gz"
+MUREX_BUILD="murex-linux-amd64"
+wget "https://nojs.murex.rocks/bin/latest/${MUREX_BUILD}.gz"
 gunzip "${MUREX_BUILD}.gz"
 chmod +x "$MUREX_BUILD"
 ```
