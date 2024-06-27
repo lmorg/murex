@@ -78,9 +78,9 @@ jobs:
 
       - name: Uppercase Key Docs
         run: |-
-          cp docs/.vuepress/dist/.nojekyll/install.html cp docs/.vuepress/dist/.nojekyll/INSTALL.html
-          cp docs/.vuepress/dist/.nojekyll/download.html cp docs/.vuepress/dist/.nojekyll/DOWNLOAD.html
-          cp docs/.vuepress/dist/.nojekyll/contributing.html cp docs/.vuepress/dist/.nojekyll/CONTRIBUTING.html 
+          cp docs/.vuepress/dist/.nojekyll/install.html docs/.vuepress/dist/.nojekyll/INSTALL.html
+          cp docs/.vuepress/dist/.nojekyll/download.html docs/.vuepress/dist/.nojekyll/DOWNLOAD.html
+          cp docs/.vuepress/dist/.nojekyll/contributing.html docs/.vuepress/dist/.nojekyll/CONTRIBUTING.html 
 
       - name: Deploy Docs
         env:
