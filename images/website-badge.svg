@@ -1,5 +1,5 @@
-<svg width="170.9" height="20" viewBox="0 0 1709 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="official website: murex.rocks">
-  <title>official website: murex.rocks</title>
+<svg width="170.9" height="20" viewBox="0 0 1709 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Official Website: murex.rocks">
+  <title>Official Website: murex.rocks</title>
   <linearGradient id="gDBiW" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
@@ -7,12 +7,12 @@
   <mask id="kjiNE"><rect width="1709" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#kjiNE)">
     <rect width="918" height="200" fill="#555"/>
-    <rect width="791" height="200" fill="#3C1" x="918"/>
+    <rect width="791" height="200" fill="#2ea44f" x="918"/>
     <rect width="1709" height="200" fill="url(#gDBiW)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="818" fill="#000" opacity="0.25">Official Website</text>
-    <text x="50" y="138" textLength="818">official website</text>
+    <text x="50" y="138" textLength="818">Official Website</text>
     <text x="973" y="148" textLength="691" fill="#000" opacity="0.25">murex.rocks</text>
     <text x="963" y="138" textLength="691">murex.rocks</text>
   </g>
