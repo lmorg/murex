@@ -29,7 +29,7 @@ A non-exhaustive list features would include:
 
 * Read the [language tour](/docs/tour.md) to get started.
 
-* The [Rosetta Stone](/docs//user-guide/rosetta-stone.md) is a
+* The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
