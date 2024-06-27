@@ -3,6 +3,7 @@
 [![Version](version.svg?undef)](DOWNLOAD.md)
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
+[![Deploy Docs](/images/website-badge.svg?v=undef)](https://murex.rocks)
 
 <img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="readme">
 
@@ -70,7 +71,7 @@ language.
 
 ### Plus More!
 
-Check out the [Language Tour](/docs/tour.md) and [Interactive Shell](/docs/user-guide/interactive-shell.md) guides!
+Visit the [official website](https://murex.rocks).
 
 ## Install instructions
 
