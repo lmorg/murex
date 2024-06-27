@@ -3,7 +3,6 @@ package shell
 import (
 	"context"
 
-	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/events/onPreview/previewops"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
@@ -29,27 +28,17 @@ func PreviewCommand(ctx context.Context, _cmdLine []rune, command string, _ bool
 		}
 	}
 
-	if lang.MxFunctions.Exists(command) {
-		r, err := lang.MxFunctions.Block(command)
-		if err != nil {
-			return
-		}
-		lines, _, err := previewParse([]byte(string(r)), size)
-		callback(lines, 0, err)
-		callEventsPreview(ctx, previewops.Function, command, cmdLine, lines, size, callback)
-		return
-	}
+	switch {
+	case lang.MxFunctions.Exists(command):
+		// Murex function
+		callEventsPreview(ctx, previewops.Function, command, cmdLine, []string{}, size, callback)
 
-	if lang.GoFunctions[command] != nil {
-		syn := docs.Synonym[command]
-		b := docs.Definition(syn)
-		if len(b) != 0 {
-			lines, _, err := previewParse(b, size)
-			callback(lines, 0, err)
-			callEventsPreview(ctx, previewops.Builtin, command, cmdLine, lines, size, callback)
-			return
-		}
-	}
+	case lang.GoFunctions[command] != nil:
+		// murex builtin
+		callEventsPreview(ctx, previewops.Builtin, command, cmdLine, []string{}, size, callback)
 
-	callEventsPreview(ctx, previewops.Exec, command, cmdLine, []string{}, size, callback)
+	default:
+		// external executable
+		callEventsPreview(ctx, previewops.Exec, command, cmdLine, []string{}, size, callback)
+	}
 }

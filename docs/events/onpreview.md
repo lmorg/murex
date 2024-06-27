@@ -164,14 +164,18 @@ from different interrupts).
   How to enable ChatGPT hints
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Man Pages (POSIX)](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`$.`, Meta Values (json)](../variables/meta-values.md):
-  State information for iteration blocks
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+* [`function`](../commands/function.md):
+  Define a function block
+* [`murex-docs`](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onKeyPress`](../events/onkeypress.md):

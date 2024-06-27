@@ -16,6 +16,33 @@ autocomplete set murex-docs %[ {
 
 autocomplete set help autocomplete(get murex-docs)
 
+if { runtime --event-types -> match onPreview } then {
+    
+    event onPreview 00-function-meta=function {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        runtime --functions \
+        -> [ $event.Interrupt.PreviewItem ] \
+        -> ![ block ] \
+        -> pretty
+    }
+
+    event onPreview 01-function-source=function {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        runtime --functions -> [ $event.Interrupt.PreviewItem ] -> [ block ]
+    }
+
+    event onPreview 00-murex-docs=builtin {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        murex-docs $event.Interrupt.PreviewItem -> :*: [..'## See Also']se
+    }
+}
+
 alias builtin=fexec builtin
 alias command=exec
 

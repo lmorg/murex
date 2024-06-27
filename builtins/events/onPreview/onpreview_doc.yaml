@@ -138,4 +138,6 @@
   - event
   - config
   - chatgpt
-  - meta-values
+  - man-pages
+  - murex-docs
+  - function
