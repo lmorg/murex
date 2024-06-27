@@ -1,0 +1,21 @@
+# This file tests -quiet flag
+
+function quiet-flag-enabled {
+    exec $MUREX_EXE --quiet --load-modules -c "out fin"
+}
+
+test unit function quiet-flag-enabled %{
+    StdoutMatch: "fin\n"
+    StderrMatch: ""
+    ExitNum:     0
+}
+
+function quiet-flag-disabled {
+    exec $MUREX_EXE --load-modules -c "out fin"
+}
+
+test unit function quiet-flag-disabled %{
+    StdoutMatch:  "fin\n"
+    StderrRegex:  'Loading profile'
+    ExitNum:      0
+}

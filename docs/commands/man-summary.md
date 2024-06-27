@@ -4,13 +4,13 @@
 
 ## Description
 
-`man-summary` reads the man pages for a given command and outputs it's
+`man-summary` reads the man pages for a given command(s) and outputs it's
 summary (if one exists).
 
 ## Usage
 
 ```
-man-summary command -> <stdout>
+man-summary command [ commands ] -> <stdout>
 ```
 
 ## Examples
@@ -18,6 +18,24 @@ man-summary command -> <stdout>
 ```
 » man-summary man 
 man - an interface to the on-line reference manuals
+```
+
+## Detail
+
+`man-summary` can take multiple parameters and will return the summary for each
+command. If any commands have no summaries, then the exit number will be
+incremented. In the example below, two parameters had no associated man page:
+
+```
+» man-summary aa ab ac ad ae
+aa - Manipulate Apple Archives
+ab - Apache HTTP server benchmarking tool
+ac - connect time accounting
+ad - no man page exists
+ae - no man page exists
+
+» exitnum
+2
 ```
 
 ## See Also

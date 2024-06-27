@@ -13,7 +13,7 @@ section below.
 ```
 event onPrompt name=(before|after|abort|eof) { code block }
 
-!event onPrompt [before_|after_|abort_|eof_]name
+!event onPrompt name[.before|.after|.abort|.eof]
 ```
 
 ## Valid Interrupts
@@ -50,17 +50,21 @@ This is the **namespaced** name -- ie the name and operation.
 
 This is the name you specified when defining the event.
 
-### Operation
+### Interrupt/Operation
 
 This is the interrupt you specified when defining the event.
 
 Valid interrupt operation values are specified below.
 
-### CmdLine
+### Interrupt/CmdLine
 
-This is the commandline you typed in the prompt.
+This is the command line executed, ie what you typed into the _readline_ prompt.
 
 Please note this is only populated if the interrupt is **after**.
+
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
@@ -92,11 +96,11 @@ hello world
 
 ## Detail
 
-### Stdout
+### Standard out and error
 
-Stdout is written to the terminal. So this can be used to provide multiple
-additional lines to the prompt since readline only supports one line for the
-prompt itself and three extra lines for the hint text.
+Stdout and stderr are both written to the terminal. So this event can be used
+to provide multiple additional lines to the prompt since readline only supports
+one line for the prompt itself and three extra lines for the hint text.
 
 ### Order of execution
 
@@ -106,15 +110,16 @@ of execution matters, then you can prefix the names with a number, eg `10_jump`
 
 ### Namespacing
 
-The `onPrompt` event differs a little from other events when it comes to the
-namespacing of interrupts. Typically you cannot have multiple interrupts with
-the same name for an event. However with `onPrompt` their names are further 
-namespaced by the interrupt name. In layman's terms this means `example=before`
-wouldn't overwrite `example=after`.
+This event is namespaced as `$(NAME).$(OPERATION)`.
 
-The reason for this namespacing is because, unlike other events, you might
-legitimately want the same name for different interrupts (eg a smart prompt
-that has elements triggered from different interrupts).
+For example, if an event in `onPrompt` was defined as `example=eof` then its
+namespace would be `example.eof` and thus a subsequent event with the same name
+but different operation, eg `example=abort`, would not overwrite the former
+event defined against the interrupt `eof`.
+
+The reason for this namespacing is because you might legitimately want the same
+name for different operations (eg a smart prompt that has elements triggered
+from different interrupts).
 
 ## See Also
 
@@ -128,8 +133,10 @@ that has elements triggered from different interrupts).
   Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [onkeypress](../events/onkeypress.md):
-  
+* [`onKeyPress`](../events/onkeypress.md):
+  Custom definable key bindings and macros
+* [`onPreview`](../events/onpreview.md):
+  Full screen previews for files and command documentation
 
 <hr/>
 

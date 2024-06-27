@@ -11,10 +11,10 @@ func init() {
 	lang.DefineMethod("format", cmdFormat, types.Unmarshal, types.Marshal)
 }
 
-func cmdFormat(p *lang.Process) (err error) {
+func cmdFormat(p *lang.Process) error {
 	format, err := p.Parameters.String(0)
 	if err != nil {
-		return
+		return err
 	}
 
 	dt := p.Stdin.GetDataType()
@@ -43,5 +43,5 @@ func cmdFormat(p *lang.Process) (err error) {
 
 	p.Stdout.SetDataType(format)
 	_, err = p.Stdout.Write(b)
-	return
+	return err
 }

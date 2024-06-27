@@ -1,0 +1,28 @@
+if { runtime --event-types -> match onPreview } else {
+    return
+}
+
+config define cheat.sh enabled %{
+    Description: "Enable onPreview events to return a cheatsheet from https://cheat.sh"
+    DataType:    bool
+    Default:     false
+}
+
+event onPreview cheat-sh=exec {
+    !if { config get cheat.sh enabled } then {
+        $EVENT_RETURN.Display = false
+        return
+    }
+
+    <stdin> -> set event
+
+    config set http user-agent curl/1.0
+    config set http timeout 2
+    trypipe {
+        get https://cheat.sh/$(event.Interrupt.PreviewItem)?T -> [ Body ]
+        $EVENT_RETURN.CacheTTL = 60 * 60 * 24 * 25 # 25 days
+    }
+    catch {
+        $EVENT_RETURN.CacheTTL = 60 * 60           # 1 hour
+    }
+}

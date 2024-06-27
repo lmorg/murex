@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -148,6 +149,9 @@ func startMurex() {
 
 	// default config
 	defaults.Config(lang.ShellProcess.Config, interactive)
+
+	cache.SetPath(profile.ModulePath() + "cache.db")
+	cache.InitCache()
 
 	// compiled profile
 	defaultProfile()

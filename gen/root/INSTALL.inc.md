@@ -74,7 +74,7 @@ port install murex
 [![Version](version.svg)](DOWNLOAD.md)
 [![Build Murex Downloads](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-downloads.yaml)
 
-If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
+If you wish to download a pre-compiled binary then head to the {{ if env "DOCGEN_TARGET=vuepress" }}[DOWNLOAD](download.md){{ else }}[DOWNLOAD](DOWNLOAD.md){{ end }}
 page to select your platform.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}

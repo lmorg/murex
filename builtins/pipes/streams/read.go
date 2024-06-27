@@ -23,14 +23,13 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 		stdin.mutex.Lock()
 		l := len(stdin.buffer)
 		deps := stdin.dependents
-
 		stdin.mutex.Unlock()
 
 		if l == 0 {
 			if deps < 1 {
+				//if atomic.LoadInt32(&stdin.dependents) < 1 {
 				return 0, io.EOF
 			}
-			//time.Sleep(3 * time.Millisecond)
 			continue
 		}
 
@@ -89,10 +88,10 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 
 		stdin.mutex.Lock()
 		closed := stdin.dependents < 1
-
-		stdin.mutex.Unlock() 
+		stdin.mutex.Unlock()
 
 		if closed {
+			//if atomic.LoadInt32(&stdin.dependents) < 1 {
 			break
 		}
 	}

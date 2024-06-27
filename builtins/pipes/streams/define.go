@@ -41,7 +41,6 @@ var DefaultMaxBufferSize = 1024 * 1024 * 1 // 1 meg
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
-	//stdin.buffer = make([]byte, 0, 1024*1024)
 	stdin.ctx, stdin.forceClose = context.WithCancel(context.Background())
 	return
 }
@@ -73,9 +72,7 @@ func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 
 	i := atomic.AddInt32(&stdin.dependents, -1)
-	if i < 0 {
-		panic("More closed dependents than open")
-	}
+	panicOnNegDeps(i)
 
 	stdin.mutex.Unlock()
 }

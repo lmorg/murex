@@ -3,6 +3,7 @@ package cache
 const (
 	PREVIEW_COMMAND      = "preview_command"
 	PREVIEW_DYNAMIC      = "preview_dynamic"
+	PREVIEW_EVENT        = "preview_event"
 	MAN_SUMMARY          = "man_summary"
 	MAN_PATHS            = "man_paths"
 	MAN_FLAGS            = "man_flags"
@@ -11,11 +12,23 @@ const (
 )
 
 func InitCache() {
-	initCache(PREVIEW_COMMAND)
-	initCache(PREVIEW_DYNAMIC)
-	initCache(MAN_SUMMARY)
-	initCache(MAN_PATHS)
-	initCache(MAN_FLAGS)
-	initCache(AUTOCOMPLETE_DYNAMIC)
-	initCache(HINT_SUMMARY)
+	initNamespace(PREVIEW_COMMAND)
+	initNamespace(PREVIEW_DYNAMIC)
+	//initCache(PREVIEW_EVENT)
+	initNamespace(MAN_SUMMARY)
+	initNamespace(MAN_PATHS)
+	initNamespace(MAN_FLAGS)
+	initNamespace(AUTOCOMPLETE_DYNAMIC)
+	initNamespace(HINT_SUMMARY)
+}
+
+func initNamespace(namespace string) {
+	if configCacheDisabled {
+		return
+	}
+
+	cache[namespace] = new(internalCacheT)
+	cache[namespace].cache = make(map[string]*cacheItemT)
+	createDb(namespace)
+	disabled = false
 }

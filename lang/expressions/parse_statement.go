@@ -405,7 +405,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				var tokenise bool
 				tokenise = tree.tokeniseScalar()
 				execScalar := exec && tokenise
-				value, v, _, err := tree.parseVarScalar(execScalar, execScalar, varAsString)
+				value, v, _, err := tree.parseVarScalar(execScalar, varAsString)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, err.Error())
 				}

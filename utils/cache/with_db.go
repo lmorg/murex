@@ -5,13 +5,14 @@ package cache
 
 import (
 	"context"
+	"sort"
 	"time"
 
 	"github.com/lmorg/murex/utils/cache/cachedb"
 )
 
 func SetPath(path string) {
-	cachedb.Path = path
+	cachedb.SetPath(path)
 }
 
 func createDb(namespace string) {
@@ -38,10 +39,24 @@ func trimDb(ctx context.Context, namespace string) ([]string, error) {
 	return cachedb.Trim(ctx, namespace)
 }
 
-func flushDb(ctx context.Context, namespace string) ([]string, error) {
-	return cachedb.Flush(ctx, namespace)
+func clearDb(ctx context.Context, namespace string) ([]string, error) {
+	return cachedb.Clear(ctx, namespace)
 }
 
-func CloseDb() {
+/*func CloseDb() {
 	cachedb.CloseDb()
+}*/
+
+func DbPath() string {
+	return cachedb.GetPath()
+}
+
+func DbEnabled() bool {
+	return !cachedb.Disabled
+}
+
+func ListNamespaces() []string {
+	namespaces := cachedb.ListNamespaces()
+	sort.Strings(namespaces)
+	return namespaces
 }

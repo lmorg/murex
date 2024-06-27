@@ -1,0 +1,143 @@
+- DocumentID: onpreview
+  Title: >+
+    `onPreview`
+  CategoryID: events
+  Summary: >-
+    Full screen previews for files and command documentation
+  Description: |-
+    Murex's readline API supports {{bookmark "full screen previews" "interactive-shell" "autocomplete-preview"}}.
+    For example when autocompleting command line parameters, if that parameter is a
+    file then Murex can preview the contents if it is a text file or even an image.
+
+    This preview can also provide guides to command usage. Such as `man` pages or
+    AI generated cheatsheets.
+  Usage: |-
+    ```
+    event onPreview name=(function|builtin|exec) { code block }
+
+    !event onPreview name[.function|.builtin|.exec]
+    ```
+  Payload: |-
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
+
+    ```
+    {
+        "Name": "",
+        "Interrupt": {
+            "Name": "",
+            "Operation": "",
+            "PreviewItem": "",
+            "CmdLine": "",
+            "Width": 80
+        }
+    }
+    ```
+
+    ### Name
+
+    This is the **namespaced** name -- ie the name and operation.
+
+    ### Interrupt/Name
+
+    This is the name you specified when defining the event.
+
+    ### Interrupt/Operation
+
+    This is the interrupt you specified when defining the event.
+
+    Valid interrupt operation values are specified below.
+
+    ### Interrupt/PreviewItem
+
+    This will be the command name. For example if the command line is
+    `sudo apt-get update` then the **PreviewItem** value will be `sudo`.
+
+    ### Interrupt/CmdLine
+
+    This is the full command line in the preview prompt (ie what you've typed).
+
+    ### Interrupt/Width
+
+    Width of the preview pane. Please note that this will differ from the terminal
+    width due to borders surrounding the preview pane.
+  EventReturn: |-
+    {{ include "gen/includes/event-return-summary.inc.md" }}
+
+    ```
+    {
+        "CacheCmdLine": false,
+        "CacheTTL": 2592000,
+        "Display": true,
+    }
+    ```
+
+    ### $EVENT_RETURN.CacheCmdLine
+
+    Should the cache be unique to the command or include the full command line? You
+    would generally only want **CacheCmdLine** to be `true` if the generated
+    preview is unique to the full command line (eg an AI generated page based on
+    the full command line) vs only specific to the command name (eg a `man` page).
+
+    ### $EVENT_RETURN.CacheTTL
+
+    This just defines how long to cache the results for this `onPreview` event for
+    faster loading of `onPreview` events in the future.
+
+    **CacheTTL** takes an integer and is measured in seconds. It's default value is
+    30 days.
+
+    ### $EVENT_RETURN.Display
+
+    Defines whenever to output this event invocation.
+    
+    Defaults to `true`.
+  Flags:
+    function: >-
+      Code to execute when previewing a Murex function (for example, the function source code)
+    builtin: >-
+      Code to execute when previewing a builtin (for example, a `murex-docs` page)
+    exec: >-
+      Code to execute when previewing an external executable (for example, a `man` page)
+  Examples: |-
+    ### Creating a basic event
+
+    ```
+    event onPreview example=exec {
+        -> set event
+        out "Preview event for $(event.Interrupt.PreviewItem)"
+        
+        $EVENT_RETURN.CacheTTL = 0 # don't cache this response.
+    }
+    ```
+
+    ### ChatGPT
+
+    Murex's {{link "ChatGPT integration" "chatgpt"}} also uses this event.
+    The [source code can be found on Github](https://github.com/lmorg/murex/blob/master/integrations/chatgpt_any.mx),
+    of viewed from the terminal via:
+
+    ```
+    runtime --events -> [[ /onPreview/chatgpt.exec/Block ]]
+    ```
+  Detail: |-
+    ### Standard out and error
+
+    Stdout and stderr are both written to the preview pane. Output is stripped or
+    any ANSI escape sequences and stderr isn't written in red.
+  
+    {{ include "gen/includes/events-namespacing.inc.md" }}
+  Synonyms:
+  - onpreview
+  - onPreview
+  Related:
+  - onkeypress
+  - oncommandcompletion
+  - onprompt
+  - terminal-keys
+  - interactive-shell
+  - event
+  - config
+  - chatgpt
+  - man-pages
+  - murex-docs
+  - function

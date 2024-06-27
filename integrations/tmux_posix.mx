@@ -12,7 +12,6 @@ test unit private tmux-commands %{
     StdoutRegex: '([-a-z]+\n)+'
 }
 
-
 private tmux-subcommands {
     # Parses `tmux` command line arguments
     tmux start\; list-commands -> regexp m/$ARGS[1]/ -> regexp 'f#\[\-([-a-zA-Z0-9]+)#' -> foreach { -> jsplit "" -> format * } -> regexp m/[a-zA-Z0-9]/ -> prefix -

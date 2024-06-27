@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/integrations"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/ref"
@@ -47,6 +48,7 @@ const (
 	fMarshallers        = "--marshallers"
 	fUnmarshallers      = "--unmarshallers"
 	fEvents             = "--events"
+	fEventTypes         = "--event-types"
 	fAutocomplete       = "--autocomplete"
 	fMemstats           = "--memstats"
 	fTests              = "--tests"
@@ -55,10 +57,15 @@ const (
 	fDebug              = "--debug"
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
+	fIntegrations       = "--integrations"
 	fCachedFilePaths    = "--cached-file-paths"
 	fCacheDump          = "--cache"
 	fCacheTrim          = "--trim-cache"
-	fCacheFlush         = "--flush-cache"
+	fCacheClear         = "--clear-cache"
+	fCacheNamespaces    = "--cache-namespaces"
+	fCacheDbEnabled     = "--cache-db-enabled"
+	fCacheDbPath        = "--cache-db-path"
+	fGoGarbageCollect   = "--go-gc"
 	fHelp               = "--help"
 )
 
@@ -86,6 +93,7 @@ var flags = map[string]string{
 	fMarshallers:        types.Boolean,
 	fUnmarshallers:      types.Boolean,
 	fEvents:             types.Boolean,
+	fEventTypes:         types.Boolean,
 	fAutocomplete:       types.Boolean,
 	fMemstats:           types.Boolean,
 	fTests:              types.Boolean,
@@ -94,10 +102,15 @@ var flags = map[string]string{
 	fDebug:              types.Boolean,
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
+	fIntegrations:       types.Boolean,
 	fCachedFilePaths:    types.Boolean,
 	fCacheDump:          types.Boolean,
 	fCacheTrim:          types.Boolean,
-	fCacheFlush:         types.Boolean,
+	fCacheClear:         types.Boolean,
+	fCacheNamespaces:    types.Boolean,
+	fCacheDbEnabled:     types.Boolean,
+	fCacheDbPath:        types.Boolean,
+	fGoGarbageCollect:   types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -144,99 +157,112 @@ func cmdRuntime(p *lang.Process) error {
 	for flag := range f {
 		switch flag {
 		case fVars:
-			ret[fVars[2:]] = p.Scope.Variables.Dump()
+			ret[flag[2:]] = p.Scope.Variables.Dump()
 		case fGlobals:
-			ret[fGlobals[2:]] = lang.GlobalVariables.Dump()
+			ret[flag[2:]] = lang.GlobalVariables.Dump()
 		case fExports:
 			m := make(map[string]interface{})
 			envvars.All(m)
-			ret[fExports[2:]] = m
+			ret[flag[2:]] = m
 		case fAliases:
-			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
+			ret[flag[2:]] = lang.GlobalAliases.Dump()
 		case fBuiltins:
 			var s []string
 			for name := range lang.GoFunctions {
 				s = append(s, name)
 			}
 			sort.Strings(s)
-			ret[fBuiltins[2:]] = s
+			ret[flag[2:]] = s
 		case fMethods:
-			ret[fMethods[2:]] = map[string]map[string][]string{
+			ret[flag[2:]] = map[string]map[string][]string{
 				"in":  lang.MethodStdin.Dump(),
 				"out": lang.MethodStdout.Dump(),
 			}
 		case fConfig:
-			ret[fConfig[2:]] = lang.ShellProcess.Config.DumpRuntime()
+			ret[flag[2:]] = lang.ShellProcess.Config.DumpRuntime()
 		case fNamedPipes:
-			ret[fNamedPipes[2:]] = lang.GlobalPipes.Dump()
+			ret[flag[2:]] = lang.GlobalPipes.Dump()
 		case fPipes:
-			ret[fPipes[2:]] = stdio.DumpPipes()
+			ret[flag[2:]] = stdio.DumpPipes()
 		case fFunctions:
-			ret[fFunctions[2:]] = lang.MxFunctions.Dump()
+			ret[flag[2:]] = lang.MxFunctions.Dump()
 		case fPrivates:
-			ret[fPrivates[2:]] = lang.PrivateFunctions.Dump()
+			ret[flag[2:]] = lang.PrivateFunctions.Dump()
 		case fOpenAgents:
-			ret[fOpenAgents[2:]] = open.OpenAgents.Dump()
+			ret[flag[2:]] = open.OpenAgents.Dump()
 		case fFids:
-			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
+			ret[flag[2:]] = lang.GlobalFIDs.Dump()
 		case fShellProc:
-			ret[fShellProc[2:]] = lang.ShellProcess.Dump()
+			ret[flag[2:]] = lang.ShellProcess.Dump()
 		case fReadArrays:
-			ret[fReadArrays[2:]] = stdio.DumpReadArray()
+			ret[flag[2:]] = stdio.DumpReadArray()
 		case fReadArrayWithTypes:
-			ret[fReadArrays[2:]] = stdio.DumpReadArrayWithType()
+			ret[flag[2:]] = stdio.DumpReadArrayWithType()
 		case fReadMaps:
-			ret[fReadMaps[2:]] = stdio.DumpMap()
+			ret[flag[2:]] = stdio.DumpMap()
 		case fWriteArrays:
-			ret[fWriteArrays[2:]] = stdio.DumpWriteArray()
+			ret[flag[2:]] = stdio.DumpWriteArray()
 		case fIndexes:
-			ret[fIndexes[2:]] = lang.DumpIndex()
+			ret[flag[2:]] = lang.DumpIndex()
 		case fNotIndexes:
-			ret[fIndexes[2:]] = lang.DumpNotIndex()
+			ret[flag[2:]] = lang.DumpNotIndex()
 		case fMarshallers:
-			ret[fMarshallers[2:]] = lang.DumpMarshaller()
+			ret[flag[2:]] = lang.DumpMarshaller()
 		case fUnmarshallers:
 			ret[fUnmarshallers[2:]] = lang.DumpUnmarshaller()
 		case fEvents:
-			ret[fEvents[2:]] = events.DumpEvents()
+			ret[flag[2:]] = events.DumpEvents()
+		case fEventTypes:
+			ret[flag[2:]] = events.DumpEventTypes()
 		case fAutocomplete:
-			ret[fAutocomplete[2:]] = autocomplete.RuntimeDump()
+			ret[flag[2:]] = autocomplete.RuntimeDump()
 		case fMemstats:
 			var mem runtime.MemStats
 			runtime.ReadMemStats(&mem)
-			ret[fMemstats[2:]] = mem
+			ret[flag[2:]] = mem
 		case fTests:
-			ret[fTests[2:]] = p.Tests.Dump()
+			ret[flag[2:]] = p.Tests.Dump()
 		case fTestResults:
-			ret[fTestResults[2:]] = dumpTestResults(p)
+			ret[flag[2:]] = dumpTestResults(p)
 		case fModules:
-			ret[fModules[2:]] = profile.Packages
+			ret[flag[2:]] = profile.Packages
 		case fDebug:
-			ret[fDebug[2:]] = debug.Dump()
+			ret[flag[2:]] = debug.Dump()
 		case fSources:
-			ret[fSources[2:]] = ref.History.Dump()
+			ret[flag[2:]] = ref.History.Dump()
 		case fSummaries:
-			ret[fSummaries[2:]] = hintsummary.Summary.Dump()
+			ret[flag[2:]] = hintsummary.Summary.Dump()
+		case fIntegrations:
+			ret[flag[2:]] = integrations.Dump()
 		case fCachedFilePaths:
-			ret[fCachedFilePaths[2:]] = cdcache.DumpCompletions()
+			ret[flag[2:]] = cdcache.DumpCompletions()
 		case fCacheDump:
 			v, err := cache.Dump(p.Context)
 			if err != nil {
 				return err
 			}
-			ret[fCacheDump[2:]] = v
+			ret[flag[2:]] = v
 		case fCacheTrim:
 			v, err := cache.Trim(p.Context)
 			if err != nil {
 				return err
 			}
-			ret[fCacheTrim[2:]] = v
-		case fCacheFlush:
-			v, err := cache.Flush(p.Context)
+			ret[flag[2:]] = v
+		case fCacheClear:
+			v, err := cache.Clear(p.Context)
 			if err != nil {
 				return err
 			}
-			ret[fCacheFlush[2:]] = v
+			ret[flag[2:]] = v
+		case fCacheNamespaces:
+			ret[flag[2:]] = cache.ListNamespaces()
+		case fCacheDbEnabled:
+			ret[flag[2:]] = cache.DbEnabled()
+		case fCacheDbPath:
+			ret[flag[2:]] = cache.DbPath()
+		case fGoGarbageCollect:
+			runtime.GC()
+			ret[fGoGarbageCollect] = "done"
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:

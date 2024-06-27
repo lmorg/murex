@@ -16,7 +16,7 @@ type Net struct {
 	forceClose func()
 	bRead      uint64
 	bWritten   uint64
-	dependents int
+	dependents int32
 	conn       net.Conn
 	dataType   string
 	protocol   string
@@ -79,9 +79,7 @@ func (n *Net) Close() {
 		}
 	}
 
-	if n.dependents < 0 {
-		panic("more closed dependants than open")
-	}
+	panicOnNegDeps(n.dependents)
 }
 
 // ForceClose forces the net Io interface to close. This should only be called on reader interfaces

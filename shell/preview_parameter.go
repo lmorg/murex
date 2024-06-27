@@ -35,5 +35,5 @@ func PreviewParameter(ctx context.Context, block []rune, parameter string, incIm
 		callback(lines, i, nil)
 	}
 
-	PreviewCommand(ctx, nil, pt.FuncName, false, size, parameterCallback)
+	PreviewCommand(ctx, block, pt.FuncName, false, size, parameterCallback)
 }

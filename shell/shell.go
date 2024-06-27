@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"regexp"
@@ -11,9 +12,8 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/app/whatsnew"
+	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 	"github.com/lmorg/murex/builtins/pipes/term"
-	"github.com/lmorg/murex/config/profile"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -22,10 +22,10 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
-	globalcache "github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/crash"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -34,32 +34,31 @@ var (
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// Events is a callback for onPrompt events
-	Events func(string, []rune)
+	// Events is a callback for onPrompt & onPreview events
+	EventsPrompt  func(string, []rune)
+	EventsPreview func(context.Context, string, string, []rune, []string, *readline.PreviewSizeT, readline.PreviewFuncCallbackT)
 
 	promptShown atomic.Bool
 )
 
-func callEvents(interrupt string, cmdLine []rune) {
-	if Events == nil {
+func callEventsPrompt(interrupt string, cmdLine []rune) {
+	if EventsPrompt == nil {
 		return
 	}
-	Events(interrupt, cmdLine)
+	EventsPrompt(interrupt, cmdLine)
+}
+
+func callEventsPreview(ctx context.Context, interrupt string, previewItem string, cmdLine []rune, previousLines []string, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
+	if EventsPreview == nil {
+		return
+	}
+	EventsPreview(ctx, interrupt, previewItem, cmdLine, previousLines, size, callback)
 }
 
 // Start the interactive shell
 func Start() {
-	if debug.Enabled {
-		defer func() {
-			if r := recover(); r != nil {
-				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
-				Start()
-			}
-		}()
-	}
+	defer crash.Handler()
 
-	globalcache.SetPath(profile.ModulePath() + "cache.db")
-	globalcache.InitCache()
 	whatsnew.Display()
 
 	lang.ShellProcess.StartTime = time.Now()
@@ -93,6 +92,10 @@ func Start() {
 		}
 	}
 
+	start()
+}
+
+func start() {
 	go func() { lang.ShowPrompt <- true }()
 	for {
 		select {
@@ -172,7 +175,7 @@ func showPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			callEvents("before", nil)
+			callEventsPrompt(promptops.Before, nil)
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -187,12 +190,12 @@ func showPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(os.Stdout, PromptSIGINT)
-				callEvents("cancel", nil)
+				callEventsPrompt(promptops.Cancel, nil)
 				continue
 
 			case readline.EOF:
 				fmt.Fprintln(os.Stdout, utils.NewLineString)
-				callEvents("eof", nil)
+				callEventsPrompt(promptops.EOF, nil)
 				lang.Exit(0)
 
 			default:
@@ -266,7 +269,7 @@ func showPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEvents("after", block)
+			callEventsPrompt(promptops.After, block)
 
 			go func() {
 				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)

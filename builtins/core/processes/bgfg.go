@@ -36,13 +36,14 @@ func cmdBackground(p *lang.Process) (err error) {
 	fork.Parameters.CopyFrom(&p.Parameters)
 	go fork.Execute(block)
 
+	//lang.GlobalFIDs.WaitOnChildState(p, state.Executing.State())
+
 	return nil
 }
 
 func updateTree(p *lang.Process, isBackground bool) {
 	pTree := p
 	for {
-		//if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name.String() == `bg` {
 		if pTree.Id == 0 || pTree.Name.String() == `bg` {
 			break
 		}
@@ -52,7 +53,6 @@ func updateTree(p *lang.Process, isBackground bool) {
 
 	pTree = p
 	for {
-		//if pTree.Next == nil || pTree.Next.Id == p.Parent.Id {
 		if pTree.Next.Id == p.Parent.Id {
 			pTree.Background.Set(isBackground)
 			break

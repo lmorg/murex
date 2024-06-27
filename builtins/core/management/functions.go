@@ -140,6 +140,7 @@ func cmdManSummary(p *lang.Process) (err error) {
 		paths := man.GetManPages(exe)
 		if len(paths) == 0 {
 			p.Stderr.Writeln([]byte(exe + " - no man page exists"))
+			p.ExitNum++
 			continue
 		}
 

@@ -12,3 +12,20 @@ autocomplete set make %[
         })
     }
 ]
+
+if { runtime --event-types -> match onPreview } else {
+    return
+}
+
+event onPreview 01-makefile=exec {
+    -> set event
+    
+	$EVENT_RETURN.CacheTTL = 0
+
+	!if { $event.Interrupt.PreviewItem == 'make' && g Makefile } then {
+        $EVENT_RETURN.Display = false
+        continue
+    }    
+    
+    open Makefile
+}

@@ -138,6 +138,9 @@ While the preview box is open, the following keys are assigned roles:
 * `option`+`arrow down` scroll down the contents of the preview box, one page
   at a time (Apple keyboard layouts)
 
+* `home` scroll up to start of previous section or start of document
+* `end` scroll down to start of next section or end of document
+
 ### Command Line Preview
 
 
@@ -166,6 +169,9 @@ While the preview box is open, the following keys are assigned roles:
   a time (IBM keyboard layouts)
 * `option`+`arrow down` scroll down the contents of the preview box, one page
   at a time (Apple keyboard layouts)
+
+* `home` scroll up to the previous section
+* `end` scroll down to the next section
 
 ### Search Shell History
 
@@ -328,7 +334,7 @@ name and path of your preferred editor, otherwise Murex will default to `vi`.
   What's different about Murex's interactive shell?
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax
-* [Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
 
 <hr/>

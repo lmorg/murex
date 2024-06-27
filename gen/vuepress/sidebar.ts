@@ -24,6 +24,13 @@ export default sidebar({
       collapsible: true,
     },
     {
+      text: "Integrations",
+      icon: "puzzle-piece",
+      prefix: "integrations/",
+      children: "structure",
+      collapsible: true,
+    },
+    {
       text: "Operators And Tokens",
       icon: "equals",
       prefix: "parser/",

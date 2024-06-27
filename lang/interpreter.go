@@ -112,6 +112,8 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].FileRef.Column = parent.FileRef.Column + (*tree)[i].ColumnN
 		procs[i].FileRef.Line = (*tree)[i].LineN
 
+		trace(&procs[i])
+
 		// Define previous and next processes:
 		switch {
 		case i == 0:

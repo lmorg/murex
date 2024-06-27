@@ -83,7 +83,7 @@ $targets -> formap os cpus {
         }
         catch {
             out "{RED}FAILED{RESET}"
-            let status++
+            status=statue+1
         }
     }
 }

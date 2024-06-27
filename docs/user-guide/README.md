@@ -9,11 +9,14 @@ shell and Murex's numerous features.
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
+- [Integrations](#integrations)
+- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
 - [Events](#events)
+- [Integrations](#integrations-1)
 - [API Reference](#api-reference)
 
 </div>
@@ -32,6 +35,10 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
+* [Hint Text](../user-guide/hint-text.md):
+  A status bar for your shell
+* [Integrations](../user-guide/integrations.md):
+  Default integrations shipped with Murex
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Job Control](../user-guide/job-control.md):
@@ -50,8 +57,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [Spellcheck](../user-guide/spellcheck.md):
-  How to enable inline spellchecking
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -99,7 +104,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](parser/division.md):
   Divides one numeric value from another (expression)
-* [`<read-named-pipe>`](parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
@@ -252,6 +257,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
+* [`key-code`](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`let`](../commands/let.md):
@@ -272,6 +279,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [`murex-cache`](../commands/murex-cache.md):
+  Management interface for Murex's cache database
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`murex-package`](../commands/murex-package.md):
@@ -437,12 +446,39 @@ are only included by default on Windows.
   Trigger an event upon a command's completion
 * [`onFileSystemChange`](../events/onfilesystemchange.md):
   Add a filesystem watch
+* [`onKeyPress`](../events/onkeypress.md):
+  Custom definable key bindings and macros
+* [`onPreview`](../events/onpreview.md):
+  Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
   Events triggered by time intervals
 * [`onSignalReceived`](../events/onsignalreceived.md):
   Trap OS signals
+
+## Integrations
+
+* [ChatGPT](../integrations/chatgpt.md):
+  How to enable ChatGPT hints
+* [Cheat.sh](../integrations/cheatsh.md):
+  Cheatsheets provided by cheat.sh
+* [Kitty Integrations](../integrations/kitty.md):
+  Get more out of Kitty terminal emulator
+* [Makefiles / `make`](../integrations/make.md):
+  `make` integrations
+* [Man Pages (POSIX)](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
+* [Spellcheck](../integrations/spellcheck.md):
+  How to enable inline spellchecking
+* [Terminology Integrations](../integrations/terminology.md):
+  Get more out of Terminology terminal emulator
+* [`direnv` Integrations](../integrations/direnv.md):
+  Directory specific environmental variables
+* [`yarn` Integrations](../integrations/yarn.md):
+  Working with `yarn` and `package.json`
+* [iTerm2 Integrations](../integrations/iterm2.md):
+  Get more out of iTerm2 terminal emulator
 
 ## API Reference
 

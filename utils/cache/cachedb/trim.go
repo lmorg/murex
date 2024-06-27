@@ -7,11 +7,14 @@ import (
 )
 
 const (
-	sqlTrimRead   = `SELECT key FROM %s WHERE ttl < unixepoch();`
-	sqlTrimDelete = `DELETE FROM %s WHERE ttl < unixepoch();`
+	sqlTrimRead   = `SELECT key FROM '%s' WHERE ttl < unixepoch();`
+	sqlTrimDelete = `DELETE FROM '%s' WHERE ttl < unixepoch();`
 )
 
 func Trim(ctx context.Context, namespace string) ([]string, error) {
+	db := dbConnect()
+	defer db.Close()
+
 	opts := new(sql.TxOptions)
 	tx, err := db.BeginTx(ctx, opts)
 	if err != nil {

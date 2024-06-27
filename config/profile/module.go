@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -128,7 +129,10 @@ func (m *Module) execute() error {
 
 	block := []rune(string(b))
 
-	os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
+	quiet, _ := lang.ShellProcess.Config.Get("shell", "quiet", types.Boolean)
+	if v, ok := quiet.(bool); !ok || !v {
+		os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
+	}
 
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NO_STDIN)
 	// lets redirect all output to STDERR just in case this thing gets piped

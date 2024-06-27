@@ -14,7 +14,7 @@ func expAdd(tree *ParserT) error {
 		return err
 	}
 
-	lv, rv, err := validateNumericalDataTypes(tree, leftNode, rightNode, tree.currentSymbol())
+	lv, rv, err := validateNumericalDataTypes(tree, leftNode, rightNode)
 	if err != nil {
 		return err
 	}
@@ -32,7 +32,7 @@ func expSubtract(tree *ParserT) error {
 		return err
 	}
 
-	lv, rv, err := validateNumericalDataTypes(tree, left, right, tree.currentSymbol())
+	lv, rv, err := validateNumericalDataTypes(tree, left, right)
 	if err != nil {
 		return err
 	}

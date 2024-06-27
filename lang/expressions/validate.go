@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *ParserT) validateExpression(exec bool) error {
+func (tree *ParserT) validateExpression() error {
 	// compile data types and check for errors in the AST
 	//
 	// first walk to ensure we have a:

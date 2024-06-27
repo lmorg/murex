@@ -25,14 +25,18 @@ var (
 )
 
 var (
-	mimes    = make(map[string]string)
-	fileExts = make(map[string]string)
+	mimes        = make(map[string]string)
+	fileExts     = make(map[string]string)
+	defaultMimes = make(map[string]string)
 )
 
-// SetMime defines MIME(s) and assign it a murex data type
-func SetMime(dt string, mime ...string) {
+// SetMime defines MIME(s) and assign it a murex data type.
+// The default MIME for any data type should be the first MIME passed.
+func SetMime(dataType string, mime ...string) {
+	defaultMimes[dataType] = mime[0] // default should always be first
+
 	for i := range mime {
-		mimes[mime[i]] = dt
+		mimes[mime[i]] = dataType
 	}
 }
 
@@ -48,8 +52,13 @@ func SetFileExtensions(dt string, extension ...string) {
 func WriteMimes(v interface{}) error {
 	switch v := v.(type) {
 	case string:
-		mimes = make(map[string]string)
-		return json.Unmarshal([]byte(v), &mimes)
+		newMimes := make(map[string]string)
+		err := json.Unmarshal([]byte(v), &newMimes)
+		if err != nil {
+			return err
+		}
+		mimes = newMimes
+		return nil
 
 	default:
 		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
@@ -62,8 +71,32 @@ func WriteMimes(v interface{}) error {
 func WriteFileExtensions(v interface{}) error {
 	switch v := v.(type) {
 	case string:
-		fileExts = make(map[string]string)
-		return json.Unmarshal([]byte(v), &fileExts)
+		newFileExts := make(map[string]string)
+		err := json.Unmarshal([]byte(v), &newFileExts)
+		if err != nil {
+			return err
+		}
+		fileExts = newFileExts
+		return nil
+
+	default:
+		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
+	}
+}
+
+// WriteDefaultMimes takes a JSON-encoded string and writes it to the default
+// MIMEs map.
+// This is only intended to be used by `config.Properties.GoFunc.Write()`
+func WriteDefaultMimes(v interface{}) error {
+	switch v := v.(type) {
+	case string:
+		newDefaultMimes := make(map[string]string)
+		err := json.Unmarshal([]byte(v), &newDefaultMimes)
+		if err != nil {
+			return err
+		}
+		defaultMimes = newDefaultMimes
+		return nil
 
 	default:
 		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)

@@ -14,6 +14,7 @@ export default navbar([
           { text: "Language Tour", link: "tour.html", icon: "life-ring" },
           { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
+          { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
           { text: "Operators And Tokens", link: "parser/", icon: "equals" },
           { text: "Builtins", link: "commands/", icon: "terminal" },
           { text: "Variables", link: "variables/", icon: "dollar" },

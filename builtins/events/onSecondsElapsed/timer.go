@@ -2,6 +2,7 @@ package onsecondselapsed
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"sync"
 	"time"
@@ -47,17 +48,26 @@ func (t *timer) init() {
 			t.events[i].state++
 			if t.events[i].state == t.events[i].Interval {
 				t.events[i].state = 0
-				go events.Callback(
-					t.events[i].Name,
-					t.events[i].Interval,
-					t.events[i].Block,
-					t.events[i].FileRef,
-					lang.ShellProcess.Stdout,
-					true,
-				)
+				go callbackWrapper(t.events[i].Name, t.events[i].Interval, t.events[i].Block, t.events[i].FileRef)
 			}
 		}
 		t.mutex.Unlock()
+	}
+}
+
+func callbackWrapper(name string, interval int, block []rune, fileRef *ref.File) {
+	_, err := events.Callback(
+		name, interval, // event
+		block, fileRef, // script
+		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
+		nil,  // meta
+		true, // background
+	)
+
+	if err != nil {
+		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+			"error in event callback: %s", err.Error(),
+		)))
 	}
 }
 
@@ -65,7 +75,7 @@ func (t *timer) init() {
 func (t *timer) Add(name, interrupt string, block []rune, fileRef *ref.File) (err error) {
 	interval, err := strconv.Atoi(interrupt)
 	if err != nil {
-		return errors.New("interrupt should be an integer for `" + eventType + "` events")
+		return fmt.Errorf("interrupt should be an integer for `%s` events", eventType)
 	}
 
 	t.mutex.Lock()
@@ -114,7 +124,7 @@ func (t *timer) Remove(name string) (err error) {
 		}
 	}
 
-	return errors.New("no event found for this listener with the name `" + name + "`.")
+	return fmt.Errorf("no event found for this listener with the name `%s`", name)
 }
 
 // Dump returns all the events in w

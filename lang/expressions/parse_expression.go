@@ -309,7 +309,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.appendAst(symbols.Unexpected, r)
 			default:
 				// scalar
-				runes, v, mxDt, fn, err := tree.parseVarScalarExpr(exec, false, varAsValue)
+				runes, v, mxDt, fn, err := tree.parseVarScalarExpr(exec, false)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))

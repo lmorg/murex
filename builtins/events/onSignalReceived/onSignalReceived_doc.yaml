@@ -20,7 +20,7 @@
     !event onSignalReceived [SIGNAL]name
     ```
   Payload: |-
-    The following payload is passed to the function via STDIN:
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
 
     ```
     {
@@ -40,13 +40,12 @@
 
     This is the name you specified when defining the event.
 
-    ### Signal
+    ### Interrupt/Signal
 
     This is the signal you specified when defining the event.
 
     Valid interrupt operation values are specified below. All interrupts / signals
     are UPPERCASE strings.
-
   Examples: |-
     **Interrupt 'SIGINT':**
 
@@ -77,9 +76,7 @@
 
     ### Stdout
 
-    Stdout is written to the terminal. So this can be used to provide multiple
-    additional lines to the prompt since readline only supports one line for the
-    prompt itself and three extra lines for the hint text.
+    Stdout and stderr are both written to the terminal.
   
     ### Order of execution
 

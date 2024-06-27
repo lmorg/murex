@@ -148,7 +148,18 @@ event:
 				Name:   split[1],
 				Signal: interrupt,
 			}
-			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, false)
+			_, err := events.Callback(
+				evt.events[i].Key, interruptValue, // event
+				evt.events[i].Block, evt.events[i].FileRef, // script
+				lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
+				nil,   // meta
+				false, // background
+			)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+					"error in event callback: %s", err.Error(),
+				)))
+			}
 		}
 	}
 

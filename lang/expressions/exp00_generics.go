@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT, operation *astNodeT) (float64, float64, error) {
+func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (float64, float64, error) {
 	left, err := leftNode.dt.GetValue()
 	if err != nil {
 		return 0, 0, err

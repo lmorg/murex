@@ -73,7 +73,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			params = params[:len(params)-1]
 		}
 
-		cacheHash := cache.CreateHash(args.exe, params, block)
+		cacheHash := cache.CreateHash(args.exe+" "+strings.Join(params, " "), block)
 		dc := new(dynamicCacheItemT)
 		ok := cache.Read(cache.AUTOCOMPLETE_DYNAMIC, cacheHash, dc)
 		var stdout stdio.Io

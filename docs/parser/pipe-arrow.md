@@ -39,7 +39,7 @@ Hello, world!
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command

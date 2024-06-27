@@ -575,7 +575,7 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	case ENV:
 		return setEnvVar(value, changePath)
 	case GLOBAL:
-		return setGlobalVar(p, value, changePath, dataType)
+		return setGlobalVar(value, changePath, dataType)
 	case MODULE:
 		return ModuleVariables.Set(p, value, changePath, dataType)
 	case DOT:
@@ -657,7 +657,7 @@ notReserved:
 	return nil
 }
 
-func setGlobalVar(p *Process, v interface{}, changePath []string, dataType string) (err error) {
+func setGlobalVar(v interface{}, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
 		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", GLOBAL, GLOBAL)
 	}

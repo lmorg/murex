@@ -95,7 +95,13 @@ func MimeToMurex(mimeType string) string {
 		// Mime type not recognized so lets just make it a generic.
 		return types.Generic
 	}
+}
 
+// MurexToMime returns the default MIME for a given Murex data type.
+// The intended use case for this is for GET and POST requests where the body
+// is STDIN.
+func MurexToMime(dataType string) string {
+	return defaultMimes[dataType]
 }
 ```
 

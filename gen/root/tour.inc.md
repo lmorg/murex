@@ -247,7 +247,7 @@ using the `$ENV` namespace prefix.
 In general, Murex will try to infer the data type of a variable or pipe. It
 can do this by checking the `Content-Type` HTTP header, the file name
 extension or just looking at how that data was constructed (when defined via
-expressions). However sometimes you may need to annotate your types. ({{ linkbm "read more" "set" "type-annotations" }})
+expressions). However sometimes you may need to annotate your types. ({{ bookmark "read more" "set" "type-annotations" }})
 
 ### Scalars
 

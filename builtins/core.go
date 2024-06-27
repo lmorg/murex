@@ -12,6 +12,7 @@ import (
 	// CLI functions:
 	_ "github.com/lmorg/murex/builtins/core/arraytools"   // tools for working with arrays and maps
 	_ "github.com/lmorg/murex/builtins/core/autocomplete" // autocompleter cli tools
+	_ "github.com/lmorg/murex/builtins/core/cache"        // management of Murex's cache
 	_ "github.com/lmorg/murex/builtins/core/config"       // config cli tools
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]
@@ -42,6 +43,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/events/onCommandCompletion" // timer-based event type
 	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange"  // file system watcher event type
 	_ "github.com/lmorg/murex/builtins/events/onKeyPress"          // readline key-press event type
+	_ "github.com/lmorg/murex/builtins/events/onPreview"           // REPL preview triggers
 	_ "github.com/lmorg/murex/builtins/events/onPrompt"            // REPL prompt triggers
 	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"    // triggered when a command finishes
 	_ "github.com/lmorg/murex/builtins/events/onSignalReceived"    // OS signal management

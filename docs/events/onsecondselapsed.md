@@ -38,6 +38,10 @@ This is the name you specified when defining the event.
 
 This is the duration you defined the event to wait for.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
 ```
@@ -45,6 +49,12 @@ event onSecondsElapsed example=60 {
     out "60 seconds has passed"
 }
 ```
+
+## Detail
+
+### Standard out and error
+
+Stdout and stderr are both written to the terminal.
 
 ## See Also
 

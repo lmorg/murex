@@ -178,6 +178,17 @@ func Config(c *config.Config, isInteractive bool) {
 		},
 	})
 
+	c.Define("shell", "default-mimes", config.Properties{
+		Description: "Default MIMEs are a lookup of what MIMEs should be automatically used (for example with `get` and `post`) when the source data is a Murex data type (eg STDIN)",
+		Default:     lang.GetDefaultMimes(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadDefaultMimes,
+			Write: lang.WriteDefaultMimes,
+		},
+	})
+
 	c.Define("shell", "extensions", config.Properties{
 		Description: "Supported file extensions and their corresponding Murex data types",
 		Default:     lang.GetFileExts(),

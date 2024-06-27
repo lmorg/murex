@@ -7,13 +7,16 @@ import (
 )
 
 type previewModeT int
-type previewRefT int
 
 const (
 	previewModeClosed       previewModeT = 0
 	previewModeOpen         previewModeT = 1
 	previewModeAutocomplete previewModeT = 2
+)
 
+type previewRefT int
+
+const (
 	previewRefDefault previewRefT = 0
 	previewRefLine    previewRefT = 1
 )
@@ -29,6 +32,8 @@ const (
 	boxBL = "┗"
 	boxBR = "┛"
 	boxH  = "━"
+	boxHN = "─" // narrow
+	boxHD = "╶" // dashed
 	boxV  = "┃"
 	boxVL = "┠"
 	boxVR = "┨"
@@ -131,7 +136,7 @@ func (rl *Instance) writePreviewStr() string {
 	}
 
 	size, err := rl.getPreviewXY()
-	if err != nil || size.Height < 8 || size.Width < 40 {
+	if err != nil || size.Height < 8 || size.Width < 10 {
 		rl.previewCache = nil
 		return ""
 	}
@@ -177,7 +182,7 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 			continue
 		}
 
-		if strings.HasPrefix(preview[i], "─") {
+		if strings.HasPrefix(preview[i], boxHN) || strings.HasPrefix(preview[i], boxHD) {
 			output += fmt.Sprintf(pj, preview[i])
 		} else {
 			output += fmt.Sprintf(pf, preview[i])
@@ -219,6 +224,56 @@ func (rl *Instance) previewMoveToPromptStr(size *PreviewSizeT) string {
 	return output
 }
 
+func (rl *Instance) previewPreviousSectionStr() string {
+	if rl.previewCache == nil || rl.previewCache.pos == 0 {
+		return ""
+	}
+
+	for rl.previewCache.pos -= 2; rl.previewCache.pos > 0; rl.previewCache.pos-- {
+		if strings.HasPrefix(rl.previewCache.lines[rl.previewCache.pos], boxHN) {
+			if rl.previewCache.pos < len(rl.previewCache.lines)-1 {
+				rl.previewCache.pos++
+			}
+			break
+		}
+	}
+
+	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-1 {
+		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 1
+	}
+	if rl.previewCache.pos < 0 {
+		rl.previewCache.pos = 0
+	}
+
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
+}
+
+func (rl *Instance) previewNextSectionStr() string {
+	if rl.previewCache == nil {
+		return ""
+	}
+
+	for ; rl.previewCache.pos < len(rl.previewCache.lines)-rl.previewCache.len; rl.previewCache.pos++ {
+		if strings.HasPrefix(rl.previewCache.lines[rl.previewCache.pos], boxHN) {
+			if rl.previewCache.pos < len(rl.previewCache.lines)-1 {
+				rl.previewCache.pos++
+			}
+			break
+		}
+	}
+
+	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-1 {
+		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 1
+	}
+	if rl.previewCache.pos < 0 {
+		rl.previewCache.pos = 0
+	}
+
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
+}
+
 func (rl *Instance) previewPageUpStr() string {
 	if rl.previewCache == nil {
 		return ""
@@ -252,6 +307,14 @@ func (rl *Instance) previewPageDownStr() string {
 
 func (rl *Instance) clearPreviewStr() string {
 	var output string
+
+	if rl.previewCancel != nil {
+		rl.previewCancel()
+	}
+
+	if rl.PreviewInit != nil {
+		rl.PreviewInit()
+	}
 
 	if rl.previewMode > previewModeClosed {
 		output = seqRestoreBuffer + curPosRestore

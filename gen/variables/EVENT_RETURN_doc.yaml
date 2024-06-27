@@ -1,0 +1,29 @@
+- DocumentID: event_return
+  Title: >-
+    `EVENT_RETURN` (json)
+  CategoryID: variables
+  Summary: >-
+    Return values for events
+  Description: |-
+    Some events support return parameters outside of your typical STDOUT and STDERR
+    streams. `$EVENT_RETURN` allows you to modify those parameters.
+  Examples: |-
+    ```
+    event onPreview example=exec {
+        -> set event
+        out "Preview event for $(event.Interrupt.PreviewItem)"
+        
+        $EVENT_RETURN.CacheTTL = 0 # don't cache this response.
+    }
+    ```
+  Detail: |-
+    `$EVENT_RETURN` will support different values for different events. Please read
+    the respective event document for details on using this variable.
+  Synonyms:
+  - event_return
+  - EVENT_RETURN
+  Related:
+  - json
+  - event
+  - onkeypress
+  - onpreview

@@ -1,0 +1,38 @@
+if { runtime --event-types -> match onPreview } else {
+    return
+}
+
+event onPreview 00-man-page=exec {
+    -> set event
+    
+	$EVENT_RETURN.CacheTTL = 0
+
+	!if { man-summary $event.Interrupt.PreviewItem} then {
+		out "No man page exists for $event.Interrupt.PreviewItem"
+		return
+	}
+
+	$EVENT_RETURN.CacheTTL = 60 # cache for 60 seconds
+
+	if { os linux } then {
+		man_linux $event.Interrupt.Width $event.Interrupt.PreviewItem
+		return
+	}
+
+	trypipe {
+		man_unix $event.Interrupt.Width $event.Interrupt.PreviewItem
+	}
+	catch {
+		man_linux $event.Interrupt.Width $event.Interrupt.PreviewItem
+	}	
+}
+
+private man_linux {
+	MANWIDTH = $1
+	man <env:MANWIDTH> $2
+}
+
+private man_unix {
+	/usr/bin/zcat -f ${man -w $2} \
+	-> mandoc -O width=$1 -c
+}

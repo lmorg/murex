@@ -81,10 +81,10 @@
 
     {{ include "gen/includes/fileref-module-strings.inc.md" }}
   Synonyms:
-    - module
-    - modules
-    - package
-    - packages
+  - module
+  - modules
+  - package
+  - packages
   Related:
   - murex-package
   - fileref

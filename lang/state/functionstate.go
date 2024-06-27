@@ -17,3 +17,8 @@ const (
 	AwaitingGC
 	Stopped
 )
+
+func (f FunctionState) State() (state State) {
+	state.Set(f)
+	return
+}

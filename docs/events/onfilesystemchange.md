@@ -38,11 +38,11 @@ The following payload is passed to the function via STDIN:
 
 This is the name you specified when defining the event
 
-### Path
+### Interrupt/Path
 
 The path of the file that has triggered the event
 
-### Operation
+### Interrupt/Operation
 
 This is the filesystem operation that triggered the event. The following
 strings could be present in the **Operation** field:
@@ -55,6 +55,10 @@ strings could be present in the **Operation** field:
 
 Sometimes you might see more than one operation per interrupt. If that happens
 the operation will be pipe delimited. For example `create|chmod`
+
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
@@ -72,9 +76,9 @@ event onFileSystemChange example=. {
 
 ## Detail
 
-### Stdout
+### Standard out and error
 
-Stdout is written to the terminal.
+Stdout and stderr are both written to the terminal.
 
 ### POSIX only
 

@@ -45,15 +45,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		rl.fdMutex.Unlock()
 	}()
 
-	x, _ := rl.getCursorPos()
-	switch x {
-	case -1:
-		print(string(leftMost()))
-	case 0:
-		// do nothing
-	default:
-		print("\r\n")
-	}
+	rl.forceNewLine()
 	print(rl.prompt)
 
 	rl.line.Set(rl, []rune{})
@@ -82,6 +74,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.getHintText()
 	print(rl.renderHelpersStr())
 
+readKey:
 	for {
 		if rl.line.RuneLen() == 0 {
 			// clear the cache when the line is cleared
@@ -130,55 +123,43 @@ func (rl *Instance) Readline() (_ string, err error) {
 			return rl.line.String(), nil
 		}
 
-		s := string(r[:i])
-		if rl.evtKeyPress[s] != nil {
-			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
+		keyPress := string(r[:i])
+		if rl.evtKeyPress[keyPress] != nil {
+			var id int
+			evtState := rl.newEventState(keyPress)
+		nextEvent:
+			print(rl.clearHelpersStr())
+			print("\r" + seqClearLine)
+			evt := rl.evtKeyPress[keyPress](id, evtState)
+			rl.forceNewLine()
 
-			rl.clearPrompt()
-			rl.line.Set(rl, append(ret.NewLine, []rune{}...))
-			print(rl.echoStr())
-			// TODO: should this be above echo?
-			rl.line.SetRunePos(ret.NewPos)
+			rl.line.Set(rl, evt.SetLine)
+			rl.line.SetRunePos(evt.SetPos)
 
-			if ret.ClearHelpers {
-				rl.resetHelpers()
-			} else {
-				output := rl.updateHelpersStr()
+			for _, function := range evt.Actions {
+				function(rl)
+			}
+
+			if len(evt.Actions) == 0 {
+				output := rl.echoStr()
 				output += rl.renderHelpersStr()
 				print(output)
 			}
 
-			if len(ret.HintText) > 0 {
-				rl.hintText = ret.HintText
-				output := rl.clearHelpersStr()
-				output += rl.renderHelpersStr()
-				print(output)
+			if len(evt.HintText) > 0 {
+				rl.ForceHintTextUpdate(string(evt.HintText))
 			}
 
-			if ret.DisplayPreview {
-				if rl.previewMode == previewModeClosed {
-					HkFnPreviewToggle(rl)
-				}
-			}
+			switch {
+			case evt.MoreEvents && evt.Continue:
+				id++
+				goto nextEvent
 
-			//rl.previewItem
+			case evt.Continue:
+				break
 
-			if ret.Callback != nil {
-				err = ret.Callback()
-				if err != nil {
-					rl.hintText = []rune(err.Error())
-					output := rl.clearHelpersStr()
-					output += rl.renderHelpersStr()
-					print(output)
-				}
-			}
-
-			if !ret.ForwardKey {
-				continue
-			}
-			if ret.CloseReadline {
-				print(rl.clearHelpersStr())
-				return rl.line.String(), nil
+			default:
+				goto readKey
 			}
 		}
 
@@ -201,7 +182,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		switch b[0] {
 		case charCtrlA:
-			HkFnMoveToStartOfLine(rl)
+			HkFnCursorMoveToStartOfLine(rl)
 
 		case charCtrlC:
 			output := rl.clearPreviewStr()
@@ -218,10 +199,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 
 		case charCtrlE:
-			HkFnMoveToEndOfLine(rl)
+			HkFnCursorMoveToEndOfLine(rl)
 
 		case charCtrlF:
-			HkFnFuzzyFind(rl)
+			HkFnModeFuzzyFind(rl)
 
 		case charCtrlG:
 			HkFnCancelAction(rl)
@@ -233,7 +214,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnClearScreen(rl)
 
 		case charCtrlR:
-			HkFnSearchHistory(rl)
+			HkFnModeSearchHistory(rl)
 
 		case charCtrlU:
 			HkFnClearLine(rl)
@@ -242,7 +223,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnUndo(rl)
 
 		case charTab:
-			HkFnAutocomplete(rl)
+			HkFnModeAutocomplete(rl)
 
 		case '\r':
 			fallthrough
@@ -425,20 +406,32 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
-		if rl.modeTabCompletion {
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewPreviousSectionStr()
 			return output
-		}
 
-		output += rl.moveCursorByRuneAdjustStr(-rl.line.RunePos())
-		rl.viUndoSkipAppend = true
+		case rl.modeTabCompletion:
+			return output
+
+		default:
+			output += rl.moveCursorByRuneAdjustStr(-rl.line.RunePos())
+			rl.viUndoSkipAppend = true
+		}
 
 	case seqEnd, seqEndSc:
-		if rl.modeTabCompletion {
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewNextSectionStr()
 			return output
-		}
 
-		output += rl.moveCursorByRuneAdjustStr(rl.line.RuneLen() - rl.line.RunePos())
-		rl.viUndoSkipAppend = true
+		case rl.modeTabCompletion:
+			return output
+
+		default:
+			output += rl.moveCursorByRuneAdjustStr(rl.line.RuneLen() - rl.line.RunePos())
+			rl.viUndoSkipAppend = true
+		}
 
 	case seqShiftTab:
 		if rl.modeTabCompletion {
@@ -456,20 +449,33 @@ func (rl *Instance) escapeSeq(r []rune) string {
 		return output
 
 	case seqF1, seqF1VT100:
-		HkFnPreviewToggle(rl)
+		HkFnModePreviewToggle(rl)
 		return output
 
 	case seqF9:
-		HkFnPreviewLine(rl)
+		HkFnModePreviewLine(rl)
 		return output
 
 	case seqAltF, seqOptRight, seqCtrlRight:
-		HkFnJumpForwards(rl)
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewNextSectionStr()
+			return output
+
+		default:
+			HkFnCursorJumpForwards(rl)
+		}
 
 	case seqAltB, seqOptLeft, seqCtrlLeft:
-		HkFnJumpBackwards(rl)
+		switch {
+		case rl.previewMode != previewModeClosed:
+			output += rl.previewPreviousSectionStr()
+			return output
 
-		// TODO: test me
+		default:
+			HkFnCursorJumpBackwards(rl)
+		}
+
 	case seqShiftF1:
 		HkFnRecallWord1(rl)
 	case seqShiftF2:
@@ -633,5 +639,17 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 		default:
 			print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
 		}
+	}
+}
+
+func (rl *Instance) forceNewLine() {
+	x, _ := rl.getCursorPos()
+	switch x {
+	case -1:
+		print(string(leftMost()))
+	case 0:
+		// do nothing
+	default:
+		print("\r\n")
 	}
 }

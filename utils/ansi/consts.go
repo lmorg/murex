@@ -1,7 +1,7 @@
 package ansi
 
 var constants = map[string][]byte{
-	// ascii control codes
+	// ASCII control keys
 	"^@": {0},
 	"^A": {1},
 	"^B": {2},
@@ -37,7 +37,7 @@ var constants = map[string][]byte{
 
 	"^?": {127},
 
-	// ascii human readable
+	// ASCII control codes
 	"EOF":      {4},
 	"EOT":      {4},
 	"BELL":     {7},
@@ -49,7 +49,7 @@ var constants = map[string][]byte{
 	"ESCAPE":   {27},
 	"BS-ASCII": {127},
 
-	// ansi escape sequences
+	// ASCII escape sequences
 	"CURSOR-UP":         {27, 91, 65},
 	"CURSOR-DOWN":       {27, 91, 66},
 	"CURSOR-FORWARDS":   {27, 91, 67},
@@ -64,15 +64,19 @@ var constants = map[string][]byte{
 	"DEL":    {27, 91, 51, 126},
 	"DELETE": {27, 91, 51, 126},
 
-	// function keys
+	// Function keys
 	"F1-VT100": {27, 79, 80},
 	"F2-VT100": {27, 79, 81},
 	"F3-VT100": {27, 79, 82},
 	"F4-VT100": {27, 79, 83},
-	"F1":       {27, 91, 49, 49, 126},
-	"F2":       {27, 91, 49, 50, 126},
-	"F3":       {27, 91, 49, 51, 126},
-	"F4":       {27, 91, 49, 52, 126},
+	"F1-VT220": {27, 91, 49, 49, 126},
+	"F2-VT220": {27, 91, 49, 50, 126},
+	"F3-VT220": {27, 91, 49, 51, 126},
+	"F4-VT220": {27, 91, 49, 52, 126},
+	"F1":       {27, 79, 80},
+	"F2":       {27, 79, 81},
+	"F3":       {27, 79, 82},
+	"F4":       {27, 79, 83},
 	"F5":       {27, 91, 49, 53, 126},
 	"F6":       {27, 91, 49, 55, 126},
 	"F7":       {27, 91, 49, 56, 126},
@@ -94,7 +98,7 @@ var constants = map[string][]byte{
 	"ALT-8": {27, 56},
 	"ALT-9": {27, 57},
 
-	// control seqs
+	// control sequence
 	"CSI": {27, 91},
 }
 

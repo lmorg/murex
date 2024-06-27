@@ -74,33 +74,7 @@
     To get a list of every flag supported by `runtime`
 
     ```
-    » runtime --help
-    [
-        "--aliases",
-        "--config",
-        "--debug",
-        "--events",
-        "--fids",
-        "--flags",
-        "--functions",
-        "--help",
-        "--indexes",
-        "--marshallers",
-        "--memstats",
-        "--modules",
-        "--named-pipes",
-        "--open-agents",
-        "--pipes",
-        "--privates",
-        "--readarray",
-        "--readmap",
-        "--sources",
-        "--test-results",
-        "--tests",
-        "--unmarshallers",
-        "--variables",
-        "--writearray"
-    ]
+    runtime --help
     ```
 
     Please also note that you can supply more than one flag. However when you
@@ -142,33 +116,33 @@
     ```
   Flags:
     --variables: >-
-      Lists all local Murex variables which doesn't include environmental nor
-      global variables
+      Lists all {{link "local variables" "set"}} (excludes
+      {{link "environmental" "export"}} and {{link "global variables" "global"}})
     --globals: >-
-      Lists all global variables
+      Lists all {{link "global variables" "global"}}
     --exports: >-
-      Outputs environmental variables. For Murex variables (`global` and
-      `set`/`let`) use `--variables`
+      Outputs {{link "environmental variables" "export"}}
     --aliases: >-
-      Lists all aliases
+      Lists all {{link "aliases" "alias"}}
     --builtins: >-
       Lists all builtin commands, compiled into Murex
     --methods: >-
       Lists all commands with a defined STDOUT and STDIN data type. This is used to
       generate smarter autocompletion suggestions with `->`
     --config: >-
-      Lists all properties available to `config`
+      Lists all properties available to {{link "`config`" "config"}}
     --named-pipes: >-
-      Lists all named pipes defined
+      Lists all {{link "named pipes defined" "pipe"}}
     --pipes: >-
       Lists builtin pipes compiled into Murex. These can be then be defined as
-      named-pipes
+      {{link "named-pipes" "namedpipes"}}
     --functions: >-
-      Lists all Murex global functions
+      Lists all Murex {{link "global functions" "function"}}
     --privates: >-
-      Lists all Murex private functions
+      Lists all Murex {{link "private functions" "private"}}
     --open-agents: >-
-      Lists all registered `open` handlers 
+      Lists all registered {{link "`open`" "open"}} handlers
+      (defined with {{link "`openagent`" "openagent"}})
     --fids: >-
       Lists all running processes / functions
     --readarray: >-
@@ -180,32 +154,58 @@
     --readmap: >-
       Lists all builtin data-types which support ReadMap()
     --indexes: >-
-      Lists all builtin data-types which are supported by index (`[`)
+      Lists all builtin data-types which are supported by
+      {{link "index" "index"}} (`[`)
     --not-indexes: >-
-      Lists all builtin data-types which are supported by index (`![`)
+      Lists all builtin data-types which are supported by
+      {{link "not-index" "index"}} (`![`)
     --marshallers: >-
-      Lists all builtin data-types with marshallers (eg required for `format`)
+      Lists all builtin data-types with marshallers (eg required for
+      {{link "`format`" "format"}})
     --unmarshallers: >-
-      Lists all builtin data-types with unmarshallers (eg required for `format`)
+      Lists all builtin data-types with unmarshallers (eg required for
+      {{link "`format`" "format"}})
+    --event-types: >-
+      Lists all builtin event types
     --events: >-
-      Lists all builtin event types and any defined events
+      Lists all builtin event types and any {{link "defined events" "event"}}
     --autocomplete: >-
-      Lists all `autocomplete` schemas - both user defined and automatically
-      generated one
+      Lists all `autocomplete` schemas - both {{link "user defined" "autocomplete"}}
+      and automatically generated ones
     --memstats: >-
       Outputs the running state of Go's runtime
     --tests: >-
-      Lists defined tests
+      Lists {{link "defined tests" "test"}}
     --test-results: >-
-      A dump of any unreported test results
+      A dump of any unreported {{link "test" "test"}} results
     --modules: >-
-      Lists all installed modules
+      Lists all installed {{link "modules" "modules"}}
     --debug: >-
-      Outputs the state of debug and inspect mode
+      Outputs the state of {{link "debug mode" "debug"}}
     --sources: >-
-      Lists all loaded murex sources
+      Lists all {{link "loaded murex sources" "fileref"}}
     --summaries: >-
-      Outputs all the override summaries 
+      Outputs all the {{link "override summaries" "summary"}}
+    --integrations: >-
+      Lists all compiled {{link "integrations" "integrations"}}
+    --cache: >-
+      Returns a complete dump of everything in the local cache as well as cache DB
+      (if compiled with persistent sqlite3 cache support)
+    --trim-cache: >-
+      Clears out-of-date items from both the local cache and cache DB. Returns all
+      items removed
+    --clear-cache: >-
+      Clears all items from both the local cache and cache DB. Returns all items
+      removed
+    --cache-db-enabled: >-
+      Returns boolean value stating if the cache DB is enabled
+    --cache-db-path: >-
+      Returns a string representation of the cache DB path
+      (or a zero length string if cache DB support is not compiled)
+    --cache-namespaces: >-
+      Lists namespaces in cache
+    --go-gc: >-
+      Forces the Go runtime to run its garbage collection
     --help: >-
       Outputs a list of `runtimes`'s flags
 
@@ -284,8 +284,8 @@
     will contain more than just the currently defined variables and running
     functions.
   Synonyms:
-    - runtime
-    - builtins
+  - runtime
+  - builtins
   Related:
   - set
   - let
@@ -309,5 +309,6 @@
   - open
   - openagent
   - method
+  - integrations
 
 

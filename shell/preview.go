@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/mattn/go-runewidth"
 )
 
 const binaryFile = "file contains binary data"
@@ -13,57 +14,67 @@ func errBinaryFile(b byte) error {
 	return fmt.Errorf("%s: %d", binaryFile, b)
 }
 
+func PreviewParseAppendEvent(previous []string, p []byte, size *readline.PreviewSizeT, title string) ([]string, error) {
+	heading := append(
+		previous,
+		strings.Repeat("─", size.Width),
+		fmt.Sprintf("Event `%s`:", title),
+		strings.Repeat("╶", size.Width),
+	)
+	if len(previous) == 0 {
+		heading = heading[1:]
+	}
+
+	lines, _, err := previewParse(p, size)
+
+	return append(heading, lines...), err
+}
+
 func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	var (
 		lines []string
-		line  []byte
-		b     byte
-		i     = len(p)
-		last  byte
+		line  []rune
+		width int
 	)
 
-	for j := 0; j <= i; j++ {
-		if j < i {
-			b = p[j]
-		} else {
-			b = ' '
-		}
-
-		if b == 8 {
+	s := string(p)
+	for _, r := range s {
+		switch r {
+		case 8:
 			// handle backspace gracefully
 			if len(line) > 0 {
 				line = line[:len(line)-1]
 			}
 			continue
-		}
 
-		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
-			return nil, 0, errBinaryFile(p[j])
-		}
-
-		switch b {
 		case '\r':
-			last = b
 			continue
 		case '\n':
-			if (len(line) == 0 && len(lines) > 0 && len(lines[len(lines)-1]) == size.Width) ||
-				last == '\r' {
-				last = b
+			if width == size.Width {
 				continue
 			}
 			lines = append(lines, string(line))
-			line = []byte{}
+			line = []rune{}
+			width = 0
+
 		case '\t':
 			line = append(line, ' ', ' ', ' ', ' ')
+			width += 4
+
 		default:
-			line = append(line, b)
+			if r < ' ' && r != '\t' && r != '\r' && r != '\n' {
+				return nil, 0, errBinaryFile(byte(r))
+			}
+
+			line = append(line, r)
 		}
 
-		if len(line) >= size.Width {
+		width += runewidth.RuneWidth(r)
+		if width >= size.Width {
 			lines = append(lines, string(line))
-			line = []byte{}
+			line = []rune{}
+			width = 0
 		}
-		last = b
 	}
 
 	if len(line) > 0 {

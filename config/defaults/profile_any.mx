@@ -16,6 +16,33 @@ autocomplete set murex-docs %[ {
 
 autocomplete set help autocomplete(get murex-docs)
 
+if { runtime --event-types -> match onPreview } then {
+    
+    event onPreview 00-function-meta=function {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        runtime --functions \
+        -> [ $event.Interrupt.PreviewItem ] \
+        -> ![ block ] \
+        -> pretty
+    }
+
+    event onPreview 01-function-source=function {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        runtime --functions -> [ $event.Interrupt.PreviewItem ] -> [ block ]
+    }
+
+    event onPreview 00-murex-docs=builtin {
+        -> set event
+        $EVENT_RETURN.CacheTTL = 0
+        
+        murex-docs $event.Interrupt.PreviewItem -> :*: [..'## See Also']se
+    }
+}
+
 alias builtin=fexec builtin
 alias command=exec
 
@@ -422,16 +449,14 @@ autocomplete set event %[{
 autocomplete set !event %[
     {
         Dynamic: '{
-            runtime --events \
-            -> formap k v { out $k } \
-            -> msort
+            runtime --event-types -> msort
         }'
     },
     {
         Dynamic: '{
-            runtime: --events \
+            runtime --events \
             -> [ $ARGS[1] ] \
-            -> formap k v { out $k } \
+            -> formap k v { $k; out } \ # syntax is weird here but it is because {ANSI} will be replaced if `out`
             -> msort
         }'
     }
@@ -681,26 +706,30 @@ config define open image %{
 }
 
 openagent set image {
-    $ARGS[1] -> set file
+    $ARGS[1] -> set path file
+    if { $file.0.IsRelative } then {
+        set path file=$PWD/$file
+    }
+
     config get open image -> set mode
 
-    if { = mode==`auto` } {
+    if { $mode == "auto" } {
         switch {
-            case { $TMUX }                        { set mode=compatible }
-            case { $MXTTY }                       { set mode=mxtty }     
-            case { $ITERM_PROFILE }               { set mode=iterm }
-            case { $TERM_PROGRAM == "iTerm.app" } { set mode=iterm }
-            case { $KITTY_WINDOW_ID }             { set mode=kitty }
-            case { $TERM == "xterm-kitty" }       { set mode=kitty }
-            case { $TERMINOLOGY }                 { set mode=terminology }
-            catch                                 { set mode=compatible }
+            case { $TMUX }                        { $mode = "compatible" }
+            case { $MXTTY }                       { $mode = "mxtty" }     
+            case { $ITERM_PROFILE }               { $mode = "iterm" }
+            case { $TERM_PROGRAM == "iTerm.app" } { $mode = "iterm" }
+            case { $KITTY_WINDOW_ID }             { $mode = "kitty" }
+            case { $TERM == "xterm-kitty" }       { $mode = "kitty" }
+            case { $TERMINOLOGY }                 { $mode = "terminology" }
+            catch                                 { $mode = "compatible" }
         }
     }
 
     # If Kitty but running inside a screen / tmux session, fallback to compatible.
     # We do this because tmux doesn't support reporting screen sizes via the TIOCGWINSZ ioctl.
-    if { and { = mode==`kitty` } { = TERM==`screen` } } {
-        set mode=compatible
+    if { $mode == "kitty" && $TERM == "screen" } {
+        $mode = "compatible"
     }
 
     switch $mode {
@@ -710,11 +739,11 @@ openagent set image {
 
         case mxtty {
             if { $SSH_TTY } {
-                $json = %{ Base64: ${base64 -i $file -o -} } 
+                $json = %{ Base64: ${base64 -i "$file" -o -} } 
             } else {
-                $json = %{ Filename: $file }
+                $json = %{ Filename: "$file" }
             }
-            out "{ESC}_insert;image;$(json){ESC}\\"
+            out %({ESC}_insert;image;$(json){ESC}\)
         }
 
         case kitty {

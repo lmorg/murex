@@ -1,0 +1,26 @@
+- DocumentID: murex-cache
+  Title: >+
+    `murex-cache`
+  CategoryID: commands
+  Summary: >-
+    Management interface for Murex's cache database
+  Description: |-
+    `murex-cache` provides a management interface for Murex's cache database.
+  Usage: |-
+    ```
+    murex-cache flags -> <stdout>
+    ```
+  Examples:
+  Flags:
+    clear: >-
+      Empties the cache database
+    get: >-
+      Returns the cached item from database (requires two additional parameters for namespace and key)
+    trim: >-
+      Removes expired cache items from database
+    namespaces: >-
+      List namespaces in cache database
+  Detail:
+  Synonyms:
+  Related:
+  - runtime

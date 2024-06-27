@@ -4,6 +4,8 @@ icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex.Rocks
 tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
+head:
+  - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
 actions:
   - text: "🛟 Language Tour"
     link: tour/
@@ -55,6 +57,17 @@ highlights:
 copyright: false
 footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
+## 🛟 Getting Started
+
+* Read the [language tour](/tour.html) to get started.
+
+* The [Rosetta Stone](/user-guide/rosetta-stone.html) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* The [Interactive Shell](/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
 
 ## 👁‍🗨 Screenshots
 
@@ -139,18 +152,6 @@ pkg install murex
 :::
 
 More options are available in the [INSTALL](install/) document.
-
-## 🛟 Getting Started
-
-* Read the [language tour](/tour.html) to get started.
-
-* The [Rosetta Stone](/user-guide/rosetta-stone.html) is a
-great cheatsheet for those wishing to skip the tutorials and jump straight in.
-This guide includes comparisons with Bash.
-
-* The [Interactive Shell](/user-guide/interactive-shell.html)
-guide walks you through using Murex as a command line as opposed to a scripting
-language.
 
 {{ else }}# Murex: A Smarter Shell
 

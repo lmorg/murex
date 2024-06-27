@@ -2,6 +2,7 @@ package readline
 
 import (
 	"context"
+	"os"
 )
 
 // TabDisplayType defines how the autocomplete suggestions display
@@ -55,11 +56,28 @@ func (rl *Instance) getTabCompletion() {
 
 func (rl *Instance) initTabCompletion() {
 	rl.modeTabCompletion = true
+	rl.autocompleteHeightAdjust()
+
 	if rl.tcDisplayType == TabDisplayGrid {
 		rl.initTabGrid()
 	} else {
 		rl.initTabMap()
 	}
+}
+
+func (rl *Instance) autocompleteHeightAdjust() {
+	_, height, err := GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		height = 25
+	}
+
+	switch {
+	case height <= 4:
+		rl.MaxTabCompleterRows = 1
+	case height-4 <= rl.MaxTabCompleterRows:
+		rl.MaxTabCompleterRows = height - 4
+	}
+
 }
 
 func (rl *Instance) moveTabCompletionHighlight(x, y int) {

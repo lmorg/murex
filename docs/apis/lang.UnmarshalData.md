@@ -39,7 +39,6 @@ Go source file:
 package lang
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -56,19 +55,21 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 	// races -- PROVIDING developers strictly follow the pattern of only writing
 	// to this map within init() func's.
 	if Unmarshallers[dataType] == nil {
-		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`")
+		return nil, fmt.Errorf("unknown data type. I don't know how to unmarshal `%s`", dataType)
 	}
 
 	v, err = Unmarshallers[dataType](p)
 	if err != nil {
-		return nil, errors.New("[" + dataType + " unmarshaller] " + err.Error())
+		return nil, fmt.Errorf("[%s unmarshaller] %s", dataType, err.Error())
 	}
 
 	return v, nil
 }
 
 func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (interface{}, error) {
-	fork := parent.Fork(F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
+	fork := parent.Fork(F_BACKGROUND | F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
+	defer fork.Kill()
+
 	_, err := fork.Stdin.Write(b)
 	if err != nil {
 		return nil, fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())

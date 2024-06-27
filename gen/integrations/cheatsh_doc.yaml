@@ -1,0 +1,42 @@
+- DocumentID: cheatsh
+  Title: >-
+    Cheat.sh
+  CategoryID: integrations
+  Summary: >-
+    Cheatsheets provided by cheat.sh
+  Description: |-
+    ## Description
+
+    [Cheat.sh](https://cheat.sh) describe themselves as:
+
+    > The only cheat sheet you need. Unified access to the best community driven
+    > documentation repositories of the world.
+
+    This repository of knowledge can be accessed via the `[f1]` preview screen.
+
+    ## Enabling cheat.sh
+
+    > By default, cheat.sh support is disabled. 
+
+    You can enable it by adding the following to your {{link "profile" "profile"}}:
+
+    ```
+    config set cheat.sh enabled true
+    ```
+    
+    ## Source Code
+   
+    The source code is available on [Github](https://github.com/lmorg/murex/blob/master/integrations/cheat.sh_any.mx)
+    under `/integrations`.
+  Synonyms:
+  - cheatsh
+  - cheat.sh
+  Related:
+  - config
+  - event
+  - terminal-keys
+  - profile
+  - murex-docs
+  - onpreview
+  - man-pages
+  - chatgpt

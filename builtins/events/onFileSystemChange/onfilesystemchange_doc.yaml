@@ -7,9 +7,8 @@
   Description: |-
     `onFileSystemChange` events are triggered whenever there is a change to a
     watched path or file.
-
   Payload: |-
-    The following payload is passed to the function via STDIN:
+    {{ include "gen/includes/event-payload-summary.inc.md" }}
 
     ```
     {
@@ -25,11 +24,11 @@
 
     This is the name you specified when defining the event
 
-    ### Path
+    ### Interrupt/Path
 
     The path of the file that has triggered the event
 
-    ### Operation
+    ### Interrupt/Operation
 
     This is the filesystem operation that triggered the event. The following
     strings could be present in the **Operation** field:
@@ -64,9 +63,9 @@
     }
     ```
   Detail: |-
-    ### Stdout
+    ### Standard out and error
 
-    Stdout is written to the terminal.
+    Stdout and stderr are both written to the terminal.
 
     ### POSIX only
 

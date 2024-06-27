@@ -1,6 +1,6 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 {{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: plus
+### {{ end }}icon: handshake-angle
 
 ---
 {{ end }}<h1>Contributing to Murex</h1>

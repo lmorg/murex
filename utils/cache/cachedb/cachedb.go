@@ -8,29 +8,26 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 const (
-	sqlCreateTable = `CREATE TABLE IF NOT EXISTS %s (key STRING PRIMARY KEY, value STRING, ttl DATETIME KEY);`
-
-	sqlRead = `SELECT value FROM %s WHERE key == ? AND ttl > unixepoch();`
-
-	sqlWrite = `INSERT OR REPLACE INTO %s (key, value, ttl) VALUES (?, ?, ?);`
+	sqlCreateTable = `CREATE TABLE IF NOT EXISTS '%s' (key STRING PRIMARY KEY, value STRING, ttl DATETIME KEY);`
+	sqlRead        = `SELECT value FROM '%s' WHERE key == ? AND ttl > unixepoch();`
+	sqlWrite       = `INSERT OR REPLACE INTO '%s' (key, value, ttl) VALUES (?, ?, ?);`
 )
 
 var (
-	disabled bool   = true
-	Path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
-	db       *sql.DB
+	Disabled bool   = true
+	path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
+	//db       *sql.DB
 )
 
 func dbConnect() *sql.DB {
 	if debug.Enabled {
-		fmt.Printf("cache DB: %s\n", Path)
+		fmt.Printf("cache DB: %s\n", path)
 	}
 
-	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?cache=shared", Path))
+	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?cache=shared", path))
 	if err != nil {
 		dbFailed("opening cache database", err)
 		return nil
@@ -38,16 +35,18 @@ func dbConnect() *sql.DB {
 
 	db.SetMaxOpenConns(1)
 
-	disabled = false
+	Disabled = false
 	return db
 }
 
 func CreateTable(namespace string) {
-	if db == nil {
+	db := dbConnect()
+	defer db.Close()
+	/*if db == nil {
 		db = dbConnect()
-	}
+	}*/
 
-	if disabled {
+	if Disabled {
 		return
 	}
 
@@ -59,20 +58,24 @@ func CreateTable(namespace string) {
 
 func dbFailed(message string, err error) {
 	if debug.Enabled {
-		os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
-		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+		panic(fmt.Sprintf("%s: %s", message, err.Error()))
+		//os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
+		//os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
 	}
-	disabled = true
+	Disabled = true
 }
 
-func CloseDb() {
+/*func CloseDb() {
 	if db != nil {
 		_ = db.Close()
 	}
-}
+}*/
 
 func Read(namespace string, key string, ptr any) bool {
-	if disabled || ptr == nil {
+	db := dbConnect()
+	defer db.Close()
+
+	if Disabled || ptr == nil {
 		return false
 	}
 
@@ -112,7 +115,10 @@ func Read(namespace string, key string, ptr any) bool {
 }
 
 func Write(namespace string, key string, value any, ttl time.Time) {
-	if disabled || value == nil {
+	db := dbConnect()
+	defer db.Close()
+
+	if Disabled || value == nil {
 		return
 	}
 
@@ -127,4 +133,16 @@ func Write(namespace string, key string, value any, ttl time.Time) {
 		dbFailed("writing to cache in "+namespace, err)
 		return
 	}
+}
+
+func SetPath(newPath string) {
+	//if db == nil {
+	path = newPath
+	//} else if debug.Enabled {
+	//	panic("db already initiated")
+	//}
+}
+
+func GetPath() string {
+	return path
 }

@@ -1,6 +1,8 @@
 package state
 
-import "sync/atomic"
+import (
+	"sync/atomic"
+)
 
 // State is a thread safe FunctionState struct
 type State struct {
