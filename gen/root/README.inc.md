@@ -80,8 +80,6 @@ language.
   <img src="/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-custom-hints.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
   <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" />
@@ -181,29 +179,29 @@ A non-exhaustive list features would include:
 
 ## Language Guides
 
-* Read the [language tour](https://murex.rocks/tour.html) to get started.
+* Read the [language tour](/tour.md) to get started.
 
-* The [Rosetta Stone](https://murex.rocks/user-guide/rosetta-stone.html) is a
+* The [Rosetta Stone](/user-guide/rosetta-stone.md) is a
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-* The [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html)
+* The [Interactive Shell](/user-guide/interactive-shell.md)
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
 
 ## Examples
 
-**Smart data:**
+### Smart data:
 
 <img src="images/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 <img src="images/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Inline spellchecking:**
+### Inline spellchecking:
 
 <img src="images/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Autocomplete:**
+### Autocomplete:
 
 <img src="images/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
@@ -211,29 +209,25 @@ language.
 
 <img src="images/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Preview screen:**
+### Preview screen:
 
 <img src="images/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-<img src="images/screenshot-preview-custom-hints.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
-
-<img src="images/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
-
 <img src="images/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Useful error messages:**
+### Useful error messages:
 
 <img src="images/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
 <img src="images/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Plus More!**
+### Plus More!
 
-Check out the [Language Tour](https://murex.rocks/tour.html) and [Interactive Shell](https://murex.rocks/user-guide/interactive-shell.html) guides!
+Check out the [Language Tour](/docs/tour.md) and [Interactive Shell](/docs/user-guide/interactive-shell.md) guides!
 
 ## Install instructions
 
-See [INSTALL](https://murex.rocks/INSTALL.html) for details.
+See [INSTALL](INSTALL.md) for details.
 
 ## Discuss Murex
 
