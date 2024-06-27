@@ -158,7 +158,7 @@ More options are available in the [INSTALL](install/) document.
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 [![Deploy Docs](/images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
-<img src="https://murex.rocks/murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}" class="readme">
+<img src="https://murex.rocks/murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}" class="no-border">
 
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.

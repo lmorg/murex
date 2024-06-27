@@ -5,7 +5,7 @@
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 [![Deploy Docs](/images/website-badge.svg?v=undef)](https://murex.rocks)
 
-<img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="readme">
+<img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="no-border">
 
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.
