@@ -27,7 +27,7 @@
 
 Below are the instructions to download a pre-compiled binary via HTTPS. If you
 wish to install from source or use your preferred package manager, then please
-refer to the [INSTALL](INSTALL.md) page for further instructions.
+refer to the  page for further instructions.
 
 ### Darwin (macOS)
 
@@ -125,7 +125,7 @@ For example, in Bash, Zsh and similar shells, you can copy/paste the following
 to run on any Linux or UNIX-like OS from sh/bash/zsh. 
 
 ```sh
-MUREX_BUILD="murex-$(uname -o | tr [:upper:] [:lower:])-$(uname -m)"
+MUREX_BUILD="murex-linux-amd64.gz"
 wget "https://nojs.murex.rocks/bin/latest/${MUREX_GZIP}.gz"
 gunzip "${MUREX_BUILD}.gz"
 chmod +x "$MUREX_BUILD"
