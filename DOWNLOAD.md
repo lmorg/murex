@@ -27,7 +27,7 @@
 
 Below are the instructions to download a pre-compiled binary via HTTPS. If you
 wish to install from source or use your preferred package manager, then please
-refer to the  page for further instructions.
+refer to the [INSTALL](INSTALL.md) page for further instructions.
 
 ### Darwin (macOS)
 
