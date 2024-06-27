@@ -153,10 +153,10 @@ More options are available in the [INSTALL](install/) document.
 
 {{ else }}# Murex: A Smarter Shell
 
-[![Version](version.svg?{{env "COMMITHASHSHORT"}})](DOWNLOAD.md)
+[![Version](version.svg?v={{env "COMMITHASHSHORT"}})](DOWNLOAD.md)
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
-[![Deploy Docs](/images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
+[![Official Website](images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
 <img src="https://murex.rocks/murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}" class="no-border">
 

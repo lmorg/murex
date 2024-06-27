@@ -1,9 +1,9 @@
 # Murex: A Smarter Shell
 
-[![Version](version.svg?undef)](DOWNLOAD.md)
+[![Version](version.svg?v=undef)](DOWNLOAD.md)
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
-[![Deploy Docs](/images/website-badge.svg?v=undef)](https://murex.rocks)
+[![Official Website](images/website-badge.svg?v=undef)](https://murex.rocks)
 
 <img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="no-border">
 
