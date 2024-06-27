@@ -53,7 +53,6 @@ find docs -name "*.md" -exec murex gen/website/find-exec.mx {} \;
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
-        0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         README.html
 

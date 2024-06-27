@@ -73,6 +73,12 @@ jobs:
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
+
+      - name: Uppercase Key Docs
+        run: |-
+          cp docs/.vuepress/dist/.nojekyll/install.html cp docs/.vuepress/dist/.nojekyll/INSTALL.html
+          cp docs/.vuepress/dist/.nojekyll/download.html cp docs/.vuepress/dist/.nojekyll/DOWNLOAD.html
+          cp docs/.vuepress/dist/.nojekyll/contributing.html cp docs/.vuepress/dist/.nojekyll/CONTRIBUTING.html     
   
       - name: Deploy Docs
         env:
