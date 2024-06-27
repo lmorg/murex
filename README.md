@@ -27,13 +27,13 @@ A non-exhaustive list features would include:
 
 ## Language Guides
 
-* Read the [language tour](/tour.md) to get started.
+* Read the [language tour](/docs/tour.md) to get started.
 
-* The [Rosetta Stone](/user-guide/rosetta-stone.md) is a
+* The [Rosetta Stone](/docs//user-guide/rosetta-stone.md) is a
 great cheatsheet for those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-* The [Interactive Shell](/user-guide/interactive-shell.md)
+* The [Interactive Shell](/docs/user-guide/interactive-shell.md)
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
 
