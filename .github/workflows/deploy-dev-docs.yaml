@@ -71,6 +71,7 @@ jobs:
       - name: Build Docs
         env:
           NODE_OPTIONS: --max_old_space_size=8192
+          NODE_ENV: DEV
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
