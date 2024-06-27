@@ -59,6 +59,7 @@ func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) 
 
 		case '\t':
 			line = append(line, ' ', ' ', ' ', ' ')
+			width += 4
 
 		default:
 			if r < ' ' && r != '\t' && r != '\r' && r != '\n' {
