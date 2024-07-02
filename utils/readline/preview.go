@@ -51,16 +51,20 @@ const (
 )
 
 const (
-	glyphScrollUp   = "▲"
-	glyphScrollRail = "■"
-	glyphScrollBar  = "▣"
-	glyphScrollDown = "▼"
+	glyphScrollBar = "█"
 )
 
-func getScrollBarPos(height, pos, max int) int {
-	height -= 2
+// previewPos should be a percentage represented as a decimal value (eg 0.5 == 50%)
+func getScrollBarSize(previewHeight int, previewPos float64) int {
+	return int(float64(previewHeight)*previewPos) + 3
+}
 
-	return (height / max) * pos
+func getPreviewPos(rl *Instance) float64 {
+	if rl.previewCache == nil {
+		return 0
+	}
+
+	return (float64(rl.previewCache.pos) + float64(rl.previewCache.size.Height)) / float64(len(rl.previewCache.lines))
 }
 
 func getPreviewWidth(width int) (preview, forward int) {
@@ -157,10 +161,14 @@ const (
 )
 
 func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
-	var output string
+	var (
+		output       string
+		scrollBar    = glyphScrollBar
+		scrollHeight = getScrollBarSize(size.Height-1, getPreviewPos(rl))
+	)
 
-	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, boxV)
-	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
+	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, scrollBar)
+	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, scrollBar)
 
 	output += curHome
 
@@ -174,11 +182,17 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	output += boxTL + hr + boxTR + "\r\n"
 
 	for i := 0; i <= size.Height; i++ {
+		if i == scrollHeight {
+			scrollBar = boxV
+			pf = fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, scrollBar)
+			pj = fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
+		}
+
 		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			output += boxV + blank + boxV + "\r\n"
+			output += boxV + blank + scrollBar + "\r\n"
 			continue
 		}
 
