@@ -251,7 +251,7 @@ file names, or other such problems due to developers forgetting to quote
 variables. For example:
 ```
 » file = "file name.txt"
-» touch $file # this would normally need to be quoted
+» touch $file   # this would normally need to be quoted
 » ls
 'file name.txt'
 ```
@@ -263,7 +263,7 @@ additional variable construct for arrays. These are `@` prefixed:
 » files = %[file1.txt, file2.txt, file3.txt]
 » touch @files
 » ls
-file1.txt  file2.txt
+file1.txt  file2.txt  file3.txt
 ```
 
 ## Piping and Redirection
