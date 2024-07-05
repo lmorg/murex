@@ -108,8 +108,8 @@ event onPreview chatgpt=exec {
     !if { $openai_api } then {
         out "This feature requires an OpenAI API key with write access to /v1/chat/completions. eg\n"
         out "config set openai preview-exec-api xxxxx\n"
-        out "Run `murex-docs help user-guide/chatgpt` for more details or visit:"
-        out "https://murex.rocks/user-guide/chatgpt"
+        out "Run `murex-docs integrations/chatgpt` for more details or visit:"
+        out "https://murex.rocks/integrations/chatgpt"
         return
     }
 
