@@ -31,7 +31,7 @@ func read(namespace string, key string, ptr any) bool {
 
 	if err := json.Unmarshal(b, ptr); err != nil {
 		if debug.Enabled {
-			os.Stderr.WriteString(fmt.Sprintf("Error unmarshalling cache in "+namespace, err))
+			os.Stderr.WriteString(fmt.Sprintf("!!! error unmarshalling cache in '%s': %s !!!\n!!! cache value: '%s' !!!", namespace, err.Error(), string(b)))
 		}
 		return false
 	}

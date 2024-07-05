@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -101,7 +100,6 @@ func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) 
 
 		// only read directories
 		if !f.IsDir() {
-			debug.Log("File not directory:", pack)
 			continue
 		}
 
@@ -110,10 +108,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) 
 			continue
 		}
 
-		mods, err := profile.LoadPackage(pack, false)
-		if err != nil {
-			write(p, "{RED}%s{RESET}", err.Error())
-		}
+		mods, _ := profile.LoadPackage(pack, false)
 
 		// these should NOT equate ;)
 		if strings.HasSuffix(f.Name(), profile.IgnoredExt) != enabled {
@@ -160,7 +155,6 @@ func listPackages(p *lang.Process) error {
 			return err
 		}
 		if !f.IsDir() {
-			debug.Log("File not directory:", pack)
 			continue
 		}
 
