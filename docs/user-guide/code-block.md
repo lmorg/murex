@@ -72,8 +72,8 @@ brace block might be JSON).
   Initiates or terminates a string (variables expanded)
 * [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Create Object](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 

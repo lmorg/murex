@@ -1,6 +1,6 @@
-# `%{}` Create Map
+# `%{}` Create Object
 
-> Quickly generate objects and maps
+> Quickly generate objects (dictionaries / maps)
 
 ## Description
 
@@ -39,6 +39,25 @@ force numeric or boolean looking values to be stored as strings.
     "foo": "bar"
 }
 ```
+
+## Detail
+
+### Syntax
+
+The syntax is pretty flexible, albeit all Murex objects are displayed as JSON
+objects when printed to screen or otherwise handled like a string.
+
+#### The creation syntax follows these rules:
+
+Each **key** needs to be followed by a colon, `:`.
+
+Each **value** needs to be followed by either a comma, `,`, new line or closing
+curly brace, `}`.
+
+Strings can be quoted or unquoted (like with statement parameters). However any
+unquoted values will first be tested to see if it is a number, boolean (`true`
+of `false`) or null (`null`). Keys are always strings (`str`), even if they
+look like a number.
 
 ## See Also
 

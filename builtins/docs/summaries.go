@@ -274,7 +274,7 @@ func init() {
 		"parser/scalar":                    "Expand values as a scalar",
 		"parser/brace-quote":               "Initiates or terminates a string (variables expanded)",
 		"parser/create-array":              "Quickly generate arrays",
-		"parser/create-object":             "Quickly generate objects and maps",
+		"parser/create-object":             "Quickly generate objects (dictionaries / maps)",
 		"parser/logical-and":               "Continues next operation if previous operation passes",
 		"parser/single-quote":              "Initiates or terminates a string (variables not expanded)",
 		"parser/brace-quote-func":          "Write a string to the STDOUT without new line (deprecated)",

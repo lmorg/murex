@@ -181,8 +181,8 @@ arrays. For more details on these please refer to the documents for each format
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Create Object](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`a` (mkarray)](../commands/a.md):

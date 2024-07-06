@@ -8,17 +8,21 @@
 evaluation in Murex.
 
 Idiomatic Murex would be to write expressions without explicitly calling the
-underlying builtin, eg `1 + 2`, though you can invoke them via `expr` if
-needed. However please bare in mind that expressions have special parsing
-rules to make them more ergonomic. So if you write an expression as a command,
-eg `expr 1 + 2` then it is being parsed as a statement. This means more complex
-expressions might parse unintuitively. You can raise a bug if that does happen.
+underlying builtin:
 
-Expressions also support running commands as C-style functions, for example:
 ```
-» 5 * echo(5)
-25
+# idiomatic expressions
+1 + 2
+
+# non-idiotmatic expressions
+expr 1 + 2
 ```
+
+Though you can invoke them via `expr` if needed, please bare in mind that
+expressions have special parsing rules to make them more ergonomic. So if you
+write an expression as a command (ie prefixed with `expr`) then it will be
+parsed as a statement. This means more complex expressions might parse in
+unexpected ways and thus fail. You can still raise a bug if that does happens.
 
 For a full list of operators supported exclusively in expression, see the
 last section in this document.
@@ -35,14 +39,14 @@ expr expression -> <stdout>
 
 ## Examples
 
-**Expressions:**
+### Basic Expressions
 
 ```
 » 3 * (3 + 1)
 12
 ```
 
-**Statements with inlined expressions:**
+### Statements with inlined expressions
 
 Any parameter surrounded by parenthesis is first evaluated as an expression,
 then as a string.
@@ -52,19 +56,24 @@ then as a string.
 6
 ```
 
-**Expressions with inlined statements:**
+### Functions
 
-Functions can be inlined as a statement using `function(parameters...)` syntax.
+Expressions also support running commands as C-style functions, for example:
 
 ```
+» 5 * out(5)
+25
+
 » datetime(--in {now} --out {unix}) / 60
 28339115.783333335
+
+» $file_contents = open(example_file.txt)
 ```
 
 Please note that currently the only functions supported are ones who's names
 are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
 
-**JSON array:**
+### Arrays
 
 ```
 » %[apples oranges grapes]
@@ -74,6 +83,25 @@ are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
     "grapes"
 ]
 ```
+
+([read more](/docs/parser/create-array.md))
+
+### Objects
+
+Sometimes known as dictionaries or maps:
+
+```
+» %{ Age: { Tom: 20, Dick: 30, Sally: 40 } }
+{
+    "Age": {
+        "Dick": 30,
+        "Sally": 40,
+        "Tom": 20
+    }
+}
+```
+
+([read more](/docs/parser/create-object.md))
 
 ## Detail
 
@@ -271,8 +299,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 * [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Create Object](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)
 * [`*` Multiplication Operator](../parser/multiplication.md):
@@ -293,6 +321,10 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
+* [`open`](../commands/open.md):
+  Open a file with a preferred handler
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
 
 <hr/>
 

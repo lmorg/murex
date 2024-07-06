@@ -35,8 +35,8 @@ files.
   Initiates or terminates a string (variables expanded)
 * [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Create Object](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`'Single Quote'`](../parser/single-quote.md):

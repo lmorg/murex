@@ -56,8 +56,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Initiates or terminates a string (variables expanded)
 * [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Create Object](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`autocomplete`](../commands/autocomplete.md):
