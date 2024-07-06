@@ -11,7 +11,7 @@ import (
 var disable_handler bool
 
 func Handler() bool {
-	if debug.Enabled || !disable_handler {
+	if debug.Enabled || disable_handler {
 		return false
 	}
 
@@ -20,22 +20,11 @@ func Handler() bool {
 		return false
 	}
 
-	/*state, rlErr := readline.MakeRaw(int(os.Stdin.Fd()))
-	if rlErr != nil {
-		defer readline.Restore(int(os.Stdin.Fd()), state)
-	}*/
-
 	_, _ = os.Stderr.WriteString(fmt.Sprintf("Error: %v\n", r))
 	_, _ = os.Stderr.WriteString(_crashStack())
 	_, _ = os.Stderr.WriteString(_crashHostReport())
 	_, _ = os.Stderr.WriteString(crashMessage)
 
-	/*for {
-		b := make([]byte, 1024)
-		_, _ = os.Stdin.Read(b)
-
-		return
-	}*/
 	return true
 }
 

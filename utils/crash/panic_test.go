@@ -3,7 +3,7 @@ package crash
 /*
 	We want tests to panic!
 
-	So this weird source file disabled the crash handler for tests
+	So this weird source file disables the crash handler for tests
 */
 
 func init() {
