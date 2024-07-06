@@ -1,12 +1,30 @@
-- DocumentID: v6.2
+- DocumentID: v6.1
   Title: >-
-    v6.2
+    v6.1
   CategoryID: changelog
-  DateTime: 2024-07-06 23:08
+  DateTime: 2024-06-17 22:54
   Summary: >-
-    Bug fix release
+    This release sees a massive jump in event-driven capabilities as well as
+    several new features and bug fixes.
   Description: |-
-    {{ include "gen/changelog/v6.2.inc.md" }}
+    {{ include "gen/changelog/v6.1.inc.md" }}
   Related:
     - CONTRIBUTING
-    - expr
+    - chatgpt
+    - onpreview
+    - onkeypress
+    - onprompt
+    - key-code
+    - runtime
+    - debug
+    - event
+    - get
+    - post
+    - interactive-shell
+    - terminal-keys
+    - man-summary
+    - datetime
+    - autocomplete
+    - ansi
+    - openagent
+

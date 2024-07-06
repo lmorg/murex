@@ -1,29 +1,16 @@
-- DocumentID: v6.1
+- DocumentID: v6.2
   Title: >-
-    v6.1
+    v6.2
   CategoryID: changelog
-  DateTime: 2024-06-17 22:54
+  DateTime: 2024-07-06 23:08
   Summary: >-
-    This release sees a massive jump in event-driven capabilities as well as
-    several new features and bug fixes.
+    Bug fix release
   Description: |-
-    {{ include "gen/changelog/v6.1.inc.md" }}
+    {{ include "gen/changelog/v6.2.inc.md" }}
   Related:
     - CONTRIBUTING
+    - expr
+    - murex-docs
+    - murex-package
     - chatgpt
-    - onpreview
-    - onkeypress
-    - onprompt
-    - key-code
-    - runtime
-    - debug
-    - event
-    - get
-    - post
-    - interactive-shell
-    - terminal-keys
-    - man-summary
-    - datetime
-    - autocomplete
-    - ansi
-    - openagent
+    - export
