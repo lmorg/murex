@@ -40,7 +40,7 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 // way of parsing function parameters
 func StatementParametersParser(expression []rune, p *lang.Process) (string, []string, error) {
 	if p.Name.String() == lang.ExpressionFunctionName {
-		return p.Name.String(), []string{string(p.Parameters.PreParsed[0])}, nil
+		return p.Name.String(), []string{string(p.Parameters.GetRaw())}, nil
 	}
 
 	tree := NewParser(nil, expression, 0)

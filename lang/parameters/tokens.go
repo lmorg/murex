@@ -29,3 +29,13 @@ func (param *Parameters) Dump() interface{} {
 
 	return dump
 }
+
+func (param *Parameters) GetRaw() []rune {
+	var r []rune
+
+	for i := range param.PreParsed {
+		r = append(r, param.PreParsed[i]...)
+	}
+
+	return r
+}
