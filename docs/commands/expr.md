@@ -9,7 +9,10 @@ evaluation in Murex.
 
 Idiomatic Murex would be to write expressions without explicitly calling the
 underlying builtin, eg `1 + 2`, though you can invoke them via `expr` if
-needed.
+needed. However please bare in mind that expressions have special parsing
+rules to make them more ergonomic. So if you write an expression as a command,
+eg `expr 1 + 2` then it is being parsed as a statement. This means more complex
+expressions might parse unintuitively. You can raise a bug if that does happen.
 
 Expressions also support running commands as C-style functions, for example:
 ```
