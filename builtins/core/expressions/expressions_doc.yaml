@@ -6,8 +6,17 @@
     Expressions: mathematical, string comparisons, logical operators
   Description: |-
     `expr` is the underlying builtin which handles all expression parsing and
-    evaluation in Murex. Though typically that would happen transparently without
-    you having to explicit call `expr`.
+    evaluation in Murex.
+    
+    Idiomatic Murex would be to write expressions without explicitly calling the
+    underlying builtin, eg `1 + 2`, though you can invoke them via `expr` if
+    needed.
+
+    Expressions also support running commands as C-style functions, for example:
+    ```
+    » 5 * echo(5)
+    25
+    ```
 
     For a full list of operators supported exclusively in expression, see the
     last section in this document.
