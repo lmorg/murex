@@ -129,3 +129,4 @@
     - create-object
     - open
     - out
+    - strict-types

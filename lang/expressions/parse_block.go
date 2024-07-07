@@ -3,11 +3,11 @@ package expressions
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -252,9 +252,13 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '?':
-			message := fmt.Sprintf("!!! WARNING: The operator `?` has been deprecated and will be removed in the next release\n!!!        : Line:   %d\n!!!        : Column: %d\n",
-				blk.lineN, blk.charPos)
-			os.Stderr.WriteString(message)
+			message := "The operator `?`"
+			fileRef := &ref.File{
+				Line:   blk.lineN,
+				Column: blk.charPos,
+				//Source: tree.p.FileRef.Source,
+			}
+			lang.Deprecated(message, fileRef)
 
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err

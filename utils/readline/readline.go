@@ -188,14 +188,14 @@ readKey:
 			output := rl.clearPreviewStr()
 			output += rl.clearHelpersStr()
 			print(output)
-			return "", CtrlC
+			return "", ErrCtrlC
 
 		case charEOF:
 			if rl.line.RuneLen() == 0 {
 				output := rl.clearPreviewStr()
 				output += rl.clearHelpersStr()
 				print(output)
-				return "", EOF
+				return "", ErrEOF
 			}
 
 		case charCtrlE:

@@ -297,6 +297,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 ## See Also
 
+* [Strict type comparison](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [`%[]` Create Array](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Create Object](../parser/create-object.md):

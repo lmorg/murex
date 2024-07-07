@@ -57,6 +57,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [Strict type comparison](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](../user-guide/scoping.md):

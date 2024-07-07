@@ -183,6 +183,7 @@ endString:
 
 func (tree *ParserT) parseBackTick(quote rune, exec bool) ([]rune, error) {
 	if exec {
+		//lang.Deprecated("Automatic backtick (`) converstions to single quote (')", tree.p.FileRef)
 		quote = '\''
 	}
 
