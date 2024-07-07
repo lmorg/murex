@@ -7,6 +7,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+const errCannotConvertToFloat = "value cannot be converted into an integer nor floating point number"
+
 func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (float64, float64, error) {
 	left, err := leftNode.dt.GetValue()
 	if err != nil {
@@ -35,9 +37,7 @@ func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *as
 			case int:
 				lv = float64(t)
 			default:
-				return 0, 0, raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
-					"value cannot be converted into an integer nor floating point number\nUnderlying data type: %T", t,
-				))
+				return 0, 0, raiseError(tree.expression, leftNode, 0, fmt.Sprintf("%s\nUnderlying data type: %T", errCannotConvertToFloat, t))
 			}
 
 			switch t := right.Value.(type) {
@@ -46,10 +46,9 @@ func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *as
 			case int:
 				rv = float64(t)
 			default:
-				return 0, 0, raiseError(tree.expression, rightNode, 0, fmt.Sprintf(
-					"value cannot be converted into an integer nor floating point number\nUnderlying data type: %T", t,
-				))
+				return 0, 0, raiseError(tree.expression, rightNode, 0, fmt.Sprintf("%s\nUnderlying data type: %T", errCannotConvertToFloat, t))
 			}
+
 			return lv, rv, nil
 		}
 	}

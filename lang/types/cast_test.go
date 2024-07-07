@@ -46,6 +46,7 @@ func testConvertGoType(t *testing.T, tests []test) {
 		}
 	}
 }
+
 func TestConvertGoTypeBaseline(t *testing.T) {
 	tests := []test{
 		{
@@ -96,8 +97,33 @@ func TestConvertGoTypeBaseline(t *testing.T) {
 		{
 			In:       `foobar`,
 			DataType: types.Json,
-			//Out:      `{ "Value": "foobar" }`,
-			Out: `foobar`,
+			Out:      `foobar`,
+		},
+	}
+
+	testConvertGoType(t, tests)
+}
+
+// https://github.com/lmorg/murex/issues/829
+func TestConvertGoTypeJsonToNumber(t *testing.T) {
+	tests := []test{
+		{
+			In:       []interface{}{1, 2, 3},
+			DataType: types.Integer,
+			Out:      0,
+			Error:    true,
+		},
+		{
+			In:       []interface{}{1, 2, 3},
+			DataType: types.Float,
+			Out:      0,
+			Error:    true,
+		},
+		{
+			In:       []interface{}{1, 2, 3},
+			DataType: types.Number,
+			Out:      0,
+			Error:    true,
 		},
 	}
 
