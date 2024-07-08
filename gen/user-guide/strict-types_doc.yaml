@@ -1,6 +1,6 @@
 - DocumentID: strict-types
   Title: >-
-    Strict type comparison
+    Strict Types In Expressions
   CategoryID: user-guide
   Summary: >-
     Expressions can auto-convert types or strictly honour data types

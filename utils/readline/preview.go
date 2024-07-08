@@ -56,7 +56,11 @@ const (
 
 // previewPos should be a percentage represented as a decimal value (eg 0.5 == 50%)
 func getScrollBarSize(previewHeight int, previewPos float64) int {
-	return int(float64(previewHeight)*previewPos) + 3
+	size := int((float64(previewHeight) + 2) * previewPos) //+ 3
+	/*if previewPos < 1 && size >= previewHeight {
+		size--
+	}*/
+	return size
 }
 
 func getPreviewPos(rl *Instance) float64 {
@@ -64,7 +68,7 @@ func getPreviewPos(rl *Instance) float64 {
 		return 0
 	}
 
-	return (float64(rl.previewCache.pos) + float64(rl.previewCache.size.Height)) / float64(len(rl.previewCache.lines))
+	return (float64(rl.previewCache.pos) + float64(rl.previewCache.size.Height) + 2) / float64(len(rl.previewCache.lines))
 }
 
 func getPreviewWidth(width int) (preview, forward int) {

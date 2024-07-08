@@ -1,4 +1,4 @@
-# Strict type comparison
+# Strict Types In Expressions
 
 > Expressions can auto-convert types or strictly honour data types
 
