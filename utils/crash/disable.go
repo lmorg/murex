@@ -1,3 +1,6 @@
+//go:build no_crash_handler
+// +build no_crash_handler
+
 package crash
 
 /*

@@ -1,5 +1,5 @@
-//go:build !js
-// +build !js
+//go:build !js && !windows
+// +build !js,!windows
 
 package ansititle
 
