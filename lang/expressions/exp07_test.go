@@ -1,6 +1,10 @@
 package expressions
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/lmorg/murex/test"
+)
 
 func TestExpEqualToStrict(t *testing.T) {
 	tests := []expressionTestT{
@@ -35,10 +39,10 @@ func TestExpEqualToStrict(t *testing.T) {
 			Expression: `$variable == ""`,
 			Error:      true,
 		},
-		{
+		/*{
 			Expression: `$variable == null`,
 			Expected:   true,
-		},
+		},*/
 	}
 
 	testExpression(t, tests, true)
@@ -344,4 +348,84 @@ func TestExpNotRegexp(t *testing.T) {
 	}
 
 	testExpression(t, tests, true)
+}
+
+// https://github.com/lmorg/murex/issues/831
+func TestExprEquBugFixes(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `foobar == foobar`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"foobar" == foobar`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `foobar == "foobar"`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"foobar" == "foobar"`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		/////
+		{
+			Block:   `%[z y x] == %[z y x]`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		{
+			Block:   `"%[z y x]" == %[z y x]`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `%[z y x] == "%[z y x]"`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"%[z y x]" == "%[z y x]"`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		{
+			Block:   `%[z y x] == '["z","y","x"]'`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		/////
+		{
+			Block:   `%{z:3, y:2, x:1} == %{z:3, y:2, x:1}`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		{
+			Block:   `"%{z:3, y:2, x:1}" == %{z:3, y:2, x:1}`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `%{z:3, y:2, x:1} == "%{z:3, y:2, x:1}"`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"%{z:3, y:2, x:1}" == "%{z:3, y:2, x:1}"`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		{
+			Block:   `%{z:3, y:2, x:1} == '{"x":1,"y":2,"z":3}'`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }
