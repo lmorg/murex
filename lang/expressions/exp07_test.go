@@ -39,10 +39,10 @@ func TestExpEqualToStrict(t *testing.T) {
 			Expression: `$variable == ""`,
 			Error:      true,
 		},
-		/*{
+		{
 			Expression: `$variable == null`,
 			Expected:   true,
-		},*/
+		},
 	}
 
 	testExpression(t, tests, true)
