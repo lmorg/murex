@@ -8,7 +8,7 @@
   Description: |-
     `alter` a value within a structured data-type.
 
-    The path separater is defined by the first character in the path. For example
+    The path separator is defined by the first character in the path. For example
     `/path/to/key`, `,path,to,key`, `|path|to|key` and `#path#to#key` are all valid
     however you should remember to quote or escape any special characters (tokens)
     used by the shell (such as pipe, `|`, and hash, `#`).
