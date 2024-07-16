@@ -52,8 +52,6 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
@@ -62,6 +60,8 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`PWD` (path)](../variables/pwd.md):
   Current working directory
 * [`cd`](../commands/cd.md):

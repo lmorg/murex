@@ -141,8 +141,6 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
@@ -153,6 +151,8 @@ if you want to learn more about shell scripting in Murex.
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[[ Element ]]`](../parser/element.md):

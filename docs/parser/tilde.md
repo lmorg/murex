@@ -1,4 +1,4 @@
-# Tilde (`~`) Token
+# `~` Home Sigil
 
 > Home directory path variable
 
@@ -39,8 +39,6 @@ But it cannot be expanded inside single quotes.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [`"Double Quote"`](../parser/double-quote.md):
@@ -51,6 +49,8 @@ But it cannot be expanded inside single quotes.
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`out`](../commands/out.md):

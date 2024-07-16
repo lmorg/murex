@@ -229,7 +229,7 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 ## See Also
 
-* [`%{}` Create Object](../parser/create-object.md):
+* [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table

@@ -143,7 +143,7 @@ Published: 22.04.2023 at 11:43
 
 ## See Also
 
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

@@ -51,7 +51,7 @@ const (
 	AssignAndSubtract
 	AssignAndDivide
 	AssignAndMultiply
-	AssignAndMerge
+	AssignOrMerge
 
 	// 13. Conditional expression (ternary)
 	Elvis

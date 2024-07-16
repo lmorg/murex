@@ -216,7 +216,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
 			err = expAssignAndOperate(tree, _assMulti)
-		case symbols.AssignAndMerge:
+		case symbols.AssignOrMerge:
 			err = expAssignMerge(tree)
 
 		// 13. Conditional expression (ternary)
@@ -299,9 +299,9 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Object](../parser/create-object.md):
+* [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)

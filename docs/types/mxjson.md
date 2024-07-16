@@ -54,9 +54,9 @@ Any block quoted by this method will be converted to the following valid JSON:
   Overview of how code blocks are parsed
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Object](../parser/create-object.md):
+* [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure

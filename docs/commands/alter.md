@@ -11,7 +11,10 @@ The path separater is defined by the first character in the path. For example
 however you should remember to quote or escape any special characters (tokens)
 used by the shell (such as pipe, `|`, and hash, `#`).
 
-The *value* must always be supplied as JSON however 
+The **value** must always be supplied as JSON.
+
+> When working with expressions, you may find the **Assign or Merge** operator
+> more ergonomic ({{link "read more" "assign-or-merge"}}) 
 
 ## Usage
 
@@ -152,6 +155,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ## See Also
 
+* [`<~` Assign or Merge](../parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):

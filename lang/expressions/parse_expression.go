@@ -183,7 +183,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.charPos++
 			case '~':
 				// assign and merge
-				tree.appendAst(symbols.AssignAndMerge)
+				tree.appendAst(symbols.AssignOrMerge)
 				tree.charPos++
 			default:
 				// less than

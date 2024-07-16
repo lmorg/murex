@@ -1,6 +1,6 @@
 - DocumentID: create-array
   Title: >-
-    `%[]` Create Array
+    `%[]` Array Builder
   CategoryID: parser
   Summary: >-
     Quickly generate arrays
@@ -73,7 +73,7 @@
     ]
     ```
 
-    ### Strings:
+    ### Strings
 
     #### barewords and whitespace separated
 

@@ -1,4 +1,4 @@
-# `%{}` Create Object
+# `%{}` Object Builder
 
 > Quickly generate objects (dictionaries / maps)
 
@@ -67,7 +67,7 @@ look like a number.
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)

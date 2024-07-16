@@ -1,4 +1,4 @@
-# Array (`@`) Token
+# `@Array` Sigil
 
 > Expand values as an array
 
@@ -111,8 +111,6 @@ foo  1 2 3 4 5  bar
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Tilde (`~`) Token](../parser/tilde.md):
-  Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -129,6 +127,8 @@ foo  1 2 3 4 5  bar
   Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
+* [`~` Home Sigil](../parser/tilde.md):
+  Home directory path variable
 
 <hr/>
 

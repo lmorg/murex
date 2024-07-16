@@ -41,21 +41,23 @@ assumes anything that looks like a number is a number when performing addition.
 ```
 
 For occasions when type safety is more important than the convenience of silent
-data casting, you can disable the above behaviour via `config`:
+data casting, you can disable the above behaviour via `config` ([read more](/docs/user-guide/strict-types.md)):
 
 ```
-» config set proc strict-types false
+» config set proc strict-types true
 » $str + $int
 Error in `expr` (0,1): cannot Add with string types
-                    > Expression: $str + $int
-                    >           : ^
-                    > Character : 1
-                    > Symbol    : Scalar
-                    > Value     : '$str'
+                     > Expression: $str + $int
+                     >           : ^
+                     > Character : 1
+                     > Symbol    : Scalar
+                     > Value     : '$str'
 ```
 
 ## See Also
 
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
   Multiplies one numeric value with another (expression)
 * [`+` Addition Operator](../parser/addition.md):
@@ -79,4 +81,4 @@ Error in `expr` (0,1): cannot Add with string types
 
 <hr/>
 
-This document was generated from [gen/expr/division_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/division_op_doc.yaml).
+This document was generated from [gen/expr/division-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/division-op_doc.yaml).

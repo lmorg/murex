@@ -36,11 +36,11 @@ to `true`:
 ```
 » 1 + "2"
 Error in `expr` (0,1): cannot Add with string types
-                    > Expression: 1 + "2"
-                    >           :     ^
-                    > Character : 5
-                    > Symbol    : QuoteDouble
-                    > Value     : '2'
+                     > Expression: 1 + "2"
+                     >           :     ^
+                     > Character : 5
+                     > Symbol    : QuoteDouble
+                     > Value     : '2'
 ```
 
 ## Scope

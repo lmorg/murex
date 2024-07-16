@@ -35,16 +35,14 @@ bar
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
-* [Tilde (`~`) Token](../parser/tilde.md):
-  Home directory path variable
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
@@ -53,6 +51,8 @@ bar
   string (primitive)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
+* [`~` Home Sigil](../parser/tilde.md):
+  Home directory path variable
 
 <hr/>
 

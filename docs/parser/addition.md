@@ -57,6 +57,8 @@ Error in `expr` (0,1): cannot Add with string types
 
 ## See Also
 
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
   Multiplies one numeric value with another (expression)
 * [`+=` Add With Operator](../parser/add-with.md):
@@ -80,4 +82,4 @@ Error in `expr` (0,1): cannot Add with string types
 
 <hr/>
 
-This document was generated from [gen/expr/addition_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/addition_op_doc.yaml).
+This document was generated from [gen/expr/addition-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/addition-op_doc.yaml).
