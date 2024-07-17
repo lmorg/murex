@@ -18,7 +18,9 @@ instead**
 
 ```
 <stdin> -> [start..end]flags -> <stdout>
-```## Examples
+```
+
+## Examples
 
 **Range over all months after March:**
 

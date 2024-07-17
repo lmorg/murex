@@ -75,15 +75,13 @@
     ]
     ```
 
-    > Please note that you can also do this with standard globbing, eg
-    >
+    > Please note that you can also do this with {{link "standard globbing" "g"}}, for example:
     > ```
     > » files = g([ae]/*)
     > ```
-    > 
-    > ({{link "read more" "g"}})
   Detail: |-
-
+    **Assign or Merge** uses the same underlying algorithm as the {{link "`alter -m`" "alter"}}
+    builtin.
   Related:
   - expr
   - alter

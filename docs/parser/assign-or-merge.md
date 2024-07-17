@@ -11,6 +11,8 @@ If the variable doesn't exist, then it is created.
 
 This operator is only available in expressions.
 
+
+
 ## Examples
 
 ### Appending to an array
@@ -76,13 +78,15 @@ each iteration for `foreach`:
 ]
 ```
 
-> Please note that you can also do this with standard globbing, eg
->
+> Please note that you can also do this with [standard globbing](/docs/commands/g.md), for example:
 > ```
 > » files = g([ae]/*)
 > ```
-> 
-> ({{link "read more" "g"}})
+
+## Detail
+
+**Assign or Merge** uses the same underlying algorithm as the [`alter -m`](/docs/commands/alter.md)
+builtin.
 
 ## See Also
 

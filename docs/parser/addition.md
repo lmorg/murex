@@ -7,6 +7,8 @@
 The Addition Operator adds two numeric values together in an expression. Those
 values are placed either side of the addition operator.
 
+
+
 ## Examples
 
 #### Expression

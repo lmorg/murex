@@ -14,7 +14,9 @@
 <stdin> -> = evaluation -> <stdout>
 
 = evaluation -> <stdout>
-```## Examples
+```
+
+## Examples
 
 As a method:
 

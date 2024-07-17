@@ -11,9 +11,11 @@ stream.
 `->` differs from `|` in the interactive terminal where it produces different
 autocompletion suggestion. It returns a list of "methods". That is, commands
 that are known to support the output type of the previous command. `->` helps
-with the discovery of commandline tools.
+with the discovery of command line tools.
 
 In shell scripts, `->` and `|` can be used interchangeably.
+
+
 
 ## Examples
 

@@ -24,7 +24,9 @@ Write to pipe
 
 ```
 <stdin> -> <namedpipe>
-```## Examples
+```
+
+## Examples
 
 The follow two examples function the same
 
