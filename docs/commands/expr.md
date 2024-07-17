@@ -48,8 +48,8 @@ expr expression -> <stdout>
 
 ### Statements with inlined expressions
 
-Any parameter surrounded by parenthesis is first evaluated as an expression,
-then as a string.
+Any parameter surrounded by parenthesis is first evaluated as an [expression](/docs/parser/expr-inlined.md),
+then as a [string](/docs/parser/brace-quote-func.md)".
 
 ```
 » out (3 * 2)
@@ -58,7 +58,7 @@ then as a string.
 
 ### Functions
 
-Expressions also support running commands as C-style functions, for example:
+Expressions also support running commands as [C-style functions](/docs/parser/c-style-fun.md), for example:
 
 ```
 » 5 * out(5)
@@ -297,6 +297,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 ## See Also
 
+* [( expression )](../parser/expr-inlined.md):
+  Inline expressions
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
 * [`%[]` Array Builder](../parser/create-array.md):
@@ -319,6 +321,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
+* [`<~` Assign or Merge](../parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):

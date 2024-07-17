@@ -23,6 +23,8 @@ files.
 
 * [( expression )](../parser/expr-inlined.md):
   Inline expressions
+* [C-style functions](../parser/c-style-fun.md):
+  Inlined commands for expressions and statements
 * [`!` (not)](../parser/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`"Double Quote"`](../parser/double-quote.md):

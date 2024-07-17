@@ -266,6 +266,7 @@ func init() {
 		"optional/select":                  "Inlining SQL into shell pipelines",
 		"optional/sleep":                   "Suspends the shell for a number of seconds",
 		"parser/expr-inlined":              "Inline expressions",
+		"parser/c-style-fun":               "Inlined commands for expressions and statements",
 		"parser/not-func":                  "Reads the STDIN and exit number from previous process and not's it's condition",
 		"parser/double-quote":              "Initiates or terminates a string (variables expanded)",
 		"parser/scalar":                    "Expand values as a scalar",
@@ -586,6 +587,7 @@ func init() {
 		"sleep":   "optional/sleep",
 
 		"expr-inlined":       "parser/expr-inlined",
+		"c-style-fun":        "parser/c-style-fun",
 		"!":                  "parser/not-func",
 		"not":                "parser/not-func",
 		"double-quote":       "parser/double-quote",
@@ -811,6 +813,7 @@ func init() {
 		"optional/select":                 "optional/select",
 		"optional/sleep":                  "optional/sleep",
 		"parser/expr-inlined":             "parser/expr-inlined",
+		"parser/c-style-fun":              "parser/c-style-fun",
 		"parser/!":                        "parser/not-func",
 		"parser/not":                      "parser/not-func",
 		"parser/double-quote":             "parser/double-quote",

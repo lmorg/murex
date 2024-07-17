@@ -45,8 +45,8 @@
 
     ### Statements with inlined expressions
 
-    Any parameter surrounded by parenthesis is first evaluated as an expression,
-    then as a string.
+    Any parameter surrounded by parenthesis is first evaluated as an {{link "expression" "expr-inlined"}},
+    then as a {{link "string" "brace-quote-func"}}".
 
     ```
     » out (3 * 2)
@@ -55,7 +55,7 @@
 
     ### Functions
 
-    Expressions also support running commands as C-style functions, for example:
+    Expressions also support running commands as {{link "C-style functions" "c-style-fun"}}, for example:
 
     ```
     » 5 * out(5)
@@ -67,8 +67,7 @@
     » $file_contents = open(example_file.txt)
     ```
 
-    Please note that currently the only functions supported are ones who's names
-    are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
+    {{ include "gen/includes/c-style-valid-fun.inc.md" }}
 
     ### Arrays
 
@@ -130,3 +129,5 @@
     - open
     - out
     - strict-types
+    - expr-inlined
+    - assign-or-merge
