@@ -15,8 +15,6 @@ with the discovery of commandline tools.
 
 In shell scripts, `->` and `|` can be used interchangeably.
 
-
-
 ## Examples
 
 ```

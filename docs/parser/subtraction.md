@@ -7,8 +7,6 @@
 The Subtraction Operator takes the right hand number from the left hand number
 in an expression.
 
-
-
 ## Examples
 
 #### Expression

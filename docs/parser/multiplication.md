@@ -7,8 +7,6 @@
 The Multiplication Operator takes the left hand number and right hand values
 and multiplies them together in an expression.
 
-
-
 ## Examples
 
 #### Expression

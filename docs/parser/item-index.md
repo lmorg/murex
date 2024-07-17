@@ -15,9 +15,7 @@ Please note that indexes in Murex are counted from zero.
 $variable[ element ] -> <stdout>
 
 <stdin> -> ![ element ] -> <stdout>
-```
-
-## Examples
+```## Examples
 
 Return the 2nd (1), 4th (3) and 6th (5) element in an array:
 

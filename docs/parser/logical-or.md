@@ -11,8 +11,6 @@ does not error. Neither STDOUT nor STDERR are piped.
 This has no effect in `try` nor `trypipe` run modes because they automatically
 apply stricter error handling. See detail below.
 
-
-
 ## Examples
 
 **Second command does not run because the first command doesn't error:**

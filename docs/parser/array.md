@@ -7,8 +7,6 @@
 The array token is used to tell Murex to expand the string as multiple
 parameters (an array) rather than as a single parameter string.
 
-
-
 ## Examples
 
 **ASCII variable names:**

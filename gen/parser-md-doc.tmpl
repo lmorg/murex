@@ -16,9 +16,7 @@
 
 {{ if .Usage }}## Usage
 
-{{ md .Usage }}{{ end }}{{ if .Examples }}
-
-## Examples
+{{ md .Usage }}{{ end }}{{ if .Examples }}## Examples
 
 {{ md (include .Examples) }}{{ end }}{{ if .Flags }}
 
@@ -30,7 +28,7 @@
 
 ## Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+{{ md (fn (include .Detail)) }}{{ end }}{{ if .Synonyms }}
 
 ## Synonyms
 

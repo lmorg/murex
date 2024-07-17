@@ -12,8 +12,6 @@ It is ostensibly just shorthand for `$i = $i * value`.
 
 This operator is only available in expressions.
 
-
-
 ## Examples
 
 ```
@@ -40,8 +38,6 @@ value op value**, for example:
 » $i
 5
 ```
-
-Please note that this behaviour might change in a later release of Murex.
 
 ## See Also
 

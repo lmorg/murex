@@ -16,8 +16,6 @@ Other "falsy" values such as numerical values of `0`, boolean `false`, zero
 length strings and strings containing `"null"` are not considered empty by the
 null coalescing operator.
 
-
-
 ## Examples
 
 **Assign a variable with a default value:**

@@ -10,8 +10,6 @@ stream.
 
 It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
 
-
-
 ## Examples
 
 ```

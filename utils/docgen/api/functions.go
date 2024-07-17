@@ -34,13 +34,13 @@ var funcMap = template.FuncMap{
 	"fn":         funcFunctions,
 }
 
-var funcMapMd = template.FuncMap{}
+var funcMap__fn = template.FuncMap{}
 
 func init() {
 	for k, v := range funcMap {
-		funcMapMd[k] = v
+		funcMap__fn[k] = v
 	}
-	delete(funcMapMd, "fn")
+	delete(funcMap__fn, "fn")
 }
 
 /************
@@ -284,7 +284,7 @@ func funcEnv(env string) any {
 // Returns: parsed string
 func funcFunctions(s string) string {
 	w := bytes.NewBuffer([]byte{})
-	t, err := template.New("__fn").Funcs(funcMapMd).Parse(s)
+	t, err := template.New("__fn").Funcs(funcMap__fn).Parse(s)
 	if err != nil {
 		panic(err.Error())
 	}

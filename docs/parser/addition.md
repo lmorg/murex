@@ -7,8 +7,6 @@
 The Addition Operator adds two numeric values together in an expression. Those
 values are placed either side of the addition operator.
 
-
-
 ## Examples
 
 #### Expression
@@ -27,6 +25,8 @@ out (3+2)
 
 ## Detail
 
+### String Concatenation
+
 Unlike in some other programming languages, the `+` operator cannot be used to
 concatenate strings. This is because shells are historically untyped so you
 cannot always guarantee that numeric-looking value isn't a string. To solve
@@ -41,11 +41,13 @@ concatenate strings would lead to a large class of bugs.
 5
 ```
 
+### Type Safety
+
 For occasions when type safety is more important than the convenience of silent
 data casting, you can disable the above behaviour via `config`:
 
 ```
-» config set proc strict-types false
+» config set proc strict-types true
 » $str + $int
 Error in `expr` (0,1): cannot Add with string types
                     > Expression: $str + $int

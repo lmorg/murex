@@ -15,8 +15,6 @@ separate keys from values.
 Like with YAML, strings in `%[]` do not need to be quoted unless you need to
 force numeric or boolean looking values to be stored as strings.
 
-
-
 ## Examples
 
 **Object passed as a JSON string:**

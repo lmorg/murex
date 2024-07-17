@@ -17,8 +17,6 @@ A falsy value is any of the following:
 * an empty object or zero length array 
 * and, of course, a boolean with the value `false`
 
-
-
 ## Examples
 
 **Assign a variable with a default value:**

@@ -19,9 +19,7 @@ Please note that indexes in Murex are counted from zero.
 <stdin> -> [[ element ]] -> <stdout>
 
 $variable[[ element ]] -> <stdout>
-```
-
-## Examples
+```## Examples
 
 Return the 2nd element in an array
 

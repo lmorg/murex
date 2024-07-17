@@ -13,9 +13,7 @@ Otherwise a new file is created.
 
 ```
 <stdin> >> filename
-```
-
-## Examples
+```## Examples
 
 ```
 g * >> files.txt
