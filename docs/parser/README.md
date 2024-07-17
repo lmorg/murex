@@ -21,6 +21,8 @@ files.
 
 ## Pages
 
+* [( expression )](../parser/expr-inlined.md):
+  Inline expressions
 * [`!` (not)](../parser/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`"Double Quote"`](../parser/double-quote.md):

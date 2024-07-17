@@ -265,6 +265,7 @@ func init() {
 		"optional/qr":                      "Creates a QR code from STDIN",
 		"optional/select":                  "Inlining SQL into shell pipelines",
 		"optional/sleep":                   "Suspends the shell for a number of seconds",
+		"parser/expr-inlined":              "Inline expressions",
 		"parser/not-func":                  "Reads the STDIN and exit number from previous process and not's it's condition",
 		"parser/double-quote":              "Initiates or terminates a string (variables expanded)",
 		"parser/scalar":                    "Expand values as a scalar",
@@ -584,6 +585,7 @@ func init() {
 		"select":  "optional/select",
 		"sleep":   "optional/sleep",
 
+		"expr-inlined":       "parser/expr-inlined",
 		"!":                  "parser/not-func",
 		"not":                "parser/not-func",
 		"double-quote":       "parser/double-quote",
@@ -808,6 +810,7 @@ func init() {
 		"optional/qr":                     "optional/qr",
 		"optional/select":                 "optional/select",
 		"optional/sleep":                  "optional/sleep",
+		"parser/expr-inlined":             "parser/expr-inlined",
 		"parser/!":                        "parser/not-func",
 		"parser/not":                      "parser/not-func",
 		"parser/double-quote":             "parser/double-quote",
