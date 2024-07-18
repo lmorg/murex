@@ -101,6 +101,8 @@ It is 23 o' clock
 
 ## See Also
 
+* [Language Tour](../Murex/tour.md):
+  Getting started with Murex
 * [`datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [`echo`](../commands/out.md):
@@ -109,8 +111,6 @@ It is 23 o' clock
   Expressions: mathematical, string comparisons, logical operators
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [sub-shell](../parser/sub-shell.md):
-  
 
 <hr/>
 

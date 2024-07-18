@@ -1,43 +1,41 @@
-# `false`
+# `!` (not)
 
-> Returns a `false` value
+> Reads the STDIN and exit number from previous process and not's it's condition
 
 ## Description
 
-Returns a `false` value.
+Reads the STDIN and exit number from previous process and not's it's condition.
 
 ## Usage
 
 ```
-false -> <stdout>
+<stdin> -> ! -> <stdout>
 ```
 
 ## Examples
 
-By default, `false` also outputs the term "false":
-
 ```
-» false
+» echo "Hello, world!" -> !
 false
 ```
 
-However you can suppress that with the silent flag:
-
 ```
-» false -s
+» false -> !
+true
 ```
 
-## Flags
+## Synonyms
 
-* `-s`
-    silent - don't output the term "false"
+* `!`
+* `not`
+
 
 ## See Also
 
-* [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
+* [`false`](../commands/false.md):
+  Returns a `false` value
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`or`](../commands/or.md):

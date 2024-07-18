@@ -31,7 +31,7 @@ g * >> files.txt
 
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`?` STDERR Pipe](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)

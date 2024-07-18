@@ -243,7 +243,7 @@
 - DocumentID: not-func
   Title: >+
     `!` (not)
-  CategoryID: parser
+  CategoryID: commands
   Summary: >-
     Reads the STDIN and exit number from previous process and not's it's condition
   Description: |-

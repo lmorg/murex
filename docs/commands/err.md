@@ -55,7 +55,7 @@ a new Murex named pipe.
   Infixed constants that return ANSI escape sequences
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
-* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists

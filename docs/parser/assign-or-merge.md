@@ -1,10 +1,10 @@
-# `<~` Assign or Merge
+# `<~` Assign Or Merge
 
 > Merges the right hand value to a variable on the left hand side (expression)
 
 ## Description
 
-The **Assign or Merge** operator merges your data from a the right hand side
+The **Assign Or Merge** operator merges your data from a the right hand side
 into the variable on the left hand side.
 
 If the variable doesn't exist, then it is created.
@@ -60,7 +60,7 @@ Lets say you have a directory hierarchy that looks like:
 ```
 
 ...and in this example you want to list the files in only directories that are
-vowels, you can use the **Assign or Merge** operator to append to the list on
+vowels, you can use the **Assign Or Merge** operator to append to the list on
 each iteration for `foreach`:
 
 ```
@@ -85,7 +85,7 @@ each iteration for `foreach`:
 
 ## Detail
 
-**Assign or Merge** uses the same underlying algorithm as the [`alter -m`](/docs/commands/alter.md)
+**Assign Or Merge** uses the same underlying algorithm as the [`alter -m`](/docs/commands/alter.md)
 builtin.
 
 ## See Also

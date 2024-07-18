@@ -70,8 +70,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Inline expressions
 * [C-style functions](parser/c-style-fun.md):
   Inlined commands for expressions and statements
-* [`!` (not)](parser/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`$Variable` Sigil](parser/scalar.md):
@@ -106,9 +104,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](parser/division.md):
   Divides one numeric value from another (expression)
-* [`<pipe>` Read Named Pipe](parser/namedpipe.md):
-  Reads from a Murex named pipe
-* [`<~` Assign or Merge](parser/assign-or-merge.md):
+* [`<~` Assign Or Merge](parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
@@ -149,8 +145,12 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ### Standard Builtins
 
+* [`!` (not)](../commands/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):

@@ -49,7 +49,7 @@ are unsuccessful.
 
 ## See Also
 
-* [`!` (not)](../parser/not-func.md):
+* [`!` (not)](../commands/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`

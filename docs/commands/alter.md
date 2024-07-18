@@ -155,7 +155,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ## See Also
 
-* [`<~` Assign or Merge](../parser/assign-or-merge.md):
+* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table

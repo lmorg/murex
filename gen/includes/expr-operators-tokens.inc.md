@@ -1,5 +1,3 @@
-# Parser Reference
-
 ## Syntax
 
 Murex supports both expressions and statements. You can use the interchangeably
@@ -72,9 +70,9 @@ Modifiers are only supported in expressions.
 | `-`      | Subtraction    | Subtract _left_ by _right_ |
 
 Read more:
-* Data types: [num](/docs/types/num.md), [int](/docs/types/int.md), [float](/docs/types/float.md)
-* Strict types config: [strict types](/docs/user-guide/strict-types.md)
-* Operators: [+](/docs/parser/addition.md), [-](/docs/parser/subtraction.md), [*](/docs/parser/multiplication.md), [/](/docs/parser/division.md)
+* Data types: {{link "num" "num"}}, {{link "int" "int"}}, {{link "float" "float"}}
+* Strict types config: {{link "strict types" "strict-types"}}
+* Operators: {{link "+" "addition"}}, {{link "-" "subtraction"}}, {{link "*" "multiplication"}}, {{link "/" "division"}}
 
 ### Comparators
 
@@ -99,7 +97,7 @@ Comparators are only supported in expressions.
 | `!~`     | Does Not Match Regexp | `false` if _left_ matches regexp pattern on _right_ |
 
 Read more:
-* Data types: [bool](/docs/types/bool.md)
+* Data types: {{link "bool" "bool"}}
 
 ### Assignment
 
@@ -118,8 +116,8 @@ Assignment is only supported in expressions.
 | `/=`     | Assign And Divide   | Divide _right_ with _left_ and assign to _left_   |
 
 Read more:
-* Data types: [bool](/docs/types/bool.md)
-* Operators: =, [<~](/docs/parser/assign-or-merge.md), [+=](/docs/parser/add-with.md),  [-=](/docs/parser/subtract-by.md), [=](/docs/parser/multiply-by.md), [=](/docs/parser/divide-by.md)
+* Data types: {{link "bool" "bool"}}
+* Operators: {{link "=" "equals"}}, {{link "<~" "assign-or-merge"}}, {{link "+=" "add-with"}},  {{link "-=" "subtract-by"}}, {{link "=" "multiply-by"}}, {{link "=" "divide-by"}}
 
 ### Conditionals
 
@@ -134,7 +132,7 @@ These conditionals are only supported in expressions.
 | `?:`     | Elvis              | Returns _left_ if truthy, otherwise _right_     |
 
 Read more:
-* Operators: [??](/docs/parser/null-coalescing.md), [?:](/docs/parser/elvis.md)
+* Operators: {{link "??" "null-coalescing"}}, {{link "?:" "elvis"}}
 
 ### Sigils
 
@@ -167,7 +165,7 @@ Constants are supported in both expressions and statements. However `null`,
 | `%{`map`}`    | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
 
 Read more:
-* Operators: ['string'](/docs/parser/single-quote.md), ["string"](/docs/parser/double-quote.md), [%(string)](/docs/parser/brace-quote.md), [%[array]](/docs/parser/create-array.md), [%{map}](/docs/parser/create-object.md)
+* Operators: {{link "'string'" "single-quote"}}, {{link "\"string\"" "double-quote"}}, {{link "%(string)" "brace-quote"}}, {{link "%[array]" "create-array"}}, {{link "%{map}" "create-object"}}
 
 ### Sub-shells
 
@@ -183,7 +181,7 @@ expression or statement. Because of this they are supported in both.
 | `(`expression`)`             | Sub-expression     | Order of evaluation (_expression_) |
 
 Read more:
-* [C-style functions](/docs/parser/c-style-fun.md), [sub-shells](/docs/tour.md#sub-shells), [sub-expressions](/docs/parser/expr-inlined.md)
+* {{link "C-style functions" "c-style-fun"}}, {{bookmark "sub-shells" "tour" "sub-shells"}}, {{link "sub-expressions" "expr-inlined"}}
 
 ### Boolean Operations
 
@@ -233,96 +231,3 @@ characters have special meanings when escaped.
 | `\r`     | Carriage Return   | Carriage Return (CR) sometimes precedes LF |
 | `\n`     | Line Feed         | Line Feed (LF), typically a new line       |
 | `\`LF    | Escaped Line Feed | Statement continues on next line           |
-
-
-## Other Reference Material
-
-### Language Guides
-
-1. [Language Tour](/docs/tour.md), which is an introduction into the Murex language.
-
-2. [Rosetta Stone](/docs/user-guide/rosetta-stone.md), which is a reference table comparing Bash syntax to Murex's.
-
-3. [Builtins](/docs/commands/README.md), for docs on the core builtins.
-
-### Murex's Source Code
-
-The parser is located Murex's source under the `lang/` path of the project
-files.
-
-## Pages
-
-* [( expression )](../parser/expr-inlined.md):
-  Inline expressions
-* [C-style functions](../parser/c-style-fun.md):
-  Inlined commands for expressions and statements
-* [`"Double Quote"`](../parser/double-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [`$Variable` Sigil](../parser/scalar.md):
-  Expand values as a scalar
-* [`%(Brace Quote)`](../parser/brace-quote.md):
-  Initiates or terminates a string (variables expanded)
-* [`%[]` Array Builder](../parser/create-array.md):
-  Quickly generate arrays
-* [`%{}` Object Builder](../parser/create-object.md):
-  Quickly generate objects (dictionaries / maps)
-* [`&&` And Logical Operator](../parser/logical-and.md):
-  Continues next operation if previous operation passes
-* [`'Single Quote'`](../parser/single-quote.md):
-  Initiates or terminates a string (variables not expanded)
-* [`(brace quote)`](../parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
-* [`*=` Multiply By Operator](../parser/multiply-by.md):
-  Multiplies a variable by the right hand value (expression)
-* [`*` Multiplication Operator](../parser/multiplication.md):
-  Multiplies one numeric value with another (expression)
-* [`+=` Add With Operator](../parser/add-with.md):
-  Adds the right hand value to a variable (expression)
-* [`+` Addition Operator](../parser/addition.md):
-  Adds two numeric values together (expression)
-* [`-=` Subtract By Operator](../parser/subtract-by.md):
-  Subtracts a variable by the right hand value (expression)
-* [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [`-` Subtraction Operator](../parser/subtraction.md):
-  Subtracts one numeric value from another (expression)
-* [`/=` Divide By Operator](../parser/divide-by.md):
-  Divides a variable by the right hand value (expression)
-* [`/` Division Operator](../parser/division.md):
-  Divides one numeric value from another (expression)
-* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
-  Merges the right hand value to a variable on the left hand side (expression)
-* [`=>` Generic Pipe](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [`=` (arithmetic evaluation)](../parser/equ.md):
-  Evaluate a mathematical function (deprecated)
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
-* [`?:` Elvis Operator](../parser/elvis.md):
-  Returns the right operand if the left operand is falsy (expression)
-* [`??` Null Coalescing Operator](../parser/null-coalescing.md):
-  Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
-* [`@Array` Sigil](../parser/array.md):
-  Expand values as an array
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`[{ Lambda }]`](../parser/lambda.md):
-  Iterate through structured data
-* [`{ Curly Brace }`](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
-* [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [`||` Or Logical Operator](../parser/logical-or.md):
-  Continues next operation only if previous operation fails
-* [`~` Home Sigil](../parser/tilde.md):
-  Home directory path variable

@@ -1,11 +1,11 @@
 - DocumentID: assign-or-merge
   Title: >-
-    `<~` Assign or Merge
+    `<~` Assign Or Merge
   CategoryID: parser
   Summary: >-
     Merges the right hand value to a variable on the left hand side (expression)
   Description: |-
-    The **Assign or Merge** operator merges your data from a the right hand side
+    The **Assign Or Merge** operator merges your data from a the right hand side
     into the variable on the left hand side.
 
     If the variable doesn't exist, then it is created.
@@ -57,7 +57,7 @@
     ```
 
     ...and in this example you want to list the files in only directories that are
-    vowels, you can use the **Assign or Merge** operator to append to the list on
+    vowels, you can use the **Assign Or Merge** operator to append to the list on
     each iteration for `foreach`:
 
     ```
@@ -80,7 +80,7 @@
     > » files = g([ae]/*)
     > ```
   Detail: |-
-    **Assign or Merge** uses the same underlying algorithm as the {{link "`alter -m`" "alter"}}
+    **Assign Or Merge** uses the same underlying algorithm as the {{link "`alter -m`" "alter"}}
     builtin.
   Related:
   - expr

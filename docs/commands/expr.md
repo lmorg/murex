@@ -321,7 +321,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
-* [`<~` Assign or Merge](../parser/assign-or-merge.md):
+* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)

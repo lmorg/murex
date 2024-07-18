@@ -49,7 +49,7 @@ command <out> <!err> parameter1 parameter2 parameter3
 
 ## See Also
 
-* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block

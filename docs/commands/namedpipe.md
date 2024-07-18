@@ -1,58 +1,44 @@
-# `<stdin>`
+# `<pipe>` Read Named Pipe
 
-> Read the STDIN belonging to the parent code block
+> Reads from a Murex named pipe
 
 ## Description
 
-This is used inside functions and other code blocks to pass that block's
-STDIN down a pipeline
+Sometimes you will need to start a command line with a Murex named pipe, eg
+
+```
+» <namedpipe> -> match foobar
+```
+
+> See the documentation on `pipe` for more details about Murex named pipes.
 
 ## Usage
 
+Read from pipe
+
 ```
-<stdin> -> <stdout>
+<namedpipe> -> <stdout>
+```
+
+Write to pipe
+
+```
+<stdin> -> <namedpipe>
 ```
 
 ## Examples
 
-When writing more complex scripts, you cannot always invoke your read as the
-first command in a code block. For example a simple pipeline might be:
+The follow two examples function the same
 
 ```
-» function example { -> match 2 }
-```
-
-But this only works if `->` is the very first command. The following would
-fail:
-
-```
-# Incorrect code
-function example {
-    out "only match 2"
-    -> match 2
-}
-```
-
-This is where `<stdin>` comes to our rescue:
-
-```
-function example {
-    out "only match 2"
-    <stdin> -> match 2
-}
-```
-
-This could also be written as:
-
-```
-function example { out "only match 2"; <stdin> -> match 2 }
+» pipe example
+» bg { <example> -> match 2 }
+» a <example> [1..3]
+2
+» !pipe example
 ```
 
 ## Detail
-
-`<stdin>` makes use of a feature called **named pipes**, which are a way of
-piping data between processes without chaining them together as a single
-command pipeline (eg commands delimited with `|`, `->`, `=>`, `?` tokens).
 
 ### What are Murex named pipes?
 
@@ -126,21 +112,21 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
 
-* `<stdin>`
+* `(murex named pipe)`
+* `<>`
+* `read-named-pipe`
 
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
-  Overview of what a "pipeline" is
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
-* [`function`](../commands/function.md):
-  Define a function block
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+* [`<stdin>`](../commands/stdin.md):
+  Read the STDIN belonging to the parent code block
+* [`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [`bg`](../commands/bg.md):
+  Run processes in the background
+* [`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`runtime`](../commands/runtime.md):

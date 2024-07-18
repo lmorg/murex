@@ -137,7 +137,7 @@ Stdout and stderr are both written to the terminal's stderr.
   Events triggered by changes in state of the interactive shell
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [read-named-pipe](../parser/namedpipe.md):
+* [read-named-pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 
 <hr/>
