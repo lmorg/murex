@@ -96,5 +96,6 @@
   - expr
   - echo
   - tour
+  - sub-shell
   - datetime
   - open

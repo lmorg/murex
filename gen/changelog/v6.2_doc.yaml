@@ -2,7 +2,7 @@
   Title: >-
     v6.2
   CategoryID: changelog
-  DateTime: 2024-07-06 23:08
+  DateTime: 2024-07-19 08:54
   Summary: >-
     Bug fix release
   Description: |-
@@ -14,3 +14,4 @@
     - murex-package
     - chatgpt
     - export
+    - operators-and-tokens

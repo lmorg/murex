@@ -1,3 +1,7 @@
+# Operators And Tokens
+
+> A table of all supported operators and tokens
+
 ## Syntax
 
 Murex supports both expressions and statements. You can use the interchangeably
@@ -70,9 +74,9 @@ Modifiers are only supported in expressions.
 | `-`      | Subtraction    | Subtract _left_ by _right_ |
 
 Read more:
-* Data types: {{link "num" "num"}}, {{link "int" "int"}}, {{link "float" "float"}}
-* Strict types config: {{link "strict types" "strict-types"}}
-* Operators: {{link "+" "addition"}}, {{link "-" "subtraction"}}, {{link "*" "multiplication"}}, {{link "/" "division"}}
+* Data types: [num](/docs/types/num.md), [int](/docs/types/int.md), [float](/docs/types/float.md)
+* Strict types config: [strict types](/docs/user-guide/strict-types.md)
+* Operators: [+](/docs/parser/addition.md), [-](/docs/parser/subtraction.md), [*](/docs/parser/multiplication.md), [/](/docs/parser/division.md)
 
 ### Comparators
 
@@ -97,7 +101,7 @@ Comparators are only supported in expressions.
 | `!~`     | Does Not Match Regexp | `false` if _left_ matches regexp pattern on _right_ |
 
 Read more:
-* Data types: {{link "bool" "bool"}}
+* Data types: [bool](/docs/types/bool.md)
 
 ### Assignment
 
@@ -116,8 +120,8 @@ Assignment is only supported in expressions.
 | `/=`     | Assign And Divide   | Divide _right_ with _left_ and assign to _left_   |
 
 Read more:
-* Data types: {{link "bool" "bool"}}
-* Operators: {{link "=" "equals"}}, {{link "<~" "assign-or-merge"}}, {{link "+=" "add-with"}},  {{link "-=" "subtract-by"}}, {{link "=" "multiply-by"}}, {{link "=" "divide-by"}}
+* Data types: [bool](/docs/types/bool.md)
+* Operators: =, [<~](/docs/parser/assign-or-merge.md), [+=](/docs/parser/add-with.md),  [-=](/docs/parser/subtract-by.md), [=](/docs/parser/multiply-by.md), [=](/docs/parser/divide-by.md)
 
 ### Conditionals
 
@@ -132,7 +136,7 @@ These conditionals are only supported in expressions.
 | `?:`     | Elvis              | Returns _left_ if truthy, otherwise _right_     |
 
 Read more:
-* Operators: {{link "??" "null-coalescing"}}, {{link "?:" "elvis"}}
+* Operators: [??](/docs/parser/null-coalescing.md), [?:](/docs/parser/elvis.md)
 
 ### Sigils
 
@@ -165,7 +169,7 @@ Constants are supported in both expressions and statements. However `null`,
 | `%{`map`}`    | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
 
 Read more:
-* Operators: {{link "'string'" "single-quote"}}, {{link "\"string\"" "double-quote"}}, {{link "%(string)" "brace-quote"}}, {{link "%[array]" "create-array"}}, {{link "%{map}" "create-object"}}
+* Operators: ['string'](/docs/parser/single-quote.md), ["string"](/docs/parser/double-quote.md), [%(string)](/docs/parser/brace-quote.md), [%[array]](/docs/parser/create-array.md), [%{map}](/docs/parser/create-object.md)
 
 ### Sub-shells
 
@@ -181,7 +185,7 @@ expression or statement. Because of this they are supported in both.
 | `(`expression`)`             | Sub-expression     | Order of evaluation (_expression_) |
 
 Read more:
-* {{link "C-style functions" "c-style-fun"}}, {{bookmark "sub-shells" "tour" "sub-shells"}}, {{link "sub-expressions" "expr-inlined"}}
+* [C-style functions](/docs/parser/c-style-fun.md), [sub-shells](/docs/tour.md#sub-shells), [sub-expressions](/docs/parser/expr-inlined.md)
 
 ### Boolean Operations
 
@@ -231,3 +235,14 @@ characters have special meanings when escaped.
 | `\r`     | Carriage Return   | Carriage Return (CR) sometimes precedes LF |
 | `\n`     | Line Feed         | Line Feed (LF), typically a new line       |
 | `\`LF    | Escaped Line Feed | Statement continues on next line           |
+
+## See Also
+
+* [Language Tour](../Murex/tour.md):
+  Getting started with Murex
+* [`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
+
+<hr/>
+
+This document was generated from [gen/user-guide/operators-tokens_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/user-guide/operators-tokens_doc.yaml).

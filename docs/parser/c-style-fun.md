@@ -111,6 +111,8 @@ It is 23 o' clock
   Expressions: mathematical, string comparisons, logical operators
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
+* [sub-shell](../parser/sub-shell.md):
+  
 
 <hr/>
 

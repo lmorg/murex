@@ -155,6 +155,10 @@ translate your Bash code into Murex code.
 
 ## Basic Syntax
 
+A table for all operators and tokens can be found on the {{link "operators and tokens cheatsheet" "operators-and-tokens"}}.
+However if you are new to the shell, we recommend that you read this document
+first.
+
 ### Quoting Strings
 
 > It is important to note that all strings in expressions are quoted whereas

@@ -4,7 +4,7 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
-### 06.07.2024 - [v6.2](../changelog/v6.2.md)
+### 19.07.2024 - [v6.2](../changelog/v6.2.md)
 
 Bug fix release
 

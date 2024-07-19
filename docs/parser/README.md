@@ -176,7 +176,7 @@ expression or statement. Because of this they are supported in both.
 
 | Syntax                       | Name               | Operation                          |
 |------------------------------|--------------------|------------------------------------|
-| command`(`parameters...`)`   | C-Style Functions  | Inline a command as a function     |
+| command`(` parameters... `)` | C-Style Functions  | Inline a command as a function     |
 | `${`command parameters...`}` | Sub-shell (scalar) | Inline a command line as a string  |
 | `@{`command parameters...`}` | Sub-shell (array)  | expand a command line as an array  |
 | `(`expression`)`             | Sub-expression     | Inline an expression (_statement_) |

@@ -47,6 +47,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   An introduction to Murex modules and packages
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Profile Files](../user-guide/profile.md):
