@@ -25,8 +25,7 @@ func (tree *ParserT) createArrayAst(exec bool) error {
 func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error) {
 	var (
 		start = tree.charPos
-		//value = make([]rune, 0, len(tree.expression)-tree.charPos)
-		slice []interface{}
+		slice = []interface{}{}
 	)
 
 	// check if valid mkarray

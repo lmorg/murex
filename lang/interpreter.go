@@ -53,7 +53,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		case "trypipeerr function":
 			rm = runmode.FunctionTryPipeErr
 
-			// module wide scopes
+		// module wide scopes
 
 		case "unsafe module":
 			rm = runmode.ModuleUnsafe

@@ -32,34 +32,37 @@ func PreviewParseAppendEvent(previous []string, p []byte, size *readline.Preview
 
 func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	var (
-		lines []string
-		line  []rune
-		width int
+		lines    []string
+		line     []rune
+		width    int
+		tabWidth = 4
+		preview  = []rune(string(p))
+		r        rune
+		rw       int
 	)
 
-	s := string(p)
-	for _, r := range s {
+	for i := 0; i < len(preview); i++ {
+		r = preview[i]
+
 		switch r {
 		case 8:
 			// handle backspace gracefully
 			if len(line) > 0 {
 				line = line[:len(line)-1]
+				width -= 1
 			}
 			continue
 
 		case '\r':
 			continue
 		case '\n':
-			if width == size.Width {
-				continue
-			}
 			lines = append(lines, string(line))
 			line = []rune{}
 			width = 0
 
 		case '\t':
-			line = append(line, ' ', ' ', ' ', ' ')
-			width += 4
+			line = append(line, []rune(strings.Repeat(" ", tabWidth))...)
+			width += (tabWidth - 1)
 
 		default:
 			if r < ' ' && r != '\t' && r != '\r' && r != '\n' {
@@ -69,11 +72,26 @@ func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) 
 			line = append(line, r)
 		}
 
-		width += runewidth.RuneWidth(r)
+		rw = runewidth.RuneWidth(r)
+		width += rw
 		if width >= size.Width {
-			lines = append(lines, string(line))
-			line = []rune{}
-			width = 0
+			if rw > 1 {
+				line = line[:len(line)-1]
+				lines = append(lines, string(line))
+				line = []rune{r}
+				width = rw
+			} else {
+				lines = append(lines, string(line))
+				line = []rune{}
+				width = 0
+			}
+
+			if i < len(preview)-1 && preview[i+1] == '\r' {
+				i++
+			}
+			if i < len(preview)-1 && preview[i+1] == '\n' {
+				i++
+			}
 		}
 	}
 

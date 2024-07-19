@@ -27,6 +27,8 @@ out (3+2)
 
 ## Detail
 
+### String Concatenation
+
 Unlike in some other programming languages, the `+` operator cannot be used to
 concatenate strings. This is because shells are historically untyped so you
 cannot always guarantee that numeric-looking value isn't a string. To solve
@@ -41,11 +43,13 @@ concatenate strings would lead to a large class of bugs.
 5
 ```
 
+### Type Safety
+
 For occasions when type safety is more important than the convenience of silent
 data casting, you can disable the above behaviour via `config`:
 
 ```
-» config set proc strict-types false
+» config set proc strict-types true
 » $str + $int
 Error in `expr` (0,1): cannot Add with string types
                     > Expression: $str + $int
@@ -57,6 +61,8 @@ Error in `expr` (0,1): cannot Add with string types
 
 ## See Also
 
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
   Multiplies one numeric value with another (expression)
 * [`+=` Add With Operator](../parser/add-with.md):
@@ -80,4 +86,4 @@ Error in `expr` (0,1): cannot Add with string types
 
 <hr/>
 
-This document was generated from [gen/expr/addition_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/addition_op_doc.yaml).
+This document was generated from [gen/expr/addition-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/addition-op_doc.yaml).

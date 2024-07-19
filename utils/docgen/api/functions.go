@@ -23,6 +23,7 @@ var funcMap = template.FuncMap{
 	"cat":        funcRenderedCategories,
 	"link":       funcLink,
 	"bookmark":   funcLinkBookmark,
+	"section":    funcSection,
 	"file":       funcFile,
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
@@ -34,13 +35,13 @@ var funcMap = template.FuncMap{
 	"fn":         funcFunctions,
 }
 
-var funcMapMd = template.FuncMap{}
+var funcMap__fn = template.FuncMap{}
 
 func init() {
 	for k, v := range funcMap {
-		funcMapMd[k] = v
+		funcMap__fn[k] = v
 	}
-	delete(funcMapMd, "fn")
+	delete(funcMap__fn, "fn")
 }
 
 /************
@@ -105,7 +106,7 @@ func funcRenderedCategories(cat string, index int) (string, error) {
  *   Link   *
  ************/
 
-// Takes: string (doc, description, relativePath prefix...)
+// Takes: string (description, doc, relativePath prefix...)
 // Returns: URL to document
 func funcLink(description, docId string, relativePath ...string) string {
 	return funcLinkBookmark(description, docId, "", relativePath...)
@@ -115,12 +116,17 @@ func funcLink(description, docId string, relativePath ...string) string {
  *  LinkBM  *
  ************/
 
-// Takes: string (doc, description, bookmark (w/o hash), relativePath prefix...)
+// Takes: string (description, doc, bookmark (w/o hash), relativePath prefix...)
 // Returns: URL to document
 func funcLinkBookmark(description, docId, bookmark string, relativePath ...string) string {
 	doc := Documents.ByID("", "???", docId)
 	if doc == nil {
 		panic(fmt.Sprintf("nil document (%s)", docId))
+	}
+
+	if doc.CategoryID == "" {
+
+		return description
 	}
 
 	cat := Config.Categories.ByID(doc.CategoryID)
@@ -130,9 +136,36 @@ func funcLinkBookmark(description, docId, bookmark string, relativePath ...strin
 		path += "#" + bookmark
 	}
 
-	//if len(relativePath) > 0 {
 	path = strings.Join(relativePath, "/") + "/" + path
-	//}
+
+	if os.Getenv("DOCGEN_TARGET") == "vuepress" {
+		path = strings.Replace(path, "/docs", "", 1)
+	}
+
+	return fmt.Sprintf("[%s](%s)", description, path)
+}
+
+/************
+ * Section  *
+ ************/
+
+// Takes: string (description, cat, bookmark (w/o hash), relativePath prefix...)
+// Returns: URL to document
+func funcSection(description, catId, bookmark string, relativePath ...string) string {
+	cat := Config.Categories.ByID(catId)
+	if cat == nil {
+		panic(fmt.Sprintf("nil category (%s)", catId))
+	}
+
+	if bookmark != "" {
+		bookmark = "#" + bookmark
+	}
+
+	path := fmt.Sprintf("%s/%s%s%s",
+		strings.Join(relativePath, "/"),
+		cat.Templates[0].OutputPath,
+		cat.Templates[0].CategoryFile,
+		bookmark)
 
 	if os.Getenv("DOCGEN_TARGET") == "vuepress" {
 		path = strings.Replace(path, "/docs", "", 1)
@@ -284,7 +317,7 @@ func funcEnv(env string) any {
 // Returns: parsed string
 func funcFunctions(s string) string {
 	w := bytes.NewBuffer([]byte{})
-	t, err := template.New("__fn").Funcs(funcMapMd).Parse(s)
+	t, err := template.New("__fn").Funcs(funcMap__fn).Parse(s)
 	if err != nil {
 		panic(err.Error())
 	}

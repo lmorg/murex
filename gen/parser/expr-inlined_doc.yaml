@@ -1,0 +1,26 @@
+- DocumentID: expr-inlined
+  Title: >-
+    ( expression )
+  CategoryID: parser
+  Summary: >-
+    Inline expressions
+  Description: |-
+    Expressions can be inlined via parenthesis. For example:
+
+    ```
+    » echo (1 + 2)
+    3
+    ```
+
+    The opening brace has to be the first character of that parameter, otherwise
+    that parameter will be treated like a string.
+
+    ```
+    » echo 1+(1 + 2)
+    1+(1 + 2)
+    ```
+  Examples:
+  Detail:
+  Related:
+  - expr
+  - echo

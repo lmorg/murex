@@ -50,7 +50,7 @@ the current running Murex shell
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
+* [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope

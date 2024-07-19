@@ -67,8 +67,6 @@ deprecated and may be removed from future releases.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
@@ -77,6 +75,8 @@ deprecated and may be removed from future releases.
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
 * [`autocomplete`](../commands/autocomplete.md):

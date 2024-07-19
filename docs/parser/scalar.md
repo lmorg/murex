@@ -1,10 +1,10 @@
-# `$Variable`
+# `$Variable` Sigil
 
 > Expand values as a scalar
 
 ## Description
 
-The scalar token is used to tell Murex to expand variables and subshells as a
+The scalar token is used to tell Murex to expand variables and sub-shells as a
 string (ie one single parameter) irrespective of the data that is stored in the
 string. One handy common use case is file names where traditional POSIX shells
 would treat spaces as a new file, whereas Murex treats spaces as a printable
@@ -17,7 +17,7 @@ alpha, numeric, underscore (`_`) or a full stop / period (`.`).
 
 ## Examples
 
-**ASCII variable names:**
+### ASCII variable names
 
 ```
 » $example = "foobar"
@@ -25,7 +25,7 @@ alpha, numeric, underscore (`_`) or a full stop / period (`.`).
 foobar
 ```
 
-**Unicode variable names:**
+### Unicode variable names
 
 Variable names can be non-ASCII however they have to be surrounded by
 parenthesis. eg
@@ -36,9 +36,9 @@ parenthesis. eg
 举手之劳就可以使办公室更加环保，比如，使用再生纸。
 ```
 
-**Infixing inside text:**
+### Infixing inside text
 
-Sometimes you need to denote the end of a variable and have text follow on.
+Sometimes you need to denote the end of a variable and have text follow on:
 
 ```
 » $partial_word = "orl"
@@ -46,7 +46,7 @@ Sometimes you need to denote the end of a variable and have text follow on.
 Hello world!
 ```
 
-**Variables are tokens:**
+### Variables are tokens
 
 Please note the new line (`\n`) character. This is not split using `$`:
 
@@ -54,7 +54,7 @@ Please note the new line (`\n`) character. This is not split using `$`:
 » $example = "foo\nbar"
 ```
 
-Output as a string:
+Output as a scalar (`$`):
 
 ```
 » out $example
@@ -62,19 +62,25 @@ foo
 bar
 ```
 
-Output as an array:
+Output as an array (`@`):
 
 ```
 » out @example
 foo bar
 ```
 
-The string and array tokens also works for subshells:
+### Scalar and Array Sub-shells
+
+Scalar:
 
 ```
 » out ${ %[Mon..Fri] }
 ["Mon","Tue","Wed","Thu","Fri"]
+```
 
+Array:
+
+```
 » out @{ %[Mon..Fri] }
 Mon Tue Wed Thu Fri
 ```
@@ -82,7 +88,7 @@ Mon Tue Wed Thu Fri
 > `out` will take an array and output each element, space delimited. Exactly
 > the same how `echo` would in Bash.
 
-**Variable as a command:**
+### Variable as a Command
 
 If a variable is used as a commend then Murex will just print the content of
 that variable.
@@ -96,7 +102,7 @@ Hello World!
 
 ## Detail
 
-Strings and subshells can be expanded inside double quotes, brace quotes as
+Strings and sub-shells can be expanded inside double quotes, brace quotes as
 well as used as barewords. But they cannot be expanded inside single quotes.
 
 ```
@@ -123,12 +129,8 @@ do not.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Tilde (`~`) Token](../parser/tilde.md):
-  Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -137,6 +139,8 @@ do not.
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`let`](../commands/let.md):
@@ -145,6 +149,8 @@ do not.
   Print a string to the STDOUT with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [`~` Home Sigil](../parser/tilde.md):
+  Home directory path variable
 
 <hr/>
 

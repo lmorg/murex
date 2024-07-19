@@ -36,8 +36,12 @@ murex-docs trypipe
 
 ## Pages
 
+* [`!` (not)](../commands/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
@@ -174,8 +178,6 @@ murex-docs trypipe
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`murex-cache`](../commands/murex-cache.md):
-  Management interface for Murex's cache database
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`murex-package`](../commands/murex-package.md):

@@ -29,7 +29,7 @@ This operator is only available in expressions.
 
 Unlike with the standard arithmetic operators (`+`, `-`, `*`, `/`), silent data
 casting isn't supported with arithmetic assignments like `+=`, `-=`, `*=` and
-`/=`. Not even when `strict-types` is disabled.
+`/=`. Not even when `strict-types` is disabled ([read more](/docs/user-guide/strict-types.md))
 
 You can work around this by using the slightly longer syntax: **variable =
 value op value**, for example:
@@ -40,8 +40,6 @@ value op value**, for example:
 » $i
 5
 ```
-
-Please note that this behaviour might change in a later release of Murex.
 
 ## See Also
 
@@ -68,4 +66,4 @@ Please note that this behaviour might change in a later release of Murex.
 
 <hr/>
 
-This document was generated from [gen/expr/multiply_by_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/multiply_by_op_doc.yaml).
+This document was generated from [gen/expr/multiply-by-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/multiply-by-op_doc.yaml).

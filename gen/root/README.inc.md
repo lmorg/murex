@@ -122,7 +122,7 @@ Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/int
 
 ## 📦 Easy to Install
 
-Install `Murex` from your favorite package manager:
+Install `murex` from your favorite package manager:
 
 ::: code-tabs#shell
 

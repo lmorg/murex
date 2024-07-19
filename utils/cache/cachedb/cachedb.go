@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 const (
@@ -19,14 +20,9 @@ const (
 var (
 	Disabled bool   = true
 	path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
-	//db       *sql.DB
 )
 
 func dbConnect() *sql.DB {
-	if debug.Enabled {
-		fmt.Printf("cache DB: %s\n", path)
-	}
-
 	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?cache=shared", path))
 	if err != nil {
 		dbFailed("opening cache database", err)
@@ -42,9 +38,6 @@ func dbConnect() *sql.DB {
 func CreateTable(namespace string) {
 	db := dbConnect()
 	defer db.Close()
-	/*if db == nil {
-		db = dbConnect()
-	}*/
 
 	if Disabled {
 		return
@@ -58,18 +51,12 @@ func CreateTable(namespace string) {
 
 func dbFailed(message string, err error) {
 	if debug.Enabled {
-		panic(fmt.Sprintf("%s: %s", message, err.Error()))
-		//os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), Path, consts.IssueTrackerURL))
-		//os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
+		//panic(fmt.Sprintf("%s: %s", message, err.Error()))
+		os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), path, consts.IssueTrackerURL))
+		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
 	}
 	Disabled = true
 }
-
-/*func CloseDb() {
-	if db != nil {
-		_ = db.Close()
-	}
-}*/
 
 func Read(namespace string, key string, ptr any) bool {
 	db := dbConnect()
@@ -136,11 +123,7 @@ func Write(namespace string, key string, value any, ttl time.Time) {
 }
 
 func SetPath(newPath string) {
-	//if db == nil {
 	path = newPath
-	//} else if debug.Enabled {
-	//	panic("db already initiated")
-	//}
 }
 
 func GetPath() string {

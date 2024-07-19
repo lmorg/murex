@@ -20,7 +20,7 @@
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Flags }}
 
 ## Flags
 
@@ -30,7 +30,7 @@
 
 ## Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+{{ md (fn (include .Detail)) }}{{ end }}{{ if .Synonyms }}
 
 ## Synonyms
 

@@ -22,6 +22,10 @@ const (
 	Function Primitive = -2                             // functions and subshells
 )
 
+func (primitive Primitive) IsComparable() bool {
+	return primitive == Number || primitive == String || primitive == Boolean || primitive == Null
+}
+
 type DataType struct {
 	v  *Value
 	fn FunctionT

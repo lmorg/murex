@@ -1,0 +1,12 @@
+- DocumentID: operators-and-tokens
+  Title: >-
+    Operators And Tokens
+  CategoryID: user-guide
+  Summary: >-
+    A table of all supported operators and tokens
+  Description: |-
+    {{ include "gen/includes/expr-operators-tokens.inc.md" }}
+  Synonyms:
+  Related:
+    - expr
+    - tour

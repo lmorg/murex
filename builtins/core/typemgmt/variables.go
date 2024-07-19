@@ -125,8 +125,11 @@ func cmdExport(p *lang.Process) error {
 	}
 
 	if value == nil {
-		*value, _ = p.Variables.GetString(name)
-
+		s, err := p.Variables.GetString(name)
+		if err!=nil {
+			return err
+		}
+		value = &s
 	}
 
 	err = os.Setenv(name, *value)

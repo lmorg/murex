@@ -164,20 +164,20 @@ func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item
 			return
 		}
 
-		output, err := rl.previewDrawStr(lines[pos:], size)
-
-		if err != nil {
-			rl.previewCache = nil
-			print(output)
-			return
-		}
-
 		rl.previewCache = &previewCacheT{
 			item:  item,
 			pos:   pos,
 			len:   size.Height,
 			lines: lines,
 			size:  size,
+		}
+
+		output, err := rl.previewDrawStr(lines[pos:], size)
+
+		if err != nil {
+			rl.previewCache = nil
+			print(output)
+			return
 		}
 
 		print(output)

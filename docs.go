@@ -19,6 +19,7 @@ import (
 //go:embed docs/types/*.md
 //go:embed docs/user-guide/*.md
 //go:embed docs/variables/*.md
+//go:embed docs/integrations/*.md
 var docsEmbeded embed.FS
 
 func init() {

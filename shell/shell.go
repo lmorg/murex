@@ -186,14 +186,14 @@ func showPrompt() {
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {
-			case readline.CtrlC:
+			case readline.ErrCtrlC:
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(os.Stdout, PromptSIGINT)
 				callEventsPrompt(promptops.Cancel, nil)
 				continue
 
-			case readline.EOF:
+			case readline.ErrEOF:
 				fmt.Fprintln(os.Stdout, utils.NewLineString)
 				callEventsPrompt(promptops.EOF, nil)
 				lang.Exit(0)

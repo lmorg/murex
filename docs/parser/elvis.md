@@ -76,4 +76,4 @@ where it says:
 
 <hr/>
 
-This document was generated from [gen/expr/elvis_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/elvis_op_doc.yaml).
+This document was generated from [gen/expr/elvis-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/elvis-op_doc.yaml).

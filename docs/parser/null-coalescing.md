@@ -83,4 +83,4 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 
 <hr/>
 
-This document was generated from [gen/expr/null_coalescing_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/null_coalescing_op_doc.yaml).
+This document was generated from [gen/expr/null-coalescing-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/null-coalescing-op_doc.yaml).

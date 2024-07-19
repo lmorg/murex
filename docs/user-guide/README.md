@@ -47,6 +47,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   An introduction to Murex modules and packages
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Profile Files](../user-guide/profile.md):
@@ -57,6 +59,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -64,22 +68,20 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## Operators And Tokens
 
-* [Array (`@`) Token](parser/array.md):
-  Expand values as an array
-* [Tilde (`~`) Token](parser/tilde.md):
-  Home directory path variable
-* [`!` (not)](parser/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+* [( expression )](parser/expr-inlined.md):
+  Inline expressions
+* [C-style functions](parser/c-style-fun.md):
+  Inlined commands for expressions and statements
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$Variable`](parser/scalar.md):
+* [`$Variable` Sigil](parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](parser/create-array.md):
+* [`%[]` Array Builder](parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Object Builder](parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`&&` And Logical Operator](parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`'Single Quote'`](parser/single-quote.md):
@@ -104,8 +106,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](parser/division.md):
   Divides one numeric value from another (expression)
-* [`<pipe>` Read Named Pipe](parser/namedpipe.md):
-  Reads from a Murex named pipe
+* [`<~` Assign Or Merge](parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [`=` (arithmetic evaluation)](parser/equ.md):
@@ -120,6 +122,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` STDERR Pipe](parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`@Array` Sigil](parser/array.md):
+  Expand values as an array
 * [`[ ..Range ]`](parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[ Index ]`](parser/item-index.md):
@@ -136,13 +140,19 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [`||` Or Logical Operator](parser/logical-or.md):
   Continues next operation only if previous operation fails
+* [`~` Home Sigil](parser/tilde.md):
+  Home directory path variable
 
 ## Builtin Commands
 
 ### Standard Builtins
 
+* [`!` (not)](../commands/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
@@ -279,8 +289,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`murex-cache`](../commands/murex-cache.md):
-  Management interface for Murex's cache database
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`murex-package`](../commands/murex-package.md):

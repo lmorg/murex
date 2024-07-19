@@ -12,7 +12,7 @@
 
 ## Description
 
-{{ md (include .Description) }}
+{{ md (fn (include .Description)) }}
 
 {{ if .Usage }}## Usage
 
@@ -20,7 +20,7 @@
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Flags }}
 
 ## Flags
 

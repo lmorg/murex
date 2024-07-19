@@ -55,8 +55,6 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Modules and Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
@@ -65,6 +63,8 @@ This is a reserved variable so it cannot be changed.
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`autocomplete`](../commands/autocomplete.md):

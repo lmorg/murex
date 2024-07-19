@@ -5,8 +5,24 @@
 ## Description
 
 `expr` is the underlying builtin which handles all expression parsing and
-evaluation in Murex. Though typically that would happen transparently without
-you having to explicit call `expr`.
+evaluation in Murex.
+
+Idiomatic Murex would be to write expressions without explicitly calling the
+underlying builtin:
+
+```
+# idiomatic expressions
+1 + 2
+
+# non-idiotmatic expressions
+expr 1 + 2
+```
+
+Though you can invoke them via `expr` if needed, please bare in mind that
+expressions have special parsing rules to make them more ergonomic. So if you
+write an expression as a command (ie prefixed with `expr`) then it will be
+parsed as a statement. This means more complex expressions might parse in
+unexpected ways and thus fail. You can still raise a bug if that does happens.
 
 For a full list of operators supported exclusively in expression, see the
 last section in this document.
@@ -23,36 +39,41 @@ expr expression -> <stdout>
 
 ## Examples
 
-**Expressions:**
+### Basic Expressions
 
 ```
 » 3 * (3 + 1)
 12
 ```
 
-**Statements with inlined expressions:**
+### Statements with inlined expressions
 
-Any parameter surrounded by parenthesis is first evaluated as an expression,
-then as a string.
+Any parameter surrounded by parenthesis is first evaluated as an [expression](/docs/parser/expr-inlined.md),
+then as a [string](/docs/parser/brace-quote-func.md)".
 
 ```
 » out (3 * 2)
 6
 ```
 
-**Expressions with inlined statements:**
+### Functions
 
-Functions can be inlined as a statement using `function(parameters...)` syntax.
+Expressions also support running commands as [C-style functions](/docs/parser/c-style-fun.md), for example:
 
 ```
+» 5 * out(5)
+25
+
 » datetime(--in {now} --out {unix}) / 60
 28339115.783333335
+
+» $file_contents = open(example_file.txt)
 ```
 
 Please note that currently the only functions supported are ones who's names
 are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
 
-**JSON array:**
+### Arrays
 
 ```
 » %[apples oranges grapes]
@@ -62,6 +83,25 @@ are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
     "grapes"
 ]
 ```
+
+([read more](/docs/parser/create-array.md))
+
+### Objects
+
+Sometimes known as dictionaries or maps:
+
+```
+» %{ Age: { Tom: 20, Dick: 30, Sally: 40 } }
+{
+    "Age": {
+        "Dick": 30,
+        "Sally": 40,
+        "Tom": 20
+    }
+}
+```
+
+([read more](/docs/parser/create-object.md))
 
 ## Detail
 
@@ -176,7 +216,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
 			err = expAssignAndOperate(tree, _assMulti)
-		case symbols.AssignAndMerge:
+		case symbols.AssignOrMerge:
 			err = expAssignMerge(tree)
 
 		// 13. Conditional expression (ternary)
@@ -257,10 +297,14 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 ## See Also
 
-* [`%[]` Create Array](../parser/create-array.md):
+* [( expression )](../parser/expr-inlined.md):
+  Inline expressions
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Object Builder](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)
 * [`*` Multiplication Operator](../parser/multiplication.md):
@@ -277,10 +321,16 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
+* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
+* [`open`](../commands/open.md):
+  Open a file with a preferred handler
+* [`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
 
 <hr/>
 

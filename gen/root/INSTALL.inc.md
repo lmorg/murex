@@ -40,7 +40,7 @@ There is a more detailed breakdown of known compatibility issues in the
 > This is the recommended way to install Murex because you can then stay
 > updated with future releases.
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg?exclude_unsupported=1)](https://repology.org/project/murex/versions)
 
 ### ArchLinux
 

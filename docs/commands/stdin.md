@@ -133,7 +133,7 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`function`](../commands/function.md):
   Define a function block

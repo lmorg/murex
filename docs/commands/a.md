@@ -161,7 +161,7 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN

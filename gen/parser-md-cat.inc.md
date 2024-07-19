@@ -1,16 +1,14 @@
-This section is a glossary of Murex tokens and parser behavior.
+{{ fn (file "gen/includes/expr-operators-tokens.inc.md") }}
 
 ## Other Reference Material
 
 ### Language Guides
 
-1. [Language Tour]({{if env "DOCGEN_TARGET="}}/docs{{end}}/tour.md), which is an introduction into
-    the Murex language.
+1. {{link "Language Tour" "tour"}}, which is an introduction into the Murex language.
 
-2. [Rosetta Stone]({{if env "DOCGEN_TARGET="}}/docs{{end}}/user-guide/rosetta-stone.md), which is a reference
-    table comparing Bash syntax to Murex's.
+2. {{link "Rosetta Stone" "rosetta-stone"}}, which is a reference table comparing Bash syntax to Murex's.
 
-3. [Builtins]({{if env "DOCGEN_TARGET="}}/docs{{end}}/commands/), for docs on the core builtins.
+3. {{section "Builtins" "commands" ""}}, for docs on the core builtins.
 
 ### Murex's Source Code
 

@@ -11,7 +11,7 @@ stream.
 `->` differs from `|` in the interactive terminal where it produces different
 autocompletion suggestion. It returns a list of "methods". That is, commands
 that are known to support the output type of the previous command. `->` helps
-with the discovery of commandline tools.
+with the discovery of command line tools.
 
 In shell scripts, `->` and `|` can be used interchangeably.
 
@@ -39,7 +39,7 @@ Hello, world!
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<pipe>` Read Named Pipe](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
