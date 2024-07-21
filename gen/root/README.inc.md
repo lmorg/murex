@@ -40,7 +40,7 @@ highlights:
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
           <br/><br/>
           <b>Never worry about file names with weird characters, nor running equations in "bc" again.</b>
-        link: tour/#scalars
+        link: parser/
 
       - title: Smartly Interactive
         icon: wand-magic-sparkles
