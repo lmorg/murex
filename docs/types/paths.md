@@ -76,10 +76,10 @@ As an expression:
   History of each change to the sessions working directory
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
+* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
-* [assign-merge](../types/assign-merge.md):
-  
 
 ### Read more about type hooks
 

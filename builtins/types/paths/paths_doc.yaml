@@ -72,5 +72,5 @@
     - PWD
     - PWDHIST
     - MUREX_EXE
-    - assign-merge
+    - assign-or-merge
     - create-array
