@@ -42,6 +42,6 @@
   Synonyms:
   Related:
     - open
-    - greater-than
-    - greater-than-greater-than
+    - file-truncate
+    - file-append
     - pipe

@@ -70,8 +70,8 @@
     - schedulers
     - try
     - trypipe
-    - pipe-append
-    - greater-than
-    - greater-than-greater-than
+    - file-append
+    - file-truncate
+    - file-append
 
   

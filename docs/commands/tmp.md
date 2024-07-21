@@ -98,14 +98,14 @@ which itself is located in the appropriate temp directory for the host OS (eg
 
 ## See Also
 
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

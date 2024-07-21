@@ -31,8 +31,8 @@
     - err
     - brace-quote-func
     - cast
-    - greater-than
-    - greater-than-greater-than
+    - file-truncate
+    - file-append
     - out
     - tread
     - man-get-flags

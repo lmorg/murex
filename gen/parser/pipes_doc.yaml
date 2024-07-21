@@ -220,12 +220,12 @@
 
 
 
-- DocumentID: pipe-append
+- DocumentID: file-append
   Title: >-
-     `>>` Append Pipe
+     `>>` Append File
   CategoryID: parser
   Summary: >-
-    Redirects stdout to a file and append its contents
+    Writes stdin to disk - appending contents if file already exists
   Description: |-
     This is used to redirect the stdout of a command and append it to a file. If
     that file does not exist, then the file is created.
@@ -246,25 +246,27 @@
     the following:
     
     ```
-    echo "foobar" >> example.txt
+    out "foobar" >> example.txt
     ```
 
     it will compile an abstract syntax tree which would reflect the following code
     instead:
 
     ```
-    echo "foobar" | >> example.txt
+    out "foobar" | >> example.txt
     ```
 
     ### Truncating a file
 
     To truncate a file (ie overwrite its contents) use `|>` instead.
+  Synonyms:
+    - ">>"
+    - "fappend"
   Related:
+  - pipe
   - pipe-arrow
   - pipe-posix
   - namedpipe
-  - pipe-err
   - pipeline
-  - ja
-  - greater-than-greater-than
-  - greater-than
+  - file-truncate
+  - out

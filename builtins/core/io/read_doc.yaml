@@ -78,8 +78,8 @@
   - err
   - brace-quote
   - cast
-  - greater-than
-  - greater-than-greater-than
+  - file-truncate
+  - file-append
   - out
   - tread
 

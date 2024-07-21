@@ -20,7 +20,7 @@ export default navbar([
           { text: "Variables", link: "variables/", icon: "dollar" },
           { text: "Data Types", link: "types/", icon: "link" },
           { text: "Events", link: "events/", icon: "bolt" },
-          "/blog/"
+          { text: "Blog", link: "blog/", icon: "comment" },
         ],
       },
     ],

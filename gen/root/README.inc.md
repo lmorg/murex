@@ -61,7 +61,7 @@ highlights:
 copyright: false
 footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
-## 🛟 Getting Started
+## Getting Started
 
 * Read the [language tour](/tour.html) to get started.
 
@@ -73,7 +73,7 @@ This guide includes comparisons with Bash.
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
 
-## 👁‍🗨 Screenshots
+## Screenshots
 
 <!-- markdownlint-disable -->
 
@@ -124,7 +124,7 @@ language.
 
 Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
-## 📦 Easy to Install
+## Easy to Install
 
 Install `murex` from your favorite package manager:
 

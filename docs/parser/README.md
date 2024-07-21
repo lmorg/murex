@@ -322,10 +322,8 @@ files.
   Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
 * [`=` (arithmetic evaluation)](../parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects stdout to a file and append its contents
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
@@ -344,8 +342,8 @@ files.
   Iterate through structured data
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to STDIN of the right hand command
 * [`||` Or Logical Operator](../parser/logical-or.md):

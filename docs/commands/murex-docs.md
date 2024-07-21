@@ -40,8 +40,8 @@ These man pages are compiled into the Murex executable.
 
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
@@ -54,8 +54,8 @@ These man pages are compiled into the Murex executable.
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

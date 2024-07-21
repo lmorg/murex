@@ -147,10 +147,10 @@ if you want to learn more about shell scripting in Murex.
   A list of all the terminal hotkeys and their uses
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects stdout to a file and append its contents
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):
@@ -165,8 +165,8 @@ if you want to learn more about shell scripting in Murex.
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [index](../parser/item-index.md):
