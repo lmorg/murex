@@ -15,14 +15,18 @@ apply stricter error handling. See detail below.
 
 ## Examples
 
-**Second command does not run because the first command doesn't error:**
+### When true
+
+Second command does not run because the first command doesn't error:
 
 ```
 » out one || out two
 one
 ```
 
-**Second command does run because the first command produces an error:**
+### When false
+
+Second command does run because the first command produces an error:
 
 ```
 » err one || out two
@@ -54,8 +58,8 @@ There is no workaround for `trypipe`.
   Continues next operation if previous operation passes
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

@@ -55,7 +55,7 @@ autocomplete set rsync %[
     {
         DynamicDesc: '{
             rsync --help                                                  # print rsync help \
-            -> ['^Options$'..--help]re                                    # filter out just the flags from the help page \
+            -> [%(^Options$)..--help]re                                    # filter out just the flags from the help page \
             -> tabulate --map --split-comma --column-wraps --key-inc-hint # convert to json
         }'
         AllowMultiple: true

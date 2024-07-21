@@ -20,20 +20,20 @@ own function.
 
 ## Examples
 
-#### As a parameter:
+### As a parameter
 
 ```
 name = %(Bob)
 ```
 
-#### As a function:
+### As a function
 
 ```
 » %(hello world)
 hello world
 ```
 
-#### Nested quotes:
+### Nested quotes
 
 ```
 » murex -c %(out %(Hello "${murex -c %(out %(Bob))}"))

@@ -1,10 +1,10 @@
 # `>>` Append Pipe
 
-> Redirects STDOUT to a file and append its contents
+> Redirects stdout to a file and append its contents
 
 ## Description
 
-This is used to redirect the STDOUT of a command and append it to a file. If
+This is used to redirect the stdout of a command and append it to a file. If
 that file does not exist, then the file is created.
 
 This behaves similarly to the [Bash (et al) token](https://www.gnu.org/software/bash/manual/bash.html#Appending-Redirected-Output)
@@ -48,19 +48,19 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 
 <hr/>
 

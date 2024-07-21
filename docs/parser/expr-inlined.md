@@ -27,6 +27,8 @@ that parameter will be treated like a string.
   Print a string to the STDOUT with a trailing new line character
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
+* [operations-and-tokens](../parser/operations-and-tokens.md):
+  
 
 <hr/>
 

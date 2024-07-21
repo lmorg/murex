@@ -19,14 +19,16 @@ force numeric or boolean looking values to be stored as strings.
 
 ## Examples
 
-**Object passed as a JSON string:**
+### Object passed as a JSON string
 
 ```
 » echo %{foo: bar}
 {"foo":"bar"}
 ```
 
-**The `%` prefix for the nested object is optional:**
+### Nested objects
+
+The `%` prefix for the nested object is optional:
 
 ```
 » %{foo: bar, baz: [1 2 3]}

@@ -8,14 +8,14 @@
     The Multiplication Operator takes the left hand number and right hand values
     and multiplies them together in an expression.
   Examples: |-
-    #### Expression
+    ### Expression
 
     ```
     » 3*2
     6
     ```
 
-    #### Statement
+    ### Statement
 
     ```
     out (3*2)
@@ -35,3 +35,4 @@
   - config
   - cast
   - strict-types
+  - operators-and-tokens

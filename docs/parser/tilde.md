@@ -10,12 +10,33 @@ The tilde token is used as a lazy reference to the users home directory.
 
 ## Examples
 
+### Current user
+
+Assuming current username is "bob":
+
 ```
 » out ~
 /home/bob
+```
 
+### Alternative user
+
+Assuming "joe" is a valid user on local system:
+
+```
 » out ~joe
 /home/joe
+```
+
+### Unhappy path
+
+If username does not exist, `~` will default to the root path.
+
+Assuming "foobar" isn't a valid local user:
+
+```
+» out ~foobar
+/
 ```
 
 ## Detail

@@ -222,7 +222,7 @@ give you as much useful detail as it can.
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
@@ -236,7 +236,7 @@ give you as much useful detail as it can.
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 
 <hr/>
 

@@ -30,11 +30,11 @@ g * >> files.txt
 ## See Also
 
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`pipe`](../commands/pipe.md):
@@ -44,7 +44,7 @@ g * >> files.txt
 * [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 
 <hr/>
 

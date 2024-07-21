@@ -8,14 +8,14 @@
     The Division Operator divides the left hand number by the right hand number in
     an expression.
   Examples: |-
-    #### Expression
+    ### Expression
 
     ```
     » 3/2
     1.5
     ```
 
-    #### Statement
+    ### Statement
 
     ```
     out (3/2)
@@ -35,3 +35,4 @@
   - config
   - cast
   - strict-types
+  - operators-and-tokens

@@ -283,7 +283,7 @@ files.
 * [`-=` Subtract By Operator](../parser/subtract-by.md):
   Subtracts a variable by the right hand value (expression)
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`-` Subtraction Operator](../parser/subtraction.md):
   Subtracts one numeric value from another (expression)
 * [`/=` Divide By Operator](../parser/divide-by.md):
@@ -293,19 +293,19 @@ files.
 * [`<~` Assign Or Merge](../parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+  Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
 * [`=` (arithmetic evaluation)](../parser/equ.md):
   Evaluate a mathematical function (deprecated)
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
+  Redirects stdout to a file and append its contents
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):
@@ -321,7 +321,7 @@ files.
 * [`|>` Truncate File](../parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [`~` Home Sigil](../parser/tilde.md):

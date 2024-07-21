@@ -150,7 +150,7 @@ if you want to learn more about shell scripting in Murex.
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
+  Redirects stdout to a file and append its contents
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):

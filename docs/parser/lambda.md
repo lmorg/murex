@@ -60,7 +60,7 @@ type of STDOUT is not preserved.
 
 ## Examples
 
-#### Filter
+### Filter
 
 Filtering a map:
 
@@ -88,7 +88,7 @@ example, today is Friday)
 ]
 ```
 
-#### Update
+### Update
 
 Updating a map:
 
@@ -113,7 +113,7 @@ Updating an array:
 ]
 ```
 
-#### Output
+### Output
 
 Output from a map:
 
@@ -130,7 +130,7 @@ Saturday is the weekend
 Sunday is the weekend
 ```
 
-#### Foreach
+### Foreach
 
 Here we are using a lambda just as a terser way of writing a standard `foreach`
 loop:

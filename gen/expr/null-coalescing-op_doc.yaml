@@ -17,7 +17,7 @@
     length strings and strings containing `"null"` are not considered empty by the
     null coalescing operator.
   Examples: |-
-    **Assign a variable with a default value:**
+    ### Assign with a default value
 
     ```
     » $foo = $bar ?? "baz"
@@ -25,7 +25,7 @@
 
     If `$bar` is unset then the value of `$foo` will be **"baz"**.
 
-    **Multiple operators:**
+    ### Multiple operators
 
     ```
     » $unset_variable ?? null ?? "foobar"
@@ -60,3 +60,4 @@
   - logical-and
   - logical-or
   - "null"
+  - operators-and-tokens
