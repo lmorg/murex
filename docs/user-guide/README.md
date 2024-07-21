@@ -43,7 +43,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   What's different about Murex's interactive shell?
 * [Job Control](../user-guide/job-control.md):
   How to manage jobs with Murex
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex

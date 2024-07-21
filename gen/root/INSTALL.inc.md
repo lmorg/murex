@@ -1,6 +1,6 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 {{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: arrow-down
+### {{ end }}icon: download
 
 ---
 {{ end }}<h1>Install Murex</h1>

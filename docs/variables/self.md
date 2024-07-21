@@ -113,7 +113,7 @@ terminal (TTY) or a pipe?)
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is

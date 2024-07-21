@@ -1,6 +1,6 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 {{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: life-ring
+### {{ end }}icon: plane-departure
 
 ---
 
