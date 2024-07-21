@@ -58,7 +58,7 @@ test report
 
 ## Examples
 
-Inlined test
+### Inlined test
 
 ```
 function hello-world {
@@ -72,7 +72,7 @@ function hello-world {
 test run { hello-world }
 ```
 
-Unit test
+### Unit test
 
 ```
 test unit function aliases {

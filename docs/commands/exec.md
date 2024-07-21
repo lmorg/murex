@@ -30,18 +30,22 @@ Linux
 
 ```
 <stdin> -> exec
+
 <stdin> -> exec -> <stdout>
+
            exec -> <stdout>
 ```
 
 ## Examples
+
+### As a function
 
 ```
 » exec printf "Hello, world!"
 Hello, world!
 ```
 
-**Working around aliases:**
+### Working around aliases
 
 If you have an alias like `alias ls=ls --color=auto` and you wanted to run `ls`
 but without colour, you might run `exec ls`.

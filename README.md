@@ -87,7 +87,7 @@ Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
 usability. [Read more](compatibility.md)
 
-## Known bugs / TODO
+## Issue Tracking
 
 Murex is considered stable, however if you do run into problems then please
 raise them on the project's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)

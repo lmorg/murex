@@ -19,7 +19,7 @@ get-type pipe -> <stdout>
 
 ## Examples
 
-Get the data-type of a variable
+### Get data-type of a variable
 
 ```
 » set json example={[1,2,3]}
@@ -31,7 +31,7 @@ json
 > the value of the variable will be passed to `get-type` rather than the
 > name.
 
-Get the data-type of a functions STDIN
+### Get data-type of a functions stdin
 
 ```
 » function example { get-type stdin }
@@ -39,7 +39,7 @@ Get the data-type of a functions STDIN
 json
 ```
 
-Get the data-type of a Murex named pipe
+### Get data-type of a Murex named pipe
 
 ```
 » pipe example

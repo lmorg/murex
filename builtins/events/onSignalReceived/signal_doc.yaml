@@ -32,13 +32,13 @@
     ```
 
   Examples: |-
-    **Send a signal:**
+    ### Send a signal
 
     ```
     {{ include "behavioural/onSignalReceived.mx" }}
     ```
 
-    **List supported signals:**
+    ### List supported signals
 
     ```
     » signal

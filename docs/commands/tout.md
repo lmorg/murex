@@ -36,7 +36,7 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`format`](../commands/format.md):

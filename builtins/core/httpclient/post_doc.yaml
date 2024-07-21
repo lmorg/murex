@@ -13,6 +13,8 @@
     <stdin> -> post url content-type -> <stdout>
     ```
   Examples: |-
+    ### Unhappy path
+    
     ```
     » post google.com -> [ Status ] 
     {

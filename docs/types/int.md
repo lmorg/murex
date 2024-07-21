@@ -31,7 +31,7 @@ AMD64 or other 64bit built of Murex would see the range from
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`num` (number)](../types/num.md):

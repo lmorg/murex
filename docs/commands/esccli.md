@@ -18,7 +18,7 @@ esccli @array -> <stdout>
 
 ## Examples
 
-As a method
+### As a method
 
 ```
 » alias foobar=out 'foo$b@r'
@@ -31,7 +31,7 @@ As a method
 out foo\$b\@r
 ```
 
-As a function
+### As a function
 
 ```
 » alias -> [foobar] -> set fb

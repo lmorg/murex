@@ -52,7 +52,7 @@ value op value**, for example:
 * [`/=` Divide By Operator](../parser/divide-by.md):
   Divides a variable by the right hand value (expression)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):

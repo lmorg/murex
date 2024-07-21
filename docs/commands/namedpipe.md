@@ -14,21 +14,19 @@ Sometimes you will need to start a command line with a Murex named pipe, eg
 
 ## Usage
 
-Read from pipe
+### Read from pipe
 
 ```
 <namedpipe> -> <stdout>
 ```
 
-Write to pipe
+### Write to pipe
 
 ```
 <stdin> -> <namedpipe>
 ```
 
 ## Examples
-
-The follow two examples function the same
 
 ```
 » pipe example

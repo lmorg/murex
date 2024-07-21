@@ -83,7 +83,7 @@ This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
-**Interrupt 'SIGINT':**
+Interrupt 'SIGINT'
 
 ```
 event onSignalReceived example=SIGINT {

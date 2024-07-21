@@ -14,6 +14,8 @@ false -> <stdout>
 
 ## Examples
 
+### No flags
+
 By default, `false` also outputs the term "false":
 
 ```
@@ -21,7 +23,9 @@ By default, `false` also outputs the term "false":
 false
 ```
 
-However you can suppress that with the silent flag:
+### Silent
+
+You can suppress that with the silent flag:
 
 ```
 » false -s

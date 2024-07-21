@@ -22,6 +22,8 @@
     <stdin> -> alter [ -m | --merge | -s | --sum ] /path value -> <stdout>
     ```
   Examples: |-
+    ### Altering an objects value
+
     ```
     » config -> [ shell ] -> [ prompt ] -> alter /Value moo
     {
@@ -31,6 +33,8 @@
         "Value": "moo"
     }
     ```
+
+    ### Inserting JSON
 
     `alter` also accepts JSON as a parameter for adding structured data:
 
@@ -47,7 +51,9 @@
     }
     ```
 
-    However it is also data type aware so if they key you're updating holds a string
+    ### Data-type aware
+
+    It is also data type aware so if they key you're updating holds a string
     (for example) then the JSON data a will be stored as a string:
 
     ```

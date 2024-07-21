@@ -14,10 +14,14 @@ Reads the STDIN and exit number from previous process and not's it's condition.
 
 ## Examples
 
+### Inverting true
+
 ```
 » echo "Hello, world!" -> !
 false
 ```
+
+### Inverting false
 
 ```
 » false -> !

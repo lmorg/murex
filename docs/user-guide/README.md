@@ -180,7 +180,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`cd`](../commands/cd.md):

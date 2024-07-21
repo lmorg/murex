@@ -11,21 +11,21 @@ relative rather than absolute then `/` will be excluded from outputted string.
 
 ## Examples
 
-**Return the first two elements in a path:**
+### First two elements in a path
 
 ```
 » $PWD[..2]
 /Users/
 ```
 
-**Check if path exists:**
+### Check if path exists
 
 ```
 » set path foobar="/dev/foobar"
 » $foobar.2.Exists
 ```
 
-**Example of `path` data structure:**
+### path data structure
 
 ```
 » set path foobar="/dev/foobar"

@@ -14,6 +14,7 @@ shell will still exist and not just that function.
 
 ```
 exit
+
 exit number
 ```
 

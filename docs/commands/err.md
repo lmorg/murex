@@ -62,7 +62,7 @@ a new Murex named pipe.
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`pipe`](../commands/pipe.md):

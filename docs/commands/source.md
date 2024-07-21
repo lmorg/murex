@@ -10,19 +10,19 @@ Python, Perl, etc).
 
 ## Usage
 
-Execute source from STDIN
+### Execute source from STDIN
 
 ```
 <stdin> -> source
 ```
 
-Execute source from a file
+### Execute source from a file
 
 ```
 source filename.mx
 ```
 
-Execute a code block from parameter
+### Execute a code block from parameter
 
 ```
 source { code-block }
@@ -30,14 +30,14 @@ source { code-block }
 
 ## Examples
 
-Execute source from stdin:
+### Execute source from stdin
 
 ```
 » tout block { out "Hello, world!" } -> source
 Hello, world!
 ```
 
-Execute source from file:
+### Execute source from file
 
 ```
 » tout block { out "Hello, world!" } |> example.mx
@@ -45,7 +45,7 @@ Execute source from file:
 Hello, world!
 ```
 
-Execute a code block from parameter
+### Execute a code block from parameter
 
 ```
 » source { out "Hello, world!" }

@@ -40,7 +40,7 @@ event event-type name=interrupt { code block }
 
 ## Examples
 
-Create an event:
+### Create an event
 
 ```
 event onSecondsElapsed autoquit=60 {
@@ -49,7 +49,7 @@ event onSecondsElapsed autoquit=60 {
 }
 ```
 
-Destroy an event:
+### Destroy an event
 
 ```
 !event onSecondsElapsed autoquit

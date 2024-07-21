@@ -146,7 +146,7 @@ cases for JSON lines.
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`foreach`](../commands/foreach.md):

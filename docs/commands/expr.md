@@ -24,8 +24,8 @@ write an expression as a command (ie prefixed with `expr`) then it will be
 parsed as a statement. This means more complex expressions might parse in
 unexpected ways and thus fail. You can still raise a bug if that does happens.
 
-For a full list of operators supported exclusively in expression, see the
-last section in this document.
+A full list of operators is available in the [Operators And Tokens](/docs/user-guide/operators-and-tokens.md)
+document.
 
 ## Usage
 

@@ -98,6 +98,8 @@
     - index
     - element
 
+
+
 - DocumentID: non-decimal
   Title: >+
     Non-Decimal Ranges
@@ -211,6 +213,8 @@
     - index
     - element
 
+
+
 - DocumentID: character
   Title: >+
     Character arrays
@@ -259,6 +263,8 @@
     - count
     - index
     - element
+
+
 
 - DocumentID: special
   Title: >+
@@ -391,6 +397,8 @@
     - count
     - index
     - element
+
+
 
 - DocumentID: date
   Title: >+

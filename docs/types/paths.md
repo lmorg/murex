@@ -11,14 +11,14 @@ relative rather than absolute then `/` will be excluded from outputted string.
 
 ## Examples
 
-**Creating a PATH:**
+### Creating a PATH
 
 ```
 » %[/bin, /usr/bin, "$JAVA_HOME/bin"] -> format paths
 /bin:/usr/bin:/opt/java/bin
 ```
 
-**Splitting a PATH:**
+### Splitting a PATH
 
 ```
 » $PATH -> :paths: format json
@@ -29,10 +29,20 @@ relative rather than absolute then `/` will be excluded from outputted string.
 ]
 ```
 
-**Appending to `$PATH`:**
+### Appending to $PATH
+
+As a statement:
 
 ```
-» $PATH -> :paths: append /sbin -> export PATH
+» $PATH -> append /sbin -> export PATH
+» $PATH
+/bin:/usr/bin:/opt/java/bin:/sbin
+```
+
+As an expression:
+
+```
+» $PATH <~ %[ "/sbin" ]
 » $PATH
 /bin:/usr/bin:/opt/java/bin:/sbin
 ```
@@ -64,8 +74,12 @@ relative rather than absolute then `/` will be excluded from outputted string.
   Current working directory
 * [PWDHIST](../variables/pwdhist.md):
   History of each change to the sessions working directory
+* [`%[]` Array Builder](../parser/create-array.md):
+  Quickly generate arrays
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
+* [assign-merge](../types/assign-merge.md):
+  
 
 ### Read more about type hooks
 

@@ -18,7 +18,7 @@
 
 ## Examples
 
-As a method:
+### As a method
 
 ```
 » let age=18
@@ -29,7 +29,7 @@ true
 Under 21
 ```
 
-As a function:
+### As a function
 
 ```
 » let age=18
@@ -40,7 +40,7 @@ true
 Under 21
 ```
 
-Inlining as a function:
+### Inlining as a function
 
 ```
 » let age=18

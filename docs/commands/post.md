@@ -16,6 +16,8 @@ post url -> <stdout>
 
 ## Examples
 
+### Unhappy path
+
 ```
 » post google.com -> [ Status ] 
 {

@@ -32,6 +32,8 @@
     <stdin> -> !match search string -> <stdout>
     ```
   Examples: |-
+    ### Return matched
+
     Match **Wed**
 
     ```
@@ -40,6 +42,8 @@
         "Wednesday"
     ]
     ```
+
+    ### Ignore matched
 
     Match everything except **Wed**
 
@@ -77,6 +81,8 @@
     - map
     - regexp
 
+
+
 - DocumentID: regexp
   Title: >+
     `regexp`
@@ -108,7 +114,7 @@
 
     ### Match elements
 
-    Elements containing
+    ### Elements containing
 
     ```
     » ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
@@ -119,7 +125,7 @@
     ]
     ```
 
-    Elements excluding
+    #### Elements excluding
 
     ```
     » ja [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'

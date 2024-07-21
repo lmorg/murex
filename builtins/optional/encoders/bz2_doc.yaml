@@ -10,7 +10,7 @@
     ```
     <stdin> -> !bz2 -> <stdout>
     ```
-  Examples: |-
+  Examples:
   Detail: |-
     Currently there is no support for compressing a stream using bz2.
   Synonyms:

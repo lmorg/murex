@@ -67,7 +67,7 @@ Error in `expr` (0,1): cannot Add with string types
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):

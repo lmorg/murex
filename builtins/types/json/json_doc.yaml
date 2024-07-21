@@ -8,7 +8,7 @@
     JSON is a structured data-type within Murex. It is the standard format for all
     structured data within Murex however other formats such as YAML, TOML and CSV
     are equally first class citizens.
-  Usage: |-
+  Usage:
   Examples: |-
     Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 

@@ -63,7 +63,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):

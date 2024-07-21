@@ -71,7 +71,7 @@ You can read this with `read-named-pipe`. eg
 
 ### Interrupt/Stderr
 
-This is the name of the Murex named pipe which contains a copy of the STDERR
+This is the name of the Murex named pipe which contains a copy of the stderr
 from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
@@ -91,11 +91,11 @@ This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
-**Read STDERR:**
+### Read stderr
 
 In this example we check the output from `pacman`, which is ArchLinux's package
 management tool, to see if you have accidentally ran it as a non-root user. If
-the STDERR contains a message saying you are no root, then this event function
+the stderr contains a message saying you are no root, then this event function
 will re-run `pacman` with `sudo`.
 
 ```

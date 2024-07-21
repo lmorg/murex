@@ -35,6 +35,8 @@ Match everything except search string
 
 ## Examples
 
+### Return matched
+
 Match **Wed**
 
 ```
@@ -43,6 +45,8 @@ Match **Wed**
     "Wednesday"
 ]
 ```
+
+### Ignore matched
 
 Match everything except **Wed**
 

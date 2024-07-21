@@ -22,7 +22,7 @@ if { code-block } then {
 }
 ```
 
-### Method `if`:
+### Method `if`
 
 ```
 command -> if {

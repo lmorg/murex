@@ -8,13 +8,13 @@
 
 ## Usage
 
-Create pipe
+### Create pipe
 
 ```
 pipe name [ pipe-type ]
 ```
 
-Destroy pipe
+### Destroy pipe
 
 ```
 !pipe name
@@ -22,17 +22,19 @@ Destroy pipe
 
 ## Examples
 
-Create a standard pipe:
+### Create a standard pipe
 
 ```
 pipe example
 ```
 
-Delete a pipe:
+### Delete a pipe
 
 ```
 !pipe example
 ```
+
+### Pipe flags
 
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 

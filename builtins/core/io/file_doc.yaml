@@ -32,6 +32,8 @@
     - namedpipe
     - pipe-err
 
+
+
 - DocumentID: greater-than-greater-than
   Title: >+
     `>>` Append File
@@ -65,6 +67,8 @@
     - namedpipe
     - pipe-err
 
+
+
 - DocumentID: pt
   Title: >+
     `pt`
@@ -80,7 +84,7 @@
     ```
   Examples: |-
     ```
-    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+    curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
     ```
 
     (though Murex does also have it's own HTTP clients, `get`, `post` and

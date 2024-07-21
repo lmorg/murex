@@ -7,8 +7,8 @@
   Description: |-
     Apache httpd supports a few different log formats. This Murex type is for
     parsing the "common" log format.
-  Usage: |-
-  Examples: |-
+  Usage:
+  Examples:
   Hooks:
     ReadArray(): Supported. Each line is considered an index (like with `str` data type)
     ReadArrayWithType(): Supported. Each line is considered an index with `commonlog` data type

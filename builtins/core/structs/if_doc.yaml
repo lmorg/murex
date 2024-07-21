@@ -22,7 +22,7 @@
     }
     ```
 
-    ### Method `if`:
+    ### Method `if`
 
     ```
     command -> if {

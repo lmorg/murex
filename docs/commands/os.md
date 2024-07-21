@@ -16,10 +16,14 @@ os string -> <stdout>
 
 ## Examples
 
+### Name current platform
+
 ```
 » os
 linux
 ```
+
+### Check platforms
 
 Or if you want to check if the host is one of a number of platforms:
 
@@ -28,16 +32,29 @@ Or if you want to check if the host is one of a number of platforms:
 » os linux freebsd
 true
 
-# When run on another platform, eg Windows or Darwin (OSX)
+# When run on another platform, eg Windows or Darwin (macOS)
 # (exit number would also be `1`)
 » os linux freebsd
 false
 ```
 
-`posix` is also supported:
+The intention is this allows simple tests in scripts:
 
 ```
-# When run on Linux, FreeBSD or Darwin (for example)
+if { os windows } then {
+    # run some Windows specific code
+}
+```
+
+### POSIX
+
+`posix` is also supported to check if Murex is running on a UNIX-like operating
+system.
+
+All Murex targets _apart_ from Windows and Plan 9 are considered POSIX.
+
+```
+# When run on Linux or macOS
 » os posix
 true
 

@@ -12,27 +12,25 @@ as both the conditional and the code to be ran.
 
 ## Usage
 
-Until true
+### Until true
 
 ```
 while { condition } { code-block } -> <stdout>
-```
 
-```
 while { code-block } -> <stdout>
 ```
 
-Until false
+### Until false
 
 ```
 !while { condition } { code-block } -> <stdout>
-```
 
-```
 !while { code-block } -> <stdout>
 ```
 
 ## Examples
+
+### With conditional block
 
 `while` **$i** is less then **5**
 
@@ -45,6 +43,8 @@ Until false
 5
 ```
 
+### Without conditional block
+
 ```
 » i=0; while { i=$i+1; $i<5; out }
 true
@@ -53,6 +53,8 @@ true
 true
 false
 ```
+
+### Until false
 
 `while` **$i** is _NOT_ greater than or equal to **5**
 

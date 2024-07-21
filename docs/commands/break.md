@@ -20,7 +20,7 @@ break block-name
 
 ## Examples
 
-**Exiting an iteration block:**
+### Exiting an iteration block
 
 ```
 function foo {
@@ -47,7 +47,7 @@ Running the above code would output:
 exit running function
 ```
 
-**Exiting a function:**
+### Exiting a function
 
 `break` can be considered to exhibit the behavior of _return_ (from other
 languages) too

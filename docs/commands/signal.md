@@ -44,7 +44,7 @@ signal -> <stdout>
 
 ## Examples
 
-**Send a signal:**
+### Send a signal
 
 ```
 function signal.SIGUSR1.trap {
@@ -69,7 +69,7 @@ test unit function signal.SIGUSR1.trap %{
 }
 ```
 
-**List supported signals:**
+### List supported signals
 
 ```
 » signal

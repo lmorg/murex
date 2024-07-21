@@ -31,7 +31,7 @@ is-null variable_name... -> <stdout>
 
 ## Examples
 
-**Interactive output:**
+### Interactive output
 
 ```
 » $baz = ""
@@ -41,7 +41,7 @@ bar: undefined or null
 baz: defined and not null
 ```
 
-**None interactive output:**
+### None interactive output
 
 ```
 if { is-null foobar } then {

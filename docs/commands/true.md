@@ -14,6 +14,8 @@ true -> <stdout>
 
 ## Examples
 
+### No flags
+
 By default, `true` also outputs the term "true":
 
 ```
@@ -21,7 +23,9 @@ By default, `true` also outputs the term "true":
 true
 ```
 
-However you can suppress that with the silent flag:
+### Silent
+
+You can suppress that with the silent flag:
 
 ```
 » true -s

@@ -12,20 +12,20 @@
     if neither exist or if you wish to override their text, then you can use
     `summary` to define that text.
   Usage: |-
-    Define a commands summary
+    ### Define a commands summary
 
     ```
     summary command description
     ```
 
-    Undefine a summary
+    ### Undefine a summary
 
     ```
     !summary command
     ```
 
   Examples: |-
-    Define a commands summary
+    ### Define a commands summary
 
     ```
     » summary foobar "Hello, world!"
@@ -33,7 +33,7 @@
     Hello, world! 
     ```
 
-    Undefine a summary
+    ### Undefine a summary
 
     ```
     » !summary foobar
@@ -62,12 +62,7 @@
   Summary: >-
     Runs the Murex parser against a block of code 
   Description: |-
-    `summary` define help text for a command. This is effectively like a tooltip
-    message that appears, by default, in blue in the interactive shell.
-
-    Normally this text is populated from the `man` pages or `murex-docs`, however
-    if neither exist or if you wish to override their text, then you can use
-    `summary` to define that text.
+    **EXPERIMENTAL**
   Usage: |-
     ```
     <stdin> -> murex-parser -> <stdout>

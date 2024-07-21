@@ -8,7 +8,7 @@ A readline function to allow a line of data inputed from the terminal.
 
 ## Usage
 
-Classic usage:
+### Classic usage
 
 ```
 read "prompt" var_name
@@ -16,7 +16,7 @@ read "prompt" var_name
 <stdin> -> read var_name
 ```
 
-Script usage:
+### Script usage
 
 ```
 read [ --prompt "prompt"         ]
@@ -29,7 +29,7 @@ read [ --prompt "prompt"         ]
 
 ## Examples
 
-**Classic usage:**
+### Classic usage
 
 ```
 read "What is your name? " name
@@ -39,7 +39,7 @@ out What is your name? -> read name
 out "Hello $name"
 ```
 
-**Script usage:**
+### Script usage
 
 ```
 read --prompt "Are you sure? [Y/n]" \
@@ -47,7 +47,7 @@ read --prompt "Are you sure? [Y/n]" \
       --default Y
 ```
 
-**Secrets:**
+### Secrets
 
 ```
 read --prompt "Password: " --variable pw --mask *
@@ -70,7 +70,7 @@ read --prompt "Password: " --variable pw --mask *
 
 ## Detail
 
-### Classic Usage
+### Classic usage
 
 If `read` is called as a method then the prompt string is taken from STDIN.
 Otherwise the prompt string will be the first parameter. However if no prompt
@@ -92,7 +92,7 @@ with the `--datatype` flag as per the **script usage**.
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

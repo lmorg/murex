@@ -16,7 +16,7 @@ bexists command... -> <stdout>
 ## Examples
 
 ```
-» bexists: qr gzip runtime config
+» bexists qr gzip runtime config
 {
     "Installed": [
         "runtime",

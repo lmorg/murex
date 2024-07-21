@@ -18,7 +18,7 @@ which command... -> <stdout>
 
 ## Examples
 
-**TTY output:**
+### TTY output
 
 ```
 » which cat dog jobs git dug
@@ -29,7 +29,7 @@ git => (/opt/homebrew/bin/git -> ../Cellar/git/2.41.0/bin/git) git - the stupid 
 dug => (murex function) A bit like dig but which outputs JSON
 ```
 
-**Piped output:**
+### Piped output
 
 ```
 » which cat dog jobs git dug -> cat

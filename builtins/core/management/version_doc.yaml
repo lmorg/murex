@@ -11,21 +11,21 @@
     version [ flags ] -> <stdout>
     ```
   Examples: |-
-    Ran without any parameters
+    ### Without parameters
 
     ```
     » version
     murex: 0.51.1200 BETA
     ```
 
-    Ran with the `--no-app-name` parameter
+    ### --no-app-name
 
     ```
     » version --no-app-name
     0.51.1200 BETA
     ```
 
-    Ran with the `--short` parameter
+    ### --short
 
     ```
     » version --short

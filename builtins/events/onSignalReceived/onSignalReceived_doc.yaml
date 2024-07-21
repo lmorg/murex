@@ -47,7 +47,7 @@
     Valid interrupt operation values are specified below. All interrupts / signals
     are UPPERCASE strings.
   Examples: |-
-    **Interrupt 'SIGINT':**
+    Interrupt 'SIGINT'
 
     ```
     event onSignalReceived example=SIGINT {

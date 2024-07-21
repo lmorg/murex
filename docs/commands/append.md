@@ -56,7 +56,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 * [`addheading` ](../commands/addheading.md):
   Adds headings to a table
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
