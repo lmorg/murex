@@ -67,7 +67,7 @@ deprecated and may be removed from future releases.
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is

@@ -2,6 +2,32 @@
 
 > A table of all supported operators and tokens
 
+<h2>Table of Contents</h2>
+
+<div id="toc">
+
+- [Syntax](#syntax)
+  - [Expressions](#expressions)
+  - [Statements](#statements)
+- [Order Of Operations](#order-of-operations)
+  - [Expression Or Statement Discovery](#expression-or-statement-discovery)
+- [Operators And Tokens](#operators-and-tokens)
+  - [Terminology](#terminology)
+  - [Modifiers](#modifiers)
+  - [Comparators](#comparators)
+  - [Assignment](#assignment)
+  - [Conditionals](#conditionals)
+  - [Sigils](#sigils)
+  - [Constants](#constants)
+  - [Sub-shells](#sub-shells)
+  - [Boolean Operations](#boolean-operations)
+  - [Pipes](#pipes)
+  - [Terminators](#terminators)
+  - [Escape Codes](#escape-codes)
+
+</div>
+
+
 ## Syntax
 
 Murex supports both expressions and statements. You can use the interchangeably

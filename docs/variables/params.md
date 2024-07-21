@@ -55,7 +55,7 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is

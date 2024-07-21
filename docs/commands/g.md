@@ -78,7 +78,7 @@ g [aeiou]*/*
 
 ### Pattern Reference
 
-Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)@
+Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)
 
 #### pattern
 
