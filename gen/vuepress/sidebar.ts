@@ -40,14 +40,14 @@ export default sidebar({
     },
     {
       text: "Builtins",
-      icon: "terminal",
+      icon: "cubes",
       prefix: "commands/",
       children: "structure",
       collapsible: true,
     },
     {
       text: "Optional Builtins",
-      icon: "terminal",
+      icon: "cube",
       prefix: "optional/",
       children: "structure",
       collapsible: true,
@@ -61,7 +61,7 @@ export default sidebar({
     },
     {
       text: "Data Types",
-      icon: "table",
+      icon: "link",
       prefix: "types/",
       children: "structure",
       collapsible: true,
