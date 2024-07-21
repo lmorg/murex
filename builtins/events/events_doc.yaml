@@ -37,7 +37,7 @@
     !event event-type name
     ```
   Examples: |-
-    Create an event:
+    ### Create an event
 
     ```
     event onSecondsElapsed autoquit=60 {
@@ -46,7 +46,7 @@
     }
     ```
 
-    Destroy an event:
+    ### Destroy an event
 
     ```
     !event onSecondsElapsed autoquit

@@ -1,0 +1,101 @@
+- DocumentID: c-style-fun
+  Title: >-
+    C-style functions
+  CategoryID: parser
+  Summary: >-
+    Inlined commands for expressions and statements
+  Description: |-
+    The traditional way to spawn a sub-shell would be `${}` (or `$()` in Bourne
+    Shell and its many derivatives). This works great for inlining entire command
+    lines but it isn't so convenient if you want to call one command and
+    particularly within an expression.
+
+    This is where C-style functions can be more ergonomic. They follow the common
+    structure of `command(parameters...)`. For example:
+
+    ```
+    » out("hello world")
+    ```
+
+    The syntax is not exactly like C and its derivatives however:
+
+    * parameters are white space delimited, like with command line statements
+    * strings do not need to be quoted, like with command line statements
+
+    And unlike statements:
+
+    * you cannot redirect stdout nor stderr
+    * stdout is never a TTY. Even when it is ran directly in the terminal, it is
+      still treated as a sub-shell
+
+    Ostensibly, C-style functions are just syntactic sugar for `${}`. As such,
+    they're not intended to be used liberally but rather just in instances it
+    improves readability.
+  Examples: |-
+    ### Assignment In Expressions
+
+    As a C-style function (CSF) vs a sub-shell:
+
+    ```
+    # CSF
+    » $doc = open(README.md)
+
+    # Sub-shell
+    » $doc = ${open README.md}
+    ```
+
+    ### Numeric Value In Expressions
+
+    As a C-style function (CSF) vs a sub-shell:
+
+    ```
+    # CSF
+    » datetime(--in {now} --out {unix}) / 60
+    28687556.3
+
+    # Sub-shell
+    » ${datetime --in {now} --out {unix}} / 60
+    28687556.3
+    ```
+
+    ### Statement Inlining
+
+    As a C-style function (CSF) vs a sub-shell:
+
+    ```
+    # CSF
+    » echo It is datetime(--in {now} --out {py}%H) o\' clock
+    It is 23 o' clock
+
+    # Sub-shell
+    » echo It is ${datetime --in {now} --out {py}%H} o\' clock
+    It is 23 o' clock
+    ```
+
+    Notice in the example above, `echo`'s parameters are not quoted. This is
+    because C-style functions do not support infixing.
+  Detail: |-
+    ### Valid Function Names
+
+    {{ include "gen/includes/c-style-valid-fun.inc.md" }}
+
+    ### String Infixing
+
+    C-style functions do not support being infixed like sub-shells can be:
+
+    ```
+    # CSF
+    » echo "It is datetime(--in {now} --out {py}%H) o\' clock"
+    It is datetime(--in {now} --out {py}%H) o' clock
+
+    # Sub-shell
+    » echo "It is ${datetime --in {now} --out {py}%H} o\' clock"
+    It is 23 o' clock
+    ```
+  Related:
+  - expr
+  - echo
+  - tour
+  - sub-shell
+  - datetime
+  - open

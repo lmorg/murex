@@ -13,13 +13,13 @@ if neither exist or if you wish to override their text, then you can use
 
 ## Usage
 
-Define a commands summary
+### Define a commands summary
 
 ```
 summary command description
 ```
 
-Undefine a summary
+### Undefine a summary
 
 ```
 !summary command
@@ -27,7 +27,7 @@ Undefine a summary
 
 ## Examples
 
-Define a commands summary
+### Define a commands summary
 
 ```
 » summary foobar "Hello, world!"
@@ -35,7 +35,7 @@ Define a commands summary
 Hello, world! 
 ```
 
-Undefine a summary
+### Undefine a summary
 
 ```
 » !summary foobar

@@ -196,7 +196,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 
 		autocomplete.MatchFlags(&act)
-		r.Preview = PreviewParameter
+
+		if act.PreviewBlock == "" {
+			r.Preview = PreviewParameter
+		} else {
+			r.Preview = DynamicPreview(act.PreviewBlock, pt.FuncName, pt.Parameters)
+		}
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength

@@ -9,7 +9,7 @@ import (
 )
 
 func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
-	err := tree.validateExpression(true)
+	err := tree.validateExpression()
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +98,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
 			err = expAssignAndOperate(tree, _assMulti)
-		case symbols.AssignAndMerge:
+		case symbols.AssignOrMerge:
 			err = expAssignMerge(tree)
 
 		// 13. Conditional expression (ternary)

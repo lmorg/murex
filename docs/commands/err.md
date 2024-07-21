@@ -55,14 +55,14 @@ a new Murex named pipe.
   Infixed constants that return ANSI escape sequences
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`pipe`](../commands/pipe.md):

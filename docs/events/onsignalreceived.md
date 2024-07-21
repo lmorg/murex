@@ -6,8 +6,8 @@
 
 `onSignalReceived` events are triggered by OS signals.
 
-The following quote from [Wikipedia explains what signals](https://en.wikipedia.org/wiki/Signal_(IPC))
-are:
+The following quote from [Wikipedia](https://en.wikipedia.org/wiki/Signal_(IPC))
+explains what signals are:
 
 > Signals are standardized messages sent to a running program to trigger
 > specific behavior, such as quitting or error handling. They are a limited
@@ -70,16 +70,20 @@ This is the **namespaced** name -- ie the name and operation.
 
 This is the name you specified when defining the event.
 
-### Signal
+### Interrupt/Signal
 
 This is the signal you specified when defining the event.
 
 Valid interrupt operation values are specified below. All interrupts / signals
 are UPPERCASE strings.
 
+## Event Return
+
+This event doesn't have any `$EVENT_RETURN` parameters.
+
 ## Examples
 
-**Interrupt 'SIGINT':**
+Interrupt 'SIGINT'
 
 ```
 event onSignalReceived example=SIGINT {
@@ -122,9 +126,7 @@ Plan 9 is not supported.
 
 ### Stdout
 
-Stdout is written to the terminal. So this can be used to provide multiple
-additional lines to the prompt since readline only supports one line for the
-prompt itself and three extra lines for the hint text.
+Stdout and stderr are both written to the terminal.
 
 ### Order of execution
 
@@ -160,4 +162,4 @@ legitimately want the same name for different interrupts.
 
 <hr/>
 
-This document was generated from [builtins/events/onSignalReceived/signaltrap_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/signaltrap_doc.yaml).
+This document was generated from [builtins/events/onSignalReceived/onSignalReceived_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/events/onSignalReceived/onSignalReceived_doc.yaml).

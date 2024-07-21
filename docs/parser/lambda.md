@@ -60,7 +60,7 @@ type of STDOUT is not preserved.
 
 ## Examples
 
-#### Filter
+### Filter
 
 Filtering a map:
 
@@ -88,7 +88,7 @@ example, today is Friday)
 ]
 ```
 
-#### Update
+### Update
 
 Updating a map:
 
@@ -113,7 +113,7 @@ Updating an array:
 ]
 ```
 
-#### Output
+### Output
 
 Output from a map:
 
@@ -130,7 +130,7 @@ Saturday is the weekend
 Sunday is the weekend
 ```
 
-#### Foreach
+### Foreach
 
 Here we are using a lambda just as a terser way of writing a standard `foreach`
 loop:
@@ -181,10 +181,10 @@ The following meta values are defined:
 
 ## See Also
 
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Object Builder](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`datetime`](../commands/datetime.md):

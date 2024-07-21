@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/hintsummary"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -27,6 +27,7 @@ type AutoCompleteT struct {
 	DoNotSort         bool
 	DoNotEscape       bool
 	TimeOut           time.Time
+	PreviewBlock      string
 }
 
 func (act *AutoCompleteT) append(items ...string) {
@@ -69,11 +70,6 @@ func (act *AutoCompleteT) disposable() *AutoCompleteT {
 // MatchFunction returns autocomplete suggestions for functions / executables
 // based on a partial string
 func MatchFunction(partial string, act *AutoCompleteT) {
-	precache, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
-	if err != nil {
-		precache = false
-	}
-
 	switch {
 	case pathIsLocal(partial):
 		act.Items = matchLocal(partial, true)
@@ -81,9 +77,11 @@ func MatchFunction(partial string, act *AutoCompleteT) {
 	default:
 		exes := allExecutables(true)
 		act.Items = matchExes(partial, exes)
-		if precache.(bool) {
-			for i := range act.Items {
-				act.Definitions[act.Items[i]] = hintsummary.Cache.Get(partial + act.Items[i])
+
+		for i := range act.Items {
+			var summary string
+			if cache.Read(cache.HINT_SUMMARY, partial+act.Items[i], &summary) {
+				act.Definitions[act.Items[i]] = summary
 			}
 		}
 	}
@@ -93,11 +91,9 @@ func CacheHints() {
 	exes := allExecutables(true)
 
 	for exe := range exes {
-		hintsummary.Get(exe, true)
+		_ = hintsummary.Get(exe, true)
 	}
 }
-
-//func CacheHints
 
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string

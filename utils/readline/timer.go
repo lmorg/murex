@@ -144,6 +144,14 @@ func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item
 	var ctx context.Context
 
 	callback := func(lines []string, pos int, err error) {
+		if pos == -1 {
+			if rl.previewCache != nil && rl.previewCache.pos < len(lines) {
+				pos = rl.previewCache.pos
+			} else {
+				pos = 0
+			}
+		}
+
 		select {
 		case <-ctx.Done():
 			return
@@ -156,20 +164,20 @@ func delayedPreviewTimer(rl *Instance, fn PreviewFuncT, size *PreviewSizeT, item
 			return
 		}
 
-		output, err := rl.previewDrawStr(lines[pos:], size)
-
-		if err != nil {
-			rl.previewCache = nil
-			print(output)
-			return
-		}
-
 		rl.previewCache = &previewCacheT{
 			item:  item,
 			pos:   pos,
 			len:   size.Height,
 			lines: lines,
 			size:  size,
+		}
+
+		output, err := rl.previewDrawStr(lines[pos:], size)
+
+		if err != nil {
+			rl.previewCache = nil
+			print(output)
+			return
 		}
 
 		print(output)

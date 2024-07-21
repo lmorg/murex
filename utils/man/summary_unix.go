@@ -9,22 +9,26 @@ import (
 	"io"
 	"os"
 	"strings"
+
+	"github.com/lmorg/murex/utils/cache"
 )
 
 // ParseSummary runs the parser to locate a summary
 func ParseSummary(paths []string) string {
+	var summary string
 	for i := range paths {
 		if !rxMatchManSection.MatchString(paths[i]) {
 			continue
 		}
-		desc := SummaryCache.Get(paths[i])
-		if desc != "" {
-			return desc
+
+		if cache.Read(cache.MAN_SUMMARY, paths[i], &summary) {
+			return summary
 		}
-		desc = parseSummary(paths[i])
-		if desc != "" {
-			SummaryCache.Set(paths[i], desc)
-			return desc
+
+		summary = parseSummary(paths[i])
+		if summary != "" {
+			cache.Write(cache.MAN_SUMMARY, paths[i], summary, cache.Days(30))
+			return summary
 		}
 	}
 

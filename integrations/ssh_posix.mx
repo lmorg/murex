@@ -1,0 +1,75 @@
+private getHostsFile {
+    # Parse the hosts file and return uniq host names and IPs
+    
+    cast: str
+    
+    cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq
+    
+    if { g ~/.ssh/config -> f +d } then {
+        cat ~/.ssh/config -> regexp 'f/Host\s([-.a-zA-Z0-9]+)/'
+    }
+}
+
+test unit private getHostsFile {
+    "StdoutRegex": "[-_.0-9a-zA-Z]+\n",
+    "StdoutType":  "str",
+    "StdoutGreaterThan": 1,
+    "StdoutIsArray": true
+}
+
+private getHostsPrefixUser {
+    # prefixes getHostFile entries with $1 if that matches a `user@` pattern
+
+    cast str
+
+    if { $1 =~ '^[-_.a-zA-Z0-9]+@' } then {
+        $1 -> regexp 'f/(^[-_.a-zA-Z0-9]+@)' -> set prefix
+        getHostsFile -> prefix $prefix
+    } else {
+        getHostsFile
+    }
+}
+
+autocomplete set ssh %[
+    {
+        Dynamic: '{ getHostsPrefixUser $PREFIX }'
+        IncManPage: true
+        AllowAny: true
+        FlagValues: {
+            "-i": [{ 
+                IncFiles: true
+            }]
+        }
+    },
+    {
+        Goto: "/0"
+    }
+]
+
+autocomplete set ping %[ {
+    Dynamic: '{ getHostsFile }'
+    IncManPage: true
+}]
+
+autocomplete set rsync %[
+    {
+        DynamicDesc: '{
+            rsync --help                                                  # print rsync help \
+            -> [%(^Options$)..--help]re                                    # filter out just the flags from the help page \
+            -> tabulate --map --split-comma --column-wraps --key-inc-hint # convert to json
+        }'
+        AllowMultiple: true
+        Optional: true
+        IncManPage: true
+    }
+    {
+        Dynamic: '{ getHostsFile }'
+        IncManPage: true
+        AllowMultiple: true
+    }
+]
+
+autocomplete set sftp %[ {
+    Dynamic: '{ getHostsFile }'
+    IncManPage: true
+}]

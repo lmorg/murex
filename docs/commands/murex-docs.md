@@ -43,7 +43,7 @@ These man pages are compiled into the Murex executable.
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`man-get-flags` ](../commands/man-get-flags.md):

@@ -36,8 +36,12 @@ murex-docs trypipe
 
 ## Pages
 
+* [`!` (not)](../commands/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
@@ -65,7 +69,7 @@ murex-docs trypipe
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`cd`](../commands/cd.md):
@@ -152,6 +156,8 @@ murex-docs trypipe
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
+* [`key-code`](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`let`](../commands/let.md):

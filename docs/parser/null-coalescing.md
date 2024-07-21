@@ -20,7 +20,7 @@ null coalescing operator.
 
 ## Examples
 
-**Assign a variable with a default value:**
+### Assign with a default value
 
 ```
 » $foo = $bar ?? "baz"
@@ -28,7 +28,7 @@ null coalescing operator.
 
 If `$bar` is unset then the value of `$foo` will be **"baz"**.
 
-**Multiple operators:**
+### Multiple operators
 
 ```
 » $unset_variable ?? null ?? "foobar"
@@ -54,6 +54,8 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 
 ## See Also
 
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
@@ -62,8 +64,8 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Continues next operation if previous operation passes
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`expr`](../commands/expr.md):
@@ -83,4 +85,4 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 
 <hr/>
 
-This document was generated from [gen/expr/null_coalescing_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/null_coalescing_op_doc.yaml).
+This document was generated from [gen/expr/null-coalescing-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/null-coalescing-op_doc.yaml).

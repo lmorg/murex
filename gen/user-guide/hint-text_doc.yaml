@@ -1,0 +1,14 @@
+- DocumentID: hint-text
+  Title: >-
+    Hint Text
+  CategoryID: user-guide
+  Summary: >-
+    A status bar for your shell
+  Description: |-
+    {{ include "gen/user-guide/hint-text.inc.md" }}
+  Synonyms:
+  Related:
+  - interactive-shell
+  - config
+
+

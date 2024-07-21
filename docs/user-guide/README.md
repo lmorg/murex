@@ -9,11 +9,14 @@ shell and Murex's numerous features.
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
+- [Integrations](#integrations)
+- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
 - [Events](#events)
+- [Integrations](#integrations-1)
 - [API Reference](#api-reference)
 
 </div>
@@ -32,6 +35,10 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Overview of how code blocks are parsed
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
+* [Hint Text](../user-guide/hint-text.md):
+  A status bar for your shell
+* [Integrations](../user-guide/integrations.md):
+  Default integrations shipped with Murex
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Job Control](../user-guide/job-control.md):
@@ -40,6 +47,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   An introduction to Murex modules and packages
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Profile Files](../user-guide/profile.md):
@@ -50,8 +59,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [Spellcheck](../user-guide/spellcheck.md):
-  How to enable inline spellchecking
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -59,22 +68,20 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ## Operators And Tokens
 
-* [Array (`@`) Token](parser/array.md):
-  Expand values as an array
-* [Tilde (`~`) Token](parser/tilde.md):
-  Home directory path variable
-* [`!` (not)](parser/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+* [( expression )](parser/expr-inlined.md):
+  Inline expressions
+* [C-style functions](parser/c-style-fun.md):
+  Inlined commands for expressions and statements
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$Variable`](parser/scalar.md):
+* [`$Variable` Sigil](parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](parser/create-array.md):
+* [`%[]` Array Builder](parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Object Builder](parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`&&` And Logical Operator](parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`'Single Quote'`](parser/single-quote.md):
@@ -92,29 +99,31 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`-=` Subtract By Operator](parser/subtract-by.md):
   Subtracts a variable by the right hand value (expression)
 * [`->` Arrow Pipe](parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`-` Subtraction Operator](parser/subtraction.md):
   Subtracts one numeric value from another (expression)
 * [`/=` Divide By Operator](parser/divide-by.md):
   Divides a variable by the right hand value (expression)
 * [`/` Division Operator](parser/division.md):
   Divides one numeric value from another (expression)
-* [`<read-named-pipe>`](parser/namedpipe.md):
-  Reads from a Murex named pipe
+* [`<~` Assign Or Merge](parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](parser/pipe-generic.md):
-  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+  Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
 * [`=` (arithmetic evaluation)](parser/equ.md):
   Evaluate a mathematical function (deprecated)
 * [`>>` Append File](parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
+  Redirects stdout to a file and append its contents
 * [`?:` Elvis Operator](parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` STDERR Pipe](parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`@Array` Sigil](parser/array.md):
+  Expand values as an array
 * [`[ ..Range ]`](parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[ Index ]`](parser/item-index.md):
@@ -128,16 +137,22 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`|>` Truncate File](parser/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to STDIN of the right hand command
 * [`||` Or Logical Operator](parser/logical-or.md):
   Continues next operation only if previous operation fails
+* [`~` Home Sigil](parser/tilde.md):
+  Home directory path variable
 
 ## Builtin Commands
 
 ### Standard Builtins
 
+* [`!` (not)](../commands/not-func.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
@@ -165,7 +180,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`cd`](../commands/cd.md):
@@ -252,6 +267,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
+* [`key-code`](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`let`](../commands/let.md):
@@ -437,12 +454,39 @@ are only included by default on Windows.
   Trigger an event upon a command's completion
 * [`onFileSystemChange`](../events/onfilesystemchange.md):
   Add a filesystem watch
+* [`onKeyPress`](../events/onkeypress.md):
+  Custom definable key bindings and macros
+* [`onPreview`](../events/onpreview.md):
+  Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](../events/onsecondselapsed.md):
   Events triggered by time intervals
 * [`onSignalReceived`](../events/onsignalreceived.md):
   Trap OS signals
+
+## Integrations
+
+* [ChatGPT](../integrations/chatgpt.md):
+  How to enable ChatGPT hints
+* [Cheat.sh](../integrations/cheatsh.md):
+  Cheatsheets provided by cheat.sh
+* [Kitty Integrations](../integrations/kitty.md):
+  Get more out of Kitty terminal emulator
+* [Makefiles / `make`](../integrations/make.md):
+  `make` integrations
+* [Man Pages (POSIX)](../integrations/man-pages.md):
+  Linux/UNIX `man` page integrations
+* [Spellcheck](../integrations/spellcheck.md):
+  How to enable inline spellchecking
+* [Terminology Integrations](../integrations/terminology.md):
+  Get more out of Terminology terminal emulator
+* [`direnv` Integrations](../integrations/direnv.md):
+  Directory specific environmental variables
+* [`yarn` Integrations](../integrations/yarn.md):
+  Working with `yarn` and `package.json`
+* [iTerm2 Integrations](../integrations/iterm2.md):
+  Get more out of iTerm2 terminal emulator
 
 ## API Reference
 

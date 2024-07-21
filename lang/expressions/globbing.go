@@ -24,7 +24,7 @@ func (tree *ParserT) parseGlob(glob []rune) ([]string, error) {
 	}
 
 	if globErr != nil {
-		return nil, fmt.Errorf("invalid glob: '%s'\n%s", globS, err.Error())
+		return nil, fmt.Errorf("invalid glob: '%s'\n%s", globS, globErr.Error())
 	}
 	if len(match) == 0 {
 		return nil, fmt.Errorf("glob returned zero results.\nglob: '%s'", globS)

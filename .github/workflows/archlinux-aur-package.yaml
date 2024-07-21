@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Go ${{ ENV.GO_VERSION }}
+      - name: Setup Go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ ENV.GO_VERSION }}

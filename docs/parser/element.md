@@ -23,7 +23,9 @@ $variable[[ element ]] -> <stdout>
 
 ## Examples
 
-Return the 2nd element in an array
+### Array elements
+
+Return the 2nd element in an array:
 
 ```
 » ja [0..9] -> [[ /1 ]]
@@ -32,7 +34,9 @@ Return the 2nd element in an array
 ]
 ```
 
-Return the data-type and description of **config shell syntax-highlighting**
+### Used with config
+
+Return the data-type and description of **config shell syntax-highlighting**:
 
 ```
 » config -> [[ /shell/syntax-highlighting/Data-Type ]]

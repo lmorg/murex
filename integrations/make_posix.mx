@@ -1,14 +1,31 @@
-autocomplete set make { [
+autocomplete set make %[
     {
-        "DynamicDesc":  ({
+        DynamicDesc: %({
             make --help -> tabulate: --key-inc-hint --map --split-comma --column-wraps
-        }),
-        "Optional": true,
-        "AllowMultiple": true
+        })
+        Optional:      true
+        AllowMultiple: true
     },
     {
-        "Dynamic": ({
+        Dynamic: %({
             grep '^[^\.][-a-zA-Z\.0-9_\/]*:' ./Makefile -> regexp 's/:.*//g' -> uniq
         })
     }
-] }
+]
+
+if { runtime --event-types -> match onPreview } else {
+    return
+}
+
+event onPreview 01-makefile=exec {
+    -> set event
+    
+	$EVENT_RETURN.CacheTTL = 0
+
+	!if { $event.Interrupt.PreviewItem == 'make' && g Makefile } then {
+        $EVENT_RETURN.Display = false
+        continue
+    }    
+    
+    open Makefile
+}

@@ -12,13 +12,13 @@
     <stdin> -> qr -> <stdout>
     ```
   Examples: |-
-    Write the PNG to disk
+    ### Write PNG to disk
 
     ```
-    » out "Hello, World!" -> qr -> > qr.png
+    » out "Hello, World!" -> qr |> qr.png
     ```
 
-    Display PNG in the terminal
+    ### Display PNG in terminal
 
     ```
     » out "Hello, World!" -> qr -> open-image

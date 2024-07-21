@@ -92,12 +92,12 @@ func TestParseArray(t *testing.T) {
 			},
 			{
 				input:    "%[@TestParseArray]",
-				expected: `null`,
+				expected: `[]`,
 				pos:      16,
 			},
 			{
 				input:    "%[[@TestParseArray]]",
-				expected: `[null]`,
+				expected: `[[]]`,
 				pos:      18,
 			},
 			/////
@@ -213,4 +213,28 @@ func TestParseArrayObjects(t *testing.T) {
 	}
 
 	testParserObject(t, tests)
+}
+
+func TestParseArrayBugfix832(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `%[]`,
+			Stdout: `^\[\]$`,
+		},
+		{
+			Block:  `out %[]`,
+			Stdout: `^\[\]\n$`,
+		},
+		{
+			Block:  `TestParseArrayBugfix832_3 = %[]; out $TestParseArrayBugfix832_3`,
+			Stdout: `^\[\]\n$`,
+		},
+		{
+			Block:   `TestParseArrayBugfix832_4 = %[]; out @TestParseArrayBugfix832_4`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }

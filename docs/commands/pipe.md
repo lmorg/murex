@@ -8,13 +8,13 @@
 
 ## Usage
 
-Create pipe
+### Create pipe
 
 ```
 pipe name [ pipe-type ]
 ```
 
-Destroy pipe
+### Destroy pipe
 
 ```
 !pipe name
@@ -22,17 +22,19 @@ Destroy pipe
 
 ## Examples
 
-Create a standard pipe:
+### Create a standard pipe
 
 ```
 pipe example
 ```
 
-Delete a pipe:
+### Delete a pipe
 
 ```
 !pipe example
 ```
+
+### Pipe flags
 
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
@@ -124,9 +126,9 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the STDIN belonging to the parent code block

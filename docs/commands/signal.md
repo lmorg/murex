@@ -7,8 +7,8 @@
 `signal` sends an operating system RPC (known as "signal") to a specified
 process, identified via it's process ID ("pid").
 
-The following quote from [Wikipedia explains what signals](https://en.wikipedia.org/wiki/Signal_(IPC))
-are:
+The following quote from [Wikipedia](https://en.wikipedia.org/wiki/Signal_(IPC))
+explains what signals are:
 
 > Signals are standardized messages sent to a running program to trigger
 > specific behavior, such as quitting or error handling. They are a limited
@@ -44,7 +44,7 @@ signal -> <stdout>
 
 ## Examples
 
-**Send a signal:**
+### Send a signal
 
 ```
 function signal.SIGUSR1.trap {
@@ -69,7 +69,7 @@ test unit function signal.SIGUSR1.trap %{
 }
 ```
 
-**List supported signals:**
+### List supported signals
 
 ```
 » signal

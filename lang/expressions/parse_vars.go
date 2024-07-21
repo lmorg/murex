@@ -8,8 +8,8 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, primitives.FunctionT, error) {
-	runes, v, mxDt, err := tree.parseVarScalar(exec, execScalars, varAsValue)
+func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, interface{}, string, primitives.FunctionT, error) {
+	runes, v, mxDt, err := tree.parseVarScalar(execScalars, varAsValue)
 
 	if exec {
 		fn := func() (*primitives.Value, error) {
@@ -33,7 +33,7 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool, strOrVal varForm
 	return runes, v, mxDt, nil, err
 }
 
-func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '(' {
 		tree.charPos++
 		return tree.parseVarParenthesis(execScalars, strOrVal)
@@ -102,7 +102,7 @@ func (tree *ParserT) parseVarIndexElement(exec bool, sigil rune, varName []rune,
 		if exec {
 			return tree.parseLambdaExecTrue(varName, sigil, "")
 		}
-		r, err := tree.parseLambdaExecFalse(sigil, varName)
+		r, err := tree.parseLambdaExecFalse(sigil)
 		value := append([]rune{sigil}, varName...)
 		value = append(value, r...)
 		value = append(value, ']')
@@ -203,7 +203,7 @@ func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface
 		} else {
 			// just parsing source
 			//r, _, err := tree.parseSubShell(false, '@', varAsValue)
-			r, err := tree.parseLambdaExecFalse('@', nil)
+			r, err := tree.parseLambdaExecFalse('@')
 			return r, nil, err
 
 			//r, v, _, err := tree.parseLambdaScala(false, '@', varName, varAsValue) // just parsing source

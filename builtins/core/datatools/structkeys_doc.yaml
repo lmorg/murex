@@ -17,6 +17,8 @@
     <stdin> -> struct-keys [ flags ] -> <stdout>
     ```
   Examples: |-
+    ### Source object
+
     The source for these examples will be defined in the variable `$example`:
 
     ```
@@ -50,7 +52,7 @@
       }
     ```
 
-    Without any flags set:
+    ### Without flags
 
     ```
     » $example -> struct-keys
@@ -79,6 +81,8 @@
     ]
     ```
 
+    ### --depth and --separator
+    
     Defining max depth and changing the separator string:
 
     ```
@@ -94,6 +98,8 @@
         ".phoneNumbers"
     ]
     ```
+
+    ### Unicode separator
 
     An example of a unicode character being used as a separator:
 
@@ -118,6 +124,8 @@
     ]
     ```
 
+    ### Multi-character separator
+
     Separator can also be multiple characters:
 
     ```
@@ -138,7 +146,7 @@
     "-d"         : Alias for `--depth`
     "--separator": String to use as a separator between fields (defaults to `/`)
     "-s"         : Alias for `--separator`
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - set

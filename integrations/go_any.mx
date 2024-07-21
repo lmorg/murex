@@ -1,0 +1,128 @@
+!if { man-summary go } then {
+    summary go "Go is a tool for managing Go source code"
+}
+
+autocomplete set go %[{
+    Flags: [ help ]
+    
+    DynamicDesc: %({
+        go help -> [^The commands are..^Use]r -> tabulate --map
+    })
+
+    FlagValues: {
+        get: [{
+            Flags: [ github.com/ ]
+        }]
+       
+        test: [{
+            Dynamic:    %({ go-package })
+            AutoBranch: true
+            Flags:      [ "./..." ]
+        }]
+    
+        mod: [{
+            DynamicDesc: %({
+                go help mod -> [^The commands are..^Use]r -> tabulate --map
+            })
+        }]
+
+        tool: [{    
+            Dynamic: %({
+                cast str
+                go tool
+            })
+            FlagValues: {
+                trace: [
+                    {
+                        FlagsDesc: {
+                            -http:  "HTTP service address (e.g., ':6060')"
+                            -pprof: "print a pprof-like profile instead"
+                            -d:     "print debug info such as parsed events"
+                        }
+                        FlagValues: {
+                            -http: [{
+                                AllowAny: true
+                            }]
+                            -pprof: [{
+                                FlagDesc: {
+                                    net:    "network blocking profile"
+                                    sync:   "synchronization blocking profile"
+                                    syscall: "syscall blocking profile"
+                                    sched:  "scheduler latency profile"
+                                }
+                            }]
+                        }
+                        Optional: true
+                    }
+                    {
+                        IncFiles: true
+                    }
+                ]
+
+                pprof: [
+                    {
+                        DynamicDesc: %({
+                            go <!out> tool pprof -> regexp %(m/^\s+-) -> tabulate --key-value --map
+                        })
+                        FlagValues: {
+                            -http: [{
+                                AllowAny: true
+                            }]
+                            -pprof: [{
+                                FlagDesc: {
+                                    none:       "Do not attempt symbolization"
+                                    local:      "Examine only local binaries"
+                                    fastlocal:  "Only get function names from local binaries"
+                                    remote:     "Do not examine local binaries"
+                                    force:      "Force re-symbolization"
+                                }
+                            }]
+                        }
+                        Optional: true
+                    }
+                    {
+                        IncFiles: true
+                    }
+                ]
+
+                cgo: [
+                    {
+                        DynamicDesc: %({
+                            go <!out> tool cgo -> tabulate --column-wraps --map --key-inc-hint
+                        })
+                        AllowMultiple: true
+                    }
+                ]
+
+                vet: [
+                    {
+                        DynamicDesc: %({
+                            go tool vet help -> tabulate --column-wraps --map --key-inc-hint
+                        })
+                        AllowMultiple: true
+                    }
+                ]
+
+                "": [
+                    {
+                        DynamicPreview: '{ go doc cmd/$(2) }'
+                    }
+                ]
+            }
+        }]
+    
+        help: [{
+            DynamicDesc: %({
+                go help -> tabulate --map
+            })
+        }]
+    
+        run:      [{ Dynamic: %({ go-package }), AutoBranch: true }]
+        build:    [{ Dynamic: %({ go-package }), AutoBranch: true }]
+        install:  [{ Dynamic: %({ go-package }), AutoBranch: true }]
+    
+        fmt:      [{ IncFiles: true }]
+        vet:      [{ IncFiles: true }]
+        generate: [{ IncFiles: true }]
+    }
+}]

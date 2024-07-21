@@ -11,14 +11,14 @@ in an expression.
 
 ## Examples
 
-#### Expression
+### Expression
 
 ```
 » 3-2
 1
 ```
 
-#### Statement
+### Statement
 
 ```
 out (3-2)
@@ -41,21 +41,25 @@ assumes anything that looks like a number is a number when performing addition.
 ```
 
 For occasions when type safety is more important than the convenience of silent
-data casting, you can disable the above behaviour via `config`:
+data casting, you can disable the above behaviour via `config` ([read more](/docs/user-guide/strict-types.md)):
 
 ```
-» config set proc strict-types false
+» config set proc strict-types true
 » $str + $int
 Error in `expr` (0,1): cannot Add with string types
-                    > Expression: $str + $int
-                    >           : ^
-                    > Character : 1
-                    > Symbol    : Scalar
-                    > Value     : '$str'
+                     > Expression: $str + $int
+                     >           : ^
+                     > Character : 1
+                     > Symbol    : Scalar
+                     > Value     : '$str'
 ```
 
 ## See Also
 
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
+* [Strict Types In Expressions](../user-guide/strict-types.md):
+  Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
   Multiplies one numeric value with another (expression)
 * [`+` Addition Operator](../parser/addition.md):
@@ -65,7 +69,7 @@ Error in `expr` (0,1): cannot Add with string types
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):
@@ -79,4 +83,4 @@ Error in `expr` (0,1): cannot Add with string types
 
 <hr/>
 
-This document was generated from [gen/expr/subtraction_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/subtraction_op_doc.yaml).
+This document was generated from [gen/expr/subtraction-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/subtraction-op_doc.yaml).

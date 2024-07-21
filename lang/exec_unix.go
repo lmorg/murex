@@ -22,5 +22,8 @@ func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
 func osSyscalls(cmd *exec.Cmd, fd int) {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Ctty: fd,
+		//Noctty:  false,
+		//Setctty: true,
+		//Setsid:  true,
 	}
 }

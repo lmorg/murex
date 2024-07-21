@@ -31,13 +31,20 @@ refer to the [INSTALL](INSTALL.md) page for further instructions.
 
 ### Darwin (macOS)
 
-The `arm64` builds support the ARM-based M1 processor. Older Macs will need to
-run `amd64`. Murex is also available on Homebrew and MacPorts.
+The `arm64` builds support the ARM-based M1, M2 and M3 processors. Older Macs
+will need to run `amd64`. Murex is also available on [Homebrew](INSTALL.md#homebrew) and [MacPorts](INSTALL.md#macports).
+
+
+[Install instructions](#linux-unix-macos-instructions) 
+can be found further down this page.
 
 * [murex-darwin-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
 * [murex-darwin-arm64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
 
 ### Linux
+
+[Install instructions](#linux-unix-macos-instructions)
+can be found further down this page.
 
 * [murex-linux-386.gz](https://nojs.murex.rocks/bin/latest/murex-linux-386.gz)
 * [murex-linux-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz)
@@ -46,15 +53,24 @@ run `amd64`. Murex is also available on Homebrew and MacPorts.
 
 ### Windows
 
+[Install instructions](#windows-instructions)
+can be found further down this page.
+
 * [murex-windows-386.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-386.exe.zip)
 * [murex-windows-amd64.exe.zip](https://nojs.murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
 
 ### BSD's
 
+[Install instructions](#linux-unix-macos-instructions)
+can be found further down this page.
+
 #### DragonflyBSD
+
 * [murex-dragonfly-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-dragonfly-amd64.gz)
 
 #### FreeBSD
+
+Murex is also available in [FreeBSD Ports](https://murex.rocks/INSTALL.html#freebsd-ports).
 
 * [murex-freebsd-386.gz](https://nojs.murex.rocks/bin/latest/murex-freebsd-386.gz)
 * [murex-freebsd-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-freebsd-amd64.gz)
@@ -98,24 +114,30 @@ you do encounter any issues then please raise them at:
 
 ### Linux / UNIX / macOS Instructions
 
-Please download the appropriate `.gz` file from the list above, one that
-matches both your OS and CPU architecture.
-
-For example, to download a 64bit version for Linux:
-
-```
-wget https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz
-gunzip murex-linux-amd64.gz
-chmod +x murex-linux-amd64
-./murex-linux-amd64
-```
-
 > macOS builds are listed as [darwin](https://en.wikipedia.org/wiki/Darwin_(operating_system))
 > as per the name of Apple have given to their [underlying OS](https://en.wikipedia.org/wiki/MacOS#Architecture).
 
+Download the appropriate `.gz` file from the list above, one that matches both
+your OS and CPU architecture. Then extract it and make the resulting file
+executable.
+
+For example, in Bash, Zsh and similar shells, you can copy/paste the following
+to run on any Linux or UNIX-like OS from sh/bash/zsh. 
+
+```sh
+MUREX_BUILD="murex-linux-amd64"
+wget "https://nojs.murex.rocks/bin/latest/${MUREX_BUILD}.gz"
+gunzip "${MUREX_BUILD}.gz"
+chmod +x "$MUREX_BUILD"
+```
+
+Additionally you may wish to add Murex to `/etc/shells` if you want to expose
+Murex as a optional login shell. If you do this, please ensure Murex has been
+placed in a sensible location that all users can access. eg `/usr/local/bin`.
+
 Most of these builds have received _some_ level of user acceptance testing with
-Linux and macOS builds receiving the most attention, because that's what we use
-ourselves.
+Linux and macOS builds receiving the most attention since that's what we mostly
+use ourselves.
 
 ### Windows Instructions
 

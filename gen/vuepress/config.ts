@@ -5,11 +5,17 @@ import theme from "./theme.js";
 const environment = process.env.NODE_ENV;
 const commitHash = process.env.COMMITHASHSHORT;
 
+var domain = "murex.rocks"
+
+if (environment === "DEV") {
+  domain = "dev.murex.rocks"
+}
+
 const config = {
   // this must be replace with the context path in PROD
   base: "/",
   lang: "en-US",
-  title: "",
+  title: "Murex",
   description: "Murex, a typed, content aware shell from the 2020s",
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -56,6 +62,11 @@ const config = {
         type: "image/png",
       },
     ],
+
+
+    [ "meta", { property:"og:type",  content: "article" } ],
+    [ "meta", { property:"og:image", content: "https://"+domain+"/og-murex-v2.png" } ],
+
   ],
   theme,
   plugins: [

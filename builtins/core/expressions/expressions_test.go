@@ -215,3 +215,15 @@ func TestExpressionsBuiltinStrings(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+// https://github.com/lmorg/murex/issues/827
+func TestExpressionsMultipleParams(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `expr 1 + 2`,
+			Stdout: `3`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

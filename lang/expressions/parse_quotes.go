@@ -136,7 +136,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 				}
 			default:
 				// inline scalar
-				scalar, v, _, err := tree.parseVarScalar(exec, exec, varAsString)
+				scalar, v, _, err := tree.parseVarScalar(exec, varAsString)
 				if err != nil {
 					return nil, err
 				}
@@ -183,6 +183,7 @@ endString:
 
 func (tree *ParserT) parseBackTick(quote rune, exec bool) ([]rune, error) {
 	if exec {
+		//lang.Deprecated("Automatic backtick (`) converstions to single quote (')", tree.p.FileRef)
 		quote = '\''
 	}
 
@@ -222,7 +223,13 @@ func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 
 		switch r {
 		case '#':
-			tree.parseComment()
+			if tree.prevChar() == '/' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return nil, err
+				}
+			} else {
+				tree.parseComment()
+			}
 
 		case '\n':
 			tree.crLf()

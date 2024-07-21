@@ -3,16 +3,16 @@ package onkeypress
 import (
 	"errors"
 	"fmt"
+	"sort"
+	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -22,170 +22,159 @@ func init() {
 	events.AddEventType(eventType, newKeyPress(), nil)
 }
 
-// Interrupt is a JSONable structure passed to the murex function
-type Interrupt struct {
-	Line        string
-	Raw         string
-	Pos         int
-	KeySequence string
-}
-
 type keyPressEvent struct {
 	name    string
 	keySeq  string
+	escaped string
 	block   []rune
 	fileRef *ref.File
 }
 
 type keyPressEvents struct {
-	events []keyPressEvent
+	events map[string][]*keyPressEvent
 	mutex  sync.Mutex
 }
 
 func newKeyPress() *keyPressEvents {
-	return new(keyPressEvents)
+	evt := new(keyPressEvents)
+	evt.events = make(map[string][]*keyPressEvent)
+	return evt
 }
+
+const shellPromptIsNil = "unable to register event with readline API: shell.Prompt is nil"
 
 // Add a key to the event list
 func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.File) error {
 	if shell.Prompt == nil {
-		return errors.New("unable to register event with readline API")
+		return errors.New(shellPromptIsNil)
 	}
 
-	shell.Prompt.AddEvent(keySeq, evt.callback)
-	evt.events = append(evt.events, keyPressEvent{
+	keySeqEscaped := ansi.GetConsts([]byte(keySeq))
+
+	if evt.exists(name, keySeq) != doesNotExist {
+		evt.Remove(events.CompileInterruptKey(keySeq, name))
+	}
+
+	shell.Prompt.AddEvent(keySeq, evt.readlineCallback) // doesn't matter if it's already registered
+
+	events := append(evt.events[keySeq], &keyPressEvent{
 		name:    name,
+		escaped: keySeqEscaped, // purely for a human readable representation
 		keySeq:  keySeq,
 		block:   block,
 		fileRef: fileRef,
 	})
+
+	sort.Slice(events, func(i, j int) bool {
+		return events[i].name < events[j].name
+	})
+
+	evt.events[keySeq] = events
 	return nil
 }
 
-func (evt *keyPressEvents) Remove(name string) error {
-	remove := func(s []keyPressEvent, i int) []keyPressEvent {
-		s[len(s)-1], s[i] = s[i], s[len(s)-1]
-		return s[:len(s)-1]
+func (evt *keyPressEvents) Remove(name string) (err error) {
+	if shell.Prompt == nil {
+		return errors.New(shellPromptIsNil)
 	}
 
-	if shell.Prompt == nil {
-		return errors.New("unable to de-register event with readline API")
-	}
+	key := events.GetInterruptFromKey(name)
 
 	evt.mutex.Lock()
 	defer evt.mutex.Unlock()
 
-	for i := range evt.events {
-		if evt.events[i].name == name {
-			shell.Prompt.DelEvent(evt.events[i].keySeq)
-			evt.events = remove(evt.events, i)
+	switch key.Interrupt {
+	case "":
+		for key.Interrupt = range evt.events {
+			err = evt._remove(key)
+			if err != nil && !strings.Contains(err.Error(), "no event found") {
+				return err
+			}
+		}
+		return err
+
+	default:
+		key.Interrupt = ansi.ForceExpandConsts(key.Interrupt, false)
+		return evt._remove(key)
+
+	}
+}
+
+func (evt *keyPressEvents) _remove(key *events.Key) (err error) {
+	for i := range evt.events[key.Interrupt] {
+		if evt.events[key.Interrupt][i].name == key.Name {
+			//shell.Prompt.DelEvent(evt.events[i].keySeq) // TODO: check if any further events exist...
+			evt.events[key.Interrupt], err = lists.RemoveOrdered(evt.events[key.Interrupt], i)
+			if err != nil {
+				return fmt.Errorf("unable to delete event '%s': %s", key.Name, err.Error())
+			}
 			return nil
 		}
 	}
 
-	return fmt.Errorf("unable to delete event as no event found with the name `%s` for event type `%s`", name, eventType)
+	return fmt.Errorf("unable to delete event as no event found with the name `%s` for event type `%s`", key.Name, eventType)
 }
 
-func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *readline.EventReturn {
-	var i int
+func callbackError(err error, state *readline.EventState) *readline.EventReturn {
+	return &readline.EventReturn{
+		HintText: []rune(fmt.Sprintf("callback error: %s", err.Error())),
+		SetLine:  []rune(state.Line),
+		SetPos:   state.CursorPos,
+	}
+}
 
+func (evt *keyPressEvents) readlineCallback(id int, state *readline.EventState) *readline.EventReturn {
 	evt.mutex.Lock()
 	defer evt.mutex.Unlock()
 
-	for i = range evt.events {
-		if evt.events[i].keySeq == keyPress {
-			goto eventFound
-		}
-	}
-	return &readline.EventReturn{
-		NewLine: line,
-		NewPos:  pos,
+	events := evt.events[state.KeyPress]
+
+	if id >= len(events) {
+		return &readline.EventReturn{Continue: true}
 	}
 
-eventFound:
-	block := evt.events[i].block
-
-	interrupt := Interrupt{
-		Line:        variables.ExpandString(string(line)),
-		Raw:         string(line),
-		Pos:         pos,
-		KeySequence: keyPress,
+	ret := onKeyPressEvent(events[id], state)
+	if id < len(events)-1 {
+		ret.MoreEvents = true
 	}
 
-	stdout := streams.NewStdin()
-	events.Callback(
-		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout, true)
+	return ret
+}
 
-	ret := make(map[string]string)
-	err := stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
-		v, _ := types.ConvertGoType(readmap.Value, types.String)
-		ret[readmap.Key] = v.(string)
-	})
+func onKeyPressEvent(event *keyPressEvent, state *readline.EventState) *readline.EventReturn {
+	v, err := events.Callback(
+		event.name, state, // event
+		event.block, event.fileRef, // script
+		lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, // pipes
+		createReturn(state), // event return
+		true,                // background
+	)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
+		return callbackError(err, state)
 	}
 
-	forwardKey, err := types.ConvertGoType(ret["ForwardKey"], types.Boolean)
+	evtReturn, err := validateReturn(v)
 	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
+		return callbackError(err, state)
+	}
+
+	return evtReturn
+}
+
+const doesNotExist = -1
+
+func (evt *keyPressEvents) exists(name, keySeq string) int {
+	evt.mutex.Lock()
+	defer evt.mutex.Unlock()
+
+	events := evt.events[keySeq]
+	for i := range events {
+		if events[i].name == name {
+			return i
 		}
 	}
 
-	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
-	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
-	}
-
-	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
-	if err != nil {
-		return &readline.EventReturn{
-			HintText: []rune("callback error: " + err.Error()),
-			NewLine:  line,
-			NewPos:   pos,
-		}
-	}
-
-	var newLine []rune
-	if ret["NewLine"] != "" {
-		newLine = []rune(ret["NewLine"])
-	} else {
-		newLine = line
-	}
-
-	var newPos int
-	if ret["NewPos"] != "" {
-		i, err := types.ConvertGoType(ret["NewPos"], types.Integer)
-		if err != nil {
-			return &readline.EventReturn{
-				HintText: []rune("callback error: " + err.Error()),
-				NewLine:  line,
-				NewPos:   pos,
-			}
-		}
-		newPos = i.(int)
-	} else {
-		newPos = pos
-	}
-
-	return &readline.EventReturn{
-		ForwardKey:    forwardKey.(bool),
-		ClearHelpers:  clearHelpers.(bool),
-		CloseReadline: closeReadline.(bool),
-		HintText:      []rune(ret["HintText"]),
-		NewLine:       newLine,
-		NewPos:        newPos,
-	}
+	return doesNotExist
 }
 
 func (evt *keyPressEvents) Dump() map[string]events.DumpT {
@@ -193,14 +182,17 @@ func (evt *keyPressEvents) Dump() map[string]events.DumpT {
 
 	evt.mutex.Lock()
 
-	for i := range evt.events {
-		dump[evt.events[i].name] = events.DumpT{
-			Interrupt: evt.events[i].keySeq,
-			Block:     string(evt.events[i].block),
-			FileRef:   evt.events[i].fileRef,
+	for _, evts := range evt.events {
+		for _, event := range evts {
+			dump[events.CompileInterruptKey(event.escaped, event.name)] = events.DumpT{
+				Interrupt: event.escaped,
+				Block:     string(event.block),
+				FileRef:   event.fileRef,
+			}
 		}
 	}
 
 	evt.mutex.Unlock()
+
 	return dump
 }

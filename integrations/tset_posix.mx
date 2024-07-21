@@ -1,0 +1,2 @@
+define-force-tty-func tset
+define-force-tty-func reset

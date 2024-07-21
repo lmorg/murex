@@ -2,10 +2,10 @@ package httpclient
 
 import (
 	"errors"
-	"io"
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
@@ -26,15 +26,9 @@ func cmdPost(p *lang.Process) (err error) {
 	}
 	validateURL(&url, p.Config)
 
-	var body io.Reader
-	//var contentType string
+	var body stdio.Io
 	if p.IsMethod {
 		body = p.Stdin
-
-		//contentType, err = p.Parameters.String(1)
-		//if err != nil {
-		//	return err
-		//}
 	} else {
 		body = nil
 	}

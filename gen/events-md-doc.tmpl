@@ -12,29 +12,35 @@
 
 ## Description
 
-{{ md (include .Description) }}
+{{ md (fn (include .Description)) }}
 
 {{ if .Usage }}## Usage
 
-{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
+{{ md (fn (include .Usage)) }}{{ end }}{{ if .Flags }}
 
 ## Valid Interrupts
 
 {{ range $i,$a := .Flags }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Payload }}
+    {{ md .Description }}{{ end }}{{ end }}
 
 ## Payload
 
-{{ md (include .Payload) }}{{ end }}{{ if .Examples }}
+{{ if .Payload }}{{ md (fn (include .Payload)) }}{{ else }}This document is missing details on this field.
+
+Please raise this as a bug on [Github](https://github.com/lmorg/murex/issues).{{ end }}
+
+## Event Return
+
+{{ if .EventReturn }}{{ md (fn (include .EventReturn)) }}{{ else }}This event doesn't have any `$EVENT_RETURN` parameters.{{ end }}{{ if .Examples }}
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Detail }}
 
 ## Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Related }}
+{{ md (fn (include .Detail)) }}{{ end }}{{ if .Related }}
 
 ## See Also
 

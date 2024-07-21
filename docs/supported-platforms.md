@@ -4,9 +4,9 @@ The following is a list of platforms Murex has been tested on and the
 level of support it has:
 
 <h2>Table of Contents</h2>
-
 <div id="toc">
 
+- [Linux](#linux)
 - [macOS (Darwin)](#macos-darwin)
 - [Windows](#windows)
 - [FreeBSD](#freebsd)
@@ -27,7 +27,8 @@ are no known distribution specific issues.
 
 All features work aside alt-hotkeys.
 
-Both x86 (Intel) and AMD (M2 etc) architectures are supported.
+Both x86 (Intel) and ARM (Apple Silicon, eg M2 et al) architectures are
+supported.
 
 ## Windows
 
@@ -42,7 +43,7 @@ internals are built. These cannot be easily worked around:
   This is to retain backwards compatibility with DOS but it breaks the way how
   quotation marks and escaping works. Murex will compile an array of
   parameters based on the quotation strings (there are 3 different types of
-  quotations in Murex), infixed variables, subshells, etc. These would not be
+  quotations in Murex), infixed variables, sub-shells, etc. These would not be
   honoured by any Windows commands because every Windows application then has
   to handle how the one long string of parameters is chopped up into different
   arguments; how quotation marks are handles, spaces, escaping, etc. This means

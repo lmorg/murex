@@ -140,7 +140,7 @@ func updateModules(p *lang.Process) error {
 	return nil
 }
 
-func reloadModules(p *lang.Process) error {
+func reloadModules(_ *lang.Process) error {
 	profile.Execute(profile.F_MODULES)
 	return nil
 }

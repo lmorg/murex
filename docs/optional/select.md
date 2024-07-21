@@ -18,6 +18,8 @@ select * | ... FROM file[.gz] WHERE ... -> <stdout>
 
 ## Examples
 
+### Count rows from ps
+
 List a count of all the processes running against each user ID:
 
 ```
@@ -53,11 +55,6 @@ count(*) USER
 7       _locationd
 144     root
 308     foobar
-```
-
-```
-
-select count(*)
 ```
 
 ## Detail

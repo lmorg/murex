@@ -35,7 +35,7 @@ There is a more detailed breakdown of known compatibility issues in the
 > This is the recommended way to install Murex because you can then stay
 > updated with future releases.
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg?exclude_unsupported=1)](https://repology.org/project/murex/versions)
 
 ### ArchLinux
 
@@ -61,7 +61,7 @@ brew install murex
 ### MacPorts
 
 ```bash
-sudo port install murex
+port install murex
 ```
 
 ## Pre-Compiled Binaries (HTTPS download)
@@ -78,11 +78,11 @@ page to select your platform.
 
 [![Test Clean Install](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/clean-build.yaml)
 
-> Murex is designed to be as easy to compile as possible. However if you do not
-> have any prior experience with compiling software from source then the
-> recommended approach for installing Murex is either via a package manager (if
-> your platform is already supported) or downloading one of our pre-compiled
-> binaries.
+Murex is designed to be as easy to compile as possible. However if you do not
+have any prior experience with compiling software from source then the
+recommended approach for installing Murex is either via a package manager (if
+your platform is already supported) or downloading one of our pre-compiled
+binaries.
 
 ### Prerequisites
 

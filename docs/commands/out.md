@@ -14,10 +14,14 @@ out string to write -> <stdout>
 
 ## Examples
 
+### out
+
 ```
 » out Hello, World!
 Hello, World!
 ```
+
+### echo
 
 For compatibility with other shells, `echo` is also supported:
 
@@ -50,7 +54,7 @@ Hello, World!
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`pt`](../commands/pt.md):

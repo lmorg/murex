@@ -1,21 +1,25 @@
-autocomplete set yay { [{
-    "FlagsDesc": {
-        "-h": "help",        "--help":        "help",
-        "-V": "version",     "--version":     "version",                                                                                                                                                                                            
-        "-D": "database",    "--database":    "database",
-        "-F": "files",       "--files":       "files",
-        "-Q": "query",       "--query":       "query",
-        "-R": "remove",      "--remove":      "remove",
-        "-S": "sync",        "--sync":        "sync",
-        "-T": "deptest",     "--deptest":     "deptest",
-        "-U": "upgrade",     "--upgrade":     "upgrade",
-        "-Y": "yay",         "--yay":         "yay",
-        "-P": "show",        "--show":        "show",
-        "-G": "getpkgbuild", "--getpkgbuild": "getpkgbuild"
-    },
-    "DynamicDesc": ({
-        yay --help -> @[New options..]r -> tabulate --map --split-space --key-inc-hint
-    }),
-    "AllowMultiple": true,
-    "IncFiles": true
-}] }
+autocomplete set yay %[{
+    FlagsDesc: {
+        -h: help,           --help:        help
+        -V: version,        --version:     version
+        -D: database,       --database:    database
+        -F: files,          --files:       files
+        -Q: query,          --query:       query
+        -R: remove,         --remove:      remove
+        -S: sync,           --sync:        sync
+        -T: deptest,        --deptest:     deptest
+        -U: upgrade,        --upgrade:     upgrade
+        -Y: yay,            --yay:         yay
+        -P: show,           --show:        show
+        -G: getpkgbuild,    --getpkgbuild: getpkgbuild
+    }
+
+    DynamicDesc: %({
+        yay --help \
+        -> [New options..]r \
+        -> tabulate --map --split-space --key-inc-hint
+    })
+
+    AllowMultiple: true
+    IncFiles: true
+}]

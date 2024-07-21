@@ -1,11 +1,11 @@
 - DocumentID: scalar
   Title: >-
-    `$Variable`
+    `$Variable` Sigil
   CategoryID: parser
   Summary: >-
     Expand values as a scalar
   Description: |-
-    The scalar token is used to tell Murex to expand variables and subshells as a
+    The scalar token is used to tell Murex to expand variables and sub-shells as a
     string (ie one single parameter) irrespective of the data that is stored in the
     string. One handy common use case is file names where traditional POSIX shells
     would treat spaces as a new file, whereas Murex treats spaces as a printable
@@ -18,7 +18,7 @@
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
 
   Detail: |-
-    Strings and subshells can be expanded inside double quotes, brace quotes as
+    Strings and sub-shells can be expanded inside double quotes, brace quotes as
     well as used as barewords. But they cannot be expanded inside single quotes.
     
     ```
@@ -59,7 +59,7 @@
 
 - DocumentID: array
   Title: >-
-    Array (`@`) Token
+    `@Array` Sigil
   CategoryID: parser
   Summary: >-
     Expand values as an array
@@ -98,21 +98,43 @@
   - reserved-vars
 
 
+
 - DocumentID: tilde
   Title: >-
-    Tilde (`~`) Token
+    `~` Home Sigil
   CategoryID: parser
   Summary: >-
     Home directory path variable
   Description: |-
     The tilde token is used as a lazy reference to the users home directory.
   Examples: |-
+    ### Current user
+
+    Assuming current username is "bob":
+
     ```
     » out ~
     /home/bob
+    ```
 
+    ### Alternative user
+
+    Assuming "joe" is a valid user on local system:
+
+    ```
     » out ~joe
     /home/joe
+    ```
+
+    ### Unhappy path
+
+    If username does not exist, `~` will default to the root path.
+
+    Assuming "foobar" isn't a valid local user:
+
+    ```
+    » out ~foobar
+    /
     ```
   Detail: |-
     Tilde can be expanded inside double quotes, brace quotes as well as used naked.

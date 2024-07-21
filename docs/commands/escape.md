@@ -12,7 +12,7 @@ returns its unescaped counterpart.
 
 ## Usage
 
-Escape
+### Escape
 
 ```
 <stdin> -> escape -> <stdout>
@@ -20,7 +20,7 @@ Escape
 escape string to escape -> <stdout>
 ```
 
-Unescape
+### Unescape
 
 ```
 <stdin> -> !escape -> <stdout>
@@ -30,7 +30,7 @@ Unescape
 
 ## Examples
 
-Escape
+### Escape
 
 ```
 » out (multi

@@ -13,8 +13,6 @@ Output is a JSON list.
 ```
 g pattern -> <stdout>
 
-[ <stdin> -> ] @g command pattern [ -> <stdout> ]
-
 !g pattern -> <stdout>
 
 <stdin> -> g pattern -> <stdout>
@@ -24,25 +22,19 @@ g pattern -> <stdout>
 
 ## Examples
 
-Inline globbing:
+### Inline globbing
 
 ```
 cat @{ g *.txt }
 ```
 
-Writing a JSON array of files to disk:
+### Writing a JSON array of files to disk
 
 ```
 g *.txt |> filelist.json
 ```
 
-Writing a list of files to disk:
-
-```
-g *.txt -> format str |> filelist.txt
-```
-
-Checking if a file exists:
+### Checking if a file exists
 
 ```
 if { g somefile.txt } then {
@@ -50,7 +42,7 @@ if { g somefile.txt } then {
 }
 ```
 
-Checking if a file does not exist:
+### Checking if a file does not exist
 
 ```
 !if { g somefile.txt } then {
@@ -58,30 +50,54 @@ Checking if a file does not exist:
 }
 ```
 
-Return all files apart from text files:
+### Return all files apart from
 
 ```
 !g *.txt
 ```
 
-Filtering a file list based on glob matches:
+### Filtering a file list based on glob matches
 
 ```
 f +f -> g *.md
 ```
 
-Remove any glob matches from a file list:
+### Remove any glob matches from a file list
 
 ```
 f +f -> !g *.md
+```
+
+### Files in directories that begin with a vowel
+
+```
+g [aeiou]*/*
 ```
 
 ## Detail
 
 ### Pattern Reference
 
-* `*` matches any number of (including zero) characters
-* `?` matches any single character
+Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)@
+
+#### pattern
+
+    { term }
+
+#### term
+
+    '*'         matches any sequence of non-Separator characters
+    '?'         matches any single non-Separator character
+    '[' [ '^' ] { character-range } ']'
+                character class (must be non-empty)
+    c           matches character c (c != '*', '?', '\\', '[')
+    '\\' c      matches character c
+
+#### character-range
+
+    c           matches character c (c != '\\', '-', ']')
+    '\\' c      matches character c
+    lo '-' hi   matches character c for lo <= c <= hi
 
 ### Inverse Matches
 

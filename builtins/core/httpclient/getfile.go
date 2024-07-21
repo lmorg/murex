@@ -12,6 +12,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/file"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/readline"
@@ -28,7 +29,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 	}
 	validateURL(&url, p.Config)
 
-	var body io.Reader
+	var body stdio.Io
 	if p.IsMethod {
 		body = p.Stdin
 	} else {

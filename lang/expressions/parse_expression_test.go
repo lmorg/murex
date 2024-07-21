@@ -97,6 +97,8 @@ func testParserObject(t *testing.T, tests expTestsT) {
 	for i, test := range tests.tests {
 		tree := NewParser(p, []rune(test.input), 0)
 		err := tree.parseExpression(true, true)
+		var actVal string
+		var failed bool
 
 		switch {
 		case (err != nil) != test.error:
@@ -118,25 +120,33 @@ func testParserObject(t *testing.T, tests expTestsT) {
 
 		case tree.ast[0].key != tests.symbol:
 			t.Error("Unexpected symbol:")
+			failed = true
 
 		case tree.ast[0].pos != test.pos:
 			t.Errorf("Pos doesn't match expected:")
+			failed = true
 
 		default:
 			v, err := tree.ast[0].dt.GetValue()
 			if (err != nil) != test.error {
 				t.Errorf("Error: %v", err)
+				failed = true
+			} else {
+				actVal = json.LazyLogging(v.Value)
+				if actVal != test.expected {
+					t.Error("Expected doesn't match actual:")
+					failed = true
+				}
 			}
-			if json.LazyLogging(v.Value) != test.expected {
-				t.Error("Expected doesn't match actual:")
-			}
+		}
 
+		if failed {
 			t.Logf("  Test:        %d", i)
 			t.Logf("  Expression: '%s'", test.input)
 			t.Logf("  exp symbol: '%s'", tests.symbol.String())
 			t.Logf("  act symbol: '%s'", tree.ast[0].key.String())
 			t.Logf("  Expected:   '%s'", test.expected)
-			t.Logf("  Actual:     '%s'", json.LazyLogging(v.Value))
+			t.Logf("  Actual:     '%s'", actVal)
 			t.Logf("  Character pos (exp: %d, act: %d)", test.pos, tree.ast[0].pos)
 		}
 	}

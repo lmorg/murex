@@ -20,6 +20,8 @@ representation of the input structure's node.
 
 ## Examples
 
+### Source object
+
 The source for these examples will be defined in the variable `$example`:
 
 ```
@@ -53,7 +55,7 @@ The source for these examples will be defined in the variable `$example`:
   }
 ```
 
-Without any flags set:
+### Without flags
 
 ```
 » $example -> struct-keys
@@ -82,6 +84,8 @@ Without any flags set:
 ]
 ```
 
+### --depth and --separator
+
 Defining max depth and changing the separator string:
 
 ```
@@ -97,6 +101,8 @@ Defining max depth and changing the separator string:
     ".phoneNumbers"
 ]
 ```
+
+### Unicode separator
 
 An example of a unicode character being used as a separator:
 
@@ -120,6 +126,8 @@ An example of a unicode character being used as a separator:
     "☺isAlive"
 ]
 ```
+
+### Multi-character separator
 
 Separator can also be multiple characters:
 

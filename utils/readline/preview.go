@@ -7,13 +7,16 @@ import (
 )
 
 type previewModeT int
-type previewRefT int
 
 const (
 	previewModeClosed       previewModeT = 0
 	previewModeOpen         previewModeT = 1
 	previewModeAutocomplete previewModeT = 2
+)
 
+type previewRefT int
+
+const (
 	previewRefDefault previewRefT = 0
 	previewRefLine    previewRefT = 1
 )
@@ -29,6 +32,8 @@ const (
 	boxBL = "┗"
 	boxBR = "┛"
 	boxH  = "━"
+	boxHN = "─" // narrow
+	boxHD = "╶" // dashed
 	boxV  = "┃"
 	boxVL = "┠"
 	boxVR = "┨"
@@ -45,19 +50,28 @@ const (
 	headingVR = "╢"
 )
 
-func getPreviewWidth(width int) (preview, forward int) {
-	/*switch {
-	case width < 5:
-		return 0, 0
-	case width < 85:
-		preview = width - 4
-	case width < 105:
-		preview = 80
-	case width < 120+5:
-		preview = width - 4
-	default:
-		preview = 120
+const (
+	glyphScrollBar = "█"
+)
+
+// previewPos should be a percentage represented as a decimal value (eg 0.5 == 50%)
+func getScrollBarSize(previewHeight int, previewPos float64) int {
+	size := int((float64(previewHeight) + 2) * previewPos) //+ 3
+	/*if previewPos < 1 && size >= previewHeight {
+		size--
 	}*/
+	return size
+}
+
+func getPreviewPos(rl *Instance) float64 {
+	if rl.previewCache == nil {
+		return 0
+	}
+
+	return (float64(rl.previewCache.pos) + float64(rl.previewCache.size.Height) + 2) / float64(len(rl.previewCache.lines))
+}
+
+func getPreviewWidth(width int) (preview, forward int) {
 	preview = width - 3
 
 	forward = width - preview
@@ -130,7 +144,7 @@ func (rl *Instance) writePreviewStr() string {
 	}
 
 	size, err := rl.getPreviewXY()
-	if err != nil || size.Height < 8 || size.Width < 40 {
+	if err != nil || size.Height < 8 || size.Width < 10 {
 		rl.previewCache = nil
 		return ""
 	}
@@ -151,10 +165,14 @@ const (
 )
 
 func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string, error) {
-	var output string
+	var (
+		output       string
+		scrollBar    = glyphScrollBar
+		scrollHeight = getScrollBarSize(size.Height-1, getPreviewPos(rl))
+	)
 
-	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, boxV)
-	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
+	pf := fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, scrollBar)
+	pj := fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, scrollBar)
 
 	output += curHome
 
@@ -168,15 +186,21 @@ func (rl *Instance) previewDrawStr(preview []string, size *PreviewSizeT) (string
 	output += boxTL + hr + boxTR + "\r\n"
 
 	for i := 0; i <= size.Height; i++ {
+		if i == scrollHeight {
+			scrollBar = boxV
+			pf = fmt.Sprintf("%s%%-%ds%s\r\n", boxV, size.Width, scrollBar)
+			pj = fmt.Sprintf("%s%%-%ds%s\r\n", boxVL, size.Width, boxVR)
+		}
+
 		output += fmt.Sprintf(cursorForwf, size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			output += boxV + blank + boxV + "\r\n"
+			output += boxV + blank + scrollBar + "\r\n"
 			continue
 		}
 
-		if strings.HasPrefix(preview[i], "─") {
+		if strings.HasPrefix(preview[i], boxHN) || strings.HasPrefix(preview[i], boxHD) {
 			output += fmt.Sprintf(pj, preview[i])
 		} else {
 			output += fmt.Sprintf(pf, preview[i])
@@ -218,6 +242,56 @@ func (rl *Instance) previewMoveToPromptStr(size *PreviewSizeT) string {
 	return output
 }
 
+func (rl *Instance) previewPreviousSectionStr() string {
+	if rl.previewCache == nil || rl.previewCache.pos == 0 {
+		return ""
+	}
+
+	for rl.previewCache.pos -= 2; rl.previewCache.pos > 0; rl.previewCache.pos-- {
+		if strings.HasPrefix(rl.previewCache.lines[rl.previewCache.pos], boxHN) {
+			if rl.previewCache.pos < len(rl.previewCache.lines)-1 {
+				rl.previewCache.pos++
+			}
+			break
+		}
+	}
+
+	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-1 {
+		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 1
+	}
+	if rl.previewCache.pos < 0 {
+		rl.previewCache.pos = 0
+	}
+
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
+}
+
+func (rl *Instance) previewNextSectionStr() string {
+	if rl.previewCache == nil {
+		return ""
+	}
+
+	for ; rl.previewCache.pos < len(rl.previewCache.lines)-rl.previewCache.len; rl.previewCache.pos++ {
+		if strings.HasPrefix(rl.previewCache.lines[rl.previewCache.pos], boxHN) {
+			if rl.previewCache.pos < len(rl.previewCache.lines)-1 {
+				rl.previewCache.pos++
+			}
+			break
+		}
+	}
+
+	if rl.previewCache.pos > len(rl.previewCache.lines)-rl.previewCache.len-1 {
+		rl.previewCache.pos = len(rl.previewCache.lines) - rl.previewCache.len - 1
+	}
+	if rl.previewCache.pos < 0 {
+		rl.previewCache.pos = 0
+	}
+
+	output, _ := rl.previewDrawStr(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+	return output
+}
+
 func (rl *Instance) previewPageUpStr() string {
 	if rl.previewCache == nil {
 		return ""
@@ -251,6 +325,14 @@ func (rl *Instance) previewPageDownStr() string {
 
 func (rl *Instance) clearPreviewStr() string {
 	var output string
+
+	if rl.previewCancel != nil {
+		rl.previewCancel()
+	}
+
+	if rl.PreviewInit != nil {
+		rl.PreviewInit()
+	}
 
 	if rl.previewMode > previewModeClosed {
 		output = seqRestoreBuffer + curPosRestore

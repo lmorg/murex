@@ -4,12 +4,7 @@
 
 ## Description
 
-`summary` define help text for a command. This is effectively like a tooltip
-message that appears, by default, in blue in the interactive shell.
-
-Normally this text is populated from the `man` pages or `murex-docs`, however
-if neither exist or if you wish to override their text, then you can use
-`summary` to define that text.
+**EXPERIMENTAL**
 
 ## Usage
 

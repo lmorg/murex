@@ -1,6 +1,6 @@
-# `%{}` Create Map
+# `%{}` Object Builder
 
-> Quickly generate objects and maps
+> Quickly generate objects (dictionaries / maps)
 
 ## Description
 
@@ -19,14 +19,16 @@ force numeric or boolean looking values to be stored as strings.
 
 ## Examples
 
-**Object passed as a JSON string:**
+### Object passed as a JSON string
 
 ```
 » echo %{foo: bar}
 {"foo":"bar"}
 ```
 
-**The `%` prefix for the nested object is optional:**
+### Nested objects
+
+The `%` prefix for the nested object is optional:
 
 ```
 » %{foo: bar, baz: [1 2 3]}
@@ -40,6 +42,25 @@ force numeric or boolean looking values to be stored as strings.
 }
 ```
 
+## Detail
+
+### Syntax
+
+The syntax is pretty flexible, albeit all Murex objects are displayed as JSON
+objects when printed to screen or otherwise handled like a string.
+
+#### The creation syntax follows these rules:
+
+Each **key** needs to be followed by a colon, `:`.
+
+Each **value** needs to be followed by either a comma, `,`, new line or closing
+curly brace, `}`.
+
+Strings can be quoted or unquoted (like with statement parameters). However any
+unquoted values will first be tested to see if it is a number, boolean (`true`
+of `false`) or null (`null`). Keys are always strings (`str`), even if they
+look like a number.
+
 ## See Also
 
 * [Special Ranges](../mkarray/special.md):
@@ -48,7 +69,7 @@ force numeric or boolean looking values to be stored as strings.
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)

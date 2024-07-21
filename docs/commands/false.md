@@ -14,6 +14,8 @@ false -> <stdout>
 
 ## Examples
 
+### No flags
+
 By default, `false` also outputs the term "false":
 
 ```
@@ -21,7 +23,9 @@ By default, `false` also outputs the term "false":
 false
 ```
 
-However you can suppress that with the silent flag:
+### Silent
+
+You can suppress that with the silent flag:
 
 ```
 » false -s
@@ -34,7 +38,7 @@ However you can suppress that with the silent flag:
 
 ## See Also
 
-* [`!` (not)](../parser/not-func.md):
+* [`!` (not)](../commands/not-func.md):
   Reads the STDIN and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met

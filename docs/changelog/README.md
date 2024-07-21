@@ -4,6 +4,26 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 19.07.2024 - [v6.2](../changelog/v6.2.md)
+
+Bug fix release
+
+
+### 17.06.2024 - [v6.1](../changelog/v6.1.md)
+
+This release sees a massive jump in event-driven capabilities as well as several new features and bug fixes.
+
+
+### 17.02.2024 - [v6.0](../changelog/v6.0.md)
+
+Despite this being a new major version release, it is a vary minor update. Aside from a handful of bugfixes, the most significant change is notice of deprecation for `=`, `let`, and `?`.
+
+
+### 02.01.2024 - [v5.3](../changelog/v5.3.md)
+
+Caching has been vastly improved in this release due to a new sqlite3-backed persistent `cache.db`. There have also been some improvements to `[f1]` help pages
+
+
 ### 18.11.2023 - [v5.2](../changelog/v5.2.md)
 
 The v5.2 release introduces significant new features and improvements for those using Murex as their interactive shell. Many of these features are unique to Murex.

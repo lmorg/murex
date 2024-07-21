@@ -1,8 +1,6 @@
 package readline
 
-import "fmt"
-
-func HkFnMoveToStartOfLine(rl *Instance) {
+func HkFnCursorMoveToStartOfLine(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	if rl.line.RuneLen() == 0 {
 		return
@@ -14,7 +12,7 @@ func HkFnMoveToStartOfLine(rl *Instance) {
 	print(output)
 }
 
-func HkFnMoveToEndOfLine(rl *Instance) {
+func HkFnCursorMoveToEndOfLine(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	if rl.line.RuneLen() == 0 {
 		return
@@ -40,7 +38,7 @@ func HkFnClearAfterCursor(rl *Instance) {
 func HkFnClearScreen(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	if rl.previewMode != previewModeClosed {
-		HkFnPreviewToggle(rl)
+		HkFnModePreviewToggle(rl)
 	}
 	output := seqSetCursorPosTopLeft + seqClearScreen
 	output += rl.echoStr()
@@ -53,7 +51,7 @@ func HkFnClearLine(rl *Instance) {
 	rl.resetHelpers()
 }
 
-func HkFnFuzzyFind(rl *Instance) {
+func HkFnModeFuzzyFind(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	if !rl.modeTabCompletion {
 		rl.modeAutoFind = true
@@ -64,7 +62,7 @@ func HkFnFuzzyFind(rl *Instance) {
 	print(rl.updateTabFindStr([]rune{}))
 }
 
-func HkFnSearchHistory(rl *Instance) {
+func HkFnModeSearchHistory(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	rl.modeAutoFind = true
 	rl.tcOffset = 0
@@ -79,7 +77,7 @@ func HkFnSearchHistory(rl *Instance) {
 	print(rl.updateTabFindStr([]rune{}))
 }
 
-func HkFnAutocomplete(rl *Instance) {
+func HkFnModeAutocomplete(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	if rl.modeTabCompletion {
 		rl.moveTabCompletionHighlight(1, 0)
@@ -94,13 +92,13 @@ func HkFnAutocomplete(rl *Instance) {
 	print(rl.renderHelpersStr())
 }
 
-func HkFnJumpForwards(rl *Instance) {
+func HkFnCursorJumpForwards(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	output := rl.moveCursorByRuneAdjustStr(rl.viJumpE(tokeniseLine))
 	print(output)
 }
 
-func HkFnJumpBackwards(rl *Instance) {
+func HkFnCursorJumpBackwards(rl *Instance) {
 	rl.viUndoSkipAppend = true
 	output := rl.moveCursorByRuneAdjustStr(rl.viJumpB(tokeniseLine))
 	print(output)
@@ -139,39 +137,21 @@ func HkFnCancelAction(rl *Instance) {
 	print(output)
 }
 
-func HkFnRecallWord1(rl *Instance)  { hkFnRecallWord(rl, 1) }
-func HkFnRecallWord2(rl *Instance)  { hkFnRecallWord(rl, 2) }
-func HkFnRecallWord3(rl *Instance)  { hkFnRecallWord(rl, 3) }
-func HkFnRecallWord4(rl *Instance)  { hkFnRecallWord(rl, 4) }
-func HkFnRecallWord5(rl *Instance)  { hkFnRecallWord(rl, 5) }
-func HkFnRecallWord6(rl *Instance)  { hkFnRecallWord(rl, 6) }
-func HkFnRecallWord7(rl *Instance)  { hkFnRecallWord(rl, 7) }
-func HkFnRecallWord8(rl *Instance)  { hkFnRecallWord(rl, 8) }
-func HkFnRecallWord9(rl *Instance)  { hkFnRecallWord(rl, 9) }
-func HkFnRecallWord10(rl *Instance) { hkFnRecallWord(rl, 10) }
-func HkFnRecallWord11(rl *Instance) { hkFnRecallWord(rl, 11) }
-func HkFnRecallWord12(rl *Instance) { hkFnRecallWord(rl, 12) }
+func HkFnRecallWord1(rl *Instance)    { hkFnRecallWord(rl, 1) }
+func HkFnRecallWord2(rl *Instance)    { hkFnRecallWord(rl, 2) }
+func HkFnRecallWord3(rl *Instance)    { hkFnRecallWord(rl, 3) }
+func HkFnRecallWord4(rl *Instance)    { hkFnRecallWord(rl, 4) }
+func HkFnRecallWord5(rl *Instance)    { hkFnRecallWord(rl, 5) }
+func HkFnRecallWord6(rl *Instance)    { hkFnRecallWord(rl, 6) }
+func HkFnRecallWord7(rl *Instance)    { hkFnRecallWord(rl, 7) }
+func HkFnRecallWord8(rl *Instance)    { hkFnRecallWord(rl, 8) }
+func HkFnRecallWord9(rl *Instance)    { hkFnRecallWord(rl, 9) }
+func HkFnRecallWord10(rl *Instance)   { hkFnRecallWord(rl, 10) }
+func HkFnRecallWord11(rl *Instance)   { hkFnRecallWord(rl, 11) }
+func HkFnRecallWord12(rl *Instance)   { hkFnRecallWord(rl, 12) }
+func HkFnRecallWordLast(rl *Instance) { hkFnRecallWord(rl, -1) }
 
-const errCannotRecallWord = "Cannot recall word"
-
-func hkFnRecallWord(rl *Instance, i int) {
-	line, err := rl.History.GetLine(rl.History.Len() - 1)
-	if err != nil {
-		rl.ForceHintTextUpdate(fmt.Sprintf("%s %d: empty history", errCannotRecallWord, i))
-		return
-	}
-
-	tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
-	if i > len(tokens) {
-		rl.ForceHintTextUpdate(fmt.Sprintf("%s %d: previous line contained fewer words", errCannotRecallWord, i))
-		return
-	}
-
-	output := rl.insertStr([]rune(tokens[i-1] + " "))
-	print(output)
-}
-
-func HkFnPreviewToggle(rl *Instance) {
+func HkFnModePreviewToggle(rl *Instance) {
 	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
 		rl.previewMode == previewModeClosed {
 
@@ -200,14 +180,9 @@ func _fnPreviewToggle(rl *Instance) {
 		}
 
 	case previewModeOpen:
-		//rl.previewMode = previewModeClosed
 		print(rl.clearPreviewStr())
 
 	case previewModeAutocomplete:
-		/*if rl.modeTabFind {
-			print(rl.resetTabFindStr())
-		}
-		HkFnCancelAction(rl)*/
 		print(rl.clearPreviewStr())
 		rl.resetHelpers()
 	}
@@ -217,7 +192,7 @@ func _fnPreviewToggle(rl *Instance) {
 	print(output)
 }
 
-func HkFnPreviewLine(rl *Instance) {
+func HkFnModePreviewLine(rl *Instance) {
 	if rl.PreviewInit != nil {
 		// forced rerun of command line preview
 		rl.PreviewInit()

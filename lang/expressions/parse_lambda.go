@@ -16,7 +16,7 @@ var errCancelled = errors.New("cancelled")
 
 func treePlusPlus(tree *ParserT) { tree.charPos++ }
 
-func (tree *ParserT) parseLambdaExecFalse(sigil rune, varName []rune) ([]rune, error) {
+func (tree *ParserT) parseLambdaExecFalse(sigil rune) ([]rune, error) {
 	defer treePlusPlus(tree)
 
 	r, _, err := tree.parseSubShell(false, sigil, varAsValue)
@@ -110,7 +110,7 @@ func (tree *ParserT) parseLambdaStatement(exec bool, sigil rune) ([]rune, interf
 		}
 
 	} else {
-		r, err := tree.parseLambdaExecFalse(sigil, nil)
+		r, err := tree.parseLambdaExecFalse(sigil)
 		return r, nil, "", err
 	}
 }

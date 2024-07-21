@@ -96,9 +96,8 @@ func (p *PTY) Open() {
 // Close the stream.Io interface
 func (p *PTY) Close() {
 	i := atomic.AddInt32(&p.dependents, -1)
-	if i < 0 {
-		panic("More closed dependents than open")
-	}
+	panicOnNegDeps(i)
+
 	p.out.Close()
 	if i == 0 {
 		go p.close()

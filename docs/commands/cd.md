@@ -14,7 +14,7 @@ cd [path]
 
 ## Examples
 
-**Home directory:**
+### Home directory
 
 ```
 » cd ~
@@ -27,19 +27,19 @@ directory:
 » cd
 ```
 
-**Navigating to the previous directory:**
+### Previous directory
 
 ```
 » cd -
 ```
 
-**Absolute path:**
+### Absolute path
 
 ```
 » cd /etc/
 ```
 
-**Relative path:**
+### Relative path
 
 ```
 » cd Documents
@@ -48,16 +48,18 @@ directory:
 
 ## Detail
 
+### $PWDHIST
+
 `cd` updates an environmental variable, `$PWDHIST` with an array of paths.
 You can then use that to change to a previous directory.
 
-**View the working directory history:**
+#### View the working directory history
 
 ```
 » $PWDHIST
 ```
 
-**Change to a previous directory:**
+#### Change to a previous directory
 
 ```
 » cd $PWDHIST[-1]

@@ -54,7 +54,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN

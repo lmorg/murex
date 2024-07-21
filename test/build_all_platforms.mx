@@ -2,17 +2,17 @@
 
 $project = "github.com/lmorg/murex"
 
-$ENV.GOARM = 7
+$ENV.GOARM    = 7
 #$ENV.GOFLAGS = "-trimpath -modcacherw"
-$LD_FLAGS = "-extldflags=-static"
-$tags     = "${open builtins/optional/standard-opts.txt},sqlite_omit_load_extension,osusergo,netgo"
+$LD_FLAGS     = "-extldflags=-static"
+$tags         = "${open builtins/optional/standard-opts.txt},sqlite_omit_load_extension,osusergo,netgo"
 
 args: args %{
-    AllowAdditional: false,
+    AllowAdditional: false
     Flags: %{
-        --no-colour:  bool,
-        --no-color:   --no-colour,
-        --compress:   bool,
+        --no-colour:  bool
+        --no-color:   --no-colour
+        --compress:   bool
         --inc-latest: bool
     }
 }
@@ -25,7 +25,7 @@ go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/' -> set num goversion
 # Please note that versions of go < 1.16 will not be detected due to `go env GOVERSION`
 # not existing on earlier versions of `go`
 
-if { $args->[[/Flags/--no-colour]] } then {
+if { $args[[/Flags/--no-colour]] } then {
     config set shell color false
     config set proc force-tty true
 }
@@ -44,27 +44,15 @@ mkdir -p bin
 # Platforms supported by the go compiler.
 # All 32bit ARM targets will be for ARMv7.
 targets = %{
-    linux:     [ 386, amd64, arm, arm64 ],
-    freebsd:   [ 386, amd64, arm        ],
-    openbsd:   [ 386, amd64, arm        ],
-    netbsd:    [ 386, amd64, arm        ],
-    dragonfly: [      amd64             ],
-    darwin:    [      amd64             ],
-    solaris:   [      amd64             ],
-    plan9:     [ 386, amd64, arm        ],
-    windows:   [ 386, amd64, arm        ]
-}
-
-# Add support for arm64 on supporting Go releases
-if { $goversion >= 1.16 } then {
-    $targets -> alter: -m /darwin  %[arm64] -> set targets
-    $targets -> alter: -m /freebsd %[arm64] -> set targets
-    $targets -> alter: -m /openbsd %[arm64] -> set targets
-    $targets -> alter: -m /netbsd  %[arm64] -> set targets
-}
-
-if { $goversion >= 1.17 } then {
-    $targets -> alter: -m /windows %[arm64] -> set targets
+    linux:     [ 386  amd64  arm  arm64 ]
+    freebsd:   [ 386  amd64  arm  arm64 ]
+    openbsd:   [ 386  amd64  arm  arm64 ]
+    netbsd:    [ 386  amd64  arm  arm64 ]
+    dragonfly: [      amd64             ]
+    darwin:    [      amd64       arm64 ]
+    solaris:   [      amd64             ]
+    plan9:     [ 386  amd64  arm        ]
+    windows:   [ 386  amd64  arm  arm64 ]
 }
 
 status = 0
@@ -82,31 +70,31 @@ $targets -> formap os cpus {
 
         try {
             ({BLUE}Building $(os)/$(arch)....{RESET})
-            export GOOS=$os
-            export GOARCH=$arch
+            $ENV.GOOS   = $os
+            $ENV.GOARCH = $arch
 
-            $bin = "./bin/murex-$version-$os-$arch$ext"
+            $bin = "./bin/murex-$(version)-$(os)-$(arch)$(ext)"
 
             go build -ldflags $LD_FLAGS -tags $tags -o $bin $project
             
-            !if { $args->[[/Flags/--compress]] } else { compress $bin $ext }
+            !if { $args[[/Flags/--compress]] } else { compress $bin $ext }
             
             out "{GREEN}SUCCESSFUL{RESET}"
         }
         catch {
             out "{RED}FAILED{RESET}"
-            let status++
+            status=statue+1
         }
     }
 }
 
-if { and { $args->[[/Flags/--inc-latest]] } { os posix } } then {
+if { and { $args[[/Flags/--inc-latest]] } { os posix } } then {
     cd bin
     mkdir -p latest
     g * -> foreach src {
         if { $src != "latest" } then {
-            $src -> sed s/-$version// -> set dest
-            cp -v $src latest/$dest
+            $src -> sed s/-$(version)// -> set dest
+            cp -v $src latest/$(dest)
         }
     }
     cd ..

@@ -11,10 +11,14 @@
     out string to write -> <stdout>
     ```
   Examples: |-
+    ### out
+
     ```
     » out Hello, World!
     Hello, World!
     ```
+
+    ### echo
 
     For compatibility with other shells, `echo` is also supported:
 
@@ -43,6 +47,8 @@
     - read
     - tread
     - ansi
+
+
 
 - DocumentID: tout
   Title: >+
@@ -78,6 +84,8 @@
     - pretty
     - format
     - ansi
+
+
 
 - DocumentID: brace-quote-func
   Title: >+
@@ -127,6 +135,9 @@
     - greater-than-greater-than
     - pt
     - ansi
+
+
+
 
 - DocumentID: err
   Title: >+

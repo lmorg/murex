@@ -31,14 +31,29 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 	case <-ctx.Done():
 		go fork.KillForks(1)
 		fork.Stdout.ForceClose()
-		return //nil, 0, nil
+		return
+
+	case <-fork.Context.Done():
+		return
 
 	case <-fin:
 		// continue
 	}
 
+	go func() {
+		select {
+		case <-ctx.Done():
+			go fork.KillForks(1)
+			fork.Stdout.ForceClose()
+
+		case <-fin:
+			// finished
+		}
+	}()
+
 	if err != nil {
 		callback(clErrorCacheMerge(err, size))
+		fin <- true
 		return
 	}
 
@@ -60,6 +75,7 @@ output:
 
 	if ioErr != nil {
 		callback(clErrorCacheMerge(err, size))
+		fin <- true
 		return
 	}
 
@@ -82,4 +98,5 @@ output:
 
 	cacheCommandLine = sPreview
 	callback(sPreview, i, err)
+	fin <- true
 }

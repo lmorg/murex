@@ -79,7 +79,7 @@ hosts = [
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`json`](../types/json.md):

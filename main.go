@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
@@ -16,6 +15,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -150,6 +150,9 @@ func startMurex() {
 	// default config
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
+	cache.SetPath(profile.ModulePath() + "cache.db")
+	cache.InitCache()
+
 	// compiled profile
 	defaultProfile()
 
@@ -157,6 +160,5 @@ func startMurex() {
 	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
-	whatsnew.Display()
 	shell.Start()
 }

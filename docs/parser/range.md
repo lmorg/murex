@@ -22,7 +22,7 @@ instead**
 
 ## Examples
 
-**Range over all months after March:**
+### Include everything after string match:
 
 ```
 » a [January..December] -> [March..]se
@@ -37,9 +37,9 @@ November
 December
 ```
 
-**Range from the 6th to the 10th month:**
+### Range from the 6th to the 10th index
 
-By default, ranges start from one, `1`
+By default, ranges start from one, `1`:
 
 ```
 » a [January..December] -> [5..9]
@@ -50,9 +50,9 @@ August
 September
 ```
 
-**Return the first 3 months:**
+### Return the first 3
 
-This usage is similar to `head -n3`
+This usage is similar to `head -n3`:
 
 ```
 » a [January..December] -> [..3]
@@ -61,9 +61,9 @@ November
 December
 ```
 
-**Return the last 3 months:**
+### Return the last 3
 
-This usage is similar to `tail -n3`
+This usage is similar to `tail -n3`:
 
 ```
 » a [January..December] -> [-3..]

@@ -1,5 +1,5 @@
-//go:build go1.18
-// +build go1.18
+//go:build go1.18 && !js && !windows
+// +build go1.18,!js,!windows
 
 package ansititle
 

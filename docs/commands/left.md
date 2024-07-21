@@ -17,7 +17,7 @@ the parameter is a negative then `left` counts from the right.
 
 ## Examples
 
-Count from the left
+### Count from the left
 
 ```
 » ja [Monday..Wednesday] -> left 2
@@ -28,7 +28,7 @@ Count from the left
 ]
 ```
 
-Count from the right
+### Count from the right
 
 ```
 » ja [Monday..Wednesday] -> left -3

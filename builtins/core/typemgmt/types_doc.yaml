@@ -29,16 +29,20 @@
   Usage: |-
     ```
     <stdin> -> exec
+
     <stdin> -> exec -> <stdout>
+
                exec -> <stdout>
     ```
   Examples: |-
+    ### As a function
+
     ```
     » exec printf "Hello, world!"
     Hello, world!
     ```
 
-    **Working around aliases:**
+    ### Working around aliases
 
     If you have an alias like `alias ls=ls --color=auto` and you wanted to run `ls`
     but without colour, you might run `exec ls`.
@@ -74,6 +78,7 @@
   - bexists
 
 
+
 - DocumentID: die
   Title: >+
     `die`
@@ -91,12 +96,13 @@
     » die
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - exit
   - devnull
   - break
+
 
 
 - DocumentID: exit
@@ -114,6 +120,7 @@
   Usage: |-
     ```
     exit
+
     exit number
     ```
   Examples: |-
@@ -166,6 +173,7 @@
   - break
 
 
+
 - DocumentID: "true"
   Title: >+
     `true`
@@ -179,6 +187,8 @@
     true -> <stdout>
     ```
   Examples: |-
+    ### No flags
+
     By default, `true` also outputs the term "true":
 
     ```
@@ -186,14 +196,16 @@
     true
     ```
 
-    However you can suppress that with the silent flag:
+    ### Silent
+
+    You can suppress that with the silent flag:
 
     ```
     » true -s
     ```
   Flags:
     -s: silent - don't output the term "true"
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - "false"
@@ -201,6 +213,7 @@
   - or
   - if
   - not-func
+
 
 
 - DocumentID: "false"
@@ -216,6 +229,8 @@
     false -> <stdout>
     ```
   Examples: |-
+    ### No flags
+
     By default, `false` also outputs the term "false":
 
     ```
@@ -223,14 +238,16 @@
     false
     ```
 
-    However you can suppress that with the silent flag:
+    ### Silent
+
+    You can suppress that with the silent flag:
 
     ```
     » false -s
     ```
   Flags:
     -s: silent - don't output the term "false"
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - "true"
@@ -240,10 +257,11 @@
   - not-func
 
 
+
 - DocumentID: not-func
   Title: >+
     `!` (not)
-  CategoryID: parser
+  CategoryID: commands
   Summary: >-
     Reads the STDIN and exit number from previous process and not's it's condition
   Description: |-
@@ -253,17 +271,21 @@
     <stdin> -> ! -> <stdout>
     ```
   Examples: |-
+    ### Inverting true
+
     ```
     » echo "Hello, world!" -> !
     false
     ```
+
+    ### Inverting false
 
     ```
     » false -> !
     true
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   - "!"
   - "not"
@@ -275,31 +297,71 @@
   - "false"
 
 
+
 - DocumentID: cast
   Title: >+
     `cast`
   CategoryID: commands
   Summary: >-
-    Alters the data type of the previous function without altering it's output
+    Alters the data-type of the previous function without altering its output
   Description: |-
-    `cast` works a little like when you case variables in lower level languages
-    where the value of the variable is unchanged. In Murex the contents in
-    the pipeline are preserved however the reported data type is altered.
+    `cast` alters the data-type annotation for a pipe.
+    
+    The contents of the pipeline are preserved, only the reported data-type is
+    changed.
+
+    Additionally `cast` can be used to define the output type of a function.
   Usage: |-
+    Changing type annotation for a pipe
+
     ```
     <stdin> -> cast data-type -> <stdout>
+
+    <stdin> :data-type: command
+    ```
+
+    Defining the output type of a function
+
+    ```
+    cast data-type
     ```
   Examples: |-
+    ### As a command
+
     ```
-    » out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+    » out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} \
+      -> cast json
     {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
     ```
+
+    ### As a token
+
+    ```
+    » out {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} \
+      -> :json: cat
+    {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+    ```
+
+    ### Defining data-type
+
+    ```
+    » function example {
+        cast json
+        out '{"foo": "bar"}'
+    }
+
+    » example -> debug -> [[ /Data-Type/Murex ]]
+    json
+    ```
+
+    Please note you'd normally use the {{link "Object Builder" "create-object"}} to create JSON objects.
   Flags:
   Detail: |-
-    If you want to reformat the STDIN into the new data type then use `format`
+    If you want to reformat the stdin into the new data type then use `format`
     instead.
   Synonyms:
   Related:
   - out
   - tout
   - format
+  - create-object

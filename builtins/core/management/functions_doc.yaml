@@ -23,6 +23,7 @@
   - test
 
 
+
 - DocumentID: os
   Title: >+
     `os`
@@ -38,10 +39,14 @@
     os string -> <stdout>
     ``` 
   Examples: |-
+    ### Name current platform
+
     ```
     » os
     linux
     ```
+
+    ### Check platforms
 
     Or if you want to check if the host is one of a number of platforms:
 
@@ -50,16 +55,29 @@
     » os linux freebsd
     true
 
-    # When run on another platform, eg Windows or Darwin (OSX)
+    # When run on another platform, eg Windows or Darwin (macOS)
     # (exit number would also be `1`)
     » os linux freebsd
     false
     ```
 
-    `posix` is also supported:
+    The intention is this allows simple tests in scripts:
 
     ```
-    # When run on Linux, FreeBSD or Darwin (for example)
+    if { os windows } then {
+        # run some Windows specific code
+    }
+    ```
+
+    ### POSIX
+
+    `posix` is also supported to check if Murex is running on a UNIX-like operating
+    system.
+
+    All Murex targets _apart_ from Windows and Plan 9 are considered POSIX.
+
+    ```
+    # When run on Linux or macOS
     » os posix
     true
 
@@ -79,6 +97,7 @@
   Related:
   - cpuarch
   - cpucount
+
 
 
 - DocumentID: cpuarch
@@ -106,6 +125,7 @@
   - cpucount
 
 
+
 - DocumentID: cpucount
   Title: >+
     `cpucount`
@@ -129,6 +149,7 @@
   Related:
   - os
   - cpuarch
+
 
 
 - DocumentID: murex-update-exe-list
@@ -161,6 +182,7 @@
   - cpucount
 
 
+
 - DocumentID: man-summary
   Title: >+
     `man-summary`
@@ -168,11 +190,11 @@
   Summary: >-
     Outputs a man page summary of a command
   Description: |-
-    `man-summary` reads the man pages for a given command and outputs it's
+    `man-summary` reads the man pages for a given command(s) and outputs it's
     summary (if one exists).
   Usage: |-
     ```
-    man-summary command -> <stdout>
+    man-summary command [ commands ] -> <stdout>
     ```
   Examples: |-
     ```
@@ -181,12 +203,28 @@
     ```
   Flags:
   Detail: |-
+    `man-summary` can take multiple parameters and will return the summary for each
+    command. If any commands have no summaries, then the exit number will be
+    incremented. In the example below, two parameters had no associated man page:
+
+    ```
+    » man-summary aa ab ac ad ae
+    aa - Manipulate Apple Archives
+    ab - Apache HTTP server benchmarking tool
+    ac - connect time accounting
+    ad - no man page exists
+    ae - no man page exists
+    
+    » exitnum
+    2
+    ```
   Synonyms:
   Related:
   - summary
   - config
   - murex-docs
   - man-get-flags
+
 
 
 - DocumentID: cd
@@ -202,7 +240,7 @@
     cd [path]
     ```
   Examples: |-
-    **Home directory:**
+    ### Home directory
     
     ```
     » cd ~
@@ -215,19 +253,19 @@
     » cd
     ```
 
-    **Navigating to the previous directory:**
+    ### Previous directory
 
     ```
     » cd -
     ```
 
-    **Absolute path:**
+    ### Absolute path
     
     ```
     » cd /etc/
     ```
 
-    **Relative path:**
+    ### Relative path
 
     ```
     » cd Documents
@@ -235,16 +273,18 @@
     ```
   Flags:
   Detail: |-
+    ### $PWDHIST
+
     `cd` updates an environmental variable, `$PWDHIST` with an array of paths.
     You can then use that to change to a previous directory.
 
-    **View the working directory history:**
+    #### View the working directory history
     
     ```
     » $PWDHIST
     ```
 
-    **Change to a previous directory:**
+    #### Change to a previous directory
     
     ```
     » cd $PWDHIST[-1]
@@ -267,6 +307,7 @@
   - source
 
 
+
 - DocumentID: bexists
   Title: >+
     `bexists`
@@ -282,7 +323,7 @@
     ```
   Examples: |-
     ```
-    » bexists: qr gzip runtime config
+    » bexists qr gzip runtime config
     {
         "Installed": [
             "runtime",
@@ -307,5 +348,3 @@
   - runtime
   - fexec
   - modules
-
-

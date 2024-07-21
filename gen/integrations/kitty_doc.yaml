@@ -1,0 +1,32 @@
+- DocumentID: kitty
+  Title: >-
+    Kitty Integrations
+  CategoryID: integrations
+  Summary: >-
+    Get more out of Kitty terminal emulator
+  Description: |-
+    ## Description
+
+    Kitty it a cross platform terminal emulator. It supports several ANSI escape
+    codes that are bespoke to Kitty.
+
+    Murex can detect if it is running on Kitty and utilise those exclusive ANSI
+    escape codes, so you don't have to remember different ways of working with
+    different terminal emulators.
+
+    ## Opening Images
+
+    Using {{link "`open`" "open"}}, you can render an image directly in the
+    terminal. Normally that would be a blocky "pixellated" representation using
+    block characters. But if you're running Kitty, Murex will automatically switch
+    to Kitty's ANSI escape sequences to render those images beautifully.
+
+    ![opening an image in Kitty](https://nojs.murex.rocks/images/screenshot-kitty-open.png)
+  Synonyms:
+  Related:
+  - open
+  - openagent
+  - terminology
+  - iterm2
+
+

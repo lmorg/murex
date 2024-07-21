@@ -43,6 +43,22 @@ func (rl *Instance) writeHintTextStr() string {
 		}
 	}
 
+	s := rl._writeHintTextStr(hintText)
+	return s
+}
+
+// ForceHintTextUpdate is a nasty function for force writing a new hint text. Use sparingly!
+func (rl *Instance) ForceHintTextUpdate(s string) {
+	rl.hintText = []rune(s)
+
+	rl.tabMutex.Lock()
+	print(rl._writeHintTextStr(s))
+	rl.tabMutex.Unlock()
+}
+
+// _writeHintTextStr doesn't contain any mutex locks. This will have to be
+// handled from the calling function. eg writeHintTextStr()
+func (rl *Instance) _writeHintTextStr(hintText string) string {
 	// fix bug https://github.com/lmorg/murex/issues/376
 	if rl.termWidth == 0 {
 		rl.termWidth = GetTermWidth()
@@ -85,10 +101,4 @@ func (rl *Instance) writeHintTextStr() string {
 func (rl *Instance) resetHintText() {
 	rl.hintY = 0
 	rl.hintText = []rune{}
-}
-
-// ForceHintTextUpdate is a nasty function for force writing a new hint text. Use sparingly!
-func (rl *Instance) ForceHintTextUpdate(s string) {
-	rl.hintText = []rune(s)
-	print(rl.writeHintTextStr())
 }

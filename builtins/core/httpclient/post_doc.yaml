@@ -13,6 +13,8 @@
     <stdin> -> post url content-type -> <stdout>
     ```
   Examples: |-
+    ### Unhappy path
+    
     ```
     » post google.com -> [ Status ] 
     {
@@ -43,11 +45,9 @@
     The concept behind this is it provides and easier path for scripting eg pulling
     specific fields via the index, `[`, function.
 
-    ### `post` as a method
+    ### As A Method
 
-    Running `post` as a method will transmit the contents of STDIN as part of the
-    body of the HTTP POST request. When run as a method you have to include a second
-    parameter specifying the Content-Type MIME.
+    {{ include "gen/includes/get-post-method.inc.md" }}
 
     ### Configurable options
 

@@ -13,7 +13,6 @@
     recommended to use `MUREX_EXE`, which is a reserved variable, if you require
     precision.
   Examples:
-
   Synonyms:
   - shell
   - SHELL

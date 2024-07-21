@@ -11,14 +11,14 @@
     relative rather than absolute then `/` will be excluded from outputted string.
   Usage:
   Examples: |-
-    **Creating a PATH:**
+    ### Creating a PATH
 
     ```
     » %[/bin, /usr/bin, "$JAVA_HOME/bin"] -> format paths
     /bin:/usr/bin:/opt/java/bin
     ```
 
-    **Splitting a PATH:**
+    ### Splitting a PATH
 
     ```
     » $PATH -> :paths: format json
@@ -29,10 +29,20 @@
     ]
     ```
 
-    **Appending to `$PATH`:**
+    ### Appending to $PATH
+
+    As a statement:
 
     ```
-    » $PATH -> :paths: append /sbin -> export PATH
+    » $PATH -> append /sbin -> export PATH
+    » $PATH
+    /bin:/usr/bin:/opt/java/bin:/sbin
+    ```
+
+    As an expression:
+
+    ```
+    » $PATH <~ %[ "/sbin" ]
     » $PATH
     /bin:/usr/bin:/opt/java/bin:/sbin
     ```
@@ -53,8 +63,7 @@
       Supported
     Unmarshal(): >-
       Supported
-  Detail: |-
-
+  Detail:
   Associations:
     Mimes:
     Extensions:
@@ -63,3 +72,5 @@
     - PWD
     - PWDHIST
     - MUREX_EXE
+    - assign-or-merge
+    - create-array

@@ -14,9 +14,8 @@ func TestParseObject(t *testing.T) {
 		symbol: symbols.ObjectBegin,
 		tests: []expTestT{
 			{
-				input:    `%{foo:}`,
-				expected: `{"foo":null}`,
-				pos:      5,
+				input: `%{foo:}`,
+				error: true,
 			},
 			{
 				input:    `%{foo: bar}`,
@@ -70,12 +69,12 @@ func TestParseObject(t *testing.T) {
 			},
 			{
 				input:    `%{a:$a,b:[@b]}`,
-				expected: `{"a":null,"b":null}`,
+				expected: `{"a":null,"b":[]}`,
 				pos:      12,
 			},
 			{
 				input:    `%{a:$a,b:%[@b]}`,
-				expected: `{"a":null,"b":null}`,
+				expected: `{"a":null,"b":[]}`,
 				pos:      13,
 			},
 			{
@@ -108,7 +107,9 @@ func TestParseObjectBadGrammar(t *testing.T) {
 			},
 			{
 				input: `%{foo:bar,,}`,
-				error: true,
+				//error: true,
+				expected: `{"foo":"bar"}`,
+				pos:      10,
 			},
 			{
 				input: `%{foo:bar`,
@@ -153,6 +154,71 @@ func TestParseObjectBool(t *testing.T) {
 				input:    "%{foo:false}",
 				expected: `{"foo":false}`,
 				pos:      10,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+// https://github.com/lmorg/murex/issues/781
+func TestParseObjectNull(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    `%{foo:null}`,
+				expected: `{"foo":null}`,
+				pos:      9,
+			},
+			{
+				input:    `%{foo:"null"}`,
+				expected: `{"foo":"null"}`,
+				pos:      11,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+// https://github.com/lmorg/murex/issues/781
+func TestParseObjectZeroLengthString(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    `%{foo:''}`,
+				expected: `{"foo":""}`,
+				pos:      7,
+			},
+			{
+				input:    `%{foo:""}`,
+				expected: `{"foo":""}`,
+				pos:      7,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+func TestParseObjectNestedString(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    `%{foo:%(hello world)}`,
+				expected: `{"foo":"hello world"}`,
+				pos:      19,
+			},
+			{
+				input: `
+%{foo: %(
+	hello world
+)}`,
+				expected: `{"foo":"\n\thello world\n"}`,
+				pos:      24,
 			},
 		},
 	}

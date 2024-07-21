@@ -29,7 +29,7 @@ This operator is only available in expressions.
 
 Unlike with the standard arithmetic operators (`+`, `-`, `*`, `/`), silent data
 casting isn't supported with arithmetic assignments like `+=`, `-=`, `*=` and
-`/=`. Not even when `strict-types` is disabled.
+`/=`. Not even when `strict-types` is disabled ([read more](/docs/user-guide/strict-types.md))
 
 You can work around this by using the slightly longer syntax: **variable =
 value op value**, for example:
@@ -41,10 +41,10 @@ value op value**, for example:
 5
 ```
 
-Please note that this behaviour might change in a later release of Murex.
-
 ## See Also
 
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)
 * [`+=` Add With Operator](../parser/add-with.md):
@@ -54,7 +54,7 @@ Please note that this behaviour might change in a later release of Murex.
 * [`-` Subtraction Operator](../parser/subtraction.md):
   Subtracts one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):
@@ -68,4 +68,4 @@ Please note that this behaviour might change in a later release of Murex.
 
 <hr/>
 
-This document was generated from [gen/expr/subtract_by_op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/subtract_by_op_doc.yaml).
+This document was generated from [gen/expr/subtract-by-op_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/expr/subtract-by-op_doc.yaml).

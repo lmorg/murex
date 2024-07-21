@@ -70,12 +70,8 @@ constants are available.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Tilde (`~`) Token](../parser/tilde.md):
-  Home directory path variable
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -84,6 +80,8 @@ constants are available.
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the STDOUT without new line (deprecated)
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
@@ -94,6 +92,8 @@ constants are available.
   string (primitive)
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+* [`~` Home Sigil](../parser/tilde.md):
+  Home directory path variable
 
 <hr/>
 

@@ -15,7 +15,7 @@ type command -> <stdout>
 
 ## Examples
 
-**TTY output:**
+### TTY output
 
 ```
 » type murex-docs
@@ -27,7 +27,7 @@ type command -> <stdout>
     fexec: builtin murex-docs @PARAMS | less
 ```
 
-**Piped output:**
+### Piped output
 
 ```
 » type murex-docs -> cat

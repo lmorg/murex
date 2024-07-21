@@ -2,7 +2,6 @@ package shell
 
 import (
 	"context"
-	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/variables"
@@ -31,31 +30,10 @@ func PreviewParameter(ctx context.Context, block []rune, parameter string, incIm
 			return
 		}
 
-		for i := range lines {
-			switch {
-			case strings.HasPrefix(parameter, "--"):
-				switch {
-				case strings.Contains(lines[i], ", "+parameter):
-					// comma separated
-					callback(lines, i, nil)
-					return
-				case strings.Contains(lines[i], "  "+parameter):
-					// whitespace separated
-					callback(lines, i, nil)
-					return
-				default:
-					continue
-				}
-			default:
-				if strings.Contains(lines[i], "  "+parameter) {
-					callback(lines, i, nil)
-					return
-				}
-			}
-		}
+		i := previewPos(lines, parameter)
 
-		callback(lines, 0, nil)
+		callback(lines, i, nil)
 	}
 
-	PreviewCommand(ctx, nil, pt.FuncName, false, size, parameterCallback)
+	PreviewCommand(ctx, block, pt.FuncName, false, size, parameterCallback)
 }

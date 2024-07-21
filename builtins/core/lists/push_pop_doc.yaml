@@ -14,7 +14,7 @@
     <stdin> -> left int -> <stdout>
     ```
   Examples: |-
-    Count from the left
+    ### Count from the left
 
     ```
     » ja [Monday..Wednesday] -> left 2
@@ -25,7 +25,7 @@
     ]
     ```
 
-    Count from the right
+    ### Count from the right
 
     ```
     » ja [Monday..Wednesday] -> left -3
@@ -57,6 +57,8 @@
     - lang.MarshalData
     - lang.UnmarshalData
 
+
+
 - DocumentID: right
   Title: >+
     `right`
@@ -73,7 +75,7 @@
     <stdin> -> right int -> <stdout>
     ```
   Examples: |-
-    Count from the right
+    ### Count from the right
 
     ```
     » ja [Monday..Wednesday] -> right 4
@@ -84,7 +86,7 @@
     ]
     ```
 
-    Count from the left
+    ### Count from the left
 
     ```
     » ja [Monday..Wednesday] -> left -3
@@ -115,6 +117,8 @@
     - runtime
     - lang.MarshalData
     - lang.UnmarshalData
+
+
 
 - DocumentID: prefix
   Title: >+
@@ -158,6 +162,8 @@
     - runtime
     - lang.MarshalData
     - lang.UnmarshalData
+
+
 
 - DocumentID: suffix
   Title: >+

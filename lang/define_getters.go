@@ -36,3 +36,14 @@ func GetFileExts() map[string]string {
 func ReadFileExtensions() (interface{}, error) {
 	return fileExts, nil
 }
+
+// GetDefaultMimes returns default MIME lookup table
+func GetDefaultMimes() map[string]string {
+	return defaultMimes
+}
+
+// ReadDefaultMimes returns an interface{} of default MIMEs.
+// This is only intended to be used by `config.Properties.GoFunc.Read()`
+func ReadDefaultMimes() (interface{}, error) {
+	return defaultMimes, nil
+}

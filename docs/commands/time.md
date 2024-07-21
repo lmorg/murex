@@ -17,10 +17,16 @@ time { code-block } -> <stderr>
 
 ## Examples
 
+### Time a command
+
 ```
 » time sleep 5
 5.000151513
+```
 
+### Time a block of code
+
+```
 » time { out "Going to sleep"; sleep 5; out "Waking up" }
 Going to sleep
 Waking up

@@ -1,52 +1,49 @@
-The directives are listed below. Headings are formatted as follows:
-
-```
-"DirectiveName": json data-type (default value)
-```
-
-Where "default value" is what will be auto-populated at run time if you don't
-define an autocomplete schema manually. **zls** stands for zero-length string
-(ie: "").
+The directives are listed below.
 
 {{ if env "DOCGEN_TARGET=" }}<div id="toc">
 
-- ["Alias": string (zls)](#alias-string-zls)
-- ["AllowAny": boolean (false)](#allowany-boolean-false)
-- ["AllowMultiple": boolean (false)](#allowmultiple-boolean-false)
-- ["AnyValue": boolean (false)](#anyvalue-boolean-false)
-- ["AutoBranch": boolean (false)](#autobranch-boolean-false)
-- ["CacheTTL": int (5)](#cachettl-int-5)
-- ["Dynamic": string (zls)](#dynamic-string-zls)
-- ["DynamicDesc": string (zls)](#dynamicdesc-string-zls)
-- ["ExecCmdline": boolean (false)](#execcmdline-boolean-false)
-- ["FileRegexp": string (zls)](#fileregexp-string-zls)
-- ["FlagValues": map of arrays (null)](#flagvalues-map-of-arrays-null)
+- [Alias](#alias)
+- [AllowAny](#allowany)
+- [AllowMultiple](#allowmultiple)
+- [AnyValue](#anyvalue)
+- [AutoBranch](#autobranch)
+- [CacheTTL](#cachettl)
+- [Dynamic](#dynamic)
+- [DynamicDesc](#dynamicdesc)
+- [DynamicPreview](#dynamicpreview)
+- [ExecCmdline](#execcmdline)
+- [FileRegexp](#fileregexp)
+- [FlagValues](#flagvalues)
   - [Defaults for matched flags](#defaults-for-matched-flags)
   - [Defaults for any flags (including unmatched)](#defaults-for-any-flags-including-unmatched)
-- ["Flags": array of strings (auto-populated from man pages)](#flags-array-of-strings-auto-populated-from-man-pages)
-- ["FlagsDesc": map of strings (null)](#flagsdesc-map-of-strings-null)
-- ["Goto": string (zls)](#goto-string-zls)
-- ["IgnorePrefix": boolean (false)](#ignoreprefix-boolean-false)
-- [ImportCompletion: string (zls)](#importcompletion-string-zls)
-- ["IncDirs": boolean (false)](#incdirs-boolean-false)
-- ["IncExeAll": boolean (false)](#incexeall-boolean-false)
-- ["IncExePath": boolean (false)](#incexepath-boolean-false)
-- ["IncFiles": boolean (true)](#incfiles-boolean-true)
-- ["IncManPage": boolean (false)](#incmanpage-boolean-false)
-- ["ListView": boolean (false)](#listview-boolean-false)
-- ["NestedCommand": boolean (false)](#nestedcommand-boolean-false)
-- ["Optional": boolean (false)](#optional-boolean-false)
+- [Flags](#flags)
+- [FlagsDesc](#flagsdesc)
+- [Goto](#goto)
+- [IgnorePrefix](#ignoreprefix)
+- [ImportCompletion](#importcompletion)
+- [IncDirs](#incdirs)
+- [IncExeAll](#incexeall)
+- [IncExePath](#incexepath)
+- [IncFiles](#incfiles)
+- [IncManPage](#incmanpage)
+- [ListView](#listview)
+- [NestedCommand](#nestedcommand)
+- [Optional](#optional)
 
 </div>
 {{ end }}
-### "Alias": string (zls)
+### Alias
+
+> Value: `str` (default: empty)
 
 Aliases are used inside **FlagValues** as a way of pointing one flag to another
 without duplicating code. eg `-v` and `--version` might be the same flag. Or
 `-?`, `-h` and `--help`. With **Alias** you can write the definitions for one
 flag and then point all the synonyms as an alias to that definition.
 
-### "AllowAny": boolean (false)
+### AllowAny
+
+> Value: `bool` (default: `false`)
 
 The way autocompletion works in Murex is the suggestion engine looks for
 matches and if it fines one, it then moves onto the next index in the JSON
@@ -61,24 +58,28 @@ parameter or most parameters can be detectable with a reasonable amount of
 effort. However **AllowAny** is often required for more complex command line
 tools.
 
-### "AllowMultiple": boolean (false)
+### AllowMultiple
+
+> Value: `bool` (default: `false`)
 
 Set to `true` to enable multiple parameters following the same rules as defined
 in this index. For example the following will suggest directories on each tab
 for multiple parameters:
 
 ```
-autocomplete set example { [{
-    "IncDirs": true,
-    "AllowMultiple": true
-}] }
+autocomplete set example %[{
+    IncDirs: true
+    AllowMultiple: true
+}]
 ```
 
-### "AnyValue": boolean (false)
+### AnyValue
 
 Deprecated. Please use **AllowAny** instead.
 
-### "AutoBranch": boolean (false)
+### AutoBranch
+
+> Value `bool` (default: `false`)
 
 Use this in conjunction with **Dynamic**. If the return is an array of paths,
 for example `[ "/home/foo", "/home/bar" ]` then **AutoBranch** will return
@@ -93,14 +94,16 @@ the following patterns in the command line:
 ```
 
 Please note that **AutoBranch**'s behavior is also dependant on a "shell"
-`config` setting, recursive-enabled":
+`config` setting, "recursive-enabled":
 
 ```
 » config get shell recursive-enabled
 true
 ```
 
-### "CacheTTL": int (5)
+### CacheTTL
+
+> Value: `int` (default: `5`)
 
 Dynamic autocompletions (via **Dynamic** or **DynamicDesc**) are cached to
 improve interactivity performance. By default the cache is very small but you
@@ -113,24 +116,26 @@ This directive needs to live in the very first definition and affects all
 autocompletes within the rest of the command. For example
 
 ```
-autocomplete set foobar { [
+autocomplete set foobar %[
     {
-        "Flags": [ "--foo", "--bar" ],
-        "CacheTTL": 60
-    },
-    {
-        "Dynamic": ({
-            a: [Monday..Friday]
-            sleep: 3
-        })
+        Flags: [ --foo, --bar ]
+        CacheTTL: 60
     }
-] }
+    {
+        Dynamic: '{
+            a [Monday..Friday]
+            sleep 3
+        }'
+    }
+]
 ```
 
 Here the days of the week take 3 seconds to show up as autocompletion
 suggestions the first time and instantly for the next 60 seconds after.
 
-### "Dynamic": string (zls)
+### Dynamic
+
+> Value: code block as a `str` (default: empty)
 
 This is a Murex block which returns an array of suggestions.
 
@@ -167,7 +172,9 @@ matches any of the following strings:
 * `@IncExeAll`  ([read more](#incexeall-boolean-false))
 * `@IncManPage` ([read more](#incmanpage-boolean-false))
 
-### "DynamicDesc": string (zls)
+### DynamicDesc
+
+> Value: code block as a `str` (default: empty)
 
 This is very similar to **Dynamic** except your function should return a
 map instead of an array. Where each key is the suggestion and the value is
@@ -199,7 +206,17 @@ autocompletion suggestion, with the value being the description. For example:
 }
 ```
 
-### "ExecCmdline": boolean (false)
+### DynamicPreview
+
+> Value: code block as a `str` (default: empty)
+
+The **DynamicPreview** directive is used to populate the `[f1]` preview screen.
+
+STDOUT and STDERR are passed directly to the preview frame.
+
+### ExecCmdline
+
+> Value: `bool` (default: `false`)
 
 Sometimes you'd want your autocomplete suggestions to aware of the output
 returned from the commands that preceded it. For example the suggestions
@@ -242,11 +259,11 @@ Remember that **ExecCmdline** is designed to be included with either
 from STDIN:
 
 ```
-autocomplete set "[" { [{
-    "AnyValue": true,
-    "AllowMultiple": true,
-    "ExecCmdline": true,
-    "Dynamic": ({
+autocomplete set "[" %[{
+    AnyValue: true
+    AllowMultiple: true
+    ExecCmdline: true
+    Dynamic: '{
         switch ${ get-type stdin } {
             case * {
                 <stdin> -> [ 0: ] -> format json -> [ 0 ]
@@ -256,21 +273,23 @@ autocomplete set "[" { [{
                 <stdin> -> formap k v { out $k } -> cast str -> append "]"
             }
         }
-    })
-}] }
+    }'
+}]
 ```
 
-### "FileRegexp": string (zls)
+### FileRegexp
+
+> Value: `str` (default: empty)
 
 When set in conjunction with **IncFiles**, this directive will filter on files
 files which match the regexp string. eg to only show ".txt" extensions you can
 use the following:
 
 ```
-autocomplete set notepad.exe { [{
-    "IncFiles": true,
-    "FileRegexp": (\.txt)
-}] }
+autocomplete set notepad.exe %[{
+    IncFiles: true
+    FileRegexp: (\.txt)
+}]
 ```
 
 > Please note that you may need to double escape any regexp strings: escaping
@@ -279,7 +298,9 @@ autocomplete set notepad.exe { [{
 > will compile that string into JSON, automatically adding additional escaping
 > where required.
 
-### "FlagValues": map of arrays (null)
+### FlagValues
+
+> Value: map of arrays (default: empty)
 
 This is a map of the flags with the values being the same array of directive
 as the top level.
@@ -290,17 +311,17 @@ multiple parameters.
 **FlagValues** takes a map of arrays, eg
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
-        }],
-        "delete": [{
-            "Flags": [ "bar" ]
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
+        }]
+        delete: [{
+            Flags: [ bar ]
         }]
     }
-}] }
+}]
 ```
 
 ...will provide "foo" as a suggestion to `example add`, and "bar" as a
@@ -312,20 +333,20 @@ You can set default properties to all matched flags by using `*` as a
 **FlagValues** value. To expand the above example...
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
-        }],
-        "delete": [{
-            "Flags": [ "bar" ]
-        }],
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
+        }]
+        delete: [{
+            Flags: [ bar ]
+        }]
         "*": [{
-            "IncFiles"
+            IncFiles
         }]
     }
-}] }
+}]
 ```
 
 ...in this code we are saying not only does "add" support "foo" and "delete"
@@ -339,31 +360,33 @@ If you wanted a default which applied to all **FlagValues**, even when the flag
 wasn't matched, then you can use a zero length string (""). For example
 
 ```
-autocomplete set example { [{
-    "Flags": [ "add", "delete" ],
-    "FlagValues": {
-        "add": [{
-            "Flags": [ "foo" ]
+autocomplete set example %[{
+    Flags: [ add, delete ]
+    FlagValues: {
+        add: [{
+            Flags: [ foo ]
         }],
-        "delete": [{
-            "Flags": [ "bar" ]
+        delete: [{
+            Flags: [ bar ]
         }],
         "": [{
-            "IncFiles"
+            IncFiles: true
         }]
     }
-}] }
+}]
 ```
 
-### "Flags": array of strings (auto-populated from man pages)
+### Flags
+
+> Value: array of strings (default is auto-populated from man pages)
 
 Setting **Flags** is the fastest and easiest way to populate suggestions
 because it is just an array of strings. eg
 
 ```
-autocomplete set example { [{
-    "Flags": [ "foo", "bar" ]
-}] }
+autocomplete set example %[{
+    Flags: [ foo, bar ]
+}]
 ```
 
 If a command doesn't **Flags** already defined when you request a completion
@@ -373,7 +396,9 @@ the man page. However because man pages are written to be human readable
 rather than machine parsable, there may not be a 100% success rate with the
 automatic man page parsing.
 
-### "FlagsDesc": map of strings (null)
+### FlagsDesc
+
+> Value: map of strings (default: empty)
 
 This is the same concept as **Flags** except it is a map with the suggestion
 as a key and description as a value. This distinction is the same as the
@@ -382,7 +407,9 @@ difference between **Dynamic** and **DynamicDesc**.
 Please note that currently man page parsing cannot provide a description so
 only **Flags** get auto-populated.
 
-### "Goto": string (zls)
+### Goto
+
+> Value: `str` (default: empty)
 
 This is a `goto` in programming terms. While "ugly" it does allow for quick and
 easy structural definitions without resorting to writing the entire
@@ -408,44 +435,48 @@ of that autocomplete definition. The path should look something like:
 An example of a really simple **Goto**:
 
 ```
-autocomplete set dd { [
+autocomplete set dd %[
     {
-        "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
-        "FlagValues": {
+        Flags: [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+        FlagValues: {
             "if": [{
-                "IncFiles": true
-            }],
+                IncFiles: true
+            }]
             "of": [{
-                "IncFiles": true
-            }],
+                IncFiles: true
+            }]
             "*": [{
-                "AllowAny": true
+                AllowAny: true
             }]
         }
     },
     {
-        "Goto": "/0"
+        Goto: "/0"
     }
-] }
+]
 ```
 
 **Goto** is given precedence over any other directive. So ensure it's the only
 directive in it's group.
 
-### "IgnorePrefix": boolean (false)
+### IgnorePrefix
+
+> Value: `bool` (default: `false`)
 
 When set to `true`, this allows **Dynamic** and **DynamicDesc** functions to
 return every result and not just those that match the partial term (as would
 normally be the default).
 
-### ImportCompletion: string (zls)
+### ImportCompletion
+
+> Value: `str` (default: empty)
 
 This allows you to import autocompletion config from another command. Similar
 in purpose to **NestedCommand** except where **NestedCommand** will dynamically
 select the command name, **ImportCompletion** hardcodes it. For example:
 
 ```
-autocomplete: set murex-package %[{
+autocomplete set murex-package %[{
     FlagsDesc: {
         # ...cropped out...
         git: "Run `git` against a package"
@@ -469,7 +500,9 @@ autocomplete: set murex-package %[{
 The above code allows you to type `murex-package git package-name [tab]`, where
 `[tab]` will be the completions for `git`.
 
-### "IncDirs": boolean (false)
+### IncDirs
+
+> Value: `bool` (default: `false`)
 
 Enable to include directories.
 
@@ -478,17 +511,23 @@ Not needed if **IncFiles** is set to `true`.
 Behavior of this directive can be altered with `config set shell
 recursive-enabled`
 
-### "IncExeAll": boolean (false)
+### IncExeAll
+
+> Value: `bool` (default: `false`)
 
 Enable this to any executables. Suggestions will include aliases, functions
 builtins and any executables in `$PATH`. It will not include private functions.
 
-### "IncExePath": boolean (false)
+### IncExePath
+
+> Value: `bool` (default: `false`)
 
 Enable this to include any executables in `$PATH`. Suggestions will not include
 aliases, functions nor privates.
 
-### "IncFiles": boolean (true)
+### IncFiles
+
+> Value: `bool` (default: `true`)
 
 Include files and directories. This is enabled by default for any commands
 that don't have autocomplete defined but you will need to manually enable
@@ -498,28 +537,36 @@ suggestions.
 If you want to filter files based on file name then you can set a regexp
 string to match to using **FileRegexp**.
 
-### "IncManPage": boolean (false)
+### IncManPage
+
+> Value: `bool` (default: `false`)
 
 The default behavior for commands with no autocomplete defined is to parse the
 man page and use those results. If a custom autocomplete is defined then that
 man page parser is disabled by default. You can re-enable it and include its
 results with other flags and behaviors you define by using this directive.
 
-### "ListView": boolean (false)
+### ListView
+
+> Value: `bool` (default: `false`)
 
 This alters the appearance of the autocompletion suggestions "popup". Rather
 than suggestions being in a grid layout (with descriptions overwriting the
 hint text) the suggestions are in a list view with the descriptions next to
 them on the same row (similar to how an IDE might display it's suggestions).
 
-### "NestedCommand": boolean (false)
+### NestedCommand
+
+> Value: `bool` (default: `false`)
 
 Only enable this if the command you are autocompleting is a nested parameter
 of the parent command you have types. For example with `sudo`, once you've
 typed the command name you wish to elivate, then you would want suggestions
 for that command rather than for `sudo` itself.
 
-### "Optional": boolean (false)
+### Optional
+
+> Value: `bool` (default: `false`)
 
 Specifies if a match is required for the index in this schema. ie optional
 flags.

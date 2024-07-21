@@ -1,9 +1,7 @@
 package types
 
 import (
-	"errors"
 	"fmt"
-	"regexp"
 	"strconv"
 	"strings"
 
@@ -18,29 +16,17 @@ const (
 	// ErrUnexpectedGoType is returned if the Go data type is unhandled
 	ErrUnexpectedGoType = "unexpected Go type"
 
-	// ErrCannotConvertGoType is returned if the Go data type cannot be converted
-	// to the murex data type (eg there is no numeric data in a string of characters)
-	ErrCannotConvertGoType = "cannot convert Go type into murex data type (eg no numeric data in a string)"
-)
-
-var (
-	rxFirstInt   *regexp.Regexp = regexp.MustCompile(`([0-9]+)`)
-	rxFirstFloat *regexp.Regexp = regexp.MustCompile(`([0-9]+)(\.[0-9]+|)`)
+	errCannotConvertToNumeric = "cannot convert data into the numeric type '%s'"
 )
 
 // ConvertGoType converts a Go lang variable into a murex variable
 func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
-	//debug.Log("ConvertGoType:", fmt.Sprintf("%t %s %v", v, dataType, v))
-
 	switch t := v.(type) {
 	case nil:
 		return goNilRecast(dataType)
 
 	case int:
 		return goIntegerRecast(t, dataType)
-
-	//case float32:
-	//	return goFloatRecast(t, dataType)
 
 	case float64:
 		return goFloatRecast(t, dataType)
@@ -60,8 +46,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	default:
 		return goDefaultRecast(v, dataType)
 	}
-
-	//return nil, errors.New(ErrUnexpectedGoType)
 }
 
 func goNilRecast(dataType string) (interface{}, error) {
@@ -100,20 +84,13 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 		}
 		return true, nil
 
-	//case CodeBlock:
-	//	return fmt.Sprintf("out: %d", v), nil
-
 	case String:
 		return strconv.Itoa(v), nil
-
-	//case Json, JsonLines:
-	//	return fmt.Sprintf(`{ "Value": %d }`, v), nil
 
 	case Null:
 		return "", nil
 
 	default:
-		//	return nil, errors.New(ErrDataTypeDefaulted)
 		return strconv.Itoa(v), nil
 	}
 }
@@ -135,20 +112,13 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 		}
 		return true, nil
 
-	//case CodeBlock:
-	//	return "out: " + FloatToString(v), nil
-
 	case String:
 		return FloatToString(v), nil
-
-	//case Json, JsonLines:
-	//	return fmt.Sprintf(`{ "Value": %s }`, FloatToString(v)), nil
 
 	case Null:
 		return "", nil
 
 	default:
-		//return nil, errors.New(ErrDataTypeDefaulted)
 		return FloatToString(v), nil
 	}
 }
@@ -185,17 +155,10 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 		}
 		return string(FalseByte), nil
 
-	/*case Json, JsonLines:
-	if v {
-		return `{ "Value": true }`, nil
-	}
-	return `{ "Value": false }`, nil*/
-
 	case Null:
 		return "", nil
 
 	default:
-		//return nil, errors.New(ErrDataTypeDefaulted)
 		if v {
 			return string(TrueByte), nil
 		}
@@ -212,7 +175,7 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		if v == "" {
 			v = "0"
 		}
-		//return strconv.Atoi(strings.TrimSpace(v))
+
 		f, err := strconv.ParseFloat(v, 64)
 		if err != nil {
 			return int(f), fmt.Errorf("cannot convert '%s' to an integer: %s", v, err.Error())
@@ -237,7 +200,6 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		if len(v) > 1 && v[0] == '{' && v[len(v)-1] == '}' {
 			return v[1 : len(v)-1], nil
 		}
-		//errors.New("Not a valid code block: `" + v.(string) + "`")
 		return "out: '" + v + "'", nil
 
 	case String:
@@ -247,7 +209,6 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		return "", nil
 
 	default:
-		//return nil, errors.New(ErrDataTypeDefaulted)
 		return v, nil
 	}
 }
@@ -287,7 +248,6 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 			}
 			return strings.Join(a, " "), nil
 		default:
-			//return fmt.Sprintf("%t", v), nil // debugging
 			b, err := json.Marshal(v, false)
 			return string(b), err
 		}
@@ -325,26 +285,15 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 			}
 			return strings.Join(a, "\n"), nil
 		default:
-			//return fmt.Sprintf("%t", v), nil // debugging
 			b, err := json.Marshal(v, false)
 			return string(b), err
 		}
 
 	case Integer:
-		s := fmt.Sprint(v)
-		i := rxFirstInt.FindStringSubmatch(s)
-		if len(i) > 0 {
-			return i[0], nil
-		}
-		return 0, errors.New(ErrCannotConvertGoType)
+		return 0, fmt.Errorf(errCannotConvertToNumeric, dataType)
 
 	case Float, Number:
-		s := fmt.Sprint(v)
-		f := rxFirstFloat.FindStringSubmatch(s)
-		if len(f) > 0 {
-			return f[0], nil
-		}
-		return 0, errors.New(ErrCannotConvertGoType)
+		return 0, fmt.Errorf(errCannotConvertToNumeric, dataType)
 
 	case Boolean:
 		s := fmt.Sprint(v)

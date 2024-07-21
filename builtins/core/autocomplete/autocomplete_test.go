@@ -23,6 +23,7 @@ func TestAutocomplete(t *testing.T) {
 
 	expected := `[
     {
+        "DynamicPreview": "",
         "IncFiles": false,
         "FileRegexp": "",
         "IncDirs": false,

@@ -28,5 +28,5 @@ private autocomplete.gping {
 }
 
 test unit private autocomplete.gping %{
-    "StdoutGreaterThan": 20
+    StdoutGreaterThan: 20
 }

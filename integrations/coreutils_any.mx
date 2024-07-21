@@ -1,0 +1,25 @@
+autocomplete set cd %[{
+    IncDirs: true
+}]
+
+autocomplete set mkdir %[{
+    IncDirs:       true
+    AllowMultiple: true
+    IncManPage:    true
+}]
+
+autocomplete set rmdir %[{
+    IncDirs:       true
+    AllowMultiple: true
+    IncManPage:    true
+}]
+
+autocomplete set which %[{
+    IncExePath: true
+    AllowMultiple: true
+}]
+
+autocomplete set whereis %[{
+    IncExePath:    true
+    AllowMultiple: true
+}]

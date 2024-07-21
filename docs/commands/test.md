@@ -58,7 +58,7 @@ test report
 
 ## Examples
 
-Inlined test
+### Inlined test
 
 ```
 function hello-world {
@@ -72,7 +72,7 @@ function hello-world {
 test run { hello-world }
 ```
 
-Unit test
+### Unit test
 
 ```
 test unit function aliases {
@@ -114,7 +114,7 @@ flushes the table of pending reports.
 
 ## See Also
 
-* [`<read-named-pipe>`](../parser/namedpipe.md):
+* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings

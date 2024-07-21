@@ -47,7 +47,7 @@ be code inside events, dynamic autocompletes, open agents, any code blocks
 defined in `config`, as well as public and private functions too.
 
 Code inside an `if`, `switch`, `foreach` and `source` do not create a new
-scope. Subshells also do not create a new scoping either.
+scope. Subshells also do not create a new scope either.
 
 ## See Also
 

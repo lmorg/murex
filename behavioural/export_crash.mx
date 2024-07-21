@@ -1,0 +1,11 @@
+# This file tests https://github.com/lmorg/murex/issues/824
+
+function export.crashes {
+    export A_very_long_string_that_shouldnt_exist_lkjsafasdjoirfjoiwedjowqdiuqehdiwefj
+}
+
+test unit function export.crashes %{
+    StderrRegex: " variable '.*?' does not exist"
+    DataType:    str
+    ExitNum:     1
+}

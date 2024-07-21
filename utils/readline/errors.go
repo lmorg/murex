@@ -5,20 +5,15 @@ import (
 )
 
 const (
-	// ErrCtrlC is returned when ctrl+c is pressed.
-	// WARNING: this is being deprecated! Please use CtrlC (type error) instead
-	ErrCtrlC = "Ctrl+C"
-
-	// ErrEOF is returned when ctrl+d is pressed.
-	// WARNING: this is being deprecated! Please use EOF (type error) instead
-	ErrEOF = "EOF"
+	_CtrlC = "Ctrl+C"
+	_EOF   = "EOF"
 )
 
 var (
 	// CtrlC is returned when ctrl+c is pressed
-	CtrlC = errors.New(ErrCtrlC)
+	ErrCtrlC = errors.New(_CtrlC)
 
 	// EOF is returned when ctrl+d is pressed.
 	// (this is actually the same value as io.EOF)
-	EOF = errors.New(ErrEOF)
+	ErrEOF = errors.New(_EOF)
 )

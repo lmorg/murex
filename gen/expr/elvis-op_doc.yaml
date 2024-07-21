@@ -1,0 +1,57 @@
+- DocumentID: elvis
+  Title: >-
+    `?:` Elvis Operator
+  CategoryID: parser
+  Summary: >-
+    Returns the right operand if the left operand is falsy (expression)
+  Description: |-
+    The Elvis Operator is a little like a conditional where the result of the
+    operation is the first non-falsy value from left to right.
+
+    A falsy value is any of the following:
+    
+    * an unset / undefined variable
+    * any value with a `null` data type
+    * a `str` or generic with the value `false`, `null`, `0`, `no`, `off`, `fail`,
+      `failed`, or `disabled`
+    * a number (`num`, `float` or `int`) with the value `0`
+    * an empty object or zero length array 
+    * and, of course, a boolean with the value `false`
+  Examples: |-
+    ### Assign with a default value
+
+    ```
+    » $foo = $bar ?: "baz"
+    ```
+
+    If `$bar` is falsy, then the value of `$foo` will be **"baz"**.
+
+    ### Multiple elvis operators
+
+    ```
+    » $unset_variable ?: null ?: false ?: "foobar"
+    foobar
+    ```
+  Detail: |-
+    ### Whats in a name?
+
+    [Wikipedia](https://en.wikipedia.org/wiki/Elvis_operator) explains this best
+    where it says:
+    
+    > The name "Elvis operator" refers to the fact that when its common notation,
+    > `?:`, is viewed sideways, it resembles an emoticon of Elvis Presley with his
+    > signature hairstyle.
+  Related:
+  - expr
+  - null-coalescing
+  - pipe-err
+  - pipeline
+  - schedulers
+  - out
+  - err
+  - try
+  - trypipe
+  - logical-and
+  - logical-or
+  - "null"
+  - operators-and-tokens

@@ -12,7 +12,7 @@
 
 ## Description
 
-{{ md (include .Description) }}
+{{ md (fn (include .Description)) }}
 
 {{ if .Usage }}## Usage
 
@@ -20,13 +20,13 @@
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Flags }}
 
 ## Flags
 
 {{ range $i,$a := .Flags }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Detail }}
+    {{ md (fn .Description) }}{{ end }}{{ end }}{{ if .Detail }}
 
 ## Detail
 

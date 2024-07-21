@@ -2,12 +2,10 @@
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
-# bgImage: bluebg.jpg
-# bgImageDark: https://theme-hope-assets.vuejs.press/bg/4-dark.svg
-# bgImageStyle:
-#   background-attachment: fixed
 heroText: Murex.Rocks
 tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
+head:
+  - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
 actions:
   - text: "🛟 Language Tour"
     link: tour/
@@ -22,126 +20,72 @@ actions:
 
 highlights:
   - header: A Modern shell for the rest of us
-    description: Murex carries tons of unique features...
-    # image: /murex.svg
-    # bgImage: linesbg.svg
-    # bgImageDark: https://theme-hope-assets.vuejs.press/bg/2-dark.svg
-    # bgImageStyle:
-    #   background-repeat: repeat
-    #   background-size: initial
+    description: Murex carries tons of unique features. Some highlights include...
     features:
       - title: Content Aware
         icon: arrows-to-circle
-        details: Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in these formats.
+        details: |-
+          Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
+          <br/><br/>
+          <b>Data types can be explicitly cast and reformatted, but also inferred if preferred.</b>
         link: types/
 
-      - title: Objects and Maps
-        icon: table-columns
-        details: Murex provides powerful data structures like maps, hashes, lists, and dictionaries, which can be used for efficient and flexible data manipulation. These data structures enable you to organize and manipulate data in a structured and intuitive way.
-        link: mkarray/
-
-      - title: Array manipulation
-        icon: layer-group
-        details: Murex comes with native built-in functions and features that allow for proper manipulation of arrays. These functions make it easy to perform operations like filtering, sorting, appending, and merging arrays, providing a seamless experience for working with array data
-        link: mkarray/
-
-      - title: Scalar expression
+      - title: Expressions
         icon: check-double
-        details: Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
+        details: |-
+          Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
+          <br/><br/>
+          <b>Never worry about file names with weird characters, nor running equations in "bc" again.</b>
         link: tour/#scalars
 
-      - title: Public & Private functions
-        icon: unlock-keyhole
-        details: Murex supports both public and private functions. Private functions have restricted scope visibility, meaning they can only be accessed within the nearest module or source file. This allows for better encapsulation and organization of code, enhancing code readability and maintainability.
-        link: commands/private
-
-      - title: Type inference
-        icon: text-height
-        details: Murex employs type inference to automatically determine the data type of variables and pipelines it manages. This means that you don't always have to explicitly specify the data type, as the shell can intelligently infer it based on the context. This simplifies scripting and reduces the need for explicit type declarations.
-        link: tour/#type-inference
-
-      - title: Enhanced pipelines & redirection
-        icon: puzzle-piece
-        details: Murex supports sending typed information to compatible functions via redirection and pipelines. This allows for more efficient and flexible data processing.
-        link: user-guide/pipeline
-
-      - title: Type casting and formats
-        icon: text-width
-        details: Murex allows you to change the meta-data about how an information should be read or displayed. This can be useful for manipulating and formatting data in a desired way.
-        link: tour/#type-conversion
-
-      - title: Inline spellchecking
-        icon: spell-check
-        details: Murex provides inline spellchecking, which quickly identifies typing spelling errors with underlined text. This helps to catch and correct errors in real-time.
-        link: user-guide/spellcheck
-
-      - title: Smart Autocomplete
+      - title: Smartly Interactive
         icon: wand-magic-sparkles
-        details: Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, making command line navigation faster and more efficient.
-        link: commands/autocomplete
+        details: |-
+          Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
+          <br/><br/>
+          <b>Navigating the command line is faster, more intuitive and efficient than ever before.</b>
+        link: user-guide/interactive-shell
 
-      - title: Hint text
-        icon: comment
-        details: Murex provides hint text, which gives clues to the user without any distractions. This can be useful for providing additional information or guidance to the user
-        link: user-guide/interactive-shell#hint-text
-
-      - title: Syntax highlighting
-        icon: highlighter
-        details: In the interactive terminal, Murex provides syntax highlighting, making it easier to read and understand code. Syntax highlighting can also be piped to the next built-in for further processing.
-        link: user-guide/interactive-shell#syntax-highlighting
-
-      - title: Syntax Completion
-        icon: down-left-and-up-right-to-center
-        details: Murex balances and auto-closes brackets and accolades, making it easier to write and edit code. This feature helps to ensure that code is properly formatted and avoids syntax errors.
-        link: user-guide/interactive-shell#syntax-completion
-
-      - title: Extension Framework
-        icon: cube
-        details: Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions such as `auto-jump` or `starship`. This allows for customization and additional functionality.
-        link: user-guide/modules
-
-      - title: Built-in Package Manager
+      - title: Easily Extended
         icon: cubes
-        details: Murex comes with a built-in package manager that allows you to search and manage the lifecycle of packages. This makes it easy to install and manage dependencies.
-        link: commands/murex-package
-
-      - title: 80 builtins commands
-        icon: building
-        details: Murex provides 80 built-in commands allowing for fast execution and portability. These built-in commands cover a wide range of functionalities.
-        link: commands/
-
-      - title: Realtime Events
-        icon: bolt
-        details: Murex supports realtime events, which streamline script notifications upon elapsed time, keypress, completion, prompt, or filesystem changes. This allows for more dynamic and responsive scripts.
-        link: events/
-
-      - title: PNG Generation
-        icon: image
-        details: Murex can generate barcodes and images directly from scripts. This can be useful for generating visual representations of data or for creating graphical outputs.
-        link: optional/qr
-
-      - title: Multi-threaded
-        icon: gears
-        details: Murex uses separate threads for built-ins, rather than forking processes like in a traditional POSIX shell. This optimizes resource usage and improves performance.
-        link: commands/fid-list
-
-      - title: NOT POSIX compliant!
-        icon: recycle
-        details: Murex is purposely not POSIX compliant in order to be performant and allow for extended capabilities. This allows for more flexibility and advanced features.
-        link: /
+        details: |-
+          Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
+          <br/><br/>
+          <b>Configure once, use everywhere.</b>
+        link: user-guide/modules
 
 copyright: false
 footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
+## 🛟 Getting Started
+
+* Read the [language tour](/tour.html) to get started.
+
+* The [Rosetta Stone](/user-guide/rosetta-stone.html) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* The [Interactive Shell](/user-guide/interactive-shell.html)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
 
 ## 👁‍🗨 Screenshots
 
 <!-- markdownlint-disable -->
 
 <div class="image-preview">
-  <img src="/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
+  <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
 </div>
 
 <style>
@@ -174,11 +118,11 @@ footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 
 <!-- markdownlint-restore -->
 
-More examples are available on [Github](https://github.com/lmorg/murex/tree/master/examples).
+Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
 ## 📦 Easy to Install
 
-Install `Murex` from your favorite package manager:
+Install `murex` from your favorite package manager:
 
 ::: code-tabs#shell
 
@@ -188,7 +132,7 @@ Install `Murex` from your favorite package manager:
 brew install murex
 
 # via MacPorts:
-sudo port install murex
+port install murex
 ```
 
 @tab ArchLinux
@@ -207,15 +151,14 @@ pkg install murex
 
 More options are available in the [INSTALL](install/) document.
 
-## 🛟 Getting Started
-
-Take your your first steps with `Murex` by following our [Language Tutorial](tour/).
-
 {{ else }}# Murex: A Smarter Shell
 
-[![Version](version.svg?{{env "COMMITHASHSHORT"}})](DOWNLOAD.md)
+[![Version](version.svg?v={{env "COMMITHASHSHORT"}})](DOWNLOAD.md)
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
+[![Official Website](images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
+
+<img src="https://murex.rocks/murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}" class="no-border">
 
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.
@@ -235,29 +178,57 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
+## Language Guides
+
+* Read the [language tour](/docs/tour.md) to get started.
+
+* The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* The [Interactive Shell](/docs/user-guide/interactive-shell.md)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
+
 ## Examples
 
-**JSON wrangling:**
+### Smart data:
 
-<img src="images/murex-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+<img src="images/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-**Inline spellchecking:**
+<img src="images/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-<img src="images/murex-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+### Inline spellchecking:
 
-**Autocomplete descriptions, process IDs accompanied by process names:**
+<img src="images/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
 
-<img src="images/murex-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+### Autocomplete:
 
-More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
+<img src="images/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+### Preview screen:
+
+<img src="images/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+### Useful error messages:
+
+<img src="images/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+<img src="images/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+
+### Plus More!
+
+Visit the [official website](https://murex.rocks).
 
 ## Install instructions
 
-See [INSTALL](https://murex.rocks/INSTALL.html) for details.
-
-## Language Tour
-
-Read the [language tour](https://murex.rocks/tour.html) to get started.
+See [INSTALL](INSTALL.md) for details.
 
 ## Discuss Murex
 
@@ -269,7 +240,7 @@ Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
 usability. [Read more](compatibility.md)
 
-## Known bugs / TODO
+## Issue Tracking
 
 Murex is considered stable, however if you do run into problems then please
 raise them on the project's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)

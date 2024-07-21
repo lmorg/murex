@@ -27,7 +27,7 @@ set datatype var_name
 
 ## Examples
 
-As a method:
+### As a method
 
 ```
 » out "Hello, world!" -> set hw
@@ -35,7 +35,7 @@ As a method:
 Hello, World!
 ```
 
-As a function:
+### As a function
 
 ```
 » set hw="Hello, world!"

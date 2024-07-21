@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -27,7 +28,7 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 		return 0, err
 	}
 
-	err = tree.validateExpression(exec)
+	err = tree.validateExpression()
 	if err != nil {
 		return 0, err
 	}
@@ -39,7 +40,7 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 // way of parsing function parameters
 func StatementParametersParser(expression []rune, p *lang.Process) (string, []string, error) {
 	if p.Name.String() == lang.ExpressionFunctionName {
-		return p.Name.String(), []string{string(p.Parameters.PreParsed[0])}, nil
+		return p.Name.String(), []string{string(p.Parameters.GetRaw())}, nil
 	}
 
 	tree := NewParser(nil, expression, 0)
@@ -65,7 +66,7 @@ func (tree *ParserT) preParser() (int, error) {
 	if expErr == nil {
 		// if successful parse, then also validate.
 		// no point validating if the parser has already failed
-		expErr = tree.validateExpression(false)
+		expErr = tree.validateExpression()
 	}
 
 	if expErr == nil {
@@ -251,6 +252,14 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '?':
+			message := "The operator `?`"
+			fileRef := &ref.File{
+				Line:   blk.lineN,
+				Column: blk.charPos,
+				//Source: tree.p.FileRef.Source,
+			}
+			lang.Deprecated(message, fileRef)
+
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err
 			}

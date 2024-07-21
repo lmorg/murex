@@ -145,6 +145,10 @@ translate your Bash code into Murex code.
 
 ## Basic Syntax
 
+A table for all operators and tokens can be found on the [operators and tokens cheatsheet](/docs/user-guide/operators-and-tokens.md).
+However if you are new to the shell, we recommend that you read this document
+first.
+
 ### Quoting Strings
 
 > It is important to note that all strings in expressions are quoted whereas
@@ -251,7 +255,7 @@ file names, or other such problems due to developers forgetting to quote
 variables. For example:
 ```
 » file = "file name.txt"
-» touch $file # this would normally need to be quoted
+» touch $file   # this would normally need to be quoted
 » ls
 'file name.txt'
 ```
@@ -263,7 +267,7 @@ additional variable construct for arrays. These are `@` prefixed:
 » files = %[file1.txt, file2.txt, file3.txt]
 » touch @files
 » ls
-file1.txt  file2.txt
+file1.txt  file2.txt  file3.txt
 ```
 
 ## Piping and Redirection
@@ -596,6 +600,8 @@ This can be invoked by pressing `Ctrl` + `z`. ([read more](/docs/user-guide/job-
 
 * [Install](/INSTALL.md):
   Installation instructions
+* [Operators And Tokens](/operators-and-tokens.md):
+  A table of all supported operators and tokens
 
 <hr/>
 

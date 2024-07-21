@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -29,11 +29,11 @@ func cmdUnset(p *lang.Process) error    { return unset(p, p.Variables) }
 func cmdGlobal(p *lang.Process) error   { return set(p, lang.GlobalVariables) }
 func cmdUnglobal(p *lang.Process) error { return unset(p, lang.GlobalVariables) }
 
-func set(p *lang.Process, v *lang.Variables) error {
-	//p.Stdout.SetDataType(types.Null)
+const errMissingName = "missing variable name"
 
+func set(p *lang.Process, v *lang.Variables) error {
 	if p.Parameters.Len() == 0 {
-		return errors.New("missing variable name; expected: set|global [data-type] name[=value]")
+		return fmt.Errorf("%s, expected: set|global [data-type] name[=value]", errMissingName)
 	}
 
 	name, value, dataType, err := splitVarString(p.Parameters.StringArray())
@@ -85,10 +85,8 @@ func set(p *lang.Process, v *lang.Variables) error {
 }
 
 func unset(p *lang.Process, v *lang.Variables) error {
-	//p.Stdout.SetDataType(types.Null)
-
 	if p.Parameters.Len() == 0 {
-		return errors.New("missing variable name")
+		return errors.New(errMissingName)
 	}
 
 	varName, err := p.Parameters.String(0)
@@ -96,21 +94,14 @@ func unset(p *lang.Process, v *lang.Variables) error {
 		return err
 	}
 
-	//err = scope.Parent.Variables.Unset(varName)
-	//return err
 	return v.Unset(varName)
 }
 
-var (
-	rxSet     = regexp.MustCompile(`(?sm)^([_a-zA-Z0-9]+)=(.*$)`)
-	rxVarName = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
-)
+var rxVarName = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 
 func cmdExport(p *lang.Process) error {
-	//p.Stdout.SetDataType(types.Null)
-
 	if p.Parameters.Len() == 0 {
-		return errors.New("missing variable name")
+		return errors.New(errMissingName)
 	}
 
 	params := p.Parameters.StringAll()
@@ -128,37 +119,54 @@ func cmdExport(p *lang.Process) error {
 		return os.Setenv(params, string(b))
 	}
 
-	// Set env as parameters:
-	if rxVarName.MatchString(params) {
-		v, err := p.Variables.GetString(params)
-		if err != nil {
+	name, value, err := parseExportParameters(params)
+	if err != nil {
+		return fmt.Errorf("error parsing export parameters: %s\nexpected: name[=value]", err.Error())
+	}
+
+	if value == nil {
+		s, err := p.Variables.GetString(name)
+		if err!=nil {
 			return err
 		}
-
-		return os.Setenv(params, v)
+		value = &s
 	}
 
-	match := rxSet.FindAllStringSubmatch(params, -1)
-	if len(match) == 0 || len(match[0]) < 3 {
-		return errors.New("error parsing export parameters. Expected: name[=value]")
-	}
-	err := os.Setenv(match[0][1], match[0][2])
+	err = os.Setenv(name, *value)
 	if err != nil {
 		return err
-	}
-
-	if match[0][1] == "PATH" {
-		autocomplete.UpdateGlobalExeList()
 	}
 
 	return nil
 }
 
-func cmdUnexport(p *lang.Process) error {
-	//p.Stdout.SetDataType(types.Null)
+func parseExportParameters(s string) (string, *string, error) {
+	s = strings.TrimSpace(s)
+	if len(s) == 0 {
+		return "", nil, errors.New(errMissingName)
+	}
 
+	split := strings.SplitN(s, "=", 2)
+	switch len(split) {
+	case 0:
+		return "", nil, errors.New(errMissingName)
+
+	case 1:
+		return strings.TrimSpace(split[0]), nil, nil
+
+	case 2:
+		s := strings.TrimSpace(split[1])
+		return strings.TrimSpace(split[0]), &s, nil
+
+	default:
+		s := strings.TrimSpace(strings.Join(split[1:], "="))
+		return strings.TrimSpace(split[0]), &s, nil
+	}
+}
+
+func cmdUnexport(p *lang.Process) error {
 	if p.Parameters.Len() == 0 {
-		return errors.New("missing variable name")
+		return errors.New(errMissingName)
 	}
 
 	varName, err := p.Parameters.String(0)

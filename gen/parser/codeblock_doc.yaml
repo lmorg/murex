@@ -44,12 +44,7 @@
 
     ### Nesting
 
-    Curly braces can be nested:
-
-    ```
-    » out {{foo} bar}
-    {{foo} bar}
-    ```
+    {{ file "gen/parser/codeblock-nesting.inc.md" }}
 
     ### ANSI Constants
 

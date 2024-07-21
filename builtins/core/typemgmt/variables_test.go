@@ -143,3 +143,144 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 		}
 	}
 }
+
+func TestParseExportParameters(t *testing.T) {
+	tests := []struct {
+		Source string
+		Name   string
+		Value  string
+		Error  bool
+	}{
+		{
+			Source: "",
+			Name:   "",
+			Value:  "<nil>",
+			Error:  true,
+		},
+		{
+			Source: "   ",
+			Name:   "",
+			Value:  "<nil>",
+			Error:  true,
+		},
+		{
+			Source: " \t  \t  ",
+			Name:   "",
+			Value:  "<nil>",
+			Error:  true,
+		},
+		/////
+		{
+			Source: "foo",
+			Name:   "foo",
+			Value:  "<nil>",
+			Error:  false,
+		},
+		{
+			Source: "    foo   ",
+			Name:   "foo",
+			Value:  "<nil>",
+			Error:  false,
+		},
+		{
+			Source: " \t\t   foo  \t\t ",
+			Name:   "foo",
+			Value:  "<nil>",
+			Error:  false,
+		},
+		/////
+		{
+			Source: "foo=",
+			Name:   "foo",
+			Value:  "",
+			Error:  false,
+		},
+		{
+			Source: "    foo =  ",
+			Name:   "foo",
+			Value:  "",
+			Error:  false,
+		},
+		{
+			Source: " \t\t   foo  \t=\t ",
+			Name:   "foo",
+			Value:  "",
+			Error:  false,
+		},
+		/////
+		{
+			Source: "foo=bar",
+			Name:   "foo",
+			Value:  "bar",
+			Error:  false,
+		},
+		{
+			Source: "    foo =  bar",
+			Name:   "foo",
+			Value:  "bar",
+			Error:  false,
+		},
+		{
+			Source: " \t\t   foo  \t=\t bar\t ",
+			Name:   "foo",
+			Value:  "bar",
+			Error:  false,
+		},
+		/////
+		{
+			Source: "foo=bar=baz",
+			Name:   "foo",
+			Value:  "bar=baz",
+			Error:  false,
+		},
+		{
+			Source: "    foo =  bar = baz",
+			Name:   "foo",
+			Value:  "bar = baz",
+			Error:  false,
+		},
+		{
+			Source: " \t\t   foo  \t=\t bar = baz\t ",
+			Name:   "foo",
+			Value:  "bar = baz",
+			Error:  false,
+		},
+	}
+
+	count.Tests(t, len(tests))
+
+	for i, test := range tests {
+		actName, actValue, actError := parseExportParameters(test.Source)
+
+		var failed bool
+		if (actError != nil) != test.Error {
+			t.Errorf("Unexpected error raised in test %d:", i)
+			failed = true
+		}
+
+		if actName != test.Name {
+			t.Errorf("Incorrect name returned in test %d:", i)
+			failed = true
+		}
+
+		value := "<nil>"
+		if actValue != nil {
+			value = *actValue
+		}
+		if value != test.Value {
+			t.Errorf("Incorrect value returned in test %d:", i)
+			failed = true
+		}
+
+		if failed {
+			t.Logf("  Test:      %d", i)
+			t.Logf("  Source:    '%s'", test.Source)
+			t.Logf("  exp name:  '%s'", test.Name)
+			t.Logf("  act name:  '%s'", actName)
+			t.Logf("  exp value: '%s'", test.Value)
+			t.Logf("  act value: '%s' (%v)", value, actValue)
+			t.Logf("  exp error: %v", test.Error)
+			t.Logf("  act error: '%v'", actError)
+		}
+	}
+}

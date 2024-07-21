@@ -54,16 +54,16 @@ Any block quoted by this method will be converted to the following valid JSON:
   Overview of how code blocks are parsed
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`%[]` Create Array](../parser/create-array.md):
+* [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`%{}` Create Map](../parser/create-object.md):
-  Quickly generate objects and maps
+* [`%{}` Object Builder](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):

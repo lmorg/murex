@@ -15,7 +15,9 @@ apply stricter error handling.
 
 ## Examples
 
-**Second command runs because the first command doesn't error:**
+### When true
+
+Second command runs because the first command doesn't error:
 
 ```
 » out one && out two
@@ -23,7 +25,9 @@ one
 two
 ```
 
-**Second command does not run because the first command produces an error:**
+When false
+
+Second command does not run because the first command produces an error:
 
 ```
 » err one && out two
@@ -49,8 +53,8 @@ try {
   Overview of the different schedulers (or 'run modes') in Murex
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

@@ -8,17 +8,22 @@
   Description: |-
     `alter` a value within a structured data-type.
 
-    The path separater is defined by the first character in the path. For example
+    The path separator is defined by the first character in the path. For example
     `/path/to/key`, `,path,to,key`, `|path|to|key` and `#path#to#key` are all valid
     however you should remember to quote or escape any special characters (tokens)
     used by the shell (such as pipe, `|`, and hash, `#`).
 
-    The *value* must always be supplied as JSON however 
+    The **value** must always be supplied as JSON.
+
+    > When working with expressions, you may find the **Assign or Merge** operator
+    > more ergonomic ({{link "read more" "assign-or-merge"}}) 
   Usage: |-
     ```
     <stdin> -> alter [ -m | --merge | -s | --sum ] /path value -> <stdout>
     ```
   Examples: |-
+    ### Altering an objects value
+
     ```
     » config -> [ shell ] -> [ prompt ] -> alter /Value moo
     {
@@ -28,6 +33,8 @@
         "Value": "moo"
     }
     ```
+
+    ### Inserting JSON
 
     `alter` also accepts JSON as a parameter for adding structured data:
 
@@ -44,7 +51,9 @@
     }
     ```
 
-    However it is also data type aware so if they key you're updating holds a string
+    ### Data-type aware
+
+    It is also data type aware so if they key you're updating holds a string
     (for example) then the JSON data a will be stored as a string:
 
     ```
@@ -149,3 +158,4 @@
   - runtime
   - cast
   - config
+  - assign-or-merge

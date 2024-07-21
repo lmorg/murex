@@ -15,7 +15,7 @@ import (
 type File struct {
 	mutex      sync.Mutex
 	bWritten   uint64
-	dependents int
+	dependents int32
 	file       *os.File
 }
 

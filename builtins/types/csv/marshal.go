@@ -5,6 +5,7 @@ import (
 	enc "encoding/csv"
 	"fmt"
 	"io"
+	"os"
 	"reflect"
 
 	"github.com/lmorg/murex/lang"
@@ -32,8 +33,6 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 				return buf.Bytes(), err
 			}
 		}
-		w.Flush()
-		return buf.Bytes(), w.Error()
 
 	case [][]string:
 		for i := range v {
@@ -42,8 +41,6 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 				return buf.Bytes(), err
 			}
 		}
-		w.Flush()
-		return buf.Bytes(), w.Error()
 
 	case []interface{}:
 		if len(v) == 0 {
@@ -58,21 +55,35 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 					return buf.Bytes(), err
 				}
 			}
-			w.Flush()
-			return buf.Bytes(), w.Error()
+			break
 		}
 
 		err = types.MapToTable(v, func(s []string) error { return w.Write(s) })
 		if err != nil {
 			return nil, err
 		}
-		w.Flush()
-		return buf.Bytes(), w.Error()
 
 	default:
 		err = fmt.Errorf("cannot marshal %T data into a `%s`", v, typeName)
 		return buf.Bytes(), err
 	}
+
+	w.Flush()
+	err = w.Error()
+	if err != nil {
+		return buf.Bytes(), err
+	}
+
+	var table []byte
+	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
+		table = []byte("\x1b_begin;table;{\"Format\":\"csv\"}\x1b\\")
+	}
+	table = append(table, buf.Bytes()...)
+	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
+		table = append(table, []byte("\x1b_end;table\x1b\\")...)
+	}
+
+	return table, nil
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {

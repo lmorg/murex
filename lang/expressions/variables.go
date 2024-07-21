@@ -50,6 +50,7 @@ func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, s
 				return nil, "", err
 			}
 			fork := tree.p.Fork(lang.F_CREATE_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
+			defer fork.Kill()
 			_, err := fork.Stdin.Write([]byte(value.(string)))
 			if err != nil {
 				return nil, "", err
@@ -85,9 +86,13 @@ func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 	variable.SetDataType(tree.p.Variables.GetDataType(nameS))
 	variable.Write([]byte(data))
 
-	variable.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+	err = variable.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
 		array = append(array, v)
 	})
+
+	if err != nil {
+		return nil, err
+	}
 
 	if len(array) == 0 && tree.StrictArrays() {
 		return nil, fmt.Errorf(errEmptyArray, nameS)
@@ -178,9 +183,12 @@ func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
 	block := createRangeBlock(name, key, flags)
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 	fork.Execute(block)
-	fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+	err := fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
 		array = append(array, v)
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	if len(array) == 0 && tree.StrictArrays() {
 		return nil, fmt.Errorf(errEmptyRange, string(name), string(key), string(flags))

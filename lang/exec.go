@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"reflect"
 	"strings"
 	"syscall"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -27,7 +26,7 @@ const (
 
 var (
 	envMurexPid = fmt.Sprintf("%s=%d", consts.EnvMurexPid, os.Getpid())
-	termOut     = reflect.TypeOf(new(term.Out)).String()
+	//termOut     = reflect.TypeOf(new(term.Out)).String()
 )
 
 // External executes an external process.
@@ -93,7 +92,19 @@ func execute(p *Process) error {
 		cmd.Stdin = os.Stdin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
-	cmd.Env = append(cmd.Env, p.Exec.Env...)
+
+	if len(p.Exec.Env) > 0 {
+		for i := range p.Exec.Env {
+			if !strings.Contains(p.Exec.Env[i], "=") {
+				v, err := p.Variables.GetString(p.Exec.Env[i])
+				if err != nil {
+					continue
+				}
+				p.Exec.Env[i] += "=" + v
+			}
+		}
+		cmd.Env = append(cmd.Env, p.Exec.Env...)
+	}
 
 	// ***
 	// Define STANDARD OUT (fd 1)
@@ -126,7 +137,6 @@ func execute(p *Process) error {
 	//
 	//     config set proc force-tty true
 	if p.Stderr.IsTTY() && forceTTY(p) {
-		//cmd.Stderr = tty.Stderr
 		cmd.Stderr = p.Stderr.File()
 	} else {
 		cmd.Stderr = p.Stderr
@@ -152,6 +162,7 @@ func execute(p *Process) error {
 	// Start process
 	// ***
 
+	p.State.Set(state.Executing)
 	if err := cmd.Start(); err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
 		//mxdtW.Close()

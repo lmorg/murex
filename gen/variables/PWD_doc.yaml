@@ -9,7 +9,6 @@
 
     It is updated via `cd` however you can overwrite its value manually via `export`.
   Examples:
-
   Synonyms:
   - pwd
   - PWD

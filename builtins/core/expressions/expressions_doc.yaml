@@ -6,11 +6,27 @@
     Expressions: mathematical, string comparisons, logical operators
   Description: |-
     `expr` is the underlying builtin which handles all expression parsing and
-    evaluation in Murex. Though typically that would happen transparently without
-    you having to explicit call `expr`.
+    evaluation in Murex.
+    
+    Idiomatic Murex would be to write expressions without explicitly calling the
+    underlying builtin:
 
-    For a full list of operators supported exclusively in expression, see the
-    last section in this document.
+    ```
+    # idiomatic expressions
+    1 + 2
+
+    # non-idiotmatic expressions
+    expr 1 + 2
+    ```
+
+    Though you can invoke them via `expr` if needed, please bare in mind that
+    expressions have special parsing rules to make them more ergonomic. So if you
+    write an expression as a command (ie prefixed with `expr`) then it will be
+    parsed as a statement. This means more complex expressions might parse in
+    unexpected ways and thus fail. You can still raise a bug if that does happens.
+
+    A full list of operators is available in the {{link "Operators And Tokens" "operators-and-tokens"}}
+    document.
   Usage: |-
     ```
     expression -> <stdout>
@@ -20,36 +36,40 @@
     expr expression -> <stdout>
     ```
   Examples: |-
-    **Expressions:**
+    ### Basic Expressions
 
     ```
     » 3 * (3 + 1)
     12
     ```
 
-    **Statements with inlined expressions:**
+    ### Statements with inlined expressions
 
-    Any parameter surrounded by parenthesis is first evaluated as an expression,
-    then as a string.
+    Any parameter surrounded by parenthesis is first evaluated as an {{link "expression" "expr-inlined"}},
+    then as a {{link "string" "brace-quote-func"}}".
 
     ```
     » out (3 * 2)
     6
     ```
 
-    **Expressions with inlined statements:**
+    ### Functions
 
-    Functions can be inlined as a statement using `function(parameters...)` syntax.
+    Expressions also support running commands as {{link "C-style functions" "c-style-fun"}}, for example:
 
     ```
+    » 5 * out(5)
+    25
+
     » datetime(--in {now} --out {unix}) / 60
     28339115.783333335
+
+    » $file_contents = open(example_file.txt)
     ```
 
-    Please note that currently the only functions supported are ones who's names
-    are comprised entirely of alpha, numeric, underscore and/or exclamation marks.
+    {{ include "gen/includes/c-style-valid-fun.inc.md" }}
 
-    **JSON array:**
+    ### Arrays
 
     ```
     » %[apples oranges grapes]
@@ -59,6 +79,25 @@
         "grapes"
     ]
     ```
+
+    ({{link "read more" "create-array"}})
+
+    ### Objects
+
+    Sometimes known as dictionaries or maps:
+    
+    ```
+    » %{ Age: { Tom: 20, Dick: 30, Sally: 40 } }
+    {
+        "Age": {
+            "Dick": 30,
+            "Sally": 40,
+            "Tom": 20
+        }
+    }
+    ```
+
+    ({{link "read more" "create-object"}})
   Detail: |-
     ### Order of Operations
 
@@ -87,3 +126,8 @@
     - null-coalescing
     - create-array
     - create-object
+    - open
+    - out
+    - strict-types
+    - expr-inlined
+    - assign-or-merge

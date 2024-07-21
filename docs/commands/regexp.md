@@ -32,7 +32,7 @@ characters because those are inside the parenthesis.
 
 ### Match elements
 
-Elements containing
+### Elements containing
 
 ```
 » ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
@@ -43,7 +43,7 @@ Elements containing
 ]
 ```
 
-Elements excluding
+#### Elements excluding
 
 ```
 » ja [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'

@@ -5,14 +5,15 @@ import (
 	"sort"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/state"
 )
 
 // FID (Function ID) table: ie table of murex `Process` processes
 type funcID struct {
 	list   map[uint32]*Process
-	init   map[uint32]*Process
 	mutex  sync.Mutex
 	latest uint32
 }
@@ -20,7 +21,6 @@ type funcID struct {
 // newFuncID creates new FID (Function ID) table of `Process`es
 func newFuncID() *funcID {
 	f := new(funcID)
-	f.init = make(map[uint32]*Process)
 	f.list = make(map[uint32]*Process)
 	return f
 }
@@ -30,32 +30,14 @@ func (f *funcID) Register(p *Process) (fid uint32) {
 	fid = atomic.AddUint32(&f.latest, 1)
 
 	f.mutex.Lock()
-	f.init[fid] = p
-	//f.mutex.Unlock()
 
+	f.list[fid] = p
 	p.Id = fid
 	p.Variables.process = p
+
 	f.mutex.Unlock()
 
 	return
-}
-
-// Executing moves the function from init to list
-func (f *funcID) Executing(fid uint32) error {
-
-	f.mutex.Lock()
-	p := f.init[fid]
-
-	if p == nil {
-		f.mutex.Unlock()
-		return errors.New("function ID not in init map")
-	}
-
-	delete(f.init, fid)
-	f.list[fid] = p
-	f.mutex.Unlock()
-
-	return nil
 }
 
 // Deregister removes function from the FID table
@@ -77,17 +59,10 @@ func (f *funcID) Proc(fid uint32) (*Process, error) {
 
 	f.mutex.Lock()
 	p := f.list[fid]
-
-	if p != nil {
-		f.mutex.Unlock()
-		return p, nil
-	}
-
-	p = f.init[fid]
 	f.mutex.Unlock()
 
 	if p != nil {
-		return nil, errors.New("function hasn't started yet")
+		return p, nil
 	}
 
 	return nil, errors.New("function ID does not exist")
@@ -118,4 +93,29 @@ func (f *funcID) ListAll() fidList {
 
 	sort.Sort(procs)
 	return procs
+}
+
+// Dump returns a list of FIDs in a format for `runtime` builtin
+func (f *funcID) Dump() any {
+	fidList := f.ListAll()
+
+	dump := make([]any, len(fidList))
+
+	for i, p := range fidList {
+		dump[i] = p.Dump()
+	}
+
+	return dump
+}
+
+func (f *funcID) WaitOnChildState(parent *Process, state state.State) {
+	for {
+		time.Sleep(100 * time.Millisecond)
+		fids := f.ListAll()
+		for _, f := range fids {
+			if f.Parent.Id == parent.Id && f.State.Get() >= state.Get() {
+				return
+			}
+		}
+	}
 }

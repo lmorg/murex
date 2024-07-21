@@ -1,8 +1,11 @@
 # Murex: A Smarter Shell
 
-[![Version](version.svg?undef)](DOWNLOAD.md)
+[![Version](version.svg?v=undef)](DOWNLOAD.md)
 [![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml)
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
+[![Official Website](images/website-badge.svg?v=undef)](https://murex.rocks)
+
+<img src="https://murex.rocks/murex-logo-shell.svg?v=undef" class="no-border">
 
 Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
 features and an enhanced UX.
@@ -22,29 +25,57 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
+## Language Guides
+
+* Read the [language tour](/docs/tour.md) to get started.
+
+* The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a
+great cheatsheet for those wishing to skip the tutorials and jump straight in.
+This guide includes comparisons with Bash.
+
+* The [Interactive Shell](/docs/user-guide/interactive-shell.md)
+guide walks you through using Murex as a command line as opposed to a scripting
+language.
+
 ## Examples
 
-**JSON wrangling:**
+### Smart data:
 
-<img src="images/murex-open-foreach.png?v=undef" class="readme">
+<img src="images/screenshot-open-foreach.png?v=undef" class="readme">
 
-**Inline spellchecking:**
+<img src="images/screenshot-ps-select.png?v=undef" class="readme">
 
-<img src="images/murex-spellchecker.png?v=undef" class="readme">
+### Inline spellchecking:
 
-**Autocomplete descriptions, process IDs accompanied by process names:**
+<img src="images/screenshot-spellchecker.png?v=undef" class="readme">
 
-<img src="images/murex-kill-autocomplete.png?v=undef" class="readme">
+### Autocomplete:
 
-More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
+<img src="images/screenshot-kill-autocomplete.png?v=undef" class="readme">
+
+<img src="images/screenshot-autocomplete-git.png?v=undef" class="readme">
+
+<img src="images/screenshot-history.png?v=undef" class="readme">
+
+### Preview screen:
+
+<img src="images/screenshot-preview-man-page.png?v=undef" class="readme">
+
+<img src="images/screenshot-preview-command-line.png?v=undef" class="readme">
+
+### Useful error messages:
+
+<img src="images/screenshot-error-messages.png?v=undef" class="readme">
+
+<img src="images/screenshot-paste-safety.png?v=undef" class="readme">
+
+### Plus More!
+
+Visit the [official website](https://murex.rocks).
 
 ## Install instructions
 
-See [INSTALL](https://murex.rocks/INSTALL.html) for details.
-
-## Language Tour
-
-Read the [language tour](https://murex.rocks/tour.html) to get started.
+See [INSTALL](INSTALL.md) for details.
 
 ## Discuss Murex
 
@@ -56,7 +87,7 @@ Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
 usability. [Read more](compatibility.md)
 
-## Known bugs / TODO
+## Issue Tracking
 
 Murex is considered stable, however if you do run into problems then please
 raise them on the project's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)

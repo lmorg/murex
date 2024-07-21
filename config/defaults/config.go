@@ -5,11 +5,13 @@ import (
 	"runtime"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
@@ -123,10 +125,21 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
 		Description: "Run the command hint summary pre-cache",
-		Default:     "on-tab",
+		Default:     "on-start",
 		Options:     []string{"on-start", "on-tab", "false"},
 		DataType:    types.String,
 		Global:      true,
+	})
+
+	c.Define("shell", "cache.db-enabled", config.Properties{
+		Description: "Enable or disable the persistent cache.db. Typically located in: " + profile.ModulePath(),
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  cache.ReadStatus,
+			Write: cache.WriteStatus,
+		},
 	})
 
 	var defaultTitleBarFunc string
@@ -162,6 +175,17 @@ func Config(c *config.Config, isInteractive bool) {
 		GoFunc: config.GoFuncProperties{
 			Read:  lang.ReadMimes,
 			Write: lang.WriteMimes,
+		},
+	})
+
+	c.Define("shell", "default-mimes", config.Properties{
+		Description: "Default MIMEs are a lookup of what MIMEs should be automatically used (for example with `get` and `post`) when the source data is a Murex data type (eg STDIN)",
+		Default:     lang.GetDefaultMimes(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadDefaultMimes,
+			Write: lang.WriteDefaultMimes,
 		},
 	})
 

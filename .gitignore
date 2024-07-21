@@ -24,6 +24,7 @@ wasm_exec.js
 /builtins/imports_build
 
 # test working directories
+/deleteme
 /test/tmp
 *.test
 *.prof

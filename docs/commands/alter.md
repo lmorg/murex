@@ -6,12 +6,15 @@
 
 `alter` a value within a structured data-type.
 
-The path separater is defined by the first character in the path. For example
+The path separator is defined by the first character in the path. For example
 `/path/to/key`, `,path,to,key`, `|path|to|key` and `#path#to#key` are all valid
 however you should remember to quote or escape any special characters (tokens)
 used by the shell (such as pipe, `|`, and hash, `#`).
 
-The *value* must always be supplied as JSON however 
+The **value** must always be supplied as JSON.
+
+> When working with expressions, you may find the **Assign or Merge** operator
+> more ergonomic ([read more](/docs/parser/assign-or-merge.md)) 
 
 ## Usage
 
@@ -20,6 +23,8 @@ The *value* must always be supplied as JSON however
 ```
 
 ## Examples
+
+### Altering an objects value
 
 ```
 » config -> [ shell ] -> [ prompt ] -> alter /Value moo
@@ -30,6 +35,8 @@ The *value* must always be supplied as JSON however
     "Value": "moo"
 }
 ```
+
+### Inserting JSON
 
 `alter` also accepts JSON as a parameter for adding structured data:
 
@@ -46,7 +53,9 @@ config -> [ shell ] -> [ prompt ] -> alter /Example { "Foo": "Bar" }
 }
 ```
 
-However it is also data type aware so if they key you're updating holds a string
+### Data-type aware
+
+It is also data type aware so if they key you're updating holds a string
 (for example) then the JSON data a will be stored as a string:
 
 ```
@@ -152,6 +161,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ## See Also
 
+* [`<~` Assign Or Merge](../parser/assign-or-merge.md):
+  Merges the right hand value to a variable on the left hand side (expression)
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
@@ -159,7 +170,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):

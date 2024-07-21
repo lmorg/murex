@@ -2,8 +2,10 @@ package shell
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/mattn/go-runewidth"
 )
 
 const binaryFile = "file contains binary data"
@@ -12,49 +14,85 @@ func errBinaryFile(b byte) error {
 	return fmt.Errorf("%s: %d", binaryFile, b)
 }
 
+func PreviewParseAppendEvent(previous []string, p []byte, size *readline.PreviewSizeT, title string) ([]string, error) {
+	heading := append(
+		previous,
+		strings.Repeat("─", size.Width),
+		fmt.Sprintf("Event `%s`:", title),
+		strings.Repeat("╶", size.Width),
+	)
+	if len(previous) == 0 {
+		heading = heading[1:]
+	}
+
+	lines, _, err := previewParse(p, size)
+
+	return append(heading, lines...), err
+}
+
 func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	var (
-		lines []string
-		line  []byte
-		b     byte
-		i     = len(p)
-		last  byte
+		lines    []string
+		line     []rune
+		width    int
+		tabWidth = 4
+		preview  = []rune(string(p))
+		r        rune
+		rw       int
 	)
 
-	for j := 0; j <= i; j++ {
-		if j < i {
-			b = p[j]
-		} else {
-			b = ' '
-		}
+	for i := 0; i < len(preview); i++ {
+		r = preview[i]
 
-		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
-			return nil, 0, errBinaryFile(p[j])
-		}
+		switch r {
+		case 8:
+			// handle backspace gracefully
+			if len(line) > 0 {
+				line = line[:len(line)-1]
+				width -= 1
+			}
+			continue
 
-		switch b {
 		case '\r':
-			last = b
 			continue
 		case '\n':
-			if (len(line) == 0 && len(lines) > 0 && len(lines[len(lines)-1]) == size.Width) ||
-				last == '\r' {
-				last = b
-				continue
-			}
 			lines = append(lines, string(line))
-			line = []byte{}
+			line = []rune{}
+			width = 0
+
 		case '\t':
-			line = append(line, ' ', ' ', ' ', ' ')
+			line = append(line, []rune(strings.Repeat(" ", tabWidth))...)
+			width += (tabWidth - 1)
+
 		default:
-			line = append(line, b)
+			if r < ' ' && r != '\t' && r != '\r' && r != '\n' {
+				return nil, 0, errBinaryFile(byte(r))
+			}
+
+			line = append(line, r)
 		}
 
-		if len(line) >= size.Width {
-			lines = append(lines, string(line))
-			line = []byte{}
+		rw = runewidth.RuneWidth(r)
+		width += rw
+		if width >= size.Width {
+			if rw > 1 {
+				line = line[:len(line)-1]
+				lines = append(lines, string(line))
+				line = []rune{r}
+				width = rw
+			} else {
+				lines = append(lines, string(line))
+				line = []rune{}
+				width = 0
+			}
+
+			if i < len(preview)-1 && preview[i+1] == '\r' {
+				i++
+			}
+			if i < len(preview)-1 && preview[i+1] == '\n' {
+				i++
+			}
 		}
-		last = b
 	}
 
 	if len(line) > 0 {
@@ -62,4 +100,28 @@ func previewParse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) 
 	}
 
 	return lines, 0, nil
+}
+
+func previewPos(lines []string, item string) int {
+	for i := range lines {
+		switch {
+		case strings.HasPrefix(item, "--"):
+			switch {
+			case strings.Contains(lines[i], ", "+item):
+				// comma separated
+				return i
+			case strings.Contains(lines[i], "  "+item):
+				// whitespace separated
+				return i
+			default:
+				continue
+			}
+		default:
+			if strings.Contains(lines[i], "  "+item) {
+				return i
+			}
+		}
+	}
+
+	return 0
 }

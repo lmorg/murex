@@ -155,6 +155,10 @@ translate your Bash code into Murex code.
 
 ## Basic Syntax
 
+A table for all operators and tokens can be found on the {{link "operators and tokens cheatsheet" "operators-and-tokens"}}.
+However if you are new to the shell, we recommend that you read this document
+first.
+
 ### Quoting Strings
 
 > It is important to note that all strings in expressions are quoted whereas
@@ -247,7 +251,7 @@ using the `$ENV` namespace prefix.
 In general, Murex will try to infer the data type of a variable or pipe. It
 can do this by checking the `Content-Type` HTTP header, the file name
 extension or just looking at how that data was constructed (when defined via
-expressions). However sometimes you may need to annotate your types. ({{ linkbm "read more" "set" "type-annotations" }})
+expressions). However sometimes you may need to annotate your types. ({{ bookmark "read more" "set" "type-annotations" }})
 
 ### Scalars
 
@@ -261,7 +265,7 @@ file names, or other such problems due to developers forgetting to quote
 variables. For example:
 ```
 » file = "file name.txt"
-» touch $file # this would normally need to be quoted
+» touch $file   # this would normally need to be quoted
 » ls
 'file name.txt'
 ```
@@ -273,7 +277,7 @@ additional variable construct for arrays. These are `@` prefixed:
 » files = %[file1.txt, file2.txt, file3.txt]
 » touch @files
 » ls
-file1.txt  file2.txt
+file1.txt  file2.txt  file3.txt
 ```
 
 ## Piping and Redirection

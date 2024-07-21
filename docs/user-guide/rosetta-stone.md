@@ -37,7 +37,7 @@ if you want to learn more about shell scripting in Murex.
 | [Write to STDERR](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
 | Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`|
 | Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`|
-| [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash \| grep Bash` | `echo "Hello Murex \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
+| [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash" \| grep Bash` | `echo "Hello Murex" \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
 | [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
 | Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
 | Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
@@ -141,8 +141,6 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
-  Expand values as an array
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
@@ -152,7 +150,9 @@ if you want to learn more about shell scripting in Murex.
 * [`>>` Append File](../parser/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects STDOUT to a file and append its contents
+  Redirects stdout to a file and append its contents
+* [`@Array` Sigil](../parser/array.md):
+  Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[[ Element ]]`](../parser/element.md):
