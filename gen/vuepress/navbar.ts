@@ -20,12 +20,12 @@ export default navbar([
           { text: "Variables", link: "variables/", icon: "dollar" },
           { text: "Data Types", link: "types/", icon: "link" },
           { text: "Events", link: "events/", icon: "bolt" },
+          "/blog/"
         ],
       },
     ],
   },
   "/changelog/",
-  "/blog/",
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
   "/contributing",
 ]);
