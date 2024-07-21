@@ -7,12 +7,12 @@ tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
 head:
   - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
 actions:
-  - text: "🛟 Language Tour"
-    icon: "plane-departure"
+  - text: "🛫 Language Tour"
+    # icon: "plane-departure"
     link: tour/
     type: primary
   - text: "🪨 Rosetta Stone"
-    icon: table
+    # icon: table
     link: user-guide/rosetta-stone/
   - text: "🐚 Interactive Shell"
     link: user-guide/interactive-shell/

@@ -11,7 +11,7 @@ export default sidebar({
         "/changelog/",
         { text: "Language Tour", link: "tour.html", icon: "plane-departure" }, 
         { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
-        { text: "Operators And Tokens", link: "user-guide/operators-and-tokens.html", icon: "hash" },
+        { text: "Operators And Tokens", link: "user-guide/operators-and-tokens.html", icon: "hashtag" },
         "/contributing",
         "/blog/",
       ],
@@ -33,7 +33,7 @@ export default sidebar({
     },
     {
       text: "Operators And Tokens",
-      icon: "equals",
+      icon: "hashtag",
       prefix: "parser/",
       children: "structure",
       collapsible: true,

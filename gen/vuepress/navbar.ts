@@ -15,7 +15,7 @@ export default navbar([
           { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
           { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
-          { text: "Operators And Tokens", link: "parser/", icon: "equals" },
+          { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },
           { text: "Builtins", link: "commands/", icon: "terminal" },
           { text: "Variables", link: "variables/", icon: "dollar" },
           { text: "Data Types", link: "types/", icon: "table" },
