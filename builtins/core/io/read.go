@@ -24,6 +24,8 @@ func cmdRead(p *lang.Process) error {
 }
 
 func cmdTread(p *lang.Process) error {
+	lang.DeprecatedBuiltin(p)
+
 	dt, err := p.Parameters.String(0)
 	if err != nil {
 		return err
