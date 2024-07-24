@@ -3,7 +3,7 @@
     Compatibility Commitment
   CategoryID: Murex
   Summary: >-
-    Hack confidence in our backwards compatibility 
+    Murex is committed to excellent backwards compatibility
   Description: |-
     {{ include "gen/root/compatibility.inc.md" }}
   Synonyms:

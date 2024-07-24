@@ -126,7 +126,7 @@ community.
 ## See Also
 
 * [Compatibility Commitment](/compatibility.md):
-  Hack confidence in our backwards compatibility 
+  Murex is committed to excellent backwards compatibility
 
 <hr/>
 
