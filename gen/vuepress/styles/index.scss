@@ -108,7 +108,7 @@ blockquote {
       border-left-width:5px;
       padding-left:10px;
       //background-color: rgba(240,200,200,10%) !important;
-      background-color: rgba(red(p.$quote-color), green(p.$quote-color), blue(p.$quote-color), 20%) !important;
+      background-color: rgba(red(p.$quote-color), green(p.$quote-color), blue(p.$quote-color), 5%) !important;
     }
     div[class*=language-].line-numbers-mode .line-number {
       line-height:unset!important
@@ -120,7 +120,7 @@ blockquote {
       border-color: p.$code-color;
       border-radius: 0px!important;
       //background-color: rgba(200,240,200,10%) !important;
-      background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 20%) !important;
+      background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
     .vp-code-tab-nav {
       padding-bottom:20px
