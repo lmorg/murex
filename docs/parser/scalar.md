@@ -102,6 +102,8 @@ Hello World!
 
 ## Detail
 
+### Infixing
+
 Strings and sub-shells can be expanded inside double quotes, brace quotes as
 well as used as barewords. But they cannot be expanded inside single quotes.
 

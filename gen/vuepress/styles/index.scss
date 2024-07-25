@@ -85,11 +85,18 @@ figcaption code {
     display: block;
 }
 
+th {
+    /*background-color: #268bd2;*/
+    //background-color: rgba(38,139,210, 20%);
+    background-color: rgba(red($theme-color), blue($theme-color), green($theme-color), 20%);
+}
+
 // custom styles
 
 blockquote {
     border-color:#850!important;
     color:#850;
+
 }
   
 @media (min-width: 420px) {

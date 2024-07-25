@@ -96,6 +96,7 @@ Hello World!
 
 ## Detail
 
+### Infixing
 Since arrays are expanded over multiple parameters, you cannot expand an array
 inside quoted strings like you can with a string variable:
 
