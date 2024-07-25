@@ -88,9 +88,7 @@ figcaption code {
 }
 
 th {
-    /*background-color: #268bd2;*/
-    //background-color: rgba(38,139,210, 20%);
-    background-color: rgba(red(p.$theme-color), blue(p.$theme-color), green(p.$theme-color), 20%);
+    background-color: rgba(red(p.$theme-color), green(p.$theme-color), blue(p.$theme-color), 20%);
 }
 
 // custom styles
@@ -110,7 +108,7 @@ blockquote {
         border-color: #885500 !important;
         color: #885500;
         border-width: 2px;
-        border-left-style: solid;
+        border-style: solid;
         border-radius: 5px;
         border-left-width: 10px;
         padding-left: 10px;
@@ -126,12 +124,10 @@ blockquote {
     }
 
     .line-numbers-mode  {
-        border-width: 2px;
+        border-left-width: 2px;
         border-style: solid;
         border-color: #0f600f;
     }
-
-
 
     // vuepress tabbed code
 
