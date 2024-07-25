@@ -1,3 +1,5 @@
+@use "palette" as p;
+
 h1, h2, h3, h4 {
     font-family: 'Jura', sans-serif;
     font-weight: bold;
@@ -88,7 +90,7 @@ figcaption code {
 th {
     /*background-color: #268bd2;*/
     //background-color: rgba(38,139,210, 20%);
-    background-color: rgba(red($theme-color), blue($theme-color), green($theme-color), 20%);
+    background-color: rgba(red(p.$theme-color), blue(p.$theme-color), green(p.$theme-color), 20%);
 }
 
 // custom styles
@@ -96,7 +98,6 @@ th {
 blockquote {
     border-color:#850!important;
     color:#850;
-
 }
   
 @media (min-width: 420px) {
@@ -109,7 +110,7 @@ blockquote {
         border-color: #885500 !important;
         color: #885500;
         border-width: 2px;
-        border-style: solid;
+        border-left-style: solid;
         border-radius: 5px;
         border-left-width: 10px;
         padding-left: 10px;
