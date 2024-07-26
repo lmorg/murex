@@ -4,9 +4,6 @@ on:
   push:
     paths:
       - "**/*.go"
-  pull_request:
-    paths:
-      - "**/*.go"
 
   workflow_dispatch:
 

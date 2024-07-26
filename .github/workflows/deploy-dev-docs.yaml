@@ -15,6 +15,7 @@ on:
       - "**/*.jpeg"
       - "**/*.gif"
       - "**/*.svg"
+      - "package.json"
   
   workflow_dispatch:
 
