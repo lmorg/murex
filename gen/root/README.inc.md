@@ -31,7 +31,7 @@ highlights:
         details: |-
           Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
           <br/><br/>
-          <b>Data types can be explicitly cast and reformatted, but also inferred if preferred.</b>
+          <strong>Data types can be explicitly cast and reformatted, but also inferred if preferred.</strong>
         link: types/
 
       - title: Expressions
@@ -39,7 +39,7 @@ highlights:
         details: |-
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
           <br/><br/>
-          <b>Never worry about file names with weird characters, nor running equations in "bc" again.</b>
+          <strong>Never worry about file names with weird characters, nor running equations in "bc" again.</strong>
         link: parser/
 
       - title: Smartly Interactive
@@ -47,7 +47,7 @@ highlights:
         details: |-
           Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
           <br/><br/>
-          <b>Navigating the command line is faster, more intuitive and efficient than ever before.</b>
+          <strong>Navigating the command line is faster, more intuitive and efficient than ever before.</strong>
         link: user-guide/interactive-shell
 
       - title: Easily Extended
@@ -55,7 +55,7 @@ highlights:
         details: |-
           Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
           <br/><br/>
-          <b>Configure once, use everywhere.</b>
+          <strong>Configure once, use everywhere.</strong>
         link: user-guide/modules
 
 copyright: false
