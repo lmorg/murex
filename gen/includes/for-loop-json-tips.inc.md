@@ -115,7 +115,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 ...
 ```
 
-#### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
+#### `foreach` will automatically cast it's output as `jsonl` _if_ it's stdin type is `json`
 
 ```
 » ja [Tom,Dick,Sally] -> foreach name { out Hello $name }

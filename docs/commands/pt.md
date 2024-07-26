@@ -5,7 +5,7 @@
 ## Description
 
 Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
-directly to the OS's STDERR so to preserved the pipeline.
+directly to the OS's stderr so to preserved the pipeline.
 
 ## Usage
 

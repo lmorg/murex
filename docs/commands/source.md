@@ -10,7 +10,7 @@ Python, Perl, etc).
 
 ## Usage
 
-### Execute source from STDIN
+### Execute source from stdin
 
 ```
 <stdin> -> source

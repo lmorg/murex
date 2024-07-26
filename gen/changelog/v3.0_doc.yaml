@@ -26,7 +26,7 @@
 
     * Support for multiline comments: `/# comment #/`. It is unfortunate this differs from C-style comments (`/* comment */`) but this has to be the case because `/*` is ambiguous for barewords in shells: is it a path and glob or a comment? Where as `/#` isn't a common term due to `#` denoting a comment
 
-    * If any processes pass `null` as a data type across the pipe, it will be ignored. This solves the problem where functions that don't write to STDOUT would still define the data type
+    * If any processes pass `null` as a data type across the pipe, it will be ignored. This solves the problem where functions that don't write to stdout would still define the data type
 
     * Config option **auto-glob** renamed to **expand-glob**, and now enabled by default
     
@@ -48,7 +48,7 @@
     
     * `^` autocompletion added
 
-    * `getfile` writes to disk if STDOUT is a TTY
+    * `getfile` writes to disk if stdout is a TTY
 
     * **mkarray** (eg `ja`) now writes an integer array if range is integers. eg `ja: [1..3]`. This change wouldn't affect `a` since that outputs as list of strings (for streaming performance reasons) rather than a data type aware document
 

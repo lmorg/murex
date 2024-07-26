@@ -184,7 +184,7 @@
   Detail: |-
     `catch` can be used with a bang prefix to check for a lack of errors.
 
-    `catch` forwards on the STDIN and exit number of the calling function.
+    `catch` forwards on the stdin and exit number of the calling function.
   Synonyms:
     - catch
     - "!catch"
@@ -258,12 +258,12 @@
     #### tryerr
 
     Checks last command in the pipeline for errors (still allowing commands to run
-    in parallel) plus also checks if STDERR contains excessive output.
+    in parallel) plus also checks if stderr contains excessive output.
 
     #### trypipeerr
 
     Checks every command in the pipeline before executing the next (blocking
-    commands from running in parallel) plus also checks if STDERR contains
+    commands from running in parallel) plus also checks if stderr contains
     excessive output.
 
     ### 2nd parameter

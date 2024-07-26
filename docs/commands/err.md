@@ -1,10 +1,10 @@
 # `err`
 
-> Print a line to the STDERR
+> Print a line to the stderr
 
 ## Description
 
-Write parameters to STDERR with a trailing new line character.
+Write parameters to stderr with a trailing new line character.
 
 ## Usage
 
@@ -27,11 +27,11 @@ Hello, World!
 err { "Code": 404, "Message": "Page not found" } ? cast json
 ```
 
-However passing structured data-types along the STDERR stream is not recommended
+However passing structured data-types along the stderr stream is not recommended
 as any other function within your code might also pass error messages along the
 same stream and thus taint your structured data. This is why Murex does not
-supply a `tout` function for STDERR. The recommended solution for passing
-messages like these which you want separate from your STDOUT stream is to create
+supply a `tout` function for stderr. The recommended solution for passing
+messages like these which you want separate from your stdout stream is to create
 a new Murex named pipe.
 
 ```
@@ -54,7 +54,7 @@ a new Murex named pipe.
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [`(brace quote)`](../parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
+  Write a string to the stdout without new line (deprecated)
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`>>` Append File](../parser/file-append.md):
@@ -64,7 +64,7 @@ a new Murex named pipe.
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`pretty`](../commands/pretty.md):
@@ -72,7 +72,7 @@ a new Murex named pipe.
 * [`pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 * [`|>` Truncate File](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 

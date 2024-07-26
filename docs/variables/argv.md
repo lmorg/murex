@@ -86,7 +86,7 @@ deprecated and may be removed from future releases.
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 * [`set`](../commands/set.md):

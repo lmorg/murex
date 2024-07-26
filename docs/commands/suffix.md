@@ -4,7 +4,7 @@
 
 ## Description
 
-Takes a list from STDIN and returns that same list with each element suffixed.
+Takes a list from stdin and returns that same list with each element suffixed.
 
 ## Usage
 

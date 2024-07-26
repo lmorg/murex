@@ -5,7 +5,7 @@
   Summary: >-
     Reformat one data-type into another data-type
   Description: |-
-    `format` takes a data from STDIN and returns that data reformated in another
+    `format` takes a data from stdin and returns that data reformated in another
     specified data-type
   Usage: |-
     ```

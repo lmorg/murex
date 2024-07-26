@@ -3,7 +3,7 @@
      `->` Arrow Pipe
   CategoryID: parser
   Summary: >-
-    Pipes stdout from the left hand command to STDIN of the right hand command
+    Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
     This token behaves much like pipe would in Bash or similar shells. It passes
     stdout along the pipeline while merging stderr stream with the parents stderr
@@ -61,7 +61,7 @@
     `?` stderr Pipe
   CategoryID: parser
   Summary: >-
-    Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+    Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
   Description: |-
     This token swaps the stdout and stderr streams of the left hand command.
 
@@ -111,7 +111,7 @@
     `=>` Generic Pipe
   CategoryID: parser
   Summary: >-
-    Pipes a reformatted stdout stream from the left hand command to STDIN of the
+    Pipes a reformatted stdout stream from the left hand command to stdin of the
     right hand command
   Description: |-
     This token behaves much like the `|` pipe would except it injects `format
@@ -168,7 +168,7 @@
     `|` POSIX Pipe
   CategoryID: parser
   Summary: >-
-    Pipes stdout from the left hand command to STDIN of the right hand command
+    Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
     This token behaves much like pipe would in Bash or similar shells. It passes
     stdout along the pipeline while merging stderr stream with the parents stderr

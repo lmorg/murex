@@ -7,7 +7,7 @@
   Description: |-
     When in the **normal** run mode (see "schedulers" link below) this will only
     run the command on the right hand side if the command on the left hand side
-    does not error. Neither STDOUT nor STDERR are piped.
+    does not error. Neither stdout nor stderr are piped.
 
     This has no effect in `try` nor `trypipe` run modes because they automatically
     apply stricter error handling.
@@ -61,7 +61,7 @@
   Description: |-
     When in the **normal** run mode (see "schedulers" link below) this will only
     run the command on the right hand side if the command on the left hand side
-    does not error. Neither STDOUT nor STDERR are piped.
+    does not error. Neither stdout nor stderr are piped.
 
     This has no effect in `try` nor `trypipe` run modes because they automatically
     apply stricter error handling. See detail below.

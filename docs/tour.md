@@ -113,7 +113,7 @@ This allow expressions and statements to be used interchangeably in a pipeline:
 
 ### Functions and Methods
 
-A **function** is command that doesn't take data from STDIN whereas a **method**
+A **function** is command that doesn't take data from stdin whereas a **method**
 is any command that does.
 ```
 echo "Hello Murex" | grep "Murex"
@@ -122,7 +122,7 @@ echo "Hello Murex" | grep "Murex"
 
 In practical terms, functions and methods are executed in exactly the same way
 however some builtins might behave differently depending on whether values are
-passed via STDIN or as parameters. Thus you will often find references to
+passed via stdin or as parameters. Thus you will often find references to
 functions and methods, and sometimes for the same command, within these
 documents.
 

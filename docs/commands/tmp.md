@@ -4,8 +4,8 @@
 
 ## Description
 
-`tmp` creates a temporary file, writes the contents of STDIN to it then returns
-its filename to STDOUT.
+`tmp` creates a temporary file, writes the contents of stdin to it then returns
+its filename to stdout.
 
 You can optionally specify a file extension, for example if the temporary file
 needs to be read by `open` or an editor which uses extensions to define syntax

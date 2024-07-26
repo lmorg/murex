@@ -54,7 +54,7 @@ might follow in a future release of Murex.
 
 ## Parameters
 
-1. `stdio.Io`: stream to read from (eg STDIN)
+1. `stdio.Io`: stream to read from (eg stdin)
 2. `*config.Config`: scoped config (eg your data type might have configurable parsing rules)
 3. `func(key, value string, last bool)`: callback function: key and value of map plus boolean which is true if last element in row (eg reading from tables rather than key/values)
 

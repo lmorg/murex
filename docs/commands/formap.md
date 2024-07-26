@@ -74,7 +74,7 @@ With `--jmap` we can turn that structure into a new structure:
 ## Flags
 
 * `--jmap`
-    Write a `json` map to STDOUT instead of an array
+    Write a `json` map to stdout instead of an array
 
 ## Detail
 

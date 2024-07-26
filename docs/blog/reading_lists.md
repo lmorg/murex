@@ -154,7 +154,7 @@ Published: 22.04.2023 at 11:43
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

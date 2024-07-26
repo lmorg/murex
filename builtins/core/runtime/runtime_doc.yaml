@@ -127,7 +127,7 @@
     --builtins: >-
       Lists all builtin commands, compiled into Murex
     --methods: >-
-      Lists all commands with a defined STDOUT and STDIN data type. This is used to
+      Lists all commands with a defined stdout and stdin data type. This is used to
       generate smarter autocompletion suggestions with `->`
     --config: >-
       Lists all properties available to {{link "`config`" "config"}}
@@ -219,8 +219,8 @@
 
     If you require a stable API to script against then please use the respective
     command line tool. For example `fid-list` instead of `runtime --fids`. Some
-    tools will provide a human readable output when STDOUT is a TTY but output
-    a script parsable version when STDOUT is not a terminal.
+    tools will provide a human readable output when stdout is a TTY but output
+    a script parsable version when stdout is not a terminal.
 
     ```
     » fid-list

@@ -5,7 +5,7 @@
 ## Description
 
 `openagent` creates and destroys handler functions for writing data to the
-terminal when accessed via `open` and STDOUT is a TTY.
+terminal when accessed via `open` and stdout is a TTY.
 
 ## Usage
 

@@ -106,7 +106,7 @@ It is 23 o' clock
 * [`datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [`echo`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`open`](../commands/open.md):

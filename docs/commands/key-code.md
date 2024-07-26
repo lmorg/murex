@@ -64,7 +64,7 @@ event onKeyPress close=$key {
 * [`onKeyPress`](../events/onkeypress.md):
   Custom definable key bindings and macros
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

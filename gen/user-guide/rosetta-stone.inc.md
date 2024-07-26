@@ -29,14 +29,14 @@ if you want to learn more about shell scripting in Murex.
 ### Output & error streams
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Write to STDOUT](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)|
-| [Write to STDERR](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
+| [Write to stdout](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)|
+| [Write to stderr](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
 | Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`|
 | Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`|
 | [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash" \| grep Bash` | `echo "Hello Murex" \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
-| [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
-| Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
-| Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
+| [Redirect errors to stdout](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
+| Redirect output to stderr | `uname -a >&2` | `uname <err> -a` |
+| Ignore stderr output | `echo something 2>/dev/null` | `echo <!null> something` |
 | Output [ANSI colors and styles](../user-guide/ansi_doc.md) | `echo -e "\n\032[0m\033[1mComplete!\033[0m\n"` | `out "{GREEN}{BOLD}Complete!{RESET}"` |
 
 ### Quoting strings

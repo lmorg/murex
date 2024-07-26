@@ -164,7 +164,7 @@ arrays. For more details on these please refer to the documents for each format
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):

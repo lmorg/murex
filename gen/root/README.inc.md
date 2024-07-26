@@ -179,7 +179,7 @@ A non-exhaustive list features would include:
   completions already defined.
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
-  blocks, line numbers included in error messages, STDOUT highlighted in red
+  blocks, line numbers included in error messages, stdout highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
 ## Language Guides

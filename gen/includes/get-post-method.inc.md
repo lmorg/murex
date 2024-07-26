@@ -1,7 +1,7 @@
 Running `get`, `post` or `getfile` as a method will transmit the contents of
-STDIN as part of the body of the HTTP request. When run as a method the
+stdin as part of the body of the HTTP request. When run as a method the
 `Content-Type` HTTP header will automatically be set to the default MIME for
-the data type from STDIN.
+the data type from stdin.
 
 This is defined in `config`, pre-defined by sensible defaults from each murex
 data type. For example:

@@ -266,7 +266,7 @@ func readArrayWithTypeByMap[K comparable, V any](ctx context.Context, dataType s
 
 1. `func(interface{}) ([]byte, error)`: data type's marshaller
 2. `func([]byte, interface{}) error`: data type's unmarshaller
-3. `stdio.Io`: stream to read from (eg STDIN)
+3. `stdio.Io`: stream to read from (eg stdin)
 4. `func(interface{}, string)`: callback function to write each array element, with data type
 
 ## See Also

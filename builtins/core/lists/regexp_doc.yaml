@@ -5,7 +5,7 @@
   Summary: >-
     Match an exact value in an array
   Description: |-
-    `match` takes input from STDIN and returns any array items / lines which
+    `match` takes input from stdin and returns any array items / lines which
     contain an exact match of the parameters supplied.
 
     When multiple parameters are supplied they are concatenated into the search
@@ -59,7 +59,7 @@
   Flags:
   Detail: |-
     `match` is data-type aware so will work against lists or arrays of whichever
-    Murex data-type is passed to it via STDIN and return the output in the
+    Murex data-type is passed to it via stdin and return the output in the
     same data-type.
   Synonyms:
     - match
@@ -160,7 +160,7 @@
       (doesn't support bang prefix)
   Detail: |-
     `regexp` is data-type aware so will work against lists or arrays of whichever
-    Murex data-type is passed to it via STDIN and return the output in the
+    Murex data-type is passed to it via stdin and return the output in the
     same data-type.
   Synonyms:
     - regexp

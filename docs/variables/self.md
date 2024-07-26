@@ -5,7 +5,7 @@
 ## Description
 
 `SELF` returns information about the functional scope that the code is running
-inside. Such as whether that functions STDOUT is a TTY, running in the
+inside. Such as whether that functions stdout is a TTY, running in the
 background or a method.
 
 A 'scope' in Murex is a collection of code blocks to which variables and
@@ -77,7 +77,7 @@ scope.
 
 ### TTY (bool)
 
-A boolean value as to whether STDOUT is a TTY (ie are we printing to the
+A boolean value as to whether stdout is a TTY (ie are we printing to the
 terminal (TTY) or a pipe?)
 
 ## Other Reserved Variables

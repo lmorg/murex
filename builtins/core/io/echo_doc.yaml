@@ -3,9 +3,9 @@
     `out`
   CategoryID: commands
   Summary: >-
-    Print a string to the STDOUT with a trailing new line character
+    Print a string to the stdout with a trailing new line character
   Description: |-
-    Write parameters to STDOUT with a trailing new line character.
+    Write parameters to stdout with a trailing new line character.
   Usage: |-
     ```
     out string to write -> <stdout>
@@ -55,9 +55,9 @@
     `tout`
   CategoryID: commands
   Summary: >-
-    Print a string to the STDOUT and set it's data-type
+    Print a string to the stdout and set it's data-type
   Description: |-
-    Write parameters to STDOUT without a trailing new line character. Cast the
+    Write parameters to stdout without a trailing new line character. Cast the
     output's data-type to the value of the first parameter.
   Usage: |-
     ```
@@ -92,9 +92,9 @@
     `(brace quote)`
   CategoryID: parser
   Summary: >-
-    Write a string to the STDOUT without new line (deprecated)
+    Write a string to the stdout without new line (deprecated)
   Description: |-
-    Write parameters to STDOUT (does not include a new line)
+    Write parameters to stdout (does not include a new line)
   Usage: |-
     ```
     (string to write) -> <stdout>
@@ -144,9 +144,9 @@
     `err`
   CategoryID: commands
   Summary: >-
-    Print a line to the STDERR
+    Print a line to the stderr
   Description: |-
-    Write parameters to STDERR with a trailing new line character.
+    Write parameters to stderr with a trailing new line character.
   Usage: |-
     ```
     err string to write -> <stderr>
@@ -163,11 +163,11 @@
     err { "Code": 404, "Message": "Page not found" } ? cast json
     ```
 
-    However passing structured data-types along the STDERR stream is not recommended
+    However passing structured data-types along the stderr stream is not recommended
     as any other function within your code might also pass error messages along the
     same stream and thus taint your structured data. This is why Murex does not
-    supply a `tout` function for STDERR. The recommended solution for passing
-    messages like these which you want separate from your STDOUT stream is to create
+    supply a `tout` function for stderr. The recommended solution for passing
+    messages like these which you want separate from your stdout stream is to create
     a new Murex named pipe.
 
     ```

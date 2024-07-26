@@ -51,7 +51,7 @@
 
     ### Interrupt/Stdout
 
-    This is the name of the Murex named pipe which contains a copy of the STDOUT
+    This is the name of the Murex named pipe which contains a copy of the stdout
     from the command which executed prior to this event.
 
     You can read this with `read-named-pipe`. eg

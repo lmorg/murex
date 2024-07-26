@@ -36,8 +36,8 @@ Windows is supported there are a few known issue with the way how Windows
 internals are built. These cannot be easily worked around:
 
 * Windows doesn't decouple the terminal emulator and the shell Which means you
-  cannot rely upon STDIN working as expected (eg some commands don't read input
-  from STDIN but instead poll the terminal emulator directly)
+  cannot rely upon stdin working as expected (eg some commands don't read input
+  from stdin but instead poll the terminal emulator directly)
 
 * Windows sends parameters as a single string rather than an array of string.
   This is to retain backwards compatibility with DOS but it breaks the way how

@@ -1,11 +1,11 @@
 # `qr`
 
-> Creates a QR code from STDIN
+> Creates a QR code from stdin
 
 ## Description
 
 `qr` is an optional builtin which generates a PNG format image based on the
-input from STDIN. `qr` must be run as a method.
+input from stdin. `qr` must be run as a method.
 
 ## Usage
 

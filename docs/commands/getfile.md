@@ -4,7 +4,7 @@
 
 ## Description
 
-Fetches a resource from a URL - setting STDOUT data-type
+Fetches a resource from a URL - setting stdout data-type
 
 ## Usage
 
@@ -21,7 +21,7 @@ getfile google.com
 ## Detail
 
 This simply fetches a resource (via HTTP GET request) from a URL and returns the
-byte stream to STDOUT. It will set STDOUT's data-type based on MIME defined in
+byte stream to stdout. It will set stdout's data-type based on MIME defined in
 the `Content-Type` HTTP header.
 
 It is recommended that you only use this command if you're pipelining the output
@@ -32,9 +32,9 @@ terminal rendering.
 ### As A Method
 
 Running `get`, `post` or `getfile` as a method will transmit the contents of
-STDIN as part of the body of the HTTP request. When run as a method the
+stdin as part of the body of the HTTP request. When run as a method the
 `Content-Type` HTTP header will automatically be set to the default MIME for
-the data type from STDIN.
+the data type from stdin.
 
 This is defined in `config`, pre-defined by sensible defaults from each murex
 data type. For example:
