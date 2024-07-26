@@ -14,8 +14,8 @@
     "@vuepress/client": "2.0.0-beta.66",
     "vue": "^3.3.4",
     "vuepress": "2.0.0-beta.66",
-    "vuepress-plugin-search-pro": "2.0.0-beta.233",
-    "vuepress-theme-hope": "2.0.0-beta.233"
+    "vuepress-plugin-search-pro": "v2.0.0-rc.14",
+    "vuepress-theme-hope": "v2.0.0-rc.14"
   },
   "packageManager": "pnpm@8.6.5"
 }
