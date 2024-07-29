@@ -18,7 +18,7 @@ export default navbar([
           { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },
           { text: "Builtins", link: "commands/", icon: "cubes" },
           { text: "Variables", link: "variables/", icon: "dollar" },
-          { text: "Data Types", link: "types/", icon: "link" },
+          { text: "Data Types", link: "types/", icon: "file-contract" },
           { text: "Events", link: "events/", icon: "bolt" },
           { text: "Blog", link: "blog/", icon: "comment" },
         ],

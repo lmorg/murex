@@ -61,7 +61,7 @@ export default sidebar({
     },
     {
       text: "Data Types",
-      icon: "link",
+      icon: "file-contract",
       prefix: "types/",
       children: "structure",
       collapsible: true,

@@ -104,6 +104,11 @@ blockquote {
     border-color:p.$quote-color!important;
     color:p.$quote-color;
 }
+
+pre, code {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
+    color: p.$code-color;
+}
   
 @media (min-width: 420px) {
     body {
@@ -111,8 +116,6 @@ blockquote {
       font-size:16px!important
     }
     blockquote {
-      border-color:p.$quote-color!important;
-      color:p.$quote-color;
       border-width:0px;
       border-style:solid;
       border-radius:0px;
@@ -128,8 +131,9 @@ blockquote {
       border-width:0px;
       border-left-width:5px;
       border-style: solid;
-      border-color: p.$code-color;
       border-radius: 0px!important;
+      border-color: p.$code-color;
+      color: p.$code-color;
       background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
     .vp-code-tab-nav {

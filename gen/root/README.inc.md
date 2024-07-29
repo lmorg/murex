@@ -27,7 +27,7 @@ highlights:
     description: Murex carries tons of unique features. Some highlights include...
     features:
       - title: Content Aware
-        icon: arrows-to-circle
+        icon: file-contract
         details: |-
           Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
           <br/><br/>
@@ -35,7 +35,7 @@ highlights:
         link: types/
 
       - title: Expressions
-        icon: check-double
+        icon: hashtag
         details: |-
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
           <br/><br/>
@@ -51,7 +51,7 @@ highlights:
         link: user-guide/interactive-shell
 
       - title: Easily Extended
-        icon: cubes
+        icon: "puzzle-piece"
         details: |-
           Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
           <br/><br/>
