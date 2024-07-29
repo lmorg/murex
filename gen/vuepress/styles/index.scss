@@ -105,10 +105,10 @@ blockquote {
     color:p.$quote-color;
 }
 
-code:not(a) {
+/*code:not(a) {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     color: p.$code-color;
-}
+}*/
   
 @media (min-width: 420px) {
     body {
