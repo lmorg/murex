@@ -18,13 +18,13 @@ open-image file-path -> <stdout>
 
 ## Examples
 
-As a method
+### As a method
 
 ```
 » cat example.png -> open-image
 ```
 
-As a function
+### As a function
 
 ```
 » open-image example.png
@@ -32,14 +32,14 @@ As a function
 
 ## Detail
 
-`open-image` will fail if STDOUT is not a TTY.
+`open-image` will fail if stdout is not a TTY.
 
 ## See Also
 
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+  Creates a QR code from stdin
 
 <hr/>
 

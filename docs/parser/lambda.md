@@ -50,17 +50,17 @@ This cannot be used in combination with **output**.
 
 #### Output
 
-If STDOUT isn't empty, then STDOUT is outputted rather than the object being
+If stdout isn't empty, then stdout is outputted rather than the object being
 filtered and/or updated.
 
 This usage most closely resembles `foreach` and `formap` except that the data
-type of STDOUT is not preserved.
+type of stdout is not preserved.
 
 
 
 ## Examples
 
-#### Filter
+### Filter
 
 Filtering a map:
 
@@ -88,7 +88,7 @@ example, today is Friday)
 ]
 ```
 
-#### Update
+### Update
 
 Updating a map:
 
@@ -113,7 +113,7 @@ Updating an array:
 ]
 ```
 
-#### Output
+### Output
 
 Output from a map:
 
@@ -130,7 +130,7 @@ Saturday is the weekend
 Sunday is the weekend
 ```
 
-#### Foreach
+### Foreach
 
 Here we are using a lambda just as a terser way of writing a standard `foreach`
 loop:

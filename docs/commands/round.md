@@ -33,7 +33,7 @@ If `--up` flag is is supplied then the the input value would always be rounded
 up to the nearest whole number. For example `3.33` would be rounded to `4`
 instead of `3`.
 
-### Nearest Multiple
+### Nearest multiple
 
 Syntax: `50` (any integer greater than `1)
 
@@ -51,7 +51,9 @@ round value precision -> <stdout>
 
 ## Examples
 
-**Rounding to the nearest multiple of `20`:**
+### Nearest multiple
+
+Rounding to the nearest multiple of `20`:
 
 ```
 » round 15 20

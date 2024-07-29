@@ -17,7 +17,7 @@ export default hopeTheme({
   iconAssets: "fontawesome-with-brands",
   //iconAssets: "public/fontawesome/css/brands.css",
 
-  logo: "/murex.svg",
+  //logo: "/murex.svg",
 
   repo: "lmorg/murex",
 

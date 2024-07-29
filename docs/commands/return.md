@@ -18,7 +18,7 @@ return [ exit-number ]
 
 ## Examples
 
-**Setting an exit number:**
+### Setting an exit number
 
 ```
 function example {
@@ -37,7 +37,7 @@ foo
 13
 ```
 
-**Returning withing an exit number:**
+### Returning withing an exit number
 
 If we were to run the same code as above but with `return` written without any
 parameters (ie instead of `return 13` it would be just `return`), then you
@@ -67,7 +67,7 @@ was passed).
 * [`function`](../commands/function.md):
   Define a function block
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 

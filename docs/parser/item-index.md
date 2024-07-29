@@ -19,6 +19,8 @@ $variable[ element ] -> <stdout>
 
 ## Examples
 
+### Multiple array indexes
+
 Return the 2nd (1), 4th (3) and 6th (5) element in an array:
 
 ```
@@ -30,6 +32,8 @@ Return the 2nd (1), 4th (3) and 6th (5) element in an array:
 ]
 ```
 
+### Multiple object keys
+
 Return the data-type and description of **config shell syntax-highlighting**:
 
 ```
@@ -39,6 +43,8 @@ Return the data-type and description of **config shell syntax-highlighting**:
     "Syntax highlighting of murex code when in the interactive shell"
 ]
 ```
+
+### Excluding array indexes
 
 Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th):
 
@@ -53,6 +59,8 @@ Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th):
 9
 ```
 
+### Excluding object keys
+
 Return all elements except for the data-type and description:
 
 ```
@@ -65,6 +73,10 @@ Return all elements except for the data-type and description:
 }
 ```
 
+### Filtering tabulated output
+
+#### Selecting columns by name
+
 Return the top 5 processes from `ps`, ordered by memory usage:
 
 ```
@@ -76,13 +88,7 @@ Return the top 5 processes from `ps`, ordered by memory usage:
 915710  1.9   /opt/visual-studio-code/code
 ```
 
-Return the 1st and 30th row:
-
-```
-» ps aux -> [*1 *30]
-USER    PID     %CPU    %MEM    VSZ     RSS     TTY     STAT    START   TIME    COMMAND
-root    37      0.0     0.0     0       0       ?       I<      Dec18   0:00    [kworker/3:0H-events_highpri]
-```
+#### Selecting columns by index
 
 Return the 1st and 5th column:
 
@@ -93,6 +99,16 @@ root    168284
 root    0
 root    0
 root    0
+```
+
+#### Selecting rows
+
+Return the 1st and 30th row:
+
+```
+» ps aux -> [*1 *30]
+USER    PID     %CPU    %MEM    VSZ     RSS     TTY     STAT    START   TIME    COMMAND
+root    37      0.0     0.0     0       0       ?       I<      Dec18   0:00    [kworker/3:0H-events_highpri]
 ```
 
 ## Detail
@@ -132,7 +148,7 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):

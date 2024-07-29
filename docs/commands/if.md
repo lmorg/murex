@@ -22,7 +22,7 @@ if { code-block } then {
 }
 ```
 
-### Method `if`:
+### Method `if`
 
 ```
 command -> if {
@@ -93,11 +93,11 @@ if { g somefile.txt } else {
 
 The conditional block can contain entire pipelines - even multiple lines of code
 let alone a single pipeline - as well as solitary commands as demonstrated in
-the examples above. However the conditional block does not output STDOUT nor
-STDERR to the rest of the pipeline so you don't have to worry about redirecting
+the examples above. However the conditional block does not output stdout nor
+stderr to the rest of the pipeline so you don't have to worry about redirecting
 the output streams to `null`.
 
-If you require output from the conditional blocks STDOUT then you will need to
+If you require output from the conditional blocks stdout then you will need to
 use either a Murex named pipe to redirect the output, or test or debug flags
 (depending on your use case) if you only need to occasionally inspect the
 conditionals output.
@@ -128,7 +128,7 @@ code block as false. Otherwise, it will be considered true.
 ## See Also
 
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):

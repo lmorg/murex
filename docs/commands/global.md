@@ -9,10 +9,10 @@ Defines, updates or deallocates a global variable.
 ## Usage
 
 ```
-# Assume data type and value from STDIN
+# Assume data type and value from stdin
 <stdin> -> global var_name
 
-# Assume value from STDIN, define the data type manually
+# Assume value from stdin, define the data type manually
 <stdin> -> global datatype var_name
 
 # Define value manually (data type defaults to string; `str`)

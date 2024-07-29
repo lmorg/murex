@@ -8,13 +8,13 @@
 
 ## Usage
 
-Create pipe
+### Create pipe
 
 ```
 pipe name [ pipe-type ]
 ```
 
-Destroy pipe
+### Destroy pipe
 
 ```
 !pipe name
@@ -22,17 +22,19 @@ Destroy pipe
 
 ## Examples
 
-Create a standard pipe:
+### Create a standard pipe
 
 ```
 pipe example
 ```
 
-Delete a pipe:
+### Delete a pipe
 
 ```
 !pipe example
 ```
+
+### Pipe flags
 
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
@@ -46,9 +48,9 @@ out "GET /" -> <example>
 
 ### What are Murex named pipes?
 
-In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
-while are "piped" from one executable to another. ie STDOUT for application 'A'
-would be the same file as STDIN for application 'B' when A is piped to B:
+In POSIX, there is a concept of stdin, stdout and stderr, these are FIFO files
+while are "piped" from one executable to another. ie stdout for application 'A'
+would be the same file as stdin for application 'B' when A is piped to B:
 `A | B`. Murex adds a another layer around this to enable support for passing
 data types and builtins which are agnostic to the data serialization format
 traversing the pipeline. While this does add overhead the advantage is this new
@@ -129,13 +131,13 @@ that pipes created in modules should be prefixed with the name of its package.
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`match`](../commands/match.md):
   Match an exact value in an array
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):

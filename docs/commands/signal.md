@@ -44,7 +44,7 @@ signal -> <stdout>
 
 ## Examples
 
-**Send a signal:**
+### Send a signal
 
 ```
 function signal.SIGUSR1.trap {
@@ -69,7 +69,7 @@ test unit function signal.SIGUSR1.trap %{
 }
 ```
 
-**List supported signals:**
+### List supported signals
 
 ```
 » signal
@@ -171,7 +171,7 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [onSignalReceived](../events/onsignalreceived.md):
   Trap OS signals
 

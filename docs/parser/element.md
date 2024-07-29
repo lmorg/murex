@@ -23,7 +23,9 @@ $variable[[ element ]] -> <stdout>
 
 ## Examples
 
-Return the 2nd element in an array
+### Array elements
+
+Return the 2nd element in an array:
 
 ```
 » ja [0..9] -> [[ /1 ]]
@@ -32,7 +34,9 @@ Return the 2nd element in an array
 ]
 ```
 
-Return the data-type and description of **config shell syntax-highlighting**
+### Used with config
+
+Return the data-type and description of **config shell syntax-highlighting**:
 
 ```
 » config -> [[ /shell/syntax-highlighting/Data-Type ]]
@@ -119,7 +123,7 @@ bool
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):

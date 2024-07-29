@@ -102,7 +102,7 @@ those hooks are getting triggered.
 
 > Value: `str` (default: empty)
 
-This is executed when `autocomplete get app key` is ran. The STDOUT of the code
+This is executed when `autocomplete get app key` is ran. The stdout of the code
 block is the setting's value.
 
 #### Dynamic Write
@@ -110,4 +110,4 @@ block is the setting's value.
 > Value: `str` (default: empty)
 
 This is executed when `autocomplete` is setting a value (eg `set`, `default`,
-`eval`). is ran. The STDIN of the code block is the new value.
+`eval`). is ran. The stdin of the code block is the new value.

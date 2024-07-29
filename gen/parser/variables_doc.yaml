@@ -18,6 +18,8 @@
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
 
   Detail: |-
+    ### Infixing
+    
     Strings and sub-shells can be expanded inside double quotes, brace quotes as
     well as used as barewords. But they cannot be expanded inside single quotes.
     
@@ -69,6 +71,7 @@
   Examples: |-
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
   Detail: |-
+    ### Infixing
     Since arrays are expanded over multiple parameters, you cannot expand an array
     inside quoted strings like you can with a string variable:
 
@@ -108,12 +111,33 @@
   Description: |-
     The tilde token is used as a lazy reference to the users home directory.
   Examples: |-
+    ### Current user
+
+    Assuming current username is "bob":
+
     ```
     » out ~
     /home/bob
+    ```
 
+    ### Alternative user
+
+    Assuming "joe" is a valid user on local system:
+
+    ```
     » out ~joe
     /home/joe
+    ```
+
+    ### Unhappy path
+
+    If username does not exist, `~` will default to the root path.
+
+    Assuming "foobar" isn't a valid local user:
+
+    ```
+    » out ~foobar
+    /
     ```
   Detail: |-
     Tilde can be expanded inside double quotes, brace quotes as well as used naked.

@@ -18,7 +18,7 @@
     * an empty object or zero length array 
     * and, of course, a boolean with the value `false`
   Examples: |-
-    **Assign a variable with a default value:**
+    ### Assign with a default value
 
     ```
     » $foo = $bar ?: "baz"
@@ -26,7 +26,7 @@
 
     If `$bar` is falsy, then the value of `$foo` will be **"baz"**.
 
-    **Multiple elvis operators:**
+    ### Multiple elvis operators
 
     ```
     » $unset_variable ?: null ?: false ?: "foobar"
@@ -54,3 +54,4 @@
   - logical-and
   - logical-or
   - "null"
+  - operators-and-tokens

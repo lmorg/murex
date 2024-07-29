@@ -4,24 +4,24 @@
 
 ## Description
 
-`foreach` reads an array or map from STDIN and iterates through it, running
+`foreach` reads an array or map from stdin and iterates through it, running
 a code block for each iteration with the value of the iterated element passed
 to it.
 
 By default `foreach`'s output data type is inherited from its input data type.
-For example is STDIN is `yaml` then so will STDOUT. The only exception to this
-is if STDIN is `json` in which case STDOUT will be jsonlines (`jsonl`), or when
+For example is stdin is `yaml` then so will stdout. The only exception to this
+is if stdin is `json` in which case stdout will be jsonlines (`jsonl`), or when
 additional flags are used such as `--jmap`.
 
 ## Usage
 
-`{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT:
+`{ code-block }` reads from a variable and writes to an array / unbuffered stdout:
 
 ```
 <stdin> -> foreach variable { code-block } -> <stdout>
 ```
 
-`{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT:
+`{ code-block }` reads from stdin and writes to an array / unbuffered stdout:
 
 ```
 <stdin> -> foreach { -> code-block } -> <stdout>
@@ -55,7 +55,7 @@ code block:
 > Please note that the variable is specified **without** the dollar prefix,
 > then used in the code block **with** the dollar prefix.
 
-The second option is for the code block's STDIN to read the element:
+The second option is for the code block's stdin to read the element:
 
 ```
 » a [1..3] -> foreach { -> cat }
@@ -64,7 +64,7 @@ The second option is for the code block's STDIN to read the element:
 3
 ```
 
-> STDIN can only be read as the first command. If you cannot process the
+> stdin can only be read as the first command. If you cannot process the
 > element on the first command then it is recommended you use the first
 > option (passing a variable) instead.
 
@@ -84,7 +84,7 @@ The second option is for the code block's STDIN to read the element:
 ### Using steps to jump iterations by more than 1 (one)
 
 You can step through an array, list or table in jumps of user definable
-quantities. The value passed in STDIN and $VAR will be an array of all
+quantities. The value passed in stdin and $VAR will be an array of all
 the records within that step range. For example:
 
 ```
@@ -112,7 +112,7 @@ Iteration 4: [
 ## Flags
 
 * `--jmap`
-    Write a `json` map to STDOUT instead of an array
+    Write a `json` map to stdout instead of an array
 * `--step`
     `<int>` Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
 
@@ -139,16 +139,16 @@ The following meta values are defined:
 
 ### Preserving the data type (when no flags used)
 
-`foreach` will preserve the data type read from STDIN in all instances where
+`foreach` will preserve the data type read from stdin in all instances where
 data is being passed along the pipeline and push that data type out at the
 other end:
 
 * The temporary variable will be created with the same data-type as
-  `foreach`'s STDIN, or the data type of the array element (eg if it is a
+  `foreach`'s stdin, or the data type of the array element (eg if it is a
   string or number)
-* The code block's STDIN will have the same data-type as `foreach`'s STDIN
-* `foreeach`'s STDOUT will also be the same data-type as it's STDIN (or `jsonl`
-  (jsonlines) where STDIN was `json` because `jsonl` better supports streaming)
+* The code block's stdin will have the same data-type as `foreach`'s stdin
+* `foreeach`'s stdout will also be the same data-type as it's stdin (or `jsonl`
+  (jsonlines) where stdin was `json` because `jsonl` better supports streaming)
 
 This last point means you may need to `cast` your data if you're writing
 data in a different format. For example the following is creating a YAML list
@@ -299,7 +299,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 ...
 ```
 
-#### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
+#### `foreach` will automatically cast it's output as `jsonl` _if_ it's stdin type is `json`
 
 ```
 » ja [Tom,Dick,Sally] -> foreach name { out Hello $name }
@@ -329,7 +329,7 @@ jsonl
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`for`](../commands/for.md):
@@ -349,7 +349,7 @@ jsonl
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`while`](../commands/while.md):
   Loop until condition false
 * [`yaml`](../types/yaml.md):

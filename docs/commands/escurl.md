@@ -4,7 +4,7 @@
 
 ## Description
 
-`escurl` takes input from either STDIN or the parameters and returns the same
+`escurl` takes input from either stdin or the parameters and returns the same
 data, escaped for the URL.
 
 `!eschtml` does the same process in reverse, where it takes URL escaped data
@@ -12,7 +12,7 @@ and returns its unescaped counterpart.
 
 ## Usage
 
-Escape
+### Escape
 
 ```
 <stdin> -> escurl -> <stdout>
@@ -20,7 +20,7 @@ Escape
 escurl string to escape -> <stdout>
 ```
 
-Unescape
+### Unescape
 
 ```
 <stdin> -> !escurl -> <stdout>
@@ -30,14 +30,14 @@ Unescape
 
 ## Examples
 
-Escape
+### Escape
 
 ```
 » out "!? <>" -> escurl
 %21%3F%20%3C%3E%0A 
 ```
 
-Unescape
+### Unescape
 
 ```
 out '%21%3F%20%3C%3E%0A' -> !escurl

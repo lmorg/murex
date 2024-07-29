@@ -22,7 +22,7 @@ A non-exhaustive list features would include:
   completions already defined.
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
-  blocks, line numbers included in error messages, STDOUT highlighted in red
+  blocks, line numbers included in error messages, stdout highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
 ## Language Guides
@@ -87,7 +87,7 @@ Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
 usability. [Read more](compatibility.md)
 
-## Known bugs / TODO
+## Issue Tracking
 
 Murex is considered stable, however if you do run into problems then please
 raise them on the project's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)

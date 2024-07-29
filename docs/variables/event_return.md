@@ -4,7 +4,7 @@
 
 ## Description
 
-Some events support return parameters outside of your typical STDOUT and STDERR
+Some events support return parameters outside of your typical stdout and stderr
 streams. `$EVENT_RETURN` allows you to modify those parameters.
 
 ## Examples

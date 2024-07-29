@@ -5,8 +5,8 @@
   Summary: >-
     Locate command origin
   Description: |-
-   `which` locates a command's origin. If STDOUT is a TTY, then it's output will be
-   human readable. If STDOUT is a pipe then it's output will be a simple list.
+   `which` locates a command's origin. If stdout is a TTY, then it's output will be
+   human readable. If stdout is a pipe then it's output will be a simple list.
 
    `which` can take multiple parameters, each representing a different command you
    want looked up.
@@ -15,7 +15,7 @@
     which command... -> <stdout>
     ```
   Examples: |-
-    **TTY output:**
+    ### TTY output
 
     ```
     » which cat dog jobs git dug
@@ -26,7 +26,7 @@
     dug => (murex function) A bit like dig but which outputs JSON
     ```
 
-    **Piped output:**
+    ### Piped output
 
     ```
     » which cat dog jobs git dug -> cat

@@ -50,7 +50,7 @@ event onSignalReceived name=SIGNAL { code block }
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
+The following payload is passed to the function via stdin:
 
 ```
 {
@@ -83,7 +83,7 @@ This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
-**Interrupt 'SIGINT':**
+Interrupt 'SIGINT'
 
 ```
 event onSignalReceived example=SIGINT {

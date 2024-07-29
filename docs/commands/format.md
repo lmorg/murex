@@ -4,7 +4,7 @@
 
 ## Description
 
-`format` takes a data from STDIN and returns that data reformated in another
+`format` takes a data from stdin and returns that data reformated in another
 specified data-type
 
 ## Usage
@@ -29,9 +29,9 @@ Two: 2
 * [`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

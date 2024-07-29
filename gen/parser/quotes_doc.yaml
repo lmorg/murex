@@ -38,6 +38,7 @@
   - brace-quote-func
 
 
+
 - DocumentID: double-quote
   Title: >-
     `"Double Quote"`
@@ -79,6 +80,7 @@
   - brace-quote-func
 
 
+
 - DocumentID: brace-quote
   Title: >-
     `%(Brace Quote)`
@@ -98,20 +100,20 @@
     Commands cannot be quoted using brace quotes because `%(` is recognized as its
     own function.
   Examples: |-
-    #### As a parameter:
+    ### As a parameter
 
     ```
     name = %(Bob)
     ```
 
-    #### As a function:
+    ### As a function
 
     ```
     » %(hello world)
     hello world
     ```
 
-    #### Nested quotes:
+    ### Nested quotes
 
     ```
     » murex -c %(out %(Hello "${murex -c %(out %(Bob))}"))
@@ -172,5 +174,3 @@
   - out
   - set
   - brace-quote-func
-
-

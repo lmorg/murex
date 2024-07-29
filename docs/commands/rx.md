@@ -22,19 +22,19 @@ rx pattern -> <stdout>
 
 ## Examples
 
-Inline regex file matching:
+### Inline regex file matching
 
 ```
 cat: @{ rx '.*\.txt' }
 ```
 
-Writing a list of files to disk:
+### Writing a list of files to disk
 
 ```
 rx '.*\.go' |> filelist.txt
 ```
 
-Checking if files exist:
+### Checking if files exist
 
 ```
 if { rx somefiles.* } then {
@@ -42,7 +42,7 @@ if { rx somefiles.* } then {
 }
 ```
 
-Checking if files do not exist:
+### Checking if files do not exist
 
 ```
 !if { rx somefiles.* } then {
@@ -50,19 +50,23 @@ Checking if files do not exist:
 }
 ```
 
-Return all files apart from text files:
+### Return all files apart from
 
 ```
-!g '\.txt$'
+!rx '\.txt$'
 ```
 
-Filtering a file list based on regexp matches file:
+### Filtering a file list
+
+Filtering a file list, returning only files that match the regexp match:
 
 ```
 f +f -> rx '.*\.txt'
 ```
 
-Remove any regexp file matches from a file list:
+Please note that `rx` here is doing an additional check if the file exists.
+
+### Remove any regexp file matches
 
 ```
 f +f -> !rx '.*\.txt'
@@ -95,7 +99,7 @@ Error in `!rx` (1,1): No data returned.
 ### When Used As A Method
 
 `!rx` first looks for files that match its pattern, then it reads the file list
-from STDIN. If STDIN contains contents that are not files then `!rx` might not
+from stdin. If stdin contains contents that are not files then `!rx` might not
 handle those list items correctly. This shouldn't be an issue with `rx` in its
 normal mode because it is only looking for matches however when used as `!rx`
 any items that are not files will leak through.

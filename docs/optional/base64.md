@@ -16,14 +16,14 @@ An optional builtin to encode or decode a base64 string.
 
 ## Examples
 
-Encode base64 string
+### Encode base64 string
 
 ```
 » out "Hello, World!" -> base64
 SGVsbG8sIFdvcmxkIQo=
 ```
 
-Decode base64 string
+### Decode base64 string
 
 ```
 » out "SGVsbG8sIFdvcmxkIQo=" -> !base64

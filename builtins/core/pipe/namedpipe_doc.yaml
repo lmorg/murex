@@ -13,20 +13,18 @@
 
     > See the documentation on `pipe` for more details about Murex named pipes.
   Usage: |-
-    Read from pipe
+    ### Read from pipe
 
     ```
     <namedpipe> -> <stdout>
     ```
 
-    Write to pipe
+    ### Write to pipe
 
     ```
     <stdin> -> <namedpipe>
     ```
   Examples: |-
-    The follow two examples function the same
-
     ```
     » pipe example
     » bg { <example> -> match 2 }
@@ -49,15 +47,17 @@
     - ja
     - runtime
 
+
+
 - DocumentID: stdin
   Title: >+
     `<stdin>`
   CategoryID: commands
   Summary: >-
-    Read the STDIN belonging to the parent code block
+    Read the stdin belonging to the parent code block
   Description: |-
     This is used inside functions and other code blocks to pass that block's
-    STDIN down a pipeline
+    stdin down a pipeline
   Usage: |-
     ```
     <stdin> -> <stdout>

@@ -1,11 +1,11 @@
 # `qr`
 
-> Creates a QR code from STDIN
+> Creates a QR code from stdin
 
 ## Description
 
 `qr` is an optional builtin which generates a PNG format image based on the
-input from STDIN. `qr` must be run as a method.
+input from stdin. `qr` must be run as a method.
 
 ## Usage
 
@@ -15,13 +15,13 @@ input from STDIN. `qr` must be run as a method.
 
 ## Examples
 
-Write the PNG to disk
+### Write PNG to disk
 
 ```
-» out "Hello, World!" -> qr -> > qr.png
+» out "Hello, World!" -> qr |> qr.png
 ```
 
-Display PNG in the terminal
+### Display PNG in terminal
 
 ```
 » out "Hello, World!" -> qr -> open-image
@@ -36,7 +36,7 @@ have to `cast` the output in some circumstances.
 ## See Also
 
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
 

@@ -69,7 +69,7 @@
     ```
   Flags:
     --jmap: >-
-      Write a `json` map to STDOUT instead of an array
+      Write a `json` map to stdout instead of an array
   Detail: |-
     `formap` can also work against arrays and tables as well. However `foreach` is
     a much better tool for ordered lists and tables can look a little funky when

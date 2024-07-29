@@ -18,6 +18,8 @@ select * | ... FROM file[.gz] WHERE ... -> <stdout>
 
 ## Examples
 
+### Count rows from ps
+
 List a count of all the processes running against each user ID:
 
 ```
@@ -53,11 +55,6 @@ count(*) USER
 7       _locationd
 144     root
 308     foobar
-```
-
-```
-
-select count(*)
 ```
 
 ## Detail
@@ -115,7 +112,7 @@ queries for the sake of brevity.
 
 ### Read All vs Sequential Reads
 
-At present, `select` only supports reading the entire table from STDIN before
+At present, `select` only supports reading the entire table from stdin before
 importing that data into sqlite3. There is some prototype code being written to
 support sequential imports but this is hugely experimental and not yet enabled.
 

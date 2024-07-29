@@ -15,7 +15,7 @@ external consistency. For example each event in defined via `name=interrupt`
 where **name** is a user defined handle (like a variable or function would have
 a name) and **interrupt** is a system state you wish the event to be fired on.
 
-Each event function will have a payload sent via STDIN which would look a
+Each event function will have a payload sent via stdin which would look a
 little like the following:
 
 ```
@@ -40,7 +40,7 @@ event event-type name=interrupt { code block }
 
 ## Examples
 
-Create an event:
+### Create an event
 
 ```
 event onSecondsElapsed autoquit=60 {
@@ -49,7 +49,7 @@ event onSecondsElapsed autoquit=60 {
 }
 ```
 
-Destroy an event:
+### Destroy an event
 
 ```
 !event onSecondsElapsed autoquit

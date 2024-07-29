@@ -29,7 +29,7 @@ event onPrompt name=(before|after|abort|eof) { code block }
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
+The following payload is passed to the function via stdin:
 
 ```
 {
@@ -68,7 +68,7 @@ This event doesn't have any `$EVENT_RETURN` parameters.
 
 ## Examples
 
-**Interrupt 'before':**
+### Interrupt 'before'
 
 ```
 event onPrompt example=before {
@@ -76,7 +76,7 @@ event onPrompt example=before {
 }
 ```
 
-**Interrupt 'after':**
+### Interrupt 'after'
 
 ```
 event onPrompt example=after {
@@ -85,7 +85,7 @@ event onPrompt example=after {
 }
 ```
 
-**Echo the command line:**
+### Echo the command line
 
 ```
 » event onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }

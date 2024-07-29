@@ -1,10 +1,10 @@
 # `[ ..Range ]`
 
-> Outputs a ranged subset of data from STDIN
+> Outputs a ranged subset of data from stdin
 
 ## Description
 
-This will read from STDIN and output a subset of data in a defined range.
+This will read from stdin and output a subset of data in a defined range.
 
 The range can be defined as a number of different range types - such as the
 content of the array or it's index / row number. You can also omit either
@@ -22,7 +22,7 @@ instead**
 
 ## Examples
 
-**Range over all months after March:**
+### Include everything after string match:
 
 ```
 » a [January..December] -> [March..]se
@@ -37,9 +37,9 @@ November
 December
 ```
 
-**Range from the 6th to the 10th month:**
+### Range from the 6th to the 10th index
 
-By default, ranges start from one, `1`
+By default, ranges start from one, `1`:
 
 ```
 » a [January..December] -> [5..9]
@@ -50,9 +50,9 @@ August
 September
 ```
 
-**Return the first 3 months:**
+### Return the first 3
 
-This usage is similar to `head -n3`
+This usage is similar to `head -n3`:
 
 ```
 » a [January..December] -> [..3]
@@ -61,9 +61,9 @@ November
 December
 ```
 
-**Return the last 3 months:**
+### Return the last 3
 
-This usage is similar to `tail -n3`
+This usage is similar to `tail -n3`:
 
 ```
 » a [January..December] -> [-3..]
@@ -111,7 +111,7 @@ December
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`prepend`](../commands/prepend.md):
   Add data to the start of an array
 

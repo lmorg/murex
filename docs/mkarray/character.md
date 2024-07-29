@@ -61,7 +61,7 @@ a
 * [Non-Decimal Ranges](../mkarray/non-decimal.md):
   Create arrays of integers from non-decimal number bases
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):

@@ -24,6 +24,8 @@ The **value** must always be supplied as JSON.
 
 ## Examples
 
+### Altering an objects value
+
 ```
 » config -> [ shell ] -> [ prompt ] -> alter /Value moo
 {
@@ -33,6 +35,8 @@ The **value** must always be supplied as JSON.
     "Value": "moo"
 }
 ```
+
+### Inserting JSON
 
 `alter` also accepts JSON as a parameter for adding structured data:
 
@@ -49,7 +53,9 @@ config -> [ shell ] -> [ prompt ] -> alter /Example { "Foo": "Bar" }
 }
 ```
 
-However it is also data type aware so if they key you're updating holds a string
+### Data-type aware
+
+It is also data type aware so if they key you're updating holds a string
 (for example) then the JSON data a will be stored as a string:
 
 ```
@@ -73,8 +79,8 @@ Numbers will also follow the same transparent conversion treatment:
 ```
 
 > Please note: `alter` is not changing the value held inside `config` but
-> instead took the STDOUT from `config`, altered a value and then passed that
-> new complete structure through it's STDOUT.
+> instead took the stdout from `config`, altered a value and then passed that
+> new complete structure through it's stdout.
 >
 > If you require modifying a structure inside Murex config (such as http
 > headers) then you can use `config alter`. Read the config docs for reference.
@@ -142,7 +148,7 @@ config -> alter ' shell prompt Value' moo
 
 ### Supported data-types
 
-The *value* field must always be supplied as JSON however the *STDIN* struct
+The *value* field must always be supplied as JSON however the *stdin* struct
 can be any data-type supported by murex.
 
 You can check what data-types are available via the `runtime` command:
@@ -164,7 +170,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`format`](../commands/format.md):

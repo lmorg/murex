@@ -25,8 +25,8 @@
     parsed as a statement. This means more complex expressions might parse in
     unexpected ways and thus fail. You can still raise a bug if that does happens.
 
-    For a full list of operators supported exclusively in expression, see the
-    last section in this document.
+    A full list of operators is available in the {{link "Operators And Tokens" "operators-and-tokens"}}
+    document.
   Usage: |-
     ```
     expression -> <stdout>

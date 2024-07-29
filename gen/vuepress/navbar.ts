@@ -1,7 +1,7 @@
 import { navbar } from "vuepress-theme-hope";
 
 export default navbar([
-  "/",
+  //"/",
   {
     text: "Documentation",
     icon: "book",
@@ -10,22 +10,22 @@ export default navbar([
         text: "Shortcuts",
         prefix: "/",
         children: [
-          { text: "Install", link: "install.html", icon: "arrow-down" },
-          { text: "Language Tour", link: "tour.html", icon: "life-ring" },
-          { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "language" },
+          { text: "Install", link: "install.html", icon: "download" },
+          { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
+          { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
           { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
-          { text: "Operators And Tokens", link: "parser/", icon: "equals" },
-          { text: "Builtins", link: "commands/", icon: "terminal" },
+          { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },
+          { text: "Builtins", link: "commands/", icon: "cubes" },
           { text: "Variables", link: "variables/", icon: "dollar" },
-          { text: "Data Types", link: "types/", icon: "table" },
+          { text: "Data Types", link: "types/", icon: "file-contract" },
           { text: "Events", link: "events/", icon: "bolt" },
+          { text: "Blog", link: "blog/", icon: "comment" },
         ],
       },
     ],
   },
   "/changelog/",
-  "/blog/",
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
   "/contributing",
 ]);

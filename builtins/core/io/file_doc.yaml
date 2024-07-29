@@ -1,9 +1,9 @@
-- DocumentID: greater-than
+- DocumentID: file-truncate
   Title: >+
     `|>` Truncate File
   CategoryID: parser
   Summary: >-
-    Writes STDIN to disk - overwriting contents if file already exists
+    Writes stdin to disk - overwriting contents if file already exists
   Description: |-
     Redirects output to file.
 
@@ -23,7 +23,7 @@
     - ">"
     - "fwrite"
   Related:
-    - greater-than-greater-than
+    - file-append
     - pipe
     - g
     - tmp
@@ -32,38 +32,7 @@
     - namedpipe
     - pipe-err
 
-- DocumentID: greater-than-greater-than
-  Title: >+
-    `>>` Append File
-  CategoryID: parser
-  Summary: >-
-    Writes STDIN to disk - appending contents if file already exists
-  Description: |-
-    Redirects output to file.
 
-    If a file already exists, the contents will be appended to existing contents.
-    Otherwise a new file is created.
-  Usage: |-
-    ```
-    <stdin> >> filename
-    ```
-  Examples: |-
-    ```
-    g * >> files.txt
-    ```
-  Detail:
-  Synonyms:
-    - ">>"
-    - "fappend"
-  Related:
-    - greater-than
-    - pipe
-    - g
-    - tmp
-    - pipe-arrow
-    - pipe-posix
-    - namedpipe
-    - pipe-err
 
 - DocumentID: pt
   Title: >+
@@ -73,14 +42,14 @@
     Pipe telemetry. Writes data-types and bytes written
   Description: |-
     Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
-    directly to the OS's STDERR so to preserved the pipeline.
+    directly to the OS's stderr so to preserved the pipeline.
   Usage: |-
     ```
     <stdin> -> pt -> <stdout>
     ```
   Examples: |-
     ```
-    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+    curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
     ```
 
     (though Murex does also have it's own HTTP clients, `get`, `post` and
@@ -88,8 +57,8 @@
   Detail:
   Synonyms:
   Related:
-    - greater-than
-    - greater-than-greater-than
+    - file-truncate
+    - file-append
     - get
     - post
     - getfile

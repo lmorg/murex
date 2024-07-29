@@ -16,25 +16,25 @@ This will enable or disable debugging mode.
 
 ## Usage
 
-**Enable or disable debug output:**
+### Enable or disable debug output
 
 ```
 debug boolean -> <stdout>
 ```
 
-**Output whether debug mode is enabled or disabled:**
+### Output whether debug mode is enabled or disabled
 
 ```
 debug -> <stdout>
 ```
 
-**Run a pipeline with debug mode enabled:**
+### Run a pipeline with debug mode enabled
 
 ```
 debug { code-block } -> <stdout>
 ```
 
-**Print debugging information about the previous command:**
+### Print debugging information about the previous command
 
 ```
 <stdin> -> debug -> <stdout>
@@ -42,7 +42,7 @@ debug { code-block } -> <stdout>
 
 ## Examples
 
-**Running a code block with debugging:**
+### Running a code block with debugging
 
 ```
 » debug
@@ -55,7 +55,7 @@ debug mode is now true
 false
 ```
 
-**Return debugging information on the previous function:**
+### Debugging information on previous function
 
 ```
 » out "hello, world!" -> debug 
@@ -132,7 +132,7 @@ false
 }
 ```
 
-**Enable or disable debug mode:**
+### Enable or disable debug mode
 
 ```
 » debug on
@@ -142,7 +142,9 @@ true
 false
 ```
 
-**Output whether debug mode is enabled or disabled:**
+### Print debug mode
+
+Debug mode can be either enabled (`true`) or disabled (`false`):
 
 ```
 » debug

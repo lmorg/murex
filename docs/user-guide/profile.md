@@ -77,7 +77,7 @@ how you define that value.
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value

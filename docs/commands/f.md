@@ -26,17 +26,21 @@ f options -> <stdout>
 
 ## Examples
 
-Return only directories:
+### Return only directories
 
 ```
 f +d
 ```
+
+### Mixing inclusion and exclusions
 
 Return file and directories but exclude symlinks:
 
 ```
 f +fd -s
 ```
+
+### As a method
 
 Filter out files in a list (eg created by `g`) using conditions set by `f`:
 

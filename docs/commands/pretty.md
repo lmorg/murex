@@ -4,8 +4,8 @@
 
 ## Description
 
-Takes JSON from the STDIN and reformats it to make it human readable, then
-outputs that to STDOUT.
+Takes JSON from the stdin and reformats it to make it human readable, then
+outputs that to stdout.
 
 ## Usage
 
@@ -35,9 +35,9 @@ outputs that to STDOUT.
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

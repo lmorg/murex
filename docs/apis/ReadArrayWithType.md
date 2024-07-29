@@ -100,7 +100,7 @@ pipelines.
 
 ## Parameters
 
-1. `stdio.Io`: stream to read from (eg STDIN)
+1. `stdio.Io`: stream to read from (eg stdin)
 2. `func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element
 
 ## See Also

@@ -53,7 +53,7 @@ out "lock file gone!"
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

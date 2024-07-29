@@ -11,14 +11,14 @@ values are placed either side of the addition operator.
 
 ## Examples
 
-#### Expression
+### Expression
 
 ```
 » 3+2
 5
 ```
 
-#### Statement
+### Statement
 
 ```
 out (3+2)
@@ -61,6 +61,8 @@ Error in `expr` (0,1): cannot Add with string types
 
 ## See Also
 
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
@@ -72,7 +74,7 @@ Error in `expr` (0,1): cannot Add with string types
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):

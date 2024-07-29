@@ -4,7 +4,7 @@
 
 ## Description
 
-Takes a list from STDIN and returns a right substring of that same list.
+Takes a list from stdin and returns a right substring of that same list.
 
 One parameter is required and that is the number of characters to return. If
 the parameter is a negative then `right` counts from the left.
@@ -17,7 +17,7 @@ the parameter is a negative then `right` counts from the left.
 
 ## Examples
 
-Count from the right
+### Count from the right
 
 ```
 » ja [Monday..Wednesday] -> right 4
@@ -28,7 +28,7 @@ Count from the right
 ]
 ```
 
-Count from the left
+### Count from the left
 
 ```
 » ja [Monday..Wednesday] -> left -3

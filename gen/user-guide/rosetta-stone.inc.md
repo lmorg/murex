@@ -29,14 +29,14 @@ if you want to learn more about shell scripting in Murex.
 ### Output & error streams
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
-| [Write to STDOUT](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)|
-| [Write to STDERR](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
+| [Write to stdout](../commands/out.md) | `echo "Hello Bash"` | `out "Hello Murex"` <br/><br/>`echo "Hello Murex"` [[1]](#footnotes)|
+| [Write to stderr](commands/err.md) | `echo "Hello Bash" >2` | `err "Hello Murex"` |
 | Write to file (truncate) | `echo "Hello Bash" > hello.txt` | `echo "Hello Murex" \|> hello.txt`|
 | Write to file (append) | `echo "Hello Bash" >> hello.txt` | `echo "Hello Murex" >> hello.txt`|
 | [Pipe commands](../parser/pipe-arrow.md) | `echo "Hello Bash" \| grep Bash` | `echo "Hello Murex" \| grep Murex` <br/><br/> `out "Hello Murex" -> regexp m/Murex/` |
-| [Redirect errors to STDOUT](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
-| Redirect output to STDERR | `uname -a >&2` | `uname <err> -a` |
-| Ignore STDERR output | `echo something 2>/dev/null` | `echo <!null> something` |
+| [Redirect errors to stdout](../parser/pipe-err.md) | `curl murex.rocks 2>&1 \| less` | `curl <!out> murex.rocks \| less` |
+| Redirect output to stderr | `uname -a >&2` | `uname <err> -a` |
+| Ignore stderr output | `echo something 2>/dev/null` | `echo <!null> something` |
 | Output [ANSI colors and styles](../user-guide/ansi_doc.md) | `echo -e "\n\032[0m\033[1mComplete!\033[0m\n"` | `out "{GREEN}{BOLD}Complete!{RESET}"` |
 
 ### Quoting strings
@@ -129,8 +129,8 @@ if you want to learn more about shell scripting in Murex.
 
 1. Supported for compatibility with traditional shells like Bash.
 2. Unlike Bash, whitespace (or the absence of) is optional.
-3. Environmental variables can only be stored as a string. This is a limitation of current operating systems.
+3. Environmental variables can only be stored as a string. This is a limitation of all major operating systems.
 4. Path separator can be any 1 byte wide character, eg `/`. The path separator is defined by the first character in a path.
-5. Murex uses `${}` for subshells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes strings. So `${foobar}` makes more sense as a subshell executing the command `foobar`, while `$(foobar)` makes more sense as the variable `$foobar`.
+5. Murex uses `${}` for sub-shells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes a sub-expression or string. So `${foobar}` makes more sense as a sub-shell syntax executing a block, while `$(foobar)` makes more sense as the syntax for a scalar.
 6. When assigning a variable where the right hand side is an expression, eg `$foo = "bar"`, the dollar prefix is optional. The `set`, `global` and `export` keywords are considered deprecated.
-7. The `command(parameters...)` only works for commands who's names match the following regexp pattern: `[._a-zA-Z0-9]+`. Which is exclusively uppercase and lowercase English letters, numbers, fullstop / period, and underscore.
+7. The `command(parameters...)` only works for commands who's names match the following regexp pattern: `[._a-zA-Z0-9]+`. Which is exclusively uppercase and lowercase English letters, numbers, full stop, and underscore.

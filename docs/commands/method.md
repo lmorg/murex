@@ -4,8 +4,8 @@
 
 ## Description
 
-`method` defines what the typical data type would be for a function's STDIN
-and STDOUT.
+`method` defines what the typical data type would be for a function's stdin
+and stdout.
 
 ## Usage
 
@@ -69,7 +69,7 @@ var GroupMath = []string{
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`autocomplete`](../commands/autocomplete.md):

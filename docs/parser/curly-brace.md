@@ -79,19 +79,19 @@ constants are available.
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
+  Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
 

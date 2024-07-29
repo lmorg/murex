@@ -4,7 +4,7 @@
 
 ## Description
 
-`eschtml` takes input from either STDIN or the parameters and returns the same
+`eschtml` takes input from either stdin or the parameters and returns the same
 data, HTML escaped.
 
 `!eschtml` does the same process in reverse, where it takes HTML escaped data
@@ -12,7 +12,7 @@ and returns its unescaped counterpart.
 
 ## Usage
 
-Escape
+### Escape
 
 ```
 <stdin> -> eschtml -> <stdout>
@@ -20,7 +20,7 @@ Escape
 eschtml string to escape -> <stdout>
 ```
 
-Unescape
+### Unescape
 
 ```
 <stdin> -> !eschtml -> <stdout>
@@ -30,14 +30,14 @@ Unescape
 
 ## Examples
 
-Escape
+### Escape
 
 ```
 » out "<h1>foo & bar</h1>" -> eschtml
 &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
 ```
 
-Unescape
+### Unescape
 
 ```
 » out '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml

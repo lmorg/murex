@@ -78,7 +78,7 @@ g [aeiou]*/*
 
 ### Pattern Reference
 
-Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)@
+Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)
 
 #### pattern
 
@@ -86,18 +86,18 @@ Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/f
 
 #### term
 
-- `*`:    matches any sequence of non-Separator characters
-- `?`:    matches any single non-Separator character
-- `[` [ `^` ] { character-range } `]`
-          character class (must be non-empty)
-- c:      matches character c (c != '*', '?', '\\', '[')
-- `\\` c: matches character c (not supported in Windows)
+    '*'         matches any sequence of non-Separator characters
+    '?'         matches any single non-Separator character
+    '[' [ '^' ] { character-range } ']'
+                character class (must be non-empty)
+    c           matches character c (c != '*', '?', '\\', '[')
+    '\\' c      matches character c
 
 #### character-range
 
-- c:         matches character c (c != '\\', '-', ']')
-- `\\` c:    matches character c (not supported in Windows)
-- lo `-` hi: matches character c for lo <= c <= hi
+    c           matches character c (c != '\\', '-', ']')
+    '\\' c      matches character c
+    lo '-' hi   matches character c for lo <= c <= hi
 
 ### Inverse Matches
 
@@ -117,7 +117,7 @@ Error in `!g` (1,1): No data returned.
 ### When Used As A Method
 
 `!g` first looks for files that match its pattern, then it reads the file list
-from STDIN. If STDIN contains contents that are not files then `!g` might not
+from stdin. If stdin contains contents that are not files then `!g` might not
 handle those list items correctly. This shouldn't be an issue with `frx` in its
 normal mode because it is only looking for matches however when used as `!g`
 any items that are not files will leak through.

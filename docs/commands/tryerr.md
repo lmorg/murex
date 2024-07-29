@@ -37,7 +37,7 @@ tryerr {
 A failure is determined by:
 
 * Any process that returns a non-zero exit number
-* Any process that returns more output via STDERR than it does via STDOUT
+* Any process that returns more output via stderr than it does via stdout
 
 You can see which run mode your functions are executing under via the `fid-list`
 command.

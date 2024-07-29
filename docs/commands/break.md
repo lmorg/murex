@@ -20,7 +20,7 @@ break block-name
 
 ## Examples
 
-**Exiting an iteration block:**
+### Exiting an iteration block
 
 ```
 function foo {
@@ -47,7 +47,7 @@ Running the above code would output:
 exit running function
 ```
 
-**Exiting a function:**
+### Exiting a function
 
 `break` can be considered to exhibit the behavior of _return_ (from other
 languages) too
@@ -111,7 +111,7 @@ Error in `break` (7,17): no block found named `bar` within the scope of `foo`
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 * [`return`](../commands/return.md):

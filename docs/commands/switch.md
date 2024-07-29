@@ -204,7 +204,7 @@ switch {
 ## See Also
 
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`break`](../commands/break.md):

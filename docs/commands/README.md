@@ -37,13 +37,13 @@ murex-docs trypipe
 ## Pages
 
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
   Command prefix to expand globbing (deprecated)
 * [`a` (mkarray)](../commands/a.md):
@@ -69,7 +69,7 @@ murex-docs trypipe
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`cd`](../commands/cd.md):
@@ -91,7 +91,7 @@ murex-docs trypipe
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`escape`](../commands/escape.md):
   Escape or unescape input
 * [`esccli`](../commands/esccli.md):
@@ -155,7 +155,7 @@ murex-docs trypipe
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`key-code`](../commands/key-code.md):
   Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
@@ -199,7 +199,7 @@ murex-docs trypipe
 * [`os`](../commands/os.md):
   Output the auto-detected OS name
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`post`](../commands/post.md):
@@ -257,7 +257,7 @@ murex-docs trypipe
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 * [`true`](../commands/true.md):
@@ -290,7 +290,7 @@ murex-docs trypipe
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
 * [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+  Creates a QR code from stdin
 * [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`sleep`](../optional/sleep.md):

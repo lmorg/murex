@@ -18,7 +18,7 @@ esccli @array -> <stdout>
 
 ## Examples
 
-As a method
+### As a method
 
 ```
 » alias foobar=out 'foo$b@r'
@@ -31,7 +31,7 @@ As a method
 out foo\$b\@r
 ```
 
-As a function
+### As a function
 
 ```
 » alias -> [foobar] -> set fb
@@ -54,7 +54,7 @@ out foo\$b\@r
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

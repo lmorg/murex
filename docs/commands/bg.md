@@ -11,6 +11,7 @@ them.
 ## Usage
 
 POSIX only:
+
  ```
  bg { code block }
 

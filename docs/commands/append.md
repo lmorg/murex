@@ -44,7 +44,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[ Index ]`](../parser/item-index.md):
@@ -56,7 +56,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 * [`addheading` ](../commands/addheading.md):
   Adds headings to a table
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):

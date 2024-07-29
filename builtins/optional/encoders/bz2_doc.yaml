@@ -5,12 +5,12 @@
   Summary: >-
     Decompress a bz2 file
   Description: |-
-    `!bz2` is an optional builtin for decompressing a bz2 stream from STDIN.
+    `!bz2` is an optional builtin for decompressing a bz2 stream from stdin.
   Usage: |-
     ```
     <stdin> -> !bz2 -> <stdout>
     ```
-  Examples: |-
+  Examples:
   Detail: |-
     Currently there is no support for compressing a stream using bz2.
   Synonyms:

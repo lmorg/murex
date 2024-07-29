@@ -50,7 +50,7 @@ are unsuccessful.
 ## See Also
 
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`false`](../commands/false.md):

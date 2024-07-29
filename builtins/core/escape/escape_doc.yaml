@@ -5,13 +5,13 @@
   Summary: >-
     Escape or unescape input
   Description: |-
-    `escape` takes input from either STDIN or the parameters and returns the same
+    `escape` takes input from either stdin or the parameters and returns the same
     data, escaped.
 
     `!escape` does the same process in reverse, where it takes escaped data and
     returns its unescaped counterpart.
   Usage: |-
-    Escape
+    ### Escape
 
     ```
     <stdin> -> escape -> <stdout>
@@ -19,7 +19,7 @@
     escape string to escape -> <stdout>
     ```
 
-    Unescape
+    ### Unescape
 
     ```
     <stdin> -> !escape -> <stdout>
@@ -27,7 +27,7 @@
     !escape string to unescape -> <stdout>
     ```
   Examples: |-
-    Escape
+    ### Escape
 
     ```
     » out (multi
@@ -45,6 +45,8 @@
     - eschtml
     - escurl
 
+
+
 - DocumentID: eschtml
   Title: >+
     `eschtml`
@@ -52,13 +54,13 @@
   Summary: >-
     Encode or decodes text for HTML
   Description: |-
-    `eschtml` takes input from either STDIN or the parameters and returns the same
+    `eschtml` takes input from either stdin or the parameters and returns the same
     data, HTML escaped.
 
     `!eschtml` does the same process in reverse, where it takes HTML escaped data
     and returns its unescaped counterpart.
   Usage: |-
-    Escape
+    ### Escape
 
     ```
     <stdin> -> eschtml -> <stdout>
@@ -66,7 +68,7 @@
     eschtml string to escape -> <stdout>
     ```
 
-    Unescape
+    ### Unescape
 
     ```
     <stdin> -> !eschtml -> <stdout>
@@ -74,14 +76,14 @@
     !eschtml string to unescape -> <stdout>
     ```
   Examples: |-
-    Escape
+    ### Escape
 
     ```
     » out "<h1>foo & bar</h1>" -> eschtml
     &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
     ```
 
-    Unescape
+    ### Unescape
 
     ```
     » out '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
@@ -100,6 +102,8 @@
     - post
     - getfile
 
+
+
 - DocumentID: escurl
   Title: >+
     `escurl`
@@ -107,13 +111,13 @@
   Summary: >-
     Encode or decodes text for the URL
   Description: |-
-    `escurl` takes input from either STDIN or the parameters and returns the same
+    `escurl` takes input from either stdin or the parameters and returns the same
     data, escaped for the URL.
 
     `!eschtml` does the same process in reverse, where it takes URL escaped data
     and returns its unescaped counterpart.
   Usage: |-
-    Escape
+    ### Escape
 
     ```
     <stdin> -> escurl -> <stdout>
@@ -121,7 +125,7 @@
     escurl string to escape -> <stdout>
     ```
 
-    Unescape
+    ### Unescape
 
     ```
     <stdin> -> !escurl -> <stdout>
@@ -129,14 +133,14 @@
     !escurl string to unescape -> <stdout>
     ```
   Examples: |-
-    Escape
+    ### Escape
 
     ```
     » out "!? <>" -> escurl
     %21%3F%20%3C%3E%0A 
     ```
 
-    Unescape
+    ### Unescape
 
     ```
     out '%21%3F%20%3C%3E%0A' -> !escurl
@@ -155,6 +159,8 @@
     - post
     - getfile
 
+
+
 - DocumentID: esccli
   Title: >+
     `esccli`
@@ -172,7 +178,7 @@
     esccli @array -> <stdout>
     ```
   Examples: |-
-    As a method
+    ### As a method
 
     ```
     » alias foobar=out 'foo$b@r'
@@ -185,7 +191,7 @@
     out foo\$b\@r
     ```
 
-    As a function
+    ### As a function
 
     ```
     » alias -> [foobar] -> set fb

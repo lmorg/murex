@@ -11,7 +11,7 @@ Defines, updates or deallocates a local variable.
 ```
 <stdin> -> set var_name
 
-# Assume value from STDIN, define the data type manually
+# Assume value from stdin, define the data type manually
 <stdin> -> set datatype var_name
 
 # Define value manually (data type defaults to string; `str`)
@@ -27,7 +27,7 @@ set datatype var_name
 
 ## Examples
 
-As a method:
+### As a method
 
 ```
 » out "Hello, world!" -> set hw
@@ -35,7 +35,7 @@ As a method:
 Hello, World!
 ```
 
-As a function:
+### As a function
 
 ```
 » set hw="Hello, world!"

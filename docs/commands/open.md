@@ -8,10 +8,10 @@
 
 1. It will read a file from disk or a HTTP(S) endpoints
 2. Detect the file type via file extension or HTTP header `Content-Type`
-3. It intelligently writes to STDOUT
-  - If STDOUT is a TTY it will perform any transformations to render to the
+3. It intelligently writes to stdout
+  - If stdout is a TTY it will perform any transformations to render to the
     terminal (eg using inlining images)
-  - If STDOUT is a pipe then it will write a byte stream with the relevant
+  - If stdout is a pipe then it will write a byte stream with the relevant
     data-type
 4. If there are no open handlers then it will fallback to the systems default.
    eg `open` (on macOS, Linux), `open-xdg` (X11), etc.
@@ -231,7 +231,7 @@ exec open --flags filename
 * [`openagent`](../commands/openagent.md):
   Creates a handler function for `open`
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
 

@@ -1,15 +1,15 @@
 # `jsplit` 
 
-> Splits STDIN into a JSON array based on a regex parameter
+> Splits stdin into a JSON array based on a regex parameter
 
 ## Description
 
-`jsplit` will read from STDIN and split it based on a regex parameter. It outputs a JSON array.
+`jsplit` will read from stdin and split it based on a regex parameter. It outputs a JSON array.
 
 ## Usage
 
 ```
-<STDIN> -> jsplit regex -> <stdout>
+<stdin> -> jsplit regex -> <stdout>
 ```
 
 ## Examples
@@ -46,7 +46,7 @@ unwanted "noise" is stripped from the output.
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):

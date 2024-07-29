@@ -11,7 +11,7 @@ key=b, value=2
 key=c, value=3
 ```
 
-Here we are using `:json:` to cast / annotate the STDIN stream for `formap`.
+Here we are using `:json:` to cast / annotate the stdin stream for `formap`.
 
 ### Lambdas
 

@@ -21,7 +21,7 @@ A falsy value is any of the following:
 
 ## Examples
 
-**Assign a variable with a default value:**
+### Assign with a default value
 
 ```
 » $foo = $bar ?: "baz"
@@ -29,7 +29,7 @@ A falsy value is any of the following:
 
 If `$bar` is falsy, then the value of `$foo` will be **"baz"**.
 
-**Multiple elvis operators:**
+### Multiple elvis operators
 
 ```
 » $unset_variable ?: null ?: false ?: "foobar"
@@ -49,6 +49,8 @@ where it says:
 
 ## See Also
 
+* [Operators And Tokens](../user-guide/operators-and-tokens.md):
+  A table of all supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
@@ -57,14 +59,14 @@ where it says:
   Continues next operation if previous operation passes
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` STDERR Pipe](../parser/pipe-err.md):
-  Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../parser/pipe-err.md):
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):

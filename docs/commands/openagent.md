@@ -5,7 +5,7 @@
 ## Description
 
 `openagent` creates and destroys handler functions for writing data to the
-terminal when accessed via `open` and STDOUT is a TTY.
+terminal when accessed via `open` and stdout is a TTY.
 
 ## Usage
 
@@ -44,7 +44,7 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
-* [Modules and Packages](../user-guide/modules.md):
+* [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.

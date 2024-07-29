@@ -4,7 +4,7 @@
 
 ## Description
 
-`match` takes input from STDIN and returns any array items / lines which
+`match` takes input from stdin and returns any array items / lines which
 contain an exact match of the parameters supplied.
 
 When multiple parameters are supplied they are concatenated into the search
@@ -35,6 +35,8 @@ Match everything except search string
 
 ## Examples
 
+### Return matched
+
 Match **Wed**
 
 ```
@@ -43,6 +45,8 @@ Match **Wed**
     "Wednesday"
 ]
 ```
+
+### Ignore matched
 
 Match everything except **Wed**
 
@@ -59,7 +63,7 @@ Match everything except **Wed**
 ## Detail
 
 `match` is data-type aware so will work against lists or arrays of whichever
-Murex data-type is passed to it via STDIN and return the output in the
+Murex data-type is passed to it via stdin and return the output in the
 same data-type.
 
 ## Synonyms
@@ -82,7 +86,7 @@ same data-type.
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`msort`](../commands/msort.md):

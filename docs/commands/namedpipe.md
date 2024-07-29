@@ -14,21 +14,19 @@ Sometimes you will need to start a command line with a Murex named pipe, eg
 
 ## Usage
 
-Read from pipe
+### Read from pipe
 
 ```
 <namedpipe> -> <stdout>
 ```
 
-Write to pipe
+### Write to pipe
 
 ```
 <stdin> -> <namedpipe>
 ```
 
 ## Examples
-
-The follow two examples function the same
 
 ```
 » pipe example
@@ -42,9 +40,9 @@ The follow two examples function the same
 
 ### What are Murex named pipes?
 
-In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
-while are "piped" from one executable to another. ie STDOUT for application 'A'
-would be the same file as STDIN for application 'B' when A is piped to B:
+In POSIX, there is a concept of stdin, stdout and stderr, these are FIFO files
+while are "piped" from one executable to another. ie stdout for application 'A'
+would be the same file as stdin for application 'B' when A is piped to B:
 `A | B`. Murex adds a another layer around this to enable support for passing
 data types and builtins which are agnostic to the data serialization format
 traversing the pipeline. While this does add overhead the advantage is this new
@@ -120,7 +118,7 @@ that pipes created in modules should be prefixed with the name of its package.
 ## See Also
 
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`bg`](../commands/bg.md):

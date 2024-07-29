@@ -5,7 +5,7 @@
   Summary: >-
     Left substring every item in a list
   Description: |-
-    Takes a list from STDIN and returns a left substring of that same list.
+    Takes a list from stdin and returns a left substring of that same list.
 
     One parameter is required and that is the number of characters to return. If
     the parameter is a negative then `left` counts from the right.
@@ -14,7 +14,7 @@
     <stdin> -> left int -> <stdout>
     ```
   Examples: |-
-    Count from the left
+    ### Count from the left
 
     ```
     » ja [Monday..Wednesday] -> left 2
@@ -25,7 +25,7 @@
     ]
     ```
 
-    Count from the right
+    ### Count from the right
 
     ```
     » ja [Monday..Wednesday] -> left -3
@@ -57,6 +57,8 @@
     - lang.MarshalData
     - lang.UnmarshalData
 
+
+
 - DocumentID: right
   Title: >+
     `right`
@@ -64,7 +66,7 @@
   Summary: >-
     Right substring every item in a list
   Description: |-
-    Takes a list from STDIN and returns a right substring of that same list.
+    Takes a list from stdin and returns a right substring of that same list.
 
     One parameter is required and that is the number of characters to return. If
     the parameter is a negative then `right` counts from the left.
@@ -73,7 +75,7 @@
     <stdin> -> right int -> <stdout>
     ```
   Examples: |-
-    Count from the right
+    ### Count from the right
 
     ```
     » ja [Monday..Wednesday] -> right 4
@@ -84,7 +86,7 @@
     ]
     ```
 
-    Count from the left
+    ### Count from the left
 
     ```
     » ja [Monday..Wednesday] -> left -3
@@ -116,6 +118,8 @@
     - lang.MarshalData
     - lang.UnmarshalData
 
+
+
 - DocumentID: prefix
   Title: >+
     `prefix`
@@ -123,7 +127,7 @@
   Summary: >-
     Prefix a string to every item in a list
   Description: |-
-    Takes a list from STDIN and returns that same list with each element prefixed.
+    Takes a list from stdin and returns that same list with each element prefixed.
   Usage: |-
     ```
     <stdin> -> prefix str -> <stdout>
@@ -159,6 +163,8 @@
     - lang.MarshalData
     - lang.UnmarshalData
 
+
+
 - DocumentID: suffix
   Title: >+
     `suffix`
@@ -166,7 +172,7 @@
   Summary: >-
     Prefix a string to every item in a list
   Description: |-
-    Takes a list from STDIN and returns that same list with each element suffixed.
+    Takes a list from stdin and returns that same list with each element suffixed.
   Usage: |-
     ```
     <stdin> -> suffix str -> <stdout>

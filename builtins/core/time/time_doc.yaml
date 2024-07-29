@@ -14,19 +14,25 @@
     time { code-block } -> <stderr>
     ```
   Examples: |-
+    ### Time a command
+
     ```
     » time sleep 5
     5.000151513
+    ```
 
+    ### Time a block of code
+
+    ```
     » time { out "Going to sleep"; sleep 5; out "Waking up" }
     Going to sleep
     Waking up
     5.000240977
     ```
   Detail: |-
-    `time`'s output is written to STDERR. However any output and errors written
-    by the commands executed by time will also be written to `time`'s STDOUT
-    and STDERR as usual.
+    `time`'s output is written to stderr. However any output and errors written
+    by the commands executed by time will also be written to `time`'s stdout
+    and stderr as usual.
   Synonyms:
   Related:
     - sleep

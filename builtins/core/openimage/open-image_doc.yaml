@@ -15,19 +15,19 @@
     open-image file-path -> <stdout>
     ```
   Examples: |-
-    As a method
+    ### As a method
 
     ```
     » cat example.png -> open-image
     ```
 
-    As a function
+    ### As a function
 
     ```
     » open-image example.png
     ```
   Detail: |-
-    `open-image` will fail if STDOUT is not a TTY.
+    `open-image` will fail if stdout is not a TTY.
   Synonyms:
   Related:
     - qr

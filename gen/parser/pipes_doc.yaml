@@ -3,10 +3,10 @@
      `->` Arrow Pipe
   CategoryID: parser
   Summary: >-
-    Pipes STDOUT from the left hand command to STDIN of the right hand command
+    Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
     This token behaves much like pipe would in Bash or similar shells. It passes
-    STDOUT along the pipeline while merging STDERR stream with the parents STDERR
+    stdout along the pipeline while merging stderr stream with the parents stderr
     stream.
 
     `->` differs from `|` in the interactive terminal where it produces different
@@ -16,6 +16,8 @@
 
     In shell scripts, `->` and `|` can be used interchangeably.
   Examples: |-
+    ### Piping stdout
+
     ```
     » out Hello, world! -> regexp s/world/Earth/
     Hello, Earth!
@@ -24,14 +26,24 @@
     Hello, Earth!
     ```
 
-    In following example the first command is writing to STDERR rather than STDOUT
+    ### Piping stderr
+
+    In following example the first command is writing to stderr rather than stdout
     so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
     
     ```
     » err Hello, world! -> regexp s/world/Earth/
     Hello, world!
     ```
-  Detail: |-
+
+    To pipe stderr you'd need to use the `<!>` syntax. For example `<!out>` to
+    write stderr to stdout:
+
+    ```
+    » err <!out> Hello, world! -> regexp s/world/Earth/
+    Hello, Earth!
+    ```
+  Detail:
   Related:
   - pipe-posix
   - pipe-generic
@@ -46,12 +58,12 @@
 
 - DocumentID: pipe-err
   Title: >-
-    `?` STDERR Pipe
+    `?` stderr Pipe
   CategoryID: parser
   Summary: >-
-    Pipes STDERR from the left hand command to STDIN of the right hand command (DEPRECATED)
+    Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
   Description: |-
-    This token swaps the STDOUT and STDERR streams of the left hand command.
+    This token swaps the stdout and stderr streams of the left hand command.
 
     Please note that this token is only effective when it is prefixed by white
     space.
@@ -66,7 +78,7 @@
     Hello, Earth!
     ```
 
-    In following example the first command is writing to STDOUT rather than STDERR
+    In following example the first command is writing to stdout rather than stderr
     so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
     
     ```
@@ -74,7 +86,7 @@
     Hello, world!
     ```
 
-    In following example the STDERR token isn't whitespace padded so is treated
+    In following example the stderr token isn't whitespace padded so is treated
     like any ordinary printable character:
 
     ```
@@ -99,7 +111,7 @@
     `=>` Generic Pipe
   CategoryID: parser
   Summary: >-
-    Pipes a reformatted STDOUT stream from the left hand command to STDIN of the
+    Pipes a reformatted stdout stream from the left hand command to stdin of the
     right hand command
   Description: |-
     This token behaves much like the `|` pipe would except it injects `format
@@ -139,7 +151,7 @@
         "Wed"
     ]
     ```
-  Detail: |-
+  Detail:
   Related:
   - pipe-arrow
   - pipe-posix
@@ -156,14 +168,16 @@
     `|` POSIX Pipe
   CategoryID: parser
   Summary: >-
-    Pipes STDOUT from the left hand command to STDIN of the right hand command
+    Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
     This token behaves much like pipe would in Bash or similar shells. It passes
-    STDOUT along the pipeline while merging STDERR stream with the parents STDERR
+    stdout along the pipeline while merging stderr stream with the parents stderr
     stream.
 
     It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
   Examples: |-
+    ### Piping stdout
+
     ```
     » out Hello, world! | regexp s/world/Earth/
     Hello, Earth!
@@ -172,12 +186,22 @@
     Hello, Earth!
     ```
 
-    In this example the first command is writing to STDERR rather than STDOUT so
-    `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
+    ### Piping stderr
+
+    In following example the first command is writing to stderr rather than stdout
+    so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
     
     ```
     » err Hello, world! | regexp s/world/Earth/
     Hello, world!
+    ```
+
+    To pipe stderr you'd need to use the `<!>` syntax. For example `<!out>` to
+    write stderr to stdout:
+
+    ```
+    » err <!out> Hello, world! | regexp s/world/Earth/
+    Hello, Earth!
     ```
   #Tests: |-
   #  ```go
@@ -196,14 +220,14 @@
 
 
 
-- DocumentID: pipe-append
+- DocumentID: file-append
   Title: >-
-     `>>` Append Pipe
+     `>>` Append File
   CategoryID: parser
   Summary: >-
-    Redirects STDOUT to a file and append its contents
+    Writes stdin to disk - appending contents if file already exists
   Description: |-
-    This is used to redirect the STDOUT of a command and append it to a file. If
+    This is used to redirect the stdout of a command and append it to a file. If
     that file does not exist, then the file is created.
 
     This behaves similarly to the [Bash (et al) token](https://www.gnu.org/software/bash/manual/bash.html#Appending-Redirected-Output)
@@ -222,25 +246,27 @@
     the following:
     
     ```
-    echo "foobar" >> example.txt
+    out "foobar" >> example.txt
     ```
 
     it will compile an abstract syntax tree which would reflect the following code
     instead:
 
     ```
-    echo "foobar" | >> example.txt
+    out "foobar" | >> example.txt
     ```
 
     ### Truncating a file
 
     To truncate a file (ie overwrite its contents) use `|>` instead.
+  Synonyms:
+    - ">>"
+    - "fappend"
   Related:
+  - pipe
   - pipe-arrow
   - pipe-posix
   - namedpipe
-  - pipe-err
   - pipeline
-  - ja
-  - greater-than-greater-than
-  - greater-than
+  - file-truncate
+  - out

@@ -4,7 +4,7 @@
 
 ## Description
 
-`mtac` takes input from STDIN and reverses the order of it.
+`mtac` takes input from stdin and reverses the order of it.
 
 It's name is derived from a program called `tac` - a tool that functions
 like `cat` but returns the contents in the reverse order. The difference
@@ -46,11 +46,11 @@ Murex.
 
 Please bare in mind that while Murex is optimised with concurrency and
 streaming in mind, it's impossible to reverse an incomplete array. Thus all
-all of STDIN must have been read and that file closed before `mtac` can
+all of stdin must have been read and that file closed before `mtac` can
 output.
 
 In practical terms you shouldn't notice any difference except for when
-STDIN is a long running process or non-standard stream (eg network pipe).
+stdin is a long running process or non-standard stream (eg network pipe).
 
 ## Synonyms
 
@@ -71,7 +71,7 @@ STDIN is a long running process or non-standard stream (eg network pipe).
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`msort`](../commands/msort.md):

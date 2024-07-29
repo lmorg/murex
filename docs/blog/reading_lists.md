@@ -148,13 +148,13 @@ Published: 22.04.2023 at 11:43
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

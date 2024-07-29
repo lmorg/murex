@@ -31,7 +31,7 @@ $url -> format json
 
 ## Detail
 
-If `tread` is called as a method then the prompt string is taken from STDIN.
+If `tread` is called as a method then the prompt string is taken from stdin.
 Otherwise the prompt string will be the first parameter. However if no prompt
 string is given then `tread` will not write a prompt.
 
@@ -45,19 +45,19 @@ variable.
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`cast`](../commands/cast.md):
-  Alters the data type of the previous function without altering it's output
+  Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

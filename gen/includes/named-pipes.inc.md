@@ -1,8 +1,8 @@
 ### What are Murex named pipes?
 
-In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
-while are "piped" from one executable to another. ie STDOUT for application 'A'
-would be the same file as STDIN for application 'B' when A is piped to B:
+In POSIX, there is a concept of stdin, stdout and stderr, these are FIFO files
+while are "piped" from one executable to another. ie stdout for application 'A'
+would be the same file as stdin for application 'B' when A is piped to B:
 `A | B`. Murex adds a another layer around this to enable support for passing
 data types and builtins which are agnostic to the data serialization format
 traversing the pipeline. While this does add overhead the advantage is this new

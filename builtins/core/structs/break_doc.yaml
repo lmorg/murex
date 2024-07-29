@@ -15,7 +15,7 @@
     return [ exit-number ]
     ```
   Examples: |-
-    **Setting an exit number:**
+    ### Setting an exit number
 
     ```
     function example {
@@ -34,7 +34,7 @@
     13
     ```
 
-    **Returning withing an exit number:**
+    ### Returning withing an exit number
 
     If we were to run the same code as above but with `return` written without any
     parameters (ie instead of `return 13` it would be just `return`), then you
@@ -59,6 +59,8 @@
     - continue
     - exitnum
 
+
+
 - DocumentID: break
   Title: >+
     `break`
@@ -78,7 +80,7 @@
     break block-name
     ```
   Examples: |-
-    **Exiting an iteration block:**
+    ### Exiting an iteration block
 
     ```
     function foo {
@@ -105,7 +107,7 @@
     exit running function
     ```
 
-    **Exiting a function:**
+    ### Exiting a function
 
     `break` can be considered to exhibit the behavior of _return_ (from other
     languages) too
@@ -163,6 +165,8 @@
     - out
     - continue
     - return
+
+
 
 - DocumentID: continue
   Title: >+

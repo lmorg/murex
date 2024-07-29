@@ -8,14 +8,14 @@
     The Subtraction Operator takes the right hand number from the left hand number
     in an expression.
   Examples: |-
-    #### Expression
+    ### Expression
 
     ```
     » 3-2
     1
     ```
 
-    #### Statement
+    ### Statement
 
     ```
     out (3-2)
@@ -35,3 +35,4 @@
   - config
   - cast
   - strict-types
+  - operators-and-tokens
