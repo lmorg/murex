@@ -4,7 +4,7 @@
 
 ## Description
 
-This is the default data type used when STDOUT is returned from any external
+This is the default data type used when stdout is returned from any external
 executables.
 
 ## Supported Hooks

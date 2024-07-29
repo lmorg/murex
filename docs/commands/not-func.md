@@ -1,10 +1,10 @@
 # `!` (not)
 
-> Reads the STDIN and exit number from previous process and not's it's condition
+> Reads the stdin and exit number from previous process and not's it's condition
 
 ## Description
 
-Reads the STDIN and exit number from previous process and not's it's condition.
+Reads the stdin and exit number from previous process and not's it's condition.
 
 ## Usage
 

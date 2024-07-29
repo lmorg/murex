@@ -53,9 +53,9 @@ Read date/time value from stdout:
 * `--in`
     Defines the date/time string is formatted in `--value`
 * `--out`
-    Defined how the date/time string should be formatted in STDOUT
+    Defined how the date/time string should be formatted in stdout
 * `--value`
-    Date/time value to convert (if omitted and the input format is not set to `{now}` then date/time is read from STDIN)
+    Date/time value to convert (if omitted and the input format is not set to `{now}` then date/time is read from stdin)
 
 ## Detail
 
@@ -84,7 +84,7 @@ required.
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 

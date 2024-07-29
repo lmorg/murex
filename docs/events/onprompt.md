@@ -29,7 +29,7 @@ event onPrompt name=(before|after|abort|eof) { code block }
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
+The following payload is passed to the function via stdin:
 
 ```
 {

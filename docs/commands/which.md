@@ -4,8 +4,8 @@
 
 ## Description
 
-`which` locates a command's origin. If STDOUT is a TTY, then it's output will be
-human readable. If STDOUT is a pipe then it's output will be a simple list.
+`which` locates a command's origin. If stdout is a TTY, then it's output will be
+human readable. If stdout is a pipe then it's output will be a simple list.
 
 `which` can take multiple parameters, each representing a different command you
 want looked up.
@@ -47,7 +47,7 @@ There are a few different types of commands:
 ### alias
 
 This will be represented in `which` and `type` by the term **alias** and, when
-STDOUT is a TTY, `which` will follow the alias to print what command the alias
+stdout is a TTY, `which` will follow the alias to print what command the alias
 points to.
 
 ### function
@@ -68,7 +68,7 @@ This is a shell builtin, like `out` and `exit`. It will be represented in
 ### external executable
 
 This is any other external command, such as `systemctl` and `python`. This
-will be represented in `which` by the path to the executable. When STDOUT is a
+will be represented in `which` by the path to the executable. When stdout is a
 TTY, `which` will also print the destination path of any symlinks too.
 
 In `type`, it is represented by the term **executable**.
@@ -86,7 +86,7 @@ In `type`, it is represented by the term **executable**.
 * [`function`](../commands/function.md):
   Define a function block
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`type`](../commands/type.md):
   Command type (function, builtin, alias, etc)
 

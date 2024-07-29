@@ -28,7 +28,7 @@ event onCommandCompletion name=command { code block }
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
+The following payload is passed to the function via stdin:
 
 ```
 {
@@ -59,7 +59,7 @@ This will be an array of strings, like `@ARGV`.
 
 ### Interrupt/Stdout
 
-This is the name of the Murex named pipe which contains a copy of the STDOUT
+This is the name of the Murex named pipe which contains a copy of the stdout
 from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
@@ -120,7 +120,7 @@ Stdout and stderr are both written to the terminal's stderr.
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`alias`](../commands/alias.md):

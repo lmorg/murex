@@ -11,7 +11,7 @@ Defines, updates or deallocates a local variable.
 ```
 <stdin> -> set var_name
 
-# Assume value from STDIN, define the data type manually
+# Assume value from stdin, define the data type manually
 <stdin> -> set datatype var_name
 
 # Define value manually (data type defaults to string; `str`)

@@ -45,7 +45,7 @@ murex-docs trypipe
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
 * [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+  Creates a QR code from stdin
 * [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`sleep`](../optional/sleep.md):

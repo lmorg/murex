@@ -79,8 +79,8 @@ Numbers will also follow the same transparent conversion treatment:
 ```
 
 > Please note: `alter` is not changing the value held inside `config` but
-> instead took the STDOUT from `config`, altered a value and then passed that
-> new complete structure through it's STDOUT.
+> instead took the stdout from `config`, altered a value and then passed that
+> new complete structure through it's stdout.
 >
 > If you require modifying a structure inside Murex config (such as http
 > headers) then you can use `config alter`. Read the config docs for reference.
@@ -148,7 +148,7 @@ config -> alter ' shell prompt Value' moo
 
 ### Supported data-types
 
-The *value* field must always be supplied as JSON however the *STDIN* struct
+The *value* field must always be supplied as JSON however the *stdin* struct
 can be any data-type supported by murex.
 
 You can check what data-types are available via the `runtime` command:

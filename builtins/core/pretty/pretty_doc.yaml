@@ -5,8 +5,8 @@
   Summary: >-
     Prettifies JSON to make it human readable
   Description: |-
-    Takes JSON from the STDIN and reformats it to make it human readable, then
-    outputs that to STDOUT.
+    Takes JSON from the stdin and reformats it to make it human readable, then
+    outputs that to stdout.
   Usage: |-
     ```
     <stdin> -> pretty -> <stdout>

@@ -1,6 +1,6 @@
 # `|>` Truncate File
 
-> Writes STDIN to disk - overwriting contents if file already exists
+> Writes stdin to disk - overwriting contents if file already exists
 
 ## Description
 
@@ -31,13 +31,13 @@ g * |> files.txt
 ## See Also
 
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`pipe`](../commands/pipe.md):
@@ -45,7 +45,7 @@ g * |> files.txt
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 
 <hr/>
 

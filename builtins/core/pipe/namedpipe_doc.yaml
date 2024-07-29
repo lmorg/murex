@@ -54,10 +54,10 @@
     `<stdin>`
   CategoryID: commands
   Summary: >-
-    Read the STDIN belonging to the parent code block
+    Read the stdin belonging to the parent code block
   Description: |-
     This is used inside functions and other code blocks to pass that block's
-    STDIN down a pipeline
+    stdin down a pipeline
   Usage: |-
     ```
     <stdin> -> <stdout>

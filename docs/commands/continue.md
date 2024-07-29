@@ -89,7 +89,7 @@ Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 * [`return`](../commands/return.md):

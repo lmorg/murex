@@ -112,7 +112,7 @@ queries for the sake of brevity.
 
 ### Read All vs Sequential Reads
 
-At present, `select` only supports reading the entire table from STDIN before
+At present, `select` only supports reading the entire table from stdin before
 importing that data into sqlite3. There is some prototype code being written to
 support sequential imports but this is hugely experimental and not yet enabled.
 

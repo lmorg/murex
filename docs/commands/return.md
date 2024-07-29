@@ -67,7 +67,7 @@ was passed).
 * [`function`](../commands/function.md):
   Define a function block
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 

@@ -13,9 +13,8 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "master", "develop" ]
+    paths:
+      - "**/*.go"
   schedule:
     - cron: '30 23 * * 6'
 

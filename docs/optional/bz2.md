@@ -4,7 +4,7 @@
 
 ## Description
 
-`!bz2` is an optional builtin for decompressing a bz2 stream from STDIN.
+`!bz2` is an optional builtin for decompressing a bz2 stream from stdin.
 
 ## Usage
 

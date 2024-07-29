@@ -165,7 +165,7 @@ flag names. eg
 * `--memstats`
     Outputs the running state of Go's runtime
 * `--methods`
-    Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->`
+    Lists all commands with a defined stdout and stdin data type. This is used to generate smarter autocompletion suggestions with `->`
 * `--modules`
     Lists all installed [modules](/docs/user-guide/modules.md)
 * `--named-pipes`
@@ -212,8 +212,8 @@ a verbose "dump" of the internal running state of Murex.
 
 If you require a stable API to script against then please use the respective
 command line tool. For example `fid-list` instead of `runtime --fids`. Some
-tools will provide a human readable output when STDOUT is a TTY but output
-a script parsable version when STDOUT is not a terminal.
+tools will provide a human readable output when stdout is a TTY but output
+a script parsable version when stdout is not a terminal.
 
 ```
 » fid-list

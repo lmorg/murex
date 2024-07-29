@@ -94,7 +94,7 @@ the choice of syntax we can use.
 
 ### Expressions and Statements
 
-An **expression** is an evaluation, operation or assignment, for example:
+An _expression_ is an evaluation, operation or assignment, for example:
 ```
 » 6 > 5
 » fruit = %[ apples oranges bananas ]
@@ -103,7 +103,7 @@ An **expression** is an evaluation, operation or assignment, for example:
 
 > Expressions are type sensitive
 
-Whereas a **statement** is a shell command to execute:
+Whereas a _statement_ is a shell command to execute:
 ```
 » echo "Hello Murex"
 » kill 1234
@@ -123,7 +123,7 @@ This allow expressions and statements to be used interchangeably in a pipeline:
 
 ### Functions and Methods
 
-A **function** is command that doesn't take data from STDIN whereas a **method**
+A _function_ is command that doesn't take data from stdin whereas a _method_
 is any command that does.
 ```
 echo "Hello Murex" | grep "Murex"
@@ -132,7 +132,7 @@ echo "Hello Murex" | grep "Murex"
 
 In practical terms, functions and methods are executed in exactly the same way
 however some builtins might behave differently depending on whether values are
-passed via STDIN or as parameters. Thus you will often find references to
+passed via stdin or as parameters. Thus you will often find references to
 functions and methods, and sometimes for the same command, within these
 documents.
 
@@ -378,7 +378,7 @@ There are two types of emendable sub-shells: strings and arrays.
 * array sub-shells, `@{ command }`, take the results from the sub-shell
   and expand it as parameters.
 
-**Examples:**
+Examples:
 
 ```
 touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
@@ -399,7 +399,7 @@ accidental damage. Instead globbing is achieved via sub-shells using either:
 * `rx` - regexp matching in current directory only ({{ link "read more" "rx" }})
 * `f`  - file type matching                        ({{ link "read more" "f" }})
 
-**Examples:**
+Examples:
 
 All text files via globbing:
 ```

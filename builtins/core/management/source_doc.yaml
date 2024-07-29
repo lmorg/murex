@@ -9,7 +9,7 @@
     an "import" / "include" directive (eg Python, Go, C, etc) or an "eval" (eg
     Python, Perl, etc).
   Usage: |-
-    ### Execute source from STDIN
+    ### Execute source from stdin
 
     ```
     <stdin> -> source

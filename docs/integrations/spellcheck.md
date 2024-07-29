@@ -74,8 +74,8 @@ alternative spellchecker then follow the instructions in the next section:
 You might legitimately want to run a different spellchecker and if so you'll
 need to write your own **spellcheck-func**. Fortunately this is simple:
 
-The function reads the command line from STDIN, if the spellchecker reads lines
-from parameters rather than STDIN you'll need to write something equivalent to
+The function reads the command line from stdin, if the spellchecker reads lines
+from parameters rather than stdin you'll need to write something equivalent to
 the following
 
 ```
@@ -87,7 +87,7 @@ the following
 ```
 
 The output of the function must me an array containing the misspelt words only.
-That array can be JSON just as long as you have set STDOUT's data type to
+That array can be JSON just as long as you have set stdout's data type to
 `json`. Similarly, other supported Murex data types can be used too. However
 in general you might just want to go with a misspelling per line as it's pretty
 POSIX friendly and thus most spellcheckers are likely to support it. eg
@@ -172,7 +172,7 @@ and what the package names are for `aspell` and its corresponding dictionaries.
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`{ Curly Brace }`](../parser/curly-brace.md):

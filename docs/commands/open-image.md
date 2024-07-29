@@ -32,14 +32,14 @@ open-image file-path -> <stdout>
 
 ## Detail
 
-`open-image` will fail if STDOUT is not a TTY.
+`open-image` will fail if stdout is not a TTY.
 
 ## See Also
 
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+  Creates a QR code from stdin
 
 <hr/>
 

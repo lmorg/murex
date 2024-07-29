@@ -59,12 +59,12 @@ blocks pipelines from running every command in parallel.
 #### tryerr
 
 Checks last command in the pipeline for errors (still allowing commands to run
-in parallel) plus also checks if STDERR contains excessive output.
+in parallel) plus also checks if stderr contains excessive output.
 
 #### trypipeerr
 
 Checks every command in the pipeline before executing the next (blocking
-commands from running in parallel) plus also checks if STDERR contains
+commands from running in parallel) plus also checks if stderr contains
 excessive output.
 
 ### 2nd parameter
@@ -98,7 +98,7 @@ if `runmode ... module` is set.
 * [`function`](../commands/function.md):
   Define a function block
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
 * [`read`](../commands/read.md):

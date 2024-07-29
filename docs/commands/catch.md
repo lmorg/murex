@@ -38,7 +38,7 @@ catch {
 
 `catch` can be used with a bang prefix to check for a lack of errors.
 
-`catch` forwards on the STDIN and exit number of the calling function.
+`catch` forwards on the stdin and exit number of the calling function.
 
 ## Synonyms
 

@@ -7,16 +7,18 @@ tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
 head:
   - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
 actions:
-  - text: "🛟 Language Tour"
+  - text: " Language Tour"
     icon: "plane-departure"
     link: tour/
     type: primary
-  - text: "🪨 Rosetta Stone"
+  - text: " Rosetta Stone"
     icon: table
     link: user-guide/rosetta-stone/
-  - text: "🐚 Interactive Shell"
+  - text: " Interactive Shell"
+    icon: keyboard
     link: user-guide/interactive-shell/
-  - text: "📦 Install"
+  - text: " Install"
+    icon: download
     link: install/ 
 
 
@@ -25,41 +27,41 @@ highlights:
     description: Murex carries tons of unique features. Some highlights include...
     features:
       - title: Content Aware
-        icon: arrows-to-circle
+        icon: file-contract
         details: |-
           Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
           <br/><br/>
-          <b>Data types can be explicitly cast and reformatted, but also inferred if preferred.</b>
+          <strong>Data types can be explicitly cast and reformatted, but also inferred if preferred.</strong>
         link: types/
 
       - title: Expressions
-        icon: check-double
+        icon: hashtag
         details: |-
           Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
           <br/><br/>
-          <b>Never worry about file names with weird characters, nor running equations in "bc" again.</b>
-        link: tour/#scalars
+          <strong>Never worry about file names with weird characters, nor running equations in "bc" again.</strong>
+        link: parser/
 
       - title: Smartly Interactive
         icon: wand-magic-sparkles
         details: |-
           Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
           <br/><br/>
-          <b>Navigating the command line is faster, more intuitive and efficient than ever before.</b>
+          <strong>Navigating the command line is faster, more intuitive and efficient than ever before.</strong>
         link: user-guide/interactive-shell
 
       - title: Easily Extended
-        icon: cubes
+        icon: "puzzle-piece"
         details: |-
           Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
           <br/><br/>
-          <b>Configure once, use everywhere.</b>
+          <strong>Configure once, use everywhere.</strong>
         link: user-guide/modules
 
 copyright: false
 footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
 ---
-## 🛟 Getting Started
+## Getting Started
 
 * Read the [language tour](/tour.html) to get started.
 
@@ -71,7 +73,7 @@ This guide includes comparisons with Bash.
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
 
-## 👁‍🗨 Screenshots
+## Screenshots
 
 <!-- markdownlint-disable -->
 
@@ -122,7 +124,7 @@ language.
 
 Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
-## 📦 Easy to Install
+## Easy to Install
 
 Install `murex` from your favorite package manager:
 
@@ -177,7 +179,7 @@ A non-exhaustive list features would include:
   completions already defined.
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
-  blocks, line numbers included in error messages, STDOUT highlighted in red
+  blocks, line numbers included in error messages, stdout highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
 ## Language Guides

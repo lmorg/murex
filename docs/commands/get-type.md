@@ -66,7 +66,7 @@ json
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

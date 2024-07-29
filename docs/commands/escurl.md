@@ -4,7 +4,7 @@
 
 ## Description
 
-`escurl` takes input from either STDIN or the parameters and returns the same
+`escurl` takes input from either stdin or the parameters and returns the same
 data, escaped for the URL.
 
 `!eschtml` does the same process in reverse, where it takes URL escaped data

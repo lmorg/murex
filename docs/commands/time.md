@@ -35,9 +35,9 @@ Waking up
 
 ## Detail
 
-`time`'s output is written to STDERR. However any output and errors written
-by the commands executed by time will also be written to `time`'s STDOUT
-and STDERR as usual.
+`time`'s output is written to stderr. However any output and errors written
+by the commands executed by time will also be written to `time`'s stdout
+and stderr as usual.
 
 ## See Also
 

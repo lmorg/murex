@@ -4,7 +4,7 @@
 
 ## Description
 
-`eschtml` takes input from either STDIN or the parameters and returns the same
+`eschtml` takes input from either stdin or the parameters and returns the same
 data, HTML escaped.
 
 `!eschtml` does the same process in reverse, where it takes HTML escaped data

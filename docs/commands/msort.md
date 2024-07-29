@@ -55,7 +55,7 @@ output of `msort` into another builtin:
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
@@ -71,7 +71,7 @@ output of `msort` into another builtin:
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [`prepend`](../commands/prepend.md):

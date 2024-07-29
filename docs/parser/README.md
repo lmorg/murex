@@ -297,7 +297,7 @@ files.
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
+  Write a string to the stdout without new line (deprecated)
 * [`*=` Multiply By Operator](../parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)
 * [`*` Multiplication Operator](../parser/multiplication.md):
@@ -309,7 +309,7 @@ files.
 * [`-=` Subtract By Operator](../parser/subtract-by.md):
   Subtracts a variable by the right hand value (expression)
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`-` Subtraction Operator](../parser/subtraction.md):
   Subtracts one numeric value from another (expression)
 * [`/=` Divide By Operator](../parser/divide-by.md):
@@ -319,23 +319,21 @@ files.
 * [`<~` Assign Or Merge](../parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
-  Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
+  Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
 * [`=` (arithmetic evaluation)](../parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>>` Append Pipe](../parser/pipe-append.md):
-  Redirects stdout to a file and append its contents
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
@@ -344,10 +342,10 @@ files.
   Iterate through structured data
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [`~` Home Sigil](../parser/tilde.md):

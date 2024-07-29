@@ -99,7 +99,7 @@ Error in `!rx` (1,1): No data returned.
 ### When Used As A Method
 
 `!rx` first looks for files that match its pattern, then it reads the file list
-from STDIN. If STDIN contains contents that are not files then `!rx` might not
+from stdin. If stdin contains contents that are not files then `!rx` might not
 handle those list items correctly. This shouldn't be an issue with `rx` in its
 normal mode because it is only looking for matches however when used as `!rx`
 any items that are not files will leak through.
