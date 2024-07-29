@@ -105,7 +105,7 @@ blockquote {
     color:p.$quote-color;
 }
 
-code {
+code:not(a) {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     color: p.$code-color;
 }
