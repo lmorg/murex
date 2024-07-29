@@ -105,7 +105,7 @@ blockquote {
     color:p.$quote-color;
 }
 
-pre, code {
+code {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     color: p.$code-color;
 }
@@ -154,9 +154,9 @@ pre, code {
 
 
 html[data-theme="dark"] ::marker {
-    color: #404075;
+    color: p.$theme-color;
 }
 
 ::marker {
-    color: #7070e5;
+    color: p.$theme-color;
 }
