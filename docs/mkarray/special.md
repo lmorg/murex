@@ -221,7 +221,7 @@ var rangeMoon = map[string]int{
 * [Calendar Date Ranges](../mkarray/date.md):
   Create arrays of dates
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):

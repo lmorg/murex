@@ -60,13 +60,13 @@ where it says:
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):

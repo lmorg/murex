@@ -157,7 +157,7 @@ following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://doc
 ## See Also
 
 * [Compatibility Commitment](/compatibility.md):
-  Hack confidence in our backwards compatibility 
+  Murex is committed to excellent backwards compatibility
 * [Install](/INSTALL.md):
   Installation instructions
 * [Supported Platforms](docs//supported-platforms.md):

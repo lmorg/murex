@@ -3,9 +3,9 @@
     `[ ..Range ]`
   CategoryID: parser
   Summary: >-
-    Outputs a ranged subset of data from STDIN
+    Outputs a ranged subset of data from stdin
   Description: |-
-    This will read from STDIN and output a subset of data in a defined range.
+    This will read from stdin and output a subset of data in a defined range.
 
     The range can be defined as a number of different range types - such as the
     content of the array or it's index / row number. You can also omit either

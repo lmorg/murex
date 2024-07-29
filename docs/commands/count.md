@@ -26,11 +26,11 @@ Count number of items in a map, list or array:
 * `--duplications`
     Output a JSON map of items and the number of their occurrences in a list or array
 * `--sum`
-    Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)
+    Read an array, list or map from stdin and output the sum of all the values (ignore non-numeric values)
 * `--sum-strict`
-    Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)
+    Read an array, list or map from stdin and output the sum of all the values (error on non-numeric values)
 * `--total`
-    Read an array, list or map from STDIN and output the length for that array (default behaviour)
+    Read an array, list or map from stdin and output the length for that array (default behaviour)
 * `--unique`
     Print the number of unique elements in a list or array
 * `-d`
@@ -48,7 +48,7 @@ If no flags are set, `count` will default to using `--total`.
 
 ### Total: `--total` / `-t`
 
-This will read an array, list or map from STDIN and output the length for
+This will read an array, list or map from stdin and output the length for
 that array.
 
 ```
@@ -129,7 +129,7 @@ unique count should be one less than the total count:
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
@@ -141,9 +141,9 @@ unique count should be one less than the total count:
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`msort`](../commands/msort.md):
@@ -155,7 +155,7 @@ unique count should be one less than the total count:
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

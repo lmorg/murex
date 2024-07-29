@@ -4,7 +4,7 @@
 
 ## Description
 
-An optional builtin for compressing or decompressing a gzip stream from STDIN.
+An optional builtin for compressing or decompressing a gzip stream from stdin.
 
 ## Usage
 

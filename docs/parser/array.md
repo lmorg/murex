@@ -96,6 +96,7 @@ Hello World!
 
 ## Detail
 
+### Infixing
 Since arrays are expanded over multiple parameters, you cannot expand an array
 inside quoted strings like you can with a string variable:
 
@@ -124,11 +125,11 @@ foo  1 2 3 4 5  bar
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
+  Write a string to the stdout without new line (deprecated)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):

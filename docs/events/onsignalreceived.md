@@ -50,7 +50,7 @@ event onSignalReceived name=SIGNAL { code block }
 
 ## Payload
 
-The following payload is passed to the function via STDIN:
+The following payload is passed to the function via stdin:
 
 ```
 {

@@ -4,7 +4,7 @@
 
 ## Description
 
-Takes a list from STDIN and returns a left substring of that same list.
+Takes a list from stdin and returns a left substring of that same list.
 
 One parameter is required and that is the number of characters to return. If
 the parameter is a negative then `left` counts from the right.

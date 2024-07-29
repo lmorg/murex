@@ -97,7 +97,7 @@ The following meta values are defined:
 ## See Also
 
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](../commands/foreach.md):
@@ -109,7 +109,7 @@ The following meta values are defined:
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 

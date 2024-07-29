@@ -184,7 +184,7 @@ Two variables are created for each **Dynamic** function:
   then `$PREFIX` would be set to **wor** for **hello**'s
   autocompletion.
 
-The expected STDOUT should be an array (list) of any data type. For example:
+The expected stdout should be an array (list) of any data type. For example:
 
 ```
 [
@@ -199,11 +199,11 @@ The expected STDOUT should be an array (list) of any data type. For example:
 You can additionally include suggestions if any of the array items exactly
 matches any of the following strings:
 
-* `@IncFiles`   ([read more](#incfiles-boolean-false))
-* `@IncDirs`    ([read more](#incdirs-boolean-false))
-* `@IncExePath` ([read more](#incexepath-boolean-false))
-* `@IncExeAll`  ([read more](#incexeall-boolean-false))
-* `@IncManPage` ([read more](#incmanpage-boolean-false))
+* `@IncFiles`   ([read more](#incfiles))
+* `@IncDirs`    ([read more](#incdirs))
+* `@IncExePath` ([read more](#incexepath))
+* `@IncExeAll`  ([read more](#incexeall))
+* `@IncManPage` ([read more](#incmanpage))
 
 ### DynamicDesc
 
@@ -226,7 +226,7 @@ Two variables are created for each **Dynamic** function:
   then `$PREFIX` would be set to **wor** for **hello**'s
   autocompletion.
 
-The expected STDOUT should be an object (map) of any data type. The key is the
+The expected stdout should be an object (map) of any data type. The key is the
 autocompletion suggestion, with the value being the description. For example:
 
 ```
@@ -245,7 +245,7 @@ autocompletion suggestion, with the value being the description. For example:
 
 The **DynamicPreview** directive is used to populate the `[f1]` preview screen.
 
-STDOUT and STDERR are passed directly to the preview frame.
+stdout and stderr are passed directly to the preview frame.
 
 ### ExecCmdline
 
@@ -256,13 +256,13 @@ returned from the commands that preceded it. For example the suggestions
 for `[` (index) will depend entirely on what data is piped into it.
 
 **ExecCmdline** tells Murex to run the commandline up until the command
-which your cursor is editing and pipe that output to the STDIN of that
+which your cursor is editing and pipe that output to the stdin of that
 commands **Dynamic** or **DynamicDesc** code block.
 
 > This is a dangerous feature to enable so **ExecCmdline** is only honoured
 > if the commandline is considered "safe". **Dynamic** / **DynamicDesc**
 > will still be executed however if the commandline is "unsafe" then your
-> dynamic autocompletion blocks will have no STDIN.
+> dynamic autocompletion blocks will have no stdin.
 
 Because this is a dangerous feature, your partial commandline will only
 execute if the following conditions are met:
@@ -270,7 +270,7 @@ execute if the following conditions are met:
 - the commandline must be one pipeline (eg `;` tokens are not allowed)
 - the commandline must not have any new line characters
 - there must not be any redirection, including named pipes
-  (eg `cmd <namedpipe>`) and the STDOUT/STDERR switch token (`?`)
+  (eg `cmd <namedpipe>`) and the stdout/stderr switch token (`?`)
 - the commandline doesn't inline any variables (`$strings`, `@arrays`) or
   functions (`${subshell}`, `$[index]`)
 - lastly all commands are whitelisted in "safe-commands"
@@ -289,7 +289,7 @@ Murex will come with a number of sane commands already included in its
 
 Remember that **ExecCmdline** is designed to be included with either
 **Dynamic** or **DynamicDesc** and those code blocks would need to read
-from STDIN:
+from stdin:
 
 ```
 autocomplete set "[" %[{
@@ -607,7 +607,7 @@ flags.
 ## See Also
 
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):

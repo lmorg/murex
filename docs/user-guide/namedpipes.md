@@ -24,8 +24,8 @@ based named pipe.
 ## In Murex
 
 In Murex, named pipes are described in code as a value inside angle brackets.
-There are four named pipes pre-configured: `<in>` (STDIN), `<out>` (STDOUT),
-`<err>` (STDERR), and `<null>` (/dev/null equivalent).
+There are four named pipes pre-configured: `<in>` (stdin), `<out>` (stdout),
+`<err>` (stderr), and `<null>` (/dev/null equivalent).
 
 You can call a named pipe as either a method, function, or parameter.
 
@@ -52,7 +52,7 @@ command <out> <!err> parameter1 parameter2 parameter3
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
 

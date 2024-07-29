@@ -82,7 +82,7 @@ characters because those are inside the parenthesis.
 ## Detail
 
 `regexp` is data-type aware so will work against lists or arrays of whichever
-Murex data-type is passed to it via STDIN and return the output in the
+Murex data-type is passed to it via stdin and return the output in the
 same data-type.
 
 ## Synonyms
@@ -105,7 +105,7 @@ same data-type.
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`match`](../commands/match.md):

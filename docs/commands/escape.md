@@ -4,7 +4,7 @@
 
 ## Description
 
-`escape` takes input from either STDIN or the parameters and returns the same
+`escape` takes input from either stdin or the parameters and returns the same
 data, escaped.
 
 `!escape` does the same process in reverse, where it takes escaped data and

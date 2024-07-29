@@ -102,21 +102,31 @@ func compareTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (inter
 	)
 
 	if !left.Primitive.IsComparable() {
-		b, err := json.Marshal(left.Value)
-		if err != nil {
-			return nil, nil, err
+		var ok bool
+		lv, ok = left.Value.(string)
+		if !ok {
+			b, err := json.Marshal(left.Value)
+			if err != nil {
+				return nil, nil, err
+			}
+			lv = string(b)
 		}
-		lv, notCompatible = string(b), true
+		notCompatible = true
 	} else {
 		lv = left.Value
 	}
 
 	if !right.Primitive.IsComparable() {
-		b, err := json.Marshal(right.Value)
-		if err != nil {
-			return nil, nil, err
+		var ok bool
+		rv, ok = right.Value.(string)
+		if !ok {
+			b, err := json.Marshal(right.Value)
+			if err != nil {
+				return nil, nil, err
+			}
+			rv = string(b)
 		}
-		rv, notCompatible = string(b), true
+		notCompatible = true
 	} else {
 		rv = right.Value
 	}

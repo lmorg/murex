@@ -330,7 +330,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

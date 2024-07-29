@@ -94,7 +94,7 @@
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
@@ -108,7 +108,7 @@
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`map`](../commands/map.md):
   Creates a map from two data sources
 * [`msort`](../commands/msort.md):

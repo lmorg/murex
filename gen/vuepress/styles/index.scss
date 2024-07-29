@@ -1,13 +1,13 @@
+@use "palette" as p;
+
 h1, h2, h3, h4 {
-    font-family: 'Jura', sans-serif;
+    font-family: p.$font-title;
     font-weight: bold;
-    //color: #000075;
 }
   
 h1 {
     font-size: 26px;
     text-shadow: none;
-    //color: #707070;
     padding-left: 0px;
     margin-left: 10px;
 }
@@ -16,7 +16,6 @@ h2 {
     font-size: 20px;
     border-bottom-width: 5px;
     border-bottom-style: solid;
-    //border-bottom-color: #000075;
     margin-right: 20px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -26,7 +25,6 @@ h3 {
     font-size: 16px;
     border-bottom-width: 2px;
     border-bottom-style: solid;
-    //border-bottom-color: #000075;
     margin-left: 0px;
     margin-right: 20px;
     padding-bottom: 5px;
@@ -41,16 +39,27 @@ h4 {
     margin-left: 0px;
 }
 
+b, strong {
+    font-family: p.$font-strong;
+    font-weight: 900;
+    text-shadow: 0px 0px 0.1em #777777;
+    letter-spacing: 1px;
+}
+
+i, em{
+    font-family: p.$font-italic;
+}
+
 #main-title {
-    font-family: 'Jura', sans-serif;
+    font-family: p.$font-title;
 }
 
 .vp-feature-header {
-    font-family: 'Jura', sans-serif;
+    font-family: p.$font-title;
 }
 
 .vp-description {
-    font-family: 'Jura', sans-serif;
+    font-family: p.$font-title;
 }
 
 figure{
@@ -85,63 +94,69 @@ figcaption code {
     display: block;
 }
 
+th {
+    background-color: rgba(red(p.$theme-color), green(p.$theme-color), blue(p.$theme-color), 20%);
+}
+
 // custom styles
 
 blockquote {
-    border-color:#850!important;
-    color:#850;
+    border-color:p.$quote-color!important;
+    color:p.$quote-color;
 }
+
+/*code:not(a) {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
+    color: p.$code-color;
+}*/
   
 @media (min-width: 420px) {
     body {
-        letter-spacing: 0.5px;
-        font-size: 16px !important;
+      letter-spacing:.5px;
+      font-size:16px!important
     }
-
     blockquote {
-        border-color: #885500 !important;
-        color: #885500;
-        border-width: 2px;
-        border-style: solid;
-        border-radius: 5px;
-        border-left-width: 10px;
-        padding-left: 10px;
+      border-width:0px;
+      border-style:solid;
+      border-radius:0px;
+      border-left-width:5px;
+      padding-left:10px;
+      padding-right: 10px;
+      background-color: rgba(red(p.$quote-color), green(p.$quote-color), blue(p.$quote-color), 5%) !important;
     }
-
-    pre, code{
-        padding-top: 3px !important;
-        padding-bottom: 3px !important;
-    }
-
     div[class*=language-].line-numbers-mode .line-number {
-        line-height: unset !important;
+      line-height:unset!important
     }
-
-    .line-numbers-mode  {
-        border-width: 2px;
-        border-style: solid;
-        border-color: #0f600f;
+    .line-numbers-mode {
+      border-width:0px;
+      border-left-width:5px;
+      border-style: solid;
+      border-radius: 0px!important;
+      border-color: p.$code-color;
+      color: p.$code-color;
+      background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
-
-
-
-    // vuepress tabbed code
-
     .vp-code-tab-nav {
-        padding-bottom: 20px;
+      padding-bottom:20px
     }
-
     .vp-code-tab .line-numbers-mode {
-        border-width: 0px;
-        padding-top: 1px;
-        padding-bottom: 1px;
+      border-width:0px;
+      padding-top:1px;
+      padding-bottom:1px
     }
+    // The following is needed for some code block styles to fix vertical alignment
+    /*pre,
+    code {
+      padding-top:3px!important;
+      padding-bottom:3px!important;
+    }*/
 }
 
+
 html[data-theme="dark"] ::marker {
-    color: #404075;
+    color: p.$theme-color;
 }
 
 ::marker {
-    color: #7070e5;
+    color: p.$theme-color;
 }

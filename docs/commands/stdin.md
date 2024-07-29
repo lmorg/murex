@@ -1,11 +1,11 @@
 # `<stdin>`
 
-> Read the STDIN belonging to the parent code block
+> Read the stdin belonging to the parent code block
 
 ## Description
 
 This is used inside functions and other code blocks to pass that block's
-STDIN down a pipeline
+stdin down a pipeline
 
 ## Usage
 
@@ -56,9 +56,9 @@ command pipeline (eg commands delimited with `|`, `->`, `=>`, `?` tokens).
 
 ### What are Murex named pipes?
 
-In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
-while are "piped" from one executable to another. ie STDOUT for application 'A'
-would be the same file as STDIN for application 'B' when A is piped to B:
+In POSIX, there is a concept of stdin, stdout and stderr, these are FIFO files
+while are "piped" from one executable to another. ie stdout for application 'A'
+would be the same file as stdin for application 'B' when A is piped to B:
 `A | B`. Murex adds a another layer around this to enable support for passing
 data types and builtins which are agnostic to the data serialization format
 traversing the pipeline. While this does add overhead the advantage is this new
@@ -140,7 +140,7 @@ that pipes created in modules should be prefixed with the name of its package.
 * [`match`](../commands/match.md):
   Match an exact value in an array
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`runtime`](../commands/runtime.md):

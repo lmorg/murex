@@ -87,7 +87,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`'Single Quote'`](parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [`(brace quote)`](parser/brace-quote-func.md):
-  Write a string to the STDOUT without new line (deprecated)
+  Write a string to the stdout without new line (deprecated)
 * [`*=` Multiply By Operator](parser/multiply-by.md):
   Multiplies a variable by the right hand value (expression)
 * [`*` Multiplication Operator](parser/multiplication.md):
@@ -99,7 +99,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`-=` Subtract By Operator](parser/subtract-by.md):
   Subtracts a variable by the right hand value (expression)
 * [`->` Arrow Pipe](parser/pipe-arrow.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`-` Subtraction Operator](parser/subtraction.md):
   Subtracts one numeric value from another (expression)
 * [`/=` Divide By Operator](parser/divide-by.md):
@@ -109,23 +109,21 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`<~` Assign Or Merge](parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](parser/pipe-generic.md):
-  Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
+  Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
 * [`=` (arithmetic evaluation)](parser/equ.md):
   Evaluate a mathematical function (deprecated)
-* [`>>` Append File](parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`>>` Append Pipe](parser/pipe-append.md):
-  Redirects stdout to a file and append its contents
+* [`>>` Append File](parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`?:` Elvis Operator](parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` stderr Pipe](parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`@Array` Sigil](parser/array.md):
   Expand values as an array
 * [`[ ..Range ]`](parser/range.md):
-  Outputs a ranged subset of data from STDIN
+  Outputs a ranged subset of data from stdin
 * [`[ Index ]`](parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](parser/element.md):
@@ -134,10 +132,10 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Iterate through structured data
 * [`{ Curly Brace }`](parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` Truncate File](parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`|>` Truncate File](parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](parser/pipe-posix.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`||` Or Logical Operator](parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [`~` Home Sigil](parser/tilde.md):
@@ -148,13 +146,13 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 ### Standard Builtins
 
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
+  Read the stdin belonging to the parent code block
 * [`@g` (autoglob) ](../commands/autoglob.md):
   Command prefix to expand globbing (deprecated)
 * [`a` (mkarray)](../commands/a.md):
@@ -202,7 +200,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`escape`](../commands/escape.md):
   Escape or unescape input
 * [`esccli`](../commands/esccli.md):
@@ -266,7 +264,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](../commands/jsplit.md):
-  Splits STDIN into a JSON array based on a regex parameter
+  Splits stdin into a JSON array based on a regex parameter
 * [`key-code`](../commands/key-code.md):
   Returns character sequences for any key pressed (ie sent from the terminal)
 * [`left`](../commands/left.md):
@@ -310,7 +308,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`os`](../commands/os.md):
   Output the auto-detected OS name
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pipe`](../commands/pipe.md):
   Manage Murex named pipes
 * [`post`](../commands/post.md):
@@ -368,7 +366,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
+  Print a string to the stdout and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 * [`true`](../commands/true.md):
@@ -405,7 +403,7 @@ are only included by default on Windows.
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
 * [`qr`](../optional/qr.md):
-  Creates a QR code from STDIN
+  Creates a QR code from stdin
 * [`select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`sleep`](../optional/sleep.md):

@@ -1,6 +1,6 @@
-# `>>` Append Pipe
+# `>>` Append File
 
-> Redirects stdout to a file and append its contents
+> Writes stdin to disk - appending contents if file already exists
 
 ## Description
 
@@ -29,38 +29,42 @@ This is just syntactic sugar for `-> >>`. Thus when the parser reads code like
 the following:
 
 ```
-echo "foobar" >> example.txt
+out "foobar" >> example.txt
 ```
 
 it will compile an abstract syntax tree which would reflect the following code
 instead:
 
 ```
-echo "foobar" | >> example.txt
+out "foobar" | >> example.txt
 ```
 
 ### Truncating a file
 
 To truncate a file (ie overwrite its contents) use `|>` instead.
 
+## Synonyms
+
+* `>>`
+* `fappend`
+
+
 ## See Also
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
-* [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+* [`out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [`pipe`](../commands/pipe.md):
+  Manage Murex named pipes
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 
 <hr/>
 

@@ -159,7 +159,7 @@
     ```
   Flags:
   Detail: |-
-    While this method does exist, a more idiomatic way to suppress STDOUT is to
+    While this method does exist, a more idiomatic way to suppress stdout is to
     use the named pipe property rather than piping to null:
 
     ```
@@ -263,9 +263,9 @@
     `!` (not)
   CategoryID: commands
   Summary: >-
-    Reads the STDIN and exit number from previous process and not's it's condition
+    Reads the stdin and exit number from previous process and not's it's condition
   Description: |-
-    Reads the STDIN and exit number from previous process and not's it's condition.
+    Reads the stdin and exit number from previous process and not's it's condition.
   Usage: |-
     ```
     <stdin> -> ! -> <stdout>

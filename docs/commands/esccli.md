@@ -54,7 +54,7 @@ out foo\$b\@r
 * [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

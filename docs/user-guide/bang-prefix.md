@@ -26,7 +26,7 @@ bang prefix and what the behavior of that prefix is.
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [`!` (not)](../commands/not-func.md):
-  Reads the STDIN and exit number from previous process and not's it's condition
+  Reads the stdin and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`config`](../commands/config.md):

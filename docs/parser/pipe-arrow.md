@@ -1,6 +1,6 @@
 # `->` Arrow Pipe
 
-> Pipes stdout from the left hand command to STDIN of the right hand command
+> Pipes stdout from the left hand command to stdin of the right hand command
 
 ## Description
 
@@ -54,17 +54,17 @@ Hello, Earth!
 * [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
-  Pipes a reformatted stdout stream from the left hand command to STDIN of the right hand command
+  Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
 * [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
-  Pipes stdout from the left hand command to STDIN of the right hand command
+  Pipes stdout from the left hand command to stdin of the right hand command
 
 <hr/>
 

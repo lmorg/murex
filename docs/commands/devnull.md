@@ -21,7 +21,7 @@ UNIX /dev/null device.
 
 ## Detail
 
-While this method does exist, a more idiomatic way to suppress STDOUT is to
+While this method does exist, a more idiomatic way to suppress stdout is to
 use the named pipe property rather than piping to null:
 
 ```

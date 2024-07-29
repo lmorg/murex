@@ -230,7 +230,7 @@ func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callb
 
 1. `func(interface{}) ([]byte, error)`: data type's marshaller
 2. `func([]byte, interface{}) error`: data type's unmarshaller
-3. `stdio.Io`: stream to read from (eg STDIN)
+3. `stdio.Io`: stream to read from (eg stdin)
 4. `func([]byte)`: callback function to write each array element
 
 ## See Also

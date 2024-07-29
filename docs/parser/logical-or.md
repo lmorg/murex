@@ -6,7 +6,7 @@
 
 When in the **normal** run mode (see "schedulers" link below) this will only
 run the command on the right hand side if the command on the left hand side
-does not error. Neither STDOUT nor STDERR are piped.
+does not error. Neither stdout nor stderr are piped.
 
 This has no effect in `try` nor `trypipe` run modes because they automatically
 apply stricter error handling. See detail below.
@@ -59,11 +59,11 @@ There is no workaround for `trypipe`.
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to STDIN of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):

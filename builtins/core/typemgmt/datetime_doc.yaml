@@ -46,10 +46,10 @@
     ```
   Flags:
     "--in": Defines the date/time string is formatted in `--value`
-    "--out": Defined how the date/time string should be formatted in STDOUT
+    "--out": Defined how the date/time string should be formatted in stdout
     "--value":
       Date/time value to convert (if omitted and the input format is not set to `{now}`
-      then date/time is read from STDIN)
+      then date/time is read from stdin)
   Detail: |-
     ### Date Time Format Code Parsers
 

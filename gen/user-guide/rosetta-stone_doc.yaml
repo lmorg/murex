@@ -14,9 +14,9 @@
     - runmode
     - logical-and
     - logical-or
-    - pipe-append
-    - greater-than
-    - greater-than-greater-than
+    - file-append
+    - file-truncate
+    - file-append
     - index
     - range
     - element

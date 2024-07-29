@@ -95,7 +95,7 @@ pipelines.
 
 ## Parameters
 
-1. `stdio.Io`: stream to read from (eg STDIN)
+1. `stdio.Io`: stream to read from (eg stdin)
 2. `func([]byte)`: callback function. Each callback will be a []byte slice containing an array element
 
 ## See Also

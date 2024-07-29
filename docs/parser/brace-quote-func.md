@@ -1,10 +1,10 @@
 # `(brace quote)`
 
-> Write a string to the STDOUT without new line (deprecated)
+> Write a string to the stdout without new line (deprecated)
 
 ## Description
 
-Write parameters to STDOUT (does not include a new line)
+Write parameters to stdout (does not include a new line)
 
 ## Usage
 
@@ -50,20 +50,20 @@ characters if you don't want them nested.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`>>` Append File](../parser/greater-than-greater-than.md):
-  Writes STDIN to disk - appending contents if file already exists
+* [`>>` Append File](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
 * [`err`](../commands/err.md):
-  Print a line to the STDERR
+  Print a line to the stderr
 * [`out`](../commands/out.md):
-  Print a string to the STDOUT with a trailing new line character
+  Print a string to the stdout with a trailing new line character
 * [`pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
-  Print a string to the STDOUT and set it's data-type
-* [`|>` Truncate File](../parser/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists
+  Print a string to the stdout and set it's data-type
+* [`|>` Truncate File](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 
