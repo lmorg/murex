@@ -71,7 +71,7 @@ func DataType2Primitive(dt string) Primitive {
 		return Boolean
 	case types.Null:
 		return Null
-	case types.String:
+	case types.String, types.Generic:
 		return String
 	default:
 		return Other
