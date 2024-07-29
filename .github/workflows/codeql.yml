@@ -12,8 +12,7 @@
 name: "CodeQL"
 
 on:
-  pull_request:
-    branches: [ "master", "develop" ]
+  push:
     paths:
       - "**/*.go"
   schedule:
