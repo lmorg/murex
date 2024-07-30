@@ -136,7 +136,7 @@ blockquote {
       color: p.$code-color;
       background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
-    .vp-code-tab-nav {
+    /*.vp-code-tab-nav {
       padding-bottom:20px
     }
     .vp-code-tab .line-numbers-mode {
