@@ -163,7 +163,11 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 
 		case '~':
 			// tilde
-			err := o.AppendRune([]rune(tree.parseVarTilde(exec))...)
+			home, err := tree.parseVarTilde(exec)
+			if err != nil {
+				return nil, nil, err
+			}
+			err = o.AppendRune([]rune(home)...)
 			if err != nil {
 				return nil, nil, err
 			}

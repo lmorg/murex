@@ -158,7 +158,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '~':
 			// tilde
 			tree.statement.validFunction = false
-			appendToParam(tree, []rune(tree.parseVarTilde(exec))...)
+			home, err := tree.parseVarTilde(exec)
+			if err != nil {
+				return err
+			}
+			appendToParam(tree, []rune(home)...)
 
 		case '<':
 			tree.statement.validFunction = false

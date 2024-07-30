@@ -141,7 +141,11 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 
 		case '~':
 			// tilde
-			slice = append(slice, tree.parseVarTilde(exec))
+			home, err := tree.parseVarTilde(exec)
+			if err != nil {
+				return nil, nil, err
+			}
+			slice = append(slice, home)
 
 		case '@':
 			// inline array

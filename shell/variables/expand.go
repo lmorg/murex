@@ -1,6 +1,7 @@
 package variables
 
 import (
+	"os/user"
 	"regexp"
 	"strings"
 
@@ -32,7 +33,12 @@ func ExpandString(line string) string {
 
 	match = rxHome.FindAllString(line, -1)
 	for i := range match {
-		line = rxHome.ReplaceAllString(line, home.UserDir(match[i][1:]))
+		var home string
+		usr, err := user.Lookup((match[i][1:]))
+		if err == nil {
+			home = usr.HomeDir
+		}
+		line = rxHome.ReplaceAllString(line, home)
 	}
 
 	line = strings.Replace(line, "~", home.MyDir, -1)

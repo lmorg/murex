@@ -154,9 +154,13 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.charPos++
 			default:
 				// tilde
+				home, err := tree.parseVarTilde(exec)
+				if err!=nil {
+					return err
+				}
 				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
 					primitives.String,
-					tree.parseVarTilde(exec),
+					home,
 				))
 			}
 

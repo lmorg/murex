@@ -149,8 +149,11 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 
 		case r == '~':
 			// tilde
-			tilde := tree.parseVarTilde(exec)
-			value = append(value, []rune(tilde)...)
+			home, err := tree.parseVarTilde(exec)
+			if err != nil {
+				return nil, err
+			}
+			value = append(value, []rune(home)...)
 
 		case r == '(' && qEnd == ')':
 			v, err := tree.parseParenthesis(exec)

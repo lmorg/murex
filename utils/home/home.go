@@ -25,13 +25,3 @@ func init() {
 
 	MyDir = usr.HomeDir
 }
-
-// UserDir is the home directory of a `username`.
-func UserDir(username string) string {
-	usr, err := user.Lookup(username)
-	if err != nil {
-		return consts.PathSlash
-	}
-
-	return usr.HomeDir
-}
