@@ -23,7 +23,7 @@
   - [Solaris](#solaris)
   - [Plan 9](#plan-9)
 - [Install Instructions](#install-instructions)
-  - [Linux / UNIX / macOS Instructions](#linux--unix--macos-instructions)
+  - [POSIX Instructions](#posix-instructions)
   - [Windows Instructions](#windows-instructions)
 
 </div>
@@ -40,7 +40,7 @@ The `arm64` builds support the ARM-based M1, M2 and M3 processors. Older Macs
 will need to run `amd64`. Murex is also available on {{ if env "DOCGEN_TARGET=vuepress" }}[Homebrew](install.html#homebrew) and [MacPorts](install.html#macports){{ else }}[Homebrew](INSTALL.md#homebrew) and [MacPorts](INSTALL.md#macports){{ end }}.
 
 
-[Install instructions](#linux-unix-macos-instructions) 
+[Install instructions](#posix-instructions) 
 can be found further down this page.
 
 * [murex-darwin-amd64.gz](https://nojs.murex.rocks/bin/latest/murex-darwin-amd64.gz)
@@ -48,7 +48,7 @@ can be found further down this page.
 
 ### Linux
 
-[Install instructions](#linux-unix-macos-instructions)
+[Install instructions](#posix-instructions)
 can be found further down this page.
 
 * [murex-linux-386.gz](https://nojs.murex.rocks/bin/latest/murex-linux-386.gz)
@@ -66,7 +66,7 @@ can be found further down this page.
 
 ### BSD's
 
-[Install instructions](#linux-unix-macos-instructions)
+[Install instructions](#posix-instructions)
 can be found further down this page.
 
 #### DragonflyBSD
@@ -117,7 +117,7 @@ you do encounter any issues then please raise them at:
 
 ## Install Instructions
 
-### Linux / UNIX / macOS Instructions
+### POSIX Instructions
 
 > macOS builds are listed as [darwin](https://en.wikipedia.org/wiki/Darwin_(operating_system))
 > as per the name of Apple have given to their [underlying OS](https://en.wikipedia.org/wiki/MacOS#Architecture).
@@ -127,15 +127,40 @@ your OS and CPU architecture. Then extract it and make the resulting file
 executable.
 
 For example, in Bash, Zsh and similar shells, you can copy/paste the following
-to run on any Linux or UNIX-like OS from sh/bash/zsh. 
+to run on any Linux or UNIX-like OS from sh/bash/zsh:
 
+{{ if env "DOCGEN_TARGET=vuepress" }}
+::: code-tabs#shell
+
+@tab macOS (Apple Silicon)
 ```sh
-MUREX_BUILD="murex-linux-amd64"
-wget "https://nojs.murex.rocks/bin/latest/${MUREX_BUILD}.gz"
-gunzip "${MUREX_BUILD}.gz"
-chmod +x "$MUREX_BUILD"
+curl "https://nojs.murex.rocks/bin/latest/murex-darwin-arm64.gz" | gunzip > murex
+chmod +x murex
 ```
 
+@tab Linux (64 bit Intel)
+```sh
+curl "https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz" | gunzip > murex
+chmod +x murex
+```
+
+@tab Other
+```sh 
+OS=xxx  # replace xxx with eg linux, darwin, freebsd, etc
+CPU=xxx # replace xxx with eg amd64 (Intel), arm64 (Raspberry Pi / Apple Silicon)
+curl "https://nojs.murex.rocks/bin/latest/murex-${OS}-${CPU}.gz" | gunzip > murex
+chmod +x murex
+```
+
+:::
+{{ else }}
+```sh
+OS=xxx  # replace xxx with eg linux, darwin, freebsd, etc
+CPU=xxx # replace xxx with eg amd64 (Intel), arm64 (Raspberry Pi / Apple Silicon)
+curl "https://nojs.murex.rocks/bin/latest/murex-${OS}-${CPU}.gz" | gunzip > murex
+chmod +x murex
+```
+{{ end }}
 Additionally you may wish to add Murex to `/etc/shells` if you want to expose
 Murex as a optional login shell. If you do this, please ensure Murex has been
 placed in a sensible location that all users can access. eg `/usr/local/bin`.
