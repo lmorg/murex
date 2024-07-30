@@ -127,15 +127,40 @@ your OS and CPU architecture. Then extract it and make the resulting file
 executable.
 
 For example, in Bash, Zsh and similar shells, you can copy/paste the following
-to run on any Linux or UNIX-like OS from sh/bash/zsh. 
+to run on any Linux or UNIX-like OS from sh/bash/zsh:
 
+{{ if env "DOCGEN_TARGET=vuepress" }}
+::: code-tabs#shell
+
+@tab macOS (Apple Silicon)
 ```sh
-MUREX_BUILD="murex-linux-amd64"
-wget "https://nojs.murex.rocks/bin/latest/${MUREX_BUILD}.gz"
-gunzip "${MUREX_BUILD}.gz"
-chmod +x "$MUREX_BUILD"
+curl "https://nojs.murex.rocks/bin/latest/murex-darwin-arm64.gz" | gunzip > murex
+chmod +x murex
 ```
 
+@tab Linux (64 bit Intel)
+```sh
+curl "https://nojs.murex.rocks/bin/latest/murex-linux-amd64.gz" | gunzip > murex
+chmod +x murex
+```
+
+@tab Other
+```sh 
+OS=xxx  # replace xxx with linux, darwin, freebsd, etc
+CPU=xxx # replace xxx with amd64 (Intel), arm64 (Raspberry Pi / Apple Silicon)
+curl "https://nojs.murex.rocks/bin/latest/murex-${OS}-${CPU}.gz" | gunzip > murex
+chmod +x murex
+```
+
+:::
+{{ else }}
+```sh
+OS=xxx  # replace xxx with linux, darwin, freebsd, etc
+CPU=xxx # replace xxx with amd64 (Intel), arm64 (Raspberry Pi / Apple Silicon)
+curl "https://nojs.murex.rocks/bin/latest/murex-${OS}-${CPU}.gz" | gunzip > murex
+chmod +x murex
+```
+{{ end }}
 Additionally you may wish to add Murex to `/etc/shells` if you want to expose
 Murex as a optional login shell. If you do this, please ensure Murex has been
 placed in a sensible location that all users can access. eg `/usr/local/bin`.

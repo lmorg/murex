@@ -122,13 +122,14 @@ your OS and CPU architecture. Then extract it and make the resulting file
 executable.
 
 For example, in Bash, Zsh and similar shells, you can copy/paste the following
-to run on any Linux or UNIX-like OS from sh/bash/zsh. 
+to run on any Linux or UNIX-like OS from sh/bash/zsh:
+
 
 ```sh
-MUREX_BUILD="murex-linux-amd64"
-wget "https://nojs.murex.rocks/bin/latest/${MUREX_BUILD}.gz"
-gunzip "${MUREX_BUILD}.gz"
-chmod +x "$MUREX_BUILD"
+OS=xxx  # replace xxx with linux, darwin, freebsd, etc
+CPU=xxx # replace xxx with amd64 (Intel), arm64 (Raspberry Pi / Apple Silicon)
+curl "https://nojs.murex.rocks/bin/latest/murex-${OS}-${CPU}.gz" | gunzip > murex
+chmod +x murex
 ```
 
 Additionally you may wish to add Murex to `/etc/shells` if you want to expose
