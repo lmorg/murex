@@ -131,7 +131,7 @@ Install `murex` from your favorite package manager:
 ::: code-tabs#shell
 
 @tab macOS
-```bash
+```sh
 # via Homebrew:
 brew install murex
 
@@ -140,14 +140,14 @@ port install murex
 ```
 
 @tab ArchLinux
-```bash
+```sh
 # From AUR: https://aur.archlinux.org/packages/murex
 wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
 makepkg --syncdeps --install 
 ```
 
 @tab FreeBSD
-```bash
+```sh
 pkg install murex
 ```
 
