@@ -1,7 +1,7 @@
 package cmdconfig
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -37,7 +37,7 @@ func evalConfig(p *lang.Process) error {
 
 	_, err = fork.Stdin.Write([]byte(v.(string)))
 	if err != nil {
-		return errors.New("Couldn't write to eval's stdin: " + err.Error())
+		return fmt.Errorf("couldn't write to eval's stdin: %s", err.Error())
 	}
 
 	p.ExitNum, err = fork.Execute(block)
