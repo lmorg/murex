@@ -293,12 +293,26 @@ func (blk *BlockT) ParseBlock() error {
 		case '>':
 			switch {
 			case blk.nextChar() == '>':
-				/*if len(blk.Functions) > 0 &&
-					len(blk.Functions[len(blk.Functions)-1].Raw) == 0 &&
-					!blk.Functions[len(blk.Functions)-1].Properties.Method() {
-					panic("ugh")
-				}*/
+				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
+				if err != nil {
+					return err
+				}
+				tree, err = blk.parseStatementWithKnownCommand('>', '>')
+				if err != nil {
+					return err
+				}
+			default:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			}
 
+		case '~':
+			switch {
+			case blk.nextChar() == '>':
 				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
 				if err != nil {
 					return err

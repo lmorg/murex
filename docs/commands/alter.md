@@ -20,6 +20,8 @@ The **value** must always be supplied as JSON.
 
 ```
 <stdin> -> alter [ -m | --merge | -s | --sum ] /path value -> <stdout>
+
+<stdin> ~> value -> <stdout>
 ```
 
 ## Examples
@@ -158,6 +160,28 @@ runtime --marshallers
 ```
 
 Marshallers are enabled at compile time from the `builtins/data-types` directory.
+
+### Alter operator
+
+`~>` is a synonym for `alter --merge /`, for example:
+
+```
+» tout json %[1 2 3] ~> %[4 5 6]
+[
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+]
+```
+
+## Synonyms
+
+* `alter`
+* `~>`
+
 
 ## See Also
 

@@ -20,6 +20,8 @@
   Usage: |-
     ```
     <stdin> -> alter [ -m | --merge | -s | --sum ] /path value -> <stdout>
+
+    <stdin> ~> value -> <stdout>
     ```
   Examples: |-
     ### Altering an objects value
@@ -143,12 +145,30 @@
     ```
 
     Marshallers are enabled at compile time from the `builtins/data-types` directory.
+
+    ### Alter operator
+
+    `~>` is a synonym for `alter --merge /`, for example:
+
+    ```
+    » tout json %[1 2 3] ~> %[4 5 6]
+    [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+    ]
+    ```
   Flags:
     "--merge": Merge data structures rather than overwrite
     "-m"     : Alias for `--merge`
     "--sum"  : Sum values in a map, merge items in an array
     "-s"     : Alias for `--sum`
   Synonyms:
+    - alter
+    - "~>"
   Related:
   - item-index
   - element
