@@ -9,64 +9,16 @@ variables, Murex instead supports a registry of config defined via the
 `config` command. This means any preferences and/or runtime config becomes
 centralised and discoverable.
 
-## Usage
+## Terminology
 
-List all settings:
-
-```
-config -> <stdout>
-```
-
-Get a setting:
-
-```
-config get app key -> <stdout>
-```
-
-Set a setting:
-
-```
-config set app key value
-
-<stdin> -> config set app key
-
-config eval app key { -> code-block }
-```
-
-Define a new config setting:
-
-```
-config define app key { json }
-```
-
-Reset a setting to it's default value:
-
-```
-!config app key
-
-config default app key
-```
-
-## Examples
-
-Using `eval` to append to an array (in this instance, adding a function
-name to the list of "safe" commands)
-
-```
-» function foobar { -> match foobar }
-» config eval shell safe-commands { -> append foobar }
-```
-
-## Detail
-
-With regards to `config`, the following terms are applied:
+The following terms have special means with regards to `config`:
 
 ### app
 
-This refers to a grouped category of settings. For example the name of a built
-in.
+_app_ refers to a grouped category of settings. For example the name of an
+integration or builtin.
     
-Other app names include
+Other _app_ names include
 
 * `shell`: for "global" (system wide) Murex settings
 * `proc`: for scoped Murex settings
@@ -77,19 +29,78 @@ Other app names include
 
 ### key
 
-This refers to the config setting itself. For example the "app" might be `http`
-but the "key" might be `timeout` - where the "key", in this instance, holds the
+_key_ refers to the config setting itself. For example the _app_ might be `http`
+but the _key_ might be `timeout` - where the _key_, in this instance, holds the
 value for how long any HTTP user agents might wait before timing out.
 
 ### value
 
-Value is the actual value of a setting. So the value for "app": `http`, "key":
+_value_ is the actual value of a setting. So the value for _app_: `http`, _key_:
 `timeout` might be `10`. eg
 
 ```
 » config get http timeout
 10
 ```
+
+## Usage
+
+### Get value
+
+```
+config get app key -> <stdout>
+```
+
+### Set value
+
+```
+           config set  app key value
+<stdin> -> config set  app key
+           config eval app key { code-block }
+```
+
+### Reset to default
+
+```
+!config app key
+config default app key
+```
+
+### Define custom configs
+
+```
+config define app key { json }
+```
+
+## Examples
+
+### eval
+
+Using `eval` to append to an array (in this instance, adding a function
+name to the list of "safe" commands):
+
+```
+» config eval shell safe-commands { -> append function-name }
+```
+
+You could also use the `~>` operator too:
+
+```
+» config eval shell safe-commands { ~> %[function-name] }
+```
+
+## Flags
+
+* `default`
+    Reset a the value of _app_'s _key_ to its default _value_ (the default _value_ is defined by the same process that defines the config field)
+* `define`
+    Allows you to create custom config options. See [Custom Config Directives](/docs/commands/config.md#custom-config-directives) to learn how to use `define`
+* `get`
+    Output the currently held config _value_ without changing it
+* `set`
+    Change the _value_ of an _app_'s _key_. `set` does not print any output
+
+## Detail
 
 ### scope
 
@@ -98,21 +109,20 @@ functions called will inherit the settings of it's caller parent. However any
 child functions that then change the settings will only change settings for it's
 own function and not the parent caller.
 
-Please note that `config` settings are scoped differently to local variables.
-
 ### global
 
 Global settings defined inside a function will affect settings queried inside
 another executing function (same concept as global variables).
 
-## Directives
+## Custom Config Directives
 
-The directives for `config define` are listed below.
+> This section relates to creating custom configs via `config define`.
+> You do not need to refer to this for any regular usage of `config`.
 
 <div id="toc">
 
 - [DataType](#datatype)
-- [Description"](#description)
+- [Description](#description)
 - [Global](#global)
 - [Default](#default)
 - [Options](#options)
@@ -123,10 +133,6 @@ The directives for `config define` are listed below.
 </div>
 
 
-```
-"DirectiveName": json data-type (default value)
-```
-
 Where "default value" is what will be auto-populated if you don't include that
 directive (or "required" if the directive must be included).
 
@@ -136,7 +142,7 @@ directive (or "required" if the directive must be included).
 
 This is the Murex data-type for the value.
 
-### Description"
+### Description
 
 > Value: `str` (required)
 
@@ -149,9 +155,9 @@ enabling the discoverability of settings within Murex.
 
 This defines whether this setting is global or scoped.
 
-All **Dynamic** settings _must_ also be **Global**. This is because **Dynamic**
-settings rely on a state that likely isn't scoped (eg the contents of a config
-file).
+All **Dynamic** config must also be **Global**. This is because **Dynamic**
+config rely on a state that likely isn't scoped (eg the contents of a file on
+disk or environmental variable).
 
 ### Default
 
@@ -235,6 +241,8 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
+* [`alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`event`](../commands/event.md):

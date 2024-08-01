@@ -376,3 +376,14 @@ func TestParseBlockArrayPanicBugFix(t *testing.T) {
 
 	test.RunMurexTestsRx(tests, t)
 }
+
+func TestAlterOp(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `tout json %{a:1, b:2, c:3} ~> %{b:4}`,
+			Stdout: `{"a":1,"b":4,"c":3}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

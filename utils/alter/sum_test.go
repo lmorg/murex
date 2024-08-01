@@ -154,3 +154,16 @@ func TestSumMapInterface(t *testing.T) {
 
 	sumTest(t, &test)
 }
+
+// https://github.com/lmorg/murex/issues/850
+func TestSumIssue850(t *testing.T) {
+	test := plan{
+		original: `{}`,
+		path:     "/",
+		change:   `{ "key": [{"hello": "world"}] }`,
+		//expected: `{"key":[{"hello":"world"}]}`,
+		expected: ``, // should error
+	}
+
+	sumTest(t, &test)
+}

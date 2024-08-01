@@ -14,6 +14,7 @@ type plan struct {
 	path     string
 	change   string
 	expected string
+	error    bool
 }
 
 func alterTest(t *testing.T, test *plan) {
@@ -327,6 +328,18 @@ func TestUpdateArrayFloat(t *testing.T) {
 		path:     "/1",
 		change:   `4.4`,
 		expected: `[ 1.1, 4.4, 3.3 ]`,
+	}
+
+	alterTest(t, &test)
+}
+
+// https://github.com/lmorg/murex/issues/850
+func TestUpdateIssue850(t *testing.T) {
+	test := plan{
+		original: `{}`,
+		path:     "/",
+		change:   `{ "key": [{"hello": "world"}] }`,
+		expected: `{"":{"key":[{"hello":"world"}]}}`,
 	}
 
 	alterTest(t, &test)
