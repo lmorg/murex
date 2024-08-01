@@ -90,7 +90,7 @@ func execute(p *Process) error {
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
 		cmd.Stdin = os.Stdin
-		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+"<term>")
 	}
 
 	if len(p.Exec.Env) > 0 {

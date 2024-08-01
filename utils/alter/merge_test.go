@@ -371,7 +371,7 @@ func TestMergeNestedMapMap(t *testing.T) {
 }
 
 // https://github.com/lmorg/murex/issues/850
-func TestMergeIssue850_1(t *testing.T) {
+func TestMergeIssue850n1(t *testing.T) {
 	test := plan{
 		original: `{}`,
 		path:     "/",
@@ -383,7 +383,7 @@ func TestMergeIssue850_1(t *testing.T) {
 }
 
 // https://github.com/lmorg/murex/issues/850
-func TestMergeIssue850_2(t *testing.T) {
+func TestMergeIssue850n2(t *testing.T) {
 	test := plan{
 		original: `{"key":[{"hello":"world"}]}`,
 		path:     "/",
@@ -395,7 +395,7 @@ func TestMergeIssue850_2(t *testing.T) {
 }
 
 // https://github.com/lmorg/murex/issues/850
-func TestMergeIssue850_3(t *testing.T) {
+func TestMergeIssue850n3(t *testing.T) {
 	test := plan{
 		original: `{"key":[{"hello":"world"}]}`,
 		path:     "/",
@@ -407,7 +407,7 @@ func TestMergeIssue850_3(t *testing.T) {
 }
 
 // https://github.com/lmorg/murex/issues/850
-func TestMergeIssue850_4(t *testing.T) {
+func TestMergeIssue850n4(t *testing.T) {
 	test := plan{
 		original: `{"key":[{"hello":"world"}]}`,
 		path:     "/",
