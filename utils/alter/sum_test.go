@@ -19,14 +19,16 @@ func sumTest(t *testing.T, test *plan) {
 	}
 
 	var expV interface{}
-	if err := json.Unmarshal([]byte(test.expected), &expV); err != nil {
-		panic(err)
+	if !test.error {
+		if err := json.Unmarshal([]byte(test.expected), &expV); err != nil {
+			panic(err)
+		}
+		b, err := json.Marshal(expV)
+		if err != nil {
+			panic(err)
+		}
+		test.expected = string(b)
 	}
-	b, err := json.Marshal(expV)
-	if err != nil {
-		panic(err)
-	}
-	test.expected = string(b)
 
 	var old interface{}
 	err = json.Unmarshal([]byte(test.original), &old)
@@ -43,7 +45,7 @@ func sumTest(t *testing.T, test *plan) {
 
 	new := alter.StrToInterface(test.change)
 	v, err := alter.Sum(context.TODO(), old, pathS, new)
-	if err != nil {
+	if (err != nil) != test.error {
 		t.Error("Error received from alter.Sum()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
@@ -66,6 +68,9 @@ func sumTest(t *testing.T, test *plan) {
 		return
 	}
 
+	if test.error {
+		return
+	}
 	if string(actual) != test.expected {
 		t.Error("Expected does not match actual")
 		t.Logf("  original: %s.(%T)", test.original, old)
@@ -161,8 +166,7 @@ func TestSumIssue850(t *testing.T) {
 		original: `{}`,
 		path:     "/",
 		change:   `{ "key": [{"hello": "world"}] }`,
-		//expected: `{"key":[{"hello":"world"}]}`,
-		expected: ``, // should error
+		error:    true,
 	}
 
 	sumTest(t, &test)

@@ -344,3 +344,4 @@ func TestUpdateIssue850(t *testing.T) {
 
 	alterTest(t, &test)
 }
+
