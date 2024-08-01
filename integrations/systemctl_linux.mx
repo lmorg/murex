@@ -14,13 +14,13 @@ test unit private autocomplete.systemctl %{
     StdoutIsArray: true
 }
 
-function autocomplete.systemctl.flags {
+private autocomplete.systemctl.flags {
     # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
     
     cast json
 
     systemctl --help \
-    -> regexp %(m/PATTERN/) \
+    -> regexp %(m/UNIT/) \
     -> tabulate --map --key-inc-hint \
     -> formap key val {
         json <~ %{
@@ -36,7 +36,7 @@ function autocomplete.systemctl.flags {
     $json
 }
 
-autocomplete set systemctl %[
+autocomplete = %[
     {
         DynamicDesc: '{
             systemctl --help \
@@ -54,8 +54,9 @@ autocomplete set systemctl %[
         }'
         Optional:      false
         AllowMultiple: false
-        FlagValues:    ${ autocomplete.systemctl.flags }
     }
 ]
 
-!function autocomplete.systemctl.flags
+tout json $autocomplete \
+-> alter /1/FlagValues fexec(private /builtin/integrations_systemctl_linux/autocomplete.systemctl.flags) \
+-> autocomplete set systemctl
