@@ -53,20 +53,23 @@
 
 ## Introduction
 
-Murex is a typed shell. By this we mean it still passes byte streams along
-POSIX pipes (and thus will work with all your existing command line tools) but
-in addition will add annotations to describe the type of data that is being
-written and read. This allows Murex to expand upon your command line tools
-with some really interesting and advanced features not available in traditional
-shells.
+Murex is a typed shell.
 
-> POSIX is a set of underlying standards that Linux, macOS and various other
-> operating systems support. Most typed shells do not work well with existing
-> commands whereas Murex does.
+Unlike other typed shells, Murex can still work natively with existing CLI
+tools without any tweaks.
+
+Murex's unique approach to type annotations means you have the safety and
+convenience of working with data formats besides just byte streams and string
+variables, while still having compatibility with every tool written for Linux
+and UNIX over the last 50 years.
 
 ### Read–Eval–Print Loop
 
 
+
+Murex doesn't just aim to be a well thought out language, the interactive shell
+boast an excellent out-of-the-box experience with makes other shells feel stone
+age in comparison.
 
 If you want to learn more about the interactive shell then there is a dedicated
 document detailing [Murex's REPL features](/docs/user-guide/interactive-shell.md).
