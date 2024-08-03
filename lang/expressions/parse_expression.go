@@ -155,7 +155,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			default:
 				// tilde
 				home, err := tree.parseVarTilde(exec)
-				if err!=nil {
+				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
@@ -467,4 +467,31 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 	}
 
 	return nil
+}
+
+func (tree *ParserT) parseSubExpression(exec bool) (any, error) {
+	start := tree.charPos
+	tree.charPos++
+	branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
+	branch.charOffset = tree.charPos + tree.charOffset
+	branch.subExp = true
+	err := branch.parseExpression(exec, true)
+	if err != nil {
+		return nil, err
+	}
+	tree.charPos += branch.charPos - 1
+	if exec {
+		dt, err := branch.executeExpr()
+		if err != nil {
+			return nil, err
+		}
+		val, err := dt.GetValue()
+		if err != nil {
+			return nil, err
+		}
+		return val.Value, nil
+	} else {
+		return string(tree.expression[start:tree.charPos]), nil
+	}
+
 }

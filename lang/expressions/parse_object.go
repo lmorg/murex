@@ -117,6 +117,16 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			}
 			tree.charPos++
 
+		case '(':
+			val, err := tree.parseSubExpression(exec)
+			if err != nil {
+				return nil, nil, err
+			}
+			err = o.UpdateInterface(val)
+			if err != nil {
+				return nil, nil, err
+			}
+
 		case '$':
 			switch {
 			case tree.nextChar() == '{':

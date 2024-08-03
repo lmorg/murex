@@ -113,6 +113,13 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			slice = append(slice, v.Value)
 			tree.charPos++
 
+		case '(':
+			val, err := tree.parseSubExpression(exec)
+			if err != nil {
+				return nil, nil, err
+			}
+			slice = append(slice, val)
+
 		case '$':
 			// inline scalar
 			switch tree.nextChar() {
