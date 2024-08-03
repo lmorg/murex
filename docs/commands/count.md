@@ -23,8 +23,12 @@ Count number of items in a map, list or array:
 
 ## Flags
 
+* `--bytes`
+    Count the total number of bytes read from stdin
 * `--duplications`
     Output a JSON map of items and the number of their occurrences in a list or array
+* `--runes`
+    Count the total number of unicode characters (_runes_) read from stdin. Zero width symbols, wide characters and other non-typical graphemes are all each treated as a single _rune_
 * `--sum`
     Read an array, list or map from stdin and output the sum of all the values (ignore non-numeric values)
 * `--sum-strict`
@@ -33,8 +37,13 @@ Count number of items in a map, list or array:
     Read an array, list or map from stdin and output the length for that array (default behaviour)
 * `--unique`
     Print the number of unique elements in a list or array
+* `-b`
+    
+Alias for `--bytes`
 * `-d`
     Alias for `--duplications`
+* `-r`
+    Alias for `--runes`
 * `-s`
     Alias for `--sum`
 * `-t`
