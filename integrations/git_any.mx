@@ -71,7 +71,7 @@ autocomplete set git %[{
         config: [{
             DynamicDesc: '{
                 # `git config` flags and associated descriptions
-                git config ? tabulate --split-comma --map --key-inc-hint
+                git <!out> config tabulate --split-comma --map --key-inc-hint
             }'
         }]
 
