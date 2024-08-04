@@ -204,7 +204,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			if err != nil {
 				return err
 			}
-			tree.charPos += branch.charPos - 1
+
 			if exec {
 				dt, err := branch.executeExpr()
 				if err != nil {
@@ -214,10 +214,11 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Exp(val.Primitive), dt)
+				tree.appendAstWithPrimitive(symbols.Exp(val.Primitive), dt, '(')
 			} else {
 				tree.appendAst(symbols.SubExpressionBegin)
 			}
+			tree.charPos += branch.charPos - 1
 
 		case ')':
 			tree.charPos++

@@ -36,12 +36,33 @@ func scalarNameDetokenised(r []rune) []rune {
 	}
 }
 
-func convertScalarToBareword(node *astNodeT) {
-	if node.key == symbols.Scalar && len(node.value) > 1 &&
-		node.value[0] == '$' && node.value[1] != '{' {
+func convertAssigneeToBareword(tree *ParserT, node *astNodeT) error {
+	switch {
+	case node.key == symbols.Scalar && len(node.value) > 1 &&
+		node.value[0] == '$' && node.value[1] != '{':
 
 		node.key = symbols.Bareword
 		node.value = scalarNameDetokenised(node.value)
+		return nil
+
+	case node.key == symbols.QuoteSingle && len(node.value) > 0 && node.value[0] == '(':
+		val, err := node.dt.GetValue()
+		if err != nil {
+			return raiseError(tree.expression, node, 0, fmt.Sprintf(
+				"cannot assign a value to %s: %s", node.key.String(), err.Error()))
+		}
+		s, err := types.ConvertGoType(val.Value, types.String)
+		if err != nil {
+			return raiseError(tree.expression, node, 0, fmt.Sprintf(
+				"cannot assign a value to %s: %s", node.key.String(), err.Error()))
+		}
+		node.key = symbols.Bareword
+		node.value = []rune(s.(string))
+		return nil
+
+	default:
+		return raiseError(tree.expression, node, 0, fmt.Sprintf(
+			"cannot assign a value to %s", node.key.String()))
 	}
 }
 
@@ -51,12 +72,8 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 		return err
 	}
 
-	convertScalarToBareword(leftNode)
-
-	if leftNode.key != symbols.Bareword {
-		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, leftNode.key))
+	if err = convertAssigneeToBareword(tree, leftNode); err != nil {
+		return err
 	}
 
 	if rightNode.key <= symbols.Bareword {
@@ -140,7 +157,9 @@ func expAssignAdd(tree *ParserT) error {
 		return err
 	}
 
-	convertScalarToBareword(leftNode)
+	if err = convertAssigneeToBareword(tree, leftNode); err != nil {
+		return err
+	}
 
 	right, err := rightNode.dt.GetValue()
 	if err != nil {
@@ -232,7 +251,9 @@ func expAssignAndOperate(tree *ParserT, operation assFnT) error {
 		return err
 	}
 
-	convertScalarToBareword(leftNode)
+	if err = convertAssigneeToBareword(tree, leftNode); err != nil {
+		return err
+	}
 
 	right, err := rightNode.dt.GetValue()
 	if err != nil {
@@ -298,7 +319,9 @@ func expAssignMerge(tree *ParserT) error {
 		return err
 	}
 
-	convertScalarToBareword(leftNode)
+	if err = convertAssigneeToBareword(tree, leftNode); err != nil {
+		return err
+	}
 
 	if leftNode.key != symbols.Bareword {
 		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
