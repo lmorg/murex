@@ -26,7 +26,7 @@ func TestParseFunction(t *testing.T) {
 		},
 		{
 			Block:  `if({true}{out hello}{out world})`,
-			Stdout: "hello",
+			Stdout: "hello\n",
 		},
 		{
 			Block:  `out(%({hello}{world}))`,

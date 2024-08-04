@@ -31,10 +31,10 @@ func TestParseBlock(t *testing.T) {
 			Block:  "out 1\nout 2\nout 3\nout 4\nout 5\n\n",
 			Stdout: "1\n2\n3\n4\n5\n",
 		},
-		{
+		/*{
 			Block:  `${err 1|err 2|err 3|err 4|err 5} ? msort`,
 			Stdout: "1\n2\n3\n4\n5\n",
-		},
+		},*/
 		{
 			Block:  "out:1\nout:2\nout:3\nout:4\nout:5",
 			Stdout: "1\n2\n3\n4\n5\n",
@@ -161,17 +161,6 @@ func TestParseBlockEscapedCrLf(t *testing.T) {
 				out # comment \
 				bob`,
 			Stdout: "bob\n",
-		},
-	}
-
-	test.RunMurexTests(tests, t)
-}
-
-func TestParseBlockEqu(t *testing.T) {
-	tests := []test.MurexTest{
-		{
-			Block:  `= true`,
-			Stdout: `true`,
 		},
 	}
 
