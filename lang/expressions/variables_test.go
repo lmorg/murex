@@ -3,6 +3,7 @@ package expressions
 import (
 	"testing"
 
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -118,4 +119,52 @@ func TestCreateRangeBlock(t *testing.T) {
 			t.Logf("  Actual:   '%s'", string(block))
 		}
 	}
+}
+
+func TestFormatBytes(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `function test0 { %{a:1, b:2, c:3} }; %{${test0}: ${test0}}`,
+			Stdout: `{"{\"a\":1,\"b\":2,\"c\":3}":{"a":1,"b":2,"c":3}}`,
+		},
+		{
+			Block:  `function test1 { tout str "test1" }; %{${test1}: ${test1}}`,
+			Stdout: `{"test1":"test1"}`,
+		},
+		{
+			Block:  `function test2 { tout str 2 }; %{${test2}: ${test2}}`,
+			Stdout: `{"2":"2"}`,
+		},
+		{
+			Block:  `function test3 { tout int 3 }; %{${test3}: ${test3}}`,
+			Stdout: `{"3":3}`,
+		},
+		{
+			Block:  `function test4 { tout float 4.1 }; %{${test4}: ${test4}}`,
+			Stdout: `{"4.1":4.1}`,
+		},
+		{
+			Block:  `function test5 { tout num 5.2 }; %{${test5}: ${test5}}`,
+			Stdout: `{"5.2":5.2}`,
+		},
+		{
+			Block:  `function test6 { true }; %{${test6}: ${test6}}`,
+			Stdout: `{"true":true}`,
+		},
+		{
+			Block:  `function test7 { false }; %{${test7}: ${test7}}`,
+			Stdout: `{"false":false}`,
+		},
+		/////
+		{
+			Block:  `function test8 { tout null "" }; %{${test8}: ${test8}}`,
+			Stdout: `{"":[null]}`,
+		},
+		{
+			Block:  `function test8 { null }; %{${test8}: ${test8}}`,
+			Stdout: `{"":[null]}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }

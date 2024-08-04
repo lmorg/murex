@@ -74,7 +74,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Inlined commands for expressions and statements
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$Variable` Sigil](parser/scalar.md):
+* [`$Scalar` Sigil (eg variables)](parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)

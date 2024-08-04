@@ -130,7 +130,7 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 		case '$':
 			switch {
 			case tree.nextChar() == '{':
-				// inline subshell
+				// inline sub-shell
 				strOrVal := varFormatting(o.stage)
 				subshell, fn, err := tree.parseSubShell(exec, r, strOrVal)
 				if err != nil {
@@ -154,12 +154,12 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			default:
 				// inline scalar
 				strOrVal := varFormatting(o.stage)
-				scalar, v, _, err := tree.parseVarScalar(exec, strOrVal)
+				scalar, val, _, err := tree.parseVarScalar(exec, strOrVal)
 				if err != nil {
 					return nil, nil, err
 				}
 				if exec {
-					err = o.UpdateInterface(v)
+					err = o.UpdateInterface(val)
 					if err != nil {
 						return nil, nil, err
 					}

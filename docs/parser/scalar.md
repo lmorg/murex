@@ -1,4 +1,4 @@
-# `$Variable` Sigil
+# `$Scalar` Sigil (eg variables)
 
 > Expand values as a scalar
 
@@ -6,12 +6,38 @@
 
 The scalar token is used to tell Murex to expand variables and sub-shells as a
 string (ie one single parameter) irrespective of the data that is stored in the
-string. One handy common use case is file names where traditional POSIX shells
-would treat spaces as a new file, whereas Murex treats spaces as a printable
-character unless explicitly told to do otherwise.
+string.
 
-The string token must be followed with one of the following characters: 
-alpha, numeric, underscore (`_`) or a full stop / period (`.`).
+One common use case where Murex's approach is better is with file names.
+Traditional shells would treat spaces as a new file. Whereas Murex treats
+spaces as any other printable character character.
+
+## Variable Syntax
+
+There are two basic syntaxes. Bare an enclosed.
+
+### Bare Syntax
+
+Bare syntax looks like the following:
+
+```
+$scalar
+```
+
+The variable token must be followed with one of the following characters: 
+alpha (`a` to `z`, upper and lower case), numeric (`0` to `1`), underscore
+(`_`) and/or a full stop (`.`).
+
+### Enclosed Syntax
+
+Enclosed syntax looks like the following:
+
+```
+$(scalar)
+```
+
+Enclosed syntax supports any unicode characters however the variable name
+needs to be surrounded by parenthesis. See examples below.
 
 
 
