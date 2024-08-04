@@ -54,6 +54,6 @@ autocomplete set systemctl %[
         }'
         Optional:      false
         AllowMultiple: false
-        FlagValues:    ${ private /builtin/integrations_systemctl_linux/autocomplete.systemctl.flags }
+        FlagValues:    ${ fexec private /builtin/integrations_systemctl_linux/autocomplete.systemctl.flags }
     }
 ]
