@@ -121,7 +121,27 @@ func TestCreateRangeBlock(t *testing.T) {
 	}
 }
 
-func TestFormatBytes(t *testing.T) {
+func TestFormatBytesArrayBuilder(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `function test0 { %{a:1, b:2, c:3} }; %[ ${test0} ]`,
+			Stdout: `[{"a":1,"b":2,"c":3}]`,
+		},
+		/////
+		{
+			Block:  `function test8 { tout null "" }; %[ ${test8} ]`,
+			Stdout: `[[null]]`, // this is potentially unexpected behaviour
+		},
+		{
+			Block:  `function test9 { null };  %[ ${test9} ]`,
+			Stdout: `[[null]]`, // this is potentially unexpected behaviour
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestFormatBytesObjectBuilder(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `function test0 { %{a:1, b:2, c:3} }; %{${test0}: ${test0}}`,
@@ -161,7 +181,7 @@ func TestFormatBytes(t *testing.T) {
 			Stdout: `{"":[null]}`,
 		},
 		{
-			Block:  `function test8 { null }; %{${test8}: ${test8}}`,
+			Block:  `function test9 { null }; %{${test9}: ${test9}}`,
 			Stdout: `{"":[null]}`,
 		},
 	}
