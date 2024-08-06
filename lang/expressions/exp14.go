@@ -38,6 +38,9 @@ func scalarNameDetokenised(r []rune) []rune {
 
 func convertAssigneeToBareword(tree *ParserT, node *astNodeT) error {
 	switch {
+	case node.key == symbols.Bareword:
+		return nil
+
 	case node.key == symbols.Scalar && len(node.value) > 1 &&
 		node.value[0] == '$' && node.value[1] != '{':
 
