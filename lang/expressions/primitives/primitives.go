@@ -19,7 +19,7 @@ const (
 	Null     Primitive = Primitive(symbols.Null)        // null
 	Bareword Primitive = 0                              // bareword
 	Other    Primitive = -1                             // other
-	Function Primitive = -2                             // functions and subshells
+	Function Primitive = -2                             // functions and sub-shells
 )
 
 func (primitive Primitive) IsComparable() bool {
@@ -43,10 +43,6 @@ func NewPrimitive(primitive Primitive, value any) *DataType {
 }
 
 func NewFunction(fn FunctionT) *DataType {
-	/*if fn == nil {
-		panic("undefined function")
-	}*/
-
 	return &DataType{
 		v:  &Value{Primitive: Function},
 		fn: fn,

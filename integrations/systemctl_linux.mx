@@ -1,10 +1,10 @@
-!if { which: systemctl } then {
+!if { which systemctl } then {
     return
 }
 
 private autocomplete.systemctl {
     # Returns all known systemd unit files
-    systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
+    systemctl list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
 }
 
 test unit private autocomplete.systemctl %{
@@ -14,37 +14,46 @@ test unit private autocomplete.systemctl %{
     StdoutIsArray: true
 }
 
-function autocomplete.systemctl.flags {
+private autocomplete.systemctl.flags {
     # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
-    systemctl: --help -> regexp %(m/PATTERN/) -> tabulate: --map --key-inc-hint -> formap key val {
-        out ("$key": [{
-            "Dynamic": ({ autocomplete.systemctl }),
-            "ListView": true,
-            "Optional": false,
-            "AllowMultiple": true
-        }],)
-    }
-    out ("": [{}]) # dummy value so there's no trailing comma
-}
+    
+    cast json
 
-autocomplete set systemctl ([
-    {
-        "DynamicDesc": ({
-            systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
-        }),
-        "Optional": true,
-        "AllowMultiple": false
-    },
-    {
-        "DynamicDesc": ({
-            systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
-        }),
-        "Optional": false,
-        "AllowMultiple": false,
-        "FlagValues": {
-            ${ autocomplete.systemctl.flags }
+    systemctl --help \
+    -> regexp %(m/UNIT/) \
+    -> tabulate --map --key-inc-hint \
+    -> formap key val {
+        json <~ %{
+            $key: [{
+                Dynamic:       '{ autocomplete.systemctl }'
+                ListView:      true
+                Optional:      false
+                AllowMultiple: true
+            }]
         }
     }
-])
 
-!function autocomplete.systemctl.flags
+    $json
+}
+
+autocomplete set systemctl %[
+    {
+        DynamicDesc: '{
+            systemctl --help \
+            -> [..Unit Commands:]s \
+            -> tabulate --column-wraps --map --key-inc-hint --split-space
+        }'
+        Optional:      true
+        AllowMultiple: false
+    }
+    {
+        DynamicDesc: '{
+            systemctl --help \
+            -> [Unit Commands:..]s \
+            -> tabulate --column-wraps --map --key-inc-hint
+        }'
+        Optional:      false
+        AllowMultiple: false
+        FlagValues:    ${ fexec private /builtin/integrations_systemctl_linux/autocomplete.systemctl.flags }
+    }
+]

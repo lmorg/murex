@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -23,9 +24,11 @@ func init() {
 			FlagsDesc: {
 				"--duplications": "Output a JSON map of items and the number of their occurrences in a list or array"
 				"--unique": "Print the number of unique elements in a list or array"
-				"--sum": "Read an array, list or map from STDIN and output the sum of all the values (ignore non-numeric values)"
-				"--sum-strict": "Read an array, list or map from STDIN and output the sum of all the values (error on non-numeric values)"
-				"--total": "Read an array, list or map from STDIN and output the length for that array (default behaviour)"
+				"--sum": "Read an array, list or map from stdin and output the sum of all the values (ignore non-numeric values)"
+				"--sum-strict": "Read an array, list or map from stdin and output the sum of all the values (error on non-numeric values)"
+				"--total": "Read an array, list or map from stdin and output the length for that array (default behaviour)"
+				"--bytes": "Count the total number of bytes read from stdin",
+				"--runes": "Count the total number of unicode characters (runes) read from stdin. Zero width symbols, wide characters and other non-typical graphemes are all each treated as a single rune"
 			}
 		}]
 	`)
@@ -37,6 +40,8 @@ const (
 	argSum          = "--sum"
 	argSumStrict    = "--sum-strict"
 	argTotal        = "--total"
+	argBytes        = "--bytes"
+	argRunes        = "--runes"
 )
 
 var argsCount = parameters.Arguments{
@@ -51,12 +56,14 @@ var argsCount = parameters.Arguments{
 		argSumStrict:    types.Boolean,
 		argTotal:        types.Boolean,
 		"-t":            argTotal,
+		argBytes:        types.Boolean,
+		"-b":            argBytes,
+		argRunes:        types.Boolean,
+		"-r":            argRunes,
 	},
 }
 
 func cmdCount(p *lang.Process) error {
-	//p.Stdout.SetDataType(types.Json)
-
 	err := p.ErrIfNotAMethod()
 	if err != nil {
 		return err
@@ -121,6 +128,24 @@ func cmdCount(p *lang.Process) error {
 
 			p.Stdout.SetDataType(types.Number)
 			_, err = p.Stdout.Write([]byte(types.FloatToString(f)))
+			return err
+
+		case argBytes:
+			p.Stdout.SetDataType(types.Integer)
+			b, err := p.Stdin.ReadAll()
+			if err != nil {
+				return err
+			}
+			_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", len(b))))
+			return err
+
+		case argRunes:
+			p.Stdout.SetDataType(types.Integer)
+			b, err := p.Stdin.ReadAll()
+			if err != nil {
+				return err
+			}
+			_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", utf8.RuneCount(b))))
 			return err
 		}
 	}

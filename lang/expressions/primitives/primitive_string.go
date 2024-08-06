@@ -20,13 +20,13 @@ func _() {
 }
 
 const (
-	_Primitive_name_0 = "functions and subshellsotherbareword"
+	_Primitive_name_0 = "functions and sub-shellsotherbareword"
 	_Primitive_name_1 = "objectarraystring"
 	_Primitive_name_2 = "numberbooleannull"
 )
 
 var (
-	_Primitive_index_0 = [...]uint8{0, 23, 28, 36}
+	_Primitive_index_0 = [...]uint8{0, 24, 29, 37}
 	_Primitive_index_1 = [...]uint8{0, 6, 11, 17}
 	_Primitive_index_2 = [...]uint8{0, 6, 13, 17}
 )

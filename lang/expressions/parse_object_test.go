@@ -225,3 +225,26 @@ func TestParseObjectNestedString(t *testing.T) {
 
 	testParserObject(t, tests)
 }
+
+func TestParseObjectNestedExpr(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{(1+1):(2+2)}",
+				expected: `{"2":4}`,
+				pos:      12,
+			},
+			{
+				input:    "%{(1+-):(2+2)}",
+				error: true,
+			},
+			{
+				input:    "%{(1+1):(2+-)}",
+				error: true,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}

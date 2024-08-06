@@ -44,6 +44,8 @@ func expSubtract(tree *ParserT) error {
 	})
 }
 
+const errCannotMergeWith = "cannot merge %s with %s: %s"
+
 func expMergeInto(tree *ParserT) error {
 	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
@@ -59,10 +61,24 @@ func expMergeInto(tree *ParserT) error {
 		return err
 	}
 
-	merged, err := alter.Merge(tree.p.Context, right.Value, nil, left.Value)
+	if left.Primitive != primitives.Array && left.Primitive != primitives.Object {
+		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
+			errCannotMergeWith,
+			right.Primitive.String(), left.Primitive.String(),
+			"left side needs to be an array or object"))
+	}
+
+	if right.Primitive != primitives.Array && right.Primitive != primitives.Object {
+		return raiseError(tree.expression, rightNode, 0, fmt.Sprintf(
+			errCannotMergeWith,
+			right.Primitive.String(), left.Primitive.String(),
+			"right side needs to be an array or object"))
+	}
+
+	merged, err := alter.Merge(tree.p.Context, left.Value, nil, right.Value)
 	if err != nil {
 		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
-			"cannot perform merge '%s' into '%s': %s",
+			errCannotMergeWith,
 			right.Value, left.Value,
 			err.Error()))
 	}

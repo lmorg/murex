@@ -18,6 +18,8 @@ const (
 
 var errEmptyRange = "range '@%s[%s]%s' is empty"
 
+// getVar doesn't call formatBytes because variables already store both the
+// string and object representations.
 func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
 	var (
 		value    interface{}
@@ -136,7 +138,7 @@ func (tree *ParserT) getVarIndexOrElement(getIorE *getVarIndexOrElementT) (inter
 	b = utils.CrLfTrim(b)
 	dataType := fork.Stdout.GetDataType()
 
-	v, err := formatBytes(b, dataType, getIorE.strOrVal)
+	v, err := formatBytes(tree, b, dataType, getIorE.strOrVal)
 	return v, dataType, err
 }
 
@@ -198,20 +200,32 @@ func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
 
 }
 
-func formatBytes(b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {
+// formatBytes this isn't used for variables because vars already store both
+// the string and object representations.
+func formatBytes(tree *ParserT, b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {
 	if strOrVal == varAsString {
 		return string(b), nil
 	}
 
 	switch dataType {
-	case types.Number, types.String, types.Integer, types.Boolean, types.Null, types.Float:
+	case types.Number, types.String, types.Integer, types.Boolean, types.Float, types.Null:
 		v, err := types.ConvertGoType(b, dataType)
 		if err != nil {
-			return nil, err
+			return string(b), err
 		}
 		return v, nil
 
 	default:
-		return string(b), nil
+		fork := tree.p.Fork(lang.F_CREATE_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
+		defer fork.Kill()
+		_, err := fork.Stdin.Write(b)
+		if err != nil {
+			return string(b), err
+		}
+		v, err := lang.UnmarshalData(fork.Process, dataType)
+		if err != nil {
+			return string(b), nil
+		}
+		return v, nil
 	}
 }

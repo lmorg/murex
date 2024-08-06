@@ -2,6 +2,7 @@ package expressions_test
 
 import (
 	"fmt"
+	"os/user"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
@@ -139,35 +140,77 @@ func TestParseVarsTilder(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestParseVarsTilderPlusName(t *testing.T) {
+func TestParseVarsTilderPlusNamePositive(t *testing.T) {
+	usr, err := user.Current()
+	if err != nil {
+		t.Errorf("cannot run tests: %s", err.Error())
+		return
+	}
+
 	tests := []test.MurexTest{
 		{
-			Block:  `TestParseVarsTilderPlusName0= ~TestParseVarsTilderPlusName0;$TestParseVarsTilderPlusName0`,
-			Stdout: home.UserDir("TestParseVarsTilderPlusName0"),
+			Block:  fmt.Sprintf(`TestParseVarsTilderPlusName0= ~%s;$TestParseVarsTilderPlusName0`, usr.Username),
+			Stdout: home.MyDir,
 		},
 		{
-			Block:  `TestParseVarsTilderPlusName1="~TestParseVarsTilderPlusName1";$TestParseVarsTilderPlusName1`,
-			Stdout: home.UserDir("TestParseVarsTilderPlusName1"),
+			Block:  fmt.Sprintf(`TestParseVarsTilderPlusName1="~%s";$TestParseVarsTilderPlusName1`, usr.Username),
+			Stdout: home.MyDir,
 		},
 		{
-			Block:  `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
-			Stdout: `~TestParseVarsTilderPlusName2`,
+			Block:  fmt.Sprintf(`TestParseVarsTilderPlusName2='~%s';$TestParseVarsTilderPlusName2`, usr.Username),
+			Stdout: fmt.Sprintf(`~%s`, usr.Username),
 		},
 		{
-			Block:  `%[~TestParseVarsTilderPlusName3]`,
-			Stdout: fmt.Sprintf(`["%s"]`, home.UserDir("TestParseVarsTilderPlusName3")),
+			Block:  `%[~` + usr.Username + `]`,
+			Stdout: fmt.Sprintf(`["%s"]`, home.MyDir),
 		},
 		{
-			Block:  `%{~TestParseVarsTilderPlusName4: a}`,
-			Stdout: fmt.Sprintf(`{"%s":"a"}`, home.UserDir("TestParseVarsTilderPlusName4")),
+			Block:  `%{~` + usr.Username + `: a}`,
+			Stdout: fmt.Sprintf(`{"%s":"a"}`, home.MyDir),
 		},
 		{
-			Block:  `%{a: ~TestParseVarsTilderPlusName5}`,
-			Stdout: fmt.Sprintf(`{"a":"%s"}`, home.UserDir("TestParseVarsTilderPlusName5")),
+			Block:  `%{a: ~` + usr.Username + `}`,
+			Stdout: fmt.Sprintf(`{"a":"%s"}`, home.MyDir),
 		},
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsTilderPlusNameNegative(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `TestParseVarsTilderPlusName0= ~TestParseVarsTilderPlusName0;$TestParseVarsTilderPlusName0`,
+			Stderr:  "cannot expand variable",
+			ExitNum: 1,
+		},
+		{
+			Block:   `TestParseVarsTilderPlusName1="~TestParseVarsTilderPlusName1";$TestParseVarsTilderPlusName1`,
+			Stderr:  "cannot expand variable",
+			ExitNum: 1,
+		},
+		{
+			Block:   `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
+			Stdout:  `~TestParseVarsTilderPlusName2`,
+		},
+		{
+			Block:   `%[~TestParseVarsTilderPlusName3]`,
+			Stderr:  "cannot expand variable",
+			ExitNum: 1,
+		},
+		{
+			Block:   `%{~TestParseVarsTilderPlusName4: a}`,
+			Stderr:  "cannot expand variable",
+			ExitNum: 1,
+		},
+		{
+			Block:   `%{a: ~TestParseVarsTilderPlusName5}`,
+			Stderr:  "cannot expand variable",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestParseVarsIndex(t *testing.T) {

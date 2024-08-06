@@ -137,7 +137,11 @@ func (tree *ParserT) parseSwitch() (int, error) {
 
 		case '~':
 			// tilde
-			appendToParam(tree, []rune(tree.parseVarTilde(true))...)
+			home, err := tree.parseVarTilde(true)
+			if err != nil {
+				return 0, err
+			}
+			appendToParam(tree, []rune(home)...)
 			if err := tree.nextParameter(); err != nil {
 				return 0, err
 			}

@@ -40,7 +40,7 @@ test: unit private autocomplete.microk8s.kubectl {
 
 private autocomplete.microk8s.kubectl.dyndesc {
     # Dynamic completion for microk8s kubectl
-    microk8s kubectl help $ARGS[1] -> @[^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
+    microk8s kubectl help $ARGS[1] -> [^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
 }
 
 autocomplete: set microk8s {[

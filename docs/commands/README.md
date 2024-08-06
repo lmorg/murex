@@ -44,8 +44,6 @@ murex-docs trypipe
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the stdin belonging to the parent code block
-* [`@g` (autoglob) ](../commands/autoglob.md):
-  Command prefix to expand globbing (deprecated)
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](../commands/addheading.md):

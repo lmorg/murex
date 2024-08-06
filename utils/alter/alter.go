@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -17,7 +18,7 @@ const (
 
 // Alter a data structure. Requires a path (pre-split) and new structure as a
 // JSON string. A more seasoned developer will see plenty of room for
-// optimisation however this function was largely thrown together in a "let's
+// optimization however this function was largely thrown together in a "let's
 // create something that works first and worry about performance later" kind of
 // sense (much like a lot of murex's code base). That being said, I will accept
 // any pull requests from other developers wishing to improve this - or other -
@@ -56,12 +57,14 @@ const (
 )
 
 func loop(ctx context.Context, v interface{}, i int, path []string, new *interface{}, action int) (ret interface{}, err error) {
-	defer func() {
-		r := recover()
-		if r != nil {
-			err = fmt.Errorf("unhandled error in type conversion: %v", r)
-		}
-	}()
+	if !debug.Enabled {
+		defer func() {
+			r := recover()
+			if r != nil {
+				err = fmt.Errorf("unhandled error in type conversion: %v", r)
+			}
+		}()
+	}
 
 	select {
 	case <-ctx.Done():

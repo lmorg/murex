@@ -74,7 +74,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Inlined commands for expressions and statements
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$Variable` Sigil](parser/scalar.md):
+* [`$Scalar` Sigil (eg variables)](parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -153,8 +153,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the stdin belonging to the parent code block
-* [`@g` (autoglob) ](../commands/autoglob.md):
-  Command prefix to expand globbing (deprecated)
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](../commands/addheading.md):

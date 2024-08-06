@@ -33,13 +33,13 @@ autocomplete: <!null> set yarn ({[
     {
         "Flags": ${
             trypipe <!null> {
-                yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                yarn help -> [Commands..Run]re -> [:1] -> cast str -> format json
             }
         },
         "FlagValues": {
             ${
                 trypipe <!null> {
-                    yarn help -> @[Commands..Run]re -> [:1] -> foreach MOD_cmd {
+                    yarn help -> [Commands..Run]re -> [:1] -> foreach MOD_cmd {
                         out ("$MOD_cmd":
                             [{
                                 "DynamicDesc": ({ 

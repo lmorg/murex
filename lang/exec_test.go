@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -37,4 +38,62 @@ func TestProcessExecStruct(t *testing.T) {
 	if cmd == nil {
 		t.Errorf("Expecting a non-nil cmd, instead got %v", cmd)
 	}
+}
+
+func TestExecPipeRedirect(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `out <null> exec_test.go`,
+			Stdout: "",
+		},
+		{
+			Block:  `ls <null> exec_test.go`,
+			Stdout: "",
+		},
+		{
+			Block:  `exec <null> ls exec_test.go`,
+			Stdout: "",
+		},
+		/////
+		{
+			Block:  `out <!null> exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		{
+			Block:  `ls <!null> exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		{
+			Block:  `exec <!null> ls exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		/////
+		{
+			Block:  `out <!out> exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		{
+			Block:  `ls <!out> exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		{
+			Block:  `exec <!out> ls exec_test.go`,
+			Stdout: "exec_test.go\n",
+		},
+		/////
+		{
+			Block:  `out <err> exec_test.go`,
+			Stderr: "exec_test.go\n",
+		},
+		{
+			Block:  `ls <err> exec_test.go`,
+			Stderr: "exec_test.go\n",
+		},
+		{
+			Block:  `exec <err> ls exec_test.go`,
+			Stderr: "exec_test.go\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }

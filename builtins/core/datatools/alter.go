@@ -5,10 +5,12 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/alter"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
 	lang.DefineMethod("alter", cmdAlter, types.Unmarshal, types.Marshal)
+	lang.DefineMethod("~>", opMerge, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
 		autocomplete: set alter { [{
@@ -132,6 +134,40 @@ func cmdAlter(p *lang.Process) error {
 	}
 
 	b, err := lang.MarshalData(p, dt, v)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func opMerge(p *lang.Process) error {
+	dt := p.Stdin.GetDataType()
+	p.Stdout.SetDataType(dt)
+
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
+	stdin, err := lang.UnmarshalData(p, dt)
+	if err != nil {
+		return err
+	}
+
+	b := p.Parameters.ByteAll()
+	var merge any
+	err = json.UnmarshalMurex(b, &merge)
+	if err != nil {
+		return err
+	}
+
+	v, err := alter.Merge(p.Context, stdin, nil, merge)
+	if err != nil {
+		return err
+	}
+
+	b, err = lang.MarshalData(p, dt, v)
 	if err != nil {
 		return err
 	}

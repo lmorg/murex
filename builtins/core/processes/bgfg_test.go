@@ -10,11 +10,11 @@ import (
 func TestBg(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `bg { out "bg" }; sleep 3; out "fg"`,
+			Block:  `bg { out "bg" }; sleep 2; out "fg"`,
 			Stdout: "bg\nfg\n",
 		},
 		{
-			Block:  `bg { sleep 3; out "bg" }; out "fg"; sleep 6`,
+			Block:  `bg { sleep 2; out "bg" }; out "fg"; sleep 5`,
 			Stdout: "fg\nbg\n",
 		},
 	}
