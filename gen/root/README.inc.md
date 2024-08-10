@@ -3,9 +3,9 @@ home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex.Rocks
-tagline: An intuitive, typed and content aware shell for the 2020s and beyond.
+tagline: An intuitive and content aware shell for a modern command line
 head:
-  - [meta, { property: "og-description", content: "An intuitive, typed and content aware shell for the 2020s and beyond." }]
+  - [meta, { property: "og-description", content: "An intuitive and content aware shell for a modern command line" }]
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
@@ -29,7 +29,7 @@ highlights:
       - title: Content Aware
         icon: file-contract
         details: |-
-          Murex has built-in support for natively manipulating various file formats such as JSON, TOML, YAML, CSV, and commonlog. This allows for seamless integration and manipulation of data in various formats.
+          Native support for manipulating data formats such as JSON, YAML, CSV, and others. This allows for seamless integration and manipulation of data in various formats.
           <br/><br/>
           <strong>Data types can be explicitly cast and reformatted, but also inferred if preferred.</strong>
         link: types/
@@ -37,7 +37,7 @@ highlights:
       - title: Expressions
         icon: hashtag
         details: |-
-          Murex treats variables as expressions, allowing you to perform calculations and evaluations directly within the shell. This feature helps to avoid accidental bugs caused by spaces or incorrect syntax, providing a more reliable and predictable scripting experience.
+          Smarter handling of variables and expressions to avoid accidental bugs caused by spaces or incorrect syntax. Resulting in a more reliable and predictable scripting experience.
           <br/><br/>
           <strong>Never worry about file names with weird characters, nor running equations in "bc" again.</strong>
         link: parser/
@@ -45,7 +45,7 @@ highlights:
       - title: Smartly Interactive
         icon: wand-magic-sparkles
         details: |-
-          Murex parses man pages for command line flags and provides smart autocomplete functionality. By pressing the TAB key, you can auto-complete commands and parameters, and "fzf"-like functionality baked in.
+          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
           <br/><br/>
           <strong>Navigating the command line is faster, more intuitive and efficient than ever before.</strong>
         link: user-guide/interactive-shell
@@ -53,7 +53,7 @@ highlights:
       - title: Easily Extended
         icon: "puzzle-piece"
         details: |-
-          Murex has an extension framework that allows you to design your own modules or enjoy prebuilt extensions. This allows for customization and additional functionality. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
+          An extension framework that allows you to design your own modules or enjoy prebuilt extensions. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
           <br/><br/>
           <strong>Configure once, use everywhere.</strong>
         link: user-guide/modules
