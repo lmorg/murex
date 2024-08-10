@@ -10,6 +10,7 @@
 - [Operators And Tokens](#operators-and-tokens)
   - [Terminology](#terminology)
   - [Modifiers](#modifiers)
+  - [Immutable Merge](#immutable-merge)
   - [Comparators](#comparators)
   - [Assignment](#assignment)
   - [Conditionals](#conditionals)
@@ -55,12 +56,13 @@ Order of operations:
 2. sub-shells / sub-expressions
 3. multiplication / division (expressions only)
 4. addition / subtraction (expressions only)
-5. comparisons, eg greater than
-6. logical and (sub-expressions only)
-7. logical or (sub-expressions only)
-8. elvis (expressions only)
-9. assign (expressions only)
-10. _left_ to _right_
+5. immutable merge
+6. comparisons, eg greater than (expressions only)
+7. logical and (sub-expressions only)
+8. logical or (sub-expressions only)
+9. elvis (expressions only)
+10. assign (expressions only)
+11. _left_ to _right_
 
 ### Expression Or Statement Discovery
 
@@ -99,6 +101,20 @@ Read more:
 * Data types: {{link "num" "num"}}, {{link "int" "int"}}, {{link "float" "float"}}
 * Strict types config: {{link "strict types" "strict-types"}}
 * Operators: {{link "+" "addition"}}, {{link "-" "subtraction"}}, {{link "*" "multiplication"}}, {{link "/" "division"}}
+
+### Immutable Merge
+
+Returns the result of merging _right_ into _left_.
+
+_immutable merge_ does not modify the contents of either _left_ nor _right_.
+
+The direction of the arrow indicates that the result returned is a new value
+rather than an updated assignment.
+
+| Operator | Name            | Operation                                   |
+|----------|-----------------|---------------------------------------------|
+| `~>`     | Immutable Merge | Returns merged value of _right_ into _left_ |
+
 
 ### Comparators
 
@@ -143,7 +159,7 @@ Assignment is only supported in expressions.
 
 Read more:
 * Data types: {{link "bool" "bool"}}
-* Operators: {{link "=" "equals"}}, {{link "<~" "assign-or-merge"}}, {{link "+=" "add-with"}},  {{link "-=" "subtract-by"}}, {{link "=" "multiply-by"}}, {{link "=" "divide-by"}}
+* Operators: {{link "=" "equals"}}, {{link "<~" "assign-or-merge"}}, {{link "+=" "add-with"}},  {{link "-=" "subtract-by"}}, {{link "*=" "multiply-by"}}, {{link "/=" "divide-by"}}
 
 ### Conditionals
 

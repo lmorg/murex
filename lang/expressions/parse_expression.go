@@ -149,7 +149,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.appendAst(symbols.Like)
 				tree.charPos++
 			case '>':
-				// merge into
+				// immutable merge
 				tree.appendAst(symbols.Merge)
 				tree.charPos++
 			default:
