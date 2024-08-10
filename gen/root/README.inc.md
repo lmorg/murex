@@ -53,7 +53,7 @@ highlights:
       - title: Easily Extended
         icon: "puzzle-piece"
         details: |-
-          An extension framework that allows you to design your own modules or enjoy prebuilt extensions. The built-in package manager makes it very easy to share your configuration, import other peoples modules, and port your set up between different machines.
+          The built-in package manager makes it very easy to share your configuration, import other peoples namespaced modules, and port your environment between different machines.
           <br/><br/>
           <strong>Configure once, use everywhere.</strong>
         link: user-guide/modules
