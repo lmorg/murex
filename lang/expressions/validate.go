@@ -60,21 +60,21 @@ func (tree *ParserT) validateExpression() error {
 			node.dt = primitive
 
 		} else {
-			if node.key < symbols.Operations {
+
+			switch {
+			case node.key < symbols.Operations:
 				return raiseError(tree.expression, node, 0, "expecting an operation")
-			}
 
-			switch node.key {
-			case symbols.Add, symbols.GreaterThan, symbols.LessThan:
-				if prev == nil || prev.key == symbols.Bareword ||
-					next == nil || next.key == symbols.Bareword {
-					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s barewords", node.key))
-				}
-
-			case symbols.Subtract, symbols.Divide, symbols.Multiply:
+			case node.key >= symbols.Add:
 				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated && prev.key != symbols.SubExpressionBegin && prev.key != symbols.Scalar) ||
 					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated && next.key != symbols.SubExpressionBegin && next.key != symbols.Scalar) {
 					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s non-numeric data types", node.key))
+				}
+
+			case node.key >= symbols.Elvis:
+				if prev == nil || prev.key == symbols.Bareword ||
+					next == nil || next.key == symbols.Bareword {
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s barewords", node.key))
 				}
 			}
 		}

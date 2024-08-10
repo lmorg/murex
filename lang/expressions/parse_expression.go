@@ -150,7 +150,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.charPos++
 			case '>':
 				// merge into
-				tree.appendAst(symbols.MergeInto)
+				tree.appendAst(symbols.Merge)
 				tree.charPos++
 			default:
 				// tilde

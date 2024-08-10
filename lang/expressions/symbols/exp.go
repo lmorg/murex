@@ -81,10 +81,13 @@ const (
 	LessThanOrEqual
 
 	// 05. Bitwise shift left and right
+
+	// 04.1 Marge
+	Merge
+
 	// 04. Addition and subtraction
 	Add
 	Subtract
-	MergeInto
 
 	// 03. Multiplication, division, modulo
 	Multiply

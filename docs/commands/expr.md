@@ -167,6 +167,9 @@ var orderOfOperations = []symbols.Exp{
 	// 04. Addition and subtraction
 	symbols.Add,
 
+	// 04.1 Merge
+	symbols.Merge,
+
 	// 05. Bitwise shift left and right
 	// 06. Comparisons: less-than and greater-than
 	symbols.GreaterThan,
@@ -260,14 +263,17 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.LessThanOrEqual:
 			err = expGtLt(tree, _ltEqF, _ltEqS)
 
-		// 05. Bitwise shift left and right
+			// 05. Bitwise shift left and right
+
+			// 04.1 Merge
+		case symbols.Merge:
+			err = expMerge(tree)
+
 		// 04. Addition and subtraction
 		case symbols.Add:
 			err = expAdd(tree)
 		case symbols.Subtract:
 			err = expSubtract(tree)
-		case symbols.MergeInto:
-			err = expMergeInto(tree)
 
 		// 03. Multiplication, division, modulo
 		case symbols.Multiply:
