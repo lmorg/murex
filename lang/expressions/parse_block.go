@@ -279,15 +279,17 @@ func (blk *BlockT) ParseBlock() error {
 					return err
 				}
 
-			case tree == nil:
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+			default:
+				//case tree == nil:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
 				newPos, err := tree.preParser()
 				if err != nil {
 					return err
 				}
 				blk.charPos += newPos
-			default:
-				blk.panic('=', '>')
+
+				//default:
+				//	blk.panic('=', '>')
 			}
 
 		case '>':

@@ -150,7 +150,6 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		case (*tree)[i].Properties.NewChain():
 			// new chain
 			procs[i].Stdin = streams.NewStdin()
-			//procs[i].Stdin = new(null.Null)
 		}
 
 		// Define stdout / stderr interfaces:

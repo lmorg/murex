@@ -355,17 +355,17 @@ func TestExprEquBugFixes(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `foobar == foobar`,
-			Stderr:  `Error`,
+			Stderr:  `cannot EqualTo`,
 			ExitNum: 1,
 		},
 		{
 			Block:   `"foobar" == foobar`,
-			Stderr:  `Error`,
+			Stderr:  `cannot EqualTo`,
 			ExitNum: 1,
 		},
 		{
 			Block:   `foobar == "foobar"`,
-			Stderr:  `Error`,
+			Stderr:  `cannot EqualTo`,
 			ExitNum: 1,
 		},
 		{

@@ -127,7 +127,6 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 				// generic pipe
 				return nil, errNotAllowedInFunctions(cmd, "generic pipes", []rune(`=>`)...)
 			default:
-				// assign value
 				continue
 			}
 

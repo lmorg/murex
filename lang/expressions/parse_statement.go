@@ -151,7 +151,6 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				tree.charPos--
 				return err
 			default:
-				// assign value
 				appendToParam(tree, r)
 			}
 
@@ -473,6 +472,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			case next == '[' && len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:
 				// @[ command
 				appendToParam(tree, '@', '[')
+				//lang.Deprecated(`@[`, tree.p.FileRef)
 				tree.charPos++
 				if err := tree.nextParameter(); err != nil {
 					return err
