@@ -68,7 +68,7 @@ func (tree *ParserT) validateExpression() error {
 				return raiseError(tree.expression, node, 0, fmt.Sprintf("nil symbol following %s", node.key))
 
 			case node.key < symbols.Operations:
-				return raiseError(tree.expression, node, 0, "expecting an operation")
+				return raiseError(tree.expression, node, 0, fmt.Sprintf("expecting an operation, instead got %s", node.key))
 
 			case node.key >= symbols.Add:
 				if !isSymbolNumeric(prev.key) {
@@ -80,10 +80,10 @@ func (tree *ParserT) validateExpression() error {
 
 			case node.key >= symbols.Elvis:
 				if prev.key == symbols.Bareword {
-					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s %s", node.key, prev.key))
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s left %s", node.key, prev.key))
 				}
 				if next.key == symbols.Bareword {
-					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s %s", node.key, next.key))
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s right %s", node.key, next.key))
 				}
 
 			default:
