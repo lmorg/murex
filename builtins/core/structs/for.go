@@ -2,6 +2,7 @@ package structs
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -12,14 +13,23 @@ func init() {
 	lang.DefineFunction("for", cmdFor, types.Generic)
 }
 
+const (
+	_VARIABLE    = 0
+	_CONDITIONAL = 1
+	_INCREMENTAL = 2
+)
+
+const _FOR_WARNING = "The syntax for `for` has changed and the old syntax is no longer valid.\nFor more information on it's usage, either:\n* Visit https://murex.rocks/commands/for.html in your preferred browser\n* or run `murex-docs for` from the command line "
+
 // Example usage:
-// for ( i=1; i<6; i++ ) { echo $i }
+// for { $i=1; $i<6; $i=$i+1 } { echo $i }
 func cmdFor(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
-	cblock, err := p.Parameters.String(0)
+	cblock, err := p.Parameters.Block(0)
 	if err != nil {
-		return err
+		lang.FeatureWarning(_FOR_WARNING, p.FileRef)
+		return fmt.Errorf(_FOR_WARNING)
 	}
 
 	block, err := p.Parameters.Block(1)
@@ -32,17 +42,13 @@ func cmdFor(p *lang.Process) (err error) {
 		return errors.New("invalid syntax. Must be ( variable; conditional; incremental )")
 	}
 
-	variable := "let " + parameters[0]
-	conditional := "= " + parameters[1]
-	incremental := "let " + parameters[2]
-
-	_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute([]rune(variable))
+	_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute([]rune(parameters[_VARIABLE]))
 	if err != nil {
 		return err
 	}
 
-	rConditional := []rune(conditional)
-	rIncremental := []rune(incremental)
+	rConditional := []rune(parameters[_CONDITIONAL])
+	rIncremental := []rune(parameters[_INCREMENTAL])
 
 	for {
 		if p.HasCancelled() {

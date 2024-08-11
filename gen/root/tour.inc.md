@@ -11,7 +11,6 @@
 <div id="toc">
 
 - [Introduction](#introduction)
-  - [Murex is a Typed Shell](#murex-is-a-typed-shell)
   - [Read–Eval–Print Loop](#readevalprint-loop)
   - [Barewords](#barewords)
   - [Expressions and Statements](#expressions-and-statements)
@@ -60,7 +59,7 @@
 {{ end }}
 ## Introduction
 
-### Murex is a Typed Shell
+Murex is a typed shell.
 
 Unlike other typed shells, Murex can still work natively with existing CLI
 tools without any tweaks.
@@ -93,8 +92,8 @@ readability and terseness is to make heavy use of barewords. Barewords are
 ostensibly just instructions that are not quoted. In our case, command names
 and command parameters.
 
-Murex also makes heavy use of barewords and so that places requirements on
-the choice of syntax we can use.
+Murex also makes heavy use of barewords and so that places restrictions on the
+choice of syntax we can use.
 
 ### Expressions and Statements
 
@@ -346,7 +345,7 @@ out "message" >> append-file.txt
 ### Type Conversion
 
 Aside from annotating variables upon definition, you can also transform data
-along the pipeline.
+along the pipeline using `format`.
 
 #### Cast
 
@@ -389,9 +388,9 @@ touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
 touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
 ```
 
-The reason Murex breaks from the POSIX tradition of using backticks and
-parentheses is because Murex works on the principle that everything inside
-a curly bracket is considered a new block of code.
+The reason Murex breaks from the traditions of using backticks and parentheses
+is because Murex works on the principle that everything inside a curly bracket
+is considered a new block of code.
 
 ## Filesystem Wildcards (Globbing)
 

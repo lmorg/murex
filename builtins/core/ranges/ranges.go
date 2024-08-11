@@ -22,7 +22,7 @@ const usage = "\nUsage: [start..end] / [start..end]se\n(start or end can be omit
 var RxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8ernsiu]*)\s*$`)
 
 func deprecatedRange(p *lang.Process) error {
-	lang.DeprecatedBuiltin(p)
+	lang.FeatureDeprecatedBuiltin(p)
 	return CmdRange(p)
 }
 

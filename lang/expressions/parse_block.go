@@ -258,7 +258,7 @@ func (blk *BlockT) ParseBlock() error {
 				Column: blk.charPos,
 				//Source: tree.p.FileRef.Source,
 			}
-			lang.Deprecated(message, fileRef)
+			lang.FeatureDeprecated(message, fileRef)
 
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err
