@@ -79,15 +79,12 @@ func (tree *ParserT) preParser() (int, error) {
 	}
 
 	stErr = tree.statement.validate()
+	if stErr != nil {
+		return 0, stErr
+	}
 
 	if len(tree.statement.command) == 0 {
 		return 0, errors.New("you cannot have zero length commands")
-	}
-
-	if stErr == nil && !tree.statement.asStatement &&
-		len(tree.statement.parameters) > 0 && len(tree.statement.parameters[0]) > 0 && tree.statement.parameters[0][0] == '=' {
-		// i _still_ think this is probably an expression
-		return 0, expErr
 	}
 
 	return tree.charPos, nil

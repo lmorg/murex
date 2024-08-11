@@ -376,3 +376,51 @@ func TestAlterOp(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestIssue854(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj== TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"== TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj== "TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"== "TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+		/////
+		{
+			Block:   `TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj == TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj" == TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj == "TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"`,
+			Stderr:  `cannot EqualTo`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `"TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj" == "TestIssue854_alksdlsdkfjsldfkjsldfkjsldfkjsldkfj"`,
+			Stdout:  `true`,
+			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
