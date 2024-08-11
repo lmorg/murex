@@ -5,6 +5,7 @@
 <div id="toc">
 
 - [Introduction](#introduction)
+  - [Murex is a Typed Shell](#murex-is-a-typed-shell)
   - [Read–Eval–Print Loop](#readevalprint-loop)
   - [Barewords](#barewords)
   - [Expressions and Statements](#expressions-and-statements)
@@ -53,7 +54,7 @@
 
 ## Introduction
 
-Murex is a typed shell.
+### Murex is a Typed Shell
 
 Unlike other typed shells, Murex can still work natively with existing CLI
 tools without any tweaks.
@@ -362,7 +363,7 @@ out [1,2,3] | :json: foreach { ... }
 
 ## Sub-Shells
 
-There are two types of emendable sub-shells: strings and arrays.
+There are two main types of emendable sub-shells: strings and arrays.
 
 * string sub-shells, `${ command }`, take the results from the sub-shell and
   return it as a single parameter. This saves the need to encapsulate the shell
