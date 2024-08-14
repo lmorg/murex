@@ -15,12 +15,12 @@
     ```
   Examples: |-
     ```
-    » for { $i=1; $i<6; $i=$i+1 } { echo $i }
-    1
-    2
-    3
-    4
-    5
+    » for {$i=1; $i<6; $i++} { out "iteration $i" }
+    iteration 1
+    iteration 2
+    iteration 3
+    iteration 4
+    iteration 5
     ```
   Flags:
   Detail: |-
@@ -36,57 +36,18 @@
     Take the following example:
 
     ```
-    for { $i=1; $i<6; $i=$i+1} { echo $i }
+    for {$i=1; $i<6; $i++} { out "iteration $i" }
     ```
 
-    The first parameter is: `{ $i=1; $i<6; $i=$i+1 }`, but it is then converted into the
+    The first parameter is: `{$i=1; $i<6; $i++}`, this is then converted into the
     following code:
 
     1. `$i=1` - declare the loop iteration variable
     2. `$i<6` - if the condition is true then proceed to run the code in
     the second parameter - `{ echo $i }`
-    3. `$i=$i+1` - increment the loop iterator variable
+    3. `$i++` - increment the loop iterator variable
 
     The second parameter is the code to execute upon each iteration
-
-    ### Better `for` loops
-
-    Because each iteration of a `for` loop reruns the 2nd 2 parts in the first
-    parameter (the conditional and incrementor), `for` is very slow. Plus the
-    weird, non-idiomatic, way of writing the 3 parts, it's fair to say `for` is
-    not the recommended method of iteration and in fact there are better functions
-    to achieve the same thing...most of the time at least.
-
-    For example:
-
-    ```
-    a [1..5] -> foreach i { echo $i }
-    1
-    2
-    3
-    4
-    5
-    ```
-
-    The different in performance can be measured. eg:
-
-    ```
-    » time { a [1..9999] -> foreach i { out <null> $i } }
-    0.097643108
-
-    » time { for { $i=1; $i<10000; $i=$i+1 } { out <null> $i } }
-    0.663812496
-    ```
-
-    You can also do step ranges with `foreach`:
-
-    ```
-    » time { for ( $i=10; $i<10001; $i=$i+2 ) { out <null> $i } }
-    0.346254973
-
-    » time { %[1..10001] -> foreach --step 2 i { out <null> $i } }
-    0.053924326
-    ```
 
     {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Synonyms:

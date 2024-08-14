@@ -64,6 +64,13 @@ func (tree *ParserT) validateExpression() error {
 			switch {
 			case prev == nil:
 				return raiseError(tree.expression, node, 0, fmt.Sprintf("nil symbol preceding %s", node.key))
+
+			case node.key == symbols.PlusPlus, node.key == symbols.MinusMinus:
+				if prev.key != symbols.Scalar {
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("%s can only follow a %s, instead got %s", node.key, symbols.Scalar, prev.key))
+				}
+				expectValue = !expectValue
+
 			case next == nil:
 				return raiseError(tree.expression, node, 0, fmt.Sprintf("nil symbol following %s", node.key))
 

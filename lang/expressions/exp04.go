@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/alter"
 )
 
@@ -87,5 +88,43 @@ func expMerge(tree *ParserT) error {
 		key: symbols.Calculated,
 		pos: tree.ast[tree.astPos].pos,
 		dt:  primitives.NewScalar(right.DataType, merged),
+	})
+}
+
+func expPlusPlus(tree *ParserT) error {
+	left := tree.prevSymbol()
+
+	if left == nil {
+		return raiseError(tree.expression, tree.ast[tree.astPos], 0, "missing value left of operation")
+	}
+
+	if left.key != symbols.Scalar {
+		return raiseError(tree.expression, left, 0,
+			fmt.Sprintf("left side of %s should be %s, instead got %s",
+				tree.ast[tree.astPos].key, symbols.Scalar, left.key))
+	}
+
+	v, err := left.dt.GetValue()
+	if err != nil {
+		return err
+	}
+
+	i, err := types.ConvertGoType(v.Value, types.Integer)
+	if err != nil {
+		return err
+	}
+
+	i = i.(int) + 1
+
+	left.value = scalarNameDetokenised(left.value)
+	err = tree.setVar(left.value, i, types.Integer)
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}
+
+	return tree.foldLeftAst(&astNodeT{
+		key: symbols.Number,
+		pos: tree.ast[tree.astPos].pos,
+		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
 }

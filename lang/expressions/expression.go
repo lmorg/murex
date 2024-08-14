@@ -152,6 +152,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expMerge(tree)
 
 		// 04. Addition and subtraction
+		case symbols.PlusPlus:
+			err = expPlusPlus(tree)
 		case symbols.Add:
 			err = expAdd(tree)
 		case symbols.Subtract:

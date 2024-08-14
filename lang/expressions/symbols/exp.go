@@ -86,7 +86,9 @@ const (
 	Merge
 
 	// 04. Addition and subtraction
+	PlusPlus
 	Add
+	MinusMinus
 	Subtract
 
 	// 03. Multiplication, division, modulo
