@@ -212,7 +212,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignUpdate:
 			err = expAssign(tree, false)
 		case symbols.AssignAndAdd:
-			err = expAssignAdd(tree)
+			//err = expAssignAdd(tree)
+			err = expAssignAndOperate(tree, _assAdd)
 		case symbols.AssignAndSubtract:
 			err = expAssignAndOperate(tree, _assSub)
 		case symbols.AssignAndDivide:

@@ -154,7 +154,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 	})
 }
 
-func expAssignAdd(tree *ParserT) error {
+/*func expAssignAdd(tree *ParserT) error {
 	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -174,11 +174,6 @@ func expAssignAdd(tree *ParserT) error {
 			"left side of %s should be a bareword, instead got %s",
 			tree.currentSymbol().key, leftNode.key))
 	}
-
-	/*if right.key != symbols.Number {
-		return raiseError(tree.expression,tree.currentSymbol(), fmt.Sprintf(
-			"right side should not be a %s", right.key))
-	}*/
 
 	v, dt, err := tree.getVar(leftNode.value, varAsValue)
 	if err != nil {
@@ -240,10 +235,11 @@ func expAssignAdd(tree *ParserT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt:  primitives.NewPrimitive(primitives.Null, nil),
 	})
-}
+}*/
 
 type assFnT func(float64, float64) float64
 
+func _assAdd(lv float64, rv float64) float64   { return lv + rv }
 func _assSub(lv float64, rv float64) float64   { return lv - rv }
 func _assMulti(lv float64, rv float64) float64 { return lv * rv }
 func _assDiv(lv float64, rv float64) float64   { return lv / rv }

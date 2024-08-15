@@ -12,5 +12,5 @@
 
 ### Murex's Source Code
 
-The parser is located Murex's source under the `lang/` path of the project
+The parser is located Murex's source under the `lang/expressions/` path of the project
 files.
