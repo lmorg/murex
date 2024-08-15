@@ -143,7 +143,7 @@ Read more:
 
 ### Assignment
 
-Assignment returns `true` if successful.
+Assignment returns `null` if successful.
 
 Assignment is only supported in expressions.
 
@@ -156,6 +156,7 @@ Assignment is only supported in expressions.
 | `-=`     | Assign And Subtract | Subtract _right_ from _left_ and assign to _left_ |
 | `*=`     | Assign And Multiply | Multiply _right_ with _left_ and assign to _left_ |
 | `/=`     | Assign And Divide   | Divide _right_ with _left_ and assign to _left_   |
+| `++`     | Add one to variable | Adds one to _right_ and reassigns                 |
 
 Read more:
 * Data types: {{link "bool" "bool"}}
