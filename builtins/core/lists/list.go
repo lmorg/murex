@@ -17,5 +17,7 @@ func init() {
 		alias list.regex   = regexp
 		alias list.string  = match
 		alias list.split   = jsplit
+		alias list.join    = mjoin
+		alias list.count   = count
 	`)
 }

@@ -133,6 +133,7 @@ unique count should be one less than the total count:
 
 * `count`
 * `len`
+* `list.count`
 
 
 ## See Also
