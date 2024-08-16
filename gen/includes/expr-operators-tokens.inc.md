@@ -111,10 +111,13 @@ _immutable merge_ does not modify the contents of either _left_ nor _right_.
 The direction of the arrow indicates that the result returned is a new value
 rather than an updated assignment.
 
+_Left_ can be a statement or expression, whereas _right_ can only be an
+expression. However you can still use a sub-shell as part of, or the entirety,
+of, that expression.
+
 | Operator | Name            | Operation                                   |
 |----------|-----------------|---------------------------------------------|
 | `~>`     | Immutable Merge | Returns merged value of _right_ into _left_ |
-
 
 ### Comparators
 
