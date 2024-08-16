@@ -151,16 +151,17 @@ Assignment returns `null` if successful.
 
 Assignment is only supported in expressions.
 
-| Operator | Name                | Operation                                         |
-|----------|---------------------|---------------------------------------------------|
-| `=`      | Assign (overwrite)  | Assign _right_ to _left_                          |
-| `:=`     | Assign (retain)     | **EXPERIMENTAL**                                  |
-| `<~`     | Assign Or Merge     | Merge _right_ (array / object) into _left_        |
-| `+=`     | Assign And Add      | Add _right_ to _left_ and assign to _left_        |
-| `-=`     | Assign And Subtract | Subtract _right_ from _left_ and assign to _left_ |
-| `*=`     | Assign And Multiply | Multiply _right_ with _left_ and assign to _left_ |
-| `/=`     | Assign And Divide   | Divide _right_ with _left_ and assign to _left_   |
-| `++`     | Add one to variable | Adds one to _right_ and reassigns                 |
+| Operator | Name                  | Operation                                         |
+|----------|-----------------------|---------------------------------------------------|
+| `=`      | Assign (overwrite)    | Assign _right_ to _left_                          |
+| `:=`     | Assign (retain)       | **EXPERIMENTAL**                                  |
+| `<~`     | Assign Or Merge       | Merge _right_ (array / object) into _left_        |
+| `+=`     | Assign And Add        | Add _right_ to _left_ and assign to _left_        |
+| `-=`     | Assign And Subtract   | Subtract _right_ from _left_ and assign to _left_ |
+| `*=`     | Assign And Multiply   | Multiply _right_ with _left_ and assign to _left_ |
+| `/=`     | Assign And Divide     | Divide _right_ with _left_ and assign to _left_   |
+| `++`     | Add one to variable   | Adds one to _right_ and reassigns                 |
+| `--`     | Subtract one from var | Subtracts one from _right_ and reassigns          |
 
 Read more:
 * Data types: [bool](/docs/types/bool.md)

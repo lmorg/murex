@@ -392,6 +392,10 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				// arrow pipe
 				tree.charPos--
 				return nil
+			case c == '-' && (tree.charPos+2 >= len(tree.expression) ||
+				!(tree.expression[tree.charPos+2] >= '0' && '9' >= tree.expression[tree.charPos+2])):
+				tree.appendAst(symbols.MinusMinus)
+				tree.charPos++
 			default:
 				tree.appendAst(symbols.Subtract)
 				// invalid hyphen

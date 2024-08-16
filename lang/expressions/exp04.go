@@ -91,7 +91,7 @@ func expMerge(tree *ParserT) error {
 	})
 }
 
-func expPlusPlus(tree *ParserT) error {
+func expPlusPlus(tree *ParserT, modifier int) error {
 	left := tree.prevSymbol()
 
 	if left == nil {
@@ -114,7 +114,7 @@ func expPlusPlus(tree *ParserT) error {
 		return err
 	}
 
-	i = i.(int) + 1
+	i = i.(int) + modifier
 
 	left.value = scalarNameDetokenised(left.value)
 	err = tree.setVar(left.value, i, types.Integer)
