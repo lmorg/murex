@@ -51,7 +51,7 @@ func TestExpAssignAdd(t *testing.T) {
 		},
 		{
 			Expression: `TestExpAssignAdd1 += "bar"`,
-			Expected:   nil,
+			Error:      true,
 		},
 		{
 			Expression: `TestExpAssignAdd2 += bar`,
