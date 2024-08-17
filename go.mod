@@ -15,7 +15,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/pelletier/go-toml v1.9.5
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
-	golang.org/x/sys v0.8.0
+	golang.org/x/sys v0.20.0
+	golang.org/x/text v0.17.0
 	gopkg.in/yaml.v3 v3.0.1
 	modernc.org/sqlite v1.25.0
 )
@@ -31,8 +32,9 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/stretchr/testify v1.8.2 // indirect
 	golang.org/x/image v0.18.0 // indirect
-	golang.org/x/mod v0.8.0 // indirect
-	golang.org/x/tools v0.6.0 // indirect
+	golang.org/x/mod v0.17.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	lukechampine.com/uint128 v1.2.0 // indirect
 	modernc.org/cc/v3 v3.40.0 // indirect
 	modernc.org/ccgo/v3 v3.16.13 // indirect

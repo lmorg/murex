@@ -30,11 +30,15 @@ func cmdMjoin(p *lang.Process) error {
 func mjoinMethod(p *lang.Process, separator []byte) error {
 	var slice [][]byte
 
-	p.Stdin.ReadArray(p.Context, func(b []byte) {
+	err := p.Stdin.ReadArray(p.Context, func(b []byte) {
 		slice = append(slice, b)
 	})
 
-	_, err := p.Stdout.Write(bytes.Join(slice, separator))
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(bytes.Join(slice, separator))
 	return err
 }
 
