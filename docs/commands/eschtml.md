@@ -48,6 +48,8 @@ eschtml string to escape -> <stdout>
 
 * `eschtml`
 * `!eschtml`
+* `escape.html`
+* `!escape.html`
 
 
 ## See Also

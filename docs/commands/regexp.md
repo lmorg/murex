@@ -90,6 +90,7 @@ same data-type.
 * `regexp`
 * `!regexp`
 * `list.regex`
+* `!list.regex`
 
 
 ## See Also

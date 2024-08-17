@@ -41,6 +41,12 @@ out foo\$b\@r
 out foo\$b\@r
 ```
 
+## Synonyms
+
+* `esccli`
+* `escape.cli`
+
+
 ## See Also
 
 * [`[ Index ]`](../parser/item-index.md):

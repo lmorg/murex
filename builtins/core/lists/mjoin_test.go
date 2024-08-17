@@ -9,11 +9,11 @@ import (
 func TestListJoinMethod(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `%[] -> list.join '|'`,
+			Block:  `%[] -> mjoin '|'`,
 			Stdout: "",
 		},
 		{
-			Block:  `%[Mon..Fri] -> list.join '|'`,
+			Block:  `%[Mon..Fri] -> mjoin '|'`,
 			Stdout: "Mon|Tue|Wed|Thu|Fri",
 		},
 	}
@@ -24,11 +24,11 @@ func TestListJoinMethod(t *testing.T) {
 func TestListJoinFunction(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `list.join '|'`, // empty array
+			Block:  `mjoin '|'`, // empty array
 			Stdout: "",
 		},
 		{
-			Block:  `list.join '|' @{ %[Mon..Fri] }`,
+			Block:  `mjoin '|' @{ %[Mon..Fri] }`,
 			Stdout: "Mon|Tue|Wed|Thu|Fri",
 		},
 	}

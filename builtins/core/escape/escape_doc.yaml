@@ -40,6 +40,8 @@
   Synonyms:
     - escape
     - "!escape"
+    - "escape.quote"
+    - "!escape.quote"
   Related:
     - esccli
     - eschtml
@@ -94,6 +96,8 @@
   Synonyms:
     - eschtml
     - "!eschtml"
+    - "escape.html"
+    - "!escape.html"
   Related:
     - esccli
     - escape
@@ -151,6 +155,8 @@
   Synonyms:
     - escurl
     - "!escurl"
+    - "escape.url"
+    - "!escape.url"
   Related:
     - esccli
     - escape
@@ -203,6 +209,8 @@
   Flags:
   Detail:
   Synonyms:
+    - "esccli"
+    - "escape.cli"
   Related:
     - alias
     - out

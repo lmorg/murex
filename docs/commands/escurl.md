@@ -48,6 +48,8 @@ out '%21%3F%20%3C%3E%0A' -> !escurl
 
 * `escurl`
 * `!escurl`
+* `escape.url`
+* `!escape.url`
 
 
 ## See Also

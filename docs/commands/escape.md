@@ -43,6 +43,8 @@ escape string to escape -> <stdout>
 
 * `escape`
 * `!escape`
+* `escape.quote`
+* `!escape.quote`
 
 
 ## See Also

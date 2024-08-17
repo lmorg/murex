@@ -65,6 +65,7 @@
     - match
     - "!match"
     - list.string
+    - "!list.string"
   Related:
     - a
     - ja
@@ -166,6 +167,7 @@
     - regexp
     - "!regexp"
     - list.regex
+    - "!list.regex"
   Related:
     - a
     - ja

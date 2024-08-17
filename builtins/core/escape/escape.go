@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/escape"
@@ -19,6 +20,16 @@ func init() {
 	lang.DefineMethod("escurl", cmdUrl, types.Text, types.String)
 	lang.DefineMethod("!escurl", cmdUrl, types.Text, types.String)
 	lang.DefineMethod("esccli", cmdEscapeCli, types.Text, types.String)
+
+	defaults.AppendProfile(`
+		alias  escape.quote =  escape
+		alias !escape.quote = !escape
+		alias  escape.html  =  eschtml
+		alias !escape.html  = !eschtml
+		alias  escape.url   =  escurl
+		alias !escape.url   = !escurl
+		alias  escape.cli   =  esccli
+	`)
 }
 
 func cmdEscape(p *lang.Process) error {

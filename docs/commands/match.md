@@ -71,6 +71,7 @@ same data-type.
 * `match`
 * `!match`
 * `list.string`
+* `!list.string`
 
 
 ## See Also

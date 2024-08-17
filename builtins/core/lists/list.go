@@ -6,18 +6,20 @@ import (
 
 func init() {
 	defaults.AppendProfile(`
-		alias list.sort    = msort
-		alias list.reverse = mtac
-		alias list.prepend = prepend
-		alias list.append  = append
-		alias list.prefix  = prefix
-		alias list.suffix  = suffix
-		alias list.left    = left
-		alias list.right   = right
-		alias list.regex   = regexp
-		alias list.string  = match
-		alias list.split   = jsplit
-		alias list.join    = mjoin
-		alias list.count   = count
+		alias  list.sort    =  msort
+		alias  list.reverse =  mtac
+		alias  list.prepend =  prepend
+		alias  list.append  =  append
+		alias  list.prefix  =  prefix
+		alias  list.suffix  =  suffix
+		alias  list.left    =  left
+		alias  list.right   =  right
+		alias  list.regex   =  regexp
+		alias !list.regex   = !regexp
+		alias  list.string  =  match
+		alias !list.string  = !match
+		alias  list.split   =  jsplit
+		alias  list.join    =  mjoin
+		alias  list.count   =  count
 	`)
 }
