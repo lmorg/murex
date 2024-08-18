@@ -33,7 +33,7 @@ exit number
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`die`](../commands/die.md):
-  Terminate murex with an exit number of 1
+  Terminate murex with an exit number of 1 (deprecated)
 * [`null`](../commands/devnull.md):
   null function. Similar to /dev/null
 

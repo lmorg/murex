@@ -196,7 +196,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`die`](../commands/die.md):
-  Terminate murex with an exit number of 1
+  Terminate murex with an exit number of 1 (deprecated)
 * [`err`](../commands/err.md):
   Print a line to the stderr
 * [`escape`](../commands/escape.md):

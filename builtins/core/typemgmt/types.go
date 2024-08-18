@@ -69,6 +69,8 @@ func cmdNot(p *lang.Process) error {
 func cmdDie(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Die)
 
+	lang.FeatureDeprecatedBuiltin(p)
+
 	lang.Exit(1)
 	return nil
 }
