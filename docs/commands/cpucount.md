@@ -19,6 +19,12 @@ cpucount -> <stdout>
 4
 ```
 
+## Synonyms
+
+* `cpucount`
+* `sys.cpu.count`
+
+
 ## See Also
 
 * [`cpuarch`](../commands/cpuarch.md):
@@ -28,4 +34,4 @@ cpucount -> <stdout>
 
 <hr/>
 
-This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).
+This document was generated from [builtins/core/system/system_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/system/system_doc.yaml).

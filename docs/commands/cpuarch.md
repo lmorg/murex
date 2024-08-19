@@ -19,6 +19,12 @@ cpuarch -> <stdout>
 amd64
 ```
 
+## Synonyms
+
+* `cpuarch`
+* `sys.cpu.arch`
+
+
 ## See Also
 
 * [`cpucount`](../commands/cpucount.md):
@@ -28,4 +34,4 @@ amd64
 
 <hr/>
 
-This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).
+This document was generated from [builtins/core/system/system_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/system/system_doc.yaml).

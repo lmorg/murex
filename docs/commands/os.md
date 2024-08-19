@@ -69,6 +69,12 @@ POSIX-compliant. For that reason, `os` returns false with the `posix`
 parameter when run on Plan 9. If you want to include Plan 9 in the check
 then please write it as `os posix plan9`.
 
+## Synonyms
+
+* `os`
+* `sys.os`
+
+
 ## See Also
 
 * [`cpuarch`](../commands/cpuarch.md):
@@ -78,4 +84,4 @@ then please write it as `os posix plan9`.
 
 <hr/>
 
-This document was generated from [builtins/core/management/functions_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/management/functions_doc.yaml).
+This document was generated from [builtins/core/system/system_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/system/system_doc.yaml).
