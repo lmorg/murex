@@ -17,8 +17,9 @@ func TestOsUnix(t *testing.T) {
 			Stdout: "true",
 		},
 		{
-			Block:  `os posix`,
-			Stdout: "false",
+			Block:   `os posix`,
+			Stdout:  "false",
+			ExitNum: 1,
 		},
 	}
 

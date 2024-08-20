@@ -13,12 +13,13 @@ import (
 func TestOsWindows(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `os windows`,
-			Stdout: "true",
+			Block:   `os windows`,
+			Stdout:  "false",
+			ExitNum: 1,
 		},
 		{
 			Block:  `os posix`,
-			Stdout: "false",
+			Stdout: "true",
 		},
 	}
 

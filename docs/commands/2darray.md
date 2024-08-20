@@ -9,7 +9,7 @@
 ## Usage
 
 ```
-2darray { code-block } { code-block } -> <stdout>
+2darray { code-block } { code-block } ... -> <stdout>
 ```
 
 ## Examples
@@ -90,6 +90,12 @@
 ## Detail
 
 `2darray` can have as many or as few code blocks as you wish.
+
+## Synonyms
+
+* `2darray`
+* `struct.2darray`
+
 
 ## See Also
 

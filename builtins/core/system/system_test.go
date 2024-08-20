@@ -27,8 +27,3 @@ func TestOs(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
-{
-	Block:   `os posix`,
-	Stdout:  "false",
-	ExitNum: 1,
-},

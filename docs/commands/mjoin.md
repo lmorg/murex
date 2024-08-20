@@ -1,4 +1,4 @@
-# `list.join` 
+# `mjoin` 
 
 > Joins a list or array into a single string
 
@@ -13,8 +13,8 @@ parameter.
 ## Usage
 
 ```
-<stdin> -> list.join separator                      -> <stdout>
-           list.join separator item1 item2 item3... -> <stdout>
+<stdin> -> mjoin separator                           -> <stdout>
+           mjoin separator item1 [ item2 item3 ... ] -> <stdout>
 ```
 
 ## Examples
@@ -22,21 +22,21 @@ parameter.
 ### As a method
 
 ```
-» %[Monday..Friday] -> list.join !
+» %[Monday..Friday] -> mjoin !
 Monday!Tuesday!Wednesday!Thursday!Friday
 ```
 
 ### As a function
 
 ```
-» list.join ! @{ %[Monday..Friday] }
+» mjoin ! @{ %[Monday..Friday] }
 Monday!Tuesday!Wednesday!Thursday!Friday
 ```
 
 ## Synonyms
 
-* `list.join`
 * `mjoin`
+* `list.join`
 
 
 ## See Also

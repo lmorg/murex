@@ -160,8 +160,8 @@ murex-docs trypipe
   Left substring every item in a list
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`list.join` ](../commands/list.join.md):
-  Joins a list or array into a single string
+* [`list.case` ](../commands/list.case.md):
+  Changes the character case of a string or all elements in an array
 * [`lockfile`](../commands/lockfile.md):
   Create and manage lock files
 * [`man-get-flags` ](../commands/man-get-flags.md):
@@ -174,6 +174,8 @@ murex-docs trypipe
   Match an exact value in an array
 * [`method`](../commands/method.md):
   Define a methods supported data-types
+* [`mjoin` ](../commands/mjoin.md):
+  Joins a list or array into a single string
 * [`msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
