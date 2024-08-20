@@ -61,7 +61,7 @@ Breaking changes _might_ happen outside of the feature deprecation life cycle
   that solely consists of the new operator is now parsed as an operator rather
   than a string)
 
-Breaking changes will be published in the [changelog](https://murex.rocks/changelog).
+Breaking changes will be published in the [changelog](https://murex.rocks/changelog/).
 
 ### Experimental features
 
