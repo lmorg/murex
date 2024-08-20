@@ -382,7 +382,7 @@ func Spellchecker(r []rune) []rune {
 	new, err := spellcheck.String(s)
 	if err != nil && !ignoreSpellCheckErr {
 		ignoreSpellCheckErr = true
-		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
+		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
 	}
 

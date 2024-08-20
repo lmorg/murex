@@ -10,13 +10,13 @@
 
     * `pre-prompt-func` and `post-prompt-func` have been replaced with `onPrompt` events: `event onKeyPress example=before { ... }`
 
-    * The `onFileSystemChange` event payload now lowercases the filesystem event operation string. However until this release, that payload was undocumented ([read more](https://murex.rocks/docs/events/onfilesystemchange.html))
+    * The `onFileSystemChange` event payload now lowercases the filesystem event operation string. However until this release, that payload was undocumented ([read more](https://murex.rocks/events/onfilesystemchange.html))
 
     ## Features
 
     * New events, `onPrompt`, triggered when the interactive prompt is at various stages
 
-    * **Dynamic** and **DynamicDesc** autocompletions can have their partial term prefix filter disabled ([read more](https://murex.rocks/docs/commands/autocomplete.html#ignoreprefix-boolean-false), [previous discussion](https://github.com/lmorg/murex/issues/635))
+    * **Dynamic** and **DynamicDesc** autocompletions can have their partial term prefix filter disabled ([read more](https://murex.rocks/commands/autocomplete.html#ignoreprefix-boolean-false), [previous discussion](https://github.com/lmorg/murex/issues/635))
 
     * New autocompletions: `gping`
 
