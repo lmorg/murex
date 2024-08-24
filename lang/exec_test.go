@@ -1,3 +1,6 @@
+//go:build !windows && !plan9 && !js
+// +build !windows,!plan9,!js
+
 package lang_test
 
 import (
@@ -30,11 +33,13 @@ func TestProcessExecStruct(t *testing.T) {
 		return
 	}
 
-	pid, cmd := lang.ForegroundProc.Get().Exec.Get()
-	if pid == 0 {
-		t.Errorf("Expecting a non-zero pid, instead found %d", pid)
+	if p.SystemProcess == nil {
+		t.Errorf("Expecting a non-nil p.SystemProcess")
+		return
 	}
-	if cmd == nil {
-		t.Errorf("Expecting a non-nil cmd, instead got %v", cmd)
+
+	pid := p.SystemProcess.Pid()
+	if p.SystemProcess.Pid() == 0 {
+		t.Errorf("Expecting a non-zero pid, instead found %d", pid)
 	}
 }

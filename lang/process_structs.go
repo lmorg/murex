@@ -39,7 +39,8 @@ type Process struct {
 	HasStopped         chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
-	Exec               process.Exec
+	SystemProcess      process.SystemProcess
+	Envs               []string
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
 	Previous           *Process `json:"-"`
@@ -87,7 +88,7 @@ func (p *Process) Dump() map[string]any {
 		"IsFork":       p.IsFork,
 		//"Done":             p.Done,
 		//"Kill":             p.Kill,
-		"ExecPid":          p.Exec.Pid(),
+		"SysProcId":        _jsonfySysProc(p),
 		"ScopeFid":         p.Scope.Id,
 		"ParentFid":        p.Parent.Id,
 		"PreviousFid":      p.Previous.Id,
@@ -119,6 +120,14 @@ func (p *Process) Dump() map[string]any {
 		//CCErr              *streams.Stdin         `json:"-"`
 		"Trace": p.Trace,
 	}
+}
+
+func _jsonfySysProc(p *Process) any {
+	if p.SystemProcess == nil {
+		return nil
+	}
+
+	return p.SystemProcess.Pid()
 }
 
 type statsT struct {

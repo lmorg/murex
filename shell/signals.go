@@ -41,9 +41,9 @@ func sigterm(interactive bool) {
 
 	switch {
 	case p == nil:
-		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
+		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify foreground process"))
 	case p.Kill == nil:
-		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
+		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify foreground kill function"))
 	default:
 		p.Kill()
 	}
@@ -53,12 +53,12 @@ var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
 
 func sigquit(interactive bool) {
 	if !interactive {
-		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
+		os.Stderr.WriteString("!!! Murex received SIGQUIT!" + utils.NewLineString)
 		lang.Exit(2)
 	}
 
 	//tty.Stderr.WriteString(PromptSIGQUIT)
-	os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
+	os.Stderr.WriteString("!!! Murex received SIGQUIT!" + utils.NewLineString)
 
 	fids := lang.GlobalFIDs.ListAll()
 	for _, p := range fids {
@@ -80,19 +80,18 @@ func sigquit(interactive bool) {
 					p.Id, procName, procParam)))
 			p.Kill()
 
-			i, cmd := p.Exec.Get()
-			if cmd != nil {
-				err := cmd.Process.Kill()
+			if p.SystemProcess != nil {
+				err := p.SystemProcess.Kill()
 				if err != nil {
 					lang.ShellProcess.Stderr.Writeln([]byte(
 						fmt.Sprintf(
-							"!!! Error terminating FID %d (%d), `%s`: %s !!!",
-							p.Id, i, procName, err.Error())))
+							"!!! Error terminating FID %d (%d), `%s`: %s",
+							p.Id, p.SystemProcess.Pid(), procName, err.Error())))
 				}
 			}
 		}
 	}
 
-	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
+	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt"))
 	lang.ShowPrompt <- true
 }

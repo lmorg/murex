@@ -33,7 +33,7 @@ func parseRedirection(p *Process) {
 			}
 
 		case len(name) > 4 && name[:4] == "env:":
-			p.Exec.Env = append(p.Exec.Env, name[4:])
+			p.Envs = append(p.Envs, name[4:])
 
 		case len(name) > 4 && name[:4] == "fid:":
 			varName := name[4:]
@@ -45,7 +45,8 @@ func parseRedirection(p *Process) {
 			}
 
 		case len(name) > 4 && name[:4] == "pid:":
-			varName := name[4:]
+			panic("TODO")
+			/*varName := name[4:]
 			p.Exec.Callback = func(pid int) {
 				err := p.Variables.Set(p, varName, pid, types.Integer)
 				if err != nil {
@@ -53,7 +54,7 @@ func parseRedirection(p *Process) {
 						fmt.Sprintf("Cannot write variable '%s': %s", varName, err.Error()),
 					))
 				}
-			}
+			}*/
 
 		case name[0] == '!':
 			if p.NamedPipeErr == "" {

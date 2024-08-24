@@ -4,20 +4,21 @@
 package lang
 
 import (
-	"os/exec"
+	"syscall"
+
+	"github.com/lmorg/murex/utils/which"
 )
 
-func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
-	exe, err = p.Parameters.String(0)
-	if err != nil {
-		return
-	}
-
-	parameters = p.Parameters.StringArray()[1:]
-
-	return
+func osExecGetArgv(p *Process) []string {
+	argv := p.Parameters.StringArray()
+	argv[0] = which.WhichIgnoreFail(argv[0])
+	return argv
 }
 
-func osSyscalls(_ *exec.Cmd, _ int) {
-	return
+func osExecFork(p *Process, argv []string) error {
+	return execForkFallback(p, argv)
+}
+
+func osSysProcAttr(_ int) *syscall.SysProcAttr {
+	return nil
 }

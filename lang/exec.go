@@ -29,33 +29,48 @@ var (
 	//termOut     = reflect.TypeOf(new(term.Out)).String()
 )
 
+func forceTTY(p *Process) bool {
+	v, err := p.Config.Get("proc", "force-tty", types.Boolean)
+	if err != nil {
+		return false
+	}
+	return v.(bool)
+}
+
 // External executes an external process.
 func External(p *Process) error {
-	if err := execute(p); err != nil {
-		_, cmd := p.Exec.Get()
-		if cmd != nil {
-			p.ExitNum = cmd.ProcessState.ExitCode()
+	err := execute(p)
+	if err != nil {
+		if p.SystemProcess != nil {
+			p.ExitNum = p.SystemProcess.ExitNum()
 		} else {
 			p.ExitNum = 1
 		}
 		return err
-
 	}
+
 	return nil
 }
 
 func execute(p *Process) error {
-	exeName, parameters, err := getCmdTokens(p)
-	if err != nil {
-		return err
+	argv := osExecGetArgv(p)
+	if len(argv) == 0 {
+		return fmt.Errorf("no parameters specified for `exec`\nExpecting a name of command to run")
 	}
-	cmd := exec.Command(exeName, parameters...)
+
+	if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() && forceTTY(p) {
+		return osExecFork(p, argv)
+	}
+
+	return execForkFallback(p, argv)
+}
+
+func execForkFallback(p *Process, argv []string) error {
+	cmd := exec.Command(argv[0], argv[1:]...)
 
 	if p.HasCancelled() {
 		return nil
 	}
-
-	//ctxCancel := p.Kill
 	p.Kill = func() {
 		if !debug.Enabled {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
@@ -69,7 +84,7 @@ func execute(p *Process) error {
 			}
 			name, _ := p.Args()
 			os.Stderr.WriteString(
-				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
+				fmt.Sprintf("\n!!! Error sending SIGTERM to `%s`: %s\n", name, err.Error()))
 		}
 	}
 
@@ -93,18 +108,18 @@ func execute(p *Process) error {
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
-	if len(p.Exec.Env) > 0 {
-		for i := range p.Exec.Env {
-			if !strings.Contains(p.Exec.Env[i], "=") {
-				v, err := p.Variables.GetString(p.Exec.Env[i])
+	/*if len(p.Envs) > 0 {
+		for i := range p.Envs {
+			if !strings.Contains(p.Envs[i], "=") {
+				v, err := p.Variables.GetString(p.Envs[i])
 				if err != nil {
 					continue
 				}
-				p.Exec.Env[i] += "=" + v
+				p.Envs[i] += "=" + v
 			}
 		}
-		cmd.Env = append(cmd.Env, p.Exec.Env...)
-	}
+		cmd.Env = append(cmd.Env, p.Envs...)
+	}*/
 
 	// ***
 	// Define STANDARD OUT (fd 1)
@@ -118,7 +133,9 @@ func execute(p *Process) error {
 		//	osSyscalls(cmd, int(p.ttyout.Fd()))
 		//	cmd.Stdout = p.ttyout
 		//} else {
-		osSyscalls(cmd, int(p.Stdout.File().Fd()))
+
+		cmd.SysProcAttr = osSysProcAttr(int(p.Stdout.File().Fd()))
+
 		cmd.Stdout = p.Stdout.File()
 		//}
 	} else {
@@ -200,7 +217,7 @@ func execute(p *Process) error {
 
 	/////////
 
-	p.Exec.Set(cmd.Process.Pid, cmd)
+	p.SystemProcess = &sysProcT{cmd}
 
 	/*if err := mxdtW.Close(); err != nil {
 		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
@@ -217,10 +234,10 @@ func execute(p *Process) error {
 	return nil
 }
 
-func forceTTY(p *Process) bool {
-	v, err := p.Config.Get("proc", "force-tty", types.Boolean)
-	if err != nil {
-		return false
-	}
-	return v.(bool)
-}
+type sysProcT struct{ cmd *exec.Cmd }
+
+func (sp *sysProcT) Pid() int                   { return sp.cmd.Process.Pid }
+func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.ExitCode() }
+func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
+func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
+func (sp *sysProcT) UnixT() bool                { return false }

@@ -12,10 +12,10 @@ const Name = "murex"
 // Version number of $SHELL
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
 const (
-	version  = "%d.%d.%d"
+	version  = "%d.%d.%04d JC863"
 	Major    = 6
-	Minor    = 2
-	Revision = 4000
+	Minor    = 3
+	Revision = 330
 )
 
 // Copyright is the copyright owner string
