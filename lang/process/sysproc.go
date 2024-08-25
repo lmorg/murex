@@ -7,4 +7,6 @@ type SystemProcess interface {
 	Kill() error
 	Pid() int
 	ExitNum() int
+	State() *os.ProcessState
+	ForcedTTY() bool
 }

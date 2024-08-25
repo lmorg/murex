@@ -13,27 +13,33 @@ import (
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func Sigtstp(_ bool) {
-	panic("bob04")
+func Sigtstp(interactive bool) {
 	p := lang.ForegroundProc.Get()
-	//debug.Json("p =", p)
+	if p.SystemProcess != nil {
+		err := p.SystemProcess.Signal(syscall.SIGSTOP)
+		if err != nil {
+			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
+		}
+	}
+
+	if p.State.Get() != state.Stopped {
+		returnFromSigtstp(p)
+	}
+}
+
+func returnFromSigtstp(p *lang.Process) {
+	p.State.Set(state.Stopped)
+	if p.SystemProcess != nil && p.SystemProcess.ForcedTTY() {
+		lang.UnixPidToFg(0)
+	}
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
 		show = false
 	}
 
-	panic("bob03")
-
 	if show.(bool) {
 		stopStatus(p)
-	}
-
-	if p.SystemProcess != nil {
-		err = p.SystemProcess.Signal(syscall.SIGSTOP)
-		if err != nil {
-			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
-		}
 	}
 
 	p.State.Set(state.Stopped)
@@ -42,8 +48,25 @@ func Sigtstp(_ bool) {
 	lang.ShowPrompt <- true
 }
 
-func Sigchld(_ bool) {
-	// TODO
+func Sigchld(interactive bool) {
+	if !interactive {
+		return
+	}
+
+	p := lang.ForegroundProc.Get()
+	if p.SystemProcess == nil {
+		return
+	}
+
+	if !p.SystemProcess.ForcedTTY() {
+		return
+	}
+
+	if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
+		if p.State.Get() != state.Stopped {
+			returnFromSigtstp(p)
+		}
+	}
 }
 
 func stopStatus(p *lang.Process) {
@@ -64,7 +87,7 @@ func stopStatus(p *lang.Process) {
 	}
 
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s written / %s read\nSTDOUT: %s written / %s read\nSTDERR: %s written / %s read",
+		"\n!!! STDIN:  %s written / %s read\n!!! STDOUT: %s written / %s read\n!!! STDERR: %s written / %s read",
 		humannumbers.Bytes(stdinW), humannumbers.Bytes(stdinR),
 		humannumbers.Bytes(stdoutW), humannumbers.Bytes(stdoutR),
 		humannumbers.Bytes(stderrW), humannumbers.Bytes(stderrR),
@@ -90,7 +113,9 @@ func stopStatus(p *lang.Process) {
 	}
 
 	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-		"FID %d has been stopped.\nUse `fg %d` / `bg %d` to manage the FID or `jobs` to see a list of background and suspended functions",
-		p.Id, p.Id, p.Id,
+		"!!! FID %d has been stopped:\n!!! %s %s\n!!! Use `fg %d` / `bg %d` to manage the FID\n!!! ...or `jobs` to see a list of background and suspended functions",
+		p.Id,
+		p.Name.String(), p.Parameters.StringAll(),
+		p.Id, p.Id,
 	)))
 }

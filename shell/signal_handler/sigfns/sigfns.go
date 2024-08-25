@@ -10,7 +10,6 @@ import (
 )
 
 func Sigint(interactive bool) {
-	//tty.Stderr.WriteString(PromptSIGINT)
 	Sigterm(interactive)
 }
 
@@ -20,7 +19,6 @@ func Sigterm(interactive bool) {
 	}
 
 	p := lang.ForegroundProc.Get()
-	//p.Json("p =", p)
 
 	switch {
 	case p == nil:
@@ -40,7 +38,6 @@ func Sigquit(interactive bool) {
 		lang.Exit(2)
 	}
 
-	//tty.Stderr.WriteString(PromptSIGQUIT)
 	os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
 
 	fids := lang.GlobalFIDs.ListAll()
@@ -75,6 +72,6 @@ func Sigquit(interactive bool) {
 		}
 	}
 
-	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt"))
+	//lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt"))
 	lang.ShowPrompt <- true
 }

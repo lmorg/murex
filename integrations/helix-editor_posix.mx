@@ -1,0 +1,14 @@
+!if { which hx } then {
+    return
+}
+
+summary hx "Helix: a post-modern text editor"
+
+function hx {
+    # Wrapper function for Helix editor to fix ^Z in job control
+
+    config set proc strict-arrays false
+    config set proc force-tty true
+    
+    exec hx @PARAMS
+}

@@ -50,7 +50,7 @@ func runTests() error {
 	lang.InitEnv()
 
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	signalhandler.EventLoop(nonInteractive)
+	registerSignalHandlers(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -86,7 +86,7 @@ func runCommandLine(commandLine string) {
 
 	// default config
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	signalhandler.EventLoop(nonInteractive)
+	registerSignalHandlers(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -115,7 +115,7 @@ func runSource(filename string) {
 
 	// default config
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	signalhandler.EventLoop(nonInteractive)
+	registerSignalHandlers(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -162,10 +162,11 @@ func startMurex() {
 	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
+	registerSignalHandlers(interactive)
 	shell.Start()
 }
 
-func registerSignalHandlers() {
+func registerSignalHandlers(interactiveMode bool) {
 	signalhandler.Handlers = &signalhandler.SignalFunctionsT{
 		Sigint:  sigfns.Sigint,
 		Sigterm: sigfns.Sigterm,
@@ -173,5 +174,5 @@ func registerSignalHandlers() {
 		Sigtstp: sigfns.Sigtstp,
 		Sigchld: sigfns.Sigchld,
 	}
-	signalhandler.EventLoop(nonInteractive)
+	signalhandler.EventLoop(interactiveMode)
 }

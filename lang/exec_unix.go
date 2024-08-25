@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 
 	"github.com/lmorg/murex/debug"
@@ -95,9 +94,9 @@ func osExecFork(p *Process, argv []string) error {
 	UnixPidToFg(0)
 
 	if err != nil {
-		if !strings.HasPrefix(err.Error(), "signal:") {
-			return err
-		}
+		//if !strings.HasPrefix(err.Error(), "signal:") {
+		return err
+		//}
 	}
 
 	return nil
@@ -135,6 +134,8 @@ func (sp *sysProcUnixT) Pid() int                   { return sp.p.Pid }
 func (sp *sysProcUnixT) ExitNum() int               { return sp.state.ExitCode() }
 func (sp *sysProcUnixT) Kill() error                { return sp.p.Kill() }
 func (sp *sysProcUnixT) Signal(sig os.Signal) error { return sp.p.Signal(sig) }
+func (sp *sysProcUnixT) State() *os.ProcessState    { return sp.state }
+func (sp *sysProcUnixT) ForcedTTY() bool            { return true }
 
 // UnixPidToFg brings a UNIX process to the foreground.
 // If pid == 0 then UnixPidToFg will assume Murex Pid instead.

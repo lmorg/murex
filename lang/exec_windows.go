@@ -20,3 +20,5 @@ func osExecFork(p *Process, argv []string) error {
 func osSysProcAttr(_ int) *syscall.SysProcAttr {
 	return nil
 }
+
+func UnixPidToFg(_ int) {}

@@ -128,15 +128,7 @@ func execForkFallback(p *Process, argv []string) error {
 
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		//osSyscalls(cmd, int(p.ttyout.Fd()))
-		//osSyscalls(cmd, int(os.Stdin.Fd()))
-		//if reflect.TypeOf(p.Stdout).String() == termOut {
-		//	osSyscalls(cmd, int(p.ttyout.Fd()))
-		//	cmd.Stdout = p.ttyout
-		//} else {
-
 		cmd.SysProcAttr = osSysProcAttr(int(p.Stdout.File().Fd()))
-
 		cmd.Stdout = p.Stdout.File()
 		//}
 	} else {
@@ -241,3 +233,5 @@ func (sp *sysProcT) Pid() int                   { return sp.cmd.Process.Pid }
 func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.ExitCode() }
 func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
 func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
+func (sp *sysProcT) State() *os.ProcessState    { return sp.cmd.ProcessState }
+func (sp *sysProcT) ForcedTTY() bool            { return false }

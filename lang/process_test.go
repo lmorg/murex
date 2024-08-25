@@ -36,7 +36,6 @@ func TestBugFix(t *testing.T) {
 	})
 	lang.InitEnv()
 	defaults.Config(lang.ShellProcess.Config, false)
-	signalhandler.EventLoop(false)
 
 	tests := []test.MurexTest{
 		{

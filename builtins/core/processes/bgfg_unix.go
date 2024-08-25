@@ -27,8 +27,8 @@ func mkbg(p *lang.Process) error {
 		return errors.New("FID is not a stopped process. Run `jobs` or `fid-list` to see a list of stopped processes")
 	}
 
-	if p.SystemProcess != nil {
-		err = p.SystemProcess.Signal(syscall.SIGCONT)
+	if f.SystemProcess != nil {
+		err = f.SystemProcess.Signal(syscall.SIGCONT)
 		if err != nil {
 			return err
 		}
@@ -57,20 +57,22 @@ func cmdForeground(p *lang.Process) error {
 	}
 
 	lang.HidePrompt <- true
+	go unstop(f)
+	updateTree(f, false)
 
-	if p.SystemProcess != nil {
-		err = p.SystemProcess.Signal(syscall.SIGCONT)
+	lang.ForegroundProc.Set(f)
+	f.State.Set(state.Executing)
+
+	if f.SystemProcess != nil {
+		if f.SystemProcess.ForcedTTY() {
+			lang.UnixPidToFg(f.SystemProcess.Pid())
+		}
+		err = f.SystemProcess.Signal(syscall.SIGCONT)
 		if err != nil {
 			return err
 		}
 	}
-	go unstop(f)
 
-	updateTree(f, false)
-
-	lang.ForegroundProc.Set(f)
-
-	f.State.Set(state.Executing)
 	<-f.Context.Done()
 	return nil
 }
