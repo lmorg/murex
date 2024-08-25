@@ -33,7 +33,7 @@ func TestProcessExecStruct(t *testing.T) {
 		return
 	}
 
-	if p.SystemProcess == nil {
+	if !p.SystemProcess.Defined() {
 		t.Errorf("Expecting a non-nil p.SystemProcess")
 		return
 	}

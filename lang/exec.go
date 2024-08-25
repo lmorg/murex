@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strings"
 	"syscall"
 
@@ -42,7 +43,7 @@ func forceTTY(p *Process) bool {
 func External(p *Process) error {
 	err := execute(p)
 	if err != nil {
-		if p.SystemProcess != nil {
+		if p.SystemProcess.Defined() {
 			p.ExitNum = p.SystemProcess.ExitNum()
 		} else {
 			p.ExitNum = 1
@@ -77,7 +78,6 @@ func execForkFallback(p *Process, argv []string) error {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
 
-		//ctxCancel()
 		err := cmd.Process.Signal(syscall.SIGTERM)
 		if err != nil {
 			if err.Error() == os.ErrProcessDone.Error() {
@@ -210,13 +210,21 @@ func execForkFallback(p *Process, argv []string) error {
 
 	/////////
 
-	p.SystemProcess = &sysProcT{cmd}
+	p.SystemProcess.Set(&sysProcT{cmd})
 
 	/*if err := mxdtW.Close(); err != nil {
 		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
 	}*/
 
-	if err := cmd.Wait(); err != nil {
+	if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() {
+		signal.Ignore(syscall.SIGTTOU)
+		defer signal.Reset(syscall.SIGTTOU)
+		UnixPidToFg(cmd.Process.Pid)
+		defer UnixPidToFg(0)
+		//signalhandler.Register(Interactive)
+	}
+	err := cmd.Wait()
+	if err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
 			//mxdtR.Close()
 			return err
@@ -234,4 +242,4 @@ func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.Exi
 func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
 func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
 func (sp *sysProcT) State() *os.ProcessState    { return sp.cmd.ProcessState }
-func (sp *sysProcT) ForcedTTY() bool            { return false }
+func (sp *sysProcT) ForcedTTY() bool            { return true }

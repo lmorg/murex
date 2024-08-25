@@ -1,10 +1,11 @@
 //go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
-package sigfns
+package signalhandler
 
 import (
 	"fmt"
+	"os/signal"
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
@@ -13,25 +14,51 @@ import (
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func Sigtstp(interactive bool) {
-	p := lang.ForegroundProc.Get()
-	if p.SystemProcess.Defined() {
-		err := p.SystemProcess.Signal(syscall.SIGSTOP)
-		if err != nil {
-			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
-		}
-	}
+// EventLoop is an internal function to capture and handle OS signals (eg SIGTERM).
+func EventLoop(interactive bool) {
+	Register(interactive)
 
-	if p.State.Get() != state.Stopped {
-		returnFromSigtstp(p)
+	go func() {
+		for {
+			sig := <-signalChan
+			switch sig.String() {
+
+			case syscall.SIGINT.String():
+				go sigint(interactive)
+
+			case syscall.SIGTERM.String():
+				go sigterm(interactive)
+
+			case syscall.SIGQUIT.String():
+				go sigquit(interactive)
+
+			case syscall.SIGTSTP.String():
+				go sigtstp()
+
+			case syscall.SIGCHLD.String():
+				// TODO
+
+			default:
+				panic("unhandled signal: " + sig.String()) // this shouldn't ever happen
+			}
+		}
+	}()
+}
+
+func Register(interactive bool) {
+	if interactive {
+		// Interactive, so we will handle stop
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP) //, syscall.SIGCHLD) //, syscall.SIGTTIN, syscall.SIGTTOU)
+
+	} else {
+		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	}
 }
 
-func returnFromSigtstp(p *lang.Process) {
-	p.State.Set(state.Stopped)
-	if p.SystemProcess.Defined() && p.SystemProcess.ForcedTTY() {
-		lang.UnixPidToFg(0)
-	}
+func sigtstp() {
+	p := lang.ForegroundProc.Get()
+	//debug.Json("p =", p)
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
@@ -42,28 +69,17 @@ func returnFromSigtstp(p *lang.Process) {
 		stopStatus(p)
 	}
 
+	if p.SystemProcess.Defined() {
+		err = p.SystemProcess.Signal(syscall.SIGSTOP)
+		if err != nil {
+			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
+		}
+	}
+
 	p.State.Set(state.Stopped)
 	go func() { p.HasStopped <- true }()
 
 	lang.ShowPrompt <- true
-}
-
-func Sigchld(interactive bool) {
-	if !interactive {
-		return
-	}
-
-	p := lang.ForegroundProc.Get()
-
-	if !p.SystemProcess.Defined() || !p.SystemProcess.ForcedTTY() {
-		return
-	}
-
-	if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
-		if p.State.Get() != state.Stopped {
-			returnFromSigtstp(p)
-		}
-	}
 }
 
 func stopStatus(p *lang.Process) {
@@ -84,7 +100,7 @@ func stopStatus(p *lang.Process) {
 	}
 
 	pipeStatus := fmt.Sprintf(
-		"\n!!! STDIN:  %s written / %s read\n!!! STDOUT: %s written / %s read\n!!! STDERR: %s written / %s read",
+		"\nSTDIN:  %s written / %s read\nSTDOUT: %s written / %s read\nSTDERR: %s written / %s read",
 		humannumbers.Bytes(stdinW), humannumbers.Bytes(stdinR),
 		humannumbers.Bytes(stdoutW), humannumbers.Bytes(stdoutR),
 		humannumbers.Bytes(stderrW), humannumbers.Bytes(stderrR),
@@ -110,9 +126,7 @@ func stopStatus(p *lang.Process) {
 	}
 
 	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-		"!!! FID %d has been stopped:\n!!! %s %s\n!!! Use `fg %d` / `bg %d` to manage the FID\n!!! ...or `jobs` to see a list of background and suspended functions",
-		p.Id,
-		p.Name.String(), p.Parameters.StringAll(),
-		p.Id, p.Id,
+		"FID %d has been stopped.\nUse `fg %d` / `bg %d` to manage the FID or `jobs` to see a list of background and suspended functions",
+		p.Id, p.Id, p.Id,
 	)))
 }

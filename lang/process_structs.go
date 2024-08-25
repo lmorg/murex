@@ -39,7 +39,7 @@ type Process struct {
 	HasStopped         chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
-	SystemProcess      process.SystemProcess
+	SystemProcess      *process.SystemProcess
 	Envs               []string
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
@@ -123,7 +123,7 @@ func (p *Process) Dump() map[string]any {
 }
 
 func _jsonfySysProc(p *Process) any {
-	if p.SystemProcess == nil {
+	if !p.SystemProcess.Defined() {
 		return nil
 	}
 

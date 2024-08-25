@@ -1,4 +1,4 @@
-package sigfns
+package signalhandler
 
 import (
 	"fmt"
@@ -9,16 +9,31 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-func Sigint(interactive bool) {
-	Sigterm(interactive)
+var signalChan chan os.Signal = make(chan os.Signal, 1)
+
+const (
+	// PromptSIGINT defines the string to write when ctrl+c is pressed
+	PromptSIGINT = "^C"
+
+	// PromptSIGQUIT defines the string to write when ctrl+\ is pressed
+	PromptSIGQUIT = "^\\"
+
+	// PromptEOF defines the string to write when ctrl+d is pressed
+	PromptEOF = "^D"
+)
+
+func sigint(interactive bool) {
+	//tty.Stderr.WriteString(PromptSIGINT)
+	sigterm(interactive)
 }
 
-func Sigterm(interactive bool) {
+func sigterm(interactive bool) {
 	if !interactive {
 		lang.Exit(0)
 	}
 
 	p := lang.ForegroundProc.Get()
+	//p.Json("p =", p)
 
 	switch {
 	case p == nil:
@@ -32,12 +47,13 @@ func Sigterm(interactive bool) {
 
 var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
 
-func Sigquit(interactive bool) {
+func sigquit(interactive bool) {
 	if !interactive {
 		os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
 		lang.Exit(2)
 	}
 
+	//tty.Stderr.WriteString(PromptSIGQUIT)
 	os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
 
 	fids := lang.GlobalFIDs.ListAll()
@@ -56,7 +72,7 @@ func Sigquit(interactive bool) {
 
 			lang.ShellProcess.Stderr.Writeln([]byte(
 				fmt.Sprintf(
-					"!!! Force closing FID %d: %s %s",
+					"!!! Force closing FID %d: %s %s !!!",
 					p.Id, procName, procParam)))
 			p.Kill()
 
@@ -72,6 +88,6 @@ func Sigquit(interactive bool) {
 		}
 	}
 
-	//lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt"))
+	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt"))
 	lang.ShowPrompt <- true
 }
