@@ -21,7 +21,7 @@ func TestAppName(t *testing.T) {
 
 func TestVersion(t *testing.T) {
 	count.Tests(t, 1)
-	rx := regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+( (ALPHA|BETA|RC[0-9]))?$`)
+	rx := regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+( ([A-Z]+[0-9]+))?$`)
 
 	if !rx.MatchString(Version()) {
 		t.Error("Release version doesn't contain a valid string:")

@@ -1,3 +1,5 @@
+//go:generate ./update-version.mx
+
 package app
 
 import (
@@ -10,12 +12,13 @@ import (
 const Name = "murex"
 
 // Version number of $SHELL
-// Format of version string should be "(major).(minor).(revision) DESCRIPTION"
+// Format of version string should be "(major).(minor).(revision) BRANCH-NAME"
 const (
-	version  = "%d.%d.%04d JC863"
+	version  = "%d.%d.%04d"
 	Major    = 6
 	Minor    = 3
-	Revision = 466
+	Revision = 469
+	Branch   = "863/job-control"
 )
 
 // Copyright is the copyright owner string
@@ -35,7 +38,7 @@ func init() {
 var v string
 
 func Version() string {
-	return v
+	return fmt.Sprintf("%s %s", v, Branch)
 }
 
 var sv *semver.Version
