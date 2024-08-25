@@ -7,5 +7,4 @@ type SystemProcess interface {
 	Kill() error
 	Pid() int
 	ExitNum() int
-	UnixT() bool
 }

@@ -57,6 +57,7 @@ func signalRegister(interactive bool) {
 }
 
 func sigtstp() {
+	panic("bob04")
 	p := lang.ForegroundProc.Get()
 	//debug.Json("p =", p)
 
@@ -64,6 +65,8 @@ func sigtstp() {
 	if err != nil {
 		show = false
 	}
+
+	panic("bob03")
 
 	if show.(bool) {
 		stopStatus(p)
@@ -78,6 +81,7 @@ func sigtstp() {
 
 	p.State.Set(state.Stopped)
 	go func() { p.HasStopped <- true }()
+
 	lang.ShowPrompt <- true
 }
 

@@ -119,6 +119,7 @@ func showPrompt() {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
+	lang.UnixPidToFg(0)
 	SignalHandler(true)
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)

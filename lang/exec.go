@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/which"
 )
 
 const (
@@ -66,7 +67,7 @@ func execute(p *Process) error {
 }
 
 func execForkFallback(p *Process, argv []string) error {
-	cmd := exec.Command(argv[0], argv[1:]...)
+	cmd := exec.Command(which.WhichIgnoreFail(argv[0]), argv[1:]...)
 
 	if p.HasCancelled() {
 		return nil
@@ -240,4 +241,3 @@ func (sp *sysProcT) Pid() int                   { return sp.cmd.Process.Pid }
 func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.ExitCode() }
 func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
 func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
-func (sp *sysProcT) UnixT() bool                { return false }
