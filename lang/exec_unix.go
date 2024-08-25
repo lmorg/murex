@@ -12,6 +12,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/state"
+	signalhandler "github.com/lmorg/murex/shell/signal_handler"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/which"
 	"golang.org/x/sys/unix"
@@ -39,53 +40,6 @@ func osExecFork(p *Process, argv []string) error {
 	}
 
 	p.State.Set(state.Executing)
-	/*pid, err := syscall.ForkExec(which.WhichIgnoreFail(argv[0]), argv, &syscall.ProcAttr{
-		//Dir:   pwd,
-		//Files: []uintptr{stdinFd(p), stdoutFd(p), stderrFd(p)},
-		Files: []uintptr{os.Stdin.Fd(), os.Stdout.Fd(), os.Stderr.Fd()},
-		Env:   p.Envs,
-		Sys: &syscall.SysProcAttr{
-			//Setsid: true, // Create session.
-			// Setpgid sets the process group ID of the child to Pgid,
-			// or, if Pgid == 0, to the new child's process ID.
-			Setpgid: true,
-			// Setctty sets the controlling terminal of the child to
-			// file descriptor Ctty. Ctty must be a descriptor number
-			// in the child process: an index into ProcAttr.Files.
-			// This is only meaningful if Setsid is true.
-			//Setctty: true,
-			//Noctty:  true,               // Detach fd 0 from controlling terminal
-			Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
-			// Foreground places the child process group in the foreground.
-			// This implies Setpgid. The Ctty field must be set to
-			// the descriptor of the controlling TTY.
-			// Unlike Setctty, in this case Ctty must be a descriptor
-			// number in the parent process.
-			//Foreground: true,
-			Pgid: 0, // Child's process group ID if Setpgid.
-		},
-	})
-
-	if err != nil {
-		return fmt.Errorf("failed syscall in osExecFork(): %s\nargv: %s",
-			err.Error(),
-			json.LazyLogging(argv),
-		)
-	}
-
-	sysProc := sysProcUnixT{
-		p: &os.Process{Pid: pid},
-	}
-
-	p.SystemProcess = &sysProc
-
-	sysProc.state, err = sysProc.p.Wait()
-
-	if err != nil {
-		if !strings.HasPrefix(err.Error(), "signal:") {
-			return err
-		}
-	}*/
 
 	unixProcess, err := os.StartProcess(which.WhichIgnoreFail(argv[0]), argv, &os.ProcAttr{
 		//Dir:   pwd,
@@ -109,14 +63,14 @@ func osExecFork(p *Process, argv []string) error {
 			// This is only meaningful if Setsid is true.
 			//Setctty: true,
 			//Noctty: true,               // Detach fd 0 from controlling terminal
-			//Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
+			Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
 			// Foreground places the child process group in the foreground.
 			// This implies Setpgid. The Ctty field must be set to
 			// the descriptor of the controlling TTY.
 			// Unlike Setctty, in this case Ctty must be a descriptor
 			// number in the parent process.
-			//Foreground: true,
-			Pgid: 0, // Child's process group ID if Setpgid.
+			Foreground: true,
+			Pgid:       0, // Child's process group ID if Setpgid.
 		},
 	})
 
@@ -133,9 +87,10 @@ func osExecFork(p *Process, argv []string) error {
 
 	p.SystemProcess = &sysProc
 
-	signal.Ignore(syscall.SIGTTOU)      //, syscall.SIGTTIN)
-	defer signal.Reset(syscall.SIGTTOU) //, syscall.SIGTTIN)
+	signal.Ignore(syscall.SIGTTOU)
+	defer signal.Reset(syscall.SIGTTOU)
 	UnixPidToFg(sysProc.p.Pid)
+	signalhandler.Register(Interactive)
 	sysProc.state, err = sysProc.p.Wait()
 	UnixPidToFg(0)
 

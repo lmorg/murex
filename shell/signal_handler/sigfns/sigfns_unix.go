@@ -1,11 +1,10 @@
 //go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
-package shell
+package sigfns
 
 import (
 	"fmt"
-	"os/signal"
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
@@ -14,49 +13,7 @@ import (
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-// SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).
-func SignalHandler(interactive bool) {
-	signalRegister(interactive)
-
-	go func() {
-		for {
-			sig := <-signalChan
-			switch sig.String() {
-
-			case syscall.SIGINT.String():
-				go sigint(interactive)
-
-			case syscall.SIGTERM.String():
-				go sigterm(interactive)
-
-			case syscall.SIGQUIT.String():
-				go sigquit(interactive)
-
-			case syscall.SIGTSTP.String():
-				go sigtstp()
-
-			case syscall.SIGCHLD.String():
-				// TODO
-
-			default:
-				panic("unhandled signal: " + sig.String()) // this shouldn't ever happen
-			}
-		}
-	}()
-}
-
-func signalRegister(interactive bool) {
-	if interactive {
-		// Interactive, so we will handle stop
-		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP) //, syscall.SIGCHLD) //, syscall.SIGTTIN, syscall.SIGTTOU)
-
-	} else {
-		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
-		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	}
-}
-
-func sigtstp() {
+func Sigtstp(_ bool) {
 	panic("bob04")
 	p := lang.ForegroundProc.Get()
 	//debug.Json("p =", p)
@@ -83,6 +40,10 @@ func sigtstp() {
 	go func() { p.HasStopped <- true }()
 
 	lang.ShowPrompt <- true
+}
+
+func Sigchld(_ bool) {
+	// TODO
 }
 
 func stopStatus(p *lang.Process) {

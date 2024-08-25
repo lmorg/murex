@@ -15,6 +15,8 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
+	signalhandler "github.com/lmorg/murex/shell/signal_handler"
+	"github.com/lmorg/murex/shell/signal_handler/sigfns"
 	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -48,7 +50,7 @@ func runTests() error {
 	lang.InitEnv()
 
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	shell.SignalHandler(nonInteractive)
+	signalhandler.EventLoop(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -84,7 +86,7 @@ func runCommandLine(commandLine string) {
 
 	// default config
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	shell.SignalHandler(nonInteractive)
+	signalhandler.EventLoop(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -113,7 +115,7 @@ func runSource(filename string) {
 
 	// default config
 	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	shell.SignalHandler(nonInteractive)
+	signalhandler.EventLoop(nonInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -161,4 +163,15 @@ func startMurex() {
 
 	// start interactive shell
 	shell.Start()
+}
+
+func registerSignalHandlers() {
+	signalhandler.Handlers = &signalhandler.SignalFunctionsT{
+		Sigint:  sigfns.Sigint,
+		Sigterm: sigfns.Sigterm,
+		Sigquit: sigfns.Sigquit,
+		Sigtstp: sigfns.Sigtstp,
+		Sigchld: sigfns.Sigchld,
+	}
+	signalhandler.EventLoop(nonInteractive)
 }
