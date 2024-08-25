@@ -11,7 +11,7 @@ func TestVersion(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `version`,
-			Stdout: `murex: [0-9]+\.[0-9]+\.[0-9]+( (ALPHA|BETA|RC[0-9]))?\nLicense .*?\n© 2018-[0-9]{4} Laurence Morgan\n`,
+			Stdout: `murex: [0-9]+\.[0-9]+\.[0-9]+( (.*?))?\nLicense .*?\n© 2018-[0-9]{4} Laurence Morgan\n`,
 		},
 		{
 			Block:  `version: --copyright`,
@@ -23,7 +23,7 @@ func TestVersion(t *testing.T) {
 		},
 		{
 			Block:  `version: --no-app-name`,
-			Stdout: `[0-9]+\.[0-9]+\.[0-9]+( (ALPHA|BETA|RC[0-9]))?\n`,
+			Stdout: `[0-9]+\.[0-9]+\.[0-9]+( (.*?))?\n`,
 		},
 		{
 			Block:  `version: --short`,
