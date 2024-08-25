@@ -119,7 +119,7 @@ func UnixPidToFg(pid int) {
 	}
 
 	err := unix.IoctlSetPointerInt(0, unix.TIOCSPGRP, pid)
-	if err != nil {
+	if err != nil && debug.Enabled {
 		os.Stderr.WriteString(
 			fmt.Sprintf("!!! failed syscall in unix.IoctlSetPointerInt -> unixResetFg()...\n!!! %s\n",
 				err.Error(),
