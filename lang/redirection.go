@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/lmorg/murex/lang/types"
 )
@@ -45,16 +46,21 @@ func parseRedirection(p *Process) {
 			}
 
 		case len(name) > 4 && name[:4] == "pid:":
-			panic("TODO")
-			/*varName := name[4:]
-			p.Exec.Callback = func(pid int) {
-				err := p.Variables.Set(p, varName, pid, types.Integer)
+			varName := name[4:]
+			go func() {
+				for {
+					time.Sleep(10 * time.Millisecond)
+					if p.SystemProcess.Defined() {
+						break
+					}
+				}
+				err := p.Variables.Set(p, varName, p.SystemProcess.Pid(), types.Integer)
 				if err != nil {
 					ShellProcess.Stderr.Writeln([]byte(
 						fmt.Sprintf("Cannot write variable '%s': %s", varName, err.Error()),
 					))
 				}
-			}*/
+			}()
 
 		case name[0] == '!':
 			if p.NamedPipeErr == "" {
