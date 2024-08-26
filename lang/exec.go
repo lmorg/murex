@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"os/signal"
 	"strings"
 	"syscall"
 
@@ -217,14 +216,14 @@ func execForkFallback(p *Process, argv []string) error {
 		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
 	}*/
 
-	if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() {
-		signal.Ignore(syscall.SIGTTOU)
-		UnixPidToFg(cmd.Process.Pid)
-	}
+	//if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() {
+	//	signal.Ignore(syscall.SIGTTOU)
+	//	UnixPidToFg(cmd.Process.Pid)
+	//}
 	err := cmd.Wait()
-	signal.Reset(syscall.SIGTTOU)
-	UnixPidToFg(0)
-	//signalhandler.Register(Interactive)
+	//signal.Reset(syscall.SIGTTOU)
+	//UnixPidToFg(0)
+	////signalhandler.Register(Interactive)
 	if err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
 			//mxdtR.Close()
