@@ -79,6 +79,7 @@ func execForkFallback(p *Process, argv []string) error {
 		}
 
 		err := cmd.Process.Signal(syscall.SIGTERM)
+		UnixPidToFg(0)
 		if err != nil {
 			if err.Error() == os.ErrProcessDone.Error() {
 				return
@@ -218,12 +219,12 @@ func execForkFallback(p *Process, argv []string) error {
 
 	if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() {
 		signal.Ignore(syscall.SIGTTOU)
-		defer signal.Reset(syscall.SIGTTOU)
 		UnixPidToFg(cmd.Process.Pid)
-		defer UnixPidToFg(0)
-		//signalhandler.Register(Interactive)
 	}
 	err := cmd.Wait()
+	signal.Reset(syscall.SIGTTOU)
+	UnixPidToFg(0)
+	//signalhandler.Register(Interactive)
 	if err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
 			//mxdtR.Close()
@@ -242,4 +243,4 @@ func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.Exi
 func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
 func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
 func (sp *sysProcT) State() *os.ProcessState    { return sp.cmd.ProcessState }
-func (sp *sysProcT) ForcedTTY() bool            { return true }
+func (sp *sysProcT) ForcedTTY() bool            { return false }

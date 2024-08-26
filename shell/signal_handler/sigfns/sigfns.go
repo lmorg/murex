@@ -2,11 +2,9 @@ package sigfns
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/utils"
 )
 
 func Sigint(interactive bool) {
@@ -34,12 +32,12 @@ var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
 
 func Sigquit(interactive bool) {
 	if !interactive {
-		os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
+		//os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
 		lang.Exit(2)
 	}
 
-	os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
-
+	//os.Stderr.WriteString("!!! Murex received SIGQUIT" + utils.NewLineString)
+	//lang.UnixPidToFg(0)
 	fids := lang.GlobalFIDs.ListAll()
 	for _, p := range fids {
 		if p.Kill != nil /*&& !p.HasTerminated()*/ {

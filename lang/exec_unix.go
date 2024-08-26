@@ -135,7 +135,7 @@ func osSysProcAttr(fd int) *syscall.SysProcAttr {
 		//Setsid: true, // Create session.
 		// Setpgid sets the process group ID of the child to Pgid,
 		// or, if Pgid == 0, to the new child's process ID.
-		Setpgid: true,
+		//Setpgid: true,
 		// Setctty sets the controlling terminal of the child to
 		// file descriptor Ctty. Ctty must be a descriptor number
 		// in the child process: an index into ProcAttr.Files.
@@ -148,7 +148,7 @@ func osSysProcAttr(fd int) *syscall.SysProcAttr {
 		// the descriptor of the controlling TTY.
 		// Unlike Setctty, in this case Ctty must be a descriptor
 		// number in the parent process.
-		Foreground: true,
-		Pgid:       0, // Child's process group ID if Setpgid.
+		//Foreground: true,
+		//Pgid:       0, // Child's process group ID if Setpgid.
 	}
 }
