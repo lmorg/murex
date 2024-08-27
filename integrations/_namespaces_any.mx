@@ -1,0 +1,71 @@
+alias     list.sort     =  msort
+alias     list.reverse  =  mtac
+alias     list.prepend  =  prepend
+alias     list.append   =  append
+alias     list.prefix   =  prefix
+alias     list.suffix   =  suffix
+alias     list.left     =  left
+alias     list.right    =  right
+alias     list.regex    =  regexp
+alias    !list.regex    = !regexp
+alias     list.match    =  match
+alias    !list.match    = !match
+alias     list.join     =  mjoin
+alias     list.new.str  =  a
+alias     list.new.type =  ta 
+
+alias   struct.count       =  count
+alias   struct.new.map     =  map
+alias   struct.new.2darray =  2darray
+
+alias   escape.quote    =  escape
+alias  !escape.quote    = !escape
+alias   escape.html     =  eschtml
+alias  !escape.html     = !eschtml
+alias   escape.url      =  escurl
+alias  !escape.url      = !escurl
+alias   escape.cli      =  esccli
+
+alias       io.out      =  out
+alias       io.err      =  err
+alias       io.pipe     =  read-named-pipe
+alias       io.stat     =  pt
+
+alias       fs.glob     =  g
+alias      !fs.glob     = !g
+alias       fs.regex    =  rx
+alias      !fs.regex    = !rx
+alias       fs.file     =  f
+alias       fs.lockfile = lockfile
+alias       fs.new.temp.file =  tmp
+
+alias      sys.os        =  os
+alias      sys.cpu.arch  =  cpuarch
+alias      sys.cpu.count =  cpucount
+
+alias    shell.alias     =  alias
+alias   !shell.alias     = !alias
+alias    shell.function  =  function
+alias   !shell.function  = !function
+alias    shell.private   =  private
+alias    shell.pipe      =  pipe
+alias   !shell.pipe      = !pipe
+alias    shell.event     =  event
+alias   !shell.event     = !event
+
+alias    shell.exec.builtin  =  fexec builtin
+alias    shell.exec.function =  fexec function
+alias    shell.exec.private  =  fexec private
+
+alias      murex.packages    =  murex-package
+alias      murex.rescan.path = murex-update-exe-list
+alias      murex.runtime     = runtime
+alias      murex.config      = config
+
+alias       proc.fg          = fg
+alias       proc.bg          = bg
+alias       proc.jobs        = fid-list --jobs
+alias       proc.list        = fid-list
+alias       proc.kill        = fid-kill
+alias       proc.kill.all    = fid-killall
+alias       proc.send.signal = signal
