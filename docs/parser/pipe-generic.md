@@ -52,8 +52,6 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`format`](../commands/format.md):
@@ -62,6 +60,8 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   A sophisticated yet simply way to build a JSON array
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
+* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 
 <hr/>
 

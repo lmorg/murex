@@ -1,4 +1,4 @@
-# `alter`
+# struct.alter: `alter`
 
 > Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
@@ -181,6 +181,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 * `alter`
 * `~>`
+* `struct.alter`
 
 
 ## See Also
@@ -191,17 +192,17 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`append`](../commands/append.md):
-  Add data to the end of an array
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`prepend`](../commands/prepend.md):
+* [list.append: `append`](../commands/append.md):
+  Add data to the end of an array
+* [list.prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [`runtime`](../commands/runtime.md):
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

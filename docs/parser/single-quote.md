@@ -42,16 +42,16 @@ bar
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

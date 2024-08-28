@@ -1,4 +1,4 @@
-# `bg`
+# proc.bg: `bg`
 
 > Run processes in the background
 
@@ -33,19 +33,25 @@ supported on POSIX systems due to the limitation of required signals on
 non-platforms. This means the usage described in the examples is cross
 cross platform while `bg int` currently does not work on Windows nor Plan 9.
 
+## Synonyms
+
+* `bg`
+* `proc.bg`
+
+
 ## See Also
 
-* [`exec`](../commands/exec.md):
+* [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [`fg`](../commands/fg.md):
+* [proc.fg: `fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
+* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running Murex functions
-* [`fid-list`](../commands/fid-list.md):
+* [proc.kill: `fid-kill`](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.list: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
+* [proc.list: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

@@ -1,6 +1,6 @@
 - DocumentID: alter
   Title: >+
-    `alter`
+    struct.alter: `alter`
   CategoryID: commands
   Summary: >-
     Change a value within a structured data-type and pass that change along the
@@ -169,13 +169,14 @@
   Synonyms:
     - alter
     - "~>"
+    - struct.alter
   Related:
-  - item-index
-  - element
-  - format
-  - append
-  - prepend
-  - runtime
-  - cast
-  - config
-  - assign-or-merge
+    - item-index
+    - element
+    - format
+    - append
+    - prepend
+    - runtime
+    - cast
+    - config
+    - assign-or-merge

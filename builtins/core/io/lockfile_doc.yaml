@@ -1,6 +1,6 @@
 - DocumentID: lockfile
   Title: >+
-    `lockfile`
+    fs.lockfile: `lockfile`
   CategoryID: commands
   Summary: >-
     Create and manage lock files
@@ -44,8 +44,10 @@
     lockfile wait example
     out "lock file gone!"
     ```
-  Detail: |-
+  Detail:
   Synonyms:
+    - lockfile
+    - fs.lockfile
   Related:
     - out
     - bg

@@ -48,8 +48,6 @@ command.
   Overview of the different schedulers (or 'run modes') in Murex
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`runmode`](../commands/runmode.md):
@@ -64,6 +62,8 @@ command.
   Checks state of each function in a pipeline and exits block on error
 * [`unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
+* [proc.list: `fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
 
 <hr/>
 

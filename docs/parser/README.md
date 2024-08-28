@@ -363,8 +363,6 @@ files.
   Iterate through structured data
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` Truncate File](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`||` Or Logical Operator](../parser/logical-or.md):

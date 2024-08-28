@@ -165,10 +165,10 @@ if you want to learn more about shell scripting in Murex.
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [`|>` Truncate File](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
+* [fs.truncate: `>`](../command/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 

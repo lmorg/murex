@@ -1,4 +1,4 @@
-# `match`
+# list.str: `match`
 
 > Match an exact value in an array
 
@@ -70,40 +70,40 @@ same data-type.
 
 * `match`
 * `!match`
-* `list.string`
-* `!list.string`
+* `list.str`
+* `!list.str`
 
 
 ## See Also
 
-* [`2darray` ](../commands/2darray.md):
-  Create a 2D JSON array from multiple input sources
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
-  Add data to the end of an array
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [`map`](../commands/map.md):
-  Creates a map from two data sources
-* [`msort`](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [`prefix`](../commands/prefix.md):
-  Prefix a string to every item in a list
-* [`prepend`](../commands/prepend.md):
-  Add data to the start of an array
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [`suffix`](../commands/suffix.md):
-  Prefix a string to every item in a list
-* [`ta` (mkarray)](../commands/ta.md):
+* [list.append: `append`](../commands/append.md):
+  Add data to the end of an array
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [list.prefix: `prefix`](../commands/prefix.md):
+  Prefix a string to every item in a list
+* [list.prepend: `prepend`](../commands/prepend.md):
+  Add data to the start of an array
+* [list.regex: `regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [list.sort: `msort`](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [list.suffix: `suffix`](../commands/suffix.md):
+  Prefix a string to every item in a list
+* [str.split: `jsplit` ](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [struct.count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [struct.new.2darray: `2darray` ](../commands/2darray.md):
+  Create a 2D JSON array from multiple input sources
+* [struct.new.map: `map`](../commands/map.md):
+  Creates a map from two data sources
 
 <hr/>
 

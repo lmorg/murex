@@ -109,11 +109,11 @@ onSecondsElapsed
   Iterate through a map or other collection of data
 * [`function`](../commands/function.md):
   Define a function block
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
 * [`private`](../commands/private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [shell.runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

@@ -66,20 +66,20 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Returns the right operand if the left operand is falsy (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`err`](../commands/err.md):
-  Print a line to the stderr
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [null](../commands/devnull.md):
   null function. Similar to /dev/null
 

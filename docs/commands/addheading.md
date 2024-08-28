@@ -1,4 +1,4 @@
-# `addheading` 
+# table.new.heading: `addheading` 
 
 > Adds headings to a table
 
@@ -22,32 +22,38 @@ prepend to tables.
 ["Bob","23","true"]
 ```
 
+## Synonyms
+
+* `addheading`
+* `table.new.heading`
+
+
 ## See Also
 
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
-  Add data to the end of an array
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`msort`](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
-* [`prepend`](../commands/prepend.md):
+* [list.append: `append`](../commands/append.md):
+  Add data to the end of an array
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [list.prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [`regexp`](../commands/regexp.md):
+* [list.regex: `regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [list.reverse: `mtac`](../commands/mtac.md):
+  Reverse the order of an array
+* [list.sort: `msort`](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [list.str: `match`](../commands/match.md):
+  Match an exact value in an array
+* [struct.count: `count`](../commands/count.md):
+  Count items in a map, list or array
 
 <hr/>
 

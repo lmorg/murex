@@ -20,7 +20,7 @@ document.
 
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`export`](../commands/export.md):
+* [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 
 ## Other Integrations

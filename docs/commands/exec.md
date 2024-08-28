@@ -1,4 +1,4 @@
-# `exec`
+# exec.file: `exec`
 
 > Runs an executable
 
@@ -70,31 +70,32 @@ alias for `exec`.
 
 * `exec`
 * `command`
+* `exec.file`
 
 
 ## See Also
 
-* [`bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [`fexec` ](../commands/fexec.md):
+* [exec.*: `fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
+* [proc.fg: `fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
+* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running Murex functions
-* [`fid-list`](../commands/fid-list.md):
+* [proc.kill: `fid-kill`](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.list: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
+* [proc.list: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [shell.builtins.exist: `bexists`](../commands/bexists.md):
+  Check which builtins exist
+* [shell.builtins: `builtins`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [shell.rescan.path: `murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [`set`](../commands/set.md):
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

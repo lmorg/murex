@@ -20,11 +20,11 @@ Please note this command is still very much in beta and is likely to change in i
 
 ## See Also
 
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [`runtime`](../commands/runtime.md):
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

@@ -114,12 +114,12 @@ The following meta values are defined:
   Iterate through an array
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`tabulate`](../commands/tabulate.md):
   Table transformation tools
 * [`while`](../commands/while.md):
   Loop until condition false
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

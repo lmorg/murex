@@ -1,6 +1,6 @@
 - DocumentID: set
   Title: >+
-    `set`
+    var.set: `set`
   CategoryID: commands
   Summary: >-
     Define a local variable and set it's value
@@ -53,6 +53,8 @@
   Synonyms:
   - set
   - "!set"
+  - var.set
+  - "!var.set"
   Related:
   - is-null
   - null-coalescing
@@ -69,7 +71,7 @@
 
 - DocumentID: global
   Title: >+
-    `global`
+    var.global: `global`
   CategoryID: commands
   Summary: >-
     Define a global variable and set it's value
@@ -123,6 +125,8 @@
   Synonyms:
   - global
   - "!global"
+  - var.global
+  - "!var.global"
   Related:
   - set
   - is-null
@@ -138,7 +142,7 @@
 
 - DocumentID: export
   Title: >+
-    `export`
+    var.env: `export`
   CategoryID: commands
   Summary: >-
     Define an environmental variable and set it's value
@@ -208,6 +212,8 @@
   - export
   - "!export"
   - unset
+  - var.env
+  - "!var.env"
   Related:
   - set
   - is-null

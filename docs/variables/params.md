@@ -67,20 +67,20 @@ This is a reserved variable so it cannot be changed.
   Expand values as an array
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`function`](../commands/function.md):
   Define a function block
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

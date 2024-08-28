@@ -1,4 +1,4 @@
-# `pipe`
+# io.new.pipe: `pipe`
 
 > Manage Murex named pipes
 
@@ -120,28 +120,30 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * `pipe`
 * `!pipe`
+* `io.new.pipe`
+* `!io.new.pipe`
 
 
 ## See Also
 
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`<stdin>`](../commands/stdin.md):
   Read the stdin belonging to the parent code block
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
+* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
+* [list.str: `match`](../commands/match.md):
+  Match an exact value in an array
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
+* [shell.runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 <hr/>
 

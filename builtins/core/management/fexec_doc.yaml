@@ -1,6 +1,6 @@
 - DocumentID: fexec
   Title: >+
-    `fexec` 
+    exec.*: `fexec` 
   CategoryID: commands
   Summary: >-
     Execute a command or function, bypassing the usual order of precedence.
@@ -36,6 +36,9 @@
   Synonyms:
   - fexec
   - builtin
+  - exec.builtin
+  - exec.function
+  - exec.private
   Related:
   - function
   - private

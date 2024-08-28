@@ -1,6 +1,6 @@
 - DocumentID: config
   Title: >+
-    `config`
+    shell.config: `config`
   CategoryID: commands
   Summary: >-
     Query or define Murex runtime settings
@@ -115,6 +115,8 @@
   Synonyms:
   - config
   - "!config"
+  - shell.config
+  - "!shell.config"
   Related:
   - runtime
   - open

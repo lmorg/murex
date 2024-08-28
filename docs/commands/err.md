@@ -1,4 +1,4 @@
-# `err`
+# io.err: `err`
 
 > Print a line to the stderr
 
@@ -49,32 +49,38 @@ a new Murex named pipe.
 
 `err` supports ANSI constants.
 
+## Synonyms
+
+* `err`
+* `io.err`
+
+
 ## See Also
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`>>` Append File](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
-* [`bg`](../commands/bg.md):
-  Run processes in the background
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`pt`](../commands/pt.md):
+* [fs.status: `pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [`|>` Truncate File](../parser/file-truncate.md):
+* [fs.truncate: `>`](../command/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
+* [io.new.pipe: `pipe`](../commands/pipe.md):
+  Manage Murex named pipes
+* [io.out.type: `tout`](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 
 <hr/>
 

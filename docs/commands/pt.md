@@ -1,4 +1,4 @@
-# `pt`
+# fs.status: `pt`
 
 > Pipe telemetry. Writes data-types and bytes written
 
@@ -22,6 +22,12 @@ curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
 (though Murex does also have it's own HTTP clients, `get`, `post` and
 `getfile`)
 
+## Synonyms
+
+* `pt`
+* `fs.status`
+
+
 ## See Also
 
 * [`>>` Append File](../parser/file-append.md):
@@ -32,7 +38,7 @@ curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [`|>` Truncate File](../parser/file-truncate.md):
+* [fs.truncate: `>`](../command/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>

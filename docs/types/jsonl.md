@@ -159,20 +159,20 @@ cases for JSON lines.
   JavaScript Object Notation (JSON)
 * [`jsonc`](../types/jsonc.md):
   Concatenated JSON
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+* [shell.runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

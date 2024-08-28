@@ -1,4 +1,4 @@
-# `esccli`
+# escape.cli: `esccli`
 
 > Escapes an array so output is valid shell code
 
@@ -53,13 +53,13 @@ out foo\$b\@r
   Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`escape`](../commands/escape.md):
-  Escape or unescape input
-* [`eschtml`](../commands/eschtml.md):
+* [escape.html: `eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [`escurl`](../commands/escurl.md):
+* [escape.quote: `escape`](../commands/escape.md):
+  Escape or unescape input
+* [escape.url: `escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
-* [`out`](../commands/out.md):
+* [io.out: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

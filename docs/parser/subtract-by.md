@@ -55,8 +55,6 @@ value op value**, for example:
   Subtracts one numeric value from another (expression)
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`float` (floating point number)](../types/float.md):
@@ -65,6 +63,8 @@ value op value**, for example:
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

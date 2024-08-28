@@ -1,4 +1,4 @@
-# `fg`
+# proc.fg: `fg`
 
 > Sends a background process into the foreground
 
@@ -19,19 +19,25 @@ fg fid
 This builtin is only supported on POSIX systems. There is no support planned
 for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
+## Synonyms
+
+* `fg`
+* `proc.fg`
+
+
 ## See Also
 
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`exec`](../commands/exec.md):
+* [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
+* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running Murex functions
-* [`fid-list`](../commands/fid-list.md):
+* [proc.kill: `fid-kill`](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.list: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
+* [proc.list: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

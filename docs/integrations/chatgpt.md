@@ -131,8 +131,6 @@ under `/integrations`.
   A breakdown of the different files loaded on start up
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`murex-docs`](../commands/murex-docs.md):
@@ -141,6 +139,8 @@ under `/integrations`.
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 ## Other Integrations
 

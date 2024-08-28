@@ -133,8 +133,6 @@ code block as false. Otherwise, it will be considered true.
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [`debug`](../commands/debug.md):
-  Debugging information
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`or`](../commands/or.md):
@@ -149,6 +147,8 @@ code block as false. Otherwise, it will be considered true.
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
+* [shell.debug: `debug`](../commands/debug.md):
+  Debugging information
 
 <hr/>
 

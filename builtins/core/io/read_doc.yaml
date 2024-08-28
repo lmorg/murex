@@ -1,6 +1,6 @@
 - DocumentID: read
   Title: >+
-    `read`
+    io.input: `read`
   CategoryID: commands
   Summary: >-
     `read` a line of input from the user and store as a variable
@@ -73,15 +73,17 @@
     --autocomplete: "Autocompletion suggestions. Can be either a JSON array or a JSON object"
     --mask: "Optional password mask, for reading secrets"
   Synonyms:
+    - read
+    - io.input
   Related:
-  - tout
-  - err
-  - brace-quote
-  - cast
-  - file-truncate
-  - file-append
-  - out
-  - tread
+    - tout
+    - err
+    - brace-quote
+    - cast
+    - file-truncate
+    - file-append
+    - out
+    - tread
 
 
 

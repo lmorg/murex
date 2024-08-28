@@ -1,6 +1,6 @@
 - DocumentID: map
   Title: >-
-    `map`
+    struct.new.map: `map`
   CategoryID: commands
   Summary: >-
     Creates a map from two data sources
@@ -21,8 +21,10 @@
         "key 3": "value 3"
     }
     ```
-  Detail: |-
+  Detail:
   Synonyms:
+    - map
+    - struct.new.map
   Related:
     - prepend
     - append

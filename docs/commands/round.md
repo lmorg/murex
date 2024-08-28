@@ -1,4 +1,4 @@
-# `round`
+# num.round: `round`
 
 > Round a number by a user defined precision
 
@@ -70,6 +70,12 @@ Rounding to the nearest multiple of `20`:
     shorthand for `--down`
 * `-u`
     shorthand for `--up`
+
+## Synonyms
+
+* `round`
+* `num.round`
+
 
 ## See Also
 

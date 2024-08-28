@@ -1,4 +1,4 @@
-# `datetime`
+# str.datetime: `datetime`
 
 > A date and/or time conversion tool (like `printf` but for date and time values)
 
@@ -81,11 +81,17 @@ Documentation regarding these format codes can be found on [pkg.go.dev](https://
 This is only supported as an input. When it is used `--value` flag is not
 required.
 
+## Synonyms
+
+* `datetime`
+* `str.datetime`
+
+
 ## See Also
 
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
-* [`a` (mkarray)](../commands/a.md):
+* [list.new.str: `a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 
 <hr/>

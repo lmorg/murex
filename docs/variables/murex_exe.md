@@ -47,7 +47,7 @@ This is a reserved variable so it cannot be changed.
   Path of current shell
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
-* [`set`](../commands/set.md):
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

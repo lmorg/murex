@@ -228,12 +228,12 @@ it persistent.
   Initiates or terminates a string (variables expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
-* [`err`](../commands/err.md):
+* [io.err: `err`](../commands/err.md):
   Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`tout`](../commands/tout.md):
+* [io.out.type: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

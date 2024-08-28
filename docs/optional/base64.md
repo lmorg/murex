@@ -57,16 +57,16 @@ it doesn't require the OS fork processes.
 
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
-* [`escape`](../commands/escape.md):
-  Escape or unescape input
-* [`esccli`](../commands/esccli.md):
-  Escapes an array so output is valid shell code
-* [`eschtml`](../commands/eschtml.md):
-  Encode or decodes text for HTML
-* [`escurl`](../commands/escurl.md):
-  Encode or decodes text for the URL
 * [`gz`](../optional/gz.md):
   Compress or decompress a gzip file
+* [escape.cli: `esccli`](../commands/esccli.md):
+  Escapes an array so output is valid shell code
+* [escape.html: `eschtml`](../commands/eschtml.md):
+  Encode or decodes text for HTML
+* [escape.quote: `escape`](../commands/escape.md):
+  Escape or unescape input
+* [escape.url: `escurl`](../commands/escurl.md):
+  Encode or decodes text for the URL
 
 <hr/>
 

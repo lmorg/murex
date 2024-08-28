@@ -71,18 +71,18 @@ In `type`, it is represented by the term **executable**.
 
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`exec`](../commands/exec.md):
-  Runs an executable
 * [`exit`](../commands/exit.md):
   Exit murex
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
 * [`function`](../commands/function.md):
   Define a function block
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`which`](../commands/which.md):
   Locate command origin
+* [exec.*: `fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [exec.file: `exec`](../commands/exec.md):
+  Runs an executable
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

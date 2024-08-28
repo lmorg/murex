@@ -24,12 +24,12 @@ to Kitty's ANSI escape sequences to render those images beautifully.
 
 * [Terminology Integrations](../integrations/terminology.md):
   Get more out of Terminology terminal emulator
-* [`open`](../commands/open.md):
+* [fs.open: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
 * [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator
+* [shell.open: `openagent`](../commands/openagent.md):
+  Creates a handler function for `open`
 
 ## Other Integrations
 

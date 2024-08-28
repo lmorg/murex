@@ -1,6 +1,6 @@
 - DocumentID: "autocomplete"
   Title: >+
-    `autocomplete`
+    shell.autocomplete: `autocomplete`
   CategoryID: commands
   Summary: >-
     Set definitions for tab-completion in the command line
@@ -27,6 +27,8 @@
     get: output all autocompletion schemas
     set: define a new autocompletion schema
   Synonyms:
+    - autocomplete
+    - shell.autocomplete
   Related:
     - config
     - private

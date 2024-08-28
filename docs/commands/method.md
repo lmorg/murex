@@ -72,13 +72,13 @@ var GroupMath = []string{
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`function`](../commands/function.md):
   Define a function block
 * [`private`](../commands/private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [shell.runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

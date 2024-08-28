@@ -1,6 +1,6 @@
 - DocumentID: exitnum
   Title: >+
-    `exitnum`
+    proc.exitnum: `exitnum`
   CategoryID: commands
   Summary: >-
     Output the exit number of the previous process
@@ -16,8 +16,10 @@
     0
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
+  - exitnum
+  - proc.exitnum
   Related:
   - runtime
   - test
@@ -26,7 +28,7 @@
 
 - DocumentID: murex-update-exe-list
   Title: >+
-    `murex-update-exe-list`
+    shell.rescan.path: `murex-update-exe-list`
   CategoryID: commands
   Summary: >-
     Forces Murex to rescan $PATH looking for executables
@@ -48,6 +50,8 @@
     Murex will automatically update the exe list each time tab completion is
     invoked for command name completion via the REPL shell.
   Synonyms:
+  - murex-update-exe-list
+  - shell.rescan.path
   Related:
   - os
   - cpuarch
@@ -57,7 +61,7 @@
 
 - DocumentID: man-summary
   Title: >+
-    `man-summary`
+    help.man.summary: `man-summary`
   CategoryID: commands
   Summary: >-
     Outputs a man page summary of a command
@@ -91,6 +95,8 @@
     2
     ```
   Synonyms:
+  - man-summary
+  - help.man.summary
   Related:
   - summary
   - config
@@ -182,7 +188,7 @@
 
 - DocumentID: bexists
   Title: >+
-    `bexists`
+    shell.builtins.exist: `bexists`
   CategoryID: commands
   Summary: >-
     Check which builtins exist
@@ -216,6 +222,7 @@
     might also happen to `bexists` however it is in use by a few modules and for
     that reason alone it has been spared from the axe.
   Synonyms:
+  - bexists
   Related:
   - runtime
   - fexec

@@ -1,4 +1,4 @@
-# `escape`
+# escape.quote: `escape`
 
 > Escape or unescape input
 
@@ -49,11 +49,11 @@ escape string to escape -> <stdout>
 
 ## See Also
 
-* [`esccli`](../commands/esccli.md):
+* [escape.cli: `esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [`eschtml`](../commands/eschtml.md):
+* [escape.html: `eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [`escurl`](../commands/escurl.md):
+* [escape.url: `escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
 
 <hr/>

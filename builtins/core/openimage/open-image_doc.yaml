@@ -1,6 +1,6 @@
 - DocumentID: open-image
   Title: >-
-    `open-image`
+    fs.open.image: `open-image`
   CategoryID: commands
   Summary: >-
     Renders bitmap image data on your terminal
@@ -29,6 +29,8 @@
   Detail: |-
     `open-image` will fail if stdout is not a TTY.
   Synonyms:
+    - open-image
+    - fs.open.image
   Related:
     - qr
     - open

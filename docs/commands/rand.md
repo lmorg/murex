@@ -71,7 +71,7 @@ cryptographically secure.
   Reformat one data-type into another data-type
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`set`](../commands/set.md):
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

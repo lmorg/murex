@@ -94,14 +94,14 @@ builtin.
   A table of all supported operators and tokens
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`alter`](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [`g`](../commands/g.md):
+* [fs.glob: `g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
+* [struct.alter: `alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

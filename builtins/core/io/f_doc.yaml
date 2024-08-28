@@ -1,6 +1,6 @@
 - DocumentID: f
   Title: >+
-    `f`
+    fs.files: `f`
   CategoryID: commands
   Summary: >-
     Lists or filters file system objects (eg files)
@@ -82,6 +82,8 @@
     `+` flags are always matched first. Then the `-` flags are used to filter out
     any matches from the `+` flags.
   Synonyms:
+    - f
+    - fs.files
   Related:
     - g
     - rx

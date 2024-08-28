@@ -125,8 +125,6 @@ Stdout and stderr are both written to the terminal's stderr.
   Array of the command name and parameters within a given scope
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`function`](../commands/function.md):
@@ -135,10 +133,12 @@ Stdout and stderr are both written to the terminal's stderr.
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [`regexp`](../commands/regexp.md):
+* [list.regex: `regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [read-named-pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

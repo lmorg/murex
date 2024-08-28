@@ -128,14 +128,14 @@ foo  1 2 3 4 5  bar
   Write a string to the stdout without new line (deprecated)
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

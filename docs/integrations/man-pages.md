@@ -46,8 +46,6 @@ That command will generally be pulled from its accompanying `man` page.
   How to enable ChatGPT hints
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`murex-docs`](../commands/murex-docs.md):
@@ -56,6 +54,8 @@ That command will generally be pulled from its accompanying `man` page.
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 
 ## Other Integrations
 

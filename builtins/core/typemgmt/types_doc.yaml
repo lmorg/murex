@@ -1,6 +1,6 @@
 - DocumentID: exec
   Title: >+
-    `exec`
+    exec.file: `exec`
   CategoryID: commands
   Summary: >-
     Runs an executable
@@ -64,6 +64,7 @@
   Synonyms:
   - exec
   - command
+  - exec.file
   Related:
   - fexec
   - set

@@ -1,6 +1,6 @@
 - DocumentID: select
   Title: >-
-    `select`
+    table.select: `select`
   CategoryID: optional
   Summary: >-
     Inlining SQL into shell pipelines
@@ -121,6 +121,7 @@
     If you do run into any issues then please raise them on [Github](https://github.com/lmorg/murex/issues).
   Synonyms:
     - select
+    - table.select
   Related:
     - v2.1
     - csv

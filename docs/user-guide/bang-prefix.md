@@ -29,11 +29,11 @@ bang prefix and what the behavior of that prefix is.
   Reads the stdin and exit number from previous process and not's it's condition
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`set`](../commands/set.md):
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

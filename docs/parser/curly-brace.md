@@ -82,18 +82,18 @@ constants are available.
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out.type: `tout`](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

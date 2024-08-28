@@ -59,12 +59,12 @@ rsync --help                                                  # print rsync help
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 
 <hr/>
 

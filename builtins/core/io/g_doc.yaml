@@ -1,6 +1,6 @@
 - DocumentID: g
   Title: >+
-    `g`
+    fs.glob: `g`
   CategoryID: commands
   Summary: >-
     Glob pattern matching for file system objects (eg `*.txt`)
@@ -125,6 +125,8 @@
   Synonyms:
   - g
   - "!g"
+  - fs.glob
+  - "!fs.glob"
   Related:
   - rx
   - f

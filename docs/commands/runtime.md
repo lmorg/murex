@@ -1,4 +1,4 @@
-# `runtime`
+# shell.runtime: `runtime`
 
 > Returns runtime information on the internal state of Murex
 
@@ -281,6 +281,7 @@ functions.
 
 * `runtime`
 * `builtins`
+* `shell.runtime`
 
 
 ## See Also
@@ -289,18 +290,8 @@ functions.
   Default integrations shipped with Murex
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`debug`](../commands/debug.md):
-  Debugging information
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):
@@ -309,28 +300,38 @@ functions.
   Reformat one data-type into another data-type
 * [`function`](../commands/function.md):
   Define a function block
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`method`](../commands/method.md):
   Define a methods supported data-types
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
 * [`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [exec.include: `source`](../commands/source.md):
+  Import Murex code from another file or code block
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [io.new.pipe: `pipe`](../commands/pipe.md):
+  Manage Murex named pipes
+* [proc.list: `fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.debug: `debug`](../commands/debug.md):
+  Debugging information
+* [shell.open: `openagent`](../commands/openagent.md):
+  Creates a handler function for `open`
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [var.env: `export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

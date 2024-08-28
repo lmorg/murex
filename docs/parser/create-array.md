@@ -185,13 +185,13 @@ arrays. For more details on these please refer to the documents for each format
   Quickly generate objects (dictionaries / maps)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`ta` (mkarray)](../commands/ta.md):
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 
 <hr/>

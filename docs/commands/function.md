@@ -252,28 +252,28 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Command line flag parser for Murex shell scripting
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`g`](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`method`](../commands/method.md):
   Define a methods supported data-types
 * [`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
-* [`version`](../commands/version.md):
+* [exec.*: `fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [exec.file: `exec`](../commands/exec.md):
+  Runs an executable
+* [exec.include: `source`](../commands/source.md):
+  Import Murex code from another file or code block
+* [fs.glob: `g`](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [shell.version: `version`](../commands/version.md):
   Get Murex version
+* [var.env: `export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

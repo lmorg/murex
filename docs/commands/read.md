@@ -1,4 +1,4 @@
-# `read`
+# io.input: `read`
 
 > `read` a line of input from the user and store as a variable
 
@@ -85,6 +85,12 @@ The data type the `read` line will be stored as is `str` (string). If you
 require this to be different then please use `tread` (typed read) or call `read`
 with the `--datatype` flag as per the **script usage**.
 
+## Synonyms
+
+* `read`
+* `io.input`
+
+
 ## See Also
 
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -93,16 +99,16 @@ with the `--datatype` flag as per the **script usage**.
   Writes stdin to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [`|>` Truncate File](../parser/file-truncate.md):
+* [fs.truncate: `>`](../command/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out.type: `tout`](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

@@ -1,4 +1,4 @@
-# `tmp`
+# fs.new.tmpfile: `tmp`
 
 > Create a temporary file and write to it
 
@@ -96,16 +96,22 @@ you ever want to.
 which itself is located in the appropriate temp directory for the host OS (eg
 `$TMPDIR` on macOS).
 
+## Synonyms
+
+* `tmp`
+* `fs.new.tmpfile`
+
+
 ## See Also
 
 * [`>>` Append File](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
-* [`open`](../commands/open.md):
+* [fs.open: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`|>` Truncate File](../parser/file-truncate.md):
+* [fs.truncate: `>`](../command/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
+* [io.new.pipe: `pipe`](../commands/pipe.md):
+  Manage Murex named pipes
 
 <hr/>
 

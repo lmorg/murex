@@ -1,6 +1,6 @@
 - DocumentID: os
   Title: >+
-    `os`
+    sys.os: `os`
   CategoryID: commands
   Summary: >-
     Output the auto-detected OS name
@@ -78,7 +78,7 @@
 
 - DocumentID: cpuarch
   Title: >+
-    `cpuarch`
+    sys.cpu.arch: `cpuarch`
   CategoryID: commands
   Summary: >-
     Output the hosts CPU architecture
@@ -106,7 +106,7 @@
 
 - DocumentID: cpucount
   Title: >+
-    `cpucount`
+    sys.cpu.count: `cpucount`
   CategoryID: commands
   Summary: >-
     Output the number of CPU cores available on your host
@@ -122,7 +122,7 @@
     4
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   - cpucount
   - sys.cpu.count

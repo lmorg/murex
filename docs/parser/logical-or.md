@@ -60,14 +60,14 @@ There is no workaround for `trypipe`.
   Returns the right operand if the left operand is falsy (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

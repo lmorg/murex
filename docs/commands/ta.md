@@ -1,4 +1,4 @@
-# `ta` (mkarray)
+# list.new.type: `ta`
 
 > A sophisticated yet simple way to build an array of a user defined data-type
 
@@ -52,6 +52,12 @@ if you are only creating arrays in JSON then you could use `ja` instead.
 Please read the documentation on `a` for a more detailed breakdown on of
 `ta`'s supported features.
 
+## Synonyms
+
+* `ta`
+* `list.new.type`
+
+
 ## See Also
 
 * [`%[]` Array Builder](../parser/create-array.md):
@@ -62,14 +68,14 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [list.reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [struct.count: `count`](../commands/count.md):
+  Count items in a map, list or array
 
 <hr/>
 

@@ -1,11 +1,15 @@
 - DocumentID: count
   Title: >+
-    `count`
+    struct.count: `count`
   CategoryID: commands
   Summary: >-
     Count items in a map, list or array
   Description: |-
+    Counts the number of items in a structure, be that a list, map or other object
+    type.
 
+    `count` has several modes ranging from updating values in place, returning new
+    structures, or just outputting totals.
   Usage: |-
     ```
     <stdin> -> count [ --duplications | --unique | --total ] -> <stdout>
@@ -128,7 +132,7 @@
   Synonyms:
     - count
     - len
-    - list.count
+    - struct.count
   Related:
     - prepend
     - append

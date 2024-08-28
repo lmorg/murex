@@ -1,6 +1,6 @@
 - DocumentID: murex-package
   Title: >+
-    `murex-package`
+    shell.packages: `murex-package`
   CategoryID: commands
   Summary: >-
     Murex's package manager
@@ -90,6 +90,8 @@
     `murex-package list loaded` instead. This is also equivalent to using
     `runtime --modules`.
   Synonyms:
+  - murex.package
+  - shell.packages
   Related:
   - runtime
   - config

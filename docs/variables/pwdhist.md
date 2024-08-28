@@ -70,10 +70,10 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   JavaScript Object Notation (JSON)
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

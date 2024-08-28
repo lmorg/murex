@@ -1,6 +1,6 @@
 - DocumentID: jsplit
   Title: >-
-    `jsplit` 
+    str.split: `jsplit` 
   CategoryID: commands
   Summary: >-
     Splits stdin into a JSON array based on a regex parameter
@@ -32,7 +32,7 @@
     
   Synonyms:
   - jsplit
-  - list.split
+  - str.split
   Related:
   - prepend
   - append

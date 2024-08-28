@@ -1,7 +1,7 @@
 - DocumentID: file-truncate
   Title: >+
-    `|>` Truncate File
-  CategoryID: parser
+    fs.truncate: `>`
+  CategoryID: command
   Summary: >-
     Writes stdin to disk - overwriting contents if file already exists
   Description: |-
@@ -19,8 +19,9 @@
     ```
   Detail:
   Synonyms:
-    - "|>"
     - ">"
+    - fs.truncate
+    - "|>"
     - "fwrite"
   Related:
     - file-append
@@ -36,7 +37,7 @@
 
 - DocumentID: pt
   Title: >+
-    `pt`
+    fs.status: `pt`
   CategoryID: commands
   Summary: >-
     Pipe telemetry. Writes data-types and bytes written
@@ -56,6 +57,8 @@
     `getfile`)
   Detail:
   Synonyms:
+    - pt
+    - fs.status
   Related:
     - file-truncate
     - file-append

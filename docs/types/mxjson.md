@@ -60,12 +60,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Quickly generate objects (dictionaries / maps)
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
@@ -76,20 +72,24 @@ Any block quoted by this method will be converted to the following valid JSON:
   Concatenated JSON
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

@@ -1,6 +1,6 @@
 - DocumentID: addheading
   Title: >-
-    `addheading` 
+    table.new.heading: `addheading` 
   CategoryID: commands
   Summary: >-
     Adds headings to a table
@@ -20,6 +20,8 @@
     ```
   Detail:
   Synonyms:
+  - addheading
+  - table.new.heading
   Related:
   - item-index
   - element

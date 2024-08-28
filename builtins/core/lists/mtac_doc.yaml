@@ -1,6 +1,6 @@
 - DocumentID: mtac
   Title: >+
-    `mtac`
+    list.reverse: `mtac`
   CategoryID: commands
   Summary: >-
     Reverse the order of an array

@@ -36,14 +36,14 @@ under `/integrations`.
   A breakdown of the different files loaded on start up
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 ## Other Integrations
 

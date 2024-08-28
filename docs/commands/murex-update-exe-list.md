@@ -1,4 +1,4 @@
-# `murex-update-exe-list`
+# shell.rescan.path: `murex-update-exe-list`
 
 > Forces Murex to rescan $PATH looking for executables
 
@@ -26,13 +26,19 @@ murex-update-exe-list
 Murex will automatically update the exe list each time tab completion is
 invoked for command name completion via the REPL shell.
 
+## Synonyms
+
+* `murex-update-exe-list`
+* `shell.rescan.path`
+
+
 ## See Also
 
-* [`cpuarch`](../commands/cpuarch.md):
+* [sys.cpu.arch: `cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [`cpucount`](../commands/cpucount.md):
+* [sys.cpu.count: `cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [`os`](../commands/os.md):
+* [sys.os: `os`](../commands/os.md):
   Output the auto-detected OS name
 
 <hr/>

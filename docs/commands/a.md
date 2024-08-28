@@ -1,4 +1,4 @@
-# `a` (mkarray)
+# list.new.str: `a` (mkarray)
 
 > A sophisticated yet simple way to build an array or list
 
@@ -159,6 +159,13 @@ arrays. For more details on these please refer to the documents for each format
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 
+## Synonyms
+
+* `a`
+* `mkarray`
+* `list.new.str`
+
+
 ## See Also
 
 * [`%[]` Array Builder](../parser/create-array.md):
@@ -169,16 +176,16 @@ arrays. For more details on these please refer to the documents for each format
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
 * [`str` (string)](../types/str.md):
   string (primitive)
-* [`ta` (mkarray)](../commands/ta.md):
+* [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [list.reverse: `mtac`](../commands/mtac.md):
+  Reverse the order of an array
+* [struct.count: `count`](../commands/count.md):
+  Count items in a map, list or array
 
 <hr/>
 

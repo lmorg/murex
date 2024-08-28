@@ -36,14 +36,14 @@ AMD64 or other 64bit built of Murex would see the range from
   Reformat one data-type into another data-type
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`str` (string)](../types/str.md):
   string (primitive)
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
+* [shell.runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 ### Read more about type hooks
 

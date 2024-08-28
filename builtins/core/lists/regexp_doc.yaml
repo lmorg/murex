@@ -1,6 +1,6 @@
 - DocumentID: match
   Title: >+
-    `match`
+    list.str: `match`
   CategoryID: commands
   Summary: >-
     Match an exact value in an array
@@ -64,8 +64,8 @@
   Synonyms:
     - match
     - "!match"
-    - list.string
-    - "!list.string"
+    - list.str
+    - "!list.str"
   Related:
     - a
     - ja
@@ -86,7 +86,7 @@
 
 - DocumentID: regexp
   Title: >+
-    `regexp`
+    list.regex: `regexp`
   CategoryID: commands
   Summary: >-
     Regexp tools for arrays / lists of strings

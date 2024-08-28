@@ -1,4 +1,4 @@
-# `tout`
+# io.out.type: `tout`
 
 > Print a string to the stdout and set it's data-type
 
@@ -29,6 +29,12 @@ tout data-type "string to write" -> <stdout>
 
 Unlike `out`, `tout` does not append a carriage return / line feed.
 
+## Synonyms
+
+* `tout`
+* `io.out.type`
+
+
 ## See Also
 
 * [ANSI Constants](../user-guide/ansi.md):
@@ -37,13 +43,13 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Write a string to the stdout without new line (deprecated)
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`err`](../commands/err.md):
-  Print a line to the stderr
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [`pretty`](../commands/pretty.md):
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 
 <hr/>

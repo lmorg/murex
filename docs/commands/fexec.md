@@ -1,4 +1,4 @@
-# `fexec` 
+# exec.*: `fexec` 
 
 > Execute a command or function, bypassing the usual order of precedence.
 
@@ -73,34 +73,37 @@ alias to `fexec builtin`
 
 * `fexec`
 * `builtin`
+* `exec.builtin`
+* `exec.function`
+* `exec.private`
 
 
 ## See Also
 
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`fg`](../commands/fg.md):
-  Sends a background process into the foreground
 * [`function`](../commands/function.md):
   Define a function block
-* [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
 * [`private`](../commands/private.md):
   Define a private function block
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
+* [exec.file: `exec`](../commands/exec.md):
+  Runs an executable
+* [exec.include: `source`](../commands/source.md):
+  Import Murex code from another file or code block
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
+* [proc.fg: `fg`](../commands/fg.md):
+  Sends a background process into the foreground
+* [proc.list: `jobs`](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [shell.builtins: `builtins`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 <hr/>
 

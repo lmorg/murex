@@ -1,6 +1,6 @@
 - DocumentID: summary
   Title: >+
-    `summary` 
+    shell.summary: `summary` 
   CategoryID: commands
   Summary: >-
     Defines a summary help text for a command
@@ -43,6 +43,8 @@
   Synonyms:
   - summary
   - "!summary"
+  - shell.summary
+  - "!shell.summary"
   Related:
   - config
   - runtime
@@ -117,7 +119,7 @@
 
 - DocumentID: man-get-flags
   Title: >+
-    `man-get-flags` 
+    help.man.flags: `man-get-flags` 
   CategoryID: commands
   Summary: >-
     Parses man page files for command line flags 
@@ -162,6 +164,8 @@
     a margin for error with how reliably any parser can autodetect parameters. one
     requirement is that flags are hyphen prefixed, eg `--flag`.
   Synonyms:
+  - man-get-flags
+  - help.man.flags
   Related:
   - murex-docs
   - summary

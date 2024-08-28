@@ -95,18 +95,18 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   JavaScript Object Notation (JSON)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+* [shell.runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

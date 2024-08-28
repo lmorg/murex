@@ -185,18 +185,18 @@ The following meta values are defined:
   Quickly generate arrays
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`alter`](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`datetime`](../commands/datetime.md):
-  A date and/or time conversion tool (like `printf` but for date and time values)
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
 * [`while`](../commands/while.md):
   Loop until condition false
+* [list.regex: `regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [str.datetime: `datetime`](../commands/datetime.md):
+  A date and/or time conversion tool (like `printf` but for date and time values)
+* [struct.alter: `alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

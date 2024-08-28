@@ -30,11 +30,11 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   Overview of what a "pipeline" is
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`export`](../commands/export.md):
+* [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [`global`](../commands/global.md):
+* [var.global: `global`](../commands/global.md):
   Define a global variable and set it's value
-* [`set`](../commands/set.md):
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

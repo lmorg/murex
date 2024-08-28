@@ -166,14 +166,14 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
   Absolute path to running shell
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`bg`](../commands/bg.md):
-  Run processes in the background
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`out`](../commands/out.md):
+* [io.out: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [onSignalReceived](../events/onsignalreceived.md):
   Trap OS signals
+* [proc.bg: `bg`](../commands/bg.md):
+  Run processes in the background
 
 <hr/>
 

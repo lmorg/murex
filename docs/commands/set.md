@@ -1,4 +1,4 @@
-# `set`
+# var.set: `set`
 
 > Define a local variable and set it's value
 
@@ -248,6 +248,8 @@ bar
 
 * `set`
 * `!set`
+* `var.set`
+* `!var.set`
 
 
 ## See Also
@@ -264,16 +266,16 @@ bar
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
 * [`is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
+* [exec.file: `exec`](../commands/exec.md):
+  Runs an executable
+* [var.env: `export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
 
 <hr/>
 

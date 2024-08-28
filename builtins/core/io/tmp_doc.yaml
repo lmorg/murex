@@ -1,6 +1,6 @@
 - DocumentID: tmp
   Title: >+
-    `tmp`
+    fs.new.tmpfile: `tmp`
   CategoryID: commands
   Summary: >-
     Create a temporary file and write to it
@@ -40,6 +40,8 @@
     which itself is located in the appropriate temp directory for the host OS (eg
     `$TMPDIR` on macOS).
   Synonyms:
+    - tmp
+    - fs.new.tmpfile
   Related:
     - open
     - file-truncate

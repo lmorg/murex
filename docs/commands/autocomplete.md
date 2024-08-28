@@ -1,4 +1,4 @@
-# `autocomplete`
+# shell.autocomplete: `autocomplete`
 
 > Set definitions for tab-completion in the command line
 
@@ -604,6 +604,12 @@ for that command rather than for `sudo` itself.
 Specifies if a match is required for the index in this schema. ie optional
 flags.
 
+## Synonyms
+
+* `autocomplete`
+* `shell.autocomplete`
+
+
 ## See Also
 
 * [`<stdin>`](../commands/stdin.md):
@@ -612,20 +618,20 @@ flags.
   Outputs an element from an array, map or table
 * [`alias`](../commands/alias.md):
   Create an alias for a command
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`function`](../commands/function.md):
   Define a function block
 * [`get-type`](../commands/get-type.md):
   Returns the data-type of a variable or pipe
 * [`private`](../commands/private.md):
   Define a private function block
-* [`summary` ](../commands/summary.md):
-  Defines a summary help text for a command
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.summary: `summary` ](../commands/summary.md):
+  Defines a summary help text for a command
 
 <hr/>
 

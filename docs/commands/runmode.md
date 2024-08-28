@@ -87,22 +87,14 @@ if `runmode ... module` is set.
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
 * [`function`](../commands/function.md):
   Define a function block
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
-* [`read`](../commands/read.md):
-  `read` a line of input from the user and store as a variable
 * [`try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`tryerr`](../commands/tryerr.md):
@@ -113,6 +105,14 @@ if `runmode ... module` is set.
   Checks state of each function in a pipeline and exits block on error
 * [`unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
+* [io.input: `read`](../commands/read.md):
+  `read` a line of input from the user and store as a variable
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [proc.list: `fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 
 <hr/>
 

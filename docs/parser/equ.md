@@ -198,19 +198,19 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`set`](../commands/set.md):
+* [var.env: `export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

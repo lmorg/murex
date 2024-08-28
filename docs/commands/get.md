@@ -99,12 +99,12 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

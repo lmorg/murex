@@ -191,8 +191,6 @@ jsonl
 
 ## See Also
 
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`foreach`](../commands/foreach.md):
@@ -205,10 +203,12 @@ jsonl
   A sophisticated yet simply way to build a JSON array
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`while`](../commands/while.md):
   Loop until condition false
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

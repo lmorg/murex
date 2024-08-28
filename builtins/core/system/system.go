@@ -4,7 +4,6 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/posix"
@@ -14,12 +13,6 @@ func init() {
 	lang.DefineFunction("os", cmdOs, types.String)
 	lang.DefineFunction("cpuarch", cmdCpuArch, types.String)
 	lang.DefineFunction("cpucount", cmdCpuCount, types.Integer)
-
-	defaults.AppendProfile(`
-		alias  sys.os        =  os
-		alias  sys.cpu.arch  =  cpuarch
-		alias  sys.cpu.count =  cpucount
-	`)
 }
 
 func cmdOs(p *lang.Process) error {

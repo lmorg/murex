@@ -1,4 +1,4 @@
-# `global`
+# var.global: `global`
 
 > Define a global variable and set it's value
 
@@ -249,6 +249,8 @@ bar
 
 * `global`
 * `!global`
+* `var.global`
+* `!var.global`
 
 
 ## See Also
@@ -265,13 +267,13 @@ bar
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
-* [`set`](../commands/set.md):
+* [var.env: `export`](../commands/export.md):
+  Define an environmental variable and set it's value
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

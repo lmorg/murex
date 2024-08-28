@@ -1,6 +1,6 @@
 - DocumentID: runtime
   Title: >+
-    `runtime`
+    shell.runtime: `runtime`
   CategoryID: commands
   Summary: >-
     Returns runtime information on the internal state of Murex
@@ -286,6 +286,7 @@
   Synonyms:
   - runtime
   - builtins
+  - shell.runtime
   Related:
   - set
   - let

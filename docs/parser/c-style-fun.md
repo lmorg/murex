@@ -103,14 +103,14 @@ It is 23 o' clock
 
 * [Language Tour](../Murex/tour.md):
   Getting started with Murex
-* [`datetime`](../commands/datetime.md):
-  A date and/or time conversion tool (like `printf` but for date and time values)
-* [`echo`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`open`](../commands/open.md):
+* [fs.open: `open`](../commands/open.md):
   Open a file with a preferred handler
+* [io.echo: `echo`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [str.datetime: `datetime`](../commands/datetime.md):
+  A date and/or time conversion tool (like `printf` but for date and time values)
 * [sub-shell](../parser/sub-shell.md):
   
 

@@ -1,6 +1,6 @@
 - DocumentID: namedpipe
   Title: >+
-    `<pipe>` Read Named Pipe
+    io.pipe: `<pipe>` Read Named Pipe
   CategoryID: commands
   Summary: >-
     Reads from a Murex named pipe
@@ -39,6 +39,7 @@
     - "(murex named pipe)"
     - "<>"
     - read-named-pipe
+    - io.pipe
   Related:
     - pipe
     - stdin

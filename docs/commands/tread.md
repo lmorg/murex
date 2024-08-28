@@ -46,18 +46,18 @@ variable.
   Initiates or terminates a string (variables expanded)
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`err`](../commands/err.md):
-  Print a line to the stderr
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`read`](../commands/read.md):
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.input: `read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
-* [`tout`](../commands/tout.md):
+* [io.out.type: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [struct.json.pretty: `pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 
 <hr/>
 

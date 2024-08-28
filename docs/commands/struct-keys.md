@@ -1,4 +1,4 @@
-# `struct-keys`
+# struct.keys: `struct-keys`
 
 > Outputs all the keys in a structure as a file path
 
@@ -156,6 +156,12 @@ Separator can also be multiple characters:
 * `-s`
     Alias for `--separator`
 
+## Synonyms
+
+* `struct-keys`
+* `struct.keys`
+
+
 ## See Also
 
 * [`[ Index ]`](../parser/item-index.md):
@@ -164,7 +170,7 @@ Separator can also be multiple characters:
   Outputs an element from a nested structure
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`set`](../commands/set.md):
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>

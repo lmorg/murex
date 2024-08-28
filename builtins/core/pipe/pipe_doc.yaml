@@ -1,6 +1,6 @@
 - DocumentID: pipe
   Title: >+
-    `pipe`
+    io.new.pipe: `pipe`
   CategoryID: commands
   Summary: >-
     Manage Murex named pipes
@@ -46,6 +46,8 @@
   Synonyms:
   - pipe
   - "!pipe"
+  - io.new.pipe
+  - "!io.new.pipe"
   Related:
   - namedpipe
   - stdin

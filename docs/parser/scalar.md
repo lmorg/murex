@@ -173,12 +173,12 @@ do not.
   A sophisticated yet simply way to build a JSON array
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

@@ -54,10 +54,10 @@ changing this option will not cause accidental side-effects in other functions.
   Getting started with Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

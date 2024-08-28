@@ -42,12 +42,12 @@ This is a reserved variable so it cannot be changed.
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`str` (string)](../types/str.md):
   string (primitive)
 * [`string` (stringing)](../types/str.md):
   string (primitive)
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

@@ -1,6 +1,6 @@
 - DocumentID: open
   Title: >+
-    `open`
+    fs.open: `open`
   CategoryID: commands
   Summary: >-
     Open a file with a preferred handler
@@ -155,6 +155,8 @@
     exec open --flags filename
     ```
   Synonyms:
+  - open
+  - fs.open
   Related:
   - openagent
   - fexec
@@ -170,7 +172,7 @@
 
 - DocumentID: openagent
   Title: >+
-    `openagent`
+    shell.open: `openagent`
   CategoryID: commands
   Summary: >-
     Creates a handler function for `open`
@@ -205,6 +207,8 @@
   Synonyms:
   - openagent
   - "!openagent"
+  - shell.open
+  - "!shell.open"
   Related:
   - open
   - fexec

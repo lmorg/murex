@@ -1,4 +1,4 @@
-# `config`
+# shell.config: `config`
 
 > Query or define Murex runtime settings
 
@@ -231,6 +231,8 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 * `config`
 * `!config`
+* `shell.config`
+* `!shell.config`
 
 
 ## See Also
@@ -241,10 +243,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Outputs an element from an array, map or table
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`alter`](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
-  Add data to the end of an array
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`function`](../commands/function.md):
@@ -253,14 +251,18 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [`runtime`](../commands/runtime.md):
+* [fs.open: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [list.append: `append`](../commands/append.md):
+  Add data to the end of an array
+* [list.str: `match`](../commands/match.md):
+  Match an exact value in an array
+* [shell.runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [struct.alter: `alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

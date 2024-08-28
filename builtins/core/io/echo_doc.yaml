@@ -1,6 +1,6 @@
 - DocumentID: out
   Title: >+
-    `out`
+    io.out: `out`
   CategoryID: commands
   Summary: >-
     Print a string to the stdout with a trailing new line character
@@ -35,6 +35,7 @@
     `out` supports ANSI constants.
   Synonyms:
     - out
+    - io.out
     - echo
   Related:
     - tout
@@ -52,7 +53,7 @@
 
 - DocumentID: tout
   Title: >+
-    `tout`
+    io.out.type: `tout`
   CategoryID: commands
   Summary: >-
     Print a string to the stdout and set it's data-type
@@ -76,6 +77,8 @@
 
     Unlike `out`, `tout` does not append a carriage return / line feed.
   Synonyms:
+    - tout
+    - io.out.type
   Related:
     - out
     - err
@@ -141,7 +144,7 @@
 
 - DocumentID: err
   Title: >+
-    `err`
+    io.err: `err`
   CategoryID: commands
   Summary: >-
     Print a line to the stderr
@@ -185,6 +188,8 @@
 
     `err` supports ANSI constants.
   Synonyms:
+    - err
+    - io.err
   Related:
     - tout
     - out

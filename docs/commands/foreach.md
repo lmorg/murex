@@ -324,14 +324,10 @@ jsonl
   Read from a data type one array element at a time and return the elements contents and data type
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`debug`](../commands/debug.md):
-  Debugging information
 * [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [`formap`](../commands/formap.md):
@@ -346,14 +342,18 @@ jsonl
   JavaScript Object Notation (JSON)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`left`](../commands/left.md):
-  Left substring every item in a list
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`while`](../commands/while.md):
   Loop until condition false
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [list.left: `left`](../commands/left.md):
+  Left substring every item in a list
+* [list.new.str: `a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [shell.debug: `debug`](../commands/debug.md):
+  Debugging information
 
 <hr/>
 

@@ -37,7 +37,7 @@ have to `cast` the output in some circumstances.
 
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`open-image`](../commands/open-image.md):
+* [fs.open.image: `open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
 
 <hr/>

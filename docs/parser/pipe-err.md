@@ -45,18 +45,18 @@ Hello, world!? regexp s/world/Earth/
   Overview of what a "pipeline" is
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
+* [io.err: `err`](../commands/err.md):
+  Print a line to the stderr
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+  Reads from a Murex named pipe
+* [list.regex: `regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 
 <hr/>
 

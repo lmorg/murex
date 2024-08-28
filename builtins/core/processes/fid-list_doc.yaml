@@ -1,6 +1,6 @@
 - DocumentID: fid-list
   Title: >+
-    `fid-list`
+    proc.list: `fid-list`
   CategoryID: commands
   Summary: >-
     Lists all running functions within the current Murex session
@@ -54,6 +54,8 @@
   Synonyms:
     - fid-list
     - jobs
+    - proc.list
+    - proc.jobs
   Related:
     - fid-kill
     - fid-killall

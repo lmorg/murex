@@ -168,8 +168,6 @@ from different interrupts).
   Linux/UNIX `man` page integrations
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`function`](../commands/function.md):
@@ -182,6 +180,8 @@ from different interrupts).
   Custom definable key bindings and macros
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

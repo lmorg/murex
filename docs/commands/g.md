@@ -1,4 +1,4 @@
-# `g`
+# fs.glob: `g`
 
 > Glob pattern matching for file system objects (eg `*.txt`)
 
@@ -132,18 +132,20 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
 
 * `g`
 * `!g`
+* `fs.glob`
+* `!fs.glob`
 
 
 ## See Also
 
-* [`f`](../commands/f.md):
+* [fs.files: `f`](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [`rx`](../commands/rx.md):
+* [fs.regex: `rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+* [list.regex: `regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [list.str: `match`](../commands/match.md):
+  Match an exact value in an array
 
 <hr/>
 

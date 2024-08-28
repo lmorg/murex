@@ -219,8 +219,6 @@ switch {
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`true`](../commands/true.md):
   Returns a `true` value
 * [`try`](../commands/try.md):
@@ -229,6 +227,8 @@ switch {
   Checks for non-zero exits of each function in a pipeline
 * [`while`](../commands/while.md):
   Loop until condition false
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

@@ -64,18 +64,18 @@ then variables `$1` through to `$19` (inclusive) will all be set.
   Array of the command name and parameters within a given scope
 * [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`function`](../commands/function.md):
   Define a function block
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
+* [io.out: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

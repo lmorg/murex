@@ -53,10 +53,6 @@ scope. Subshells also do not create a new scope either.
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`foreach`](../commands/foreach.md):
@@ -67,16 +63,20 @@ scope. Subshells also do not create a new scope either.
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
 * [`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+* [exec.include: `source`](../commands/source.md):
+  Import Murex code from another file or code block
+* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [shell.config: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [shell.open: `openagent`](../commands/openagent.md):
+  Creates a handler function for `open`
+* [var.set: `set`](../commands/set.md):
+  Define a local variable and set it's value
 
 <hr/>
 

@@ -41,12 +41,12 @@ and stderr as usual.
 
 ## See Also
 
-* [`exec`](../commands/exec.md):
-  Runs an executable
 * [`sleep`](../optional/sleep.md):
   Suspends the shell for a number of seconds
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
+* [exec.file: `exec`](../commands/exec.md):
+  Runs an executable
+* [exec.include: `source`](../commands/source.md):
+  Import Murex code from another file or code block
 
 <hr/>
 

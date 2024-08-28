@@ -1,6 +1,6 @@
 - DocumentID: version
   Title: >+
-    `version`
+    shell.version: `version`
   CategoryID: commands
   Summary: >-
     Get Murex version
@@ -38,6 +38,8 @@
       Returns full version string minus app name
   Detail:
   Synonyms:
+    - version
+    - shell.version
   Related:
     - config
     - runtime

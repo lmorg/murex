@@ -1,4 +1,4 @@
-# `export`
+# var.env: `export`
 
 > Define an environmental variable and set it's value
 
@@ -265,6 +265,8 @@ bar
 * `export`
 * `!export`
 * `unset`
+* `var.env`
+* `!var.env`
 
 
 ## See Also
@@ -279,11 +281,11 @@ bar
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
 * [`is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
-* [`set`](../commands/set.md):
+* [var.global: `global`](../commands/global.md):
+  Define a global variable and set it's value
+* [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 
 <hr/>
