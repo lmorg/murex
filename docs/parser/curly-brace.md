@@ -86,12 +86,12 @@ constants are available.
   string (primitive)
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out.type: `tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
+* [io.out.type (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 

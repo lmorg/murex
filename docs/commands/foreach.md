@@ -346,13 +346,13 @@ jsonl
   Loop until condition false
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [list.left: `left`](../commands/left.md):
+* [list.left](../commands/left.md):
   Left substring every item in a list
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [shell.debug: `debug`](../commands/debug.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [shell.debug](../commands/debug.md):
   Debugging information
 
 <hr/>

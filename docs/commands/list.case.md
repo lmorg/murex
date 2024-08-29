@@ -1,4 +1,4 @@
-# list.case: `list.case` 
+# list.case
 
 > Changes the character case of a string or all elements in an array
 

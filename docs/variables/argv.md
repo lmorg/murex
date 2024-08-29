@@ -79,18 +79,18 @@ deprecated and may be removed from future releases.
   Expand values as an array
 * [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
-* [`function`](../commands/function.md):
-  Define a function block
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 

@@ -65,7 +65,7 @@ command.
   Checks for non-zero exits of each function in a pipeline
 * [`unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

@@ -167,13 +167,13 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   JavaScript Object Notation (JSON)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
-* [struct.alter: `alter`](../commands/alter.md):
+* [struct.alter](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

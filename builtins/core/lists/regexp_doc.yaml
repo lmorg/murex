@@ -1,6 +1,6 @@
 - DocumentID: match
   Title: >+
-    list.str: `match`
+    list.str (`match`)
   CategoryID: commands
   Summary: >-
     Match an exact value in an array
@@ -86,7 +86,7 @@
 
 - DocumentID: regexp
   Title: >+
-    list.regex: `regexp`
+    list.regex
   CategoryID: commands
   Summary: >-
     Regexp tools for arrays / lists of strings

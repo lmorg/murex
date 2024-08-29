@@ -46,7 +46,7 @@ try {
   Checks for non-zero exits of each function in a pipeline
 * [`trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

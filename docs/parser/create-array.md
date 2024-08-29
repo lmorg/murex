@@ -189,8 +189,8 @@ arrays. For more details on these please refer to the documents for each format
   Expressions: mathematical, string comparisons, logical operators
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 

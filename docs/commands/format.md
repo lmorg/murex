@@ -30,7 +30,7 @@ Two: 2
   Converts a structured file format into structured memory
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [io.out.type: `tout`](../commands/tout.md):
+* [io.out.type (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 
 <hr/>

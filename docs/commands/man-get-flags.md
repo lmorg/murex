@@ -1,4 +1,4 @@
-# help.man.flags: `man-get-flags` 
+# help.man.flags
 
 > Parses man page files for command line flags 
 
@@ -62,9 +62,9 @@ requirement is that flags are hyphen prefixed, eg `--flag`.
 
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [help.man.summary: `man-summary`](../commands/man-summary.md):
+* [help.man.summary](../commands/man-summary.md):
   Outputs a man page summary of a command
-* [shell.summary: `summary` ](../commands/summary.md):
+* [shell.summary](../commands/summary.md):
   Defines a summary help text for a command
 
 <hr/>

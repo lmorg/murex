@@ -56,7 +56,7 @@ changing this option will not cause accidental side-effects in other functions.
   How scoping works within Murex
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

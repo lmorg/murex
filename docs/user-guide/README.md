@@ -145,10 +145,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 * [`!` (not)](../commands/not-func.md):
   Reads the stdin and exit number from previous process and not's it's condition
-* [`<stdin>`](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`args` ](../commands/args.md):
@@ -181,8 +177,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`function`](../commands/function.md):
-  Define a function block
 * [`get-type`](../commands/get-type.md):
   Returns the data-type of a variable or pipe
 * [`get`](../commands/get.md):
@@ -199,20 +193,14 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Returns character sequences for any key pressed (ie sent from the terminal)
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [`murex-parser` ](../commands/murex-parser.md):
-  Runs the Murex parser against a block of code 
 * [`null`](../commands/devnull.md):
   null function. Similar to /dev/null
 * [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`rand`](../commands/rand.md):
   Random field generator
 * [`return`](../commands/return.md):
@@ -229,8 +217,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Murex's test framework - define tests, run tests and debug shell scripts
 * [`time`](../commands/time.md):
   Returns the execution run time of a command or block
-* [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 * [`true`](../commands/true.md):
   Returns a `true` value
 * [`try`](../commands/try.md):
@@ -249,139 +235,151 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Locate command origin
 * [`while`](../commands/while.md):
   Loop until condition false
-* [escape.cli: `esccli`](../commands/esccli.md):
+* [escape.cli](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [escape.html: `eschtml`](../commands/eschtml.md):
+* [escape.html](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [escape.quote: `escape`](../commands/escape.md):
+* [escape.quote](../commands/escape.md):
   Escape or unescape input
-* [escape.url: `escurl`](../commands/escurl.md):
+* [escape.url](../commands/escurl.md):
   Encode or decodes text for the URL
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [fs.files: `f`](../commands/f.md):
+* [fs.files (`f`)](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [fs.glob: `g`](../commands/g.md):
+* [fs.glob (`g`)](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [fs.lockfile: `lockfile`](../commands/lockfile.md):
+* [fs.lockfile](../commands/lockfile.md):
   Create and manage lock files
-* [fs.new.tmpfile: `tmp`](../commands/tmp.md):
-  Create a temporary file and write to it
-* [fs.open.image: `open-image`](../commands/open-image.md):
-  Renders bitmap image data on your terminal
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [fs.regex: `rx`](../commands/rx.md):
+* [fs.open.image](../commands/open-image.md):
+  Renders bitmap image data on your terminal
+* [fs.regex (`rx`)](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
-* [fs.status: `pt`](../commands/pt.md):
-  Pipe telemetry. Writes data-types and bytes written
-* [help.man.flags: `man-get-flags` ](../commands/man-get-flags.md):
+* [fs.tmpfile (`tmp`)](../commands/tmp.md):
+  Create a temporary file and write to it
+* [fs.truncate (`>`)](../commands/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
+* [help.man.flags](../commands/man-get-flags.md):
   Parses man page files for command line flags 
-* [help.man.summary: `man-summary`](../commands/man-summary.md):
+* [help.man.summary](../commands/man-summary.md):
   Outputs a man page summary of a command
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.input: `read`](../commands/read.md):
-  `read` a line of input from the user and store as a variable
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.in (`<stdin>`)](../commands/stdin.md):
+  Read the stdin belonging to the parent code block
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [io.out.type: `tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.out.type (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [list.append: `append`](../commands/append.md):
+* [io.read](../commands/read.md):
+  `read` a line of input from the user and store as a variable
+* [io.status (`pt`)](../commands/pt.md):
+  Pipe telemetry. Writes data-types and bytes written
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.case: `list.case` ](../commands/list.case.md):
+* [list.case](../commands/list.case.md):
   Changes the character case of a string or all elements in an array
-* [list.join: `mjoin` ](../commands/mjoin.md):
+* [list.join](../commands/mjoin.md):
   Joins a list or array into a single string
-* [list.left: `left`](../commands/left.md):
+* [list.left](../commands/left.md):
   Left substring every item in a list
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [list.prefix: `prefix`](../commands/prefix.md):
+* [list.prefix](../commands/prefix.md):
   Prefix a string to every item in a list
-* [list.prepend: `prepend`](../commands/prepend.md):
+* [list.prepend](../commands/prepend.md):
   Add data to the start of an array
-* [list.regex: `regexp`](../commands/regexp.md):
+* [list.regex](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [list.right: `right`](../commands/right.md):
+* [list.right](../commands/right.md):
   Right substring every item in a list
-* [list.sort: `msort`](../commands/msort.md):
+* [list.sort](../commands/msort.md):
   Sorts an array - data type agnostic
-* [list.str: `match`](../commands/match.md):
+* [list.str (`match`)](../commands/match.md):
   Match an exact value in an array
-* [list.suffix: `suffix`](../commands/suffix.md):
+* [list.suffix](../commands/suffix.md):
   Prefix a string to every item in a list
 * [num.round: `round`](../commands/round.md):
   Round a number by a user defined precision
-* [proc.bg: `bg`](../commands/bg.md):
+* [proc.bg](../commands/bg.md):
   Run processes in the background
-* [proc.exitnum: `exitnum`](../commands/exitnum.md):
+* [proc.exitnum](../commands/exitnum.md):
   Output the exit number of the previous process
-* [proc.fg: `fg`](../commands/fg.md):
+* [proc.fg](../commands/fg.md):
   Sends a background process into the foreground
-* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [proc.kill: `fid-kill`](../commands/fid-kill.md):
+* [proc.kill](../commands/fid-kill.md):
   Terminate a running Murex function
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.kill.all](../commands/fid-killall.md):
+  Terminate _all_ running Murex functions
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.alias](../commands/alias.md):
+  Create an alias for a command
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.builtins.exist: `bexists`](../commands/bexists.md):
+* [shell.builtins.exist](../commands/bexists.md):
   Check which builtins exist
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.debug: `debug`](../commands/debug.md):
+* [shell.debug](../commands/debug.md):
   Debugging information
-* [shell.history: `history`](../commands/history.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.history](../commands/history.md):
   Outputs murex's command history
+* [shell.method](../commands/method.md):
+  Define a methods supported data-types
 * [shell.open: `openagent`](../commands/openagent.md):
   Creates a handler function for `open`
-* [shell.packages: `murex-package`](../commands/murex-package.md):
+* [shell.packages (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
-* [shell.rescan.path: `murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [shell.rescan.path](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [shell.summary: `summary` ](../commands/summary.md):
+* [shell.summary](../commands/summary.md):
   Defines a summary help text for a command
-* [shell.version: `version`](../commands/version.md):
+* [shell.version](../commands/version.md):
   Get Murex version
 * [str.datetime: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
-* [struct.alter: `alter`](../commands/alter.md):
+* [struct.alter](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
-* [struct.json.pretty: `pretty`](../commands/pretty.md):
+* [struct.json.pretty](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [struct.keys: `struct-keys`](../commands/struct-keys.md):
+* [struct.keys](../commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
-* [struct.new.2darray: `2darray` ](../commands/2darray.md):
+* [struct.new.2darray](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [struct.new.map: `map`](../commands/map.md):
+* [struct.new.map (`map`)](../commands/map.md):
   Creates a map from two data sources
-* [sys.cpu.arch: `cpuarch`](../commands/cpuarch.md):
+* [sys.cpu.arch](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [sys.cpu.count: `cpucount`](../commands/cpucount.md):
+* [sys.cpu.count](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [sys.os: `os`](../commands/os.md):
+* [sys.os](../commands/os.md):
   Output the auto-detected OS name
-* [table.new.heading: `addheading` ](../commands/addheading.md):
+* [table.add.heading](../commands/addheading.md):
   Adds headings to a table
 * [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value

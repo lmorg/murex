@@ -62,14 +62,14 @@ was passed).
   Terminate process of a block within a caller function
 * [`exit`](../commands/exit.md):
   Exit murex
-* [`function`](../commands/function.md):
-  Define a function block
-* [`private`](../commands/private.md):
-  Define a private function block
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [proc.exitnum: `exitnum`](../commands/exitnum.md):
+* [proc.exitnum](../commands/exitnum.md):
   Output the exit number of the previous process
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
 
 <hr/>
 

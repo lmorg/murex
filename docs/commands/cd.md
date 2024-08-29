@@ -81,7 +81,7 @@ config set shell auto-cd true
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
 
 <hr/>

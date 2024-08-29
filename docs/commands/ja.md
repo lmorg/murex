@@ -66,13 +66,13 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from a nested structure
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

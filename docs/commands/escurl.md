@@ -1,4 +1,4 @@
-# escape.url: `escurl`
+# escape.url
 
 > Encode or decodes text for the URL
 
@@ -60,11 +60,11 @@ out '%21%3F%20%3C%3E%0A' -> !escurl
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [escape.cli: `esccli`](../commands/esccli.md):
+* [escape.cli](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [escape.html: `eschtml`](../commands/eschtml.md):
+* [escape.html](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [escape.quote: `escape`](../commands/escape.md):
+* [escape.quote](../commands/escape.md):
   Escape or unescape input
 
 <hr/>

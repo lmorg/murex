@@ -223,19 +223,19 @@ give you as much useful detail as it can.
   A list of all the terminal hotkeys and their uses
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.method](../commands/method.md):
+  Define a methods supported data-types
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

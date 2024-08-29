@@ -58,11 +58,11 @@ empty Filename string.
   An introduction to Murex modules and packages
 * [`[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [shell.packages: `murex-package`](../commands/murex-package.md):
+* [shell.packages (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

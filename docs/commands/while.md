@@ -104,9 +104,9 @@ The following meta values are defined:
   Iterate through a map or other collection of data
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [var.global: `global`](../commands/global.md):
   Define a global variable and set it's value

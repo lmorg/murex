@@ -1,6 +1,6 @@
 - DocumentID: read
   Title: >+
-    io.input: `read`
+    io.read
   CategoryID: commands
   Summary: >-
     `read` a line of input from the user and store as a variable
@@ -90,7 +90,7 @@
 - DocumentID: tread
   Title: >+
     `tread`
-  CategoryID: commands
+  CategoryID: deprecated
   Summary: >-
     `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
   Description: |-

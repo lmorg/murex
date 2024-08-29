@@ -64,9 +64,9 @@ There is no workaround for `trypipe`.
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

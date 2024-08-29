@@ -25,7 +25,7 @@ beautifully.
 
 * [Kitty Integrations](../integrations/kitty.md):
   Get more out of Kitty terminal emulator
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
 * [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator

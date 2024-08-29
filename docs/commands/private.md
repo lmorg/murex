@@ -1,4 +1,4 @@
-# `private`
+# shell.private
 
 > Define a private function block
 
@@ -90,26 +90,32 @@ There is an order of precedence for which commands are looked up:
 
 You can override this order of precedence via the `fexec` and `exec` builtins.
 
+## Synonyms
+
+* `private`
+* `shell.private`
+
+
 ## See Also
 
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [`function`](../commands/function.md):
-  Define a function block
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [fs.glob: `g`](../commands/g.md):
+* [fs.glob (`g`)](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
+* [shell.alias](../commands/alias.md):
+  Create an alias for a command
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.method](../commands/method.md):
+  Define a methods supported data-types
 * [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [var.global: `global`](../commands/global.md):

@@ -1,4 +1,4 @@
-# sys.os: `os`
+# sys.os
 
 > Output the auto-detected OS name
 
@@ -77,9 +77,9 @@ then please write it as `os posix plan9`.
 
 ## See Also
 
-* [sys.cpu.arch: `cpuarch`](../commands/cpuarch.md):
+* [sys.cpu.arch](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [sys.cpu.count: `cpucount`](../commands/cpucount.md):
+* [sys.cpu.count](../commands/cpucount.md):
   Output the number of CPU cores available on your host
 
 <hr/>

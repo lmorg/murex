@@ -228,15 +228,15 @@ var rangeMoon = map[string]int{
   A sophisticated yet simply way to build a JSON array
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
 * [str.datetime: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

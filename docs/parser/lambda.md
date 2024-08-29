@@ -191,11 +191,11 @@ The following meta values are defined:
   Iterate through a map or other collection of data
 * [`while`](../commands/while.md):
   Loop until condition false
-* [list.regex: `regexp`](../commands/regexp.md):
+* [list.regex](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [str.datetime: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [struct.alter: `alter`](../commands/alter.md):
+* [struct.alter](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>

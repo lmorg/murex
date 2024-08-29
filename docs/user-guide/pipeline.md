@@ -81,7 +81,7 @@ document but you can read more on them in links the links below.
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [proc.bg: `bg`](../commands/bg.md):
+* [proc.bg](../commands/bg.md):
   Run processes in the background
 
 <hr/>

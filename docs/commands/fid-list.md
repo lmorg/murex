@@ -1,4 +1,4 @@
-# proc.list: `fid-list`
+# proc.list
 
 > Lists all running functions within the current Murex session
 
@@ -72,25 +72,25 @@ include:
   CSV files (and other character delimited tables)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [proc.bg: `bg`](../commands/bg.md):
-  Run processes in the background
-* [proc.fg: `fg`](../commands/fg.md):
-  Sends a background process into the foreground
-* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [proc.kill: `fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [proc.list: `jobs`](../commands/fid-list.md):
+* [jobs](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [shell.builtins.exist: `bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [shell.builtins: `builtins`](../commands/runtime.md):
+* [proc.bg](../commands/bg.md):
+  Run processes in the background
+* [proc.fg](../commands/fg.md):
+  Sends a background process into the foreground
+* [proc.kill](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.kill.all](../commands/fid-killall.md):
+  Terminate _all_ running Murex functions
+* [shell.builtins](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [shell.rescan.path: `murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [shell.builtins.exist](../commands/bexists.md):
+  Check which builtins exist
+* [shell.rescan.path](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
 
 <hr/>

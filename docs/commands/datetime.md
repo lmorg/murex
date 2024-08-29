@@ -91,8 +91,8 @@ required.
 
 * [`[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 
 <hr/>
 

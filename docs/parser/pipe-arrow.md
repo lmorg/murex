@@ -57,13 +57,13 @@ Hello, Earth!
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [list.regex: `regexp`](../commands/regexp.md):
+* [list.regex](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 
 <hr/>

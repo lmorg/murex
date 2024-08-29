@@ -80,7 +80,7 @@ use `config`)
   string (primitive)
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 * [table.select: `select`](../optional/select.md):
   Inlining SQL into shell pipelines

@@ -78,17 +78,17 @@ Any block quoted by this method will be converted to the following valid JSON:
   YAML Ain't Markup Language (YAML)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [struct.json.pretty: `pretty`](../commands/pretty.md):
+* [struct.json.pretty](../commands/pretty.md):
   Prettifies JSON to make it human readable
 
 ### Read more about type hooks

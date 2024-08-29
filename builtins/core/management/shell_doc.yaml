@@ -1,6 +1,6 @@
 - DocumentID: summary
   Title: >+
-    shell.summary: `summary` 
+    shell.summary
   CategoryID: commands
   Summary: >-
     Defines a summary help text for a command
@@ -60,7 +60,7 @@
 - DocumentID: murex-parser
   Title: >+
     `murex-parser` 
-  CategoryID: commands
+  CategoryID: deprecated
   Summary: >-
     Runs the Murex parser against a block of code 
   Description: |-
@@ -119,7 +119,7 @@
 
 - DocumentID: man-get-flags
   Title: >+
-    help.man.flags: `man-get-flags` 
+    help.man.flags
   CategoryID: commands
   Summary: >-
     Parses man page files for command line flags 

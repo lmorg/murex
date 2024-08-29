@@ -1,4 +1,4 @@
-# io.err: `err`
+# io.err
 
 > Print a line to the stderr
 
@@ -65,21 +65,21 @@ a new Murex named pipe.
   Writes stdin to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [fs.status: `pt`](../commands/pt.md):
-  Pipe telemetry. Writes data-types and bytes written
-* [fs.truncate: `>`](../command/file-truncate.md):
+* [fs.truncate (`>`)](../commands/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [io.out.type: `tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.out.type (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [proc.bg: `bg`](../commands/bg.md):
+* [io.status (`pt`)](../commands/pt.md):
+  Pipe telemetry. Writes data-types and bytes written
+* [proc.bg](../commands/bg.md):
   Run processes in the background
-* [struct.json.pretty: `pretty`](../commands/pretty.md):
+* [struct.json.pretty](../commands/pretty.md):
   Prettifies JSON to make it human readable
 
 <hr/>

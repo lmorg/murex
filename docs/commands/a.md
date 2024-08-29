@@ -1,11 +1,11 @@
-# list.new.str: `a` (mkarray)
+# list.new.str (`a`)
 
-> A sophisticated yet simple way to build an array or list
+> A sophisticated yet simple way to build an array or list (mkarray)
 
 ## Description
 
-Pronounced "make array", like `mkdir` (etc), Murex has a pretty sophisticated
-builtin for generating arrays. Think like bash's `{1..9}` syntax:
+_mkarray_, pronounced "make array" like `mkdir` (etc), is Murex's sophisticated
+syntax for generating arrays. Think like bash's `{1..9}` syntax:
 
 ```
 a [1..9]
@@ -13,6 +13,8 @@ a [1..9]
 
 Except Murex also supports other sets of ranges like dates, days of the week,
 and alternative number bases.
+
+This builtin streams arrays as a list of strings (`str`).
 
 ## Usage
 
@@ -182,9 +184,9 @@ arrays. For more details on these please refer to the documents for each format
   string (primitive)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

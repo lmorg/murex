@@ -31,7 +31,7 @@ bang prefix and what the behavior of that prefix is.
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

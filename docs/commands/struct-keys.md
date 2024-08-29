@@ -1,4 +1,4 @@
-# struct.keys: `struct-keys`
+# struct.keys
 
 > Outputs all the keys in a structure as a file path
 

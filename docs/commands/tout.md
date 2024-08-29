@@ -1,4 +1,4 @@
-# io.out.type: `tout`
+# io.out.type (`tout`)
 
 > Print a string to the stdout and set it's data-type
 
@@ -45,11 +45,11 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Alters the data-type of the previous function without altering its output
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [struct.json.pretty: `pretty`](../commands/pretty.md):
+* [struct.json.pretty](../commands/pretty.md):
   Prettifies JSON to make it human readable
 
 <hr/>

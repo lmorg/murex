@@ -167,7 +167,7 @@ if you want to learn more about shell scripting in Murex.
   Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
-* [fs.truncate: `>`](../command/file-truncate.md):
+* [fs.truncate (`>`)](../commands/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table

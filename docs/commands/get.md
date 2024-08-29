@@ -103,7 +103,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

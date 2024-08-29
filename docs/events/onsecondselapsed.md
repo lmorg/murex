@@ -60,7 +60,7 @@ Stdout and stderr are both written to the terminal.
 
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

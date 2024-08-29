@@ -1,6 +1,6 @@
 - DocumentID: source
   Title: >+
-    exec.include: `source`
+    exec.include (`source`)
   CategoryID: commands
   Summary: >-
     Import Murex code from another file or code block

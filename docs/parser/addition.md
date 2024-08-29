@@ -83,7 +83,7 @@ Error in `expr` (0,1): cannot Add with string types
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

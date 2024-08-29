@@ -1,4 +1,4 @@
-# str.split: `jsplit` 
+# str.split
 
 > Splits stdin into a JSON array based on a regex parameter
 
@@ -51,21 +51,21 @@ unwanted "noise" is stripped from the output.
   Outputs an element from a nested structure
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [list.prepend: `prepend`](../commands/prepend.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [list.prepend](../commands/prepend.md):
   Add data to the start of an array
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [list.sort: `msort`](../commands/msort.md):
+* [list.sort](../commands/msort.md):
   Sorts an array - data type agnostic
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
-* [struct.new.2darray: `2darray` ](../commands/2darray.md):
+* [struct.new.2darray](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [struct.new.map: `map`](../commands/map.md):
+* [struct.new.map (`map`)](../commands/map.md):
   Creates a map from two data sources
 
 <hr/>

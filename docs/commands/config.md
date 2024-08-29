@@ -1,4 +1,4 @@
-# shell.config: `config`
+# shell.config
 
 > Query or define Murex runtime settings
 
@@ -245,23 +245,23 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Outputs an element from a nested structure
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`function`](../commands/function.md):
-  Define a function block
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.str: `match`](../commands/match.md):
+* [list.str (`match`)](../commands/match.md):
   Match an exact value in an array
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [struct.alter: `alter`](../commands/alter.md):
+* [struct.alter](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>

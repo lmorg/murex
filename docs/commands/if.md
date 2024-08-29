@@ -147,7 +147,7 @@ code block as false. Otherwise, it will be considered true.
   Handles non-zero exits inside a block of code
 * [`trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [shell.debug: `debug`](../commands/debug.md):
+* [shell.debug](../commands/debug.md):
   Debugging information
 
 <hr/>

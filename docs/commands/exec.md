@@ -75,25 +75,25 @@ alias for `exec`.
 
 ## See Also
 
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [proc.bg: `bg`](../commands/bg.md):
+* [jobs](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [proc.bg](../commands/bg.md):
   Run processes in the background
-* [proc.fg: `fg`](../commands/fg.md):
+* [proc.fg](../commands/fg.md):
   Sends a background process into the foreground
-* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [proc.kill: `fid-kill`](../commands/fid-kill.md):
+* [proc.kill](../commands/fid-kill.md):
   Terminate a running Murex function
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.kill.all](../commands/fid-killall.md):
+  Terminate _all_ running Murex functions
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [proc.list: `jobs`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [shell.builtins.exist: `bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [shell.builtins: `builtins`](../commands/runtime.md):
+* [shell.builtins](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [shell.rescan.path: `murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [shell.builtins.exist](../commands/bexists.md):
+  Check which builtins exist
+* [shell.rescan.path](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

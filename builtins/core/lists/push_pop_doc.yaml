@@ -1,6 +1,6 @@
 - DocumentID: left
   Title: >+
-    list.left: `left`
+    list.left
   CategoryID: commands
   Summary: >-
     Left substring every item in a list
@@ -61,7 +61,7 @@
 
 - DocumentID: right
   Title: >+
-    list.right: `right`
+    list.right
   CategoryID: commands
   Summary: >-
     Right substring every item in a list
@@ -122,7 +122,7 @@
 
 - DocumentID: prefix
   Title: >+
-    list.prefix: `prefix`
+    list.prefix
   CategoryID: commands
   Summary: >-
     Prefix a string to every item in a list
@@ -167,7 +167,7 @@
 
 - DocumentID: suffix
   Title: >+
-    list.suffix: `suffix`
+    list.suffix
   CategoryID: commands
   Summary: >-
     Prefix a string to every item in a list

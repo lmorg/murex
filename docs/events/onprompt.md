@@ -135,7 +135,7 @@ from different interrupts).
   Custom definable key bindings and macros
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

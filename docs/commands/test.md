@@ -114,9 +114,9 @@ flushes the table of pending reports.
 
 ## See Also
 
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

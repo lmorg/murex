@@ -54,16 +54,16 @@ characters if you don't want them nested.
   Writes stdin to disk - appending contents if file already exists
 * [`cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [fs.status: `pt`](../commands/pt.md):
-  Pipe telemetry. Writes data-types and bytes written
-* [fs.truncate: `>`](../command/file-truncate.md):
+* [fs.truncate (`>`)](../commands/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out.type: `tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
+* [io.out.type (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [io.status (`pt`)](../commands/pt.md):
+  Pipe telemetry. Writes data-types and bytes written
 
 <hr/>
 

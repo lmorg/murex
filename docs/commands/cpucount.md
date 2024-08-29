@@ -1,4 +1,4 @@
-# sys.cpu.count: `cpucount`
+# sys.cpu.count
 
 > Output the number of CPU cores available on your host
 
@@ -27,9 +27,9 @@ cpucount -> <stdout>
 
 ## See Also
 
-* [sys.cpu.arch: `cpuarch`](../commands/cpuarch.md):
+* [sys.cpu.arch](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [sys.os: `os`](../commands/os.md):
+* [sys.os](../commands/os.md):
   Output the auto-detected OS name
 
 <hr/>

@@ -1,4 +1,4 @@
-# exec.include: `source`
+# exec.include (`source`)
 
 > Import Murex code from another file or code block
 
@@ -63,23 +63,23 @@ Hello, world!
 
 * [`args` ](../commands/args.md):
   Command line flag parser for Murex shell scripting
-* [`function`](../commands/function.md):
-  Define a function block
-* [`murex-parser` ](../commands/murex-parser.md):
+* [`murex-parser` ](../deprecated/murex-parser.md):
   Runs the Murex parser against a block of code 
-* [`private`](../commands/private.md):
-  Define a private function block
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [shell.version: `version`](../commands/version.md):
+* [shell.version](../commands/version.md):
   Get Murex version
 
 <hr/>

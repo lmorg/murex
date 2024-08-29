@@ -1,6 +1,6 @@
 - DocumentID: open-image
   Title: >-
-    fs.open.image: `open-image`
+    fs.open.image
   CategoryID: commands
   Summary: >-
     Renders bitmap image data on your terminal

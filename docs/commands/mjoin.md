@@ -1,4 +1,4 @@
-# list.join: `mjoin` 
+# list.join
 
 > Joins a list or array into a single string
 
@@ -45,7 +45,7 @@ Monday!Tuesday!Wednesday!Thursday!Friday
   Quickly generate arrays
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
 
 <hr/>

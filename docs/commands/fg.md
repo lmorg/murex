@@ -1,4 +1,4 @@
-# proc.fg: `fg`
+# proc.fg
 
 > Sends a background process into the foreground
 
@@ -29,15 +29,15 @@ for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [proc.bg: `bg`](../commands/bg.md):
-  Run processes in the background
-* [proc.kill.all: `fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [proc.kill: `fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [jobs](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [proc.list: `jobs`](../commands/fid-list.md):
+* [proc.bg](../commands/bg.md):
+  Run processes in the background
+* [proc.kill](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.kill.all](../commands/fid-killall.md):
+  Terminate _all_ running Murex functions
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

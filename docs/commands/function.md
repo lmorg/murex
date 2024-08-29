@@ -1,4 +1,4 @@
-# `function`
+# shell.function
 
 > Define a function block
 
@@ -240,33 +240,35 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 * `function`
 * `!function`
+* `shell.function`
+* `!shell.function`
 
 
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
 * [`args` ](../commands/args.md):
   Command line flag parser for Murex shell scripting
 * [`break`](../commands/break.md):
   Terminate execution of a block within your processes scope
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [`private`](../commands/private.md):
-  Define a private function block
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [fs.glob: `g`](../commands/g.md):
+* [fs.glob (`g`)](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [shell.version: `version`](../commands/version.md):
+* [shell.alias](../commands/alias.md):
+  Create an alias for a command
+* [shell.method](../commands/method.md):
+  Define a methods supported data-types
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [shell.version](../commands/version.md):
   Get Murex version
 * [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value

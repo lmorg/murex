@@ -1,6 +1,6 @@
 - DocumentID: count
   Title: >+
-    struct.count: `count`
+    struct.count
   CategoryID: commands
   Summary: >-
     Count items in a map, list or array

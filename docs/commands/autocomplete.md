@@ -1,4 +1,4 @@
-# shell.autocomplete: `autocomplete`
+# shell.autocomplete
 
 > Set definitions for tab-completion in the command line
 
@@ -612,25 +612,25 @@ flags.
 
 ## See Also
 
-* [`<stdin>`](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
 * [`[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
-* [`function`](../commands/function.md):
-  Define a function block
 * [`get-type`](../commands/get-type.md):
   Returns the data-type of a variable or pipe
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+* [io.in (`<stdin>`)](../commands/stdin.md):
+  Read the stdin belonging to the parent code block
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
-* [shell.config: `config`](../commands/config.md):
+* [shell.alias](../commands/alias.md):
+  Create an alias for a command
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.summary: `summary` ](../commands/summary.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [shell.summary](../commands/summary.md):
   Defines a summary help text for a command
 
 <hr/>

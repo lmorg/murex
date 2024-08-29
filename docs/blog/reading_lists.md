@@ -151,10 +151,10 @@ Published: 22.04.2023 at 11:43
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 
 <hr/>
 

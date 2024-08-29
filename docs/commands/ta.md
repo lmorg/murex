@@ -70,11 +70,11 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from a nested structure
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

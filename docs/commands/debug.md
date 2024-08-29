@@ -1,4 +1,4 @@
-# shell.debug: `debug`
+# shell.debug
 
 > Debugging information
 
@@ -196,7 +196,7 @@ debug panic
 
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

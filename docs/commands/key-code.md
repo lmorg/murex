@@ -63,7 +63,7 @@ event onKeyPress close=$key {
   Event driven programming for shell scripts
 * [`onKeyPress`](../events/onkeypress.md):
   Custom definable key bindings and macros
-* [io.out.type: `tout`](../commands/tout.md):
+* [io.out.type (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 
 <hr/>

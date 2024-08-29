@@ -107,13 +107,13 @@ onSecondsElapsed
 
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
-  Define a function block
-* [`private`](../commands/private.md):
-  Define a private function block
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

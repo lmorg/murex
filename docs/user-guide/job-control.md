@@ -140,19 +140,19 @@ Task 1
 
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [proc.bg: `bg`](../commands/bg.md):
-  Run processes in the background
-* [proc.fg: `fg`](../commands/fg.md):
-  Sends a background process into the foreground
-* [proc.kill: `fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [jobs](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [proc.list: `jobs`](../commands/fid-list.md):
+* [proc.bg](../commands/bg.md):
+  Run processes in the background
+* [proc.fg](../commands/fg.md):
+  Sends a background process into the foreground
+* [proc.kill](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 
 <hr/>

@@ -1,4 +1,4 @@
-# shell.summary: `summary` 
+# shell.summary
 
 > Defines a summary help text for a command
 
@@ -55,17 +55,17 @@ Hello, world!
   Displays the man pages for Murex builtins
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [shell.builtins.exist: `bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [shell.builtins: `builtins`](../commands/runtime.md):
+* [shell.builtins](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [shell.config: `config`](../commands/config.md):
+* [shell.builtins.exist](../commands/bexists.md):
+  Check which builtins exist
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.rescan.path: `murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [shell.rescan.path](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

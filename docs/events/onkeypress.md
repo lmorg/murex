@@ -263,7 +263,7 @@ from different interrupts).
   Full screen previews for files and command documentation
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

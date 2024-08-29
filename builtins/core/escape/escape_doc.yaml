@@ -1,6 +1,6 @@
 - DocumentID: escape
   Title: >+
-    escape.quote: `escape`
+    escape.quote
   CategoryID: commands
   Summary: >-
     Escape or unescape input
@@ -51,7 +51,7 @@
 
 - DocumentID: eschtml
   Title: >+
-    escape.html: `eschtml`
+    escape.html
   CategoryID: commands
   Summary: >-
     Encode or decodes text for HTML
@@ -110,7 +110,7 @@
 
 - DocumentID: escurl
   Title: >+
-    escape.url: `escurl`
+    escape.url
   CategoryID: commands
   Summary: >-
     Encode or decodes text for the URL
@@ -169,7 +169,7 @@
 
 - DocumentID: esccli
   Title: >+
-    escape.cli: `esccli`
+    escape.cli
   CategoryID: commands
   Summary: >-
     Escapes an array so output is valid shell code

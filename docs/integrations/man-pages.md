@@ -54,7 +54,7 @@ That command will generally be pulled from its accompanying `man` page.
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 
 ## Other Integrations

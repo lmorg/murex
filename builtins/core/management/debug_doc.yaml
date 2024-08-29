@@ -1,6 +1,6 @@
 - DocumentID: debug
   Title: >+
-    shell.debug: `debug`
+    shell.debug
   CategoryID: commands
   Summary: >-
     Debugging information

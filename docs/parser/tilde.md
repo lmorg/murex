@@ -76,7 +76,7 @@ But it cannot be expanded inside single quotes.
   A sophisticated yet simply way to build a JSON array
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

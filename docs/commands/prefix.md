@@ -1,4 +1,4 @@
-# list.prefix: `prefix`
+# list.prefix
 
 > Prefix a string to every item in a list
 
@@ -46,17 +46,17 @@ runtime --unmarshallers
   Converts structured memory into a Murex data-type (eg for stdio)
 * [`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a Murex data-type into structured memory
-* [list.left: `left`](../commands/left.md):
+* [list.left](../commands/left.md):
   Left substring every item in a list
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [list.right: `right`](../commands/right.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [list.right](../commands/right.md):
   Right substring every item in a list
-* [list.suffix: `suffix`](../commands/suffix.md):
+* [list.suffix](../commands/suffix.md):
   Prefix a string to every item in a list
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

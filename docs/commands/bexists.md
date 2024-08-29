@@ -1,4 +1,4 @@
-# shell.builtins.exist: `bexists`
+# shell.builtins.exist
 
 > Check which builtins exist
 
@@ -47,9 +47,9 @@ that reason alone it has been spared from the axe.
 
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

@@ -170,8 +170,6 @@ from different interrupts).
   A list of all the terminal hotkeys and their uses
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`function`](../commands/function.md):
-  Define a function block
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
@@ -180,8 +178,10 @@ from different interrupts).
   Custom definable key bindings and macros
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
+* [shell.function](../commands/function.md):
+  Define a function block
 
 <hr/>
 

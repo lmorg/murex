@@ -48,11 +48,11 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
   How to track what code was loaded and from where
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [exec.*: `fexec` ](../commands/fexec.md):
+* [exec.* (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

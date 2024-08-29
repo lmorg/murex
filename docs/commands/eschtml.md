@@ -1,4 +1,4 @@
-# escape.html: `eschtml`
+# escape.html
 
 > Encode or decodes text for HTML
 
@@ -60,11 +60,11 @@ eschtml string to escape -> <stdout>
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [escape.cli: `esccli`](../commands/esccli.md):
+* [escape.cli](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [escape.quote: `escape`](../commands/escape.md):
+* [escape.quote](../commands/escape.md):
   Escape or unescape input
-* [escape.url: `escurl`](../commands/escurl.md):
+* [escape.url](../commands/escurl.md):
   Encode or decodes text for the URL
 
 <hr/>

@@ -45,7 +45,7 @@ and stderr as usual.
   Suspends the shell for a number of seconds
 * [exec.file: `exec`](../commands/exec.md):
   Runs an executable
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
 
 <hr/>

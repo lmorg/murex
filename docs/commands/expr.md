@@ -338,9 +338,9 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

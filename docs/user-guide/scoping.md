@@ -57,24 +57,24 @@ scope. Subshells also do not create a new scope either.
   Event driven programming for shell scripts
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [`function`](../commands/function.md):
-  Define a function block
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
+* [shell.function](../commands/function.md):
+  Define a function block
 * [shell.open: `openagent`](../commands/openagent.md):
   Creates a handler function for `open`
+* [shell.private](../commands/private.md):
+  Define a private function block
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 

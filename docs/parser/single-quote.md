@@ -48,7 +48,7 @@ bar
   Initiates or terminates a code block
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

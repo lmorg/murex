@@ -70,10 +70,10 @@ instead.
   Quickly generate objects (dictionaries / maps)
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [io.out.type: `tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
+* [io.out.type (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
 
 <hr/>
 

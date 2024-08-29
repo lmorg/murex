@@ -105,7 +105,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

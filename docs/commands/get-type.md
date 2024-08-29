@@ -55,15 +55,15 @@ json
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`function`](../commands/function.md):
-  Define a function block
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [io.out.type: `tout`](../commands/tout.md):
+* [io.out.type (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
-* [shell.debug: `debug`](../commands/debug.md):
+* [shell.debug](../commands/debug.md):
   Debugging information
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value

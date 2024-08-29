@@ -63,7 +63,7 @@ value op value**, for example:
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

@@ -1,6 +1,6 @@
 - DocumentID: "autocomplete"
   Title: >+
-    shell.autocomplete: `autocomplete`
+    shell.autocomplete
   CategoryID: commands
   Summary: >-
     Set definitions for tab-completion in the command line

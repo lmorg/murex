@@ -63,7 +63,7 @@ rsync --help                                                  # print rsync help
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 
 <hr/>

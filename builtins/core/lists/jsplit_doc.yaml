@@ -1,6 +1,6 @@
 - DocumentID: jsplit
   Title: >-
-    str.split: `jsplit` 
+    str.split
   CategoryID: commands
   Summary: >-
     Splits stdin into a JSON array based on a regex parameter

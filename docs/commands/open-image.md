@@ -1,4 +1,4 @@
-# fs.open.image: `open-image`
+# fs.open.image
 
 > Renders bitmap image data on your terminal
 
@@ -44,7 +44,7 @@ open-image file-path -> <stdout>
 
 * [`qr`](../optional/qr.md):
   Creates a QR code from stdin
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
 
 <hr/>

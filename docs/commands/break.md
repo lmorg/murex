@@ -106,16 +106,16 @@ Error in `break` (7,17): no block found named `bar` within the scope of `foo`
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
-  Define a function block
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`return`](../commands/return.md):
   Exits current function scope
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.private](../commands/private.md):
+  Define a private function block
 
 <hr/>
 

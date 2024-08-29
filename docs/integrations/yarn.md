@@ -27,7 +27,7 @@ under `/integrations`.
   A list of all the terminal hotkeys and their uses
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 
 ## Other Integrations

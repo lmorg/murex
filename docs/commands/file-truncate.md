@@ -1,4 +1,4 @@
-# `|>` Truncate File
+# fs.truncate (`>`)
 
 > Writes stdin to disk - overwriting contents if file already exists
 
@@ -23,8 +23,9 @@ g * |> files.txt
 
 ## Synonyms
 
-* `|>`
 * `>`
+* `fs.truncate`
+* `|>`
 * `fwrite`
 
 
@@ -32,20 +33,20 @@ g * |> files.txt
 
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`>>` Append File](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`g`](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`tmp`](../commands/tmp.md):
-  Create a temporary file and write to it
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
+* [fs.glob (`g`)](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [fs.tmpfile (`tmp`)](../commands/tmp.md):
+  Create a temporary file and write to it
+* [io.new.pipe](../commands/pipe.md):
+  Manage Murex named pipes
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
+  Reads from a Murex named pipe
 
 <hr/>
 

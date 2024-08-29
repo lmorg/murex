@@ -80,9 +80,9 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Makes a standard HTTP request and returns the result as a JSON object
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

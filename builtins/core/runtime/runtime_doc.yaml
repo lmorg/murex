@@ -1,6 +1,6 @@
 - DocumentID: runtime
   Title: >+
-    shell.runtime: `runtime`
+    shell.runtime
   CategoryID: commands
   Summary: >-
     Returns runtime information on the internal state of Murex

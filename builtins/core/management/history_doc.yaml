@@ -1,6 +1,6 @@
 - DocumentID: history
   Title: >+
-    shell.history: `history`
+    shell.history
   CategoryID: commands
   Summary: >-
     Outputs murex's command history

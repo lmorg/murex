@@ -57,13 +57,13 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [fs.truncate: `>`](../command/file-truncate.md):
+* [fs.truncate (`>`)](../commands/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
 
 <hr/>

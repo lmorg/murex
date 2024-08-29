@@ -1,6 +1,6 @@
 - DocumentID: tmp
   Title: >+
-    fs.new.tmpfile: `tmp`
+    fs.tmpfile (`tmp`)
   CategoryID: commands
   Summary: >-
     Create a temporary file and write to it

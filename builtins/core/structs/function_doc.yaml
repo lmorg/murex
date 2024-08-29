@@ -1,6 +1,6 @@
 - DocumentID: alias
   Title: >+
-    `alias`
+    shell.alias
   CategoryID: commands
   Summary: >-
     Create an alias for a command
@@ -85,6 +85,8 @@
   Synonyms:
     - alias
     - "!alias"
+    - shell.alias
+    - "!shell.alias"
   Related:
     - function
     - private
@@ -98,9 +100,11 @@
     - fexec
     - method
 
+
+
 - DocumentID: function
   Title: >+
-    `function`
+    shell.function
   CategoryID: commands
   Summary: >-
     Define a function block
@@ -306,6 +310,8 @@
   Synonyms:
     - function
     - "!function"
+    - shell.function
+    - "!shell.function"
   Related:
     - args
     - alias
@@ -323,9 +329,11 @@
     - version
     - break
 
+
+
 - DocumentID: private
   Title: >+
-    `private`
+    shell.private
   CategoryID: commands
   Summary: >-
     Define a private function block
@@ -383,6 +391,8 @@
 
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
+    - private
+    - shell.private
   Related:
     - function
     - alias
@@ -397,9 +407,11 @@
     - method
     - break
 
+
+
 - DocumentID: method
   Title: >+
-    `method`
+    shell.method
   CategoryID: commands
   Summary: >-
     Define a methods supported data-types
@@ -428,6 +440,8 @@
     {{ include "lang/types/groups.go" }}
     ```
   Synonyms:
+    - method
+    - shell.method
   Related:
     - function
     - alias

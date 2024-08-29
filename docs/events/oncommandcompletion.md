@@ -119,26 +119,26 @@ Stdout and stderr are both written to the terminal's stderr.
 
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [`<stdin>`](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`function`](../commands/function.md):
-  Define a function block
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [list.regex: `regexp`](../commands/regexp.md):
+* [io.in (`<stdin>`)](../commands/stdin.md):
+  Read the stdin belonging to the parent code block
+* [list.regex](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [read-named-pipe](../commands/namedpipe.md):
   Reads from a Murex named pipe
-* [shell.config: `config`](../commands/config.md):
+* [shell.alias](../commands/alias.md):
+  Create an alias for a command
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
+* [shell.function](../commands/function.md):
+  Define a function block
 
 <hr/>
 

@@ -1,4 +1,4 @@
-# table.new.heading: `addheading` 
+# table.add.heading
 
 > Adds headings to a table
 
@@ -38,21 +38,21 @@ prepend to tables.
   Alters the data-type of the previous function without altering its output
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [list.prepend: `prepend`](../commands/prepend.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [list.prepend](../commands/prepend.md):
   Add data to the start of an array
-* [list.regex: `regexp`](../commands/regexp.md):
+* [list.regex](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [list.sort: `msort`](../commands/msort.md):
+* [list.sort](../commands/msort.md):
   Sorts an array - data type agnostic
-* [list.str: `match`](../commands/match.md):
+* [list.str (`match`)](../commands/match.md):
   Match an exact value in an array
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

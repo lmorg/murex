@@ -1,4 +1,4 @@
-# struct.count: `count`
+# struct.count
 
 > Count items in a map, list or array
 
@@ -150,25 +150,25 @@ unique count should be one less than the total count:
   Outputs an element from a nested structure
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [io.out.type: `tout`](../commands/tout.md):
+* [io.out.type (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [list.new.type: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [list.prepend: `prepend`](../commands/prepend.md):
+* [list.prepend](../commands/prepend.md):
   Add data to the start of an array
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [list.sort: `msort`](../commands/msort.md):
+* [list.sort](../commands/msort.md):
   Sorts an array - data type agnostic
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
-* [struct.new.map: `map`](../commands/map.md):
+* [struct.new.map (`map`)](../commands/map.md):
   Creates a map from two data sources
 
 <hr/>

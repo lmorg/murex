@@ -1,4 +1,4 @@
-# io.pipe: `<pipe>` Read Named Pipe
+# io.pipe (`<pipe>`)
 
 > Reads from a Murex named pipe
 
@@ -118,17 +118,17 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [`<stdin>`](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.in (`<stdin>`)](../commands/stdin.md):
+  Read the stdin belonging to the parent code block
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [proc.bg: `bg`](../commands/bg.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [proc.bg](../commands/bg.md):
   Run processes in the background
-* [shell.runtime: `runtime`](../commands/runtime.md):
+* [shell.runtime](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

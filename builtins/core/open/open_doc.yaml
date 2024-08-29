@@ -1,6 +1,6 @@
 - DocumentID: open
   Title: >+
-    fs.open: `open`
+    fs.open
   CategoryID: commands
   Summary: >-
     Open a file with a preferred handler

@@ -76,9 +76,9 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
-* [io.err: `err`](../commands/err.md):
+* [io.err](../commands/err.md):
   Print a line to the stderr
-* [io.out: `out`](../commands/out.md):
+* [io.out](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [null](../commands/devnull.md):
   null function. Similar to /dev/null

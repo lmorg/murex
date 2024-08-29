@@ -205,8 +205,8 @@ jsonl
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`while`](../commands/while.md):
   Loop until condition false
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
 * [var.set: `set`](../commands/set.md):
   Define a local variable and set it's value
 

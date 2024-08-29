@@ -139,7 +139,7 @@ under `/integrations`.
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
 
 ## Other Integrations

@@ -1,4 +1,4 @@
-# list.sort: `msort`
+# list.sort
 
 > Sorts an array - data type agnostic
 
@@ -62,19 +62,19 @@ output of `msort` into another builtin:
   Outputs an element from a nested structure
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [list.append: `append`](../commands/append.md):
+* [list.append](../commands/append.md):
   Add data to the end of an array
-* [list.new.str: `a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [list.prepend: `prepend`](../commands/prepend.md):
+* [list.new.str (`a`)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list (mkarray)
+* [list.prepend](../commands/prepend.md):
   Add data to the start of an array
-* [list.reverse: `mtac`](../commands/mtac.md):
+* [list.reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [str.split: `jsplit` ](../commands/jsplit.md):
+* [str.split](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
-* [struct.alter: `alter`](../commands/alter.md):
+* [struct.alter](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [struct.count: `count`](../commands/count.md):
+* [struct.count](../commands/count.md):
   Count items in a map, list or array
 
 <hr/>

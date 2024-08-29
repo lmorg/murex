@@ -105,9 +105,9 @@ It is 23 o' clock
   Getting started with Murex
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [io.echo: `echo`](../commands/out.md):
+* [io.echo](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [str.datetime: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)

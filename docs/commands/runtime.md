@@ -1,4 +1,4 @@
-# shell.runtime: `runtime`
+# shell.runtime
 
 > Returns runtime information on the internal state of Murex
 
@@ -298,33 +298,33 @@ functions.
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`function`](../commands/function.md):
-  Define a function block
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [`private`](../commands/private.md):
-  Define a private function block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [exec.include: `source`](../commands/source.md):
+* [exec.include (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [fs.open: `open`](../commands/open.md):
+* [fs.open](../commands/open.md):
   Open a file with a preferred handler
-* [io.new.pipe: `pipe`](../commands/pipe.md):
+* [io.new.pipe](../commands/pipe.md):
   Manage Murex named pipes
-* [proc.list: `fid-list`](../commands/fid-list.md):
+* [proc.list](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [shell.autocomplete: `autocomplete`](../commands/autocomplete.md):
+* [shell.autocomplete](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [shell.config: `config`](../commands/config.md):
+* [shell.config](../commands/config.md):
   Query or define Murex runtime settings
-* [shell.debug: `debug`](../commands/debug.md):
+* [shell.debug](../commands/debug.md):
   Debugging information
+* [shell.function](../commands/function.md):
+  Define a function block
+* [shell.method](../commands/method.md):
+  Define a methods supported data-types
 * [shell.open: `openagent`](../commands/openagent.md):
   Creates a handler function for `open`
-* [struct.json.pretty: `pretty`](../commands/pretty.md):
+* [shell.private](../commands/private.md):
+  Define a private function block
+* [struct.json.pretty](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [var.env: `export`](../commands/export.md):
   Define an environmental variable and set it's value

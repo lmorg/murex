@@ -1,4 +1,4 @@
-# shell.rescan.path: `murex-update-exe-list`
+# shell.rescan.path
 
 > Forces Murex to rescan $PATH looking for executables
 
@@ -34,11 +34,11 @@ invoked for command name completion via the REPL shell.
 
 ## See Also
 
-* [sys.cpu.arch: `cpuarch`](../commands/cpuarch.md):
+* [sys.cpu.arch](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [sys.cpu.count: `cpucount`](../commands/cpucount.md):
+* [sys.cpu.count](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [sys.os: `os`](../commands/os.md):
+* [sys.os](../commands/os.md):
   Output the auto-detected OS name
 
 <hr/>

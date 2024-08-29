@@ -60,7 +60,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   A sophisticated yet simply way to build a JSON array
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [io.pipe: `<pipe>` Read Named Pipe](../commands/namedpipe.md):
+* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
   Reads from a Murex named pipe
 
 <hr/>

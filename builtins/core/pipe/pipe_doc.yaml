@@ -1,6 +1,6 @@
 - DocumentID: pipe
   Title: >+
-    io.new.pipe: `pipe`
+    io.new.pipe
   CategoryID: commands
   Summary: >-
     Manage Murex named pipes

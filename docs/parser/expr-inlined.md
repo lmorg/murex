@@ -27,7 +27,7 @@ that parameter will be treated like a string.
   A table of all supported operators and tokens
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [io.echo: `echo`](../commands/out.md):
+* [io.echo](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

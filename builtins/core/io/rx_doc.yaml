@@ -1,6 +1,6 @@
 - DocumentID: rx
   Title: >+
-    fs.regex: `rx`
+    fs.regex (`rx`)
   CategoryID: commands
   Summary: >-
     Regexp pattern matching for file system objects (eg `.*\\.txt`)
