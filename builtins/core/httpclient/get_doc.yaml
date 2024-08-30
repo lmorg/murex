@@ -1,6 +1,6 @@
 - DocumentID: get
   Title: >+
-    `get`
+    HTTP: Get Request
   CategoryID: commands
   Summary: >-
     Makes a standard HTTP request and returns the result as a JSON object

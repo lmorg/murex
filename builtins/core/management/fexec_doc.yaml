@@ -1,6 +1,6 @@
 - DocumentID: fexec
   Title: >+
-    exec.* (`fexec`)
+    Exec: Shell Function or Builtin (`fexec`)
   CategoryID: commands
   Summary: >-
     Execute a command or function, bypassing the usual order of precedence.

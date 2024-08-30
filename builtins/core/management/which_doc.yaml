@@ -1,6 +1,6 @@
 - DocumentID: which
   Title: >+
-    `which`
+    POSIX: `which`
   CategoryID: commands
   Summary: >-
     Locate command origin

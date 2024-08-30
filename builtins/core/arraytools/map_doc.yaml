@@ -1,6 +1,6 @@
 - DocumentID: map
   Title: >-
-    struct.new.map (`map`)
+    Struct: Create Map (`map`)
   CategoryID: commands
   Summary: >-
     Creates a map from two data sources

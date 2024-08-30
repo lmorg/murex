@@ -1,6 +1,6 @@
 - DocumentID: for
   Title: >+
-    `for`
+    Control Flow: For Loop (`for`)
   CategoryID: commands
   Summary: >-
     A more familiar iteration loop to existing developers

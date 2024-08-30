@@ -1,6 +1,6 @@
 - DocumentID: config
   Title: >+
-    shell.config
+    Shell: Config
   CategoryID: commands
   Summary: >-
     Query or define Murex runtime settings

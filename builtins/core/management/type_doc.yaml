@@ -1,6 +1,6 @@
 - DocumentID: type
   Title: >+
-    `type`
+    POSIX: `type`
   CategoryID: commands
   Summary: >-
     Command type (function, builtin, alias, etc)

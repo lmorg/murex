@@ -1,6 +1,6 @@
 - DocumentID: murex-package
   Title: >+
-    shell.packages (`murex-package`)
+    Shell: Package Management (`murex-package`)
   CategoryID: commands
   Summary: >-
     Murex's package manager

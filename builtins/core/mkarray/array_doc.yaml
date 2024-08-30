@@ -1,9 +1,9 @@
 - DocumentID: a
   Title: >+
-    list.new.str (`a`)
+    List: Stream New List (`a`)
   CategoryID: commands
   Summary: >-
-    A sophisticated yet simple way to build an array or list (mkarray)
+    A sophisticated yet simple way to stream an array or list (mkarray)
   Description: |-
     _mkarray_, pronounced "make array" like `mkdir` (etc), is Murex's sophisticated
     syntax for generating arrays. Think like bash's `{1..9}` syntax:
@@ -148,7 +148,7 @@
 
 - DocumentID: ja
   Title: >+
-    `ja` (mkarray)
+    List: Create Json Array (`ja`)
   CategoryID: commands
   Summary: >-
     A sophisticated yet simply way to build a JSON array
@@ -213,7 +213,7 @@
 
 - DocumentID: ta
   Title: >+
-    list.new.type: `ta`
+    List: Create New Array (`ta`)
   CategoryID: commands
   Summary: >-
     A sophisticated yet simple way to build an array of a user defined data-type

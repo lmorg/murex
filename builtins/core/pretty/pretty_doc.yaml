@@ -1,6 +1,6 @@
 - DocumentID: pretty
   Title: >+
-    struct.json.pretty
+    Struct: Prettify JSON
   CategoryID: commands
   Summary: >-
     Prettifies JSON to make it human readable

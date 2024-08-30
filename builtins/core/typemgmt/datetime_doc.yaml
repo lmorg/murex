@@ -1,6 +1,6 @@
 - DocumentID: datetime
   Title: >+
-    str.datetime: `datetime`
+    String: Date And Time Conversion (`datetime`)
   CategoryID: commands
   Summary: >-
     A date and/or time conversion tool (like `printf` but for date and time values)

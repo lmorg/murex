@@ -1,7 +1,7 @@
 - DocumentID: item-index
   Title: >+
-    `[ Index ]`
-  CategoryID: parser
+    Struct: Get Item (`[ Index ]`)
+  CategoryID: commands
   Summary: >-
     Outputs an element from an array, map or table
   Description: |-

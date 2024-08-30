@@ -1,6 +1,6 @@
 - DocumentID: bg
   Title: >+
-    proc.bg
+    Processes: Background (`bg`)
   CategoryID: commands
   Summary: >-
     Run processes in the background
@@ -44,7 +44,7 @@
 
 - DocumentID: fg
   Title: >+
-    proc.fg
+    Processes: Foreground (`fg`)
   CategoryID: commands
   Summary: >-
     Sends a background process into the foreground

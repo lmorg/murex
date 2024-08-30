@@ -1,6 +1,6 @@
 - DocumentID: formap
   Title: >+
-    `formap`
+    Control Flow: For Each In Map (`formap`)
   CategoryID: commands
   Summary: >-
     Iterate through a map or other collection of data

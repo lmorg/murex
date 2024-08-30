@@ -1,6 +1,6 @@
 - DocumentID: f
   Title: >+
-    fs.files (`f`)
+    Filesystem: List Files (`f`)
   CategoryID: commands
   Summary: >-
     Lists or filters file system objects (eg files)

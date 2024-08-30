@@ -1,6 +1,6 @@
 - DocumentID: struct-keys
   Title: >+
-    struct.keys
+    Struct: List Keys
   CategoryID: commands
   Summary: >-
     Outputs all the keys in a structure as a file path

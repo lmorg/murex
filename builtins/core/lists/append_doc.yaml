@@ -1,6 +1,6 @@
 - DocumentID: prepend
   Title: >-
-    list.prepend
+    List: Prepend
   CategoryID: commands
   Summary: >-
     Add data to the start of an array
@@ -55,7 +55,7 @@
 
 - DocumentID: append
   Title: >+
-    list.append
+    List: Append
   CategoryID: commands
   Summary: >-
     Add data to the end of an array

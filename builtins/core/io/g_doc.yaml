@@ -1,6 +1,6 @@
 - DocumentID: g
   Title: >+
-    fs.glob (`g`)
+    Filesystem: Globbing (`g`)
   CategoryID: commands
   Summary: >-
     Glob pattern matching for file system objects (eg `*.txt`)

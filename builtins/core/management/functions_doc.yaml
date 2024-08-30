@@ -1,6 +1,6 @@
 - DocumentID: exitnum
   Title: >+
-    proc.exitnum
+    Processes: Get Exit Code (`exitnum`)
   CategoryID: commands
   Summary: >-
     Output the exit number of the previous process
@@ -28,7 +28,7 @@
 
 - DocumentID: murex-update-exe-list
   Title: >+
-    shell.rescan.path
+    Shell: Re-scan $PATH
   CategoryID: commands
   Summary: >-
     Forces Murex to rescan $PATH looking for executables
@@ -61,7 +61,7 @@
 
 - DocumentID: man-summary
   Title: >+
-    help.man.summary
+    Help: Man-Page Summary
   CategoryID: commands
   Summary: >-
     Outputs a man page summary of a command
@@ -107,7 +107,7 @@
 
 - DocumentID: cd
   Title: >+
-    `cd`
+    Core: Change Directory
   CategoryID: commands
   Summary: >-
     Change (working) directory
@@ -188,7 +188,7 @@
 
 - DocumentID: bexists
   Title: >+
-    shell.builtins.exist
+    Shell: Check Builtin Exists
   CategoryID: commands
   Summary: >-
     Check which builtins exist

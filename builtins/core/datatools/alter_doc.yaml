@@ -1,6 +1,6 @@
 - DocumentID: alter
   Title: >+
-    struct.alter
+    Struct: Alter
   CategoryID: commands
   Summary: >-
     Change a value within a structured data-type and pass that change along the

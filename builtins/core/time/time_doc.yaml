@@ -1,6 +1,6 @@
 - DocumentID: time
   Title: >-
-    `time`
+    Processes: Execution Time (`time`)
   CategoryID: commands
   Summary: >-
     Returns the execution run time of a command or block

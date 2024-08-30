@@ -1,6 +1,6 @@
 - DocumentID: out
   Title: >+
-    io.out
+    IO: Output String (`out`)
   CategoryID: commands
   Summary: >-
     Print a string to the stdout with a trailing new line character
@@ -53,7 +53,7 @@
 
 - DocumentID: tout
   Title: >+
-    io.out.type (`tout`)
+    IO: Output Type (`tout`)
   CategoryID: commands
   Summary: >-
     Print a string to the stdout and set it's data-type
@@ -144,7 +144,7 @@
 
 - DocumentID: err
   Title: >+
-    io.err
+    IO: Error String (`err`)
   CategoryID: commands
   Summary: >-
     Print a line to the stderr

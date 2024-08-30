@@ -1,6 +1,6 @@
 - DocumentID: mjoin
   Title: >-
-    list.join
+    List: Join (`mjoin`)
   CategoryID: commands
   Summary: >-
     Joins a list or array into a single string

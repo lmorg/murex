@@ -1,6 +1,6 @@
 - DocumentID: return
   Title: >+
-    `return`
+    Control Flow: Exit Function (`return`)
   CategoryID: commands
   Summary: >-
     Exits current function scope
@@ -63,7 +63,7 @@
 
 - DocumentID: break
   Title: >+
-    `break`
+    Control Flow: Exit Block (`break`)
   CategoryID: commands
   Summary: >-
     Terminate execution of a block within your processes scope
@@ -170,7 +170,7 @@
 
 - DocumentID: continue
   Title: >+
-    `continue`
+    Control Flow: Next Iteration (`continue`)
   CategoryID: commands
   Summary: >-
     Terminate process of a block within a caller function

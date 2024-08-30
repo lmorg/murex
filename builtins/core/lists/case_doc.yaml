@@ -1,6 +1,6 @@
 - DocumentID: list.case
   Title: >-
-    list.case
+    List: Change Text Case
   CategoryID: commands
   Summary: >-
     Changes the character case of a string or all elements in an array

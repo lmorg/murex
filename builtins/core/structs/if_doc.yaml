@@ -1,6 +1,6 @@
 - DocumentID: if
   Title: >+
-    `if`
+    Control Flow: If Conditional (`if`)
   CategoryID: commands
   Summary: >-
     Conditional statement to execute different blocks of code depending on the

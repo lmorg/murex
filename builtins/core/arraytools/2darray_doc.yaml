@@ -1,6 +1,6 @@
 - DocumentID: 2darray
   Title: >-
-    struct.new.2darray
+    Struct: Create 2d Array
   CategoryID: commands
   Summary: >-
     Create a 2D JSON array from multiple input sources

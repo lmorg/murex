@@ -1,6 +1,6 @@
 - DocumentID: file-truncate
   Title: >+
-    fs.truncate (`>`)
+    Filesystem: Truncate File (`>`)
   CategoryID: commands
   Summary: >-
     Writes stdin to disk - overwriting contents if file already exists
@@ -37,7 +37,7 @@
 
 - DocumentID: pt
   Title: >+
-    io.status (`pt`)
+    IO: Get Pipe Status (`pt`)
   CategoryID: commands
   Summary: >-
     Pipe telemetry. Writes data-types and bytes written

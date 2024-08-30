@@ -1,6 +1,6 @@
 - DocumentID: switch
   Title: >+
-    `switch`
+    Control Flow: Switch Conditional (`switch`)
   CategoryID: commands
   Summary: >-
     Blocks of cascading conditionals

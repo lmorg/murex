@@ -1,6 +1,6 @@
 - DocumentID: foreach
   Title: >+
-    `foreach`
+    Control Flow: For Each In List (`foreach`)
   CategoryID: commands
   Summary: >-
     Iterate through an array

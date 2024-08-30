@@ -1,6 +1,6 @@
 - DocumentID: post
   Title: >+
-    `post`
+    HTTP: Post Request
   CategoryID: commands
   Summary: >-
     HTTP POST request with a JSON-parsable return

@@ -1,6 +1,6 @@
 - DocumentID: and
   Title: >+
-    `and`
+    Logic: And
   CategoryID: commands
   Summary: >-
     Returns `true` or `false` depending on whether multiple conditions are met
@@ -52,7 +52,7 @@
 
 - DocumentID: or
   Title: >+
-    `or`
+    Logic: Or
   CategoryID: commands
   Summary: >-
     Returns `true` or `false` depending on whether one code-block out of multiple

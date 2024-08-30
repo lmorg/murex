@@ -1,6 +1,6 @@
 - DocumentID: fid-kill
   Title: >+
-    proc.kill
+    Processes: Kill (`fid-kill`)
   CategoryID: commands
   Summary: >-
     Terminate a running Murex function
@@ -34,7 +34,7 @@
 
 - DocumentID: fid-killall
   Title: >+
-    proc.kill.all
+    Processes: Kill All In Session (`fid-killall`)
   CategoryID: commands
   Summary: >-
     Terminate _all_ running Murex functions

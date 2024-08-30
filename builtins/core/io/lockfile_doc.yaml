@@ -1,6 +1,6 @@
 - DocumentID: lockfile
   Title: >+
-    fs.lockfile
+    Filesystem: Lock Files
   CategoryID: commands
   Summary: >-
     Create and manage lock files

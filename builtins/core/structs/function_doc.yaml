@@ -1,6 +1,6 @@
 - DocumentID: alias
   Title: >+
-    shell.alias
+    Shell: Alias Pointer
   CategoryID: commands
   Summary: >-
     Create an alias for a command
@@ -104,7 +104,7 @@
 
 - DocumentID: function
   Title: >+
-    shell.function
+    Shell: Public Function
   CategoryID: commands
   Summary: >-
     Define a function block
@@ -333,7 +333,7 @@
 
 - DocumentID: private
   Title: >+
-    shell.private
+    Shell: Private Function
   CategoryID: commands
   Summary: >-
     Define a private function block
@@ -411,7 +411,7 @@
 
 - DocumentID: method
   Title: >+
-    shell.method
+    Shell: Method Relationships
   CategoryID: commands
   Summary: >-
     Define a methods supported data-types

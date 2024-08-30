@@ -1,6 +1,6 @@
 - DocumentID: version
   Title: >+
-    shell.version
+    Shell: Version
   CategoryID: commands
   Summary: >-
     Get Murex version

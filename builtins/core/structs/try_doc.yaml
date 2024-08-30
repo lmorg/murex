@@ -1,6 +1,6 @@
 - DocumentID: unsafe
   Title: >+
-    `unsafe`
+    Error Handling: Disable In Block (`unsafe`)
   CategoryID: commands
   Summary: >-
     Execute a block of code, always returning a zero exit number
@@ -41,7 +41,7 @@
 
 - DocumentID: try
   Title: >+
-    `try`
+    Error Handling: Try Block (`try`)
   CategoryID: commands
   Summary: >-
     Handles non-zero exits inside a block of code
@@ -94,7 +94,7 @@
 
 - DocumentID: trypipe
   Title: >+
-    `trypipe`
+    Error Handling: Pipe Fail (`trypipe`)
   CategoryID: commands
   Summary: >-
     Checks for non-zero exits of each function in a pipeline
@@ -150,7 +150,7 @@
 
 - DocumentID: catch
   Title: >+
-    `catch`
+    Error Handling: Caught Error (`catch`)
   CategoryID: commands
   Summary: >-
     Handles the exception code raised by `try` or `trypipe`
@@ -203,7 +203,7 @@
 
 - DocumentID: runmode
   Title: >+
-    `runmode`
+    Error Handling: Function / Module Defaults (`runmode`)
   CategoryID: commands
   Summary: >-
     Alter the scheduler's behaviour at higher scoping level
