@@ -51,6 +51,8 @@ where it says:
 
 * [Error String (`err`)](../commands/err.md):
   Print a line to the stderr
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
 * [Output String (`out`)](../commands/out.md):
@@ -69,8 +71,6 @@ where it says:
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [null](../commands/devnull.md):

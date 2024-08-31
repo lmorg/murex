@@ -79,7 +79,7 @@ Rounding to the nearest multiple of `20`:
 
 ## See Also
 
-* [`expr`](../commands/expr.md):
+* [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 
 <hr/>

@@ -179,6 +179,8 @@ arrays. For more details on these please refer to the documents for each format
   A sophisticated yet simply way to build a JSON array
 * [Create New Array (`ta`)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [Stream New List (`a`)](../commands/a.md):
@@ -191,8 +193,6 @@ arrays. For more details on these please refer to the documents for each format
   Quickly generate objects (dictionaries / maps)
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

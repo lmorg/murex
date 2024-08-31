@@ -257,6 +257,8 @@ bar
   Define an environmental variable and set it's value
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Get Item (`[ Index ]`)](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
@@ -271,8 +273,6 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

@@ -149,6 +149,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ### Standard Builtins
 
+* [ASCII And ANSI Escape Sequences (`key-code`)](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [Add Heading (`addheading`)](../commands/addheading.md):
   Adds headings to a table
 * [Add Prefix (`prefix`)](../commands/prefix.md):
@@ -235,6 +237,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Exits current function scope
 * [Exit Murex (`exit`)](../commands/exit.md):
   Exit murex
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [False (`false`)](../commands/false.md):
   Returns a `false` value
 * [For Each In List (`foreach`)](../commands/foreach.md):
@@ -381,10 +385,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Terminate murex with an exit number of 1 (deprecated)
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
-* [`key-code`](../commands/key-code.md):
-  Returns character sequences for any key pressed (ie sent from the terminal)
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`murex-parser`](../commands/murex-parser.md):

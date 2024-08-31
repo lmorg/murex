@@ -285,10 +285,10 @@ characters have special meanings when escaped.
 
 ## See Also
 
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
   Getting started with Murex
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

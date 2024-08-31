@@ -259,6 +259,8 @@ bar
   Define a global variable and set it's value
 * [Execute External Command (`exec`)](../commands/exec.md):
   Runs an executable
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Get Item (`[ Index ]`)](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
@@ -273,8 +275,6 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

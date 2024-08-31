@@ -6,6 +6,7 @@ package docs
 func init() {
 	Summary = map[string]string{
 
+		"key-code":              "Returns character sequences for any key pressed (ie sent from the terminal)",
 		"addheading":            "Adds headings to a table",
 		"prefix":                "Prefix a string to every item in a list",
 		"suffix":                "Prefix a string to every item in a list",
@@ -49,6 +50,7 @@ func init() {
 		"break":                 "Terminate execution of a block within your processes scope",
 		"return":                "Exits current function scope",
 		"exit":                  "Exit murex",
+		"expr":                  "Expressions: mathematical, string comparisons, logical operators",
 		"false":                 "Returns a `false` value",
 		"foreach":               "Iterate through an array",
 		"formap":                "Iterate through a map or other collection of data",
@@ -122,8 +124,6 @@ func init() {
 		"try":                   "Handles non-zero exits inside a block of code",
 		"die":                   "Terminate murex with an exit number of 1 (deprecated)",
 		"event":                 "Event driven programming for shell scripts",
-		"expr":                  "Expressions: mathematical, string comparisons, logical operators",
-		"key-code":              "Returns character sequences for any key pressed (ie sent from the terminal)",
 		"let":                   "Evaluate a mathematical function and assign to variable (deprecated)",
 		"murex-parser":          "Runs the Murex parser against a block of code",
 		"signal":                "Sends a signal RPC",
@@ -135,6 +135,7 @@ func init() {
 		"qr":     "Creates a QR code from stdin",
 		"sleep":  "Suspends the shell for a number of seconds",
 
+		"commands/key-code":               "Returns character sequences for any key pressed (ie sent from the terminal)",
 		"commands/addheading":             "Adds headings to a table",
 		"commands/prefix":                 "Prefix a string to every item in a list",
 		"commands/suffix":                 "Prefix a string to every item in a list",
@@ -178,6 +179,7 @@ func init() {
 		"commands/break":                  "Terminate execution of a block within your processes scope",
 		"commands/return":                 "Exits current function scope",
 		"commands/exit":                   "Exit murex",
+		"commands/expr":                   "Expressions: mathematical, string comparisons, logical operators",
 		"commands/false":                  "Returns a `false` value",
 		"commands/foreach":                "Iterate through an array",
 		"commands/formap":                 "Iterate through a map or other collection of data",
@@ -251,8 +253,6 @@ func init() {
 		"commands/try":                    "Handles non-zero exits inside a block of code",
 		"commands/die":                    "Terminate murex with an exit number of 1 (deprecated)",
 		"commands/event":                  "Event driven programming for shell scripts",
-		"commands/expr":                   "Expressions: mathematical, string comparisons, logical operators",
-		"commands/key-code":               "Returns character sequences for any key pressed (ie sent from the terminal)",
 		"commands/let":                    "Evaluate a mathematical function and assign to variable (deprecated)",
 		"commands/murex-parser":           "Runs the Murex parser against a block of code",
 		"commands/signal":                 "Sends a signal RPC",
@@ -415,6 +415,7 @@ func init() {
 
 	Synonym = map[string]string{
 
+		"key-code":              "key-code",
 		"addheading":            "addheading",
 		"prefix":                "prefix",
 		"list.prefix":           "prefix",
@@ -485,6 +486,7 @@ func init() {
 		"break":                 "break",
 		"return":                "return",
 		"exit":                  "exit",
+		"expr":                  "expr",
 		"false":                 "false",
 		"foreach":               "foreach",
 		"formap":                "formap",
@@ -593,8 +595,6 @@ func init() {
 		"die":                   "die",
 		"event":                 "event",
 		"!event":                "event",
-		"expr":                  "expr",
-		"key-code":              "key-code",
 		"let":                   "let",
 		"murex-parser":          "murex-parser",
 		"signal":                "signal",
@@ -657,6 +657,7 @@ func init() {
 		"logical-or":         "parser/logical-or",
 		"tilde":              "parser/tilde",
 
+		"commands/key-code":               "commands/key-code",
 		"commands/addheading":             "commands/addheading",
 		"commands/prefix":                 "commands/prefix",
 		"commands/list.prefix":            "commands/prefix",
@@ -727,6 +728,7 @@ func init() {
 		"commands/break":                  "commands/break",
 		"commands/return":                 "commands/return",
 		"commands/exit":                   "commands/exit",
+		"commands/expr":                   "commands/expr",
 		"commands/false":                  "commands/false",
 		"commands/foreach":                "commands/foreach",
 		"commands/formap":                 "commands/formap",
@@ -835,8 +837,6 @@ func init() {
 		"commands/die":                    "commands/die",
 		"commands/event":                  "commands/event",
 		"commands/!event":                 "commands/event",
-		"commands/expr":                   "commands/expr",
-		"commands/key-code":               "commands/key-code",
 		"commands/let":                    "commands/let",
 		"commands/murex-parser":           "commands/murex-parser",
 		"commands/signal":                 "commands/signal",

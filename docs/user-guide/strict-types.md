@@ -50,14 +50,14 @@ changing this option will not cause accidental side-effects in other functions.
 
 ## See Also
 
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
   Getting started with Murex
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

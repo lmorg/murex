@@ -63,6 +63,8 @@ Error in `expr` (0,1): cannot Add with string types
 
 * [Define Type (`cast`)](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
@@ -77,8 +79,6 @@ Error in `expr` (0,1): cannot Add with string types
   Subtracts one numeric value from another (expression)
 * [`/` Division Operator](../parser/division.md):
   Divides one numeric value from another (expression)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 * [`float` (floating point number)](../types/float.md):
   Floating point number (primitive)
 * [`int`](../types/int.md):

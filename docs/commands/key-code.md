@@ -1,4 +1,4 @@
-# `key-code`
+# ASCII And ANSI Escape Sequences (`key-code`)
 
 > Returns character sequences for any key pressed (ie sent from the terminal)
 

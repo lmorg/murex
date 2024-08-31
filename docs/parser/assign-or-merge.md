@@ -92,6 +92,8 @@ builtin.
 
 * [Alter Data Structure (`alter`)](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [For Each In List (`foreach`)](../commands/foreach.md):
   Iterate through an array
 * [Globbing (`g`)](../commands/g.md):
@@ -100,8 +102,6 @@ builtin.
   A table of all supported operators and tokens
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

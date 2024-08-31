@@ -95,6 +95,8 @@ Commands defined by POSIX.
   Change (working) directory
 * [Display Command Type (`type`)](../commands/type.md):
   Command type (function, builtin, alias, etc)
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [False (`false`)](../commands/false.md):
   Returns a `false` value
 * [Location Of Command (`which`)](../commands/which.md):
@@ -107,8 +109,6 @@ Commands defined by POSIX.
   `read` a line of input from the user and store as a variable
 * [True (`true`)](../commands/true.md):
   Returns a `true` value
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 ### List / Array Editing
 
@@ -191,12 +191,12 @@ Commands for working with strings.
 
 Commands for working with numerical data.
 
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Generate Random Sequence (`rand`)](../commands/rand.md):
   Random field generator
 * [Round Number (`round`)](../commands/round.md):
   Round a number by a user defined precision
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 ### Structured Data Management
 
@@ -298,6 +298,8 @@ Commands to manage the Murex shell session.
 
 Commands to escape special characters in various different string formats.
 
+* [ASCII And ANSI Escape Sequences (`key-code`)](../commands/key-code.md):
+  Returns character sequences for any key pressed (ie sent from the terminal)
 * [Escape Command Line String (`esccli`)](../commands/esccli.md):
   Escapes an array so output is valid shell code
 * [Escape HTML (`eschtml`)](../commands/eschtml.md):
@@ -306,8 +308,6 @@ Commands to escape special characters in various different string formats.
   Encode or decodes text for the URL
 * [Quote String (`escape`)](../commands/escape.md):
   Escape or unescape input
-* [`key-code`](../commands/key-code.md):
-  Returns character sequences for any key pressed (ie sent from the terminal)
 
 ### Process Management
 
@@ -356,6 +356,8 @@ Various commands that enable control flow, error handling and other important ch
   Exits current function scope
 * [Exit Murex (`exit`)](../commands/exit.md):
   Exit murex
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [For Each In List (`foreach`)](../commands/foreach.md):
   Iterate through an array
 * [For Each In Map (`formap`)](../commands/formap.md):
@@ -386,8 +388,6 @@ Various commands that enable control flow, error handling and other important ch
   Define a function block
 * [Switch Conditional (`switch`)](../commands/switch.md):
   Blocks of cascading conditionals
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 ### Error Handling
 

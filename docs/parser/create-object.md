@@ -63,6 +63,8 @@ look like a number.
 
 ## See Also
 
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 * [`"Double Quote"`](../parser/double-quote.md):
@@ -73,8 +75,6 @@ look like a number.
   Quickly generate arrays
 * [`'Single Quote'`](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

@@ -196,6 +196,8 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
   Define a global variable and set it's value
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Get Item (`[ Index ]`)](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
@@ -208,8 +210,6 @@ Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More in
   How scoping works within Murex
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 

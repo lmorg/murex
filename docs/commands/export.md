@@ -275,6 +275,8 @@ bar
   Define a global variable and set it's value
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Is Value Null (`is-null`)](../commands/is-null.md):
   Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
@@ -285,8 +287,6 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 
 <hr/>
 

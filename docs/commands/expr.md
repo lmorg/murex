@@ -1,4 +1,4 @@
-# `expr`
+# Expressions (`expr`)
 
 > Expressions: mathematical, string comparisons, logical operators
 

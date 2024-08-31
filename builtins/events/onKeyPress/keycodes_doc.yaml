@@ -1,6 +1,6 @@
 - DocumentID: key-code
   Title: >+
-    `key-code`
+    ASCII And ANSI Escape Sequences (`key-code`)
   CategoryID: commands
   SubCategoryIDs: [ commands.esc ]
   Summary: >-

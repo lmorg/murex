@@ -133,7 +133,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "freebsd",
+        "icon": "server",
         "text": "Defined by POSIX"
     },
     {
@@ -345,7 +345,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "sitemap",
         "text": "Structured Data Management"
     },
     {
