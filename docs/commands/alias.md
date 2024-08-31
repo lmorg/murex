@@ -1,4 +1,4 @@
-# shell.alias
+# Alias Pointer (`alias`)
 
 > Create an alias for a command
 
@@ -119,34 +119,32 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 * `alias`
 * `!alias`
-* `shell.alias`
-* `!shell.alias`
 
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Define Method Relationships (`method`)](../commands/method.md):
+  Define a methods supported data-types
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [Globbing (`g`)](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [exec.* (`fexec`)](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [exec.file: `exec`](../commands/exec.md):
-  Runs an executable
-* [exec.include (`source`)](../commands/source.md):
-  Import Murex code from another file or code block
-* [fs.glob (`g`)](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.method](../commands/method.md):
-  Define a methods supported data-types
-* [shell.private](../commands/private.md):
-  Define a private function block
-* [var.env: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [var.global: `global`](../commands/global.md):
-  Define a global variable and set it's value
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

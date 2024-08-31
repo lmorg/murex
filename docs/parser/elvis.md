@@ -49,12 +49,20 @@ where it says:
 
 ## See Also
 
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [Try Block (`try`)](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
@@ -63,16 +71,8 @@ where it says:
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`try`](../commands/try.md):
-  Handles non-zero exits inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
-* [io.err](../commands/err.md):
-  Print a line to the stderr
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 * [null](../commands/devnull.md):
   null function. Similar to /dev/null
 

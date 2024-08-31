@@ -1,4 +1,4 @@
-# list.regex
+# Regex Operations (`regexp`)
 
 > Regexp tools for arrays / lists of strings
 
@@ -95,34 +95,34 @@ same data-type.
 
 ## See Also
 
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [list.append](../commands/append.md):
+* [Add Prefix (`prefix`)](../commands/prefix.md):
+  Prefix a string to every item in a list
+* [Add Suffix (`suffix`)](../commands/suffix.md):
+  Prefix a string to every item in a list
+* [Append To List (`append`)](../commands/append.md):
   Add data to the end of an array
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
-* [list.new.type: `ta`](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
-* [list.prefix](../commands/prefix.md):
-  Prefix a string to every item in a list
-* [list.prepend](../commands/prepend.md):
-  Add data to the start of an array
-* [list.sort](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [list.str (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [list.suffix](../commands/suffix.md):
-  Prefix a string to every item in a list
-* [str.split](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [struct.count](../commands/count.md):
+* [Count (`count`)](../commands/count.md):
   Count items in a map, list or array
-* [struct.json.pretty](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [struct.new.2darray](../commands/2darray.md):
+* [Create 2d Array (`2darray`)](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [struct.new.map (`map`)](../commands/map.md):
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Map (`map`)](../commands/map.md):
   Creates a map from two data sources
+* [Create New Array (`ta`)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Match String (`match`)](../commands/match.md):
+  Match an exact value in an array
+* [Prepend To List (`prepend`)](../commands/prepend.md):
+  Add data to the start of an array
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Sort Array (`msort`)](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

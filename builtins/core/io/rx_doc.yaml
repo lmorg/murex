@@ -1,7 +1,8 @@
 - DocumentID: rx
   Title: >+
-    Filesystem: Regex Matches (`rx`)
+    Regex Matches (`rx`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Regexp pattern matching for file system objects (eg `.*\\.txt`)
   Description: |-
@@ -107,8 +108,6 @@
   Synonyms:
   - rx
   - "!rx"
-  - fs.regex
-  - "!fs.regex"
   Related:
   - g
   - f

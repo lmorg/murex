@@ -1,4 +1,4 @@
-# fs.open.image
+# Render Image In Terminal (`open-image`)
 
 > Renders bitmap image data on your terminal
 
@@ -37,15 +37,14 @@ open-image file-path -> <stdout>
 ## Synonyms
 
 * `open-image`
-* `fs.open.image`
 
 
 ## See Also
 
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
 * [`qr`](../optional/qr.md):
   Creates a QR code from stdin
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
 
 <hr/>
 

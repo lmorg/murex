@@ -77,12 +77,12 @@ how you define that value.
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [shell.packages (`murex-package`)](../commands/murex-package.md):
+* [Murex Package Management (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
-* [var.env: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
 
 <hr/>
 

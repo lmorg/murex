@@ -85,28 +85,28 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ## See Also
 
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
+* [Define Type (`cast`)](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
   Reformat one data-type into another data-type
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [struct.json.pretty](../commands/pretty.md):
-  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

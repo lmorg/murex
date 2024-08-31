@@ -127,20 +127,20 @@ under `/integrations`.
 
 * [Man Pages (POSIX)](../integrations/man-pages.md):
   Linux/UNIX `man` page integrations
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
 
 ## Other Integrations
 

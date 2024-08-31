@@ -1,7 +1,8 @@
 - DocumentID: for
   Title: >+
-    Control Flow: For Loop (`for`)
+    For Loop (`for`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     A more familiar iteration loop to existing developers
   Description: |-

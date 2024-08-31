@@ -1,7 +1,9 @@
 - DocumentID: match
   Title: >+
-    List: Match String (`match`)
+    Match String (`match`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Match an exact value in an array
   Description: |-
@@ -86,8 +88,11 @@
 
 - DocumentID: regexp
   Title: >+
-    List: Regex Pattern (`regexp`)
+    Regex Operations (`regexp`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.str
   Summary: >-
     Regexp tools for arrays / lists of strings
   Description: |-

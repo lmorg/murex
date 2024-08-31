@@ -13,10 +13,72 @@ Categories:
       DocumentTemplate: gen/root-md-doc.tmpl
 
   - ID: commands
-    Title: Builtins Reference
+    Title: Command Reference
     Description: |-
-      {{ include "gen/commands-md-cat.inc.md" }}  
+      {{ include "gen/commands-md-cat.inc.md" }}
 
+    SubCategories:
+    - ID: commands.io
+      Title: Input / Output Streams
+      Description: |-
+        Commands for managing the flow of data between different processes and/or the terminal screen.
+    - ID: commands.fs
+      Title: Filesystem Operations
+      Description: |-
+        Commands for working with files and/or the filesystem.
+    - ID: commands.posix
+      Title: Defined by POSIX
+      Description: |-
+        Commands defined by POSIX.
+    - ID: commands.list
+      Title: List / Array Editing
+      Description: |-
+        Commands that operate against a list or array.
+    - ID: commands.str
+      Title: String Manipulation
+      Description: |-
+        Commands for working with strings.
+        > All list based tools also work with strings.
+    - ID: commands.num
+      Title: Numeric / Math Tools
+      Description: |-
+        Commands for working with numerical data.
+    - ID: commands.struct
+      Title: Structured Data Management
+      Description: |-
+        Commands for working with structured data such as maps, tables, arrays and other data formats that are present in documents such as CSV, JSON, YAML, TOML, Sexpr, CSV, etc. 
+    - ID: commands.table
+      Title: Table Management
+      Description: |-
+        Commands specifically for working with tabulated data.
+    - ID: commands.sys
+      Title: System Inspection
+      Description: |-
+        Tools to inspect the host system.
+    - ID: commands.shell
+      Title: Shell / Murex Management
+      Description: |-
+        Commands to manage the Murex shell session.
+    - ID: commands.esc
+      Title: String Escaping / Character Codes
+      Description: |-
+        Commands to escape special characters in various different string formats.
+    - ID: commands.proc
+      Title: Process Management
+      Description: |-
+        Management of system processes and Murex FIDs.
+    - ID: commands.lang
+      Title: Language And Scripting
+      Description: |-
+        Various commands that enable control flow, error handling and other important characteristics that turn Murex into a functional programming language.
+    - ID: commands.err
+      Title: Error Handling
+      Description: |-
+        Tools and control flow structures to handle errors.
+    - ID: commands.help
+      Title: Help and Hint Tools
+      Description: |-
+        Tools for providing help and hints, useful when working inside the interactive shell.
     Templates:
     - OutputPath: docs/commands
       CategoryFile: README.md

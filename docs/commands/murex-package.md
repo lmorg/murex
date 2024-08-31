@@ -1,4 +1,4 @@
-# shell.packages (`murex-package`)
+# Murex Package Management (`murex-package`)
 
 > Murex's package manager
 
@@ -114,26 +114,25 @@ If you wish to view what modules are loaded in a current session then use
 ## Synonyms
 
 * `murex-package`
-* `shell.packages`
 
 
 ## See Also
 
+* [Alias Pointer (`alias`)](../commands/alias.md):
+  Create an alias for a command
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
-* [shell.alias](../commands/alias.md):
-  Create an alias for a command
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.function](../commands/function.md):
+* [Public Function (`function`)](../commands/function.md):
   Define a function block
-* [shell.private](../commands/private.md):
-  Define a private function block
-* [shell.runtime](../commands/runtime.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

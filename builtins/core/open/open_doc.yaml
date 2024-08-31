@@ -1,7 +1,10 @@
 - DocumentID: open
   Title: >+
-    Filesystem: Open File (`open`)
+    Open File (`open`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.fs
+    - commands.http
   Summary: >-
     Open a file with a preferred handler
   Description: |-
@@ -156,7 +159,6 @@
     ```
   Synonyms:
   - open
-  - fs.open
   Related:
   - openagent
   - fexec
@@ -172,8 +174,10 @@
 
 - DocumentID: openagent
   Title: >+
-    shell.open: `openagent`
+    Define Handlers For "`open`" (`openagent`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Creates a handler function for `open`
   Description: |-
@@ -207,8 +211,6 @@
   Synonyms:
   - openagent
   - "!openagent"
-  - shell.open
-  - "!shell.open"
   Related:
   - open
   - fexec

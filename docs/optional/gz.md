@@ -22,18 +22,18 @@ An optional builtin for compressing or decompressing a gzip stream from stdin.
 
 ## See Also
 
+* [Escape Command Line String (`esccli`)](../commands/esccli.md):
+  Escapes an array so output is valid shell code
+* [Escape HTML (`eschtml`)](../commands/eschtml.md):
+  Encode or decodes text for HTML
+* [Escape URL (`escurl`)](../commands/escurl.md):
+  Encode or decodes text for the URL
+* [Quote String (`escape`)](../commands/escape.md):
+  Escape or unescape input
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
 * [`base64` ](../optional/base64.md):
   Encode or decode a base64 string
-* [escape.cli](../commands/esccli.md):
-  Escapes an array so output is valid shell code
-* [escape.html](../commands/eschtml.md):
-  Encode or decodes text for HTML
-* [escape.quote](../commands/escape.md):
-  Escape or unescape input
-* [escape.url](../commands/escurl.md):
-  Encode or decodes text for the URL
 
 <hr/>
 

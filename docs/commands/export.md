@@ -1,4 +1,4 @@
-# var.env: `export`
+# Define Environmental Variable (`export`)
 
 > Define an environmental variable and set it's value
 
@@ -271,6 +271,12 @@ bar
 
 ## See Also
 
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Is Value Null (`is-null`)](../commands/is-null.md):
+  Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -281,12 +287,6 @@ bar
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`is-null`](../commands/is-null.md):
-  Checks if a variable is null or undefined
-* [var.global: `global`](../commands/global.md):
-  Define a global variable and set it's value
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

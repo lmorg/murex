@@ -8,9 +8,9 @@ import (
 
 func parseSourceFile(path string, structure interface{}) {
 	f := fileReader(path)
-	b := readAll(f)
-
-	err := yaml.Unmarshal(b, structure)
+	yml := yaml.NewDecoder(f)
+	yml.KnownFields(true)
+	err := yml.Decode(structure)
 	if err != nil {
 		panic(fmt.Sprintf("%s (%s)", err.Error(), path))
 	}

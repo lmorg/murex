@@ -1,7 +1,8 @@
 - DocumentID: g
   Title: >+
-    Filesystem: Globbing (`g`)
+    Globbing (`g`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Glob pattern matching for file system objects (eg `*.txt`)
   Description: |-
@@ -125,8 +126,6 @@
   Synonyms:
   - g
   - "!g"
-  - fs.glob
-  - "!fs.glob"
   Related:
   - rx
   - f

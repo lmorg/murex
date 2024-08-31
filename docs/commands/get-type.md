@@ -1,4 +1,4 @@
-# `get-type`
+# Get Data Type (`get-type`)
 
 > Returns the data-type of a variable or pipe
 
@@ -51,22 +51,22 @@ json
 
 ## See Also
 
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Debugging Mode (`debug`)](../commands/debug.md):
+  Debugging information
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [io.new.pipe](../commands/pipe.md):
-  Manage Murex named pipes
-* [io.out.type (`tout`)](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [shell.debug](../commands/debug.md):
-  Debugging information
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

@@ -1,7 +1,9 @@
 - DocumentID: fid-kill
   Title: >+
-    Processes: Kill (`fid-kill`)
+    Kill Function (`fid-kill`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Terminate a running Murex function
   Description: |-
@@ -17,7 +19,6 @@
     {{ include "gen/includes/fid-kill.inc.md" }}
   Synonyms:
     - fid-kill
-    - proc.kill
   Related:
     - fid-list
     - fid-killall
@@ -34,12 +35,15 @@
 
 - DocumentID: fid-killall
   Title: >+
-    Processes: Kill All In Session (`fid-killall`)
+    Kill All In Session (`fid-killall`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
-    Terminate _all_ running Murex functions
+    Terminate all running Murex functions in current session
   Description: |-
-    `fid-killall` will terminate _all_ running Murex functions.
+    `fid-killall` will terminate **all** processes and Murex functions in the
+    current session.
   Usage: |-
     ```
     fid-killall
@@ -52,7 +56,6 @@
     {{ include "gen/includes/fid-kill.inc.md" }}
   Synonyms:
     - fid-killall
-    - proc.kill.all
   Related:
     - fid-list
     - fid-kill

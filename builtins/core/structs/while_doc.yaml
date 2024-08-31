@@ -1,7 +1,8 @@
 - DocumentID: while
   Title: >+
-    `while`
+    Loop While (`while`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Loop until condition false
   Description: |-

@@ -1,4 +1,4 @@
-# struct.alter
+# Alter Data Structure (`alter`)
 
 > Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
@@ -181,29 +181,28 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 * `alter`
 * `~>`
-* `struct.alter`
 
 
 ## See Also
 
+* [Append To List (`append`)](../commands/append.md):
+  Add data to the end of an array
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Prepend To List (`prepend`)](../commands/prepend.md):
+  Add data to the start of an array
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`<~` Assign Or Merge](../parser/assign-or-merge.md):
   Merges the right hand value to a variable on the left hand side (expression)
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [list.append](../commands/append.md):
-  Add data to the end of an array
-* [list.prepend](../commands/prepend.md):
-  Add data to the start of an array
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 
 <hr/>
 

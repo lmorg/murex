@@ -1,7 +1,10 @@
 - DocumentID: list.case
   Title: >-
-    List: Change Text Case
+    Change Text Case (`list.case`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.str
   Summary: >-
     Changes the character case of a string or all elements in an array
   Description: |-

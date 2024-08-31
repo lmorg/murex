@@ -1,4 +1,4 @@
-# escape.url
+# Escape URL (`escurl`)
 
 > Encode or decodes text for the URL
 
@@ -48,23 +48,21 @@ out '%21%3F%20%3C%3E%0A' -> !escurl
 
 * `escurl`
 * `!escurl`
-* `escape.url`
-* `!escape.url`
 
 
 ## See Also
 
-* [`get`](../commands/get.md):
-  Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../commands/getfile.md):
+* [Download File (`getfile`)](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`post`](../commands/post.md):
-  HTTP POST request with a JSON-parsable return
-* [escape.cli](../commands/esccli.md):
+* [Escape Command Line String (`esccli`)](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [escape.html](../commands/eschtml.md):
+* [Escape HTML (`eschtml`)](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [escape.quote](../commands/escape.md):
+* [Get Request (`get`)](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [Post Request (`post`)](../commands/post.md):
+  HTTP POST request with a JSON-parsable return
+* [Quote String (`escape`)](../commands/escape.md):
   Escape or unescape input
 
 <hr/>

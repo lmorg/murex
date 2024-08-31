@@ -43,12 +43,12 @@ precision.
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [var.env: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
 
 <hr/>
 

@@ -60,22 +60,22 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 ## See Also
 
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
 * [`PARAMS` (json)](../variables/params.md):
   Array of the parameters within a given scope
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.private](../commands/private.md):
-  Define a private function block
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

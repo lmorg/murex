@@ -1,4 +1,4 @@
-# shell.config
+# Shell Configuration And Settings (`config`)
 
 > Query or define Murex runtime settings
 
@@ -231,38 +231,36 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 * `config`
 * `!config`
-* `shell.config`
-* `!shell.config`
 
 
 ## See Also
 
+* [Alter Data Structure (`alter`)](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [Append To List (`append`)](../commands/append.md):
+  Add data to the end of an array
+* [Download File (`getfile`)](../commands/getfile.md):
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Get Request (`get`)](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [Match String (`match`)](../commands/match.md):
+  Match an exact value in an array
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Post Request (`post`)](../commands/post.md):
+  HTTP POST request with a JSON-parsable return
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`get`](../commands/get.md):
-  Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../commands/getfile.md):
-  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`post`](../commands/post.md):
-  HTTP POST request with a JSON-parsable return
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
-* [list.append](../commands/append.md):
-  Add data to the end of an array
-* [list.str (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [struct.alter](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

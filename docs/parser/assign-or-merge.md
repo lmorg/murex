@@ -90,18 +90,18 @@ builtin.
 
 ## See Also
 
+* [Alter Data Structure (`alter`)](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [Globbing (`g`)](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [fs.glob (`g`)](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [struct.alter](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

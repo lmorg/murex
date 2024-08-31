@@ -1,4 +1,4 @@
-# shell.runtime
+# Shell Runtime (`runtime`)
 
 > Returns runtime information on the internal state of Murex
 
@@ -286,52 +286,52 @@ functions.
 
 ## See Also
 
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Debugging Mode (`debug`)](../commands/debug.md):
+  Debugging information
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
+* [Define Method Relationships (`method`)](../commands/method.md):
+  Define a methods supported data-types
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [For Each In Map (`formap`)](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Script Tests (`test`)](../commands/test.md):
+  Murex's test framework - define tests, run tests and debug shell scripts
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`formap`](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`test`](../commands/test.md):
-  Murex's test framework - define tests, run tests and debug shell scripts
-* [exec.include (`source`)](../commands/source.md):
-  Import Murex code from another file or code block
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
-* [io.new.pipe](../commands/pipe.md):
-  Manage Murex named pipes
-* [proc.list](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.debug](../commands/debug.md):
-  Debugging information
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.method](../commands/method.md):
-  Define a methods supported data-types
-* [shell.open: `openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
-* [shell.private](../commands/private.md):
-  Define a private function block
-* [struct.json.pretty](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [var.env: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [var.global: `global`](../commands/global.md):
-  Define a global variable and set it's value
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

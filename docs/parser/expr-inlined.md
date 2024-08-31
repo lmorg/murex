@@ -25,10 +25,10 @@ that parameter will be treated like a string.
 
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
+* [Output String (`echo`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [io.echo](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

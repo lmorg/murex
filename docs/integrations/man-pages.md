@@ -44,18 +44,18 @@ That command will generally be pulled from its accompanying `man` page.
 
 * [ChatGPT](../integrations/chatgpt.md):
   How to enable ChatGPT hints
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 * [cheat.sh](../integrations/cheatsh.md):
   Cheatsheets provided by cheat.sh
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 
 ## Other Integrations
 

@@ -59,12 +59,12 @@ event onKeyPress close=$key {
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`onKeyPress`](../events/onkeypress.md):
   Custom definable key bindings and macros
-* [io.out.type (`tout`)](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 
 <hr/>
 

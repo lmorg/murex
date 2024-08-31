@@ -1,7 +1,10 @@
 - DocumentID: item-index
   Title: >+
-    Struct: Get Item (`[ Index ]`)
-  CategoryID: commands
+    Get Item (`[ Index ]`)
+  CategoryID: parser
+  SubCategoryIDs:
+    - commands.struct
+    - commands.list
   Summary: >-
     Outputs an element from an array, map or table
   Description: |-

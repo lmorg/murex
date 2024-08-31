@@ -1,7 +1,8 @@
 - DocumentID: struct-keys
   Title: >+
-    Struct: List Keys
+    Print Map / Structure Keys (`struct-keys`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.struct ]
   Summary: >-
     Outputs all the keys in a structure as a file path
   Description: |-
@@ -149,7 +150,6 @@
   Detail:
   Synonyms:
   - struct-keys
-  - struct.keys
   Related:
   - set
   - item-index

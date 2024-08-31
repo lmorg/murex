@@ -64,14 +64,18 @@ use `config`)
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Inline SQL (`select`)](../optional/select.md):
+  Inlining SQL into shell pipelines
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`int`](../types/int.md):
   Whole number (primitive)
 * [`jsonl`](../types/jsonl.md):
@@ -80,10 +84,6 @@ use `config`)
   string (primitive)
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [table.select: `select`](../optional/select.md):
-  Inlining SQL into shell pipelines
 
 ### Read more about type hooks
 

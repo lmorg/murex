@@ -90,6 +90,10 @@ Hello (World!)
 
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`'Single Quote'`](../parser/single-quote.md):
@@ -104,10 +108,6 @@ Hello (World!)
   Initiates or terminates a code block
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

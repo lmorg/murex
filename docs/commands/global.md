@@ -1,4 +1,4 @@
-# var.global: `global`
+# Define Global (`global`)
 
 > Define a global variable and set it's value
 
@@ -249,12 +249,20 @@ bar
 
 * `global`
 * `!global`
-* `var.global`
-* `!var.global`
 
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Is Value Null (`is-null`)](../commands/is-null.md):
+  Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -263,18 +271,8 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`is-null`](../commands/is-null.md):
-  Checks if a variable is null or undefined
-* [var.env: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

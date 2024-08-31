@@ -1,7 +1,9 @@
 - DocumentID: namedpipe
   Title: >+
-    IO: Read / Write To A Named Pipe (`<pipe>`)
-  CategoryID: commands
+    Read / Write To A Named Pipe (`<pipe>`)
+  CategoryID: parser
+  SubCategoryIDs:
+    - commands.io
   Summary: >-
     Reads from a Murex named pipe
   Description: |-
@@ -39,7 +41,6 @@
     - "(murex named pipe)"
     - "<>"
     - read-named-pipe
-    - io.pipe
   Related:
     - pipe
     - stdin
@@ -52,8 +53,10 @@
 
 - DocumentID: stdin
   Title: >+
-    IO: Read From Stdin (`<stdin>`)
-  CategoryID: commands
+    Read From Stdin (`<stdin>`)
+  CategoryID: parser
+  SubCategoryIDs:
+    - commands.io
   Summary: >-
     Read the stdin belonging to the parent code block
   Description: |-
@@ -105,7 +108,6 @@
     {{ include "gen/includes/named-pipes.inc.md" }}
   Synonyms:
     - "<stdin>"
-    - io.in
   Related:
     - pipe
     - namedpipe

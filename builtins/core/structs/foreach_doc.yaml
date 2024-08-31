@@ -1,7 +1,10 @@
 - DocumentID: foreach
   Title: >+
-    Control Flow: For Each In List (`foreach`)
+    For Each In List (`foreach`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.lang
+    - commands.list
   Summary: >-
     Iterate through an array
   Description: |-

@@ -1,7 +1,9 @@
 - DocumentID: exitnum
   Title: >+
-    Processes: Get Exit Code (`exitnum`)
+    Get Exit Code (`exitnum`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Output the exit number of the previous process
   Description: |-
@@ -19,7 +21,6 @@
   Detail:
   Synonyms:
   - exitnum
-  - proc.exitnum
   Related:
   - runtime
   - test
@@ -28,7 +29,9 @@
 
 - DocumentID: murex-update-exe-list
   Title: >+
-    Shell: Re-scan $PATH
+    Re-Scan $PATH For Executables
+  SubCategoryIDs:
+    - commands.shell
   CategoryID: commands
   Summary: >-
     Forces Murex to rescan $PATH looking for executables
@@ -51,7 +54,6 @@
     invoked for command name completion via the REPL shell.
   Synonyms:
   - murex-update-exe-list
-  - shell.rescan.path
   Related:
   - os
   - cpuarch
@@ -61,8 +63,10 @@
 
 - DocumentID: man-summary
   Title: >+
-    Help: Man-Page Summary
+    Man-Page Summary (`man-summary`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.help
   Summary: >-
     Outputs a man page summary of a command
   Description: |-
@@ -107,8 +111,10 @@
 
 - DocumentID: cd
   Title: >+
-    Core: Change Directory
+    Change Directory (`cd`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.posix
   Summary: >-
     Change (working) directory
   Description: |-
@@ -188,8 +194,9 @@
 
 - DocumentID: bexists
   Title: >+
-    Shell: Check Builtin Exists
+    Check Builtin Exists (`bexists`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.proc ]
   Summary: >-
     Check which builtins exist
   Description: |-

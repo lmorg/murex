@@ -52,18 +52,28 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json`](../types/json.md):
@@ -78,18 +88,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   YAML Ain't Markup Language (YAML)
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [struct.json.pretty](../commands/pretty.md):
-  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

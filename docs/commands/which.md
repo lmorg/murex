@@ -1,4 +1,4 @@
-# `which`
+# Location Of Command (`which`)
 
 > Locate command origin
 
@@ -75,19 +75,19 @@ In `type`, it is represented by the term **executable**.
 
 ## See Also
 
-* [`exit`](../commands/exit.md):
-  Exit murex
-* [`type`](../commands/type.md):
-  Command type (function, builtin, alias, etc)
-* [exec.* (`fexec`)](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [exec.file: `exec`](../commands/exec.md):
-  Runs an executable
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [shell.alias](../commands/alias.md):
+* [Alias Pointer (`alias`)](../commands/alias.md):
   Create an alias for a command
-* [shell.function](../commands/function.md):
+* [Display Command Type (`type`)](../commands/type.md):
+  Command type (function, builtin, alias, etc)
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [Exit Murex (`exit`)](../commands/exit.md):
+  Exit murex
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Public Function (`function`)](../commands/function.md):
   Define a function block
 
 <hr/>

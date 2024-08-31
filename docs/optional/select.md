@@ -1,4 +1,4 @@
-# table.select: `select`
+# Inline SQL (`select`)
 
 > Inlining SQL into shell pipelines
 
@@ -133,14 +133,14 @@ If you do run into any issues then please raise them on [Github](https://github.
 
 ## See Also
 
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
 * [v2.1](../changelog/v2.1.md):
   This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.
 

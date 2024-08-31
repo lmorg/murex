@@ -303,6 +303,18 @@ files.
   Inline expressions
 * [C-style functions](../parser/c-style-fun.md):
   Inlined commands for expressions and statements
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Truncate File (`>`)](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`$Scalar` Sigil (eg variables)](../parser/scalar.md):
@@ -353,12 +365,6 @@ files.
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
 * [`[{ Lambda }]`](../parser/lambda.md):
   Iterate through structured data
 * [`{ Curly Brace }`](../parser/curly-brace.md):

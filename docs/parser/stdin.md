@@ -1,4 +1,4 @@
-# io.in (`<stdin>`)
+# Read From Stdin (`<stdin>`)
 
 > Read the stdin belonging to the parent code block
 
@@ -127,24 +127,23 @@ that pipes created in modules should be prefixed with the name of its package.
 ## Synonyms
 
 * `<stdin>`
-* `io.in`
 
 
 ## See Also
 
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Match String (`match`)](../commands/match.md):
+  Match an exact value in an array
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [io.new.pipe](../commands/pipe.md):
-  Manage Murex named pipes
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
-  Reads from a Murex named pipe
-* [list.str (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [shell.function](../commands/function.md):
+* [Public Function (`function`)](../commands/function.md):
   Define a function block
-* [shell.runtime](../commands/runtime.md):
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

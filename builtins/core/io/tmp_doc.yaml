@@ -1,7 +1,8 @@
 - DocumentID: tmp
   Title: >+
-    Filesystem: Temp Files (`tmp`)
+    Create Temporary File (`tmp`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Create a temporary file and write to it
   Description: |-
@@ -41,7 +42,6 @@
     `$TMPDIR` on macOS).
   Synonyms:
     - tmp
-    - fs.new.tmpfile
   Related:
     - open
     - file-truncate

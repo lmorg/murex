@@ -1,7 +1,9 @@
 - DocumentID: version
   Title: >+
-    Shell: Version
+    Murex Version (`version`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Get Murex version
   Description: |-
@@ -39,7 +41,6 @@
   Detail:
   Synonyms:
     - version
-    - shell.version
   Related:
     - config
     - runtime

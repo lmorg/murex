@@ -1,4 +1,4 @@
-# help.man.summary
+# Man-Page Summary (`man-summary`)
 
 > Outputs a man page summary of a command
 
@@ -46,14 +46,14 @@ ae - no man page exists
 
 ## See Also
 
-* [`murex-docs`](../commands/murex-docs.md):
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [help.man.flags](../commands/man-get-flags.md):
+* [Parse Man-Page For Flags (`man-get-flags`)](../commands/man-get-flags.md):
   Parses man page files for command line flags 
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.summary](../commands/summary.md):
+* [Set Command Summary Hint (`summary`)](../commands/summary.md):
   Defines a summary help text for a command
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

@@ -1,6 +1,9 @@
 - DocumentID: summary
   Title: >+
-    Shell: Command Summary
+    Set Command Summary Hint (`summary`)
+  SubCategoryIDs:
+    - commands.shell
+    - commands.help
   CategoryID: commands
   Summary: >-
     Defines a summary help text for a command
@@ -43,8 +46,6 @@
   Synonyms:
   - summary
   - "!summary"
-  - shell.summary
-  - "!shell.summary"
   Related:
   - config
   - runtime
@@ -59,8 +60,8 @@
 
 - DocumentID: murex-parser
   Title: >+
-    `murex-parser` 
-  CategoryID: deprecated
+    `murex-parser`
+  CategoryID: commands
   Summary: >-
     Runs the Murex parser against a block of code 
   Description: |-
@@ -88,8 +89,10 @@
 
 - DocumentID: args
   Title: >+
-    Lang: Define Function Args 
+    Define Function Arguments (`args`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.lang
   Summary: >-
     Command line flag parser for Murex shell scripting
   Description: |-
@@ -119,8 +122,10 @@
 
 - DocumentID: man-get-flags
   Title: >+
-    Help: Man-Page Flags
+    Parse Man-Page For Flags (`man-get-flags`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.help
   Summary: >-
     Parses man page files for command line flags 
   Description: |-
@@ -165,7 +170,6 @@
     requirement is that flags are hyphen prefixed, eg `--flag`.
   Synonyms:
   - man-get-flags
-  - help.man.flags
   Related:
   - murex-docs
   - summary

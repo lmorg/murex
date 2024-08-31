@@ -1,4 +1,4 @@
-# shell.version
+# Murex Version (`version`)
 
 > Get Murex version
 
@@ -45,27 +45,26 @@ murex: 0.51.1200 BETA
 ## Synonyms
 
 * `version`
-* `shell.version`
 
 
 ## See Also
 
-* [`args` ](../commands/args.md):
+* [Define Function Arguments (`args`)](../commands/args.md):
   Command line flag parser for Murex shell scripting
-* [`murex-parser` ](../deprecated/murex-parser.md):
-  Runs the Murex parser against a block of code 
-* [exec.include (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
   Import Murex code from another file or code block
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.private](../commands/private.md):
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
-* [shell.runtime](../commands/runtime.md):
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [`murex-parser`](../commands/murex-parser.md):
+  Runs the Murex parser against a block of code 
 
 <hr/>
 

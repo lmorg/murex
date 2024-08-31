@@ -1,7 +1,10 @@
 - DocumentID: count
   Title: >+
-    Struct: Count
+    Count (`count`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.struct
   Summary: >-
     Count items in a map, list or array
   Description: |-
@@ -132,7 +135,6 @@
   Synonyms:
     - count
     - len
-    - struct.count
   Related:
     - prepend
     - append

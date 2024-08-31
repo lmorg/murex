@@ -1,4 +1,4 @@
-# `[[ Element ]]`
+# Get Nested Element (`[[ Element ]]`)
 
 > Outputs an element from a nested structure
 
@@ -122,20 +122,20 @@ bool
 
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
-* [list.reverse (`mtac`)](../commands/mtac.md):
-  Reverse the order of an array
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [struct.count](../commands/count.md):
+* [Count (`count`)](../commands/count.md):
   Count items in a map, list or array
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Reverse Array (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

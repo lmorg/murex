@@ -1,7 +1,8 @@
 - DocumentID: 2darray
   Title: >-
-    Struct: Create 2d Array
+    Create 2d Array (`2darray`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.struct ]
   Summary: >-
     Create a 2D JSON array from multiple input sources
   Description: |-
@@ -87,7 +88,6 @@
     `2darray` can have as many or as few code blocks as you wish.
   Synonyms:
   - 2darray
-  - struct.new.2darray
   Related:
   - prepend
   - append

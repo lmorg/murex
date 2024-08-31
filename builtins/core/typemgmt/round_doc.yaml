@@ -1,7 +1,8 @@
 - DocumentID: round
   Title: >+
-    num.round: `round`
+    Round Number (`round`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.num ]
   Summary: >-
     Round a number by a user defined precision
   Description: |-

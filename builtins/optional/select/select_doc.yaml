@@ -1,7 +1,8 @@
 - DocumentID: select
   Title: >-
-    table.select: `select`
+    Inline SQL (`select`)
   CategoryID: optional
+  SubCategoryIDs: [ commands.table ]
   Summary: >-
     Inlining SQL into shell pipelines
   Description: |-

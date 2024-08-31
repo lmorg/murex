@@ -175,8 +175,14 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create New Array (`ta`)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -187,12 +193,6 @@ arrays. For more details on these please refer to the documents for each format
   Initiates or terminates a string (variables not expanded)
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
-* [list.new.type: `ta`](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
 
 <hr/>
 

@@ -1,7 +1,10 @@
 - DocumentID: pipe
   Title: >+
-    IO: Create Named Pipe
+    Create Named Pipe (`pipe`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.shell
   Summary: >-
     Manage Murex named pipes
   Description: |-
@@ -46,8 +49,6 @@
   Synonyms:
   - pipe
   - "!pipe"
-  - io.new.pipe
-  - "!io.new.pipe"
   Related:
   - namedpipe
   - stdin

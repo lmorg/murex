@@ -2,6 +2,7 @@
   Title: >+
     `signal`
   CategoryID: commands
+  SubCategoryIDs: [ commands.proc ]
   Summary: >-
     Sends a signal RPC
   Description: |-

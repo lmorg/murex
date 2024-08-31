@@ -1,4 +1,4 @@
-# fs.lockfile
+# Lock Files (`lockfile`)
 
 > Create and manage lock files
 
@@ -51,15 +51,14 @@ out "lock file gone!"
 ## Synonyms
 
 * `lockfile`
-* `fs.lockfile`
 
 
 ## See Also
 
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [proc.bg](../commands/bg.md):
+* [Background Process (`bg`)](../commands/bg.md):
   Run processes in the background
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

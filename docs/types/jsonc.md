@@ -130,18 +130,24 @@ parser is still in beta), it is shipped as an additional data-type.
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json`](../types/json.md):
@@ -152,16 +158,10 @@ parser is still in beta), it is shipped as an additional data-type.
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)
-* [shell.runtime](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [struct.json.pretty](../commands/pretty.md):
-  Prettifies JSON to make it human readable
 
 ### Read more about type hooks
 

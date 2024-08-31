@@ -2,6 +2,7 @@ package docgen
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -33,6 +34,7 @@ var funcMap = template.FuncMap{
 	"otherdocs":  funcOtherDocs,
 	"env":        funcEnv,
 	"fn":         funcFunctions,
+	"dump":       funcDump,
 }
 
 var funcMap__fn = template.FuncMap{}
@@ -325,4 +327,14 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	return w.String()
+}
+
+/************
+ *   Dump   *
+ ************/
+
+// Returns: A JSON dump of something (this is an internal tool for debugging)
+func funcDump() string {
+	b, _ := json.MarshalIndent(Config.Categories, "", "    ")
+	return string(b)
 }

@@ -117,6 +117,8 @@ terminal (TTY) or a pipe?)
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -125,8 +127,6 @@ terminal (TTY) or a pipe?)
   JavaScript Object Notation (JSON)
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [shell.function](../commands/function.md):
-  Define a function block
 
 <hr/>
 

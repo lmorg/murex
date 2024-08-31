@@ -1,7 +1,8 @@
 - DocumentID: lockfile
   Title: >+
-    Filesystem: Lock Files
+    Lock Files (`lockfile`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Create and manage lock files
   Description: |-
@@ -47,7 +48,6 @@
   Detail:
   Synonyms:
     - lockfile
-    - fs.lockfile
   Related:
     - out
     - bg

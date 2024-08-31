@@ -2,12 +2,13 @@
   Title: >+
     `event`
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Event driven programming for shell scripts
   Description: |-
     Create or destroy an event interrupt,
 
-    Each event will have subtilty different behaviour depending on the event itself
+    Each event will have subtly different behaviour depending on the event itself
     due to the differing roles of each event system. Therefore it is recommended
     that you read the docs on each event to understand its behaviour.
 

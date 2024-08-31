@@ -138,22 +138,22 @@ Task 1
 
 ## See Also
 
+* [Background Process (`bg`)](../commands/bg.md):
+  Run processes in the background
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [Foreground Process (`fg`)](../commands/fg.md):
+  Sends a background process into the foreground
+* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
+  Terminate a running Murex function
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [exec.* (`fexec`)](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [exec.file: `exec`](../commands/exec.md):
-  Runs an executable
-* [jobs](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [proc.bg](../commands/bg.md):
-  Run processes in the background
-* [proc.fg](../commands/fg.md):
-  Sends a background process into the foreground
-* [proc.kill](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [proc.list](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
 
 <hr/>
 

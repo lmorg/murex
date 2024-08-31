@@ -1,7 +1,9 @@
 - DocumentID: a
   Title: >+
-    List: Stream New List (`a`)
+    Stream New List (`a`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     A sophisticated yet simple way to stream an array or list (mkarray)
   Description: |-
@@ -133,7 +135,6 @@
   Synonyms:
     - a
     - mkarray
-    - list.new.str
   Related:
     - create-array
     - range
@@ -148,8 +149,10 @@
 
 - DocumentID: ja
   Title: >+
-    List: Create Json Array (`ja`)
+    Create JSON Array (`ja`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     A sophisticated yet simply way to build a JSON array
   Description: |-
@@ -213,8 +216,10 @@
 
 - DocumentID: ta
   Title: >+
-    List: Create New Array (`ta`)
+    Create New Array (`ta`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     A sophisticated yet simple way to build an array of a user defined data-type
   Description: |-
@@ -262,7 +267,6 @@
     `ta`'s supported features.
   Synonyms:
     - ta
-    - list.new.type
   Related:
     - create-array
     - range

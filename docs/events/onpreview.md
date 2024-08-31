@@ -166,22 +166,22 @@ from different interrupts).
   What's different about Murex's interactive shell?
 * [Man Pages (POSIX)](../integrations/man-pages.md):
   Linux/UNIX `man` page integrations
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onKeyPress`](../events/onkeypress.md):
   Custom definable key bindings and macros
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.function](../commands/function.md):
-  Define a function block
 
 <hr/>
 

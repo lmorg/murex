@@ -1,7 +1,9 @@
 - DocumentID: pretty
   Title: >+
-    Struct: Prettify JSON
+    Prettify JSON
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.str
   Summary: >-
     Prettifies JSON to make it human readable
   Description: |-
@@ -30,7 +32,6 @@
   Detail:
   Synonyms:
     - pretty
-    - struct.json.pretty
   Related:
     - tout
     - out

@@ -14,7 +14,7 @@ underlying builtin:
 # idiomatic expressions
 1 + 2
 
-# non-idiotmatic expressions
+# non-idiomatic expressions
 expr 1 + 2
 ```
 
@@ -310,6 +310,10 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 * [( expression )](../parser/expr-inlined.md):
   Inline expressions
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
 * [`%[]` Array Builder](../parser/create-array.md):
@@ -338,10 +342,6 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [fs.open](../commands/open.md):
-  Open a file with a preferred handler
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

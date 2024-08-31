@@ -56,8 +56,12 @@ Error in `expr` (0,1): cannot Add with string types
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   A table of all supported operators and tokens
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
 * [`*` Multiplication Operator](../parser/multiplication.md):
@@ -68,8 +72,6 @@ Error in `expr` (0,1): cannot Add with string types
   Subtracts one numeric value from another (expression)
 * [`/=` Divide By Operator](../parser/divide-by.md):
   Divides a variable by the right hand value (expression)
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
 * [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [`float` (floating point number)](../types/float.md):
@@ -78,8 +80,6 @@ Error in `expr` (0,1): cannot Add with string types
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
 
 <hr/>
 

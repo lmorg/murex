@@ -67,12 +67,22 @@ deprecated and may be removed from future releases.
 
 ## See Also
 
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`@Array` Sigil](../parser/array.md):
@@ -83,16 +93,6 @@ deprecated and may be removed from future releases.
   JavaScript Object Notation (JSON)
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [shell.autocomplete](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.private](../commands/private.md):
-  Define a private function block
-* [var.set: `set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

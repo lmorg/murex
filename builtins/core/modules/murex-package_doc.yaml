@@ -1,7 +1,9 @@
 - DocumentID: murex-package
   Title: >+
-    Shell: Package Management (`murex-package`)
+    Murex Package Management (`murex-package`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Murex's package manager
   Description: |-
@@ -91,7 +93,6 @@
     `runtime --modules`.
   Synonyms:
   - murex-package
-  - shell.packages
   Related:
   - runtime
   - config

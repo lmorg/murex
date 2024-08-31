@@ -125,6 +125,8 @@ from different interrupts).
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`event`](../commands/event.md):
@@ -135,8 +137,6 @@ from different interrupts).
   Custom definable key bindings and macros
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
 
 <hr/>
 

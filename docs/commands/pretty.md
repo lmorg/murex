@@ -1,4 +1,4 @@
-# struct.json.pretty
+# Prettify JSON
 
 > Prettifies JSON to make it human readable
 
@@ -33,17 +33,16 @@ outputs that to stdout.
 ## Synonyms
 
 * `pretty`
-* `struct.json.pretty`
 
 
 ## See Also
 
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [io.out](../commands/out.md):
+* [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [io.out.type (`tout`)](../commands/tout.md):
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
 
 <hr/>
 

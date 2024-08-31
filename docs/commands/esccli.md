@@ -1,4 +1,4 @@
-# escape.cli
+# Escape Command Line String (`esccli`)
 
 > Escapes an array so output is valid shell code
 
@@ -44,23 +44,22 @@ out foo\$b\@r
 ## Synonyms
 
 * `esccli`
-* `escape.cli`
 
 
 ## See Also
 
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [escape.html](../commands/eschtml.md):
-  Encode or decodes text for HTML
-* [escape.quote](../commands/escape.md):
-  Escape or unescape input
-* [escape.url](../commands/escurl.md):
-  Encode or decodes text for the URL
-* [io.out](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [shell.alias](../commands/alias.md):
+* [Alias Pointer (`alias`)](../commands/alias.md):
   Create an alias for a command
+* [Escape HTML (`eschtml`)](../commands/eschtml.md):
+  Encode or decodes text for HTML
+* [Escape URL (`escurl`)](../commands/escurl.md):
+  Encode or decodes text for the URL
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Quote String (`escape`)](../commands/escape.md):
+  Escape or unescape input
 
 <hr/>
 

@@ -1,7 +1,10 @@
 - DocumentID: source
   Title: >+
-    Shell: Include Murex Script (`source`)
+    Include / Evaluate Murex Code (`source`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
+    - commands.shell
   Summary: >-
     Import Murex code from another file or code block
   Description: |-
@@ -54,7 +57,6 @@
   Synonyms:
     - source
     - "."
-    - exec.include
   Related:
     - config
     - runtime

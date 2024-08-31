@@ -1,4 +1,4 @@
-# shell.debug
+# Debugging Mode (`debug`)
 
 > Debugging information
 
@@ -189,15 +189,14 @@ debug panic
 ## Synonyms
 
 * `debug`
-* `shell.debug`
 
 
 ## See Also
 
-* [`test`](../commands/test.md):
-  Murex's test framework - define tests, run tests and debug shell scripts
-* [shell.runtime](../commands/runtime.md):
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [Shell Script Tests (`test`)](../commands/test.md):
+  Murex's test framework - define tests, run tests and debug shell scripts
 
 <hr/>
 

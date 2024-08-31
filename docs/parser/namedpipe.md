@@ -1,4 +1,4 @@
-# io.pipe (`<pipe>`)
+# Read / Write To A Named Pipe (`<pipe>`)
 
 > Reads from a Murex named pipe
 
@@ -113,23 +113,22 @@ that pipes created in modules should be prefixed with the name of its package.
 * `(murex named pipe)`
 * `<>`
 * `read-named-pipe`
-* `io.pipe`
 
 
 ## See Also
 
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [io.in (`<stdin>`)](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
-* [io.new.pipe](../commands/pipe.md):
-  Manage Murex named pipes
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
-* [proc.bg](../commands/bg.md):
+* [Background Process (`bg`)](../commands/bg.md):
   Run processes in the background
-* [shell.runtime](../commands/runtime.md):
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

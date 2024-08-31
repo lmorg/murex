@@ -1,4 +1,4 @@
-# `time`
+# Processes Execution Time (`time`)
 
 > Returns the execution run time of a command or block
 
@@ -41,12 +41,12 @@ and stderr as usual.
 
 ## See Also
 
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
 * [`sleep`](../optional/sleep.md):
   Suspends the shell for a number of seconds
-* [exec.file: `exec`](../commands/exec.md):
-  Runs an executable
-* [exec.include (`source`)](../commands/source.md):
-  Import Murex code from another file or code block
 
 <hr/>
 

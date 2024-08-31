@@ -1,4 +1,4 @@
-# fs.files (`f`)
+# List Filesystem Objects (`f`)
 
 > Lists or filters file system objects (eg files)
 
@@ -113,17 +113,16 @@ any matches from the `+` flags.
 ## Synonyms
 
 * `f`
-* `fs.files`
 
 
 ## See Also
 
+* [Globbing (`g`)](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [Regex Matches (`rx`)](../commands/rx.md):
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [fs.glob (`g`)](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [fs.regex (`rx`)](../commands/rx.md):
-  Regexp pattern matching for file system objects (eg `.*\\.txt`)
 
 <hr/>
 

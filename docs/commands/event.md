@@ -6,7 +6,7 @@
 
 Create or destroy an event interrupt,
 
-Each event will have subtilty different behaviour depending on the event itself
+Each event will have subtly different behaviour depending on the event itself
 due to the differing roles of each event system. Therefore it is recommended
 that you read the docs on each event to understand its behaviour.
 
@@ -105,15 +105,15 @@ onSecondsElapsed
 
 ## See Also
 
-* [`formap`](../commands/formap.md):
+* [For Each In Map (`formap`)](../commands/formap.md):
   Iterate through a map or other collection of data
-* [fs.open](../commands/open.md):
+* [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
-* [shell.function](../commands/function.md):
-  Define a function block
-* [shell.private](../commands/private.md):
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
-* [shell.runtime](../commands/runtime.md):
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

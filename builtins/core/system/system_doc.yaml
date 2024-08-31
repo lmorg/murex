@@ -1,7 +1,8 @@
 - DocumentID: os
   Title: >+
-    System: OS (`os`)
+    Operating System (`os`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.sys ]
   Summary: >-
     Output the auto-detected OS name
   Description: |-
@@ -66,7 +67,7 @@
     parameter when run on Plan 9. If you want to include Plan 9 in the check
     then please write it as `os posix plan9`.
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   - os
   - sys.os
@@ -78,8 +79,9 @@
 
 - DocumentID: cpuarch
   Title: >+
-    System: CPU Architecture (`cpuarch`)
+    CPU Architecture (`cpuarch`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.sys ]
   Summary: >-
     Output the hosts CPU architecture
   Description: |-
@@ -94,7 +96,7 @@
     amd64
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   - cpuarch
   - sys.cpu.arch
@@ -106,8 +108,9 @@
 
 - DocumentID: cpucount
   Title: >+
-    System: CPU Count (`cpucount`)
+    CPU Count (`cpucount`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.sys ]
   Summary: >-
     Output the number of CPU cores available on your host
   Description: |-

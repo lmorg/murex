@@ -49,12 +49,12 @@ command <out> <!err> parameter1 parameter2 parameter3
 
 ## See Also
 
-* [`test`](../commands/test.md):
-  Murex's test framework - define tests, run tests and debug shell scripts
-* [io.in (`<stdin>`)](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
-* [io.pipe (`<pipe>`)](../commands/namedpipe.md):
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
   Reads from a Murex named pipe
+* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Shell Script Tests (`test`)](../commands/test.md):
+  Murex's test framework - define tests, run tests and debug shell scripts
 
 <hr/>
 

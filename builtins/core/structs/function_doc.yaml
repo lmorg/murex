@@ -1,7 +1,10 @@
 - DocumentID: alias
   Title: >+
-    Shell: Alias Pointer
+    Alias Pointer (`alias`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
+    - commands.posix
   Summary: >-
     Create an alias for a command
   Description: |-
@@ -85,8 +88,6 @@
   Synonyms:
     - alias
     - "!alias"
-    - shell.alias
-    - "!shell.alias"
   Related:
     - function
     - private
@@ -104,8 +105,11 @@
 
 - DocumentID: function
   Title: >+
-    Shell: Public Function
+    Public Function (`function`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.lang
+    - commands.shell
   Summary: >-
     Define a function block
   Description: |-
@@ -310,8 +314,6 @@
   Synonyms:
     - function
     - "!function"
-    - shell.function
-    - "!shell.function"
   Related:
     - args
     - alias
@@ -333,8 +335,11 @@
 
 - DocumentID: private
   Title: >+
-    Shell: Private Function
+    Private Function (`private`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.lang
+    - commands.shell
   Summary: >-
     Define a private function block
   Description: |-
@@ -392,7 +397,6 @@
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
     - private
-    - shell.private
   Related:
     - function
     - alias
@@ -411,8 +415,9 @@
 
 - DocumentID: method
   Title: >+
-    Shell: Method Relationships
+    Define Method Relationships (`method`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Define a methods supported data-types
   Description: |-
@@ -441,7 +446,6 @@
     ```
   Synonyms:
     - method
-    - shell.method
   Related:
     - function
     - alias

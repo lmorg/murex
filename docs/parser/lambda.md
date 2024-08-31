@@ -181,22 +181,22 @@ The following meta values are defined:
 
 ## See Also
 
+* [Alter Data Structure (`alter`)](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [Date And Time Conversion (`datetime`)](../commands/datetime.md):
+  A date and/or time conversion tool (like `printf` but for date and time values)
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [For Each In Map (`formap`)](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [Loop While (`while`)](../commands/while.md):
+  Loop until condition false
+* [Regex Operations (`regexp`)](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`formap`](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [`while`](../commands/while.md):
-  Loop until condition false
-* [list.regex](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [str.datetime: `datetime`](../commands/datetime.md):
-  A date and/or time conversion tool (like `printf` but for date and time values)
-* [struct.alter](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
 <hr/>
 

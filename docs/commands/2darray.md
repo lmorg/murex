@@ -1,4 +1,4 @@
-# struct.new.2darray
+# Create 2d Array (`2darray`)
 
 > Create a 2D JSON array from multiple input sources
 
@@ -94,35 +94,34 @@
 ## Synonyms
 
 * `2darray`
-* `struct.new.2darray`
 
 
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`ja` (mkarray)](../commands/ja.md):
+* [Append To List (`append`)](../commands/append.md):
+  Add data to the end of an array
+* [Count (`count`)](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array (`ja`)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [Create Map (`map`)](../commands/map.md):
+  Creates a map from two data sources
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Prepend To List (`prepend`)](../commands/prepend.md):
+  Add data to the start of an array
+* [Reverse Array (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
+* [Sort Array (`msort`)](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [list.append](../commands/append.md):
-  Add data to the end of an array
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
-* [list.prepend](../commands/prepend.md):
-  Add data to the start of an array
-* [list.reverse (`mtac`)](../commands/mtac.md):
-  Reverse the order of an array
-* [list.sort](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [str.split](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [struct.count](../commands/count.md):
-  Count items in a map, list or array
-* [struct.new.map (`map`)](../commands/map.md):
-  Creates a map from two data sources
 
 <hr/>
 

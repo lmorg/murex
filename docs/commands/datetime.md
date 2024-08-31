@@ -1,4 +1,4 @@
-# str.datetime: `datetime`
+# Date And Time Conversion (`datetime`)
 
 > A date and/or time conversion tool (like `printf` but for date and time values)
 
@@ -89,10 +89,10 @@ required.
 
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
-* [list.new.str (`a`)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list (mkarray)
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

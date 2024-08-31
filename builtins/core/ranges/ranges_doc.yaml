@@ -1,7 +1,9 @@
 - DocumentID: range
   Title: >-
-    `[ ..Range ]`
+    Filter By Range `[ ..Range ]`
   CategoryID: parser
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Outputs a ranged subset of data from stdin
   Description: |-
@@ -76,7 +78,7 @@
     b: removes blank (empty) lines from source
     t: trims whitespace from source
     8: handles backspace characters (char 8) instead of treating it like a printable character
-  Detail: |-
+  Detail:
   Synonyms:
     - "@["
   Related:

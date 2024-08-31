@@ -1,4 +1,4 @@
-# shell.summary
+# Set Command Summary Hint (`summary`)
 
 > Defines a summary help text for a command
 
@@ -45,27 +45,25 @@ Hello, world!
 
 * `summary`
 * `!summary`
-* `shell.summary`
-* `!shell.summary`
 
 
 ## See Also
 
-* [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
-* [exec.file: `exec`](../commands/exec.md):
-  Runs an executable
-* [proc.list](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [shell.builtins](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [shell.builtins.exist](../commands/bexists.md):
+* [Check Builtin Exists (`bexists`)](../commands/bexists.md):
   Check which builtins exist
-* [shell.config](../commands/config.md):
-  Query or define Murex runtime settings
-* [shell.rescan.path](../commands/murex-update-exe-list.md):
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
+* [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [shell.runtime](../commands/runtime.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`builtins`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

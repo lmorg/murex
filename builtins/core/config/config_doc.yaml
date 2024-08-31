@@ -1,7 +1,8 @@
 - DocumentID: config
   Title: >+
-    Shell: Config
+    Shell Configuration And Settings (`config`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Query or define Murex runtime settings
   Description: |-
@@ -115,8 +116,6 @@
   Synonyms:
   - config
   - "!config"
-  - shell.config
-  - "!shell.config"
   Related:
   - runtime
   - open

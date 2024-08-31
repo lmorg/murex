@@ -2,6 +2,7 @@
   Title: >+
     `key-code`
   CategoryID: commands
+  SubCategoryIDs: [ commands.esc ]
   Summary: >-
     Returns character sequences for any key pressed (ie sent from the terminal)
   Description: |-

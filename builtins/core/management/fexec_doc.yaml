@@ -1,7 +1,9 @@
 - DocumentID: fexec
   Title: >+
-    Exec: Shell Function or Builtin (`fexec`)
+    Execute Shell Function or Builtin (`fexec`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Execute a command or function, bypassing the usual order of precedence.
   Description: |-

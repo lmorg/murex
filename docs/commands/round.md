@@ -1,4 +1,4 @@
-# num.round: `round`
+# Round Number (`round`)
 
 > Round a number by a user defined precision
 
