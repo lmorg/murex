@@ -42,7 +42,7 @@ export default sidebar({
     {
       text: "Builtins",
       icon: "cubes",
-      prefix: "commands/",
+      prefix: "/",
       children: commandsMenu,
       collapsible: true,
     },

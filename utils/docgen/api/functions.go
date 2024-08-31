@@ -350,7 +350,7 @@ func funcVuePressMenu(catID string) string {
 			continue
 		}
 		menu = append(menu, map[string]any{
-			"text": Documents[i].Title,
+			"text": vueTitle(Documents[i].Title),
 			"link": Documents[i].Hierarchy() + ".html",
 		})
 	}
@@ -370,18 +370,25 @@ func vuePressSubMenu(cat *category) []map[string]any {
 		for i := range Documents {
 			if Documents[i].IsInSubCategory(sub.ID) {
 				subMenu = append(subMenu, map[string]any{
-					"text": strings.Trim(Documents[i].Title, "\n"),
+					"text": vueTitle(Documents[i].Title),
 					"link": Documents[i].Hierarchy() + ".html",
 				})
 			}
 		}
 		menu = append(menu, map[string]any{
-			"text":     sub.Title,
-			"children": subMenu,
+			"text":        vueTitle(sub.Title),
+			"children":    subMenu,
+			"collapsible": true,
 		})
 	}
 
 	return menu
+}
+
+var rxVueTitle = regexp.MustCompile("[\\r\\n`]")
+
+func vueTitle(s string) string {
+	return rxVueTitle.ReplaceAllString(s, "")
 }
 
 /************
