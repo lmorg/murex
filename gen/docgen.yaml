@@ -30,7 +30,7 @@ Categories:
         Commands for working with files and/or the filesystem.
     - ID: commands.posix
       Title: Defined by POSIX
-      VueIcon: freebsd
+      VueIcon: server
       Description: |-
         Commands defined by POSIX.
     - ID: commands.list
@@ -51,7 +51,7 @@ Categories:
         Commands for working with numerical data.
     - ID: commands.struct
       Title: Structured Data Management
-      VueIcon:
+      VueIcon: sitemap
       Description: |-
         Commands for working with structured data such as maps, tables, arrays and other data formats that are present in documents such as CSV, JSON, YAML, TOML, Sexpr, CSV, etc. 
     - ID: commands.table
