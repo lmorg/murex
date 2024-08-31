@@ -17,24 +17,25 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"md":         funcMarkdown,
-	"quote":      funcQuote,
-	"trim":       strings.TrimSpace,
-	"doc":        funcRenderedDocuments,
-	"cat":        funcRenderedCategories,
-	"link":       funcLink,
-	"bookmark":   funcLinkBookmark,
-	"section":    funcSection,
-	"file":       funcFile,
-	"notanindex": funcNotAnIndex,
-	"date":       funcDate,
-	"time":       funcTime,
-	"doct":       funcDocT,
-	"othercats":  funcOtherCats,
-	"otherdocs":  funcOtherDocs,
-	"env":        funcEnv,
-	"fn":         funcFunctions,
-	"dump":       funcDump,
+	"md":           funcMarkdown,
+	"quote":        funcQuote,
+	"trim":         strings.TrimSpace,
+	"doc":          funcRenderedDocuments,
+	"cat":          funcRenderedCategories,
+	"link":         funcLink,
+	"bookmark":     funcLinkBookmark,
+	"section":      funcSection,
+	"file":         funcFile,
+	"notanindex":   funcNotAnIndex,
+	"date":         funcDate,
+	"time":         funcTime,
+	"doct":         funcDocT,
+	"othercats":    funcOtherCats,
+	"otherdocs":    funcOtherDocs,
+	"env":          funcEnv,
+	"fn":           funcFunctions,
+	"vuepressmenu": funcVuePressMenu,
+	"dump":         funcDump,
 }
 
 var funcMap__fn = template.FuncMap{}
@@ -327,6 +328,60 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	return w.String()
+}
+
+/************
+ * VuePress *
+ ************/
+
+// Takes: string, category ID
+// Returns: JSON string
+func funcVuePressMenu(catID string) string {
+	//var menu vuePressMenuItem
+	cat := Config.Categories.ByID(catID)
+	if cat == nil {
+		panic(fmt.Sprintf("cannot find category with ID '%s'", catID))
+	}
+
+	menu := vuePressSubMenu(cat)
+
+	for i := range Documents {
+		if Documents[i].CategoryID != cat.ID || len(Documents[i].SubCategoryIDs) > 0 {
+			continue
+		}
+		menu = append(menu, map[string]any{
+			"text": Documents[i].Title,
+			"link": Documents[i].Hierarchy() + ".html",
+		})
+	}
+
+	b, err := json.MarshalIndent(menu, "", "    ")
+	if err != nil {
+		panic(fmt.Sprintf("cannot marshal JSON: %s", err.Error()))
+	}
+
+	return string(b)
+}
+
+func vuePressSubMenu(cat *category) []map[string]any {
+	var menu []map[string]any
+	for _, sub := range cat.SubCategories {
+		var subMenu []map[string]any
+		for i := range Documents {
+			if Documents[i].IsInSubCategory(sub.ID) {
+				subMenu = append(subMenu, map[string]any{
+					"text": strings.Trim(Documents[i].Title, "\n"),
+					"link": Documents[i].Hierarchy() + ".html",
+				})
+			}
+		}
+		menu = append(menu, map[string]any{
+			"text":     sub.Title,
+			"children": subMenu,
+		})
+	}
+
+	return menu
 }
 
 /************

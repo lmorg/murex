@@ -88,9 +88,11 @@ Categories:
 
     - OutputPath: builtins/docs
       CategoryFile: summaries.go
-      #OutputExt: _commands_docgen.go
       CategoryTemplate: gen/commands-go-cat.tmpl
-      #DocumentTemplate: gen/commands-go-doc.tmpl
+
+    - OutputPath: gen/vuepress
+      CategoryFile: commands_generated.json
+      CategoryTemplate: gen/commands-vue-cat.tmpl
 
   - ID: mkarray
     Title: mkarray

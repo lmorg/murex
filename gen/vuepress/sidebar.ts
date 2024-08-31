@@ -1,4 +1,5 @@
 import { sidebar } from "vuepress-theme-hope";
+import commandsMenu from "./commands_generated.json"
 
 export default sidebar({
   "/": [
@@ -42,7 +43,7 @@ export default sidebar({
       text: "Builtins",
       icon: "cubes",
       prefix: "commands/",
-      children: "structure",
+      children: commandsMenu,
       collapsible: true,
     },
     {
