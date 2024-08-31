@@ -93,7 +93,7 @@
         "children": [
             {
                 "link": "commands/expr.html",
-                "text": "expr"
+                "text": "Expressions (expr)"
             },
             {
                 "link": "commands/out.html",
@@ -286,7 +286,7 @@
         "children": [
             {
                 "link": "commands/expr.html",
-                "text": "expr"
+                "text": "Expressions (expr)"
             },
             {
                 "link": "commands/rand.html",
@@ -501,7 +501,7 @@
             },
             {
                 "link": "commands/key-code.html",
-                "text": "key-code"
+                "text": "ASCII And ANSI Escape Sequences (key-code)"
             }
         ],
         "collapsible": true,
@@ -567,7 +567,7 @@
         "children": [
             {
                 "link": "commands/expr.html",
-                "text": "expr"
+                "text": "Expressions (expr)"
             },
             {
                 "link": "commands/args.html",
