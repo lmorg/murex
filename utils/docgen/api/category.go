@@ -16,6 +16,8 @@ type category struct {
 	// Description of the category
 	Description string `yaml:"Description"`
 
+	VueIcon string `yaml:"VueIcon"`
+
 	SubCategories []*category `yaml:"SubCategories"`
 
 	Templates []templates `yaml:"Templates"`

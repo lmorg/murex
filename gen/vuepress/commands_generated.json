@@ -2,719 +2,734 @@
     {
         "children": [
             {
-                "link": "out.html",
+                "link": "commands/out.html",
                 "text": "Output String (out)"
             },
             {
-                "link": "tout.html",
+                "link": "commands/tout.html",
                 "text": "Output With Type Annotation (tout)"
             },
             {
-                "link": "brace-quote-func.html",
+                "link": "parser/brace-quote-func.html",
                 "text": "(brace quote)"
             },
             {
-                "link": "err.html",
+                "link": "commands/err.html",
                 "text": "Error String (err)"
             },
             {
-                "link": "pt.html",
+                "link": "commands/pt.html",
                 "text": "Get Pipe Status (pt)"
             },
             {
-                "link": "read.html",
+                "link": "commands/read.html",
                 "text": "Read User Input (read)"
             },
             {
-                "link": "tread.html",
+                "link": "commands/tread.html",
                 "text": "Read With Type (tread) (removed 7.x)"
             },
             {
-                "link": "open-image.html",
+                "link": "commands/open-image.html",
                 "text": "Render Image In Terminal (open-image)"
             },
             {
-                "link": "namedpipe.html",
+                "link": "parser/namedpipe.html",
                 "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
             },
             {
-                "link": "stdin.html",
+                "link": "parser/stdin.html",
                 "text": "Read From Stdin (\u003cstdin\u003e)"
             },
             {
-                "link": "pipe.html",
+                "link": "commands/pipe.html",
                 "text": "Create Named Pipe (pipe)"
             }
         ],
         "collapsible": true,
+        "icon": "arrows-turn-to-dots",
         "text": "Input / Output Streams"
     },
     {
         "children": [
             {
-                "link": "f.html",
+                "link": "commands/f.html",
                 "text": "List Filesystem Objects (f)"
             },
             {
-                "link": "file-truncate.html",
+                "link": "parser/file-truncate.html",
                 "text": "Truncate File (\u003e)"
             },
             {
-                "link": "g.html",
+                "link": "commands/g.html",
                 "text": "Globbing (g)"
             },
             {
-                "link": "lockfile.html",
+                "link": "commands/lockfile.html",
                 "text": "Lock Files (lockfile)"
             },
             {
-                "link": "rx.html",
+                "link": "commands/rx.html",
                 "text": "Regex Matches (rx)"
             },
             {
-                "link": "tmp.html",
+                "link": "commands/tmp.html",
                 "text": "Create Temporary File (tmp)"
             },
             {
-                "link": "open.html",
+                "link": "commands/open.html",
                 "text": "Open File (open)"
             },
             {
-                "link": "open-image.html",
+                "link": "commands/open-image.html",
                 "text": "Render Image In Terminal (open-image)"
             }
         ],
         "collapsible": true,
+        "icon": "floppy-disk",
         "text": "Filesystem Operations"
     },
     {
         "children": [
             {
-                "link": "expr.html",
+                "link": "commands/expr.html",
                 "text": "expr"
             },
             {
-                "link": "out.html",
+                "link": "commands/out.html",
                 "text": "Output String (out)"
             },
             {
-                "link": "read.html",
+                "link": "commands/read.html",
                 "text": "Read User Input (read)"
             },
             {
-                "link": "cd.html",
+                "link": "commands/cd.html",
                 "text": "Change Directory (cd)"
             },
             {
-                "link": "type.html",
+                "link": "commands/type.html",
                 "text": "Display Command Type (type)"
             },
             {
-                "link": "which.html",
+                "link": "commands/which.html",
                 "text": "Location Of Command (which)"
             },
             {
-                "link": "alias.html",
+                "link": "commands/alias.html",
                 "text": "Alias Pointer (alias)"
             },
             {
-                "link": "time.html",
+                "link": "commands/time.html",
                 "text": "Processes Execution Time (time)"
             },
             {
-                "link": "true.html",
+                "link": "commands/true.html",
                 "text": "True (true)"
             },
             {
-                "link": "false.html",
+                "link": "commands/false.html",
                 "text": "False (false)"
             }
         ],
         "collapsible": true,
+        "icon": "freebsd",
         "text": "Defined by POSIX"
     },
     {
         "children": [
             {
-                "link": "count.html",
+                "link": "commands/count.html",
                 "text": "Count (count)"
             },
             {
-                "link": "item-index.html",
+                "link": "parser/item-index.html",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "link": "prepend.html",
+                "link": "commands/prepend.html",
                 "text": "Prepend To List (prepend)"
             },
             {
-                "link": "append.html",
+                "link": "commands/append.html",
                 "text": "Append To List (append)"
             },
             {
-                "link": "list.case.html",
+                "link": "commands/list.case.html",
                 "text": "Change Text Case (list.case)"
             },
             {
-                "link": "mjoin.html",
+                "link": "commands/mjoin.html",
                 "text": "Join Array To String (mjoin)"
             },
             {
-                "link": "msort.html",
+                "link": "commands/msort.html",
                 "text": "Sort Array (msort)"
             },
             {
-                "link": "mtac.html",
+                "link": "commands/mtac.html",
                 "text": "Reverse Array (mtac)"
             },
             {
-                "link": "left.html",
+                "link": "commands/left.html",
                 "text": "Left Sub-String (left)"
             },
             {
-                "link": "right.html",
+                "link": "commands/right.html",
                 "text": "Right Sub-String (right)"
             },
             {
-                "link": "prefix.html",
+                "link": "commands/prefix.html",
                 "text": "Add Prefix (prefix)"
             },
             {
-                "link": "suffix.html",
+                "link": "commands/suffix.html",
                 "text": "Add Suffix (suffix)"
             },
             {
-                "link": "match.html",
+                "link": "commands/match.html",
                 "text": "Match String (match)"
             },
             {
-                "link": "regexp.html",
+                "link": "commands/regexp.html",
                 "text": "Regex Operations (regexp)"
             },
             {
-                "link": "a.html",
+                "link": "commands/a.html",
                 "text": "Stream New List (a)"
             },
             {
-                "link": "ja.html",
+                "link": "commands/ja.html",
                 "text": "Create JSON Array (ja)"
             },
             {
-                "link": "ta.html",
+                "link": "commands/ta.html",
                 "text": "Create New Array (ta)"
             },
             {
-                "link": "range.html",
+                "link": "parser/range.html",
                 "text": "Filter By Range [ ..Range ]"
             },
             {
-                "link": "foreach.html",
+                "link": "commands/foreach.html",
                 "text": "For Each In List (foreach)"
             },
             {
-                "link": "format.html",
+                "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             }
         ],
         "collapsible": true,
+        "icon": "rectangle-list",
         "text": "List / Array Editing"
     },
     {
         "children": [
             {
-                "link": "escape.html",
+                "link": "commands/escape.html",
                 "text": "Quote String (escape)"
             },
             {
-                "link": "eschtml.html",
+                "link": "commands/eschtml.html",
                 "text": "Escape HTML (eschtml)"
             },
             {
-                "link": "escurl.html",
+                "link": "commands/escurl.html",
                 "text": "Escape URL (escurl)"
             },
             {
-                "link": "esccli.html",
+                "link": "commands/esccli.html",
                 "text": "Escape Command Line String (esccli)"
             },
             {
-                "link": "list.case.html",
+                "link": "commands/list.case.html",
                 "text": "Change Text Case (list.case)"
             },
             {
-                "link": "jsplit.html",
+                "link": "commands/jsplit.html",
                 "text": "Split String (jsplit)"
             },
             {
-                "link": "left.html",
+                "link": "commands/left.html",
                 "text": "Left Sub-String (left)"
             },
             {
-                "link": "right.html",
+                "link": "commands/right.html",
                 "text": "Right Sub-String (right)"
             },
             {
-                "link": "regexp.html",
+                "link": "commands/regexp.html",
                 "text": "Regex Operations (regexp)"
             },
             {
-                "link": "pretty.html",
+                "link": "commands/pretty.html",
                 "text": "Prettify JSON"
             },
             {
-                "link": "rand.html",
+                "link": "commands/rand.html",
                 "text": "Generate Random Sequence (rand)"
             },
             {
-                "link": "datetime.html",
+                "link": "commands/datetime.html",
                 "text": "Date And Time Conversion (datetime)"
             },
             {
-                "link": "format.html",
+                "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             }
         ],
         "collapsible": true,
+        "icon": "quote-left",
         "text": "String Manipulation"
     },
     {
         "children": [
             {
-                "link": "expr.html",
+                "link": "commands/expr.html",
                 "text": "expr"
             },
             {
-                "link": "rand.html",
+                "link": "commands/rand.html",
                 "text": "Generate Random Sequence (rand)"
             },
             {
-                "link": "round.html",
+                "link": "commands/round.html",
                 "text": "Round Number (round)"
             }
         ],
         "collapsible": true,
+        "icon": "square-root-variable",
         "text": "Numeric / Math Tools"
     },
     {
         "children": [
             {
-                "link": "2darray.html",
+                "link": "commands/2darray.html",
                 "text": "Create 2d Array (2darray)"
             },
             {
-                "link": "map.html",
+                "link": "commands/map.html",
                 "text": "Create Map (map)"
             },
             {
-                "link": "alter.html",
+                "link": "commands/alter.html",
                 "text": "Alter Data Structure (alter)"
             },
             {
-                "link": "count.html",
+                "link": "commands/count.html",
                 "text": "Count (count)"
             },
             {
-                "link": "struct-keys.html",
+                "link": "commands/struct-keys.html",
                 "text": "Print Map / Structure Keys (struct-keys)"
             },
             {
-                "link": "element.html",
+                "link": "parser/element.html",
                 "text": "Get Nested Element ([[ Element ]])"
             },
             {
-                "link": "item-index.html",
+                "link": "parser/item-index.html",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "link": "formap.html",
+                "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
-                "link": "tabulate.html",
+                "link": "commands/tabulate.html",
                 "text": "Transformation Tools (tabulate)"
             },
             {
-                "link": "format.html",
+                "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             }
         ],
         "collapsible": true,
+        "icon": "",
         "text": "Structured Data Management"
     },
     {
         "children": [
             {
-                "link": "addheading.html",
+                "link": "commands/addheading.html",
                 "text": "Add Heading (addheading)"
             },
             {
-                "link": "formap.html",
+                "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
-                "link": "tabulate.html",
+                "link": "commands/tabulate.html",
                 "text": "Transformation Tools (tabulate)"
             },
             {
-                "link": "format.html",
+                "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             },
             {
-                "link": "select.html",
+                "link": "optional/select.html",
                 "text": "Inline SQL (select)"
             }
         ],
         "collapsible": true,
+        "icon": "table",
         "text": "Table Management"
     },
     {
         "children": [
             {
-                "link": "os.html",
+                "link": "commands/os.html",
                 "text": "Operating System (os)"
             },
             {
-                "link": "cpuarch.html",
+                "link": "commands/cpuarch.html",
                 "text": "CPU Architecture (cpuarch)"
             },
             {
-                "link": "cpucount.html",
+                "link": "commands/cpucount.html",
                 "text": "CPU Count (cpucount)"
             },
             {
-                "link": "export.html",
+                "link": "commands/export.html",
                 "text": "Define Environmental Variable (export)"
             }
         ],
         "collapsible": true,
+        "icon": "microchip",
         "text": "System Inspection"
     },
     {
         "children": [
             {
-                "link": "autocomplete.html",
+                "link": "commands/autocomplete.html",
                 "text": "Tab Autocompletion (autocomplete)"
             },
             {
-                "link": "config.html",
+                "link": "commands/config.html",
                 "text": "Shell Configuration And Settings (config)"
             },
             {
-                "link": "debug.html",
+                "link": "commands/debug.html",
                 "text": "Debugging Mode (debug)"
             },
             {
-                "link": "fexec.html",
+                "link": "commands/fexec.html",
                 "text": "Execute Shell Function or Builtin (fexec)"
             },
             {
-                "link": "murex-update-exe-list.html",
+                "link": "commands/murex-update-exe-list.html",
                 "text": "Re-Scan $PATH For Executables"
             },
             {
-                "link": "history.html",
+                "link": "commands/history.html",
                 "text": "Command Line History (history)"
             },
             {
-                "link": "summary.html",
+                "link": "commands/summary.html",
                 "text": "Set Command Summary Hint (summary)"
             },
             {
-                "link": "source.html",
+                "link": "commands/source.html",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
-                "link": "version.html",
+                "link": "commands/version.html",
                 "text": "Murex Version (version)"
             },
             {
-                "link": "murex-package.html",
+                "link": "commands/murex-package.html",
                 "text": "Murex Package Management (murex-package)"
             },
             {
-                "link": "openagent.html",
+                "link": "commands/openagent.html",
                 "text": "Define Handlers For \"open\" (openagent)"
             },
             {
-                "link": "pipe.html",
+                "link": "commands/pipe.html",
                 "text": "Create Named Pipe (pipe)"
             },
             {
-                "link": "runtime.html",
+                "link": "commands/runtime.html",
                 "text": "Shell Runtime (runtime)"
             },
             {
-                "link": "alias.html",
+                "link": "commands/alias.html",
                 "text": "Alias Pointer (alias)"
             },
             {
-                "link": "function.html",
+                "link": "commands/function.html",
                 "text": "Public Function (function)"
             },
             {
-                "link": "private.html",
+                "link": "commands/private.html",
                 "text": "Private Function (private)"
             },
             {
-                "link": "method.html",
+                "link": "commands/method.html",
                 "text": "Define Method Relationships (method)"
             },
             {
-                "link": "test.html",
+                "link": "commands/test.html",
                 "text": "Shell Script Tests (test)"
             },
             {
-                "link": "event.html",
+                "link": "commands/event.html",
                 "text": "event"
             }
         ],
         "collapsible": true,
+        "icon": "gear",
         "text": "Shell / Murex Management"
     },
     {
         "children": [
             {
-                "link": "escape.html",
+                "link": "commands/escape.html",
                 "text": "Quote String (escape)"
             },
             {
-                "link": "eschtml.html",
+                "link": "commands/eschtml.html",
                 "text": "Escape HTML (eschtml)"
             },
             {
-                "link": "escurl.html",
+                "link": "commands/escurl.html",
                 "text": "Escape URL (escurl)"
             },
             {
-                "link": "esccli.html",
+                "link": "commands/esccli.html",
                 "text": "Escape Command Line String (esccli)"
             },
             {
-                "link": "key-code.html",
+                "link": "commands/key-code.html",
                 "text": "key-code"
             }
         ],
         "collapsible": true,
+        "icon": "file-code",
         "text": "String Escaping / Character Codes"
     },
     {
         "children": [
             {
-                "link": "exitnum.html",
+                "link": "commands/exitnum.html",
                 "text": "Get Exit Code (exitnum)"
             },
             {
-                "link": "bexists.html",
+                "link": "commands/bexists.html",
                 "text": "Check Builtin Exists (bexists)"
             },
             {
-                "link": "source.html",
+                "link": "commands/source.html",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
-                "link": "which.html",
+                "link": "commands/which.html",
                 "text": "Location Of Command (which)"
             },
             {
-                "link": "bg.html",
+                "link": "commands/bg.html",
                 "text": "Background Process (bg)"
             },
             {
-                "link": "fg.html",
+                "link": "commands/fg.html",
                 "text": "Foreground Process (fg)"
             },
             {
-                "link": "fid-list.html",
+                "link": "commands/fid-list.html",
                 "text": "Display Running Functions (fid-list)"
             },
             {
-                "link": "fid-kill.html",
+                "link": "commands/fid-kill.html",
                 "text": "Kill Function (fid-kill)"
             },
             {
-                "link": "fid-killall.html",
+                "link": "commands/fid-killall.html",
                 "text": "Kill All In Session (fid-killall)"
             },
             {
-                "link": "time.html",
+                "link": "commands/time.html",
                 "text": "Processes Execution Time (time)"
             },
             {
-                "link": "exec.html",
+                "link": "commands/exec.html",
                 "text": "Execute External Command (exec)"
             },
             {
-                "link": "signal.html",
+                "link": "commands/signal.html",
                 "text": "signal"
             }
         ],
         "collapsible": true,
+        "icon": "robot",
         "text": "Process Management"
     },
     {
         "children": [
             {
-                "link": "expr.html",
+                "link": "commands/expr.html",
                 "text": "expr"
             },
             {
-                "link": "args.html",
+                "link": "commands/args.html",
                 "text": "Define Function Arguments (args)"
             },
             {
-                "link": "and.html",
+                "link": "commands/and.html",
                 "text": "Logic And Statements (and)"
             },
             {
-                "link": "or.html",
+                "link": "commands/or.html",
                 "text": "Logic Or Statements (or)"
             },
             {
-                "link": "return.html",
+                "link": "commands/return.html",
                 "text": "Exit Function (return)"
             },
             {
-                "link": "break.html",
+                "link": "commands/break.html",
                 "text": "Exit Block (break)"
             },
             {
-                "link": "continue.html",
+                "link": "commands/continue.html",
                 "text": "Next Iteration (continue)"
             },
             {
-                "link": "for.html",
+                "link": "commands/for.html",
                 "text": "For Loop (for)"
             },
             {
-                "link": "foreach.html",
+                "link": "commands/foreach.html",
                 "text": "For Each In List (foreach)"
             },
             {
-                "link": "formap.html",
+                "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
-                "link": "function.html",
+                "link": "commands/function.html",
                 "text": "Public Function (function)"
             },
             {
-                "link": "private.html",
+                "link": "commands/private.html",
                 "text": "Private Function (private)"
             },
             {
-                "link": "if.html",
+                "link": "commands/if.html",
                 "text": "If Conditional (if)"
             },
             {
-                "link": "switch.html",
+                "link": "commands/switch.html",
                 "text": "Switch Conditional (switch)"
             },
             {
-                "link": "while.html",
+                "link": "commands/while.html",
                 "text": "Loop While (while)"
             },
             {
-                "link": "get-type.html",
+                "link": "commands/get-type.html",
                 "text": "Get Data Type (get-type)"
             },
             {
-                "link": "is-null.html",
+                "link": "commands/is-null.html",
                 "text": "Is Value Null (is-null)"
             },
             {
-                "link": "exit.html",
+                "link": "commands/exit.html",
                 "text": "Exit Murex (exit)"
             },
             {
-                "link": "devnull.html",
+                "link": "commands/devnull.html",
                 "text": "Null (null)"
             },
             {
-                "link": "not-func.html",
+                "link": "commands/not-func.html",
                 "text": "Not (!)"
             },
             {
-                "link": "cast.html",
+                "link": "commands/cast.html",
                 "text": "Define Type (cast)"
             },
             {
-                "link": "set.html",
+                "link": "commands/set.html",
                 "text": "Define Variable (set)"
             },
             {
-                "link": "global.html",
+                "link": "commands/global.html",
                 "text": "Define Global (global)"
             }
         ],
         "collapsible": true,
+        "icon": "language",
         "text": "Language And Scripting"
     },
     {
         "children": [
             {
-                "link": "unsafe.html",
+                "link": "commands/unsafe.html",
                 "text": "Disable Error Handling In Block (unsafe)"
             },
             {
-                "link": "try.html",
+                "link": "commands/try.html",
                 "text": "Try Block (try)"
             },
             {
-                "link": "trypipe.html",
+                "link": "commands/trypipe.html",
                 "text": "Pipe Fail (trypipe)"
             },
             {
-                "link": "catch.html",
+                "link": "commands/catch.html",
                 "text": "Caught Error Block (catch)"
             },
             {
-                "link": "runmode.html",
+                "link": "commands/runmode.html",
                 "text": "Function / Module Defaults (runmode)"
             },
             {
-                "link": "tryerr.html",
+                "link": "commands/tryerr.html",
                 "text": "Stderr Checking In TTY (tryerr)"
             },
             {
-                "link": "trypipeerr.html",
+                "link": "commands/trypipeerr.html",
                 "text": "Stderr Checking In Pipes (trypipeerr)"
             }
         ],
         "collapsible": true,
+        "icon": "bomb",
         "text": "Error Handling"
     },
     {
         "children": [
             {
-                "link": "man-summary.html",
+                "link": "commands/man-summary.html",
                 "text": "Man-Page Summary (man-summary)"
             },
             {
-                "link": "summary.html",
+                "link": "commands/summary.html",
                 "text": "Set Command Summary Hint (summary)"
             },
             {
-                "link": "man-get-flags.html",
+                "link": "commands/man-get-flags.html",
                 "text": "Parse Man-Page For Flags (man-get-flags)"
             },
             {
-                "link": "murex-docs.html",
+                "link": "commands/murex-docs.html",
                 "text": "Murex's Offline Documentation (murex-docs)"
             }
         ],
         "collapsible": true,
+        "icon": "lightbulb",
         "text": "Help and Hint Tools"
     },
     {
-        "link": "murex-parser.html",
+        "link": "commands/murex-parser.html",
         "text": "murex-parser"
     },
     {
-        "link": "let.html",
+        "link": "commands/let.html",
         "text": "let"
     },
     {
-        "link": "die.html",
+        "link": "commands/die.html",
         "text": "die"
     }
 ]
