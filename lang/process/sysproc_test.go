@@ -32,8 +32,8 @@ func TestSystemProcess(t *testing.T) {
 
 	p := lang.NewTestProcess()
 
-	if p.SystemProcess.Defined() {
-		t.Errorf("p.SystemProcess.Defined() returned true, should be false")
+	if p.SystemProcess.External() {
+		t.Errorf("p.SystemProcess.External() returned true, should be false")
 		return
 	}
 
@@ -41,8 +41,8 @@ func TestSystemProcess(t *testing.T) {
 
 	p.SystemProcess.Set(&sysProcTest1T{})
 	switch {
-	case !p.SystemProcess.Defined():
-		t.Errorf("invalid return for: p.SystemProcess.Defined() in test 1")
+	case !p.SystemProcess.External():
+		t.Errorf("invalid return for: p.SystemProcess.External() in test 1")
 
 	case p.SystemProcess.Pid() != 0:
 		t.Errorf("invalid return for: p.SystemProcess.Pid() in test 1")
@@ -71,8 +71,8 @@ func TestSystemProcess(t *testing.T) {
 
 	p.SystemProcess.Set(&sysProcTest2T{})
 	switch {
-	case !p.SystemProcess.Defined():
-		t.Errorf("invalid return for: p.SystemProcess.Defined() in test 2")
+	case !p.SystemProcess.External():
+		t.Errorf("invalid return for: p.SystemProcess.External() in test 2")
 
 	case p.SystemProcess.Pid() != 4:
 		t.Errorf("invalid return for: p.SystemProcess.Pid() in test 2")

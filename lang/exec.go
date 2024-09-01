@@ -42,11 +42,11 @@ func forceTTY(p *Process) bool {
 func External(p *Process) error {
 	err := execute(p)
 	if err != nil {
-		if p.SystemProcess.Defined() {
-			p.ExitNum = p.SystemProcess.ExitNum()
-		} else {
-			p.ExitNum = 1
-		}
+		//if p.SystemProcess.External() {
+		p.ExitNum = p.SystemProcess.ExitNum()
+		//} else {
+		//	p.ExitNum = 1
+		//}
 		return err
 	}
 

@@ -2,5 +2,6 @@
     return
 }
 
-summary hx "Helix: a post-modern text editor"
+define-force-tty-func hx
 
+summary hx "Helix: a post-modern text editor"

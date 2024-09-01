@@ -58,7 +58,7 @@ func Sigquit(interactive bool) {
 					p.Id, procName, procParam)))
 			p.Kill()
 
-			if p.SystemProcess.Defined() {
+			if p.SystemProcess.External() {
 				err := p.SystemProcess.Kill()
 				if err != nil {
 					lang.ShellProcess.Stderr.Writeln([]byte(

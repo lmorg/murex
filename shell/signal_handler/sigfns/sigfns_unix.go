@@ -15,7 +15,7 @@ import (
 
 func Sigtstp(interactive bool) {
 	p := lang.ForegroundProc.Get()
-	if p.SystemProcess.Defined() {
+	if p.SystemProcess.External() {
 		err := p.SystemProcess.Signal(syscall.SIGSTOP)
 		if err != nil {
 			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
@@ -28,42 +28,58 @@ func Sigtstp(interactive bool) {
 }
 
 func returnFromSigtstp(p *lang.Process) {
+	//debug.Log("returnFromSigtstp:0", p.Name.String(), p.Parameters.StringAll())
+
 	p.State.Set(state.Stopped)
-	if p.SystemProcess.Defined() && p.SystemProcess.ForcedTTY() {
+	if p.SystemProcess.ForcedTTY() {
 		lang.UnixPidToFg(0)
 	}
+
+	//debug.Log("returnFromSigtstp:1", p.Name.String(), p.Parameters.StringAll())
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
 		show = false
 	}
 
+	//debug.Log("returnFromSigtstp:2", p.Name.String(), p.Parameters.StringAll())
+
 	if show.(bool) {
 		stopStatus(p)
 	}
 
-	p.State.Set(state.Stopped)
-	go func() { p.HasStopped <- true }()
+	//debug.Log("returnFromSigtstp:3", p.Name.String(), p.Parameters.StringAll())
 
 	lang.ShowPrompt <- true
+
+	//debug.Log("returnFromSigtstp:4", p.Name.String(), p.Parameters.StringAll())
+
+	p.HasStopped <- true
 }
 
 func Sigchld(interactive bool) {
+	//debug.Log("Sigchld:0")
 	if !interactive {
 		return
 	}
 
+	//debug.Log("Sigchld:1")
 	p := lang.ForegroundProc.Get()
 
-	if !p.SystemProcess.Defined() || !p.SystemProcess.ForcedTTY() {
+	//debug.Log("Sigchld:2", p.Name.String(), p.Parameters.StringAll())
+	if !p.SystemProcess.ForcedTTY() {
 		return
 	}
 
+	//debug.Log("Sigchld:3", p.Name.String(), p.Parameters.StringAll())
 	if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
+		//debug.Log("Sigchld:4", p.Name.String(), p.Parameters.StringAll())
 		if p.State.Get() != state.Stopped {
+			//debug.Log("Sigchld:5", p.Name.String(), p.Parameters.StringAll())
 			returnFromSigtstp(p)
 		}
 	}
+	//debug.Log("Sigchld:6", p.Name.String(), p.Parameters.StringAll())
 }
 
 func stopStatus(p *lang.Process) {
@@ -91,7 +107,7 @@ func stopStatus(p *lang.Process) {
 	)
 	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
-	if p.SystemProcess.Defined() {
+	if p.SystemProcess.External() {
 		block, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "stop-status-func", types.CodeBlock)
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))

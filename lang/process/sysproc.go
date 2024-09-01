@@ -1,6 +1,7 @@
 package process
 
 import (
+	"fmt"
 	"os"
 	"sync"
 )
@@ -26,12 +27,6 @@ func NewSystemProcessStruct() *SystemProcess {
 	return sp
 }
 
-func (sp *SystemProcess) getInheritance() systemProcessInheritance {
-	sp.mutex.Lock()
-	defer sp.mutex.Unlock()
-	return sp.inheritance
-}
-
 func (sp *SystemProcess) Set(i systemProcessInheritance) {
 	sp.mutex.Lock()
 	sp.inheritance = i
@@ -39,18 +34,73 @@ func (sp *SystemProcess) Set(i systemProcessInheritance) {
 	sp.mutex.Unlock()
 }
 
-func (sp *SystemProcess) Defined() bool {
+func (sp *SystemProcess) External() bool {
 	sp.mutex.Lock()
 	defer sp.mutex.Unlock()
 	return sp.inheritance != nil
 }
 
-func (sp *SystemProcess) Signal(sig os.Signal) error { return sp.getInheritance().Signal(sig) }
-func (sp *SystemProcess) Kill() error                { return sp.getInheritance().Kill() }
-func (sp *SystemProcess) Pid() int                   { return sp.getInheritance().Pid() }
-func (sp *SystemProcess) ExitNum() int               { return sp.getInheritance().ExitNum() }
-func (sp *SystemProcess) State() *os.ProcessState    { return sp.getInheritance().State() }
-func (sp *SystemProcess) ForcedTTY() bool            { return sp.getInheritance().ForcedTTY() }
+var errNotDefined = fmt.Errorf("no system process defined")
+
+func (sp *SystemProcess) Signal(sig os.Signal) error {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.Signal(sig)
+	}
+	return errNotDefined
+}
+
+func (sp *SystemProcess) Kill() error {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.Kill()
+	}
+	return errNotDefined
+}
+
+func (sp *SystemProcess) Pid() int {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.Pid()
+	}
+	return -1
+}
+
+func (sp *SystemProcess) ExitNum() int {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.ExitNum()
+	}
+	return 1
+}
+
+func (sp *SystemProcess) State() *os.ProcessState {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.State()
+	}
+	return nil
+}
+
+func (sp *SystemProcess) ForcedTTY() bool {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+
+	if sp.inheritance != nil {
+		return sp.inheritance.ForcedTTY()
+	}
+	return false
+}
 
 // WaitForPid should only be used in redirection.go
 func (sp *SystemProcess) WaitForPid() int {

@@ -6,7 +6,7 @@ package lang
 import (
 	"fmt"
 	"os"
-	"os/signal"
+	"sync"
 	"syscall"
 
 	"github.com/lmorg/murex/debug"
@@ -42,11 +42,11 @@ func osExecFork(p *Process, argv []string) error {
 		//Dir:   pwd,
 		Files: []*os.File{
 			os.Stdin,
-			//os.Stdout,
-			//os.Stderr,
+			os.Stdout,
+			os.Stderr,
 			//p.Stdin.File(),
-			p.Stdout.File(),
-			p.Stderr.File(),
+			//p.Stdout.File(),
+			//p.Stderr.File(),
 		},
 		Env: p.Envs,
 		Sys: &syscall.SysProcAttr{
@@ -60,14 +60,14 @@ func osExecFork(p *Process, argv []string) error {
 			// This is only meaningful if Setsid is true.
 			//Setctty: true,
 			//Noctty: true,               // Detach fd 0 from controlling terminal
-			Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
+			//Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
 			// Foreground places the child process group in the foreground.
 			// This implies Setpgid. The Ctty field must be set to
 			// the descriptor of the controlling TTY.
 			// Unlike Setctty, in this case Ctty must be a descriptor
 			// number in the parent process.
-			Foreground: true,
-			Pgid:       0, // Child's process group ID if Setpgid.
+			//Foreground: true,
+			Pgid: 0, // Child's process group ID if Setpgid.
 		},
 	})
 
@@ -78,54 +78,86 @@ func osExecFork(p *Process, argv []string) error {
 		)
 	}
 
-	sysProc := sysProcUnixT{
-		p: unixProcess,
-	}
+	sysProc := sysProcUnixT{p: unixProcess}
 	p.SystemProcess.Set(&sysProc)
 
-	signal.Ignore(syscall.SIGTTOU)
-	defer signal.Reset(syscall.SIGTTOU)
+	//signal.Ignore(syscall.SIGTTOU)
+	//defer signal.Reset(syscall.SIGTTOU)
 	UnixPidToFg(sysProc.p.Pid)
 	//signalhandler.Register(Interactive)
-	sysProc.state, err = sysProc.p.Wait()
-	UnixPidToFg(0)
+	//defer UnixPidToFg(0)
 
-	if err != nil {
+	return sysProc.wait()
+	/*if err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
 		return err
 		//}
 	}
 
-	return nil
+	return nil*/
 }
 
 type sysProcUnixT struct {
 	p     *os.Process
 	state *os.ProcessState
+	mutex sync.Mutex
 }
 
 func (sp *sysProcUnixT) Pid() int                   { return sp.p.Pid }
 func (sp *sysProcUnixT) ExitNum() int               { return sp.state.ExitCode() }
 func (sp *sysProcUnixT) Kill() error                { return sp.p.Kill() }
 func (sp *sysProcUnixT) Signal(sig os.Signal) error { return sp.p.Signal(sig) }
-func (sp *sysProcUnixT) State() *os.ProcessState    { return sp.state }
 func (sp *sysProcUnixT) ForcedTTY() bool            { return true }
+
+func (sp *sysProcUnixT) State() *os.ProcessState {
+	sp.mutex.Lock()
+	defer sp.mutex.Unlock()
+	return sp.state
+}
+
+func (sp *sysProcUnixT) wait() error {
+	state, err := sp.p.Wait()
+	sp.mutex.Lock()
+	sp.state = state
+	sp.mutex.Unlock()
+
+	/*if state.Sys().(syscall.WaitStatus).Stopped() {
+		syscallErr := syscall.Kill(syscall.Getpid(), syscall.SIGTSTP)
+		if err != nil {
+			return syscallErr
+		}
+	}*/
+	return err
+}
 
 // UnixPidToFg brings a UNIX process to the foreground.
 // If pid == 0 then UnixPidToFg will assume Murex Pid instead.
 func UnixPidToFg(pid int) {
 	if pid == 0 {
-		pid = os.Getpid()
+		pid = syscall.Getpgrp()
+		//pid = syscall.Getpid()
 	}
 
-	err := unix.IoctlSetPointerInt(0, unix.TIOCSPGRP, pid)
-	if err != nil && debug.Enabled {
-		os.Stderr.WriteString(
-			fmt.Sprintf("!!! failed syscall in unix.IoctlSetPointerInt -> unixResetFg()...\n!!! %s\n",
-				err.Error(),
-			),
-		)
+	err := unixPidToFg(pid, int(os.Stdin.Fd()))
+	if err != nil {
+		tty, err := os.Open("/dev/tty")
+		if err != nil && debug.Enabled {
+			debug.Log(fmt.Sprintf("!!! UnixPidToFg(%d)->os.Open(/dev/tty): %s\n", pid, err.Error()))
+			return
+		}
+		unixPidToFg(pid, int(tty.Fd()))
+		tty.Close()
 	}
+}
+
+func unixPidToFg(pid int, tty int) error {
+	//err := syscall.Setpgid(int(os.Stdin.Fd()), pid)
+	err := unix.IoctlSetPointerInt(tty, unix.TIOCSPGRP, pid)
+	if err != nil && debug.Enabled {
+		debug.Log(fmt.Sprintf("!!! unixPidToFg(%d, %d): %s\n", pid, tty, err.Error()))
+	}
+
+	return err
 }
 
 /////

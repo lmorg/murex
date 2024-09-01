@@ -59,6 +59,7 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 // Start the interactive shell
 func Start() {
 	defer crash.Handler()
+	lang.UnixCreateSession()
 
 	whatsnew.Display()
 
