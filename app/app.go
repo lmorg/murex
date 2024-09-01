@@ -17,9 +17,9 @@ const (
 	version  = "%d.%d.%04d"
 	Major    = 6
 	Minor    = 3
-	Revision = 592
+	Revision = 593
 	Branch   = "863/job-control"
-	DateTime = "2024-09-01 22:58:20"
+	DateTime = "2024-09-01 22:59:04"
 )
 
 // Copyright is the copyright owner string
