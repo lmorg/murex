@@ -8,7 +8,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
@@ -239,10 +238,6 @@ func newForegroundProc() *foregroundProc {
 func (fp *foregroundProc) Get() *Process {
 	fp.mutex.Lock()
 	p := fp.p
-	debug.Log("foregroundProc.Get()", p.Name.String(), p.Parameters.StringAll())
-	//if p == nil {
-	//	panic("Get() retrieved p")
-	//}
 	fp.mutex.Unlock()
 
 	return p
@@ -250,12 +245,9 @@ func (fp *foregroundProc) Get() *Process {
 
 func (fp *foregroundProc) Set(p *Process) {
 	fp.mutex.Lock()
-	debug.Log("foregroundProc.Set()", p.Name.String())
 	if p == nil {
 		panic("nil p in (fp *foregroundProc) Set(p *Process)")
 	}
 	fp.p = p
-	//debug.Json("fp.Set", p)
-	//debug.Json("fp.p", fp.p)
 	fp.mutex.Unlock()
 }

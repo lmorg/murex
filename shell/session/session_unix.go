@@ -3,17 +3,19 @@
 
 package session
 
-import "syscall"
+import (
+	"fmt"
+	"syscall"
 
-//var UnixSessionID int
+	"github.com/lmorg/murex/debug"
+)
 
 func UnixSetSid() {
-	/*var err error
-	UnixSessionID, err = syscall.Setsid()
-	if err != nil {
-		panic(err)
-		}*/
+	var err error
 
 	// Create a new session
-	_, _ = syscall.Setsid()
+	_, err = syscall.Setsid()
+	if err != nil {
+		debug.Log(fmt.Sprintf("!!! syscall.Setsid() failed: %s", err.Error()))
+	}
 }

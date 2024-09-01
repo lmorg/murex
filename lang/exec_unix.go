@@ -148,7 +148,7 @@ func UnixPidToFg(pid int) {
 		// these two attempts, one _should_ work correctly.
 		tty, err := os.Open("/dev/tty")
 		if err != nil && debug.Enabled {
-			debug.Log(fmt.Sprintf("!!! UnixPidToFg(%d)->os.Open(/dev/tty): %s\n", pid, err.Error()))
+			debug.Log(fmt.Sprintf("!!! UnixPidToFg(%d)->os.Open(/dev/tty): %s", pid, err.Error()))
 			return
 		}
 		unixPidToFg(pid, int(tty.Fd()))
@@ -159,7 +159,7 @@ func UnixPidToFg(pid int) {
 func unixPidToFg(pid int, tty int) error {
 	err := unix.IoctlSetPointerInt(tty, unix.TIOCSPGRP, pid)
 	if err != nil && debug.Enabled {
-		debug.Log(fmt.Sprintf("!!! unixPidToFg(%d, %d): %s\n", pid, tty, err.Error()))
+		debug.Log(fmt.Sprintf("!!! unixPidToFg(%d, %d): %s", pid, tty, err.Error()))
 	}
 
 	return err
