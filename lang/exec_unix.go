@@ -81,11 +81,7 @@ func osExecFork(p *Process, argv []string) error {
 	sysProc := sysProcUnixT{p: unixProcess}
 	p.SystemProcess.Set(&sysProc)
 
-	//signal.Ignore(syscall.SIGTTOU)
-	//defer signal.Reset(syscall.SIGTTOU)
 	UnixPidToFg(sysProc.p.Pid)
-	//signalhandler.Register(Interactive)
-	//defer UnixPidToFg(0)
 
 	return sysProc.wait()
 	/*if err != nil {
@@ -135,11 +131,21 @@ func (sp *sysProcUnixT) wait() error {
 func UnixPidToFg(pid int) {
 	if pid == 0 {
 		pid = syscall.Getpgrp()
-		//pid = syscall.Getpid()
 	}
 
 	err := unixPidToFg(pid, int(os.Stdin.Fd()))
 	if err != nil {
+		// Opening /dev/tty feels like a bit of a kludge when we already know
+		// the tty of stdin. However we often see the following error when
+		// attempting to tcsetpgrp the file descriptor of stdin:
+		//
+		//    inappropriate ioctl for device
+		//
+		// Where as opening /dev/tty and using that file descriptor resolves
+		// that error.
+		//
+		// So this is used as a fallback in case os.Stdin.Fd() fails. Between
+		// these two attempts, one _should_ work correctly.
 		tty, err := os.Open("/dev/tty")
 		if err != nil && debug.Enabled {
 			debug.Log(fmt.Sprintf("!!! UnixPidToFg(%d)->os.Open(/dev/tty): %s\n", pid, err.Error()))
@@ -151,7 +157,6 @@ func UnixPidToFg(pid int) {
 }
 
 func unixPidToFg(pid int, tty int) error {
-	//err := syscall.Setpgid(int(os.Stdin.Fd()), pid)
 	err := unix.IoctlSetPointerInt(tty, unix.TIOCSPGRP, pid)
 	if err != nil && debug.Enabled {
 		debug.Log(fmt.Sprintf("!!! unixPidToFg(%d, %d): %s\n", pid, tty, err.Error()))

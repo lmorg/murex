@@ -19,6 +19,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/session"
 	signalhandler "github.com/lmorg/murex/shell/signal_handler"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -59,7 +60,8 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 // Start the interactive shell
 func Start() {
 	defer crash.Handler()
-	lang.UnixCreateSession()
+
+	session.UnixSetSid()
 
 	whatsnew.Display()
 

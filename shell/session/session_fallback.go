@@ -1,8 +1,8 @@
 //go:build js || windows || plan9
 // +build js windows plan9
 
-package lang
+package session
 
-func UnixCreateSession() {
+func UnixSetSid() {
 	// not supported on this platform
 }

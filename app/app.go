@@ -17,7 +17,7 @@ const (
 	version  = "%d.%d.%04d"
 	Major    = 6
 	Minor    = 3
-	Revision = 587
+	Revision = 588
 	Branch   = "863/job-control"
 )
 
