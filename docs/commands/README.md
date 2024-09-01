@@ -423,12 +423,12 @@ Tools for providing help and hints, useful when working inside the interactive s
 
 ### Uncategorised
 
-* [`murex-parser`](../commands/murex-parser.md):
-  Runs the Murex parser against a block of code 
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1 (deprecated)
+* [`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable (deprecated)
+* [`murex-parser`](../commands/murex-parser.md):
+  Runs the Murex parser against a block of code 
 
 ## Optional Builtins
 
