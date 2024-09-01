@@ -2,7 +2,9 @@ package debug
 
 import (
 	"encoding/json"
+	"io"
 	"log"
+	"os"
 )
 
 // Enabled is a flag used for debugging murex code. This can be enabled at
@@ -33,4 +35,16 @@ func Dump() interface{} {
 	return status{
 		Debug: Enabled,
 	}
+}
+
+func init() {
+	f, err := os.OpenFile("/home/lau/dev/go/src/github.com/lmorg/murex/debug.log", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		panic(err.Error())
+	}
+	LogWriter(f)
+}
+
+func LogWriter(w io.Writer) {
+	log.SetOutput(w)
 }
