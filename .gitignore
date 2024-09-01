@@ -23,12 +23,14 @@ wasm_exec.js
 # optional builtins
 /builtins/imports_build
 
-# test working directories
+# test and debugging files
 /deleteme
 /test/tmp
 *.test
 *.prof
 *.pprof
+/debug/logfile.go
+
 debug.log
 
 # IDE
