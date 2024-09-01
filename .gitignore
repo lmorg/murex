@@ -29,6 +29,7 @@ wasm_exec.js
 *.test
 *.prof
 *.pprof
+debug.log
 
 # IDE
 .idea/

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config/defaults"
@@ -54,7 +55,11 @@ func cmdVersion(p *lang.Process) error {
 
 	case "":
 		p.Stdout.SetDataType(types.String)
-		v := fmt.Sprintf("%s: %s\n%s\n%s", app.Name, app.Version(), app.License, app.Copyright)
+		v := fmt.Sprintf(
+			"%s: %s\nBuilt: %s\n%s\n%s",
+			strings.Title(app.Name), app.Version(),
+			app.DateTime,
+			app.License, app.Copyright)
 		_, err := p.Stdout.Writeln([]byte(v))
 		return err
 
