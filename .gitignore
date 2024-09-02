@@ -5,6 +5,8 @@ murex.exe
 murex.upx
 /docgen
 /docgen.exe
+/stringer
+/stringer.exe
 bin/
 VERSION
 deleteme.db
@@ -44,7 +46,6 @@ murex.iml
 /vendor.new
 /pkg
 /src
-/gen/docs-test/
 
 # Misc
 .DS_Store

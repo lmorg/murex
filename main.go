@@ -1,6 +1,9 @@
 //go:build !js
 // +build !js
 
+//go:generate go get golang.org/x/tools/cmd/stringer
+//go:generate go build golang.org/x/tools/cmd/stringer
+
 package main
 
 import (
@@ -15,8 +18,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
-	signalhandler "github.com/lmorg/murex/shell/signal_handler"
-	"github.com/lmorg/murex/shell/signal_handler/sigfns"
 	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -164,15 +165,4 @@ func startMurex() {
 	// start interactive shell
 	registerSignalHandlers(interactive)
 	shell.Start()
-}
-
-func registerSignalHandlers(interactiveMode bool) {
-	signalhandler.Handlers = &signalhandler.SignalFunctionsT{
-		Sigint:  sigfns.Sigint,
-		Sigterm: sigfns.Sigterm,
-		Sigquit: sigfns.Sigquit,
-		Sigtstp: sigfns.Sigtstp,
-		Sigchld: sigfns.Sigchld,
-	}
-	signalhandler.EventLoop(interactiveMode)
 }
