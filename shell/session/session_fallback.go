@@ -6,3 +6,5 @@ package session
 func UnixSetSid() {
 	// not supported on this platform
 }
+
+func UnixIsSession() bool { return false }
