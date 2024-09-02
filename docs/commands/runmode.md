@@ -89,6 +89,8 @@ if `runmode ... module` is set.
   Execute a block of code, always returning a zero exit number
 * [Display Running Functions (`fid-list`)](../commands/fid-list.md):
   Lists all running functions within the current Murex session
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipe Fail (`trypipe`)](../commands/trypipe.md):
@@ -111,8 +113,6 @@ if `runmode ... module` is set.
   Set definitions for tab-completion in the command line
 * [Try Block (`try`)](../commands/try.md):
   Handles non-zero exits inside a block of code
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 
 <hr/>
 

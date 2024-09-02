@@ -312,6 +312,8 @@ functions.
   Import Murex code from another file or code block
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Prettify JSON](../commands/pretty.md):
@@ -328,8 +330,6 @@ functions.
   Murex's test framework - define tests, run tests and debug shell scripts
 * [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 

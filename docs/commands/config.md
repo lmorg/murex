@@ -249,6 +249,8 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Makes a standard HTTP request and returns the result as a JSON object
 * [Match String (`match`)](../commands/match.md):
   Match an exact value in an array
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Post Request (`post`)](../commands/post.md):
@@ -259,8 +261,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Returns runtime information on the internal state of Murex
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 
 <hr/>
 

@@ -149,16 +149,16 @@ legitimately want the same name for different interrupts.
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
+* [Send Signal IPC (`signal`)](../commands/signal.md):
+  Sends a signal RPC
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onPrompt`](../events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [`signal`](../commands/signal.md):
-  Sends a signal RPC
 
 <hr/>
 

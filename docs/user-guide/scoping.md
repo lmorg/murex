@@ -61,6 +61,8 @@ scope. Subshells also do not create a new scope either.
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Include / Evaluate Murex Code (`source`)](../commands/source.md):
   Import Murex code from another file or code block
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Private Function (`private`)](../commands/private.md):
   Define a private function block
 * [Public Function (`function`)](../commands/function.md):
@@ -73,8 +75,6 @@ scope. Subshells also do not create a new scope either.
   Blocks of cascading conditionals
 * [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 

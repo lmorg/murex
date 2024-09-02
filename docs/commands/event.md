@@ -1,4 +1,4 @@
-# `event`
+# Murex Event Subsystem (`event`)
 
 > Event driven programming for shell scripts
 
@@ -44,7 +44,7 @@ event event-type name=interrupt { code block }
 
 ```
 event onSecondsElapsed autoquit=60 {
-    out "You're 60 second timeout has elapsed. Quitting murex"
+    out "Your 60 second timeout has elapsed. Quitting murex"
     exit 1
 }
 ```

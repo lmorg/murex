@@ -271,6 +271,8 @@ Commands to manage the Murex shell session.
   Execute a command or function, bypassing the usual order of precedence.
 * [Include / Evaluate Murex Code (`source`)](../commands/source.md):
   Import Murex code from another file or code block
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Murex Package Management (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
 * [Murex Version (`version`)](../commands/version.md):
@@ -291,8 +293,6 @@ Commands to manage the Murex shell session.
   Murex's test framework - define tests, run tests and debug shell scripts
 * [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 
 ### String Escaping / Character Codes
 
@@ -335,7 +335,7 @@ Management of system processes and Murex FIDs.
   Locate command origin
 * [Processes Execution Time (`time`)](../commands/time.md):
   Returns the execution run time of a command or block
-* [`signal`](../commands/signal.md):
+* [Send Signal IPC (`signal`)](../commands/signal.md):
   Sends a signal RPC
 
 ### Language And Scripting

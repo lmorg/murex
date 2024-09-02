@@ -293,6 +293,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Outputs a man page summary of a command
 * [Match String (`match`)](../commands/match.md):
   Match an exact value in an array
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
 * [Murex Package Management (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
 * [Murex Version (`version`)](../commands/version.md):
@@ -353,6 +355,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Right substring every item in a list
 * [Round Number (`round`)](../commands/round.md):
   Round a number by a user defined precision
+* [Send Signal IPC (`signal`)](../commands/signal.md):
+  Sends a signal RPC
 * [Set Command Summary Hint (`summary`)](../commands/summary.md):
   Defines a summary help text for a command
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
@@ -383,14 +387,10 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Handles non-zero exits inside a block of code
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1 (deprecated)
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [`murex-parser`](../commands/murex-parser.md):
   Runs the Murex parser against a block of code 
-* [`signal`](../commands/signal.md):
-  Sends a signal RPC
 
 ### Optional Builtins
 

@@ -433,6 +433,10 @@
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
+                "link": "commands/event.html",
+                "text": "Murex Event Subsystem (event)"
+            },
+            {
                 "link": "commands/murex-package.html",
                 "text": "Murex Package Management (murex-package)"
             },
@@ -471,10 +475,6 @@
             {
                 "link": "commands/autocomplete.html",
                 "text": "Tab Autocompletion (autocomplete)"
-            },
-            {
-                "link": "commands/event.html",
-                "text": "event"
             }
         ],
         "collapsible": true,
@@ -556,7 +556,7 @@
             },
             {
                 "link": "commands/signal.html",
-                "text": "signal"
+                "text": "Send Signal IPC (signal)"
             }
         ],
         "collapsible": true,
