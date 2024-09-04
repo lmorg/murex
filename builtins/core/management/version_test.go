@@ -11,15 +11,15 @@ func TestVersion(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `version`,
-			Stdout: `murex: [0-9]+\.[0-9]+\.[0-9]+( (.*?))?\nLicense .*?\n© 2018-[0-9]{4} Laurence Morgan\n`,
+			Stdout: `Murex: [0-9]+\.[0-9]+\.[0-9]+( (.*?))?\nBuilt: .*?\nLicense: .*?\nCopyright: 2018-[0-9]{4} Laurence Morgan\n`,
 		},
 		{
 			Block:  `version: --copyright`,
-			Stdout: `© 2018-[0-9]{4} Laurence Morgan\n`,
+			Stdout: `2018-[0-9]{4} Laurence Morgan\n`,
 		},
 		{
 			Block:  `version: --license`,
-			Stdout: `License .*?\n`,
+			Stdout: `^GPL v2\n$`,
 		},
 		{
 			Block:  `version: --no-app-name`,
