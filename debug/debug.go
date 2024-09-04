@@ -2,6 +2,7 @@ package debug
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 )
@@ -14,6 +15,13 @@ var Enabled bool
 func Log(data ...interface{}) {
 	if Enabled {
 		log.Println(data...)
+	}
+}
+
+// Logf writes a debug message using [fmt.Printf] arguments.
+func Logf(format string, v ...interface{}) {
+	if Enabled {
+		log.Println(fmt.Sprintf(format, v...))
 	}
 }
 

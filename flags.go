@@ -76,5 +76,9 @@ func readFlags() {
 		Global:      true,
 	})
 
+	if os.Getenv("MUREX_DEBUG") == "true" {
+		debug.Enabled = true
+	}
+
 	fSource = flag.Args()
 }
