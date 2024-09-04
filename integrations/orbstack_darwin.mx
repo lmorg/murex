@@ -1,0 +1,20 @@
+if { which orb } then {
+    return
+}
+
+autocomplete set orb %[
+    {
+        DynamicDesc: '{
+            config set proc strict-arrays false
+            exec orbctl @PARAMS --help -> tabulate --split-comma --map
+        }'
+    }
+]
+
+autocomplete get orb -> autocomplete set orbctl
+
+define-force-tty-func orb
+define-force-tty-func orbctl
+
+summary orb "OrbStack: K8s, Docker and Linux virtualization"
+summary orbctl ${ runtime --summaries -> [orb] }
