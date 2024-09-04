@@ -181,6 +181,8 @@ func execForkFallback(p *Process, argv []string) error {
 		//}
 	}
 
+	p.SystemProcess.Set(&sysProcT{cmd})
+
 	// ***
 	// Get murex data type
 	// ***
@@ -209,8 +211,6 @@ func execForkFallback(p *Process, argv []string) error {
 	}()*/
 
 	/////////
-
-	p.SystemProcess.Set(&sysProcT{cmd})
 
 	/*if err := mxdtW.Close(); err != nil {
 		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")

@@ -11,12 +11,18 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/state"
+	"github.com/lmorg/murex/shell/session"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/which"
 	"golang.org/x/sys/unix"
 )
 
 func osExecFork(p *Process, argv []string) error {
+	if !session.UnixIsSession() {
+		debug.Logf("!!! session not defined, falling back to non-unix ttys")
+		return execForkFallback(p, argv)
+	}
+
 	if p.HasCancelled() {
 		return nil
 	}
@@ -37,40 +43,7 @@ func osExecFork(p *Process, argv []string) error {
 	}
 
 	p.State.Set(state.Executing)
-
-	unixProcess, err := os.StartProcess(which.WhichIgnoreFail(argv[0]), argv, &os.ProcAttr{
-		//Dir:   pwd,
-		Files: []*os.File{
-			os.Stdin,
-			os.Stdout,
-			os.Stderr,
-			//p.Stdin.File(),
-			//p.Stdout.File(),
-			//p.Stderr.File(),
-		},
-		Env: p.Envs,
-		Sys: &syscall.SysProcAttr{
-			//Setsid: true, // Create session.
-			// Setpgid sets the process group ID of the child to Pgid,
-			// or, if Pgid == 0, to the new child's process ID.
-			Setpgid: true,
-			// Setctty sets the controlling terminal of the child to
-			// file descriptor Ctty. Ctty must be a descriptor number
-			// in the child process: an index into ProcAttr.Files.
-			// This is only meaningful if Setsid is true.
-			//Setctty: true,
-			//Noctty: true,               // Detach fd 0 from controlling terminal
-			//Ctty: int(os.Stdin.Fd()), // Controlling TTY fd
-			// Foreground places the child process group in the foreground.
-			// This implies Setpgid. The Ctty field must be set to
-			// the descriptor of the controlling TTY.
-			// Unlike Setctty, in this case Ctty must be a descriptor
-			// number in the parent process.
-			//Foreground: true,
-			Pgid: 0, // Child's process group ID if Setpgid.
-		},
-	})
-
+	unixProcess, err := os.StartProcess(which.WhichIgnoreFail(argv[0]), argv, unixProcAttr(p.Envs))
 	if err != nil {
 		return fmt.Errorf("failed fork in os.StartProcess -> osExecFork()...\n%s\nargv: %s",
 			err.Error(),
@@ -82,7 +55,6 @@ func osExecFork(p *Process, argv []string) error {
 	p.SystemProcess.Set(&sysProc)
 
 	UnixPidToFg(sysProc.p.Pid)
-
 	return sysProc.wait()
 	/*if err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
@@ -129,36 +101,29 @@ func (sp *sysProcUnixT) wait() error {
 // UnixPidToFg brings a UNIX process to the foreground.
 // If pid == 0 then UnixPidToFg will assume Murex Pid instead.
 func UnixPidToFg(pid int) {
-	if pid == 0 {
-		pid = syscall.Getpgrp()
+	var err error
+
+	pid, err = syscall.Getpgid(unix.Getpid())
+	if err != nil {
+		debug.Logf("!!! UnixSetSid()->syscall.Getpgid(unix.Getpid()) failed: %v", err)
+		pid = syscall.Getpid()
 	}
 
-	err := unixPidToFg(pid, int(os.Stdin.Fd()))
+	err = unixPidToFg(pid, int(os.Stdin.Fd()))
+	if err == nil {
+		// success, no need to retry
+		return
+	}
+
+	err = unixPidToFg(pid, int(session.UnixTTY().Fd()))
 	if err != nil {
-		// Opening /dev/tty feels like a bit of a kludge when we already know
-		// the tty of stdin. However we often see the following error when
-		// attempting to tcsetpgrp the file descriptor of stdin:
-		//
-		//    inappropriate ioctl for device
-		//
-		// Where as opening /dev/tty and using that file descriptor resolves
-		// that error.
-		//
-		// So this is used as a fallback in case os.Stdin.Fd() fails. Between
-		// these two attempts, one _should_ work correctly.
-		tty, err := os.Open("/dev/tty")
-		if err != nil && debug.Enabled {
-			debug.Log(fmt.Sprintf("!!! UnixPidToFg(%d)->os.Open(/dev/tty): %s", pid, err.Error()))
-			return
-		}
-		unixPidToFg(pid, int(tty.Fd()))
-		tty.Close()
+		debug.Logf("!!! UnixPidToFg(%d)->session.UnixTTY(): %s", pid, err.Error())
 	}
 }
 
 func unixPidToFg(pid int, tty int) error {
 	err := unix.IoctlSetPointerInt(tty, unix.TIOCSPGRP, pid)
-	if err != nil && debug.Enabled {
+	if err != nil {
 		debug.Log(fmt.Sprintf("!!! unixPidToFg(%d, %d): %s", pid, tty, err.Error()))
 	}
 
@@ -187,5 +152,33 @@ func osSysProcAttr(fd int) *syscall.SysProcAttr {
 		// number in the parent process.
 		//Foreground: true,
 		//Pgid:       0, // Child's process group ID if Setpgid.
+	}
+}
+
+func unixProcAttr(envs []string) *os.ProcAttr {
+	return &os.ProcAttr{
+		//Files: []*os.File{session.UnixTTY(), session.UnixTTY(), session.UnixTTY()},
+		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
+		Env:   envs,
+		Sys: &syscall.SysProcAttr{
+			//Setsid: true, // Create session.
+			// Setpgid sets the process group ID of the child to Pgid,
+			// or, if Pgid == 0, to the new child's process ID.
+			Setpgid: true,
+			// Setctty sets the controlling terminal of the child to
+			// file descriptor Ctty. Ctty must be a descriptor number
+			// in the child process: an index into ProcAttr.Files.
+			// This is only meaningful if Setsid is true.
+			//Setctty: true,
+			//Noctty: true,               // Detach fd 0 from controlling terminal
+			//Ctty: 0, // Controlling TTY fd
+			// Foreground places the child process group in the foreground.
+			// This implies Setpgid. The Ctty field must be set to
+			// the descriptor of the controlling TTY.
+			// Unlike Setctty, in this case Ctty must be a descriptor
+			// number in the parent process.
+			//Foreground: true,
+			Pgid: 0, // Child's process group ID if Setpgid.
+		},
 	}
 }
