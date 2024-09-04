@@ -52,6 +52,11 @@ func cmdMatch(p *lang.Process) error {
 	return aw.Close()
 }
 
+const (
+	_WITH_HEADING    = true
+	_WITHOUT_HEADING = false
+)
+
 func cmdRegexp(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
@@ -90,7 +95,10 @@ func cmdRegexp(p *lang.Process) (err error) {
 
 	switch sRegex[0][0] {
 	case 'm':
-		return regexMatch(p, rx, dt)
+		return regexMatch(p, rx, dt, _WITHOUT_HEADING)
+
+	case 'M':
+		return regexMatch(p, rx, dt, _WITH_HEADING)
 
 	case 's':
 		if p.IsNot {
@@ -170,14 +178,20 @@ func splitRegexDefault(regex []byte) (s []string, _ error) {
 
 // -------- regex functions --------
 
-func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
+func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string, withHeading bool) error {
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
-	var count int
 
-	p.Stdin.ReadArray(p.Context, func(b []byte) {
+	var (
+		count int
+		fn    func([]byte)
+	)
+
+	callback := func(b []byte) { fn(b) }
+
+	readArray := func(b []byte) {
 		matched := rx.Match(b)
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 
@@ -189,7 +203,27 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 			}
 
 		}
-	})
+	}
+
+	readHeading := func(b []byte) {
+		err = aw.Write(b)
+		if err != nil {
+			p.Stdin.ForceClose()
+			p.Done()
+		}
+		fn = readArray
+	}
+
+	// this is a bit of a kludge to allow us to read the heading and run one
+	// type of function against it, but then process the rest of the array
+	// differently. The aim of this is to avoid having `if` blocks inside the
+	// `ReadArray()` loop.
+	if withHeading {
+		fn = readHeading
+	} else {
+		callback = readArray
+	}
+	p.Stdin.ReadArray(p.Context, callback)
 
 	if p.HasCancelled() {
 		return err

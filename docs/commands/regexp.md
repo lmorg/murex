@@ -32,7 +32,7 @@ characters because those are inside the parenthesis.
 
 ### Match elements
 
-### Elements containing
+#### Elements containing
 
 ```
 » ja [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
@@ -55,6 +55,17 @@ characters because those are inside the parenthesis.
 ]
 ```
 
+#### Include heading
+
+```
+» ps -fe -> regexp 'M/murex/'
+UID   PID  PPID   C STIME   TTY           TIME CMD
+501 39631 39630   0  6:48pm ??         0:04.31 -murex
+501 57496 17220   0 11:59pm ??         0:02.90 ./murex
+501 41982 17219   0 10:53pm ttys000    0:39.73 -murex
+501 17220 17219   0  2:09pm ttys002    1:44.06 -murex 
+```
+
 ### Substitute expression
 
 ```
@@ -72,12 +83,14 @@ characters because those are inside the parenthesis.
 
 ## Flags
 
+* `M`
+    output first element (eg table headings), followed by any elements that match (supports bang prefix)
 * `f`
     output found expressions (doesn't support bang prefix)
 * `m`
     output elements that match expression (supports bang prefix)
 * `s`
-    output all elements - substituting elements that match expression (doesn't support bang prefix)
+    output all elements, substituting elements that match expression (doesn't support bang prefix)
 
 ## Detail
 
