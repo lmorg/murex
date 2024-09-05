@@ -78,7 +78,9 @@ func execForkFallback(p *Process, argv []string) error {
 		}
 
 		err := cmd.Process.Signal(syscall.SIGTERM)
-		UnixPidToFg(0)
+		if p.SystemProcess.ForcedTTY() {
+			UnixPidToFg(nil)
+		}
 		if err != nil {
 			if err.Error() == os.ErrProcessDone.Error() {
 				return
@@ -128,7 +130,7 @@ func execForkFallback(p *Process, argv []string) error {
 
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		cmd.SysProcAttr = osSysProcAttr(int(p.Stdout.File().Fd()))
+		cmd.SysProcAttr = unixProcAttrFauxTTY(int(p.Stdout.File().Fd()))
 		cmd.Stdout = p.Stdout.File()
 		//}
 	} else {

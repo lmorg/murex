@@ -18,10 +18,10 @@ import (
 )
 
 func osExecFork(p *Process, argv []string) error {
-	if !session.UnixIsSession() {
-		debug.Logf("!!! session not defined, falling back to non-unix ttys")
-		return execForkFallback(p, argv)
-	}
+	//if !session.UnixIsSession() {
+	//	debug.Logf("!!! session not defined, falling back to non-unix ttys")
+	//	return execForkFallback(p, argv)
+	//}
 
 	if p.HasCancelled() {
 		return nil
@@ -43,7 +43,7 @@ func osExecFork(p *Process, argv []string) error {
 	}
 
 	p.State.Set(state.Executing)
-	unixProcess, err := os.StartProcess(which.WhichIgnoreFail(argv[0]), argv, unixProcAttr(p.Envs))
+	unixProcess, err := os.StartProcess(which.WhichIgnoreFail(argv[0]), argv, unixProcAttrRealTTY(p.Envs))
 	if err != nil {
 		return fmt.Errorf("failed fork in os.StartProcess -> osExecFork()...\n%s\nargv: %s",
 			err.Error(),
@@ -53,8 +53,8 @@ func osExecFork(p *Process, argv []string) error {
 
 	sysProc := sysProcUnixT{p: unixProcess}
 	p.SystemProcess.Set(&sysProc)
-
-	UnixPidToFg(sysProc.p.Pid)
+	defer setsid()
+	UnixPidToFg(p)
 	return sysProc.wait()
 	/*if err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
@@ -88,33 +88,46 @@ func (sp *sysProcUnixT) wait() error {
 	sp.mutex.Lock()
 	sp.state = state
 	sp.mutex.Unlock()
-
-	/*if state.Sys().(syscall.WaitStatus).Stopped() {
-		syscallErr := syscall.Kill(syscall.Getpid(), syscall.SIGTSTP)
-		if err != nil {
-			return syscallErr
-		}
-	}*/
 	return err
 }
 
 // UnixPidToFg brings a UNIX process to the foreground.
-// If pid == 0 then UnixPidToFg will assume Murex Pid instead.
-func UnixPidToFg(pid int) {
-	var err error
+// If p == nil then UnixPidToFg will assume Murex Pid instead.
+func UnixPidToFg(p *Process) {
+	var (
+		pid int
+		err error
+	)
 
-	pid, err = syscall.Getpgid(unix.Getpid())
-	if err != nil {
-		debug.Logf("!!! UnixSetSid()->syscall.Getpgid(unix.Getpid()) failed: %v", err)
-		pid = syscall.Getpid()
+	if p == nil { // Put Murex in the foreground
+		pid, err = syscall.Getpgid(unix.Getpid())
+		if err != nil {
+			debug.Logf("!!! UnixSetSid()->syscall.Getpgid(unix.Getpid()) failed: %v", err)
+			pid = syscall.Getpid()
+		}
+
+		// This is only required because some badly behaving programs run
+		// setsid() themselves despite not technically needing to be a session
+		// leader eg shell.
+		syscall.Setsid()
+
+	} else { // Put a system process in the foreground
+		pid = p.SystemProcess.Pid()
+		// Check if its system process, if not, then there's no point proceeding
+		if pid <= 0 {
+			return
+		}
 	}
 
 	err = unixPidToFg(pid, int(os.Stdin.Fd()))
 	if err == nil {
-		// success, no need to retry
+		// Success, no need to retry with a different file descriptor
 		return
 	}
 
+	// fallback is to use /dev/tty. This seems the default recommendation in a
+	// lot of the example code and documentation on this topic but it still
+	// feels "wrong" not to at least try os.Stdin first.
 	err = unixPidToFg(pid, int(session.UnixTTY().Fd()))
 	if err != nil {
 		debug.Logf("!!! UnixPidToFg(%d)->session.UnixTTY(): %s", pid, err.Error())
@@ -132,7 +145,7 @@ func unixPidToFg(pid int, tty int) error {
 
 /////
 
-func osSysProcAttr(fd int) *syscall.SysProcAttr {
+func unixProcAttrFauxTTY(fd int) *syscall.SysProcAttr {
 	return &syscall.SysProcAttr{
 		//Setsid: true, // Create session.
 		// Setpgid sets the process group ID of the child to Pgid,
@@ -151,11 +164,11 @@ func osSysProcAttr(fd int) *syscall.SysProcAttr {
 		// Unlike Setctty, in this case Ctty must be a descriptor
 		// number in the parent process.
 		//Foreground: true,
-		//Pgid:       0, // Child's process group ID if Setpgid.
+		//Pgid: 0, // Child's process group ID if Setpgid.
 	}
 }
 
-func unixProcAttr(envs []string) *os.ProcAttr {
+func unixProcAttrRealTTY(envs []string) *os.ProcAttr {
 	return &os.ProcAttr{
 		//Files: []*os.File{session.UnixTTY(), session.UnixTTY(), session.UnixTTY()},
 		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
@@ -180,5 +193,12 @@ func unixProcAttr(envs []string) *os.ProcAttr {
 			//Foreground: true,
 			Pgid: 0, // Child's process group ID if Setpgid.
 		},
+	}
+}
+
+func setsid() {
+	_, err := syscall.Setsid()
+	if err != nil {
+		debug.Logf("!!! setsid()->syscall.Setsid() failed: %s", err.Error())
 	}
 }

@@ -32,7 +32,7 @@ func returnFromSigtstp(p *lang.Process) {
 
 	p.State.Set(state.Stopped)
 	if p.SystemProcess.ForcedTTY() {
-		lang.UnixPidToFg(0)
+		lang.UnixPidToFg(nil)
 	}
 
 	//debug.Log("returnFromSigtstp:1", p.Name.String(), p.Parameters.StringAll())

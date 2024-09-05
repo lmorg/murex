@@ -42,6 +42,7 @@ func EventLoop(interactive bool) {
 func Register(interactive bool) {
 	if interactive {
 		// Interactive, so we will handle stop
+		signal.Reset(syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP, syscall.SIGCHLD)
 		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP, syscall.SIGCHLD) //, syscall.SIGTTIN, syscall.SIGTTOU)
 
 	} else {

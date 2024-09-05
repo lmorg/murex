@@ -17,23 +17,9 @@ var (
 )
 
 func UnixSetSid() {
-	debug.Log("!!! Entering UnixSetSid()")
-
 	var err error
-
-	pid := os.Getpid()
-
-	// create a new group
-	err = syscall.Setpgid(pid, os.Getppid())
-	if err != nil {
-		debug.Logf("!!! UnixSetSid()->syscall.Setpgid() failed: %s", err.Error())
-	}
-
-	// Create a new session
-	unixSid, err = syscall.Setsid()
-	if err != nil {
-		debug.Logf("!!! UnixSetSid()->syscall.Setsid() failed: %s", err.Error())
-	}
+	debug.Enabled = true
+	debug.Log("!!! Entering UnixSetSid()")
 
 	// Opening /dev/tty feels like a bit of a kludge when we already know
 	// the tty of stdin. However we often see the following error when
@@ -50,7 +36,47 @@ func UnixSetSid() {
 		debug.Log("!!! UnixSetSid()->os.Open(`/dev/tty`) success")
 	}
 
+
+	pid := os.Getpid()
+
+	//sid, _ := syscall.Getsid(pid)
+	//if syscall.Getpgrp() == sid {
+	//	return
+	//}
+
+	// create a new group
+	err = syscall.Setpgid(pid, os.Getppid())
+	if err != nil {
+		debug.Logf("!!! UnixSetSid()->syscall.Setpgid():1 failed: %s", err.Error())
+	}
+
+	// Create a new session
+	unixSid, err = syscall.Setsid()
+	if err != nil {
+		debug.Logf("!!! UnixSetSid()->syscall.Setsid():1 failed: %s", err.Error())
+	}
+
+	// create a new group
+	err = syscall.Setpgid(pid, pid)
+	if err != nil {
+		debug.Logf("!!! UnixSetSid()->syscall.Setpgid():2 failed: %s", err.Error())
+	}
+
+	// Create a new session
+	unixSid, err = syscall.Setsid()
+	if err != nil {
+		debug.Logf("!!! UnixSetSid()->syscall.Setsid():2 failed: %s", err.Error())
+	}
+
 	signalhandler.Register(true)
+
+	pgid, err := syscall.Getpgid(pid)
+	debug.Logf("pid: %d, ppid: %d, pgid: %d, err: %v", pid, os.Getppid(), pgid, err)
+	pgrp := syscall.Getpgrp()
+	debug.Logf("pid: %d, ppid: %d, pgid: %d, err: --", pid, os.Getppid(), pgrp)
+	sid, err := syscall.Getsid(pid)
+	debug.Logf("pid: %d, ppid: %d, sid: %d, err: %v", pid, os.Getppid(), sid, err)
+
 }
 
 func UnixIsSession() bool {

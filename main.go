@@ -1,7 +1,7 @@
 //go:build !js
 // +build !js
 
-//go:generate go build golang.org/x/tools/cmd/stringer
+//go:generate go build -v golang.org/x/tools/cmd/stringer
 
 package main
 

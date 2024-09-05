@@ -78,7 +78,7 @@ g [aeiou]*/*
 
 ### Pattern Reference
 
-Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)
+Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match).
 
 #### pattern
 
@@ -102,14 +102,10 @@ Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/f
 ### Inverse Matches
 
 If you want to exclude any matches based on wildcards, rather than include
-them, then you can use the bang prefix. eg
+them, then you can use the bang prefix. For example, here we use an asterisks
+to exclude everything:
 
 ```
-» g READ*
-[
-    "README.md"
-]
-
 » !g *
 Error in `!g` (1,1): No data returned.
 ```
