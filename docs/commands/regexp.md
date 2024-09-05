@@ -13,6 +13,23 @@ array or list of strings - thus `regexp` is Murex data-type aware.
 <stdin> -> regexp expression -> <stdout>
 ```
 
+Where _expression_ consists of the following
+
+```
+function separator pattern [ separator parameter2 ]
+```
+
+* _function_: single alphabetic character (eg, `m`, `s` or `f`)
+
+* _separator_: typically a single unicode character (eg, `/`, `#`, `▷`, `🙂`)
+  however `regexp` _parameters_ can also be passed as shell parameters (eg
+  `s search replace`)
+
+* _pattern_: regexp pattern
+
+* _parameter2_: any extra operations to perform. For example a string to
+  replace matched patterns when using the regexp substitution function
+
 ## Examples
 
 ### Find elements

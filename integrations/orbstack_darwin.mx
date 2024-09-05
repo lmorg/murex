@@ -16,5 +16,5 @@ autocomplete get orb -> autocomplete set orbctl
 define-force-tty-func orb
 define-force-tty-func orbctl
 
-summary orb "OrbStack: K8s, Docker and Linux virtualization"
+summary orb    "OrbStack: K8s, Docker and Linux virtualization"
 summary orbctl ${ runtime --summaries -> [orb] }
