@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
+	"golang.org/x/sys/unix"
 )
 
 func Sigtstp(_ bool) {
@@ -60,13 +61,13 @@ func Sigchld(interactive bool) {
 
 	//debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d) == %v", p.SystemProcess.Pid(), p.SystemProcess.State())
 	if p.SystemProcess.State() == nil {
-		sid, err := syscall.Getsid(p.SystemProcess.Pid())
+		sid, err := unix.Getsid(p.SystemProcess.Pid())
 		if err != nil {
-			debug.Logf("!!! Sigchld()->syscall.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
+			debug.Logf("!!! Sigchld()->unix.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
 			return
 		}
 
-		debug.Logf("!!! syscall.Getsid(p.SystemProcess.Pid: %d) == %d", p.SystemProcess.Pid(), sid)
+		debug.Logf("!!! unix.Getsid(p.SystemProcess.Pid: %d) == %d", p.SystemProcess.Pid(), sid)
 		if sid != p.SystemProcess.Pid() {
 			return
 		}

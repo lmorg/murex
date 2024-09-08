@@ -27,16 +27,16 @@ func UnixPidToFg(p *Process) {
 
 	if p == nil { // Put Murex in the foreground
 
-		pid, err = syscall.Getpgid(unix.Getpid())
+		pid, err = unix.Getpgid(unix.Getpid())
 		if err != nil {
-			//debug.Logf("!!! UnixSetSid()->syscall.Getpgid(unix.Getpid()) failed: %v", err)
-			pid = syscall.Getpid()
+			//debug.Logf("!!! UnixSetSid()->unix.Getpgid(unix.Getpid()) failed: %v", err)
+			pid = unix.Getpid()
 		}
 
 		// This is only required because some badly behaving programs run
 		// setsid() themselves despite not technically needing to be a session
 		// leader eg shell.
-		syscall.Setsid()
+		unix.Setsid()
 
 	} else { // Put a system process in the foreground
 
