@@ -111,7 +111,7 @@ func execForkFallback(p *Process, argv []string) error {
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
-	/*if len(p.Envs) > 0 {
+	if len(p.Envs) > 0 {
 		for i := range p.Envs {
 			if !strings.Contains(p.Envs[i], "=") {
 				v, err := p.Variables.GetString(p.Envs[i])
@@ -122,7 +122,7 @@ func execForkFallback(p *Process, argv []string) error {
 			}
 		}
 		cmd.Env = append(cmd.Env, p.Envs...)
-	}*/
+	}
 
 	// ***
 	// Define STANDARD OUT (fd 1)
@@ -218,14 +218,7 @@ func execForkFallback(p *Process, argv []string) error {
 		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
 	}*/
 
-	//if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() {
-	//	signal.Ignore(syscall.SIGTTOU)
-	//	UnixPidToFg(cmd.Process.Pid)
-	//}
 	err := cmd.Wait()
-	//signal.Reset(syscall.SIGTTOU)
-	//UnixPidToFg(0)
-	////signalhandler.Register(Interactive)
 	if err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
 			//mxdtR.Close()

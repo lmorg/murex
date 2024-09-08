@@ -5,7 +5,6 @@ package sigfns
 
 import (
 	"fmt"
-	"os"
 	"syscall"
 
 	"github.com/lmorg/murex/debug"
@@ -30,70 +29,42 @@ func Sigtstp(_ bool) {
 }
 
 func returnFromSigtstp(p *lang.Process) {
-	//debug.Log("returnFromSigtstp:0", p.Name.String(), p.Parameters.StringAll())
-
 	p.State.Set(state.Stopped)
-	//if p.SystemProcess.ForcedTTY() {
 	lang.UnixPidToFg(nil)
-	//}
-
-	//debug.Log("returnFromSigtstp:1", p.Name.String(), p.Parameters.StringAll())
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
 		show = false
 	}
 
-	//debug.Log("returnFromSigtstp:2", p.Name.String(), p.Parameters.StringAll())
-
 	if show.(bool) {
 		stopStatus(p)
 	}
 
-	//debug.Log("returnFromSigtstp:3", p.Name.String(), p.Parameters.StringAll())
-
 	lang.ShowPrompt <- true
-
-	//debug.Log("returnFromSigtstp:4", p.Name.String(), p.Parameters.StringAll())
 
 	p.HasStopped <- true
 }
 
 func Sigchld(interactive bool) {
-	//debug.Log("Sigchld:0")
 	if !interactive {
 		return
 	}
 
-	//debug.Log("Sigchld:1")
 	p := lang.ForegroundProc.Get()
-	debug.Logf("!!! Sigchld(fid: %d)->session.UnixIsSession(fid: %d, pid: %d): %s %s", lang.ShellProcess.Id, p.Id, os.Getpid()) //, p, p.Parameters.StringAll())
+	//debug.Logf("!!! Sigchld(fid: %d)->session.UnixIsSession(fid: %d, pid: %d): %s %s", lang.ShellProcess.Id, p.Id, os.Getpid()) //, p, p.Parameters.StringAll())
 	if p.Id == lang.ShellProcess.Id {
 		// Child already exited so we can ignore this signal
 		return
 	}
 
-	/*debug.Logf("!!! Sigchld()->session.UnixIsSession(pid: %d) == %v", os.Getpid(), session.UnixIsSession())
-	if !session.UnixIsSession() {
-		return
-	}*/
-
-	/*Logf("session.UnixCompareSid() == %v", session.UnixCompareSid())
-	if !session.UnixCompareSid() {
-		return
-	}*/
-
-	debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d) == %v", p.SystemProcess.Pid(), p.SystemProcess.State())
+	//debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d) == %v", p.SystemProcess.Pid(), p.SystemProcess.State())
 	if p.SystemProcess.State() == nil {
 		sid, err := syscall.Getsid(p.SystemProcess.Pid())
 		if err != nil {
 			debug.Logf("!!! Sigchld()->syscall.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
 			return
 		}
-		/*pgid, err := syscall.Getpgid(p.SystemProcess.Pid())
-		if err != nil {
-			debug.Logf("!!! Sigchld()->syscall.Getpgid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
-		}*/
 
 		debug.Logf("!!! syscall.Getsid(p.SystemProcess.Pid: %d) == %d", p.SystemProcess.Pid(), sid)
 		if sid != p.SystemProcess.Pid() {
@@ -104,44 +75,17 @@ func Sigchld(interactive bool) {
 			return
 		}
 
-		debug.Log("!!! calling returnFromSigtstp(p)")
+		//debug.Log("!!! calling returnFromSigtstp(p)")
 		returnFromSigtstp(p)
-		debug.Log("!!! returned from returnFromSigtstp(p)")
-		/*err = p.SystemProcess.Signal(syscall.SIGSTOP)
-		if err != nil {
-			debug.Logf("!!! Sigchld()->p.SystemProcess.Signal(pid: %d, syscall.SIGSTOP) failed: %s", p.SystemProcess.Pid(), err.Error())
-		}*/
+		//debug.Log("!!! returned from returnFromSigtstp(p)")
+
 		return
 	}
 
 	if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
-		debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d).Sys().(syscall.WaitStatus).Exited() == true", os.Getpid())
+		//debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d).Sys().(syscall.WaitStatus).Exited() == true", os.Getpid())
 		return
 	}
-
-	//if p.SystemProcess
-
-	//if p.SystemProcess.Pid()
-
-	//debug.Log("Sigchld:3", p.Name.String(), p.Parameters.StringAll())
-	/*if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
-		//debug.Log("Sigchld:4", p.Name.String(), p.Parameters.StringAll())
-		if p.State.Get() != state.Stopped {
-			//debug.Log("Sigchld:5", p.Name.String(), p.Parameters.StringAll())
-			//returnFromSigtstp(p)
-			proc, err := os.FindProcess(os.Getppid())
-			if err != nil {
-				debug.Logf("!!! Sigchld()->os.FindProcess(os.Getppid()) failed: %s", err.Error())
-				return
-			}
-			debug.Logf("!!! Sigchld()->proc.Signal(Pppid: %d, syscall.SIGTSTP) invoked", proc.Pid)
-			err = proc.Signal(syscall.SIGTSTP)
-			if err != nil {
-				debug.Logf("!!! Sigchld()->proc.Signal(syscall.SIGTSTP) failed: %s", err.Error())
-			}
-		}
-	}*/
-	//debug.Log("Sigchld:6", p.Name.String(), p.Parameters.StringAll())
 }
 
 func stopStatus(p *lang.Process) {
