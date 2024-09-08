@@ -18,7 +18,7 @@ import (
 )
 
 func osExecFork(p *Process, argv []string) error {
-	if !session.UnixIsSession() {
+	if !session.UnixIsSession() || p.IsMethod || !p.Stdout.IsTTY() || !p.Stderr.IsTTY() {
 		debug.Logf("!!! session not defined, falling back to non-unix ttys")
 		return execForkFallback(p, argv)
 	}
@@ -26,6 +26,7 @@ func osExecFork(p *Process, argv []string) error {
 	if p.HasCancelled() {
 		return nil
 	}
+
 	p.Kill = func() {
 		if !debug.Enabled {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway

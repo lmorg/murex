@@ -5,11 +5,13 @@ package processes
 
 import (
 	"errors"
+	"os"
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
+	"golang.org/x/sys/unix"
 )
 
 func mkbg(p *lang.Process) error {
@@ -71,6 +73,7 @@ func cmdForeground(p *lang.Process) error {
 		if err != nil {
 			return err
 		}
+		unix.IoctlSetPointerInt(int(os.Stdin.Fd()), unix.TIOCSPGRP, f.SystemProcess.Pid())
 	}
 
 	<-f.Context.Done()

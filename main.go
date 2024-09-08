@@ -6,7 +6,9 @@
 package main
 
 import (
+	"flag"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/lmorg/murex/builtins"
@@ -18,12 +20,8 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/cache"
+	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/readline"
-)
-
-const (
-	interactive    bool = true
-	nonInteractive bool = false
 )
 
 func main() {
@@ -34,13 +32,18 @@ func main() {
 		runTests()
 
 	case fCommand != "":
-		runCommandLine(fCommand)
+		runCommandString(fCommand)
+
+	case fExecute:
+		argv := flag.Args()
+		cmdLine := argvToCmdLineStr(argv)
+		runCommandString(cmdLine)
 
 	case len(fSource) > 0:
 		runSource(fSource[0])
 
 	default:
-		startMurex()
+		startMurexRepl()
 	}
 
 	debug.Log("[FIN]")
@@ -49,8 +52,8 @@ func main() {
 func runTests() error {
 	lang.InitEnv()
 
-	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	registerSignalHandlers(nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, fInteractive)
+	registerSignalHandlers(fInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -81,12 +84,19 @@ func runTests() error {
 	return nil
 }
 
-func runCommandLine(commandLine string) {
+func argvToCmdLineStr(argv []string) string {
+	cmdLine := make([]string, len(argv))
+	copy(cmdLine, argv)
+	escape.CommandLine(cmdLine)
+	return strings.Join(cmdLine, " ")
+}
+
+func runCommandString(commandString string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	registerSignalHandlers(nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, fInteractive)
+	registerSignalHandlers(fInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -103,7 +113,7 @@ func runCommandLine(commandLine string) {
 		Filename: "",
 		Module:   "murex/-c",
 	}
-	execSource([]rune(commandLine), &sourceRef, true)
+	execSource([]rune(commandString), &sourceRef, true)
 
 	if fInteractive {
 		shell.Start()
@@ -114,8 +124,8 @@ func runSource(filename string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Config(lang.ShellProcess.Config, nonInteractive)
-	registerSignalHandlers(nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, fInteractive)
+	registerSignalHandlers(fInteractive)
 
 	// compiled profile
 	defaultProfile()
@@ -146,11 +156,11 @@ func runSource(filename string) {
 	execSource([]rune(string(disk)), &sourceRef, true)
 }
 
-func startMurex() {
+func startMurexRepl() {
 	lang.InitEnv()
 
 	// default config
-	defaults.Config(lang.ShellProcess.Config, interactive)
+	defaults.Config(lang.ShellProcess.Config, true)
 
 	cache.SetPath(profile.ModulePath() + "cache.db")
 	cache.InitCache()
@@ -162,6 +172,6 @@ func startMurex() {
 	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
-	registerSignalHandlers(interactive)
+	registerSignalHandlers(true)
 	shell.Start()
 }

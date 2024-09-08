@@ -59,9 +59,9 @@ func execute(p *Process) error {
 		return fmt.Errorf("no parameters specified for `exec`\nExpecting a name of command to run")
 	}
 
-	if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY() && forceTTY(p) {
-		return osExecFork(p, argv)
-	}
+	//if !p.IsMethod && p.Stdout.IsTTY() && p.Stderr.IsTTY()  {
+	//return osExecFork(p, argv)
+	//}
 
 	return execForkFallback(p, argv)
 }

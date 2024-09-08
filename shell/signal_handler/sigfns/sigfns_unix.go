@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func Sigtstp(interactive bool) {
+func Sigtstp(_ bool) {
 	p := lang.ForegroundProc.Get()
 	if p.SystemProcess.External() {
 		err := p.SystemProcess.Signal(syscall.SIGSTOP)
@@ -193,4 +193,14 @@ func stopStatus(p *lang.Process) {
 		}
 	}
 
+}
+
+func Sigcont(_ bool) {
+	p := lang.ForegroundProc.Get()
+	if p.SystemProcess.External() {
+		err := p.SystemProcess.Signal(syscall.SIGCONT)
+		if err != nil {
+			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
+		}
+	}
 }

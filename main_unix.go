@@ -15,6 +15,7 @@ func registerSignalHandlers(interactiveMode bool) {
 		Sigquit: sigfns.Sigquit,
 		Sigtstp: sigfns.Sigtstp,
 		Sigchld: sigfns.Sigchld,
+		Sigcont: sigfns.Sigcont,
 	}
 	signalhandler.EventLoop(interactiveMode)
 }

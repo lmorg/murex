@@ -32,6 +32,9 @@ func EventLoop(interactive bool) {
 			case syscall.SIGCHLD.String():
 				go Handlers.Sigchld(interactive)
 
+			case syscall.SIGCONT.String():
+				go Handlers.Sigcont(interactive)
+
 			default:
 				panic("unhandled signal: " + sig.String()) // this shouldn't ever happen
 			}
@@ -46,7 +49,7 @@ func Register(interactive bool) {
 
 	} else {
 		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
-		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGCONT)
 	}
 }
 
@@ -58,4 +61,5 @@ type SignalFunctionsT struct {
 	Sigquit func(bool)
 	Sigtstp func(bool)
 	Sigchld func(bool)
+	Sigcont func(bool)
 }

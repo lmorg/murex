@@ -50,5 +50,6 @@ func LogWriter(path string) error {
 		return err
 	}
 	log.SetOutput(f)
+	log.SetPrefix(fmt.Sprintf("[PID: %d] ", os.Getpid()))
 	return nil
 }
