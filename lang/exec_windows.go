@@ -13,10 +13,6 @@ func osExecGetArgv(p *Process) []string {
 	return argv
 }
 
-func osExecFork(p *Process, argv []string) error {
-	return execForkFallback(p, argv)
-}
-
 func unixProcAttrFauxTTY() *syscall.SysProcAttr {
 	return nil
 }

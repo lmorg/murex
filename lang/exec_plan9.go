@@ -7,10 +7,6 @@ import (
 	"syscall"
 )
 
-func osExecFork(p *Process, argv []string) error {
-	return execForkFallback(p, argv)
-}
-
 func unixProcAttrFauxTTY() *syscall.SysProcAttr {
 	return nil
 }
