@@ -77,10 +77,10 @@ func execForkFallback(p *Process, argv []string) error {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
 
+		//if p.SystemProcess.ForcedTTY() {
+		UnixPidToFg(nil)
+		//}
 		err := cmd.Process.Signal(syscall.SIGTERM)
-		if p.SystemProcess.ForcedTTY() {
-			UnixPidToFg(nil)
-		}
 		if err != nil {
 			if err.Error() == os.ErrProcessDone.Error() {
 				return
@@ -130,7 +130,7 @@ func execForkFallback(p *Process, argv []string) error {
 
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		cmd.SysProcAttr = unixProcAttrFauxTTY(int(p.Stdout.File().Fd()))
+		cmd.SysProcAttr = unixProcAttrFauxTTY()
 		cmd.Stdout = p.Stdout.File()
 		//}
 	} else {
@@ -244,4 +244,3 @@ func (sp *sysProcT) ExitNum() int               { return sp.cmd.ProcessState.Exi
 func (sp *sysProcT) Kill() error                { return sp.cmd.Process.Kill() }
 func (sp *sysProcT) Signal(sig os.Signal) error { return sp.cmd.Process.Signal(sig) }
 func (sp *sysProcT) State() *os.ProcessState    { return sp.cmd.ProcessState }
-func (sp *sysProcT) ForcedTTY() bool            { return false }

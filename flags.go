@@ -10,26 +10,29 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/session"
 )
 
 var (
-	fCommand     string
-	fInteractive bool
-	fSource      []string
-	fLoadMods    bool
-	fEcho        bool
-	fHelp1       bool
-	fHelp2       bool
-	fVersion1    bool
-	fVersion2    bool
-	fSh          bool
-	fRunTests    bool
-	fQuiet       bool
+	fCommand       string
+	fInteractive   bool
+	fCreateSession bool
+	fSource        []string
+	fLoadMods      bool
+	fEcho          bool
+	fHelp1         bool
+	fHelp2         bool
+	fVersion1      bool
+	fVersion2      bool
+	fSh            bool
+	fRunTests      bool
+	fQuiet         bool
 )
 
 func readFlags() {
 	flag.StringVar(&fCommand, "c", "", "Run code block - read from parameters")
 	flag.BoolVar(&fInteractive, "i", false, "Start interactive shell after -c execution")
+	flag.BoolVar(&fCreateSession, "setsid", false, "Set session ID: POSIX compatibility for job control (this will break support for some of Murex's job control features)")
 	flag.BoolVar(&fLoadMods, "load-modules", false, "Load modules and profile when in non-interactive mode ")
 
 	flag.BoolVar(&fHelp1, "h", false, "Help")
@@ -78,6 +81,10 @@ func readFlags() {
 
 	if os.Getenv("MUREX_DEBUG") == "true" {
 		debug.Enabled = true
+	}
+
+	if fCreateSession || os.Getenv("MUREX_CREATE_SESSION") == "true" {
+		session.UnixCreateSession()
 	}
 
 	fSource = flag.Args()

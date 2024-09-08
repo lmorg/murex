@@ -17,7 +17,7 @@ func osExecFork(p *Process, argv []string) error {
 	return execForkFallback(p, argv)
 }
 
-func unixProcAttrFauxTTY(_ int) *syscall.SysProcAttr {
+func unixProcAttrFauxTTY() *syscall.SysProcAttr {
 	return nil
 }
 

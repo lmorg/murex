@@ -12,7 +12,6 @@ type systemProcessInheritance interface {
 	Pid() int
 	ExitNum() int
 	State() *os.ProcessState
-	ForcedTTY() bool
 }
 
 type SystemProcess struct {
@@ -90,16 +89,6 @@ func (sp *SystemProcess) State() *os.ProcessState {
 		return sp.inheritance.State()
 	}
 	return nil
-}
-
-func (sp *SystemProcess) ForcedTTY() bool {
-	sp.mutex.Lock()
-	defer sp.mutex.Unlock()
-
-	if sp.inheritance != nil {
-		return sp.inheritance.ForcedTTY()
-	}
-	return false
 }
 
 // WaitForPid should only be used in redirection.go

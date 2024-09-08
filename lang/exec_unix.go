@@ -18,10 +18,10 @@ import (
 )
 
 func osExecFork(p *Process, argv []string) error {
-	//if !session.UnixIsSession() {
-	//	debug.Logf("!!! session not defined, falling back to non-unix ttys")
-	//	return execForkFallback(p, argv)
-	//}
+	if !session.UnixIsSession() {
+		debug.Logf("!!! session not defined, falling back to non-unix ttys")
+		return execForkFallback(p, argv)
+	}
 
 	if p.HasCancelled() {
 		return nil
@@ -75,7 +75,6 @@ func (sp *sysProcUnixT) Pid() int                   { return sp.p.Pid }
 func (sp *sysProcUnixT) ExitNum() int               { return sp.state.ExitCode() }
 func (sp *sysProcUnixT) Kill() error                { return sp.p.Kill() }
 func (sp *sysProcUnixT) Signal(sig os.Signal) error { return sp.p.Signal(sig) }
-func (sp *sysProcUnixT) ForcedTTY() bool            { return true }
 
 func (sp *sysProcUnixT) State() *os.ProcessState {
 	sp.mutex.Lock()
@@ -94,12 +93,17 @@ func (sp *sysProcUnixT) wait() error {
 // UnixPidToFg brings a UNIX process to the foreground.
 // If p == nil then UnixPidToFg will assume Murex Pid instead.
 func UnixPidToFg(p *Process) {
+	if !session.UnixIsSession() {
+		return
+	}
+
 	var (
 		pid int
 		err error
 	)
 
 	if p == nil { // Put Murex in the foreground
+
 		pid, err = syscall.Getpgid(unix.Getpid())
 		if err != nil {
 			debug.Logf("!!! UnixSetSid()->syscall.Getpgid(unix.Getpid()) failed: %v", err)
@@ -112,8 +116,9 @@ func UnixPidToFg(p *Process) {
 		syscall.Setsid()
 
 	} else { // Put a system process in the foreground
-		pid = p.SystemProcess.Pid()
+
 		// Check if its system process, if not, then there's no point proceeding
+		pid = p.SystemProcess.Pid()
 		if pid <= 0 {
 			return
 		}
@@ -130,7 +135,7 @@ func UnixPidToFg(p *Process) {
 	// feels "wrong" not to at least try os.Stdin first.
 	err = unixPidToFg(pid, int(session.UnixTTY().Fd()))
 	if err != nil {
-		debug.Logf("!!! UnixPidToFg(%d)->session.UnixTTY(): %s", pid, err.Error())
+		debug.Logf("!!! UnixPidToFg(%d, session.UnixTTY()): %s", pid, err.Error())
 	}
 }
 
@@ -145,7 +150,7 @@ func unixPidToFg(pid int, tty int) error {
 
 /////
 
-func unixProcAttrFauxTTY(fd int) *syscall.SysProcAttr {
+func unixProcAttrFauxTTY() *syscall.SysProcAttr {
 	return &syscall.SysProcAttr{
 		//Setsid: true, // Create session.
 		// Setpgid sets the process group ID of the child to Pgid,
@@ -157,7 +162,7 @@ func unixProcAttrFauxTTY(fd int) *syscall.SysProcAttr {
 		// This is only meaningful if Setsid is true.
 		//Setctty: true,
 		//Noctty:  true, // Detach fd 0 from controlling terminal
-		Ctty: fd, // Controlling TTY fd
+		//Ctty: 0, // Controlling TTY fd
 		// Foreground places the child process group in the foreground.
 		// This implies Setpgid. The Ctty field must be set to
 		// the descriptor of the controlling TTY.
@@ -170,9 +175,9 @@ func unixProcAttrFauxTTY(fd int) *syscall.SysProcAttr {
 
 func unixProcAttrRealTTY(envs []string) *os.ProcAttr {
 	return &os.ProcAttr{
-		//Files: []*os.File{session.UnixTTY(), session.UnixTTY(), session.UnixTTY()},
-		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
-		Env:   envs,
+		Files: []*os.File{session.UnixTTY(), session.UnixTTY(), session.UnixTTY()},
+		//Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
+		Env: envs,
 		Sys: &syscall.SysProcAttr{
 			//Setsid: true, // Create session.
 			// Setpgid sets the process group ID of the child to Pgid,
@@ -184,7 +189,7 @@ func unixProcAttrRealTTY(envs []string) *os.ProcAttr {
 			// This is only meaningful if Setsid is true.
 			//Setctty: true,
 			//Noctty: true,               // Detach fd 0 from controlling terminal
-			//Ctty: 0, // Controlling TTY fd
+			Ctty: 0, // Controlling TTY fd
 			// Foreground places the child process group in the foreground.
 			// This implies Setpgid. The Ctty field must be set to
 			// the descriptor of the controlling TTY.

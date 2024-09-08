@@ -28,7 +28,7 @@ func (sp *sysProcTest2T) State() *os.ProcessState    { return nil }
 func (sp *sysProcTest2T) ForcedTTY() bool            { return true }
 
 func TestSystemProcess(t *testing.T) {
-	count.Tests(t, (6*2)+1)
+	count.Tests(t, (5*2)+1)
 
 	p := lang.NewTestProcess()
 
@@ -56,9 +56,6 @@ func TestSystemProcess(t *testing.T) {
 	case p.SystemProcess.Signal(nil).Error() != "3":
 		t.Errorf("invalid return for: p.SystemProcess.Signal(nil).Error() in test 1")
 
-	case p.SystemProcess.ForcedTTY() != false:
-		t.Errorf("invalid return for: p.SystemProcess.ForcedTTY() in test 1")
-
 	default:
 		success = true
 	}
@@ -85,9 +82,6 @@ func TestSystemProcess(t *testing.T) {
 
 	case p.SystemProcess.Signal(nil) != nil:
 		t.Errorf("invalid return for: p.SystemProcess.Signal(nil).Error() in test 2")
-
-	case p.SystemProcess.ForcedTTY() != true:
-		t.Errorf("invalid return for: p.SystemProcess.ForcedTTY() in test 2")
 
 	default:
 		success = true

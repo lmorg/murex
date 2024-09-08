@@ -64,9 +64,9 @@ func cmdForeground(p *lang.Process) error {
 	f.State.Set(state.Executing)
 
 	if f.SystemProcess.External() {
-		if p.SystemProcess.ForcedTTY() {
-			lang.UnixPidToFg(f)
-		}
+		//if p.SystemProcess.ForcedTTY() {
+		lang.UnixPidToFg(f)
+		//}
 		err = f.SystemProcess.Signal(syscall.SIGCONT)
 		if err != nil {
 			return err

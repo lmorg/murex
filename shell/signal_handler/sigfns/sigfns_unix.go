@@ -5,8 +5,10 @@ package sigfns
 
 import (
 	"fmt"
+	"os"
 	"syscall"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
@@ -31,9 +33,9 @@ func returnFromSigtstp(p *lang.Process) {
 	//debug.Log("returnFromSigtstp:0", p.Name.String(), p.Parameters.StringAll())
 
 	p.State.Set(state.Stopped)
-	if p.SystemProcess.ForcedTTY() {
-		lang.UnixPidToFg(nil)
-	}
+	//if p.SystemProcess.ForcedTTY() {
+	lang.UnixPidToFg(nil)
+	//}
 
 	//debug.Log("returnFromSigtstp:1", p.Name.String(), p.Parameters.StringAll())
 
@@ -65,20 +67,80 @@ func Sigchld(interactive bool) {
 
 	//debug.Log("Sigchld:1")
 	p := lang.ForegroundProc.Get()
-
-	//debug.Log("Sigchld:2", p.Name.String(), p.Parameters.StringAll())
-	if !p.SystemProcess.ForcedTTY() {
+	debug.Logf("!!! Sigchld(fid: %d)->session.UnixIsSession(fid: %d, pid: %d): %s %s", lang.ShellProcess.Id, p.Id, os.Getpid()) //, p, p.Parameters.StringAll())
+	if p.Id == lang.ShellProcess.Id {
+		// Child already exited so we can ignore this signal
 		return
 	}
 
+	/*debug.Logf("!!! Sigchld()->session.UnixIsSession(pid: %d) == %v", os.Getpid(), session.UnixIsSession())
+	if !session.UnixIsSession() {
+		return
+	}*/
+
+	/*Logf("session.UnixCompareSid() == %v", session.UnixCompareSid())
+	if !session.UnixCompareSid() {
+		return
+	}*/
+
+	debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d) == %v", p.SystemProcess.Pid(), p.SystemProcess.State())
+	if p.SystemProcess.State() == nil {
+		sid, err := syscall.Getsid(p.SystemProcess.Pid())
+		if err != nil {
+			debug.Logf("!!! Sigchld()->syscall.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
+			return
+		}
+		/*pgid, err := syscall.Getpgid(p.SystemProcess.Pid())
+		if err != nil {
+			debug.Logf("!!! Sigchld()->syscall.Getpgid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
+		}*/
+
+		debug.Logf("!!! syscall.Getsid(p.SystemProcess.Pid: %d) == %d", p.SystemProcess.Pid(), sid)
+		if sid != p.SystemProcess.Pid() {
+			return
+		}
+
+		if p.State.Get() == state.Stopped {
+			return
+		}
+
+		debug.Log("!!! calling returnFromSigtstp(p)")
+		returnFromSigtstp(p)
+		debug.Log("!!! returned from returnFromSigtstp(p)")
+		/*err = p.SystemProcess.Signal(syscall.SIGSTOP)
+		if err != nil {
+			debug.Logf("!!! Sigchld()->p.SystemProcess.Signal(pid: %d, syscall.SIGSTOP) failed: %s", p.SystemProcess.Pid(), err.Error())
+		}*/
+		return
+	}
+
+	if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
+		debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d).Sys().(syscall.WaitStatus).Exited() == true", os.Getpid())
+		return
+	}
+
+	//if p.SystemProcess
+
+	//if p.SystemProcess.Pid()
+
 	//debug.Log("Sigchld:3", p.Name.String(), p.Parameters.StringAll())
-	if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
+	/*if p.SystemProcess.State() == nil || p.SystemProcess.State().Sys().(syscall.WaitStatus).Stopped() {
 		//debug.Log("Sigchld:4", p.Name.String(), p.Parameters.StringAll())
 		if p.State.Get() != state.Stopped {
 			//debug.Log("Sigchld:5", p.Name.String(), p.Parameters.StringAll())
-			returnFromSigtstp(p)
+			//returnFromSigtstp(p)
+			proc, err := os.FindProcess(os.Getppid())
+			if err != nil {
+				debug.Logf("!!! Sigchld()->os.FindProcess(os.Getppid()) failed: %s", err.Error())
+				return
+			}
+			debug.Logf("!!! Sigchld()->proc.Signal(Pppid: %d, syscall.SIGTSTP) invoked", proc.Pid)
+			err = proc.Signal(syscall.SIGTSTP)
+			if err != nil {
+				debug.Logf("!!! Sigchld()->proc.Signal(syscall.SIGTSTP) failed: %s", err.Error())
+			}
 		}
-	}
+	}*/
 	//debug.Log("Sigchld:6", p.Name.String(), p.Parameters.StringAll())
 }
 
@@ -99,13 +161,19 @@ func stopStatus(p *lang.Process) {
 		stderrW, stderrR = p.Stderr.Stats()
 	}
 
-	pipeStatus := fmt.Sprintf(
-		"\n!!! STDIN:  %s written / %s read\n!!! STDOUT: %s written / %s read\n!!! STDERR: %s written / %s read",
+	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+		"\n!!! FID %d has been stopped:\n!!! %s %s\n!!! Use `fg %d` / `bg %d` to manage the FID\n!!! ...or `jobs` to see a list of background and suspended functions",
+		p.Id,
+		p.Name.String(), p.Parameters.StringAll(),
+		p.Id, p.Id,
+	)))
+
+	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+		"!!!\n!!! STDIN:  %s written / %s read\n!!! STDOUT: %s written / %s read\n!!! STDERR: %s written / %s read",
 		humannumbers.Bytes(stdinW), humannumbers.Bytes(stdinR),
 		humannumbers.Bytes(stdoutW), humannumbers.Bytes(stdoutR),
 		humannumbers.Bytes(stderrW), humannumbers.Bytes(stderrR),
-	)
-	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
+	)))
 
 	if p.SystemProcess.External() {
 		block, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "stop-status-func", types.CodeBlock)
@@ -125,10 +193,4 @@ func stopStatus(p *lang.Process) {
 		}
 	}
 
-	lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-		"!!! FID %d has been stopped:\n!!! %s %s\n!!! Use `fg %d` / `bg %d` to manage the FID\n!!! ...or `jobs` to see a list of background and suspended functions",
-		p.Id,
-		p.Name.String(), p.Parameters.StringAll(),
-		p.Id, p.Id,
-	)))
 }

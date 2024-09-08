@@ -61,7 +61,7 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 func Start() {
 	defer crash.Handler()
 
-	session.UnixSetSid()
+	session.UnixOpenTTY()
 
 	whatsnew.Display()
 
