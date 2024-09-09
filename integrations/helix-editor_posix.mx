@@ -1,8 +1,13 @@
-if { which helix } then {
+# WIP, only macOS currently supported.
+!if { os darwin } then {
+    return
+}
+
+/#if { which helix } then {
     summary helix "Helix: a post-modern text editor"
 
     alias helix=exec $MUREX_EXE -quiet -setsid -execute exec helix
-}
+}#/
 
 if { which hx } then {
     summary hx "Helix: a post-modern text editor"
