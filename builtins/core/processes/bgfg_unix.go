@@ -5,13 +5,12 @@ package processes
 
 import (
 	"errors"
-	"os"
 	"syscall"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
-	"golang.org/x/sys/unix"
 )
 
 func mkbg(p *lang.Process) error {
@@ -66,14 +65,15 @@ func cmdForeground(p *lang.Process) error {
 	f.State.Set(state.Executing)
 
 	if f.SystemProcess.External() {
-		//if p.SystemProcess.ForcedTTY() {
 		lang.UnixPidToFg(f)
-		//}
+
 		err = f.SystemProcess.Signal(syscall.SIGCONT)
 		if err != nil {
-			return err
+			// don't "return err" because we still want to wait for the process
+			// to finish. So lets just print a debug message instead.
+			debug.Logf("!!! failed syscall in cmdForeground()->(f: [%d] %s %s)->f.SystemProcess.Signal(syscall.SIGCONT):\n!!! error: %s",
+				f.SystemProcess.Pid(), f.Name.String(), f.Parameters.StringAll(), err.Error())
 		}
-		unix.IoctlSetPointerInt(int(os.Stdin.Fd()), unix.TIOCSPGRP, f.SystemProcess.Pid())
 	}
 
 	<-f.Context.Done()

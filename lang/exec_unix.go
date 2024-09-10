@@ -57,9 +57,6 @@ func UnixPidToFg(p *Process) {
 	// lot of the example code and documentation on this topic but it still
 	// feels "wrong" not to at least try os.Stdin first.
 	_ = unixPidToFg(pid, int(session.UnixTTY().Fd()))
-	//if err != nil {
-	//debug.Logf("!!! UnixPidToFg(%d, session.UnixTTY()): %s", pid, err.Error())
-	//}
 }
 
 func unixPidToFg(pid int, tty int) error {
