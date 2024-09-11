@@ -1,4 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
+meta:
+  - property: "og:description"
+    content:  "Murex's unique approach to type annotations means you have the safety and convenience of working with data formats besides just byte streams and string variables, while still having compatibility with every tool written for Linux and UNIX over the last 50 years."
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
@@ -20,8 +23,6 @@ actions:
   - text: " Install"
     icon: download
     link: install/ 
-
-
 highlights:
   - header: A Modern shell for the rest of us
     description: Murex carries tons of unique features. Some highlights include...
