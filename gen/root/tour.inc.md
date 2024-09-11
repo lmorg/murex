@@ -1,9 +1,8 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 {{ if env "DOCGEN_TARGET=ignore-prefix" }}
 ### {{ end }}icon: plane-departure
-meta:
-  - property: "og:description"
-    content:  "Murex's unique approach to type annotations means you have the safety and convenience of working with data formats besides just byte streams and string variables, while still having compatibility with every tool written for Linux and UNIX over the last 50 years."
+{{ if env "DOCGEN_TARGET=ignore-prefix" }}
+### {{ end }}description: "Murex's unique approach to type annotations means you have the safety and convenience of working with data formats besides just byte streams and string variables, while still having compatibility with every tool written for Linux and UNIX over the last 50 years."
 ---
 
 {{ end }}<h1>Language Tour</h1>

@@ -1,14 +1,10 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
-meta:
-  - property: "og:description"
-    content:  "Murex's unique approach to type annotations means you have the safety and convenience of working with data formats besides just byte streams and string variables, while still having compatibility with every tool written for Linux and UNIX over the last 50 years."
+description: A smarter shell and scripting environment with advanced features designed for usability, safety and productivity (eg smarter DevOps tooling)
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex.Rocks
 tagline: An intuitive and content aware shell for a modern command line
-head:
-  - [meta, { property: "og-description", content: "An intuitive and content aware shell for a modern command line" }]
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
