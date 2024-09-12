@@ -1,5 +1,9 @@
-{{ if env "DOCGEN_TARGET=vuepress" }}---{{ end }}
-<h1>{{ .Title }}</h1>
+{{ $doc := doct "" "DOWNLOAD" }}
+{{ if env "DOCGEN_TARGET=vuepress" }}
+title: {{ quote $doc.Title }}
+
+---
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 [![Version](version.svg)](DOWNLOAD.md)
 

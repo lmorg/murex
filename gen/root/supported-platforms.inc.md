@@ -1,5 +1,6 @@
+{{ $doc := doct "" "supported-platforms" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}---{{ end }}
-<h1>{{ .Title }}</h1>
+<h1>{{ $doc.Title }}</h1>
 
 The following is a list of platforms Murex has been tested on and the
 level of support it has:

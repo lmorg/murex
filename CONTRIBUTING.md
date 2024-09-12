@@ -1,6 +1,7 @@
-<h1><no value></h1>
 
-> <no value>
+<h1>How To Contribute</h1>
+
+> Murex is community project. We gratefully accept contributions
 
 <h2>Table of Contents</h2>
 

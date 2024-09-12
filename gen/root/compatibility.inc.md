@@ -1,9 +1,10 @@
+{{ $doc := doct "" "compatibility" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
 icon: recycle
-title: {{ quote .Title }}
+title: {{ quote $doc.Title }}
 
 ---
-{{ else }}<h1>{{ .Title }}</h1>{{ end }}
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term

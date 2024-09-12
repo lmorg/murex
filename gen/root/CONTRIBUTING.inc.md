@@ -1,11 +1,12 @@
+{{ $doc := doct "" "CONTRIBUTING" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
 icon: handshake-angle
-title: {{ quote .Title }}
+title: {{ quote $doc.Title }}
 
 ---
-{{ else }}<h1>{{ .Title }}</h1>{{ end }}
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
-> {{ .Summary }}
+> {{ $doc.Summary }}
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 

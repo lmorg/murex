@@ -261,6 +261,9 @@ func funcTime(dt time.Time) string {
 // Takes: string (category, document ID)
 // Returns: document type
 func funcDocT(cat, doc string) *document {
+	if cat == "" {
+		cat = "???"
+	}
 	return Documents.ByID("!!!", cat, doc)
 }
 

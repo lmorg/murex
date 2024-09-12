@@ -1,5 +1,6 @@
 
-<h1><no value></h1>
+
+<h1>Supported Platforms</h1>
 
 The following is a list of platforms Murex has been tested on and the
 level of support it has:

@@ -1,6 +1,5 @@
 
-
-<h1><no value></h1>
+<h1>Install</h1>
 
 <h2>Table of Contents</h2>
 
