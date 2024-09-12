@@ -1,8 +1,6 @@
-
-
 <h1><no value></h1>
 
-Murex is community project. We gratefully accept contributions.
+> <no value>
 
 <h2>Table of Contents</h2>
 

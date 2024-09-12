@@ -1,8 +1,11 @@
-{{ if env "DOCGEN_TARGET=vuepress" }}icon: handshake-angle{{ end }}
-{{ if env "DOCGEN_TARGET=vuepress" }}---{{ end }}
-<h1>{{ .Title }}</h1>
+{{ if env "DOCGEN_TARGET=vuepress" }}
+icon: handshake-angle
+title: {{ quote .Title }}
 
-Murex is community project. We gratefully accept contributions.
+---
+{{ else }}<h1>{{ .Title }}</h1>{{ end }}
+
+> {{ .Summary }}
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 

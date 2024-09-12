@@ -1,9 +1,9 @@
 - DocumentID: CONTRIBUTING
   Title: >-
-    Contributing To The Project
+    How To Contribute
   CategoryID: Murex
   Summary: >-
-    Guide to contributing to Murex
+    Murex is community project. We gratefully accept contributions
   Description: |-
     {{ include "gen/root/CONTRIBUTING.inc.md" }}
   Synonyms:
