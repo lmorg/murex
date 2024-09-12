@@ -106,7 +106,7 @@ It is 23 o' clock
 * [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
-  Getting started with Murex
+  Getting started with Murex: a quick tour of the next generation of shell scripting
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Output String (`echo`)](../commands/out.md):

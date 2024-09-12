@@ -288,7 +288,7 @@ characters have special meanings when escaped.
 * [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
-  Getting started with Murex
+  Getting started with Murex: a quick tour of the next generation of shell scripting
 
 <hr/>
 

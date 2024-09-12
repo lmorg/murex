@@ -53,7 +53,7 @@ changing this option will not cause accidental side-effects in other functions.
 * [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
-  Getting started with Murex
+  Getting started with Murex: a quick tour of the next generation of shell scripting
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
 * [Variable and Config Scoping](../user-guide/scoping.md):
