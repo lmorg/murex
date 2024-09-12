@@ -1,5 +1,5 @@
+{{ if env "DOCGEN_TARGET=vuepress" }}icon: recycle{{ end }}
 {{ if env "DOCGEN_TARGET=vuepress" }}---
-icon: recycle
 {{ end }}<h1>Compatibility Commitment</h1>
 
 Murex is committed to backwards compatibility. While we do want to continue to
