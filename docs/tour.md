@@ -1,4 +1,5 @@
-<h1>Language Tour</h1>
+
+<h1><no value></h1>
 
 <h2>Table of Contents</h2>
 
@@ -602,7 +603,7 @@ This can be invoked by pressing `Ctrl` + `z`. ([read more](/docs/user-guide/job-
 ## See Also
 
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 * [Operators And Tokens](/operators-and-tokens.md):
   A table of all supported operators and tokens
 

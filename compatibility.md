@@ -1,5 +1,6 @@
 
-<h1>Compatibility Commitment</h1>
+
+<h1><no value></h1>
 
 Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
@@ -85,10 +86,10 @@ Murex releases roughly follows [semantic versioning](https://semver.org/).
 
 ## See Also
 
-* [Contributing](/CONTRIBUTING.md):
+* [Contributing To The Project](/CONTRIBUTING.md):
   Guide to contributing to Murex
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 
 <hr/>
 

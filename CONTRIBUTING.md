@@ -1,5 +1,6 @@
 
-<h1>Contributing to Murex</h1>
+
+<h1><no value></h1>
 
 Murex is community project. We gratefully accept contributions.
 

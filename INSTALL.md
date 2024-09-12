@@ -1,5 +1,6 @@
 
-<h1>Install Murex</h1>
+
+<h1><no value></h1>
 
 <h2>Table of Contents</h2>
 
@@ -135,7 +136,7 @@ pretty well. So the overall experience is a clean and readable terminal.
 
 * [Compatibility Commitment](/compatibility.md):
   Murex is committed to excellent backwards compatibility
-* [Download](/DOWNLOAD.md):
+* [Download Links](/DOWNLOAD.md):
   Murex download links
 * [Supported Platforms](docs//supported-platforms.md):
   Operating systems and CPU architectures supported by Murex

@@ -1,4 +1,5 @@
-<h1>Download Murex</h1>
+
+<h1><no value></h1>
 
 [![Version](version.svg)](DOWNLOAD.md)
 
@@ -160,7 +161,7 @@ following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://doc
 * [Compatibility Commitment](/compatibility.md):
   Murex is committed to excellent backwards compatibility
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 * [Supported Platforms](docs//supported-platforms.md):
   Operating systems and CPU architectures supported by Murex
 

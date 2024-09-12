@@ -1,6 +1,6 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}icon: download{{ end }}
-{{ if env "DOCGEN_TARGET=vuepress" }}---
-{{ end }}<h1>Install Murex</h1>
+{{ if env "DOCGEN_TARGET=vuepress" }}---{{ end }}
+<h1>{{ .Title }}</h1>
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 

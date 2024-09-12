@@ -1,4 +1,5 @@
-<h1>Supported Operating Systems</h1>
+
+<h1><no value></h1>
 
 The following is a list of platforms Murex has been tested on and the
 level of support it has:
@@ -94,10 +95,10 @@ Several CPU architectures are supported:
 
 ## See Also
 
-* [Download](/DOWNLOAD.md):
+* [Download Links](/DOWNLOAD.md):
   Murex download links
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 
 <hr/>
 
