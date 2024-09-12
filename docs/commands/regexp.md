@@ -27,6 +27,7 @@ function separator pattern [ separator parameter2 ]
 
 * _pattern_: regexp pattern
 
+
 * _parameter2_: any extra operations to perform. For example a string to
   replace matched patterns when using the regexp substitution function
 
