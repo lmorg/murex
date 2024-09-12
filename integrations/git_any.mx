@@ -21,7 +21,7 @@ autocomplete set git %[{
         cast json
 
         # extract git commands from `git help`
-        git help -a -> @[..^Ancillary]re -> tabulate: --map -> set commands
+        git help -a -> [..^Ancillary]re -> tabulate --map -> set commands
 
         # list all the git aliases
         git config --list -> regexp %(f/alias\.(.*)$/) -> foreach --jmap alias {
@@ -71,7 +71,7 @@ autocomplete set git %[{
         config: [{
             DynamicDesc: '{
                 # `git config` flags and associated descriptions
-                git config ? tabulate --split-comma --map --key-inc-hint
+                git <!out> config tabulate --split-comma --map --key-inc-hint
             }'
         }]
 

@@ -1,4 +1,4 @@
-# `select`
+# Inline SQL (`select`)
 
 > Inlining SQL into shell pipelines
 
@@ -128,14 +128,15 @@ If you do run into any issues then please raise them on [Github](https://github.
 ## Synonyms
 
 * `select`
+* `table.select`
 
 
 ## See Also
 
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`jsonl`](../types/jsonl.md):

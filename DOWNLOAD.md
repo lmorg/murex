@@ -1,4 +1,5 @@
-<h1>Download Murex</h1>
+
+<h1>Download Links</h1>
 
 [![Version](version.svg)](DOWNLOAD.md)
 
@@ -25,9 +26,11 @@
 
 ## Download Links
 
-Below are the instructions to download a pre-compiled binary via HTTPS. If you
-wish to install from source or use your preferred package manager, then please
-refer to the [INSTALL](INSTALL.md) page for further instructions.
+Below are the instructions to download a pre-compiled binary via HTTPS.
+
+If you wish to install from source or use your preferred package manager, then
+please refer to the [INSTALL](INSTALL.md)
+page for further instructions.
 
 ### Darwin (macOS)
 
@@ -160,7 +163,7 @@ following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://doc
 * [Compatibility Commitment](/compatibility.md):
   Murex is committed to excellent backwards compatibility
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 * [Supported Platforms](docs//supported-platforms.md):
   Operating systems and CPU architectures supported by Murex
 

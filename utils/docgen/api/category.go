@@ -1,6 +1,7 @@
 package docgen
 
 import (
+	"fmt"
 	"sort"
 	"text/template"
 )
@@ -15,7 +16,39 @@ type category struct {
 	// Description of the category
 	Description string `yaml:"Description"`
 
+	VueIcon string `yaml:"VueIcon"`
+
+	SubCategories []*category `yaml:"SubCategories"`
+
 	Templates []templates `yaml:"Templates"`
+}
+
+func (c *category) SubCategoryByID(id string) (*category, error) {
+	for i := range c.SubCategories {
+		if c.SubCategories[i].ID == id {
+			return c.SubCategories[i], nil
+		}
+	}
+
+	return nil, fmt.Errorf("cannot find a sub-category with the id '%s'", id)
+}
+
+func (c *category) getSubCategoryTitle(id string) string {
+	sub, err := c.SubCategoryByID(id)
+	if err != nil {
+		return ""
+	}
+
+	return sub.Title
+}
+
+func (c *category) getSubCategoryDescription(id string) string {
+	sub, err := c.SubCategoryByID(id)
+	if err != nil {
+		return ""
+	}
+
+	return sub.Description
 }
 
 type templates struct {
@@ -64,18 +97,72 @@ func (t templates) CategoryValues(docs documents) *categoryValues {
 	sort.Sort(dt)
 
 	return &categoryValues{
-		ID:          t.ref.ID,
-		Title:       t.ref.Title,
-		Description: t.ref.Description,
-		Documents:   dv,
-		DateTime:    dt,
+		ID:            t.ref.ID,
+		Title:         t.ref.Title,
+		Description:   t.ref.Description,
+		Documents:     dv,
+		DateTime:      dt,
+		SubCategories: t.SubCategoryValues(docs, t.ref),
+		UncatDocs:     t.UncategorisedValues(docs, t.ref),
+	}
+}
+
+func (t templates) UncategorisedValues(docs documents, cat *category) []*documentValues {
+	var uncat []*documentValues
+
+	for i := range docs {
+		if docs[i].CategoryID != cat.ID || len(docs[i].SubCategoryIDs) > 0 {
+			continue
+		}
+		uncat = append(uncat, t.DocumentValues(&docs[i], docs, true))
+	}
+
+	return uncat
+}
+
+func (t templates) SubCategoryValues(docs documents, cat *category) []*categoryValues {
+	var subs []*categoryValues
+
+	for i := range cat.SubCategories {
+		subs = append(subs, t.subCategoryValues(docs, cat.SubCategories[i]))
+	}
+
+	return subs
+}
+
+func (t templates) subCategoryValues(docs documents, cat *category) *categoryValues {
+	var (
+		dv sortableDocumentValues
+		dt sortableDocumentDateTime
+	)
+
+	for i := range docs {
+		//if docs[i].SubCategoryID == cat.ID {
+		if docs[i].IsInSubCategory(cat.ID) {
+			dv = append(dv, t.DocumentValues(&docs[i], docs, true))
+			dt = append(dt, t.DocumentValues(&docs[i], docs, true))
+		}
+	}
+
+	sort.Sort(dv)
+	sort.Sort(dt)
+
+	return &categoryValues{
+		ID:            cat.ID,
+		Title:         cat.Title,
+		Description:   cat.Description,
+		Documents:     dv,
+		DateTime:      dt,
+		SubCategories: t.SubCategoryValues(docs, cat),
 	}
 }
 
 type categoryValues struct {
-	ID          string
-	Title       string
-	Description string
-	Documents   []*documentValues
-	DateTime    []*documentValues
+	ID            string
+	Title         string
+	Description   string
+	Documents     []*documentValues
+	DateTime      []*documentValues
+	SubCategories []*categoryValues
+	UncatDocs     []*documentValues
 }

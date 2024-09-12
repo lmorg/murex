@@ -41,14 +41,14 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [`SHELL` (str)](../variables/shell.md):
   Path of current shell
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

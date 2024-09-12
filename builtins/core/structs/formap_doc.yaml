@@ -1,7 +1,11 @@
 - DocumentID: formap
   Title: >+
-    `formap`
+    For Each In Map (`formap`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.lang
+    - commands.table
+    - commands.struct
   Summary: >-
     Iterate through a map or other collection of data
   Description: |-

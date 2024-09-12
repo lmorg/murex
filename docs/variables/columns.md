@@ -43,12 +43,12 @@ This is a reserved variable so it cannot be changed.
 
 ## See Also
 
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`str` (string)](../types/str.md):
   string (primitive)
 * [`string` (stringing)](../types/str.md):

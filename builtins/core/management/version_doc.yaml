@@ -1,7 +1,9 @@
 - DocumentID: version
   Title: >+
-    `version`
+    Murex Version (`version`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Get Murex version
   Description: |-
@@ -51,6 +53,7 @@
       The source code branch used in this build. This will typically be `master`
   Detail:
   Synonyms:
+    - version
   Related:
     - config
     - runtime

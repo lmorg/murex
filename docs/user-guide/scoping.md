@@ -51,32 +51,32 @@ scope. Subshells also do not create a new scope either.
 
 ## See Also
 
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [If Conditional (`if`)](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`function`](../commands/function.md):
-  Define a function block
-* [`if`](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Switch Conditional (`switch`)](../commands/switch.md):
+  Blocks of cascading conditionals
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
-* [`private`](../commands/private.md):
-  Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
-* [`switch`](../commands/switch.md):
-  Blocks of cascading conditionals
 
 <hr/>
 

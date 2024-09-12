@@ -1,7 +1,8 @@
 - DocumentID: file-truncate
   Title: >+
-    `|>` Truncate File
+    Truncate File (`>`)
   CategoryID: parser
+  SubCategoryIDs: [ commands.fs, parser.pipes ]
   Summary: >-
     Writes stdin to disk - overwriting contents if file already exists
   Description: |-
@@ -19,8 +20,8 @@
     ```
   Detail:
   Synonyms:
-    - "|>"
     - ">"
+    - "|>"
     - "fwrite"
   Related:
     - file-append
@@ -36,8 +37,9 @@
 
 - DocumentID: pt
   Title: >+
-    `pt`
+    Get Pipe Status (`pt`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.io ]
   Summary: >-
     Pipe telemetry. Writes data-types and bytes written
   Description: |-
@@ -56,6 +58,7 @@
     `getfile`)
   Detail:
   Synonyms:
+    - pt
   Related:
     - file-truncate
     - file-append

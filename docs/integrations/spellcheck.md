@@ -157,24 +157,24 @@ and what the package names are for `aspell` and its corresponding dictionaries.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
+* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
+* [Append To List (`append`)](../commands/append.md):
+  Add data to the end of an array
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`alter`](../commands/alter.md):
-  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
-  Add data to the end of an array
-* [`config`](../commands/config.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsplit` ](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 

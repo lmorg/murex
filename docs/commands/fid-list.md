@@ -1,4 +1,4 @@
-# `fid-list`
+# Display Running Functions (`fid-list`)
 
 > Lists all running functions within the current Murex session
 
@@ -64,32 +64,32 @@ include:
 
 ## See Also
 
+* [Background Process (`bg`)](../commands/bg.md):
+  Run processes in the background
+* [Check Builtin Exists (`bexists`)](../commands/bexists.md):
+  Check which builtins exist
+* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [Foreground Process (`fg`)](../commands/fg.md):
+  Sends a background process into the foreground
+* [Kill All In Session (`fid-killall`)](../commands/fid-killall.md):
+  Terminate all running Murex functions in current session
+* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
+  Forces Murex to rescan $PATH looking for executables
+* [Shell Runtime (`builtins`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
-  Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces Murex to rescan $PATH looking for executables
 
 <hr/>
 

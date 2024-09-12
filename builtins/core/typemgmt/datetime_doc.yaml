@@ -1,7 +1,8 @@
 - DocumentID: datetime
   Title: >+
-    `datetime`
+    Date And Time Conversion (`datetime`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.str ]
   Summary: >-
     A date and/or time conversion tool (like `printf` but for date and time values)
   Description: |-
@@ -73,6 +74,8 @@
     This is only supported as an input. When it is used `--value` flag is not
     required.
   Synonyms:
+    - datetime
+    - str.datetime
   Related:
     - range
     - a

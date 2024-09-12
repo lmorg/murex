@@ -1,7 +1,8 @@
 - DocumentID: lockfile
   Title: >+
-    `lockfile`
+    Lock Files (`lockfile`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Create and manage lock files
   Description: |-
@@ -44,8 +45,9 @@
     lockfile wait example
     out "lock file gone!"
     ```
-  Detail: |-
+  Detail:
   Synonyms:
+    - lockfile
   Related:
     - out
     - bg

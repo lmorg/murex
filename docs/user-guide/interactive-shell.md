@@ -215,24 +215,24 @@ give you as much useful detail as it can.
   Infixed constants that return ANSI escape sequences
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Method Relationships (`method`)](../commands/method.md):
+  Define a methods supported data-types
 * [Hint Text](../user-guide/hint-text.md):
   A status bar for your shell
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [Spellcheck](../integrations/spellcheck.md):
   How to enable inline spellchecking
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`|` POSIX Pipe](../parser/pipe-posix.md):

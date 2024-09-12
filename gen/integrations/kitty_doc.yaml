@@ -10,7 +10,7 @@
     Kitty it a cross platform terminal emulator. It supports several ANSI escape
     codes that are bespoke to Kitty.
 
-    Murex can detect if it is running on Kitty and utilise those exclusive ANSI
+    Murex can detect if it is running on Kitty and utilize those exclusive ANSI
     escape codes, so you don't have to remember different ways of working with
     different terminal emulators.
 

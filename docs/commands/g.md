@@ -1,4 +1,4 @@
-# `g`
+# Globbing (`g`)
 
 > Glob pattern matching for file system objects (eg `*.txt`)
 
@@ -132,14 +132,14 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
 
 ## See Also
 
-* [`f`](../commands/f.md):
+* [List Filesystem Objects (`f`)](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [`match`](../commands/match.md):
+* [Match String (`match`)](../commands/match.md):
   Match an exact value in an array
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [`rx`](../commands/rx.md):
+* [Regex Matches (`rx`)](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+* [Regex Operations (`regexp`)](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 
 <hr/>
 

@@ -1,7 +1,8 @@
 - DocumentID: exec
   Title: >+
-    `exec`
+    Execute External Command (`exec`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.proc ]
   Summary: >-
     Runs an executable
   Description: |-
@@ -64,6 +65,7 @@
   Synonyms:
   - exec
   - command
+  - exec.file
   Related:
   - fexec
   - set
@@ -84,9 +86,12 @@
     `die`
   CategoryID: commands
   Summary: >-
-    Terminate murex with an exit number of 1
+    Terminate murex with an exit number of 1 (deprecated)
   Description: |-
     Terminate Murex with an exit number of 1.
+
+    > This builtin has now been deprecated. The same behaviour can be achieved via
+    > `exit 1`
   Usage: |-
     ```
     die
@@ -107,8 +112,9 @@
 
 - DocumentID: exit
   Title: >+
-    `exit`
+    Exit Murex (`exit`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Exit murex
   Description: |-
@@ -142,8 +148,9 @@
 
 - DocumentID: devnull
   Title: >+
-    `null`
+    Null (`null`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     null function. Similar to /dev/null
   Description: |-
@@ -176,8 +183,9 @@
 
 - DocumentID: "true"
   Title: >+
-    `true`
+    True (`true`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.posix ]
   Summary: >-
     Returns a `true` value
   Description: |-
@@ -218,8 +226,9 @@
 
 - DocumentID: "false"
   Title: >+
-    `false`
+    False (`false`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.posix ]
   Summary: >-
     Returns a `false` value
   Description: |-
@@ -260,8 +269,9 @@
 
 - DocumentID: not-func
   Title: >+
-    `!` (not)
+    Not (`!`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Reads the stdin and exit number from previous process and not's it's condition
   Description: |-
@@ -300,8 +310,9 @@
 
 - DocumentID: cast
   Title: >+
-    `cast`
+    Define Type (`cast`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang, parser.data, parser.pipes ]
   Summary: >-
     Alters the data-type of the previous function without altering its output
   Description: |-

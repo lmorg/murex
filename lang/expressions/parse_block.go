@@ -79,15 +79,12 @@ func (tree *ParserT) preParser() (int, error) {
 	}
 
 	stErr = tree.statement.validate()
+	if stErr != nil {
+		return 0, stErr
+	}
 
 	if len(tree.statement.command) == 0 {
 		return 0, errors.New("you cannot have zero length commands")
-	}
-
-	if stErr == nil && !tree.statement.asStatement &&
-		len(tree.statement.parameters) > 0 && len(tree.statement.parameters[0]) > 0 && tree.statement.parameters[0][0] == '=' {
-		// i _still_ think this is probably an expression
-		return 0, expErr
 	}
 
 	return tree.charPos, nil
@@ -258,7 +255,7 @@ func (blk *BlockT) ParseBlock() error {
 				Column: blk.charPos,
 				//Source: tree.p.FileRef.Source,
 			}
-			lang.Deprecated(message, fileRef)
+			lang.FeatureDeprecated(message, fileRef)
 
 			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
 				return err
@@ -279,26 +276,42 @@ func (blk *BlockT) ParseBlock() error {
 					return err
 				}
 
-			case tree == nil:
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+			default:
+				//case tree == nil:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
 				newPos, err := tree.preParser()
 				if err != nil {
 					return err
 				}
 				blk.charPos += newPos
-			default:
-				blk.panic('=', '>')
+
+				//default:
+				//	blk.panic('=', '>')
 			}
 
 		case '>':
 			switch {
 			case blk.nextChar() == '>':
-				/*if len(blk.Functions) > 0 &&
-					len(blk.Functions[len(blk.Functions)-1].Raw) == 0 &&
-					!blk.Functions[len(blk.Functions)-1].Properties.Method() {
-					panic("ugh")
-				}*/
+				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
+				if err != nil {
+					return err
+				}
+				tree, err = blk.parseStatementWithKnownCommand('>', '>')
+				if err != nil {
+					return err
+				}
+			default:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			}
 
+		case '~':
+			switch {
+			case blk.nextChar() == '>':
 				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
 				if err != nil {
 					return err

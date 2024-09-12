@@ -1,7 +1,10 @@
 - DocumentID: which
   Title: >+
-    `which`
+    Location Of Command (`which`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
+    - commands.posix
   Summary: >-
     Locate command origin
   Description: |-

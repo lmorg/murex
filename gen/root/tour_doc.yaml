@@ -4,7 +4,7 @@
     Language Tour
   CategoryID: Murex
   Summary: >-
-    Getting started with Murex
+    Getting started with Murex: a quick tour of the next generation of shell scripting
   Description: |-
     {{ include "gen/root/tour.inc.md" }}
   Synonyms:

@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/mattn/go-runewidth"
 )
 
@@ -18,6 +19,15 @@ const (
 )
 
 func (rl *Instance) vi(r rune) string {
+	if !debug.Enabled {
+		// This would normally be a massive anti-pattern. But in this instance
+		// any edge case exceptions are better off ignored and the interactive
+		// prompt kept alive. The worst case scenario is the cursor might
+		// become misaligned but that would resolve itself very quickly under
+		// normal operation.
+		defer recover()
+	}
+
 	var output string
 	switch r {
 	case 'a':

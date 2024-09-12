@@ -1,0 +1,228 @@
+[
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/multiplication.html",
+                "text": "* Multiplication Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/addition.html",
+                "text": "+ Addition Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/subtraction.html",
+                "text": "- Subtraction Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/division.html",
+                "text": "/ Division Operator"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Modifiers"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "commands/alter.html",
+                "text": "Alter Data Structure (alter / ~\u003e)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/assign-or-merge.html",
+                "text": "\u003c~ Assign Or Merge"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Merge"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/multiply-by.html",
+                "text": "*= Multiply By Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/add-with.html",
+                "text": "+= Add With Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/subtract-by.html",
+                "text": "-= Subtract By Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/divide-by.html",
+                "text": "/= Divide By Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/assign-or-merge.html",
+                "text": "\u003c~ Assign Or Merge"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Assignment"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/elvis.html",
+                "text": "?: Elvis Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/null-coalescing.html",
+                "text": "?? Null Coalescing Operator"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Conditionals"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/scalar.html",
+                "text": "$Scalar Sigil (eg variables)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/array.html",
+                "text": "@Array Sigil"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/tilde.html",
+                "text": "~ Home Sigil"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Sigils"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/double-quote.html",
+                "text": "\"Double Quote\""
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/brace-quote.html",
+                "text": "%(Brace Quote)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/create-array.html",
+                "text": "%[] Array Builder"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/create-object.html",
+                "text": "%{} Object Builder"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/single-quote.html",
+                "text": "'Single Quote'"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/curly-brace.html",
+                "text": "{ Curly Brace }"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Constants"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/expr-inlined.html",
+                "text": "( expression )"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/c-style-fun.html",
+                "text": "C-style functions"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/lambda.html",
+                "text": "[{ Lambda }]"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Sub-Shells"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/logical-and.html",
+                "text": "\u0026\u0026 And Logical Operator"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/logical-or.html",
+                "text": "|| Or Logical Operator"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Boolean Operations"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-code",
+                "link": "parser/pipe-arrow.html",
+                "text": "-\u003e Arrow Pipe"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/pipe-generic.html",
+                "text": "=\u003e Generic Pipe"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/file-append.html",
+                "text": "\u003e\u003e Append File"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/pipe-posix.html",
+                "text": "| POSIX Pipe"
+            }
+        ],
+        "collapsible": true,
+        "icon": "angles-right",
+        "text": "Pipes"
+    },
+    {
+        "link": "parser/equ.html",
+        "text": "= (arithmetic evaluation)"
+    },
+    {
+        "link": "parser/pipe-err.html",
+        "text": "? stderr Pipe"
+    }
+]

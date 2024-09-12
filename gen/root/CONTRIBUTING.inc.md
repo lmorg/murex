@@ -1,11 +1,12 @@
+{{ $doc := doct "" "CONTRIBUTING" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: handshake-angle
+icon: handshake-angle
+title: {{ quote $doc.Title }}
 
 ---
-{{ end }}<h1>Contributing to Murex</h1>
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
-Murex is community project. We gratefully accept contributions.
+> {{ $doc.Summary }}
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 

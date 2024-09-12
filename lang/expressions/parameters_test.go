@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/lmorg/murex/test"
 )
@@ -104,8 +103,6 @@ func TestParamHangBug(t *testing.T) {
 }
 
 func TestParamVarRange(t *testing.T) {
-	rand.Seed(time.Now().Unix())
-
 	test1, test2, test3 := rand.Int(), rand.Int(), rand.Int()
 
 	tests := []test.MurexTest{

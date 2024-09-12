@@ -1,4 +1,4 @@
-# `foreach`
+# For Each In List (`foreach`)
 
 > Iterate through an array
 
@@ -320,38 +320,38 @@ jsonl
 
 ## See Also
 
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Debugging Mode (`debug`)](../commands/debug.md):
+  Debugging information
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Exit Block (`break`)](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [For Each In Map (`formap`)](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Loop (`for`)](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [If Conditional (`if`)](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Left Sub-String (`left`)](../commands/left.md):
+  Left substring every item in a list
+* [Loop While (`while`)](../commands/while.md):
+  Loop until condition false
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 * [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`break`](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`debug`](../commands/debug.md):
-  Debugging information
-* [`for`](../commands/for.md):
-  A more familiar iteration loop to existing developers
-* [`formap`](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`if`](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`left`](../commands/left.md):
-  Left substring every item in a list
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`while`](../commands/while.md):
-  Loop until condition false
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 

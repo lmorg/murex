@@ -1,7 +1,8 @@
 - DocumentID: map
   Title: >-
-    `map`
+    Create Map (`map`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.struct ]
   Summary: >-
     Creates a map from two data sources
   Description: |-
@@ -21,8 +22,9 @@
         "key 3": "value 3"
     }
     ```
-  Detail: |-
+  Detail:
   Synonyms:
+    - map
   Related:
     - prepend
     - append

@@ -1,4 +1,4 @@
-# `bexists`
+# Check Builtin Exists (`bexists`)
 
 > Check which builtins exist
 
@@ -38,13 +38,18 @@ a number of similar commands which have since been deprecated. The same fate
 might also happen to `bexists` however it is in use by a few modules and for
 that reason alone it has been spared from the axe.
 
+## Synonyms
+
+* `bexists`
+
+
 ## See Also
 
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`runtime`](../commands/runtime.md):
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

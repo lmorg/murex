@@ -62,26 +62,26 @@ in the pipeline.
 
 ## See Also
 
+* [Disable Error Handling In Block (`unsafe`)](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
+* [Function / Module Defaults (`runmode`)](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
+* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [Stderr Checking In Pipes (`trypipeerr`)](../commands/trypipeerr.md):
+  Checks state of each function in a pipeline and exits block on error
+* [Stderr Checking In TTY (`tryerr`)](../commands/tryerr.md):
+  Handles errors inside a block of code
+* [Try Block (`try`)](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`runmode`](../commands/runmode.md):
-  Alter the scheduler's behaviour at higher scoping level
-* [`try`](../commands/try.md):
-  Handles non-zero exits inside a block of code
-* [`tryerr`](../commands/tryerr.md):
-  Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
-* [`trypipeerr`](../commands/trypipeerr.md):
-  Checks state of each function in a pipeline and exits block on error
-* [`unsafe`](../commands/unsafe.md):
-  Execute a block of code, always returning a zero exit number
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 

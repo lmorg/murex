@@ -1,7 +1,10 @@
 - DocumentID: escape
   Title: >+
-    `escape`
+    Quote String (`escape`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.esc
+    - commands.str
   Summary: >-
     Escape or unescape input
   Description: |-
@@ -49,8 +52,11 @@
 
 - DocumentID: eschtml
   Title: >+
-    `eschtml`
+    Escape HTML (`eschtml`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.esc
+    - commands.str
   Summary: >-
     Encode or decodes text for HTML
   Description: |-
@@ -106,8 +112,11 @@
 
 - DocumentID: escurl
   Title: >+
-    `escurl`
+    Escape URL (`escurl`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.esc
+    - commands.str
   Summary: >-
     Encode or decodes text for the URL
   Description: |-
@@ -163,8 +172,11 @@
 
 - DocumentID: esccli
   Title: >+
-    `esccli`
+    Escape Command Line String (`esccli`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.esc
+    - commands.str
   Summary: >-
     Escapes an array so output is valid shell code
   Description: |-
@@ -203,6 +215,7 @@
   Flags:
   Detail:
   Synonyms:
+    - "esccli"
   Related:
     - alias
     - out

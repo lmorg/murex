@@ -1,7 +1,9 @@
 - DocumentID: fid-list
   Title: >+
-    `fid-list`
+    Display Running Functions (`fid-list`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Lists all running functions within the current Murex session
   Description: |-

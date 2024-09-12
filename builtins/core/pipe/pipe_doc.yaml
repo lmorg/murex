@@ -1,7 +1,10 @@
 - DocumentID: pipe
   Title: >+
-    `pipe`
+    Create Named Pipe (`pipe`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.shell
   Summary: >-
     Manage Murex named pipes
   Description: |-

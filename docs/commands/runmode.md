@@ -1,4 +1,4 @@
-# `runmode`
+# Function / Module Defaults (`runmode`)
 
 > Alter the scheduler's behaviour at higher scoping level
 
@@ -83,36 +83,36 @@ if `runmode ... module` is set.
 
 ## See Also
 
+* [Caught Error Block (`catch`)](../commands/catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+* [Disable Error Handling In Block (`unsafe`)](../commands/unsafe.md):
+  Execute a block of code, always returning a zero exit number
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Murex Event Subsystem (`event`)](../commands/event.md):
+  Event driven programming for shell scripts
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Read User Input (`read`)](../commands/read.md):
+  `read` a line of input from the user and store as a variable
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe`
-* [`event`](../commands/event.md):
-  Event driven programming for shell scripts
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`function`](../commands/function.md):
-  Define a function block
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`private`](../commands/private.md):
-  Define a private function block
-* [`read`](../commands/read.md):
-  `read` a line of input from the user and store as a variable
-* [`try`](../commands/try.md):
-  Handles non-zero exits inside a block of code
-* [`tryerr`](../commands/tryerr.md):
-  Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
-* [`trypipeerr`](../commands/trypipeerr.md):
+* [Stderr Checking In Pipes (`trypipeerr`)](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
-* [`unsafe`](../commands/unsafe.md):
-  Execute a block of code, always returning a zero exit number
+* [Stderr Checking In TTY (`tryerr`)](../commands/tryerr.md):
+  Handles errors inside a block of code
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
+* [Try Block (`try`)](../commands/try.md):
+  Handles non-zero exits inside a block of code
 
 <hr/>
 

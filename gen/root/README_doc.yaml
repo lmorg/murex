@@ -3,7 +3,7 @@
     Murex
   CategoryID: Murex
   Summary:
-    A smarter shell and scripting environment with advanced features designed for safety and productivity
+    A smarter $SHELL and scripting environment with advanced features designed for safety and productivity. Murex is a modern shell
   Description: |-
     {{ include "gen/root/README.inc.md" }}
   Synonyms:

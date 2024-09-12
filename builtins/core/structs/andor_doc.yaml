@@ -1,7 +1,8 @@
 - DocumentID: and
   Title: >+
-    `and`
+    Logic And Statements (`and`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Returns `true` or `false` depending on whether multiple conditions are met
   Description: |-
@@ -40,6 +41,8 @@
   - and
   - "!and"
   Related:
+  - logical-and
+  - logical-or
   - or
   - if
   - try
@@ -52,8 +55,9 @@
 
 - DocumentID: or
   Title: >+
-    `or`
+    Logic Or Statements (`or`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Returns `true` or `false` depending on whether one code-block out of multiple
     ones supplied is successful or unsuccessful.
@@ -93,6 +97,8 @@
   - or
   - "!or"
   Related:
+  - logical-or
+  - logical-and
   - and
   - if
   - try

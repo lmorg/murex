@@ -1,9 +1,10 @@
-The directives for `config define` are listed below.
+> This section relates to creating custom configs via `config define`.
+> You do not need to refer to this for any regular usage of `config`.
 
 {{ if env "DOCGEN_TARGET=" }}<div id="toc">
 
 - [DataType](#datatype)
-- [Description"](#description)
+- [Description](#description)
 - [Global](#global)
 - [Default](#default)
 - [Options](#options)
@@ -14,10 +15,6 @@ The directives for `config define` are listed below.
 </div>
 {{ end }}
 
-```
-"DirectiveName": json data-type (default value)
-```
-
 Where "default value" is what will be auto-populated if you don't include that
 directive (or "required" if the directive must be included).
 
@@ -27,7 +24,7 @@ directive (or "required" if the directive must be included).
 
 This is the Murex data-type for the value.
 
-### Description"
+### Description
 
 > Value: `str` (required)
 
@@ -40,9 +37,9 @@ enabling the discoverability of settings within Murex.
 
 This defines whether this setting is global or scoped.
 
-All **Dynamic** settings _must_ also be **Global**. This is because **Dynamic**
-settings rely on a state that likely isn't scoped (eg the contents of a config
-file).
+All **Dynamic** config must also be **Global**. This is because **Dynamic**
+config rely on a state that likely isn't scoped (eg the contents of a file on
+disk or environmental variable).
 
 ### Default
 

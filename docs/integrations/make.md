@@ -26,10 +26,10 @@ under `/integrations`.
 
 ## See Also
 
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 

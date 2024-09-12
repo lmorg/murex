@@ -1,11 +1,11 @@
-# `a` (mkarray)
+# Stream New List (`a`)
 
-> A sophisticated yet simple way to build an array or list
+> A sophisticated yet simple way to stream an array or list (mkarray)
 
 ## Description
 
-Pronounced "make array", like `mkdir` (etc), Murex has a pretty sophisticated
-builtin for generating arrays. Think like bash's `{1..9}` syntax:
+_mkarray_, pronounced "make array" like `mkdir` (etc), is Murex's sophisticated
+syntax for generating arrays. Think like bash's `{1..9}` syntax:
 
 ```
 a [1..9]
@@ -13,6 +13,8 @@ a [1..9]
 
 Except Murex also supports other sets of ranges like dates, days of the week,
 and alternative number bases.
+
+This builtin streams arrays as a list of strings (`str`).
 
 ## Usage
 
@@ -159,26 +161,32 @@ arrays. For more details on these please refer to the documents for each format
 * [Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 
+## Synonyms
+
+* `a`
+* `mkarray`
+
+
 ## See Also
 
+* [Count (`count`)](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create New Array (`ta`)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Reverse Array (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
 * [`str` (string)](../types/str.md):
   string (primitive)
-* [`ta` (mkarray)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
 
 <hr/>
 

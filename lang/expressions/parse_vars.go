@@ -2,6 +2,8 @@ package expressions
 
 import (
 	"errors"
+	"fmt"
+	"os/user"
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
@@ -262,7 +264,7 @@ func isUserNameChar(r rune) bool {
 	return isBareChar(r) || r == '.' || r == '-'
 }
 
-func (tree *ParserT) parseVarTilde(exec bool) string {
+func (tree *ParserT) parseVarTilde(exec bool) (string, error) {
 	tree.charPos++
 	start := tree.charPos
 
@@ -278,16 +280,21 @@ func (tree *ParserT) parseVarTilde(exec bool) string {
 	}
 
 endTilde:
-	user := string(tree.expression[start:tree.charPos])
+	username := string(tree.expression[start:tree.charPos])
 	tree.charPos--
 
 	if !exec {
-		return "~" + user
+		return "~" + username, nil
 	}
 
-	if len(user) == 0 {
-		return home.MyDir
+	if len(username) == 0 {
+		return home.MyDir, nil
 	}
 
-	return home.UserDir(user)
+	usr, err := user.Lookup(username)
+	if err != nil {
+		return "", fmt.Errorf("cannot expand variable `~%s`: %s", username, err.Error())
+	}
+
+	return usr.HomeDir, nil
 }

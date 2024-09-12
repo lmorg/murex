@@ -1,4 +1,4 @@
-# `err`
+# Error String (`err`)
 
 > Print a line to the stderr
 
@@ -49,32 +49,37 @@ a new Murex named pipe.
 
 `err` supports ANSI constants.
 
+## Synonyms
+
+* `err`
+
+
 ## See Also
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
+* [Background Process (`bg`)](../commands/bg.md):
+  Run processes in the background
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Pipe Status (`pt`)](../commands/pt.md):
+  Pipe telemetry. Writes data-types and bytes written
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [Truncate File (`>`)](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
 * [`>>` Append File](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
-* [`bg`](../commands/bg.md):
-  Run processes in the background
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`pt`](../commands/pt.md):
-  Pipe telemetry. Writes data-types and bytes written
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [`|>` Truncate File](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

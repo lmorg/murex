@@ -1,4 +1,4 @@
-# `$Variable` Sigil
+# `$Scalar` Sigil (eg variables)
 
 > Expand values as a scalar
 
@@ -6,12 +6,38 @@
 
 The scalar token is used to tell Murex to expand variables and sub-shells as a
 string (ie one single parameter) irrespective of the data that is stored in the
-string. One handy common use case is file names where traditional POSIX shells
-would treat spaces as a new file, whereas Murex treats spaces as a printable
-character unless explicitly told to do otherwise.
+string.
 
-The string token must be followed with one of the following characters: 
-alpha, numeric, underscore (`_`) or a full stop / period (`.`).
+One common use case where Murex's approach is better is with file names.
+Traditional shells would treat spaces as a new file. Whereas Murex treats
+spaces as any other printable character character.
+
+## Variable Syntax
+
+There are two basic syntaxes. Bare an enclosed.
+
+### Bare Syntax
+
+Bare syntax looks like the following:
+
+```
+$scalar
+```
+
+The variable token must be followed with one of the following characters: 
+alpha (`a` to `z`, upper and lower case), numeric (`0` to `1`), underscore
+(`_`) and/or a full stop (`.`).
+
+### Enclosed Syntax
+
+Enclosed syntax looks like the following:
+
+```
+$(scalar)
+```
+
+Enclosed syntax supports any unicode characters however the variable name
+needs to be surrounded by parenthesis. See examples below.
 
 
 
@@ -131,6 +157,12 @@ do not.
 
 ## See Also
 
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [`"Double Quote"`](../parser/double-quote.md):
@@ -143,14 +175,8 @@ do not.
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
 

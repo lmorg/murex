@@ -1,11 +1,13 @@
 - DocumentID: set
   Title: >+
-    `set`
+    Define Variable (`set`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
-    Define a local variable and set it's value
+    Define a variable (typically local) and set it's value
   Description: |-
-    Defines, updates or deallocates a local variable.
+    Defines, updates or deallocates a variable. By default that variable will be
+    local.
   Usage: |-
     ```
     <stdin> -> set var_name
@@ -69,8 +71,9 @@
 
 - DocumentID: global
   Title: >+
-    `global`
+    Define Global (`global`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Define a global variable and set it's value
   Description: |-
@@ -138,8 +141,9 @@
 
 - DocumentID: export
   Title: >+
-    `export`
+    Define Environmental Variable (`export`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.sys ]
   Summary: >-
     Define an environmental variable and set it's value
   Description: |-
@@ -208,6 +212,8 @@
   - export
   - "!export"
   - unset
+  - var.env
+  - "!var.env"
   Related:
   - set
   - is-null

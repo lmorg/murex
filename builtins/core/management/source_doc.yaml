@@ -1,9 +1,12 @@
 - DocumentID: source
   Title: >+
-    `source`
+    Include / Evaluate Murex Code (`source`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
+    - commands.shell
   Summary: >-
-    Import Murex code from another file of code block
+    Import Murex code from another file or code block
   Description: |-
     `source` imports code from another file or code block. It can be used as either
     an "import" / "include" directive (eg Python, Go, C, etc) or an "eval" (eg

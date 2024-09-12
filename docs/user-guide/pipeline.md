@@ -69,6 +69,8 @@ document but you can read more on them in links the links below.
 
 ## See Also
 
+* [Background Process (`bg`)](../commands/bg.md):
+  Run processes in the background
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
 * [Schedulers](../user-guide/schedulers.md):
@@ -79,8 +81,6 @@ document but you can read more on them in links the links below.
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
-* [`bg`](../commands/bg.md):
-  Run processes in the background
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 

@@ -1,10 +1,14 @@
-# `count`
+# Count (`count`)
 
 > Count items in a map, list or array
 
 ## Description
 
+Counts the number of items in a structure, be that a list, map or other object
+type.
 
+`count` has several modes ranging from updating values in place, returning new
+structures, or just outputting totals.
 
 ## Usage
 
@@ -23,8 +27,12 @@ Count number of items in a map, list or array:
 
 ## Flags
 
+* `--bytes`
+    Count the total number of bytes read from stdin
 * `--duplications`
     Output a JSON map of items and the number of their occurrences in a list or array
+* `--runes`
+    Count the total number of unicode characters (_runes_) read from stdin. Zero width symbols, wide characters and other non-typical graphemes are all each treated as a single _rune_
 * `--sum`
     Read an array, list or map from stdin and output the sum of all the values (ignore non-numeric values)
 * `--sum-strict`
@@ -33,8 +41,13 @@ Count number of items in a map, list or array:
     Read an array, list or map from stdin and output the length for that array (default behaviour)
 * `--unique`
     Print the number of unique elements in a list or array
+* `-b`
+    
+Alias for `--bytes`
 * `-d`
     Alias for `--duplications`
+* `-r`
+    Alias for `--runes`
 * `-s`
     Alias for `--sum`
 * `-t`
@@ -128,34 +141,34 @@ unique count should be one less than the total count:
 
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
+* [Append To List (`append`)](../commands/append.md):
   Add data to the end of an array
-* [`ja` (mkarray)](../commands/ja.md):
+* [Create JSON Array (`ja`)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [`jsplit` ](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [`map`](../commands/map.md):
+* [Create Map (`map`)](../commands/map.md):
   Creates a map from two data sources
-* [`msort`](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
-* [`prepend`](../commands/prepend.md):
-  Add data to the start of an array
-* [`ta` (mkarray)](../commands/ta.md):
+* [Create New Array (`ta`)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [`tout`](../commands/tout.md):
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
+* [Prepend To List (`prepend`)](../commands/prepend.md):
+  Add data to the start of an array
+* [Reverse Array (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
+* [Sort Array (`msort`)](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

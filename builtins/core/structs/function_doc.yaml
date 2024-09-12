@@ -1,7 +1,10 @@
 - DocumentID: alias
   Title: >+
-    `alias`
+    Alias Pointer (`alias`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
+    - commands.posix
   Summary: >-
     Create an alias for a command
   Description: |-
@@ -98,10 +101,15 @@
     - fexec
     - method
 
+
+
 - DocumentID: function
   Title: >+
-    `function`
+    Public Function (`function`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.lang
+    - commands.shell
   Summary: >-
     Define a function block
   Description: |-
@@ -323,10 +331,15 @@
     - version
     - break
 
+
+
 - DocumentID: private
   Title: >+
-    `private`
+    Private Function (`private`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.lang
+    - commands.shell
   Summary: >-
     Define a private function block
   Description: |-
@@ -383,6 +396,7 @@
 
     {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
+    - private
   Related:
     - function
     - alias
@@ -397,10 +411,13 @@
     - method
     - break
 
+
+
 - DocumentID: method
   Title: >+
-    `method`
+    Define Method Relationships (`method`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Define a methods supported data-types
   Description: |-
@@ -428,6 +445,7 @@
     {{ include "lang/types/groups.go" }}
     ```
   Synonyms:
+    - method
   Related:
     - function
     - alias

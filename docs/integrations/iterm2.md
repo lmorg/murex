@@ -24,16 +24,18 @@ For example:
 open https://murex.rocks/git-autocomplete.png
 ```
 
+![opening an image in Kitty](https://nojs.murex.rocks/images/screenshot-iterm2-open.png)
+
 ## See Also
 
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
 * [Kitty Integrations](../integrations/kitty.md):
   Get more out of Kitty terminal emulator
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
 * [Terminology Integrations](../integrations/terminology.md):
   Get more out of Terminology terminal emulator
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
 
 ## Other Integrations
 

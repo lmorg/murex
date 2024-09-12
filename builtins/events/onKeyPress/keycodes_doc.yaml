@@ -1,7 +1,8 @@
 - DocumentID: key-code
   Title: >+
-    `key-code`
+    ASCII And ANSI Escape Sequences (`key-code`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.esc ]
   Summary: >-
     Returns character sequences for any key pressed (ie sent from the terminal)
   Description: |-

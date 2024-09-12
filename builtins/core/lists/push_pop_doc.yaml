@@ -1,7 +1,10 @@
 - DocumentID: left
   Title: >+
-    `left`
+    Left Sub-String (`left`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.str
   Summary: >-
     Left substring every item in a list
   Description: |-
@@ -61,8 +64,11 @@
 
 - DocumentID: right
   Title: >+
-    `right`
+    Right Sub-String (`right`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.str
   Summary: >-
     Right substring every item in a list
   Description: |-
@@ -122,8 +128,10 @@
 
 - DocumentID: prefix
   Title: >+
-    `prefix`
+    Add Prefix (`prefix`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Prefix a string to every item in a list
   Description: |-
@@ -167,8 +175,10 @@
 
 - DocumentID: suffix
   Title: >+
-    `suffix`
+    Add Suffix (`suffix`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Prefix a string to every item in a list
   Description: |-

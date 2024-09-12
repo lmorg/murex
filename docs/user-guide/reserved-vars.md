@@ -24,18 +24,18 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

@@ -1,7 +1,9 @@
 - DocumentID: type
   Title: >+
-    `type`
+    Display Command Type (`type`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.posix
   Summary: >-
     Command type (function, builtin, alias, etc)
   Description: |-

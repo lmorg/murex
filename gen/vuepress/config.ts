@@ -70,7 +70,7 @@ const config = {
 
 
     [ "meta", { property:"og:type",  content: "article" } ],
-    [ "meta", { property:"og:image", content: "https://"+domain+"/og-murex-v2.png" } ],
+    [ "meta", { property:"og:image", content: "https://"+domain+"/og-murex-v3.png" } ],
 
   ],
   theme,

@@ -1,7 +1,10 @@
 - DocumentID: read
   Title: >+
-    `read`
+    Read User Input (`read`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.posix
   Summary: >-
     `read` a line of input from the user and store as a variable
   Description: |-
@@ -73,22 +76,24 @@
     --autocomplete: "Autocompletion suggestions. Can be either a JSON array or a JSON object"
     --mask: "Optional password mask, for reading secrets"
   Synonyms:
+    - read
   Related:
-  - tout
-  - err
-  - brace-quote
-  - cast
-  - file-truncate
-  - file-append
-  - out
-  - tread
+    - tout
+    - err
+    - brace-quote
+    - cast
+    - file-truncate
+    - file-append
+    - out
+    - tread
 
 
 
 - DocumentID: tread
   Title: >+
-    `tread`
+    Read With Type (`tread`) (removed 7.x)
   CategoryID: commands
+  SubCategoryIDs: [ commands.io ]
   Summary: >-
     `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
   Description: |-

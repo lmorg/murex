@@ -72,6 +72,14 @@ constants are available.
   Infixed constants that return ANSI escape sequences
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%(Brace Quote)`](../parser/brace-quote.md):
@@ -82,16 +90,8 @@ constants are available.
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
 

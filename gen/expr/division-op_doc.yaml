@@ -2,6 +2,7 @@
   Title: >-
     `/` Division Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.modifiers ]
   Summary: >-
     Divides one numeric value from another (expression)
   Description: |-

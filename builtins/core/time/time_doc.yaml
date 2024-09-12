@@ -1,7 +1,10 @@
 - DocumentID: time
   Title: >-
-    `time`
+    Processes Execution Time (`time`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.posix
+    - commands.proc
   Summary: >-
     Returns the execution run time of a command or block
   Description: |-

@@ -52,6 +52,10 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 
 ## See Also
 
+* [Change Directory (`cd`)](../commands/cd.md):
+  Change (working) directory
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
@@ -64,14 +68,10 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
   Expand values as an array
 * [`PWD` (path)](../variables/pwd.md):
   Current working directory
-* [`cd`](../commands/cd.md):
-  Change (working) directory
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`path`](../types/path.md):
   Structured object for working with file and directory paths
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 

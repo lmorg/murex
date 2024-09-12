@@ -1,4 +1,4 @@
-# `args` 
+# Define Function Arguments (`args`)
 
 > Command line flag parser for Murex shell scripting
 

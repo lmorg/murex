@@ -1,4 +1,4 @@
-# `open`
+# Open File (`open`)
 
 > Open a file with a preferred handler
 
@@ -212,28 +212,33 @@ In the case of macOS and some Linux systems, that might look like:
 exec open --flags filename
 ```
 
+## Synonyms
+
+* `open`
+
+
 ## See Also
 
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
+* [Download File (`getfile`)](../commands/getfile.md):
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [Get Request (`get`)](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Post Request (`post`)](../commands/post.md):
+  HTTP POST request with a JSON-parsable return
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`get`](../commands/get.md):
-  Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../commands/getfile.md):
-  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`post`](../commands/post.md):
-  HTTP POST request with a JSON-parsable return
 
 <hr/>
 

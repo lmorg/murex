@@ -222,18 +222,18 @@ it persistent.
 
 ## See Also
 
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 
 <hr/>
 

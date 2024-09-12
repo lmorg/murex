@@ -7,7 +7,7 @@
 Kitty it a cross platform terminal emulator. It supports several ANSI escape
 codes that are bespoke to Kitty.
 
-Murex can detect if it is running on Kitty and utilise those exclusive ANSI
+Murex can detect if it is running on Kitty and utilize those exclusive ANSI
 escape codes, so you don't have to remember different ways of working with
 different terminal emulators.
 
@@ -22,12 +22,12 @@ to Kitty's ANSI escape sequences to render those images beautifully.
 
 ## See Also
 
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
 * [Terminology Integrations](../integrations/terminology.md):
   Get more out of Terminology terminal emulator
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
 * [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator
 

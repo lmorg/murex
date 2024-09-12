@@ -2,6 +2,7 @@
   Title: >-
      `{ Curly Brace }`
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Initiates or terminates a code block
   Description: |-

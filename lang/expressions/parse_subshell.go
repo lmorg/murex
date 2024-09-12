@@ -63,13 +63,13 @@ func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (*p
 	}
 	b, err := fork.Stdout.ReadAll()
 	if err != nil {
-		return val, fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
+		return val, fmt.Errorf("cannot read from sub-shell's stdout: %s", err.Error())
 	}
 
 	b = utils.CrLfTrim(b)
 	val.DataType = fork.Stdout.GetDataType()
 
-	val.Value, err = formatBytes(b, val.DataType, strOrVal)
+	val.Value, err = formatBytes(tree, b, val.DataType, strOrVal)
 	return val, err
 }
 

@@ -2,6 +2,7 @@
   Title: >-
      `->` Arrow Pipe
   CategoryID: parser
+  SubCategoryIDs: [ parser.pipes ]
   Summary: >-
     Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
@@ -110,6 +111,7 @@
   Title: >-
     `=>` Generic Pipe
   CategoryID: parser
+  SubCategoryIDs: [ parser.pipes ]
   Summary: >-
     Pipes a reformatted stdout stream from the left hand command to stdin of the
     right hand command
@@ -167,6 +169,7 @@
   Title: >-
     `|` POSIX Pipe
   CategoryID: parser
+  SubCategoryIDs: [ parser.pipes ]
   Summary: >-
     Pipes stdout from the left hand command to stdin of the right hand command
   Description: |-
@@ -224,6 +227,7 @@
   Title: >-
      `>>` Append File
   CategoryID: parser
+  SubCategoryIDs: [ parser.pipes ]
   Summary: >-
     Writes stdin to disk - appending contents if file already exists
   Description: |-

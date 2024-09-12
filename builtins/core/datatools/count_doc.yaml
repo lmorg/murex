@@ -1,11 +1,18 @@
 - DocumentID: count
   Title: >+
-    `count`
+    Count (`count`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.struct
   Summary: >-
     Count items in a map, list or array
   Description: |-
+    Counts the number of items in a structure, be that a list, map or other object
+    type.
 
+    `count` has several modes ranging from updating values in place, returning new
+    structures, or just outputting totals.
   Usage: |-
     ```
     <stdin> -> count [ --duplications | --unique | --total ] -> <stdout>
@@ -115,6 +122,16 @@
         Read an array, list or map from stdin and output the length for that array (default behaviour)
     "-t": >-
         Alias for `--total`
+
+    "--bytes": >-
+        Count the total number of bytes read from stdin
+    "-b": >-
+    
+        Alias for `--bytes`
+    "--runes": >-
+        Count the total number of unicode characters (_runes_) read from stdin. Zero width symbols, wide characters and other non-typical graphemes are all each treated as a single _rune_
+    "-r": >-
+        Alias for `--runes`
   Synonyms:
     - count
     - len

@@ -1,4 +1,4 @@
-# `exec`
+# Execute External Command (`exec`)
 
 > Runs an executable
 
@@ -70,32 +70,33 @@ alias for `exec`.
 
 * `exec`
 * `command`
+* `exec.file`
 
 
 ## See Also
 
-* [`bexists`](../commands/bexists.md):
-  Check which builtins exist
-* [`bg`](../commands/bg.md):
+* [Background Process (`bg`)](../commands/bg.md):
   Run processes in the background
-* [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [`fexec` ](../commands/fexec.md):
+* [Check Builtin Exists (`bexists`)](../commands/bexists.md):
+  Check which builtins exist
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
+* [Foreground Process (`fg`)](../commands/fg.md):
   Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
+* [Kill All In Session (`fid-killall`)](../commands/fid-killall.md):
+  Terminate all running Murex functions in current session
+* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
   Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running Murex functions
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
+* [Shell Runtime (`builtins`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 <hr/>
 

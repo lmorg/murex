@@ -1,7 +1,8 @@
 - DocumentID: config
   Title: >+
-    `config`
+    Shell Configuration And Settings (`config`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Query or define Murex runtime settings
   Description: |-
@@ -10,60 +11,16 @@
     `config` command. This means any preferences and/or runtime config becomes
     centralised and discoverable.
 
-  Usage: |-
-    List all settings:
+    ## Terminology
     
-    ```
-    config -> <stdout>
-    ```
-
-    Get a setting:
-
-    ```
-    config get app key -> <stdout>
-    ```
-
-    Set a setting:
-
-    ```
-    config set app key value
-
-    <stdin> -> config set app key
-
-    config eval app key { -> code-block }
-    ```
-
-    Define a new config setting:
-
-    ```
-    config define app key { json }
-    ```
-
-    Reset a setting to it's default value:
-
-    ```
-    !config app key
-
-    config default app key
-    ```
-  Examples: |-
-    Using `eval` to append to an array (in this instance, adding a function
-    name to the list of "safe" commands)
-    
-    ```
-    » function foobar { -> match foobar }
-    » config eval shell safe-commands { -> append foobar }
-    ```
-  Flags:
-  Detail: |-
-    With regards to `config`, the following terms are applied:
+    The following terms have special means with regards to `config`:
 
     ### app
 
-    This refers to a grouped category of settings. For example the name of a built
-    in.
+    _app_ refers to a grouped category of settings. For example the name of an
+    integration or builtin.
         
-    Other app names include
+    Other _app_ names include
 
     * `shell`: for "global" (system wide) Murex settings
     * `proc`: for scoped Murex settings
@@ -74,20 +31,73 @@
 
     ### key
 
-    This refers to the config setting itself. For example the "app" might be `http`
-    but the "key" might be `timeout` - where the "key", in this instance, holds the
+    _key_ refers to the config setting itself. For example the _app_ might be `http`
+    but the _key_ might be `timeout` - where the _key_, in this instance, holds the
     value for how long any HTTP user agents might wait before timing out.
 
     ### value
 
-    Value is the actual value of a setting. So the value for "app": `http`, "key":
+    _value_ is the actual value of a setting. So the value for _app_: `http`, _key_:
     `timeout` might be `10`. eg
 
     ```
     » config get http timeout
     10
     ```
+  Usage: |-
+    ### Get value
 
+    ```
+    config get app key -> <stdout>
+    ```
+
+    ### Set value
+
+    ```
+               config set  app key value
+    <stdin> -> config set  app key
+               config eval app key { code-block }
+    ```
+
+    ### Reset to default
+
+    ```
+    !config app key
+    config default app key
+    ```
+
+    ### Define custom configs
+
+    ```
+    config define app key { json }
+    ```
+  Examples: |-
+    ### eval
+
+    Using `eval` to append to an array (in this instance, adding a function
+    name to the list of "safe" commands):
+    
+    ```
+    » config eval shell safe-commands { -> append function-name }
+    ```
+
+    You could also use the `~>` operator too:
+
+    ```
+    » config eval shell safe-commands { ~> %[function-name] }
+    ```
+  Flags:
+    get: >-
+      Output the currently held config _value_ without changing it
+    set: >-
+      Change the _value_ of an _app_'s _key_. `set` does not print any output
+    default: >-
+      Reset a the value of _app_'s _key_ to its default _value_
+      (the default _value_ is defined by the same process that defines the config field)
+    define: >-
+      Allows you to create custom config options.
+      See {{bookmark "Custom Config Directives" "config" "custom-config-directives"}} to learn how to use `define`
+  Detail: |-
     ### scope
 
     Settings in `config`, by default, are scoped per function and module. Any
@@ -95,14 +105,12 @@
     child functions that then change the settings will only change settings for it's
     own function and not the parent caller.
 
-    Please note that `config` settings are scoped differently to local variables.
-
     ### global
 
     Global settings defined inside a function will affect settings queried inside
     another executing function (same concept as global variables).
 
-    ## Directives
+    ## Custom Config Directives
 
     {{ include "builtins/core/config/config_doc.inc.md" }}
   Synonyms:
@@ -121,4 +129,5 @@
   - item-index
   - element
   - create-object
+  - alter
 

@@ -2,6 +2,7 @@
   Title: >-
     `%[]` Array Builder
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Quickly generate arrays
   Description: |-

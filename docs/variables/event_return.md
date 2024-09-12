@@ -54,7 +54,7 @@ the respective event document for details on using this variable.
 
 ## See Also
 
-* [`event`](../commands/event.md):
+* [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)

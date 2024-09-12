@@ -1,4 +1,4 @@
-# `method`
+# Define Method Relationships (`method`)
 
 > Define a methods supported data-types
 
@@ -64,22 +64,27 @@ var GroupMath = []string{
 }
 ```
 
+## Synonyms
+
+* `method`
+
+
 ## See Also
 
+* [Alias Pointer (`alias`)](../commands/alias.md):
+  Create an alias for a command
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`alias`](../commands/alias.md):
-  Create an alias for a command
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`function`](../commands/function.md):
-  Define a function block
-* [`private`](../commands/private.md):
-  Define a private function block
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 
 <hr/>
 

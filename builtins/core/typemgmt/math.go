@@ -16,7 +16,7 @@ func init() {
 }
 
 func cmdEqu(p *lang.Process) (err error) {
-	lang.DeprecatedBuiltin(p)
+	lang.FeatureDeprecatedBuiltin(p)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("missing expression")

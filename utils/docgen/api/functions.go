@@ -2,6 +2,7 @@ package docgen
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -16,23 +17,25 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"md":         funcMarkdown,
-	"quote":      funcQuote,
-	"trim":       strings.TrimSpace,
-	"doc":        funcRenderedDocuments,
-	"cat":        funcRenderedCategories,
-	"link":       funcLink,
-	"bookmark":   funcLinkBookmark,
-	"section":    funcSection,
-	"file":       funcFile,
-	"notanindex": funcNotAnIndex,
-	"date":       funcDate,
-	"time":       funcTime,
-	"doct":       funcDocT,
-	"othercats":  funcOtherCats,
-	"otherdocs":  funcOtherDocs,
-	"env":        funcEnv,
-	"fn":         funcFunctions,
+	"md":           funcMarkdown,
+	"quote":        funcQuote,
+	"trim":         strings.TrimSpace,
+	"doc":          funcRenderedDocuments,
+	"cat":          funcRenderedCategories,
+	"link":         funcLink,
+	"bookmark":     funcLinkBookmark,
+	"section":      funcSection,
+	"file":         funcFile,
+	"notanindex":   funcNotAnIndex,
+	"date":         funcDate,
+	"time":         funcTime,
+	"doct":         funcDocT,
+	"othercats":    funcOtherCats,
+	"otherdocs":    funcOtherDocs,
+	"env":          funcEnv,
+	"fn":           funcFunctions,
+	"vuepressmenu": funcVuePressMenu,
+	"dump":         funcDump,
 }
 
 var funcMap__fn = template.FuncMap{}
@@ -258,6 +261,9 @@ func funcTime(dt time.Time) string {
 // Takes: string (category, document ID)
 // Returns: document type
 func funcDocT(cat, doc string) *document {
+	if cat == "" || cat == "*" {
+		cat = "???"
+	}
 	return Documents.ByID("!!!", cat, doc)
 }
 
@@ -325,4 +331,77 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	return w.String()
+}
+
+/************
+ * VuePress *
+ ************/
+
+// Takes: string, category ID
+// Returns: JSON string
+func funcVuePressMenu(catID string) string {
+	//var menu vuePressMenuItem
+	cat := Config.Categories.ByID(catID)
+	if cat == nil {
+		panic(fmt.Sprintf("cannot find category with ID '%s'", catID))
+	}
+
+	menu := vuePressSubMenu(cat)
+
+	for i := range Documents {
+		if Documents[i].CategoryID != cat.ID || len(Documents[i].SubCategoryIDs) > 0 {
+			continue
+		}
+		menu = append(menu, map[string]any{
+			"text": vueTitle(Documents[i].Title),
+			"link": Documents[i].Hierarchy() + ".html",
+		})
+	}
+
+	b, err := json.MarshalIndent(menu, "", "    ")
+	if err != nil {
+		panic(fmt.Sprintf("cannot marshal JSON: %s", err.Error()))
+	}
+
+	return string(b)
+}
+
+func vuePressSubMenu(cat *category) []map[string]any {
+	var menu []map[string]any
+	for _, sub := range cat.SubCategories {
+		var subMenu []map[string]any
+		for i := range Documents {
+			if Documents[i].IsInSubCategory(sub.ID) {
+				subMenu = append(subMenu, map[string]any{
+					"text": vueTitle(Documents[i].Title),
+					"link": Documents[i].Hierarchy() + ".html",
+					"icon": "file-code",
+				})
+			}
+		}
+		menu = append(menu, map[string]any{
+			"text":        vueTitle(sub.Title),
+			"icon":        "angles-right", //sub.VueIcon,
+			"children":    subMenu,
+			"collapsible": true,
+		})
+	}
+
+	return menu
+}
+
+var rxVueTitle = regexp.MustCompile("[\\r\\n`]")
+
+func vueTitle(s string) string {
+	return rxVueTitle.ReplaceAllString(s, "")
+}
+
+/************
+ *   Dump   *
+ ************/
+
+// Returns: A JSON dump of something (this is an internal tool for debugging)
+func funcDump() string {
+	b, _ := json.MarshalIndent(Config.Categories, "", "    ")
+	return string(b)
 }

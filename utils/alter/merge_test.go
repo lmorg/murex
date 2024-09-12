@@ -369,3 +369,51 @@ func TestMergeNestedMapMap(t *testing.T) {
 
 	mergeTest(t, &test)
 }
+
+// https://github.com/lmorg/murex/issues/850
+func TestMergeIssue850n1(t *testing.T) {
+	test := plan{
+		original: `{}`,
+		path:     "/",
+		change:   `{ "key": [{"hello": "world"}] }`,
+		expected: `{"key":[{"hello":"world"}]}`,
+	}
+
+	mergeTest(t, &test)
+}
+
+// https://github.com/lmorg/murex/issues/850
+func TestMergeIssue850n2(t *testing.T) {
+	test := plan{
+		original: `{"key":[{"hello":"world"}]}`,
+		path:     "/",
+		change:   `{ "key": [{"hello": "earth"}] }`,
+		expected: `{"key":[{"hello":"world"},{"hello":"earth"}]}`,
+	}
+
+	mergeTest(t, &test)
+}
+
+// https://github.com/lmorg/murex/issues/850
+func TestMergeIssue850n3(t *testing.T) {
+	test := plan{
+		original: `{"key":[{"hello":"world"}]}`,
+		path:     "/",
+		change:   `{ "key": [] }`,
+		expected: `{"key":[{"hello":"world"}]}`,
+	}
+
+	mergeTest(t, &test)
+}
+
+// https://github.com/lmorg/murex/issues/850
+func TestMergeIssue850n4(t *testing.T) {
+	test := plan{
+		original: `{"key":[{"hello":"world"}]}`,
+		path:     "/",
+		change:   `{ "key2": [{"hello":"earth"}] }`,
+		expected: `{"key":[{"hello":"world"}],"key2":[{"hello":"earth"}]}`,
+	}
+
+	mergeTest(t, &test)
+}

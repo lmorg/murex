@@ -1,7 +1,9 @@
 - DocumentID: exitnum
   Title: >+
-    `exitnum`
+    Get Exit Code (`exitnum`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Output the exit number of the previous process
   Description: |-
@@ -16,145 +18,20 @@
     0
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
+  - exitnum
   Related:
   - runtime
   - test
 
 
 
-- DocumentID: os
-  Title: >+
-    `os`
-  CategoryID: commands
-  Summary: >-
-    Output the auto-detected OS name
-  Description: |-
-    Output the auto-detected OS name.
-  Usage: |-
-    ```
-    os -> <stdout>
-
-    os string -> <stdout>
-    ``` 
-  Examples: |-
-    ### Name current platform
-
-    ```
-    » os
-    linux
-    ```
-
-    ### Check platforms
-
-    Or if you want to check if the host is one of a number of platforms:
-
-    ```
-    # When run on Linux or FreeBSD
-    » os linux freebsd
-    true
-
-    # When run on another platform, eg Windows or Darwin (macOS)
-    # (exit number would also be `1`)
-    » os linux freebsd
-    false
-    ```
-
-    The intention is this allows simple tests in scripts:
-
-    ```
-    if { os windows } then {
-        # run some Windows specific code
-    }
-    ```
-
-    ### POSIX
-
-    `posix` is also supported to check if Murex is running on a UNIX-like operating
-    system.
-
-    All Murex targets _apart_ from Windows and Plan 9 are considered POSIX.
-
-    ```
-    # When run on Linux or macOS
-    » os posix
-    true
-
-    # When run on Windows or Plan 9
-    # (exit number would also be `1`)
-    » os posix
-    false
-    ```
-
-    Please note that although Plan 9 shares similarities with POSIX, it is not
-    POSIX-compliant. For that reason, `os` returns false with the `posix`
-    parameter when run on Plan 9. If you want to include Plan 9 in the check
-    then please write it as `os posix plan9`.
-  Flags:
-  Detail: |-
-  Synonyms:
-  Related:
-  - cpuarch
-  - cpucount
-
-
-
-- DocumentID: cpuarch
-  Title: >+
-    `cpuarch`
-  CategoryID: commands
-  Summary: >-
-    Output the hosts CPU architecture
-  Description: |-
-    Output the hosts CPU architecture.
-  Usage: |-
-    ```
-    cpuarch -> <stdout>
-    ```
-  Examples: |-
-    ```
-    » cpuarch
-    amd64
-    ```
-  Flags:
-  Detail: |-
-  Synonyms:
-  Related:
-  - os
-  - cpucount
-
-
-
-- DocumentID: cpucount
-  Title: >+
-    `cpucount`
-  CategoryID: commands
-  Summary: >-
-    Output the number of CPU cores available on your host
-  Description: |-
-    Output the number of CPU cores available on your host.
-  Usage: |-
-    ```
-    cpucount -> <stdout>
-    ```
-  Examples: |-
-    ```
-    » cpucount
-    4
-    ```
-  Flags:
-  Detail: |-
-  Synonyms:
-  Related:
-  - os
-  - cpuarch
-
-
-
 - DocumentID: murex-update-exe-list
   Title: >+
-    `murex-update-exe-list`
+    Re-Scan $PATH For Executables
+  SubCategoryIDs:
+    - commands.shell
   CategoryID: commands
   Summary: >-
     Forces Murex to rescan $PATH looking for executables
@@ -176,6 +53,7 @@
     Murex will automatically update the exe list each time tab completion is
     invoked for command name completion via the REPL shell.
   Synonyms:
+  - murex-update-exe-list
   Related:
   - os
   - cpuarch
@@ -185,8 +63,10 @@
 
 - DocumentID: man-summary
   Title: >+
-    `man-summary`
+    Man-Page Summary (`man-summary`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.help
   Summary: >-
     Outputs a man page summary of a command
   Description: |-
@@ -219,6 +99,8 @@
     2
     ```
   Synonyms:
+  - man-summary
+  - help.man.summary
   Related:
   - summary
   - config
@@ -229,8 +111,10 @@
 
 - DocumentID: cd
   Title: >+
-    `cd`
+    Change Directory (`cd`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.posix
   Summary: >-
     Change (working) directory
   Description: |-
@@ -310,8 +194,9 @@
 
 - DocumentID: bexists
   Title: >+
-    `bexists`
+    Check Builtin Exists (`bexists`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.proc ]
   Summary: >-
     Check which builtins exist
   Description: |-
@@ -344,6 +229,7 @@
     might also happen to `bexists` however it is in use by a few modules and for
     that reason alone it has been spared from the axe.
   Synonyms:
+  - bexists
   Related:
   - runtime
   - fexec

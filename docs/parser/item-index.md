@@ -1,4 +1,4 @@
-# `[ Index ]`
+# Get Item (`[ Index ]`)
 
 > Outputs an element from an array, map or table
 
@@ -147,20 +147,20 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
 
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`count`](../commands/count.md):
+* [Count (`count`)](../commands/count.md):
   Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
+* [Create JSON Array (`ja`)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Reverse Array (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

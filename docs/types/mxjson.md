@@ -52,22 +52,28 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`%{}` Object Builder](../parser/create-object.md):
   Quickly generate objects (dictionaries / maps)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json`](../types/json.md):
@@ -76,12 +82,6 @@ Any block quoted by this method will be converted to the following valid JSON:
   Concatenated JSON
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):

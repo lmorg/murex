@@ -81,7 +81,6 @@
     - event
     - config
     - openagent
-    - autoglob
     - read
     - function
     - reserved-vars

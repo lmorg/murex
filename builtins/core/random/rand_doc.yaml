@@ -1,7 +1,10 @@
 - DocumentID: rand
   Title: >+
-    `rand`
+    Generate Random Sequence (`rand`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.str
+    - commands.num
   Summary: >-
     Random field generator
   Description: |-

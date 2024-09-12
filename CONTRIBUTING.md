@@ -1,6 +1,7 @@
-<h1>Contributing to Murex</h1>
 
-Murex is community project. We gratefully accept contributions.
+<h1>How To Contribute</h1>
+
+> Murex is community project. We gratefully accept contributions
 
 <h2>Table of Contents</h2>
 

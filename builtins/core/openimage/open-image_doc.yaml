@@ -1,7 +1,10 @@
 - DocumentID: open-image
   Title: >-
-    `open-image`
+    Render Image In Terminal (`open-image`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.fs
   Summary: >-
     Renders bitmap image data on your terminal
   Description: |-
@@ -29,6 +32,7 @@
   Detail: |-
     `open-image` will fail if stdout is not a TTY.
   Synonyms:
+    - open-image
   Related:
     - qr
     - open

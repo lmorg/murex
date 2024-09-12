@@ -1,10 +1,11 @@
-# `set`
+# Define Variable (`set`)
 
-> Define a local variable and set it's value
+> Define a variable (typically local) and set it's value
 
 ## Description
 
-Defines, updates or deallocates a local variable.
+Defines, updates or deallocates a variable. By default that variable will be
+local.
 
 ## Usage
 
@@ -252,6 +253,20 @@ bar
 
 ## See Also
 
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Execute External Command (`exec`)](../commands/exec.md):
+  Runs an executable
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Is Value Null (`is-null`)](../commands/is-null.md):
+  Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
@@ -260,20 +275,6 @@ bar
   Initiates or terminates a string (variables expanded)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`exec`](../commands/exec.md):
-  Runs an executable
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
-* [`is-null`](../commands/is-null.md):
-  Checks if a variable is null or undefined
 
 <hr/>
 

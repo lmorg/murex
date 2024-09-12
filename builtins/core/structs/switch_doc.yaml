@@ -1,7 +1,8 @@
 - DocumentID: switch
   Title: >+
-    `switch`
+    Switch Conditional (`switch`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Blocks of cascading conditionals
   Description: |-

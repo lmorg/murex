@@ -1,4 +1,4 @@
-# `esccli`
+# Escape Command Line String (`esccli`)
 
 > Escapes an array so output is valid shell code
 
@@ -41,20 +41,25 @@ out foo\$b\@r
 out foo\$b\@r
 ```
 
+## Synonyms
+
+* `esccli`
+
+
 ## See Also
 
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`alias`](../commands/alias.md):
+* [Alias Pointer (`alias`)](../commands/alias.md):
   Create an alias for a command
-* [`escape`](../commands/escape.md):
-  Escape or unescape input
-* [`eschtml`](../commands/eschtml.md):
+* [Escape HTML (`eschtml`)](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [`escurl`](../commands/escurl.md):
+* [Escape URL (`escurl`)](../commands/escurl.md):
   Encode or decodes text for the URL
-* [`out`](../commands/out.md):
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
+* [Quote String (`escape`)](../commands/escape.md):
+  Escape or unescape input
 
 <hr/>
 

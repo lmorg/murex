@@ -22,7 +22,7 @@ func init() {
 }
 
 func cmdLet(p *lang.Process) (err error) {
-	lang.DeprecatedBuiltin(p)
+	lang.FeatureDeprecatedBuiltin(p)
 
 	if !debug.Enabled {
 		defer func() {

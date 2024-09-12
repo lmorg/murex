@@ -1,0 +1,38 @@
+alias     list.sort      =  msort
+alias     list.reverse   =  mtac
+alias     list.prepend   =  prepend
+alias     list.append    =  append
+alias     list.prefix    =  prefix
+alias     list.suffix    =  suffix
+alias     list.left      =  left
+alias     list.right     =  right
+alias     list.regex     =  regexp
+alias    !list.regex     = !regexp
+alias     list.str       =  match
+alias    !list.str       = !match
+alias     list.join      =  mjoin
+
+alias      str.split     =  jsplit
+alias      str.datetime  =  datetime
+
+alias      num.round     =  round
+
+alias    table.select      =  select
+alias    table.add.heading =  addheading
+
+alias      sys.os        =  os
+alias      sys.cpu.arch  =  cpuarch
+alias      sys.cpu.count =  cpucount
+
+alias     exec.builtin  =  fexec builtin
+alias     exec.function =  fexec function
+alias     exec.private  =  fexec private
+
+alias     proc.exitnum     =  exitnum
+alias     proc.fg          = fg
+alias     proc.bg          = bg
+alias     proc.jobs        = fid-list --jobs
+alias     proc.list        = fid-list
+alias     proc.kill        = fid-kill
+alias     proc.kill.all    = fid-killall
+alias     proc.send.signal = signal

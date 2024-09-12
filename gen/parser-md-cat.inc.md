@@ -1,3 +1,9 @@
+{{ $doc := doct "" "operators-and-tokens" }}
+---
+title: {{ $doc.Title }}
+description: {{ quote $doc.Summary }}
+---
+
 {{ fn (file "gen/includes/expr-operators-tokens.inc.md") }}
 
 ## Other Reference Material
@@ -12,5 +18,5 @@
 
 ### Murex's Source Code
 
-The parser is located Murex's source under the `lang/` path of the project
+The parser is located Murex's source under the `lang/expressions/` path of the project
 files.

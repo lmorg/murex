@@ -1,7 +1,8 @@
 - DocumentID: get-type
   Title: >+
-    `get-type`
+    Get Data Type (`get-type`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Returns the data-type of a variable or pipe
   Description: |-

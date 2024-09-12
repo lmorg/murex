@@ -1,4 +1,4 @@
-# `<stdin>`
+# Read From Stdin (`<stdin>`)
 
 > Read the stdin belonging to the parent code block
 
@@ -131,19 +131,19 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Match String (`match`)](../commands/match.md):
+  Match an exact value in an array
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<pipe>` Read Named Pipe](../commands/namedpipe.md):
-  Reads from a Murex named pipe
-* [`function`](../commands/function.md):
+* [Public Function (`function`)](../commands/function.md):
   Define a function block
-* [`match`](../commands/match.md):
-  Match an exact value in an array
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`runtime`](../commands/runtime.md):
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

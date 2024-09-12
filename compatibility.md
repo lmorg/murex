@@ -1,3 +1,4 @@
+
 <h1>Compatibility Commitment</h1>
 
 Murex is committed to backwards compatibility. While we do want to continue to
@@ -61,7 +62,7 @@ Breaking changes _might_ happen outside of the feature deprecation life cycle
   that solely consists of the new operator is now parsed as an operator rather
   than a string)
 
-Breaking changes will be published in the [changelog](https://murex.rocks/changelog).
+Breaking changes will be published in the [changelog](https://murex.rocks/changelog/).
 
 ### Experimental features
 
@@ -84,10 +85,10 @@ Murex releases roughly follows [semantic versioning](https://semver.org/).
 
 ## See Also
 
-* [Contributing](/CONTRIBUTING.md):
-  Guide to contributing to Murex
+* [How To Contribute](/CONTRIBUTING.md):
+  Murex is community project. We gratefully accept contributions
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 
 <hr/>
 

@@ -1,4 +1,4 @@
-# `event`
+# Murex Event Subsystem (`event`)
 
 > Event driven programming for shell scripts
 
@@ -6,7 +6,7 @@
 
 Create or destroy an event interrupt,
 
-Each event will have subtilty different behaviour depending on the event itself
+Each event will have subtly different behaviour depending on the event itself
 due to the differing roles of each event system. Therefore it is recommended
 that you read the docs on each event to understand its behaviour.
 
@@ -44,7 +44,7 @@ event event-type name=interrupt { code block }
 
 ```
 event onSecondsElapsed autoquit=60 {
-    out "You're 60 second timeout has elapsed. Quitting murex"
+    out "Your 60 second timeout has elapsed. Quitting murex"
     exit 1
 }
 ```
@@ -105,15 +105,15 @@ onSecondsElapsed
 
 ## See Also
 
-* [`formap`](../commands/formap.md):
+* [For Each In Map (`formap`)](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
-  Define a function block
-* [`open`](../commands/open.md):
+* [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
-* [`private`](../commands/private.md):
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

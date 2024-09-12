@@ -1,7 +1,8 @@
 - DocumentID: round
   Title: >+
-    `round`
+    Round Number (`round`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.num ]
   Summary: >-
     Round a number by a user defined precision
   Description: |-
@@ -65,5 +66,7 @@
     "-u": "shorthand for `--up`"
   Detail:
   Synonyms:
+    - round
+    - num.round
   Related:
     - expr

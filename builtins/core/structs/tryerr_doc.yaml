@@ -1,7 +1,8 @@
 - DocumentID: tryerr
   Title: >+
-    `tryerr`
+    Stderr Checking In TTY (`tryerr`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.err ]
   Summary: >-
     Handles errors inside a block of code
   Description: |-
@@ -54,8 +55,9 @@
 
 - DocumentID: trypipeerr
   Title: >+
-    `trypipeerr`
+    Stderr Checking In Pipes (`trypipeerr`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.err ]
   Summary: >-
     Checks state of each function in a pipeline and exits block on error
   Description: |-

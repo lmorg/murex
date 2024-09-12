@@ -1,7 +1,8 @@
 - DocumentID: if
   Title: >+
-    `if`
+    If Conditional (`if`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Conditional statement to execute different blocks of code depending on the
     result of the condition

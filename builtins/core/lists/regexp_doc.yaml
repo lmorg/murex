@@ -1,7 +1,10 @@
 - DocumentID: regexp
   Title: >+
-    `regexp`
+    Regex Operations (`regexp`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
+    - commands.str
   Summary: >-
     Regexp tools for arrays / lists of strings
   Description: |-
@@ -25,6 +28,7 @@
       `s search replace`)
 
     * _pattern_: regexp pattern
+
 
     * _parameter2_: any extra operations to perform. For example a string to
       replace matched patterns when using the regexp substitution function
@@ -268,6 +272,7 @@
     - regexp
     - "!regexp"
     - list.regex
+    - "!list.regex"
   Related:
     - a
     - ja

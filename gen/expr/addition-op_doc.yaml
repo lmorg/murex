@@ -2,6 +2,7 @@
   Title: >-
     `+` Addition Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.modifiers ]
   Summary: >-
     Adds two numeric values together (expression)
   Description: |-

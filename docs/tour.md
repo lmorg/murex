@@ -1,3 +1,4 @@
+
 <h1>Language Tour</h1>
 
 <h2>Table of Contents</h2>
@@ -82,8 +83,8 @@ readability and terseness is to make heavy use of barewords. Barewords are
 ostensibly just instructions that are not quoted. In our case, command names
 and command parameters.
 
-Murex also makes heavy use of barewords and so that places requirements on
-the choice of syntax we can use.
+Murex also makes heavy use of barewords and so that places restrictions on the
+choice of syntax we can use.
 
 ### Expressions and Statements
 
@@ -335,7 +336,7 @@ out "message" >> append-file.txt
 ### Type Conversion
 
 Aside from annotating variables upon definition, you can also transform data
-along the pipeline.
+along the pipeline using `format`.
 
 #### Cast
 
@@ -362,7 +363,7 @@ out [1,2,3] | :json: foreach { ... }
 
 ## Sub-Shells
 
-There are two types of emendable sub-shells: strings and arrays.
+There are two main types of emendable sub-shells: strings and arrays.
 
 * string sub-shells, `${ command }`, take the results from the sub-shell and
   return it as a single parameter. This saves the need to encapsulate the shell
@@ -378,9 +379,9 @@ touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
 touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
 ```
 
-The reason Murex breaks from the POSIX tradition of using backticks and
-parentheses is because Murex works on the principle that everything inside
-a curly bracket is considered a new block of code.
+The reason Murex breaks from the traditions of using backticks and parentheses
+is because Murex works on the principle that everything inside a curly bracket
+is considered a new block of code.
 
 ## Filesystem Wildcards (Globbing)
 
@@ -602,9 +603,9 @@ This can be invoked by pressing `Ctrl` + `z`. ([read more](/docs/user-guide/job-
 ## See Also
 
 * [Install](/INSTALL.md):
-  Installation instructions
+  Installation Instructions
 * [Operators And Tokens](/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
 
 <hr/>
 

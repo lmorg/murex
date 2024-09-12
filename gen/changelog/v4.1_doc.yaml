@@ -4,7 +4,7 @@
   CategoryID: changelog
   DateTime: 2023-06-04 10:44
   Summary: >-
-    The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
+    The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
   Description: |-
     ## v4.1.7300
 
@@ -16,7 +16,7 @@
 
     * generic `*` data type marshaller can now marshal maps ([#593](https://github.com/lmorg/murex/issues/593))
 
-    * range can count from end when supplied with a negative index ([read more](https://murex.rocks/docs/commands/range.html))
+    * range can count from end when supplied with a negative index ([read more](https://murex.rocks/commands/range.html))
 
     ### Bug Fixes
 
@@ -64,11 +64,11 @@
 
     * `f`: new flag `i` -- deprecates `?` flag due to `?` being a glob pattern. However `?` will remain supported
 
-    * `$PREFIX` variable passed to **Dynamic** and **DynamicDesc** functions in `autocomplete` -- includes the partial term ([read more](https://murex.rocks/docs/commands/autocomplete.html#directives))
+    * `$PREFIX` variable passed to **Dynamic** and **DynamicDesc** functions in `autocomplete` -- includes the partial term ([read more](https://murex.rocks/commands/autocomplete.html#directives))
 
     * `user@` completion support for `ssh`
 
-    * Updated `autocomplete` docs ([read more](https://murex.rocks/docs/commands/autocomplete.html))
+    * Updated `autocomplete` docs ([read more](https://murex.rocks/commands/autocomplete.html))
 
     * command line is included in error message when error running inside another module
 

@@ -1,4 +1,4 @@
-# `tread`
+# Read With Type (`tread`) (removed 7.x)
 
 > `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 
@@ -42,22 +42,22 @@ variable.
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Output With Type Annotation (`tout`)](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Read User Input (`read`)](../commands/read.md):
+  `read` a line of input from the user and store as a variable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`read`](../commands/read.md):
-  `read` a line of input from the user and store as a variable
-* [`tout`](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
 
 <hr/>
 

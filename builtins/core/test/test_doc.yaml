@@ -1,7 +1,8 @@
 - DocumentID: test
   Title: >+
-    `test`
+    Shell Script Tests (`test`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.shell ]
   Summary: >-
     Murex's test framework - define tests, run tests and debug shell scripts
   Description: |-

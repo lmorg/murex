@@ -1,7 +1,10 @@
 - DocumentID: tabulate
   Title: >+
-    `tabulate`
+    Transformation Tools (`tabulate`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.struct
+    - commands.table
   Summary: >-
     Table transformation tools
   Description: |-

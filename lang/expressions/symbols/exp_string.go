@@ -49,27 +49,29 @@ func _() {
 	_ = x[GreaterThanOrEqual-39]
 	_ = x[LessThan-40]
 	_ = x[LessThanOrEqual-41]
-	_ = x[Add-42]
-	_ = x[Subtract-43]
-	_ = x[MergeInto-44]
-	_ = x[Multiply-45]
-	_ = x[Divide-46]
+	_ = x[Merge-42]
+	_ = x[PlusPlus-43]
+	_ = x[Add-44]
+	_ = x[MinusMinus-45]
+	_ = x[Subtract-46]
+	_ = x[Multiply-47]
+	_ = x[Divide-48]
 }
 
 const (
 	_Exp_name_0 = "Undefined"
-	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignOrMergeElvisNullCoalescingLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
+	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignUpdateAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignOrMergeElvisNullCoalescingLogicalOrLogicalAndEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualMergePlusPlusAddMinusMinusSubtractMultiplyDivide"
 )
 
 var (
-	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 286, 291, 305, 314, 324, 331, 341, 345, 352, 358, 367, 378, 396, 404, 419, 422, 430, 439, 447, 453}
+	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 224, 241, 256, 273, 286, 291, 305, 314, 324, 331, 341, 345, 352, 358, 367, 378, 396, 404, 419, 424, 432, 435, 445, 453, 461, 467}
 )
 
 func (i Exp) String() string {
 	switch {
 	case i == 0:
 		return _Exp_name_0
-	case 2 <= i && i <= 46:
+	case 2 <= i && i <= 48:
 		i -= 2
 		return _Exp_name_1[_Exp_index_1[i]:_Exp_index_1[i+1]]
 	default:

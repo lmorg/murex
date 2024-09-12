@@ -10,10 +10,20 @@ category:
 {{ md (include .Description) }}{{ end }}
 
 ## Pages
+{{ if .SubCategories }}{{ range $cat := .SubCategories }}
 
-{{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
+### {{ .Title }}
+
+{{ .Description }}
+
+{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
-  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}{{ end }}
+
+{{ if .UncatDocs }}### Uncategorised
+{{ range $i,$a := .UncatDocs }}
+* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}
 
 ## Optional Builtins
 

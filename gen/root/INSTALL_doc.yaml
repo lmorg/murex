@@ -3,7 +3,7 @@
     Install
   CategoryID: Murex
   Summary: >-
-    Installation instructions
+    Installation Instructions
   Description: |-
     {{ include "gen/root/INSTALL.inc.md" }}
   Synonyms:
