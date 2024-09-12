@@ -1,8 +1,4 @@
-{{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: handshake-angle
-
----
+{{ if env "DOCGEN_TARGET=vuepress" }}---
 {{ end }}<h1>Contributing to Murex</h1>
 
 Murex is community project. We gratefully accept contributions.

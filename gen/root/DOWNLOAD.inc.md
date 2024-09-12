@@ -1,8 +1,4 @@
-{{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: terminal
-
----
+{{ if env "DOCGEN_TARGET=vuepress" }}---
 {{ end }}<h1>Download Murex</h1>
 
 [![Version](version.svg)](DOWNLOAD.md)

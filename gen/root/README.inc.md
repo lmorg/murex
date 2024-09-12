@@ -1,5 +1,4 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
-description: A smarter shell and scripting environment with advanced features designed for usability, safety and productivity (eg smarter DevOps tooling)
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}

@@ -1,4 +1,6 @@
-{{ md (include .Description) }}{{ if .Related }}
+{{ if env "DOCGEN_TARGET=vuepress" }}
+description: "{{ quote .Summary }}"
+{{ end }}{{ md (include .Description) }}{{ if .Related }}
 
 ## See Also
 

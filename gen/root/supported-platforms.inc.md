@@ -1,7 +1,4 @@
-{{ if env "DOCGEN_TARGET=vuepress" }}
-
----
-
+{{ if env "DOCGEN_TARGET=vuepress" }}---
 {{ end }}<h1>Supported Operating Systems</h1>
 
 The following is a list of platforms Murex has been tested on and the
