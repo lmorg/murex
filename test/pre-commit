@@ -6,8 +6,6 @@
 set -e
 
 PATH=$PATH:$GOPATH/bin
-docs=docs
-cdocs=builtins/docs
 flag=${1:-undef}
 
 if [ $flag != '--no-cd' ]; then
@@ -24,20 +22,11 @@ ctrl_c() {
 echo "Updating auto-generated code...."
 go generate ./...
 
-echo "Compiling docgen...."
-go install github.com/lmorg/murex/utils/docgen
-
-echo "Compiling Murex docs...."
-docgen -config gen/docgen.yaml -warning
-
-echo "Formatting autogen docs...."
-go fmt $cdocs/*.go
-
 export MUREXVERSION="$(go run github.com/lmorg/murex --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
 sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
         gen/website/version.svg > version.svg
 
 echo "Updating git...."
-git add -v *.md *_string.go *_generated.go version.svg $docs $cdocs
+git add -v app/app.go *.md *_string.go *_generated.go version.svg docs/
 
 echo "Allowing git commit to proceed...."

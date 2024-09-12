@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
@@ -97,6 +98,7 @@ const ForkSuffix = " (fork)"
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
+	fork.SystemProcess = process.NewSystemProcessStruct()
 	fork.SetTerminatedState(true)
 	fork.Forks = p.Forks
 	trace(fork.Process)

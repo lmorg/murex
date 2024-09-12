@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ "1.22" ]
+        go-version: [ "1.23" ]
 
     steps:
       - name: Checkout

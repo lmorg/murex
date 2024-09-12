@@ -1,3 +1,6 @@
+//go:build !js
+// +build !js
+
 package main
 
 import (
@@ -5,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // TestMurex tests murex runtime environment can be initialized and and simple
@@ -25,7 +29,7 @@ func TestMurex(t *testing.T) {
 func TestRunCommandLine(t *testing.T) {
 	count.Tests(t, 1)
 
-	runCommandLine(`out: "testing" -> null`)
+	runCommandString(`out: "testing" -> null`)
 }
 
 func TestRunSource(t *testing.T) {
@@ -40,4 +44,28 @@ func TestRunSourceGzMods(t *testing.T) {
 
 	file := "test/source.mx.gz"
 	runSource(file)
+}
+
+func TestArgvToCmdLineStr(t *testing.T) {
+	tests := map[string][]string{
+		`foobar`:       []string{`foobar`},
+		`\ foo`:        []string{` foo`},
+		`foo\ `:        []string{`foo `}, // TODO: this might cause things to break...?
+		`foo bar`:      []string{`foo`, `bar`},
+		`foo\ bar baz`: []string{`foo bar`, `baz`},
+		`foo\  bar`:    []string{`foo `, `bar`},
+	}
+
+	count.Tests(t, len(tests))
+
+	for expected, argv := range tests {
+		actual := argvToCmdLineStr(argv)
+
+		if expected != actual {
+			t.Error("Expected does not match actual:")
+			t.Logf("  argv:     %s", json.LazyLogging(argv))
+			t.Logf("  expected: '%s'", expected)
+			t.Logf("  actual:   '%s'", actual)
+		}
+	}
 }

@@ -107,4 +107,4 @@ same data-type.
 
 <hr/>
 
-This document was generated from [builtins/core/lists/regexp_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/regexp_doc.yaml).
+This document was generated from [builtins/core/lists/match_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/lists/match_doc.yaml).
