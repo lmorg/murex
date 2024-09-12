@@ -2,7 +2,7 @@
   Title: >+
     Truncate File (`>`)
   CategoryID: parser
-  SubCategoryIDs: [ commands.fs ]
+  SubCategoryIDs: [ commands.fs, parser.pipes ]
   Summary: >-
     Writes stdin to disk - overwriting contents if file already exists
   Description: |-

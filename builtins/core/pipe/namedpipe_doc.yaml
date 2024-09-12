@@ -4,6 +4,7 @@
   CategoryID: parser
   SubCategoryIDs:
     - commands.io
+    - parser.pipes
   Summary: >-
     Reads from a Murex named pipe
   Description: |-
@@ -57,6 +58,7 @@
   CategoryID: parser
   SubCategoryIDs:
     - commands.io
+    - parser.pipes
   Summary: >-
     Read the stdin belonging to the parent code block
   Description: |-

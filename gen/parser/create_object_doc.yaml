@@ -2,6 +2,7 @@
   Title: >-
     `%{}` Object Builder
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Quickly generate objects (dictionaries / maps)
   Description: |-

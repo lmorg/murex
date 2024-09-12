@@ -48,7 +48,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Profile Files](../user-guide/profile.md):
@@ -159,7 +159,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Prefix a string to every item in a list
 * [Alias Pointer (`alias`)](../commands/alias.md):
   Create an alias for a command
-* [Alter Data Structure (`alter`)](../commands/alter.md):
+* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [Append To List (`append`)](../commands/append.md):
   Add data to the end of an array

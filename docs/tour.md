@@ -605,7 +605,7 @@ This can be invoked by pressing `Ctrl` + `z`. ([read more](/docs/user-guide/job-
 * [Install](/INSTALL.md):
   Installation Instructions
 * [Operators And Tokens](/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
 
 <hr/>
 

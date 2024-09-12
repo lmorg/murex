@@ -312,7 +312,7 @@
   Title: >+
     Define Type (`cast`)
   CategoryID: commands
-  SubCategoryIDs: [ commands.lang ]
+  SubCategoryIDs: [ commands.lang, parser.data, parser.pipes ]
   Summary: >-
     Alters the data-type of the previous function without altering its output
   Description: |-

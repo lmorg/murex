@@ -24,6 +24,8 @@ For example:
 open https://murex.rocks/git-autocomplete.png
 ```
 
+![opening an image in Kitty](https://nojs.murex.rocks/images/screenshot-iterm2-open.png)
+
 ## See Also
 
 * [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):

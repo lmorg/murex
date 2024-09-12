@@ -2,6 +2,7 @@
   Title: >-
     `$Scalar` Sigil (eg variables)
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Expand values as a scalar
   Description: |-
@@ -89,6 +90,7 @@
   Title: >-
     `@Array` Sigil
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Expand values as an array
   Description: |-
@@ -132,6 +134,7 @@
   Title: >-
     `~` Home Sigil
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Home directory path variable
   Description: |-

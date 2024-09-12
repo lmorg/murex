@@ -2,6 +2,7 @@
   Title: >-
     `'Single Quote'`
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Initiates or terminates a string (variables not expanded)
   Description: |-
@@ -43,6 +44,7 @@
   Title: >-
     `"Double Quote"`
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Initiates or terminates a string (variables expanded)
   Description: |-
@@ -85,6 +87,7 @@
   Title: >-
     `%(Brace Quote)`
   CategoryID: parser
+  SubCategoryIDs: [ parser.constants ]
   Summary: >-
     Initiates or terminates a string (variables expanded)
   Description: |-

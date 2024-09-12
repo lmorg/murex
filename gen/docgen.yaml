@@ -71,7 +71,7 @@ Categories:
         Commands to manage the Murex shell session.
     - ID: commands.esc
       Title: String Escaping / Character Codes
-      VueIcon: file-code
+      VueIcon: code
       Description: |-
         Commands to escape special characters in various different string formats.
     - ID: commands.proc
@@ -142,6 +142,52 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/parser-md-doc.tmpl
+
+    - OutputPath: gen/vuepress
+      CategoryFile: parser_generated.json
+      CategoryTemplate: gen/parser-vue-cat.tmpl
+
+    SubCategories:
+    - ID: parser.modifiers
+      Title: Modifiers
+      VueIcon: angles-right
+      Description:
+    - ID: parser.data
+      Title: Data Manipulation
+      VueIcon: angles-right
+      Description:
+    #- ID: parser.comparators
+    #  Title: Comparators
+    #  VueIcon: angles-right
+    #  Description:
+    - ID: parser.assignment
+      Title: Assignment
+      VueIcon: angles-right
+      Description:
+    - ID: parser.conditionals
+      Title: Conditionals
+      VueIcon: angles-right
+      Description:
+    - ID: parser.sigils
+      Title: Sigils
+      VueIcon: angles-right
+      Description:
+    - ID: parser.constants
+      Title: Constants
+      VueIcon: angles-right
+      Description:
+    - ID: parser.subshells
+      Title: Sub-Shells
+      VueIcon: angles-right
+      Description:
+    - ID: parser.boolean
+      Title: Boolean Operations
+      VueIcon: angles-right
+      Description:
+    - ID: parser.pipes
+      Title: Pipes
+      VueIcon: angles-right
+      Description:
 
   # events:
   - ID: events

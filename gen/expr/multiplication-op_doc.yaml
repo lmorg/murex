@@ -1,6 +1,7 @@
 - DocumentID: multiplication
   Title: >-
     `*` Multiplication Operator
+  SubCategoryIDs: [ parser.modifiers ]
   CategoryID: parser
   Summary: >-
     Multiplies one numeric value with another (expression)

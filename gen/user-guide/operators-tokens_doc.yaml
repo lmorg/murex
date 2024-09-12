@@ -3,7 +3,7 @@
     Operators And Tokens
   CategoryID: user-guide
   Summary: >-
-    A table of all supported operators and tokens
+    All supported operators and tokens
   Description: |-
     {{ include "gen/includes/expr-operators-tokens.inc.md" }}
   Synonyms:

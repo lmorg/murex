@@ -2,6 +2,7 @@
   Title: >-
     `-` Subtraction Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.modifiers ]
   Summary: >-
     Subtracts one numeric value from another (expression)
   Description: |-

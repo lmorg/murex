@@ -2,6 +2,7 @@
   Title: >-
      `[{ Lambda }]`
   CategoryID: parser
+  SubCategoryIDs: [ parser.subshells ]
   Summary: >-
     Iterate through structured data
   Description: |-

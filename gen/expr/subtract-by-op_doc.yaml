@@ -1,6 +1,7 @@
 - DocumentID: subtract-by
   Title: >-
     `-=` Subtract By Operator
+  SubCategoryIDs: [ parser.assignment ]
   CategoryID: parser
   Summary: >-
     Subtracts a variable by the right hand value (expression)

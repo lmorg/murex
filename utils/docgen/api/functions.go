@@ -261,7 +261,7 @@ func funcTime(dt time.Time) string {
 // Takes: string (category, document ID)
 // Returns: document type
 func funcDocT(cat, doc string) *document {
-	if cat == "" {
+	if cat == "" || cat == "*" {
 		cat = "???"
 	}
 	return Documents.ByID("!!!", cat, doc)
@@ -375,12 +375,13 @@ func vuePressSubMenu(cat *category) []map[string]any {
 				subMenu = append(subMenu, map[string]any{
 					"text": vueTitle(Documents[i].Title),
 					"link": Documents[i].Hierarchy() + ".html",
+					"icon": "file-code",
 				})
 			}
 		}
 		menu = append(menu, map[string]any{
 			"text":        vueTitle(sub.Title),
-			"icon":        sub.VueIcon,
+			"icon":        "angles-right", //sub.VueIcon,
 			"children":    subMenu,
 			"collapsible": true,
 		})

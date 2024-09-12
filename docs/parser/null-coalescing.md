@@ -61,7 +61,7 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
 * [Is Value Null (`is-null`)](../commands/is-null.md):
   Checks if a variable is null or undefined
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
 * [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipe Fail (`trypipe`)](../commands/trypipe.md):

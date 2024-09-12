@@ -199,17 +199,18 @@ Sigils are supported in both expressions and statements.
 Constants are supported in both expressions and statements. However `null`,
 `true`, `false` and _number_ will all be interpreted as strings in statements.
 
-| Token         | Name           | Operation                                          |
-|---------------|----------------|----------------------------------------------------|
-| `null`        | Null           | `null` (null / nil / void) type                    |
-| `true`        | True           | `bool` (boolean) true                              |
-| `false`       | False          | `bool` (boolean) false                             |
-| number        | Number         | `num` (numeric) value                              |
-| `'`string`'`  | String Literal | `str` (string) literal value                       |
-| `"`string`"`  | Infix String   | `str` (string) value, supports escaping & infixing |
-| `%(`string`)` | String Builder | Creates a nestable `str` (string)                  |
-| `%[`array`]`  | Array Builder  | Creates a `json` (JSON) array (list)               |
-| `%{`map`}`    | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
+| Token          | Name           | Operation                                          |
+|----------------|----------------|----------------------------------------------------|
+| `null`         | Null           | `null` (null / nil / void) type                    |
+| `true`         | True           | `bool` (boolean) true                              |
+| `false`        | False          | `bool` (boolean) false                             |
+| number         | Number         | `num` (numeric) value                              |
+| `'`string`'`   | String Literal | `str` (string) literal value                       |
+| `"`string`"`   | Infix String   | `str` (string) value, supports escaping & infixing |
+| `{` code `}`   | Code Block     | `str` (string) value, surrounded by curly braces   |
+| `%(` string `)`| String Builder | Creates a nestable `str` (string)                  |
+| `%[` array `]` | Array Builder  | Creates a `json` (JSON) array (list)               |
+| `%{` map `}`   | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
 
 Read more:
 * Operators: {{link "'string'" "single-quote"}}, {{link "\"string\"" "double-quote"}}, {{link "%(string)" "brace-quote"}}, {{link "%[array]" "create-array"}}, {{link "%{map}" "create-object"}}
@@ -226,6 +227,7 @@ expression or statement. Because of this they are supported in both.
 | `@{`command parameters...`}` | Sub-shell (array)  | expand a command line as an array  |
 | `(`expression`)`             | Sub-expression     | Inline an expression (_statement_) |
 | `(`expression`)`             | Sub-expression     | Order of evaluation (_expression_) |
+| `[{` code block `}]`         | Lambda             | Run operations across lists / maps |
 
 Read more:
 * {{link "C-style functions" "c-style-fun"}}, {{bookmark "sub-shells" "tour" "sub-shells"}}, {{link "sub-expressions" "expr-inlined"}}

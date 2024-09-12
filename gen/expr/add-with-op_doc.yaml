@@ -2,6 +2,7 @@
   Title: >-
     `+=` Add With Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.assignment ]
   Summary: >-
     Adds the right hand value to a variable (expression)
   Description: |-

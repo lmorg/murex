@@ -4,6 +4,7 @@
   CategoryID: parser
   SubCategoryIDs:
     - commands.list
+    - parser.data
   Summary: >-
     Outputs a ranged subset of data from stdin
   Description: |-

@@ -5,6 +5,7 @@
   SubCategoryIDs:
     - commands.struct
     - commands.list
+    - parser.data
   Summary: >-
     Outputs an element from an array, map or table
   Description: |-

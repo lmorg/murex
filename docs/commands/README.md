@@ -202,7 +202,7 @@ Commands for working with numerical data.
 
 Commands for working with structured data such as maps, tables, arrays and other data formats that are present in documents such as CSV, JSON, YAML, TOML, Sexpr, CSV, etc. 
 
-* [Alter Data Structure (`alter`)](../commands/alter.md):
+* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [Count (`count`)](../commands/count.md):
   Count items in a map, list or array

@@ -2,46 +2,57 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/pipe.html",
                 "text": "Create Named Pipe (pipe)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/err.html",
                 "text": "Error String (err)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/pt.html",
                 "text": "Get Pipe Status (pt)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/out.html",
                 "text": "Output String (out)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/tout.html",
                 "text": "Output With Type Annotation (tout)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/namedpipe.html",
                 "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/stdin.html",
                 "text": "Read From Stdin (\u003cstdin\u003e)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/read.html",
                 "text": "Read User Input (read)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/tread.html",
                 "text": "Read With Type (tread) (removed 7.x)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/open-image.html",
                 "text": "Render Image In Terminal (open-image)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/brace-quote-func.html",
                 "text": "(brace quote)"
             }
@@ -53,34 +64,42 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/tmp.html",
                 "text": "Create Temporary File (tmp)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/g.html",
                 "text": "Globbing (g)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/f.html",
                 "text": "List Filesystem Objects (f)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/lockfile.html",
                 "text": "Lock Files (lockfile)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/open.html",
                 "text": "Open File (open)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/rx.html",
                 "text": "Regex Matches (rx)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/open-image.html",
                 "text": "Render Image In Terminal (open-image)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/file-truncate.html",
                 "text": "Truncate File (\u003e)"
             }
@@ -92,42 +111,52 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/alias.html",
                 "text": "Alias Pointer (alias)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/cd.html",
                 "text": "Change Directory (cd)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/type.html",
                 "text": "Display Command Type (type)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/expr.html",
                 "text": "Expressions (expr)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/false.html",
                 "text": "False (false)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/which.html",
                 "text": "Location Of Command (which)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/out.html",
                 "text": "Output String (out)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/time.html",
                 "text": "Processes Execution Time (time)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/read.html",
                 "text": "Read User Input (read)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/true.html",
                 "text": "True (true)"
             }
@@ -139,82 +168,102 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/prefix.html",
                 "text": "Add Prefix (prefix)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/suffix.html",
                 "text": "Add Suffix (suffix)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/append.html",
                 "text": "Append To List (append)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/list.case.html",
                 "text": "Change Text Case (list.case)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/count.html",
                 "text": "Count (count)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/ja.html",
                 "text": "Create JSON Array (ja)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/ta.html",
                 "text": "Create New Array (ta)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/range.html",
                 "text": "Filter By Range [ ..Range ]"
             },
             {
+                "icon": "file-code",
                 "link": "commands/foreach.html",
                 "text": "For Each In List (foreach)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/item-index.html",
                 "text": "Get Item ([ Index ])"
             },
             {
+                "icon": "file-code",
                 "link": "commands/mjoin.html",
                 "text": "Join Array To String (mjoin)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/left.html",
                 "text": "Left Sub-String (left)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/match.html",
                 "text": "Match String (match)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/prepend.html",
                 "text": "Prepend To List (prepend)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/regexp.html",
                 "text": "Regex Operations (regexp)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/mtac.html",
                 "text": "Reverse Array (mtac)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/right.html",
                 "text": "Right Sub-String (right)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/msort.html",
                 "text": "Sort Array (msort)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/a.html",
                 "text": "Stream New List (a)"
             }
@@ -226,54 +275,67 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/list.case.html",
                 "text": "Change Text Case (list.case)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/datetime.html",
                 "text": "Date And Time Conversion (datetime)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/esccli.html",
                 "text": "Escape Command Line String (esccli)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/eschtml.html",
                 "text": "Escape HTML (eschtml)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/escurl.html",
                 "text": "Escape URL (escurl)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/rand.html",
                 "text": "Generate Random Sequence (rand)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/left.html",
                 "text": "Left Sub-String (left)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/pretty.html",
                 "text": "Prettify JSON"
             },
             {
+                "icon": "file-code",
                 "link": "commands/escape.html",
                 "text": "Quote String (escape)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/regexp.html",
                 "text": "Regex Operations (regexp)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/right.html",
                 "text": "Right Sub-String (right)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/jsplit.html",
                 "text": "Split String (jsplit)"
             }
@@ -285,14 +347,17 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/expr.html",
                 "text": "Expressions (expr)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/rand.html",
                 "text": "Generate Random Sequence (rand)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/round.html",
                 "text": "Round Number (round)"
             }
@@ -304,42 +369,52 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/alter.html",
-                "text": "Alter Data Structure (alter)"
+                "text": "Alter Data Structure (alter / ~\u003e)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/count.html",
                 "text": "Count (count)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/2darray.html",
                 "text": "Create 2d Array (2darray)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/map.html",
                 "text": "Create Map (map)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
+                "icon": "file-code",
                 "link": "parser/item-index.html",
                 "text": "Get Item ([ Index ])"
             },
             {
+                "icon": "file-code",
                 "link": "parser/element.html",
                 "text": "Get Nested Element ([[ Element ]])"
             },
             {
+                "icon": "file-code",
                 "link": "commands/struct-keys.html",
                 "text": "Print Map / Structure Keys (struct-keys)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/tabulate.html",
                 "text": "Transformation Tools (tabulate)"
             }
@@ -351,22 +426,27 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/addheading.html",
                 "text": "Add Heading (addheading)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
+                "icon": "file-code",
                 "link": "optional/select.html",
                 "text": "Inline SQL (select)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/format.html",
                 "text": "Reformat Data type (format)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/tabulate.html",
                 "text": "Transformation Tools (tabulate)"
             }
@@ -378,18 +458,22 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/cpuarch.html",
                 "text": "CPU Architecture (cpuarch)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/cpucount.html",
                 "text": "CPU Count (cpucount)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/export.html",
                 "text": "Define Environmental Variable (export)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/os.html",
                 "text": "Operating System (os)"
             }
@@ -401,78 +485,97 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/alias.html",
                 "text": "Alias Pointer (alias)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/history.html",
                 "text": "Command Line History (history)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/pipe.html",
                 "text": "Create Named Pipe (pipe)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/debug.html",
                 "text": "Debugging Mode (debug)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/openagent.html",
                 "text": "Define Handlers For \"open\" (openagent)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/method.html",
                 "text": "Define Method Relationships (method)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/fexec.html",
                 "text": "Execute Shell Function or Builtin (fexec)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/source.html",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/event.html",
                 "text": "Murex Event Subsystem (event)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/murex-package.html",
                 "text": "Murex Package Management (murex-package)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/version.html",
                 "text": "Murex Version (version)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/private.html",
                 "text": "Private Function (private)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/function.html",
                 "text": "Public Function (function)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/murex-update-exe-list.html",
                 "text": "Re-Scan $PATH For Executables"
             },
             {
+                "icon": "file-code",
                 "link": "commands/summary.html",
                 "text": "Set Command Summary Hint (summary)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/config.html",
                 "text": "Shell Configuration And Settings (config)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/runtime.html",
                 "text": "Shell Runtime (runtime)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/test.html",
                 "text": "Shell Script Tests (test)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/autocomplete.html",
                 "text": "Tab Autocompletion (autocomplete)"
             }
@@ -484,77 +587,94 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/key-code.html",
                 "text": "ASCII And ANSI Escape Sequences (key-code)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/esccli.html",
                 "text": "Escape Command Line String (esccli)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/eschtml.html",
                 "text": "Escape HTML (eschtml)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/escurl.html",
                 "text": "Escape URL (escurl)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/escape.html",
                 "text": "Quote String (escape)"
             }
         ],
         "collapsible": true,
-        "icon": "file-code",
+        "icon": "code",
         "text": "String Escaping / Character Codes"
     },
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/bg.html",
                 "text": "Background Process (bg)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/bexists.html",
                 "text": "Check Builtin Exists (bexists)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/fid-list.html",
                 "text": "Display Running Functions (fid-list)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/exec.html",
                 "text": "Execute External Command (exec)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/fg.html",
                 "text": "Foreground Process (fg)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/exitnum.html",
                 "text": "Get Exit Code (exitnum)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/source.html",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/fid-killall.html",
                 "text": "Kill All In Session (fid-killall)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/fid-kill.html",
                 "text": "Kill Function (fid-kill)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/which.html",
                 "text": "Location Of Command (which)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/time.html",
                 "text": "Processes Execution Time (time)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/signal.html",
                 "text": "Send Signal IPC (signal)"
             }
@@ -566,94 +686,117 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/args.html",
                 "text": "Define Function Arguments (args)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/global.html",
                 "text": "Define Global (global)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/cast.html",
                 "text": "Define Type (cast)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/set.html",
                 "text": "Define Variable (set)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/break.html",
                 "text": "Exit Block (break)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/return.html",
                 "text": "Exit Function (return)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/exit.html",
                 "text": "Exit Murex (exit)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/expr.html",
                 "text": "Expressions (expr)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/foreach.html",
                 "text": "For Each In List (foreach)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/formap.html",
                 "text": "For Each In Map (formap)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/for.html",
                 "text": "For Loop (for)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/get-type.html",
                 "text": "Get Data Type (get-type)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/if.html",
                 "text": "If Conditional (if)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/is-null.html",
                 "text": "Is Value Null (is-null)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/and.html",
                 "text": "Logic And Statements (and)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/or.html",
                 "text": "Logic Or Statements (or)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/while.html",
                 "text": "Loop While (while)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/continue.html",
                 "text": "Next Iteration (continue)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/not-func.html",
                 "text": "Not (!)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/devnull.html",
                 "text": "Null (null)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/private.html",
                 "text": "Private Function (private)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/function.html",
                 "text": "Public Function (function)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/switch.html",
                 "text": "Switch Conditional (switch)"
             }
@@ -665,30 +808,37 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/catch.html",
                 "text": "Caught Error Block (catch)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/unsafe.html",
                 "text": "Disable Error Handling In Block (unsafe)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/runmode.html",
                 "text": "Function / Module Defaults (runmode)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/trypipe.html",
                 "text": "Pipe Fail (trypipe)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/trypipeerr.html",
                 "text": "Stderr Checking In Pipes (trypipeerr)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/tryerr.html",
                 "text": "Stderr Checking In TTY (tryerr)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/try.html",
                 "text": "Try Block (try)"
             }
@@ -700,18 +850,22 @@
     {
         "children": [
             {
+                "icon": "file-code",
                 "link": "commands/man-summary.html",
                 "text": "Man-Page Summary (man-summary)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/murex-docs.html",
                 "text": "Murex's Offline Documentation (murex-docs)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/man-get-flags.html",
                 "text": "Parse Man-Page For Flags (man-get-flags)"
             },
             {
+                "icon": "file-code",
                 "link": "commands/summary.html",
                 "text": "Set Command Summary Hint (summary)"
             }

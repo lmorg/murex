@@ -1,6 +1,7 @@
 - DocumentID: elvis
   Title: >-
     `?:` Elvis Operator
+  SubCategoryIDs: [ parser.conditionals ]
   CategoryID: parser
   Summary: >-
     Returns the right operand if the left operand is falsy (expression)

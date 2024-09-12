@@ -2,6 +2,7 @@
   Title: >-
     `/=` Divide By Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.assignment ]
   Summary: >-
     Divides a variable by the right hand value (expression)
   Description: |-

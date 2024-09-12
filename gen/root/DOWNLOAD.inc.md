@@ -30,9 +30,11 @@ title: {{ quote $doc.Title }}
 {{ end }}
 ## Download Links
 
-Below are the instructions to download a pre-compiled binary via HTTPS. If you
-wish to install from source or use your preferred package manager, then please
-refer to the {{ if env "DOCGEN_TARGET=vuepress" }}[install](install.md){{ else }}[INSTALL](INSTALL.md){{ end }} page for further instructions.
+Below are the instructions to download a pre-compiled binary via HTTPS.
+
+If you wish to install from source or use your preferred package manager, then
+please refer to the {{ if env "DOCGEN_TARGET=vuepress" }}[install](install.md){{ else }}[INSTALL](INSTALL.md){{ end }}
+page for further instructions.
 
 ### Darwin (macOS)
 

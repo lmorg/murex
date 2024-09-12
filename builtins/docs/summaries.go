@@ -366,7 +366,7 @@ func init() {
 		"user-guide/job-control":          "How to manage jobs with Murex",
 		"user-guide/modules":              "An introduction to Murex modules and packages",
 		"user-guide/namedpipes":           "A detailed breakdown of named pipes in Murex",
-		"user-guide/operators-and-tokens": "A table of all supported operators and tokens",
+		"user-guide/operators-and-tokens": "All supported operators and tokens",
 		"user-guide/pipeline":             "Overview of what a \"pipeline\" is",
 		"user-guide/profile":              "A breakdown of the different files loaded on start up",
 		"user-guide/reserved-vars":        "Special variables reserved by Murex",

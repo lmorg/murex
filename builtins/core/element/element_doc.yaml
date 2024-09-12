@@ -2,7 +2,7 @@
   Title: >+
     Get Nested Element (`[[ Element ]]`)
   CategoryID: parser
-  SubCategoryIDs: [ commands.struct ]
+  SubCategoryIDs: [ commands.struct, parser.data ]
   Summary: >-
     Outputs an element from a nested structure
   Description: |-

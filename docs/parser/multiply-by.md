@@ -48,7 +48,7 @@ value op value**, for example:
 * [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
 * [`*` Multiplication Operator](../parser/multiplication.md):

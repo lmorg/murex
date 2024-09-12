@@ -54,7 +54,7 @@ output of `msort` into another builtin:
 
 ## See Also
 
-* [Alter Data Structure (`alter`)](../commands/alter.md):
+* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [Append To List (`append`)](../commands/append.md):
   Add data to the end of an array
