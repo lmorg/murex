@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ "1.22" ]
+        go-version: [ "1.23" ]
     env:
       MUREX_TEST_NO_EXEC_DEPS: true
     steps:

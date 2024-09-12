@@ -72,7 +72,7 @@
     
     * `count` should check if it is a method
     
-    * AST cache now checked more regukarly. This is to reduce the risk of memory leaks during fuzz or load testing
+    * AST cache now checked more regularly. This is to reduce the risk of memory leaks during fuzz or load testing
     
     * `murex-docs` still referred to `len` builtin. That should be changed to `count`
     

@@ -28,7 +28,7 @@ func createDirIfNotExist(dir string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0755)
 		if err != nil {
-			_, err = os.Stderr.WriteString("WARNING: temp directory doesn't exist and unable to create it. This might cause problems.\nTemp directory: " + dir)
+			_, err = os.Stderr.WriteString("!!! WARNING: temp directory doesn't exist and unable to create it. This might cause problems.\nTemp directory: " + dir)
 
 			if err != nil {
 				panic("Unable to create tmp directories, unable to write to STDERR. Something is amiss")

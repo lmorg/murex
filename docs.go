@@ -1,3 +1,7 @@
+//go:generate go build -v github.com/lmorg/murex/utils/docgen
+//go:generate ./docgen -warning -panic -config gen/docgen.yaml
+//go:generate go fmt builtins/docs/summaries.go
+
 package main
 
 import (

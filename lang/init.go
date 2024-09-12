@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
@@ -59,6 +60,7 @@ func InitEnv() {
 	ShellProcess.Done = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Forks = NewForkManagement()
+	ShellProcess.SystemProcess = process.NewSystemProcessStruct()
 
 	switch {
 	case FlagTry:
@@ -117,6 +119,7 @@ func NewTestProcess() (p *Process) {
 	p.Next = ShellProcess
 	p.Previous = ShellProcess
 	p.Forks = NewForkManagement()
+	p.SystemProcess = process.NewSystemProcessStruct()
 
 	GlobalFIDs.Register(p)
 

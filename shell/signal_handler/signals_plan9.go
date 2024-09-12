@@ -1,7 +1,7 @@
 //go:build plan9
 // +build plan9
 
-package shell
+package signalhandler
 
 import (
 	"os"
@@ -9,9 +9,9 @@ import (
 	"syscall"
 )
 
-// SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).
-func SignalHandler(interactive bool) {
-	signalRegister(interactive)
+// EventLoop is an internal function to capture and handle OS signals (eg SIGTERM).
+func EventLoop(interactive bool) {
+	Register(interactive)
 
 	go func() {
 		for {
@@ -19,10 +19,10 @@ func SignalHandler(interactive bool) {
 			switch sig.String() {
 
 			case syscall.SIGINT.String():
-				sigint(interactive)
+				Handlers.Sigint(interactive)
 
 			case syscall.SIGTERM.String():
-				sigterm(interactive)
+				Handlers.Sigterm(interactive)
 
 			default:
 				os.Stderr.WriteString("Unhandled signal: " + sig.String())
@@ -31,6 +31,13 @@ func SignalHandler(interactive bool) {
 	}()
 }
 
-func signalRegister(_ bool) {
+func Register(_ bool) {
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+}
+
+var Handlers *SignalFunctionsT
+
+type SignalFunctionsT struct {
+	Sigint  func(bool)
+	Sigterm func(bool)
 }

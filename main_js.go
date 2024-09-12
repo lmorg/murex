@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell"
+	signalhandler "github.com/lmorg/murex/shell/signal_handler"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -120,4 +121,9 @@ func wasmKeyPress() js.Func {
 		promiseConstructor := js.Global().Get("Promise")
 		return promiseConstructor.New(handler)
 	})
+}
+
+func registerSignalHandlers(interactiveMode bool) {
+	signalhandler.Handlers = &signalhandler.SignalFunctionsT{}
+	signalhandler.EventLoop(interactiveMode)
 }
