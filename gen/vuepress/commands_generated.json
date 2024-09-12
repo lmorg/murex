@@ -58,7 +58,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "arrows-turn-to-dots",
+        "icon": "angles-right",
         "text": "Input / Output Streams"
     },
     {
@@ -105,7 +105,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "floppy-disk",
+        "icon": "angles-right",
         "text": "Filesystem Operations"
     },
     {
@@ -162,7 +162,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "server",
+        "icon": "angles-right",
         "text": "Defined by POSIX"
     },
     {
@@ -269,7 +269,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "rectangle-list",
+        "icon": "angles-right",
         "text": "List / Array Editing"
     },
     {
@@ -341,7 +341,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "quote-left",
+        "icon": "angles-right",
         "text": "String Manipulation"
     },
     {
@@ -363,7 +363,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "square-root-variable",
+        "icon": "angles-right",
         "text": "Numeric / Math Tools"
     },
     {
@@ -420,7 +420,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "sitemap",
+        "icon": "angles-right",
         "text": "Structured Data Management"
     },
     {
@@ -452,7 +452,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "table",
+        "icon": "angles-right",
         "text": "Table Management"
     },
     {
@@ -479,7 +479,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "microchip",
+        "icon": "angles-right",
         "text": "System Inspection"
     },
     {
@@ -581,7 +581,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "gear",
+        "icon": "angles-right",
         "text": "Shell / Murex Management"
     },
     {
@@ -613,7 +613,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "code",
+        "icon": "angles-right",
         "text": "String Escaping / Character Codes"
     },
     {
@@ -680,7 +680,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "robot",
+        "icon": "angles-right",
         "text": "Process Management"
     },
     {
@@ -802,7 +802,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "language",
+        "icon": "angles-right",
         "text": "Language And Scripting"
     },
     {
@@ -844,7 +844,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "bomb",
+        "icon": "angles-right",
         "text": "Error Handling"
     },
     {
@@ -871,7 +871,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "lightbulb",
+        "icon": "angles-right",
         "text": "Help and Hint Tools"
     },
     {

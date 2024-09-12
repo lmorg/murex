@@ -35,13 +35,33 @@
             },
             {
                 "icon": "file-code",
+                "link": "commands/cast.html",
+                "text": "Define Type (cast)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/range.html",
+                "text": "Filter By Range [ ..Range ]"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/item-index.html",
+                "text": "Get Item ([ Index ])"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/element.html",
+                "text": "Get Nested Element ([[ Element ]])"
+            },
+            {
+                "icon": "file-code",
                 "link": "parser/assign-or-merge.html",
                 "text": "\u003c~ Assign Or Merge"
             }
         ],
         "collapsible": true,
         "icon": "angles-right",
-        "text": "Merge"
+        "text": "Data Manipulation"
     },
     {
         "children": [
@@ -192,6 +212,26 @@
     },
     {
         "children": [
+            {
+                "icon": "file-code",
+                "link": "commands/cast.html",
+                "text": "Define Type (cast)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/namedpipe.html",
+                "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/stdin.html",
+                "text": "Read From Stdin (\u003cstdin\u003e)"
+            },
+            {
+                "icon": "file-code",
+                "link": "parser/file-truncate.html",
+                "text": "Truncate File (\u003e)"
+            },
             {
                 "icon": "file-code",
                 "link": "parser/pipe-arrow.html",
