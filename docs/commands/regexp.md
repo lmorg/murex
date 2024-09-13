@@ -27,7 +27,6 @@ function separator pattern [ separator parameter2 ]
 
 * _pattern_: regexp pattern
 
-
 * _parameter2_: any extra operations to perform. For example a string to
   replace matched patterns when using the regexp substitution function
 
@@ -184,9 +183,11 @@ Murex regex expressions are based on [Go's stdlib regexp library](https://pkg.go
     x{n,}?         n or more x, prefer fewer
     x{n}?          exactly n x
 
-Implementation restriction: The counting forms x{n,m}, x{n,}, and x{n} reject
-forms that create a minimum or maximum repetition count above 1000. Unlimited
-repetitions are not subject to this restriction.
+#### Implementation restriction
+
+The counting forms `x{n,m}`, `x{n,}`, and `x{n}` reject forms that create a
+minimum or maximum repetition count above 1000. Unlimited repetitions are not
+subject to this restriction.
 
 ### Grouping
 

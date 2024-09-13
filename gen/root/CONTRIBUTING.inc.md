@@ -44,11 +44,17 @@ please do raise a pull request.
 All documentation is written in markdown. Even the website is HTML generated
 from the original markdown documents. And all markdown documents are themselves
 generated from files with the extension `_doc.yaml`. These template files are
-the backbone of the documentation's pseudo-CMS.
+the backbone of the documentation's static site CMS.
 
-If you are unsure where to find a document, you can either `grep` the source
-repository for a known phrase, or ask in the [Github discussions](https://github.com/lmorg/murex/discussions)
-group.
+Each generated markdown file has a footer with a link to the YAML file that it
+was generated from.
+
+You can compile the markdown files by running `go generate` from the root of
+the project directory:
+
+```
+go generate ./...
+```
 
 ### Writing Integrations
 
@@ -62,7 +68,7 @@ aliases or functions defined.
 One of the core tenets of Murex is that it's out-of-the-box experience should
 already be excellent and any customization that happens after is for
 personalization rather than because the default experience is lacking in some
-way. So Murex has made it very easy for you to contribute.
+way. So Murex has made it very easy for you to contribute:
 
 In the root of the project resides the [integrations directory](https://github.com/lmorg/murex/tree/master/integrations).
 Each file in there is compiled into Murex, assuming the following condition is
@@ -87,8 +93,8 @@ These can be raised on our [Github issue tracker](github.com/lmorg/murex/issues)
 ### Committing Code
 
 Murex is written in a language called Go. Not a lot of Murex's code is well
-documented however that was is document can be found in the [API section]({{if env "DOCGEN_TARGET="}}/docs{{end}}/apis) of the
-user guide.
+documented however the stuff that has been documented can be found in the
+[API section]({{if env "DOCGEN_TARGET="}}/docs{{end}}/apis) of the user guide.
 
 ### Blogging
 
