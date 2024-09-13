@@ -33,7 +33,7 @@ var (
 func readFlags() {
 	flag.BoolVar(&fInteractive, "i", false, "Start interactive shell after -c execution")
 	flag.StringVar(&fCommand, "c", "", "Run code block (str)")
-	flag.BoolVar(&fExecute, "execute-as", false, "Execute a command from tokenized parameters (argv[])")
+	flag.BoolVar(&fExecute, "execute", false, "Execute a command from tokenized parameters (argv[])")
 	flag.BoolVar(&fCreateSession, "setsid", false, "Set session ID: POSIX compatibility for job control (this will break support for some of Murex's job control features)")
 	flag.BoolVar(&fLoadMods, "load-modules", false, "Load modules and profile when in non-interactive mode ")
 
