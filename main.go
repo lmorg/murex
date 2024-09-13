@@ -35,7 +35,8 @@ func main() {
 		runCommandString(fCommand)
 
 	case fExecute:
-		executeAs(flag.Args())
+		//executeAs(flag.Args())
+		runCommandString(argvToCmdLineStr(flag.Args()))
 
 	case len(fSource) > 0:
 		runSource(fSource[0])
@@ -118,7 +119,7 @@ func runCommandString(commandString string) {
 	}
 }
 
-func executeAs(argv []string) {
+/*func executeAs(argv []string) {
 	lang.InitEnv()
 
 	// default config
@@ -153,7 +154,7 @@ func executeAs(argv []string) {
 	}
 
 	lang.Exit(lang.ShellProcess.ExitNum)
-}
+}*/
 
 func runSource(filename string) {
 	lang.InitEnv()

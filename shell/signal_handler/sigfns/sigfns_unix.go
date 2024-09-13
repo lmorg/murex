@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
+	"golang.org/x/sys/unix"
 )
 
 func Sigtstp(_ bool) {
@@ -52,19 +53,46 @@ func Sigchld(interactive bool) {
 	}
 
 	p := lang.ForegroundProc.Get()
-	if p.Id == lang.ShellProcess.Id {
+	/*if p.Id == lang.ShellProcess.Id {
 		// Child already exited so we can ignore this signal
 		return
-	}
+	}*/
 
-	var (
-		status syscall.WaitStatus
-		pid    = p.SystemProcess.Pid()
-	)
-
+	pid := p.SystemProcess.Pid()
 	if pid == -1 {
+		// Not a system process
 		return
 	}
+
+	SigchldDarwin(p, pid)
+	/*if runtime.GOOS == "linux" {
+		SigchldLinux(p, pid)
+		return
+	}
+
+	SigchildBsd(p, pid)*/
+}
+
+func SigchldLinux(p *lang.Process, pid int) {
+	var status syscall.WaitStatus
+
+	wpid, err := syscall.Wait4(pid, &status, syscall.WNOHANG|syscall.WUNTRACED, nil)
+	if err != nil {
+		debug.Logf("!!! error in syscall.Wait4(pid: %d, &status, syscall.WNOHANG|syscall.WUNTRACED, nil):\n!!! %v",
+			pid, err)
+	}
+
+	if wpid == 0 {
+		return
+	}
+
+	if status.Stopped() {
+		returnFromSigtstp(p)
+	}
+}
+
+func SigchldDarwin(p *lang.Process, pid int) {
+	var status syscall.WaitStatus
 
 	wpid, err := syscall.Wait4(pid, &status, syscall.WNOHANG|syscall.WUNTRACED, nil)
 	if err != nil {
@@ -78,18 +106,30 @@ func Sigchld(interactive bool) {
 
 	switch {
 	case status.Stopped():
+		//returnFromSigtstp(p)
+	case status.Continued():
 		returnFromSigtstp(p)
+	case status.Signaled():
+		//panic("sig")
+	case status.CoreDump():
+		//panic("dump")
+	case status.Exited():
+		//panic("exit")
+	default:
+		//panic("foobar")
 	}
+}
 
-	/*if p.SystemProcess.State() == nil {
-		sid, err := unix.Getsid(p.SystemProcess.Pid())
+func SigchildBsd(p *lang.Process, pid int) {
+	if p.SystemProcess.State() == nil {
+		sid, err := unix.Getsid(pid)
 		if err != nil {
-			debug.Logf("!!! Sigchld()->unix.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
+			debug.Logf("!!! Sigchld()->unix.Getsid(p.SystemProcess.Pid: %d) failed: %s", pid, err.Error())
 			return
 		}
 
-		debug.Logf("!!! unix.Getsid(p.SystemProcess.Pid: %d) == %d", p.SystemProcess.Pid(), sid)
-		if sid != p.SystemProcess.Pid() {
+		debug.Logf("!!! unix.Getsid(p.SystemProcess.Pid: %d) == %d", pid, sid)
+		if sid != pid {
 			return
 		}
 
@@ -100,14 +140,12 @@ func Sigchld(interactive bool) {
 			return
 		}
 
-		if err = p.SystemProcess.Signal(syscall.Signal(0)); err != nil {
-			returnFromSigtstp(p)
-		}
+		returnFromSigtstp(p)
 
 		return
 	}
 
-	if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
+	/*if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
 		return // TODO: eventually we should have a clean up of old PIDs
 	}*/
 }
