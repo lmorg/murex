@@ -10,6 +10,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
@@ -53,14 +54,9 @@ func Sigchld(interactive bool) {
 	}
 
 	p := lang.ForegroundProc.Get()
-	/*if p.Id == lang.ShellProcess.Id {
-		// Child already exited so we can ignore this signal
-		return
-	}*/
 
 	pid := p.SystemProcess.Pid()
-	if pid == -1 {
-		// Not a system process
+	if pid == process.NOT_A_SYSTEM_PROCESS {
 		return
 	}
 

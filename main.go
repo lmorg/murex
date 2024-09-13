@@ -35,7 +35,6 @@ func main() {
 		runCommandString(fCommand)
 
 	case fExecute:
-		//executeAs(flag.Args())
 		runCommandString(argvToCmdLineStr(flag.Args()))
 
 	case len(fSource) > 0:
@@ -118,43 +117,6 @@ func runCommandString(commandString string) {
 		shell.Start()
 	}
 }
-
-/*func executeAs(argv []string) {
-	lang.InitEnv()
-
-	// default config
-	defaults.Config(lang.ShellProcess.Config, fInteractive)
-	registerSignalHandlers(fInteractive)
-
-	// compiled profile
-	defaultProfile()
-
-	// load modules and profile
-	if fLoadMods {
-		profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
-	}
-
-	// read block from command line parameters
-	term.OutSetDataTypeIPC()
-
-	err := lang.ShellProcess.Config.Set("proc", "force-tty", true, lang.ShellProcess.FileRef)
-	if err != nil {
-		panic(err)
-	}
-
-	lang.ShellProcess.Name.Set(argv[0])
-	lang.ShellProcess.Parameters.DefineParsed(argv[1:])
-
-	err = lang.External(lang.ShellProcess)
-	if err != nil {
-		_, err = os.Stdout.WriteString(err.Error())
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	lang.Exit(lang.ShellProcess.ExitNum)
-}*/
 
 func runSource(filename string) {
 	lang.InitEnv()

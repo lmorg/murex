@@ -61,6 +61,8 @@ func (sp *SystemProcess) Kill() error {
 	return errNotDefined
 }
 
+const NOT_A_SYSTEM_PROCESS = -1
+
 func (sp *SystemProcess) Pid() int {
 	sp.mutex.Lock()
 	defer sp.mutex.Unlock()
@@ -68,7 +70,7 @@ func (sp *SystemProcess) Pid() int {
 	if sp.inheritance != nil {
 		return sp.inheritance.Pid()
 	}
-	return -1
+	return NOT_A_SYSTEM_PROCESS
 }
 
 func (sp *SystemProcess) ExitNum() int {
