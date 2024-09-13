@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
-	"golang.org/x/sys/unix"
 )
 
 func Sigtstp(_ bool) {
@@ -53,14 +52,36 @@ func Sigchld(interactive bool) {
 	}
 
 	p := lang.ForegroundProc.Get()
-	//debug.Logf("!!! Sigchld(fid: %d)->session.UnixIsSession(fid: %d, pid: %d): %s %s", lang.ShellProcess.Id, p.Id, os.Getpid()) //, p, p.Parameters.StringAll())
 	if p.Id == lang.ShellProcess.Id {
 		// Child already exited so we can ignore this signal
 		return
 	}
 
-	//debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d) == %v", p.SystemProcess.Pid(), p.SystemProcess.State())
-	if p.SystemProcess.State() == nil {
+	var (
+		status syscall.WaitStatus
+		pid    = p.SystemProcess.Pid()
+	)
+
+	if pid == -1 {
+		return
+	}
+
+	wpid, err := syscall.Wait4(pid, &status, syscall.WNOHANG|syscall.WUNTRACED, nil)
+	if err != nil {
+		debug.Logf("!!! error in syscall.Wait4(pid: %d, &status, syscall.WNOHANG|syscall.WUNTRACED, nil):\n!!! %v",
+			pid, err)
+	}
+
+	if wpid == 0 {
+		return
+	}
+
+	switch {
+	case status.Stopped():
+		returnFromSigtstp(p)
+	}
+
+	/*if p.SystemProcess.State() == nil {
 		sid, err := unix.Getsid(p.SystemProcess.Pid())
 		if err != nil {
 			debug.Logf("!!! Sigchld()->unix.Getsid(p.SystemProcess.Pid: %d) failed: %s", p.SystemProcess.Pid(), err.Error())
@@ -72,21 +93,23 @@ func Sigchld(interactive bool) {
 			return
 		}
 
+		// on macOS, Sigchld seems to get called multiple times when a process
+		// is stopped. This is likely a bug in Murex, but the following line
+		// code avoids any side effects regardless of the root cause.
 		if p.State.Get() == state.Stopped {
 			return
 		}
 
-		//debug.Log("!!! calling returnFromSigtstp(p)")
-		returnFromSigtstp(p)
-		//debug.Log("!!! returned from returnFromSigtstp(p)")
+		if err = p.SystemProcess.Signal(syscall.Signal(0)); err != nil {
+			returnFromSigtstp(p)
+		}
 
 		return
 	}
 
 	if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
-		//debug.Logf("!!! Sigchld()->p.SystemProcess.State(pid: %d).Sys().(syscall.WaitStatus).Exited() == true", os.Getpid())
-		return
-	}
+		return // TODO: eventually we should have a clean up of old PIDs
+	}*/
 }
 
 func stopStatus(p *lang.Process) {
