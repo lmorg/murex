@@ -1,7 +1,7 @@
 if { which helix } then {
     summary helix "Helix: a post-modern text editor"
 
-    alias helix=exec $MUREX_EXE -quiet -setsid -execute-as exec helix
+    alias helix=exec $MUREX_EXE -quiet -setsid -execute exec helix
 }
 
 if { which hx } then {

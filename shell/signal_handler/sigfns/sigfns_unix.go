@@ -5,6 +5,7 @@ package sigfns
 
 import (
 	"fmt"
+	"runtime"
 	"syscall"
 
 	"github.com/lmorg/murex/debug"
@@ -12,7 +13,6 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
-	"golang.org/x/sys/unix"
 )
 
 func Sigtstp(_ bool) {
@@ -64,13 +64,12 @@ func Sigchld(interactive bool) {
 		return
 	}
 
-	SigchldDarwin(p, pid)
-	/*if runtime.GOOS == "linux" {
+	if runtime.GOOS == "linux" {
 		SigchldLinux(p, pid)
 		return
 	}
 
-	SigchildBsd(p, pid)*/
+	SigchildBsd(p, pid)
 }
 
 func SigchldLinux(p *lang.Process, pid int) {
@@ -91,7 +90,7 @@ func SigchldLinux(p *lang.Process, pid int) {
 	}
 }
 
-func SigchldDarwin(p *lang.Process, pid int) {
+func SigchildBsd(p *lang.Process, pid int) {
 	var status syscall.WaitStatus
 
 	wpid, err := syscall.Wait4(pid, &status, syscall.WNOHANG|syscall.WUNTRACED, nil)
@@ -105,49 +104,9 @@ func SigchldDarwin(p *lang.Process, pid int) {
 	}
 
 	switch {
-	case status.Stopped():
-		//returnFromSigtstp(p)
 	case status.Continued():
 		returnFromSigtstp(p)
-	case status.Signaled():
-		//panic("sig")
-	case status.CoreDump():
-		//panic("dump")
-	case status.Exited():
-		//panic("exit")
-	default:
-		//panic("foobar")
 	}
-}
-
-func SigchildBsd(p *lang.Process, pid int) {
-	if p.SystemProcess.State() == nil {
-		sid, err := unix.Getsid(pid)
-		if err != nil {
-			debug.Logf("!!! Sigchld()->unix.Getsid(p.SystemProcess.Pid: %d) failed: %s", pid, err.Error())
-			return
-		}
-
-		debug.Logf("!!! unix.Getsid(p.SystemProcess.Pid: %d) == %d", pid, sid)
-		if sid != pid {
-			return
-		}
-
-		// on macOS, Sigchld seems to get called multiple times when a process
-		// is stopped. This is likely a bug in Murex, but the following line
-		// code avoids any side effects regardless of the root cause.
-		if p.State.Get() == state.Stopped {
-			return
-		}
-
-		returnFromSigtstp(p)
-
-		return
-	}
-
-	/*if p.SystemProcess.State().Sys().(syscall.WaitStatus).Exited() {
-		return // TODO: eventually we should have a clean up of old PIDs
-	}*/
 }
 
 func stopStatus(p *lang.Process) {
