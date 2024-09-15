@@ -2,7 +2,7 @@
 index: true
 title: {{ md .Title }}
 description: {{ quote .Description }}
-category: [[ {{ md .ID }} ]]
+category: {{ .ID }}
 ---
 
 {{ end }}# {{ md .Title }}{{ if .Description }}

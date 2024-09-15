@@ -1,7 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 index: true
 description: {{ quote .Description }}
-category: [ {{ .ID }} ]
+category: {{ .ID }}
 ---
 {{ end}}{{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
