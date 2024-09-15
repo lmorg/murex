@@ -1,9 +1,3 @@
-{{ $doc := doct "" "operators-and-tokens" }}
----
-title: {{ $doc.Title }}
-description: {{ quote $doc.Summary }}
----
-
 {{ fn (file "gen/includes/expr-operators-tokens.inc.md") }}
 
 ## Other Reference Material

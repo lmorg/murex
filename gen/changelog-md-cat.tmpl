@@ -1,12 +1,9 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
-title: {{ md .Title }}
-index: false
+index: true
+title: {{ .Title }}
+description: {{ quote .Description }}
 icon: laptop-code
-category:
-  - Murex
-  - changelog
-tags: [ changelog ]
-tag: [ changelog ]
+category: [ {{ .ID }} ]
 ---
 
 {{ end }}# {{ md .Title }}{{ if .Description }}

@@ -1,6 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 icon: file-lines
 description: {{ quote .Summary }}
+category: [ {{ .CategoryID }} ]
 ---
 
 {{ end }}# {{ md .Title }}

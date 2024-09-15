@@ -23,7 +23,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Modifiers"
     },
     {
@@ -60,7 +60,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Data Manipulation"
     },
     {
@@ -92,7 +92,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Assignment"
     },
     {
@@ -109,7 +109,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Conditionals"
     },
     {
@@ -131,7 +131,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Sigils"
     },
     {
@@ -168,7 +168,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Constants"
     },
     {
@@ -190,7 +190,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Sub-Shells"
     },
     {
@@ -207,7 +207,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Boolean Operations"
     },
     {
@@ -254,7 +254,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Pipes"
     },
     {

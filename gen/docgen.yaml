@@ -140,7 +140,7 @@ Categories:
     - OutputPath: docs/parser
       CategoryFile: README.md
       OutputExt: .md
-      CategoryTemplate: gen/murex-md-cat.tmpl
+      CategoryTemplate: gen/parser-md-cat.tmpl
       DocumentTemplate: gen/parser-md-doc.tmpl
 
     - OutputPath: gen/vuepress

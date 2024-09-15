@@ -1,10 +1,5 @@
-# Parser Reference
 
-
----
-title: Operators And Tokens
-description: "All supported operators and tokens"
----
+# Operators And Tokens
 
 <h2>Table of Contents</h2>
 

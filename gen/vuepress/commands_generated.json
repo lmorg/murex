@@ -58,7 +58,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Input / Output Streams"
     },
     {
@@ -105,7 +105,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Filesystem Operations"
     },
     {
@@ -162,7 +162,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Defined by POSIX"
     },
     {
@@ -269,7 +269,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "List / Array Editing"
     },
     {
@@ -341,7 +341,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "String Manipulation"
     },
     {
@@ -363,7 +363,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Numeric / Math Tools"
     },
     {
@@ -420,7 +420,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Structured Data Management"
     },
     {
@@ -452,7 +452,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Table Management"
     },
     {
@@ -479,7 +479,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "System Inspection"
     },
     {
@@ -581,7 +581,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Shell / Murex Management"
     },
     {
@@ -613,7 +613,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "String Escaping / Character Codes"
     },
     {
@@ -680,7 +680,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Process Management"
     },
     {
@@ -802,7 +802,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Language And Scripting"
     },
     {
@@ -844,7 +844,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Error Handling"
     },
     {
@@ -871,7 +871,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "folder-open",
+        "icon": "folder-closed",
         "text": "Help and Hint Tools"
     },
     {
