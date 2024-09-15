@@ -1,6 +1,8 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 title: {{ md .Title }}
+description: {{ quote .Description }}
 index: true
+icon: book
 category: {{ .ID }}
 ---
 
