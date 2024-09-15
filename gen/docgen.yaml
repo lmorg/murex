@@ -253,6 +253,7 @@ Categories:
       CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
 
+  # integrations
   - ID: integrations
     Title: Integrations
     Description:

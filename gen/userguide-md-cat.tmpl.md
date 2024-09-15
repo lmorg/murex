@@ -1,8 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 title: {{ md .Title }}
 index: true
-category:
-  - {{ md .ID }}
+category: [ {{ md .ID }} ]
 ---
 
 {{ end }}<h1>{{ md .Title }}</h1>{{ if .Description }}
@@ -13,6 +12,7 @@ category:
 
 <div id="toc">
 
+- [category: \[ {{ md .ID }} \]](#category---md-id--)
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
 - [Integrations](#integrations)
