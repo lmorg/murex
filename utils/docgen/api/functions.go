@@ -375,13 +375,13 @@ func vuePressSubMenu(cat *category) []map[string]any {
 				subMenu = append(subMenu, map[string]any{
 					"text": vueTitle(Documents[i].Title),
 					"link": Documents[i].Hierarchy() + ".html",
-					"icon": "file-code",
+					"icon": "file-lines",
 				})
 			}
 		}
 		menu = append(menu, map[string]any{
 			"text":        vueTitle(sub.Title),
-			"icon":        "angles-right", //sub.VueIcon,
+			"icon":        "folder-open", //"angles-right", //sub.VueIcon,
 			"children":    subMenu,
 			"collapsible": true,
 		})
