@@ -31,7 +31,7 @@ wasm_exec.js
 *.test
 *.prof
 *.pprof
-/debug/logfile.go
+*local.*
 
 debug.log
 
