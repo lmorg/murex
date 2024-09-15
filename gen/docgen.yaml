@@ -13,7 +13,7 @@ Categories:
       DocumentTemplate: gen/root-md-doc.tmpl
 
   - ID: commands
-    Title: Command Reference
+    Title: Builtin Commands
     Description: |-
       {{ include "gen/commands-md-cat.inc.md" }}
 

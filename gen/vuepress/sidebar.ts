@@ -41,7 +41,7 @@ export default sidebar({
       collapsible: true,
     },
     {
-      text: "Builtins",
+      text: "Builtin Commands",
       icon: "cubes",
       prefix: "/",
       children: commandsMenu,
@@ -55,7 +55,7 @@ export default sidebar({
       collapsible: true,
     },
     {
-      text: "Variables",
+      text: "Spacial Variables",
       icon: "dollar",
       prefix: "variables/",
       children: "structure",
