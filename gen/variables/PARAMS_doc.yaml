@@ -2,6 +2,7 @@
   Title: >-
     `PARAMS` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.scoped ]
   Summary: >-
     Array of the parameters within a given scope
   Description: |-
@@ -10,7 +11,7 @@
 
     Unlike `$ARGV`, `$PARAMS` does not include the function name.
 
-    This is a reserved variable so it cannot be changed.
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Examples: |-
     ```
     » function example { $PARAMS }

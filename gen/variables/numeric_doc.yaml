@@ -2,12 +2,13 @@
   Title: >-
     Numeric (str)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.scoped ]
   Summary: >-
     Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
   Description: |-
     Variables named `0` and above are the equivalent index value of `@ARGV`.
 
-    These are reserved variable so they cannot be changed.
+    These are {{link "reserved variables" "reserved-vars"}} so they cannot be changed.
   Examples: |-
     ```
     » function example { out $0 $2 }

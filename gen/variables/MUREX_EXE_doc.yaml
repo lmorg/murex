@@ -2,6 +2,7 @@
   Title: >-
     `MUREX_EXE` (path)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved ]
   Summary: >-
     Absolute path to running shell
   Description: |-
@@ -9,7 +10,7 @@
     holds the full path to the running shell. The reason for defining a reserved
     variable is so that the shell path cannot be overridden.
 
-    This is a reserved variable so it cannot be changed.
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Synonyms:
   - murex_exe
   - MUREX_EXE

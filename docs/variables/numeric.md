@@ -6,7 +6,7 @@
 
 Variables named `0` and above are the equivalent index value of `@ARGV`.
 
-These are reserved variable so they cannot be changed.
+These are [reserved variables](/docs/user-guide/reserved-vars.md) so they cannot be changed.
 
 ## Examples
 

@@ -13,9 +13,9 @@ config are persistent within. In Murex, a variable declared inside an `if` or
 `foreach` block will be persistent outside of their blocks as long as you're
 still inside the same function.
 
-Please see scoping document (link below) for more information on scoping.
+Please read the [scoping document](/docs/user-guide/scoping.md) for more information on scoping.
 
-This is a reserved variable so it cannot be changed.
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## Examples
 

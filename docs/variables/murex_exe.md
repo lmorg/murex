@@ -8,7 +8,7 @@
 holds the full path to the running shell. The reason for defining a reserved
 variable is so that the shell path cannot be overridden.
 
-This is a reserved variable so it cannot be changed.
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## Other Reserved Variables
 

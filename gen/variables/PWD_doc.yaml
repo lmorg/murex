@@ -2,6 +2,7 @@
   Title: >-
     `PWD` (path)
   CategoryID: variables
+  SubCategoryIDs: [ vars.posix, vars.env ]
   Summary: >-
     Current working directory
   Description: |-

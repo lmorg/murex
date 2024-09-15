@@ -2,6 +2,7 @@
   Title: >-
     `$.`, Meta Values (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.scoped ]
   Summary: >-
     State information for iteration blocks
   Description: |-

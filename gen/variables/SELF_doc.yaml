@@ -2,6 +2,7 @@
   Title: >-
     `SELF` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.scoped ]
   Summary: >-
     Meta information about the running scope.
   Description: |-
@@ -14,9 +15,9 @@
     `foreach` block will be persistent outside of their blocks as long as you're
     still inside the same function.
 
-    Please see scoping document (link below) for more information on scoping.
+    Please read the {{link "scoping document" "scoping"}} for more information on scoping.
 
-    This is a reserved variable so it cannot be changed.
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Examples: |-
     ```
     » function example { $SELF }

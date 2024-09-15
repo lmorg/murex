@@ -10,7 +10,7 @@ Some characters might be more than or less than 1 (one) cell in width, such
 as Chinese logograms and zero-width joiners. Whereas one ASCII character is
 the same width as one terminal cell.
 
-This is a reserved variable so it cannot be changed.
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## Other Reserved Variables
 

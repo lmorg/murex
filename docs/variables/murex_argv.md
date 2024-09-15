@@ -7,6 +7,8 @@
 `MUREX_ARGV` returns an array of the command name and parameters passed to
 the current running Murex shell
 
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
+
 ## Examples
 
 ```

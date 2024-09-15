@@ -55,7 +55,7 @@ export default sidebar({
       collapsible: true,
     },
     {
-      text: "Spacial Variables",
+      text: "Special Variables",
       icon: "dollar",
       prefix: "variables/",
       children: "structure",

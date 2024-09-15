@@ -7,7 +7,7 @@
 `HOSTNAME` returns the hostname of the machine (host / server / virtual machine
 / et al) that Murex is running from.
 
-This is a reserved variable so it cannot be changed.
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## Other Reserved Variables
 

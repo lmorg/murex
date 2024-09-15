@@ -9,7 +9,7 @@ scope. eg `function`, `private`, `autocomplete` or shell script.
 
 Unlike `$PARAMS`, `$ARGV` includes the function name.
 
-This is a reserved variable so it cannot be changed.
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## Examples
 

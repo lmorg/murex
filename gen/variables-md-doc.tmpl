@@ -10,7 +10,7 @@ category: {{ .CategoryID }}
 
 ## Description
 
-{{ md (include .Description) }}{{ if .Usage }}
+{{ md (fn (include .Description)) }}{{ if .Usage }}
 
 ## Usage
 

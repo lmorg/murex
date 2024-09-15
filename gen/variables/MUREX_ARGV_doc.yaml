@@ -2,11 +2,14 @@
   Title: >-
     `MUREX_ARGV` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved ]
   Summary: >-
     Array of the command name and parameters passed to the current shell
   Description: |-
     `MUREX_ARGV` returns an array of the command name and parameters passed to
     the current running Murex shell
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Examples: |-
     ```
     » murex -trypipe -c '$MUREX_ARGV'

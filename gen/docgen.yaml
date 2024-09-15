@@ -225,6 +225,28 @@ Categories:
       CategoryTemplate: gen/variables-md-cat.tmpl
       DocumentTemplate: gen/variables-md-doc.tmpl
 
+    SubCategories:
+    - ID: vars.env
+      Title: Environmental Variables
+      VueIcon: arrows-turn-to-dots
+      Description: |-
+        Environmental variables are variables held at an operating system level and thus will get passed between running processes.
+    - ID: vars.scoped
+      Title: Scoped Variables
+      VueIcon: arrows-turn-to-dots
+      Description: |-
+        Scoped variables are defined within a specific function's scope. These might be reserved variables but they might also be used to provide structured returns from a particular scope.
+    - ID: vars.posix
+      Title: Defined by POSIX
+      VueIcon: arrows-turn-to-dots
+      Description: |-
+        These are variables defined by POSIX. In general they will be environmental variables, however in some cases Murex will follow the naming convention described in POSIX but return a reserved variable instead.
+    - ID: vars.reserved
+      Title: Reserved Variables
+      VueIcon: arrows-turn-to-dots
+      Description: |-
+        Reserved variables are read only values that are dynamically generated at the point of querying. They behave a little more like functions than variables, albeit the convenience of being called like a variable.
+
   # pipes:
 
   # apis:
