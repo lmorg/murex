@@ -33,9 +33,18 @@ func cmdSendSignal(p *lang.Process) error {
 	}
 
 	proc, err := os.FindProcess(pid)
+	defer release(proc)
 	if err != nil {
 		return err
 	}
 
 	return proc.Signal(interrupts[sig])
+}
+
+func release(proc *os.Process) {
+	err := proc.Release()
+	if err != nil {
+		msg := fmt.Sprintf("!!! Cannot release process: %s", err.Error())
+		lang.ShellProcess.Stderr.Writeln([]byte(msg))
+	}
 }
