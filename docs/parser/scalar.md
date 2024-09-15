@@ -14,11 +14,11 @@ spaces as any other printable character character.
 
 ## Variable Syntax
 
-There are two basic syntaxes. Bare an enclosed.
+There are two basic syntaxes. _Bare_ and _enclosed_.
 
 ### Bare Syntax
 
-Bare syntax looks like the following:
+_Bare_ syntax looks like the following:
 
 ```
 $scalar
@@ -30,13 +30,13 @@ alpha (`a` to `z`, upper and lower case), numeric (`0` to `1`), underscore
 
 ### Enclosed Syntax
 
-Enclosed syntax looks like the following:
+_Enclosed_ syntax looks like the following:
 
 ```
 $(scalar)
 ```
 
-Enclosed syntax supports any unicode characters however the variable name
+_Enclosed_ syntax supports any unicode characters however the variable name
 needs to be surrounded by parenthesis. See examples below.
 
 

@@ -411,7 +411,7 @@ bar
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)

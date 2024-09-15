@@ -71,7 +71,7 @@ This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be
   Special variables reserved by Murex
 * [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array

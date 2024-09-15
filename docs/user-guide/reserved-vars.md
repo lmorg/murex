@@ -34,7 +34,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
   An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 
 <hr/>

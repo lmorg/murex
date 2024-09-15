@@ -281,7 +281,7 @@ bar
   Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)

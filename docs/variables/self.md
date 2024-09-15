@@ -121,7 +121,7 @@ terminal (TTY) or a pipe?)
   Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)

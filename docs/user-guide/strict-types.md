@@ -56,7 +56,7 @@ changing this option will not cause accidental side-effects in other functions.
   Getting started with Murex: a quick tour of the next generation of shell scripting
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 
 <hr/>

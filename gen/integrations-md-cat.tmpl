@@ -2,16 +2,10 @@
 index: true
 icon: puzzle-piece
 title: {{ quote .Title }}
-description: {{ quote $doc.Summary }}
+description: {{ quote .Summary }}
 category: {{ .ID }}
 ---
 
 {{ end }}# {{ .Title }}
 
 {{ include $doc.Description }}
-
-## Pages
-
-{{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
-{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
-  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}

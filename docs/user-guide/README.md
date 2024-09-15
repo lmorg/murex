@@ -64,7 +64,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Expressions can auto-convert types or strictly honour data types
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
 
 ## Operators And Tokens

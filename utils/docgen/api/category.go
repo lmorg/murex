@@ -13,9 +13,12 @@ type category struct {
 	// Name of the category
 	Title string `yaml:"Title"`
 
+	Summary string `yaml:"Summary"`
+
 	// Description of the category
 	Description string `yaml:"Description"`
 
+	// VueIcon is the Font Awesome icon used in VuePress
 	VueIcon string `yaml:"VueIcon"`
 
 	SubCategories []*category `yaml:"SubCategories"`
@@ -33,7 +36,7 @@ func (c *category) SubCategoryByID(id string) (*category, error) {
 	return nil, fmt.Errorf("cannot find a sub-category with the id '%s'", id)
 }
 
-func (c *category) getSubCategoryTitle(id string) string {
+/*func (c *category) getSubCategoryTitle(id string) string {
 	sub, err := c.SubCategoryByID(id)
 	if err != nil {
 		return ""
@@ -49,7 +52,7 @@ func (c *category) getSubCategoryDescription(id string) string {
 	}
 
 	return sub.Description
-}
+}*/
 
 type templates struct {
 	// OutputPath to write the rendered documents
@@ -99,6 +102,7 @@ func (t templates) CategoryValues(docs documents) *categoryValues {
 	return &categoryValues{
 		ID:            t.ref.ID,
 		Title:         t.ref.Title,
+		Summary:       t.ref.Summary,
 		Description:   t.ref.Description,
 		Documents:     dv,
 		DateTime:      dt,
@@ -150,6 +154,7 @@ func (t templates) subCategoryValues(docs documents, cat *category) *categoryVal
 	return &categoryValues{
 		ID:            cat.ID,
 		Title:         cat.Title,
+		Summary:       cat.Summary,
 		Description:   cat.Description,
 		Documents:     dv,
 		DateTime:      dt,
@@ -160,6 +165,7 @@ func (t templates) subCategoryValues(docs documents, cat *category) *categoryVal
 type categoryValues struct {
 	ID            string
 	Title         string
+	Summary       string
 	Description   string
 	Documents     []*documentValues
 	DateTime      []*documentValues

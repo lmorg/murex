@@ -14,6 +14,8 @@ Categories:
 
   - ID: commands
     Title: Builtin Commands
+    Summary: >-
+      Write portable scripts knowing that Murex ships it's own coreutils. Better still, have the power of `jq`, `awk`, `sed` (etc) against any data format you wish (YAML, CSV, etc) and using the same basic syntax and commands
     Description: |-
       {{ include "gen/commands-md-cat.inc.md" }}
 
@@ -111,6 +113,7 @@ Categories:
 
   - ID: mkarray
     Title: mkarray
+    Summary:
     Description:
     Templates:
     - OutputPath: docs/mkarray
@@ -123,6 +126,8 @@ Categories:
 
   - ID: optional
     Title: Optional Builtins Reference
+    Summary: >-
+      {{ include "gen/optionals-md-cat.inc.md" }}
     Description: |-
       {{ include "gen/optionals-md-cat.inc.md" }}
 
@@ -135,6 +140,8 @@ Categories:
 
   - ID: parser
     Title: Parser Reference
+    Summary: >-
+      Murex supports both expressions and statements. Thus you have a flexible language that is both highly readable and yet still concise. No other shell offers the best of both these worlds as well as Murex does
     Description: |-
       {{ include "gen/parser-md-cat.inc.md" }}
   
@@ -194,6 +201,8 @@ Categories:
   # events:
   - ID: events
     Title: events
+    Summary: >-
+      Murex's event system allows for easy and flexible code. You can extend upon the shell in a multitude of ways.
     Description:
     Templates:
     - OutputPath: docs/events
@@ -205,6 +214,8 @@ Categories:
   # types:
   - ID: types
     Title: Data-Type Reference
+    Summary: >-
+      Murex's builtin commands and expressions work consistently across a multitude of different document types, those JSON objects and CSV tables (et al) feel as native as Murex _data-types_, as strings do in Bash, s-expr in LISP and JSON in JavaScript.
     Description: |-
       {{ include "gen/types-md-cat.inc.md" }}
 
@@ -219,6 +230,8 @@ Categories:
 
   - ID: variables
     Title: Special Variables
+    Summary: >-
+      Variables are tokenised, so to avoid accidental bugs caused by (for example) spaces in file names. Enhancements like these are what makes Murex a much safer language than traditional shells
     Description:
     Templates:
     - OutputPath: docs/variables
@@ -254,6 +267,8 @@ Categories:
   # apis:
   - ID: apis
     Title: API Reference
+    Summary: >-
+      These APIs are provided for reference for any developers wishing to write their own Murex builtins. 
     Description: |-
       {{ include "gen/apis-md-cat.inc.md" }}
 
@@ -267,6 +282,8 @@ Categories:
   # user guide:
   - ID: user-guide
     Title: User Guide
+    Summary: >-
+      Murex doesn't just aim to be a well thought out language, the interactive shell boast an excellent out-of-the-box experience with makes other shells feel stone age in comparison
     Description: |-
       This section contains miscellaneous documents on using and configuring the
       shell and Murex's numerous features.
@@ -280,6 +297,8 @@ Categories:
   # integrations
   - ID: integrations
     Title: Integrations
+    Summary: >-
+      Murex aims to provide you with the best support for your wider command line needs, in its "out-of-the-box" configuration
     Description:
     Templates:
     - OutputPath: docs/integrations
@@ -291,8 +310,10 @@ Categories:
   # blog
   - ID: blog
     Title: Blog
+    Summary: >-
+      A collection of Murex related documents and personal thoughts
     Description: |-
-      Collection of Murex related documents and personal thoughts.
+      A collection of Murex related documents and personal thoughts.
     Templates:
     - OutputPath: docs/blog
       CategoryFile: README.md
@@ -303,6 +324,8 @@ Categories:
   # changelog
   - ID: changelog
     Title: Change Log
+    Summary: >-
+      Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. Read more about the latest enhancements and bug fixes
     Description: |-
       Track new features, any breaking changes, and the release history here.
     Templates:

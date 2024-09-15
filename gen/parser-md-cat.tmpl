@@ -1,6 +1,6 @@
 {{ $doc := doct "" "operators-and-tokens" }}{{ if env "DOCGEN_TARGET=vuepress" }}---
 title: {{ $doc.Title }}
-description: {{ quote $doc.Summary }}
+description: {{ quote .Summary }}
 index: true
 category: {{ .ID }}
 ---

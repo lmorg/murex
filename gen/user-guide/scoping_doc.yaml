@@ -1,13 +1,13 @@
 - DocumentID: scoping
   Title: >-
-    Variable and Config Scoping
+    Variable And Config Scoping
   CategoryID: user-guide
   Summary: >-
     How scoping works within Murex
   Description: |-
     ## Description
     
-    A 'scope' in Murex is a collection of code blocks to which variables and
+    A _scope_ in Murex is a collection of code blocks to which variables and
     config are persistent within. In Murex, a variable declared inside an `if` or
     `foreach` block will be persistent outside of their blocks as long as you're
     still inside the same function.
@@ -24,7 +24,7 @@
 
     In here the value is getting set inside an `if` block but its value is is
     retrieved outside of that block. `out` and `set` have different parents but
-    the same scoping.
+    the same _scoping_.
 
     Then lets set **foo** outside of that function and see what happens:
 
@@ -41,16 +41,16 @@
     ```
 
     Despite setting a variable named **foo**, the value inside **example** does not
-    overwrite the value outside **example** because they occupy different scoping.
+    overwrite the value outside **example** because they occupy different _scoping_.
 
     ## What Instantiates A New Scope?
 
-    A new scope is instantiated by anything which resembles a function. This would
-    be code inside events, dynamic autocompletes, open agents, any code blocks
-    defined in `config`, as well as public and private functions too.
+    A new _scope_ is instantiated by anything which resembles a function. This
+    would be code inside events, dynamic autocompletes, open agents, any code
+    blocks defined in `config`, as well as public and private functions too.
 
     Code inside an `if`, `switch`, `foreach` and `source` do not create a new
-    scope. Subshells also do not create a new scope either.
+    _scope_. Sub-shells also do not create a new _scope_ either.
   Synonyms:
   Related:
   - set
