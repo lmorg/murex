@@ -1,5 +1,11 @@
 [
     {
+        "icon": "file-lines",
+        "index": true,
+        "link": "/commands/",
+        "text": "Builtin Commands"
+    },
+    {
         "children": [
             {
                 "icon": "file-lines",
@@ -875,14 +881,17 @@
         "text": "Help and Hint Tools"
     },
     {
+        "icon": "file-lines",
         "link": "commands/die.html",
         "text": "die"
     },
     {
+        "icon": "file-lines",
         "link": "commands/let.html",
         "text": "let"
     },
     {
+        "icon": "file-lines",
         "link": "commands/murex-parser.html",
         "text": "murex-parser"
     }

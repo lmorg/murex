@@ -337,24 +337,39 @@ func funcFunctions(s string) string {
  * VuePress *
  ************/
 
+const (
+	_VUE_TEXT        = "text"
+	_VUE_LINK        = "link"
+	_VUE_ICON        = "icon"
+	_VUE_INDEX       = "index"
+	_VUE_CHILDREN    = "children"
+	_VUE_COLLAPSIBLE = "collapsible"
+)
+
 // Takes: string, category ID
 // Returns: JSON string
 func funcVuePressMenu(catID string) string {
-	//var menu vuePressMenuItem
 	cat := Config.Categories.ByID(catID)
 	if cat == nil {
 		panic(fmt.Sprintf("cannot find category with ID '%s'", catID))
 	}
 
-	menu := vuePressSubMenu(cat)
+	index := map[string]any{
+		_VUE_TEXT:  vueTitle(cat.Title),
+		_VUE_ICON:  "file-lines",
+		_VUE_INDEX: true,
+		_VUE_LINK:  fmt.Sprintf("/%s/", cat.ID),
+	}
+	menu := append([]map[string]any{index}, vuePressSubMenu(cat)...)
 
 	for i := range Documents {
 		if Documents[i].CategoryID != cat.ID || len(Documents[i].SubCategoryIDs) > 0 {
 			continue
 		}
 		menu = append(menu, map[string]any{
-			"text": vueTitle(Documents[i].Title),
-			"link": Documents[i].Hierarchy() + ".html",
+			_VUE_TEXT: vueTitle(Documents[i].Title),
+			_VUE_LINK: Documents[i].Hierarchy() + ".html",
+			_VUE_ICON: "file-lines", //cat.VueIcon,
 		})
 	}
 
@@ -373,17 +388,17 @@ func vuePressSubMenu(cat *category) []map[string]any {
 		for i := range Documents {
 			if Documents[i].IsInSubCategory(sub.ID) {
 				subMenu = append(subMenu, map[string]any{
-					"text": vueTitle(Documents[i].Title),
-					"link": Documents[i].Hierarchy() + ".html",
-					"icon": "file-lines",
+					_VUE_TEXT: vueTitle(Documents[i].Title),
+					_VUE_LINK: Documents[i].Hierarchy() + ".html",
+					_VUE_ICON: "file-lines",
 				})
 			}
 		}
 		menu = append(menu, map[string]any{
-			"text":        vueTitle(sub.Title),
-			"icon":        "folder-closed", //"angles-right", //sub.VueIcon,
-			"children":    subMenu,
-			"collapsible": true,
+			_VUE_TEXT:        vueTitle(sub.Title),
+			_VUE_ICON:        "folder-closed", //"angles-right", //sub.VueIcon,
+			_VUE_CHILDREN:    subMenu,
+			_VUE_COLLAPSIBLE: true,
 		})
 	}
 

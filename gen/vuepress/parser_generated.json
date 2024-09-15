@@ -1,5 +1,11 @@
 [
     {
+        "icon": "file-lines",
+        "index": true,
+        "link": "/parser/",
+        "text": "Parser Reference"
+    },
+    {
         "children": [
             {
                 "icon": "file-lines",
@@ -258,10 +264,12 @@
         "text": "Pipes"
     },
     {
+        "icon": "file-lines",
         "link": "parser/equ.html",
         "text": "= (arithmetic evaluation)"
     },
     {
+        "icon": "file-lines",
         "link": "parser/pipe-err.html",
         "text": "? stderr Pipe"
     }
