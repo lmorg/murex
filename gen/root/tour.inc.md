@@ -77,8 +77,8 @@ and UNIX over the last 50 years.
 {{ end }}
 
 Murex doesn't just aim to be a well thought out language, the interactive shell
-boast an excellent out-of-the-box experience with makes other shells feel stone
-age in comparison.
+boasts an excellent out-of-the-box experience which makes other shells feel
+stone age in comparison.
 
 If you want to learn more about the interactive shell then there is a dedicated
 document detailing {{ link "Murex's REPL features" "interactive-shell" }}.

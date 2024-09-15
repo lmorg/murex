@@ -283,7 +283,7 @@ Categories:
   - ID: user-guide
     Title: User Guide
     Summary: >-
-      Murex doesn't just aim to be a well thought out language, the interactive shell boast an excellent out-of-the-box experience with makes other shells feel stone age in comparison
+      Murex doesn't just aim to be a well thought out language, the interactive shell boasts an excellent out-of-the-box experience which makes other shells feel stone age in comparison
     Description: |-
       This section contains miscellaneous documents on using and configuring the
       shell and Murex's numerous features.
