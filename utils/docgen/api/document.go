@@ -5,6 +5,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/lmorg/murex/utils/lists"
 )
 
 // Document is the catalogue of config files found in the search path
@@ -129,7 +131,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		CategoryID:          d.CategoryID,
 		CategoryTitle:       t.ref.Title,
 		CategoryDescription: t.ref.Description,
-		SubCategories:       documentSubCategories(t.ref),
+		SubCategories:       documentSubCategories(d),
 		Summary:             d.Summary,
 		Description:         d.Description,
 		Usage:               d.Usage,
@@ -200,14 +202,19 @@ type documentValuesSubCats struct {
 	Description string
 }
 
-func documentSubCategories(cat *category) []documentValuesSubCats {
+func documentSubCategories(d *document) []documentValuesSubCats {
 	var subs []documentValuesSubCats
-	for _, c := range cat.SubCategories {
-		subs = append(subs, documentValuesSubCats{
-			ID:          c.ID,
-			Title:       c.Title,
-			Description: c.Description,
-		})
+	for _, cat := range Config.Categories {
+		for _, sub := range cat.SubCategories {
+			if !lists.Match(d.SubCategoryIDs, sub.ID) {
+				continue
+			}
+			subs = append(subs, documentValuesSubCats{
+				ID:          sub.ID,
+				Title:       sub.Title,
+				Description: sub.Description,
+			})
+		}
 	}
 	return subs
 }

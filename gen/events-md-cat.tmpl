@@ -2,7 +2,7 @@
 index: true
 title: {{ .Title }}
 description: {{ quote .Summary }}
-category: {{ .ID }}
+category: {{ .Title }}
 ---
 {{ end}}{{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):

@@ -7,7 +7,7 @@ shell and Murex's numerous features.
 
 <div id="toc">
 
-- [category: user-guide](#category--id-)
+- [category: User Guide](#category--title-)
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
 - [Integrations](#integrations)

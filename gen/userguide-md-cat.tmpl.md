@@ -3,7 +3,7 @@ title: {{ md .Title }}
 description: {{ quote .Summary }}
 index: true
 icon: book
-category: {{ .ID }}
+category: {{ .Title }}
 ---
 
 {{ end }}<h1>{{ md .Title }}</h1>{{ if .Description }}
@@ -14,7 +14,7 @@ category: {{ .ID }}
 
 <div id="toc">
 
-- [category: {{ .ID }}](#category--id-)
+- [category: {{ .Title }}](#category--title-)
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
 - [Integrations](#integrations)

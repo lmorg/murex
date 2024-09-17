@@ -36,24 +36,6 @@ func (c *category) SubCategoryByID(id string) (*category, error) {
 	return nil, fmt.Errorf("cannot find a sub-category with the id '%s'", id)
 }
 
-/*func (c *category) getSubCategoryTitle(id string) string {
-	sub, err := c.SubCategoryByID(id)
-	if err != nil {
-		return ""
-	}
-
-	return sub.Title
-}
-
-func (c *category) getSubCategoryDescription(id string) string {
-	sub, err := c.SubCategoryByID(id)
-	if err != nil {
-		return ""
-	}
-
-	return sub.Description
-}*/
-
 type templates struct {
 	// OutputPath to write the rendered documents
 	OutputPath string `yaml:"OutputPath"`
