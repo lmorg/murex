@@ -4,7 +4,14 @@
 
 ## Description
 
-The tilde token is used as a lazy reference to the users home directory.
+The tilde token is used as a convenience shortcut to users home directory.
+
+By itself, `~` will point to the current users home directory.
+
+If a username follows, eg `~joe.bloggs`, then the home directory for that user
+is returned irrespective of who is presently logged in. Characters supported by
+tilde usernames are alpha upper and lower case, numeric, underscore, full stop
+(period), and hyphens.
 
 
 
@@ -41,6 +48,8 @@ Assuming "foobar" isn't a valid local user:
 
 ## Detail
 
+### Infixing
+
 Tilde can be expanded inside double quotes, brace quotes as well as used naked.
 But it cannot be expanded inside single quotes.
 
@@ -56,6 +65,16 @@ But it cannot be expanded inside single quotes.
 
 » out %(~)
 /home/bob
+```
+
+### Error Handling
+
+If a username is supplied that that user doesn't exist, the tilde will raise an
+error. For example:
+
+```
+» ~joe.bloggs
+Error in `expr` (0,1): cannot expand variable `~joe.bloggs`: user: unknown user joe.bloggs
 ```
 
 ## See Also
@@ -78,6 +97,8 @@ But it cannot be expanded inside single quotes.
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
+* [`HOME` (path)](../variables/home.md):
+  Return the home directory for the current session user
 * [`string` (stringing)](../types/str.md):
   string (primitive)
 

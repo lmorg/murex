@@ -30,7 +30,7 @@
   - argv
   - set
   - json
-  - string
+  - str
   - array
   - function
   - private

@@ -1,0 +1,24 @@
+- DocumentID: home
+  Title: >-
+    `HOME` (path)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.posix ]
+  Summary: >-
+    Return the home directory for the current session user
+  Description: |-
+    `$HOME` returns the home directory for the current session user.
+
+    This variable duplicates functionality from `~` and thus is only provided for
+    POSIX support.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail:
+  Synonyms:
+  - home
+  - HOME
+  Related:
+  - path
+  - reserved-vars
+  - tilde
+
+

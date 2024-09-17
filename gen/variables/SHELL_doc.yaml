@@ -20,6 +20,6 @@
   - SHELL
   Related:
   - murex_exe
-  - string
+  - str
   - export
   

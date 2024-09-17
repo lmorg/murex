@@ -17,9 +17,8 @@
   - columns
   - COLUMNS
   Related:
-  - str
-  - set
-  - string
+  - int
   - reserved-vars
   - interactive-shell
+  - lines
 

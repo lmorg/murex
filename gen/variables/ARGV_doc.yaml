@@ -41,7 +41,7 @@
   Related:
   - params
   - json
-  - string
+  - str
   - array
   - set
   - function

@@ -1,24 +1,37 @@
-# `MUREX_ARGV` (json)
+# `OLDPWD` (path)
 
-> Array of the command name and parameters passed to the current shell
+> Return the home directory for the current session user
 
 ## Description
 
-`MUREX_ARGV` returns an array of the command name and parameters passed to
-the current running Murex shell
+`OLDPWD` return the previous directory.
+
+This variable exists to support POSIX, however the idiomatic way to access this
+same data is via `$PWDHIST`.
 
 This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
-## Examples
+## Detail
+
+### Comparison With PWDHIST
+
+`PWDHIST` is an array that holds the entire `PWD` history rather than just the
+previously accessed path.
+
+`OLDPWD` reads `PWDHIST`, so if `PWDHIST` is overwritten, this will affect the
+value of `OLDPWD` as well.
+
+### Error Handling
+
+If a previous directory cannot be determined, then `OLDPWD` will error. For
+example:
 
 ```
-» murex -trypipe -c '$MUREX_ARGV'
-[
-    "murex",
-    "-trypipe",
-    "-c",
-    "$MUREX_ARGV"
-]
+» cd $OLDPWD
+Error in `cd` (0,1): cannot assign value to $OLDPWD: already at oldest entry in $PWDHIST
+                   > Expression: cd $OLDPWD
+                   >           :          ^
+                   > Character : 9
 ```
 
 ## Other Reserved Variables
@@ -62,17 +75,15 @@ This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be
 
 ## See Also
 
-* [`@Array` Sigil](../parser/array.md):
-  Expand values as an array
-* [`ARGV` (json)](../variables/argv.md):
-  Array of the command name and parameters within a given scope
-* [`MUREX_EXE` (path)](../variables/murex_exe.md):
-  Absolute path to running shell
-* [`PARAMS` (json)](../variables/params.md):
-  Array of the parameters within a given scope
-* [`json`](../types/json.md):
-  JavaScript Object Notation (JSON)
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
+* [`PWDHIST` (json)](../variables/pwdhist.md):
+  History of each change to the sessions working directory
+* [`PWD` (path)](../variables/pwd.md):
+  Current working directory
+* [`path`](../types/path.md):
+  Structured object for working with file and directory paths
 
 <hr/>
 
-This document was generated from [gen/variables/MUREX_ARGV_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/MUREX_ARGV_doc.yaml).
+This document was generated from [gen/variables/OLDPWD_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/OLDPWD_doc.yaml).

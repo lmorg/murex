@@ -31,7 +31,7 @@
   - argv
   - params
   - set
-  - string
+  - str
   - function
   - private
   - autocomplete

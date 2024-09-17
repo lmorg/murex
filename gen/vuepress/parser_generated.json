@@ -3,7 +3,7 @@
         "icon": "file-lines",
         "index": true,
         "link": "/parser/",
-        "text": "Parser Reference"
+        "text": "Operators And Tokens"
     },
     {
         "children": [
@@ -116,7 +116,7 @@
         ],
         "collapsible": true,
         "icon": "folder-closed",
-        "text": "Conditionals"
+        "text": "Conditionals \u0026 Boolean"
     },
     {
         "children": [
@@ -198,23 +198,6 @@
         "collapsible": true,
         "icon": "folder-closed",
         "text": "Sub-Shells"
-    },
-    {
-        "children": [
-            {
-                "icon": "file-lines",
-                "link": "parser/logical-and.html",
-                "text": "\u0026\u0026 And Logical Operator"
-            },
-            {
-                "icon": "file-lines",
-                "link": "parser/logical-or.html",
-                "text": "|| Or Logical Operator"
-            }
-        ],
-        "collapsible": true,
-        "icon": "folder-closed",
-        "text": "Boolean Operations"
     },
     {
         "children": [

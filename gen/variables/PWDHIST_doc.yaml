@@ -27,7 +27,6 @@
   - path
   - json
   - pwd
-  - string
   - array
   - set
   - cd
@@ -35,3 +34,4 @@
   - pipeline
   - modules
   - reserved-vars
+  - oldpwd

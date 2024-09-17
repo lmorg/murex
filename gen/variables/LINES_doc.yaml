@@ -1,0 +1,42 @@
+- DocumentID: lines
+  Title: >-
+    `COLUMNS` (int)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.posix ]
+  Summary: >-
+    Character height of terminal
+  Description: |-
+    `LINES` returns the cell height of the terminal.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail: |-
+      The Murex controlling terminal is assumed to be the terminal. If Stdout cannot
+      be successfully queried for its dimensions, for example Murex is a piped rather
+      than controlling a TTY, then `$LINES` will generate an error:
+
+      ```
+      » exec $MUREX_EXE -c 'out $LINES' -> cat
+      Error in `out` ( 1,1):
+            Command: out $LINES
+            Error: cannot assign value to $LINES: inappropriate ioctl for device
+                > Expression: out $LINES
+                >           :          ^
+                > Character : 9
+      Error in `/Users/laurencemorgan/dev/go/src/github.com/lmorg/murex/murex` (0,1): exit status 1
+      ```
+
+      This error can be caught via `||`, `try` et al.
+  Synonyms:
+  - lines
+  - LINES
+  Related:
+  - int
+  - reserved-vars
+  - interactive-shell
+  - columns
+  - exec
+  - murex_exe
+  - logical-or
+  - try
+
+

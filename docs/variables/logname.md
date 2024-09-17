@@ -1,0 +1,116 @@
+# `LOGNAME` (str)
+
+> Username for the current session (historic)
+
+## Description
+
+`LOGNAME` returns the user name of the current Murex session. It's behaviour is
+identical to `USER`.
+
+> `LOGNAME` is a historical relic. Please use `USER` in your scripts instead.
+
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
+
+## Detail
+
+### USER vs LOGNAME
+
+The `$USER` and `$LOGNAME` environment variables serve similar but slightly
+different purposes. Plus and their distinctions stem from historical and
+compatibility reasons.
+
+1. Historical Context:
+
+   * `$LOGNAME` originates from early AT&T UNIX systems and was intended to
+     hold the user’s login name, particularly for system utilities that relied
+     on it.
+     
+     It has been part of POSIX since early UNIX specifications, which is why it
+     is a required variable in POSIX-compliant systems.
+
+   * `$USER` came from BSD UNIX and was commonly used by shells and more user-
+     focused applications. This variable has been adopted widely in modern
+     systems like Linux to refer to the current user within shell scripts and
+     interactive environments.
+
+2. Functional Difference:
+
+   Both variables typically hold the same value, representing the current
+   user's login name. However, in certain contexts in POSIX environments,
+   (such as running `sudo` from Bash), their behavior may differ:
+     
+   * `$LOGNAME` is more tightly bound to the user who originally logged in,
+
+   * while `$USER` may be altered during a session.
+
+   **With regards to Murex, both variables call the same underlying function
+   and thus will always return the same values under all circumstances.**
+  
+3. Why Two Variables?:
+
+   * In POSIX shells like Bash, the existence of both `$LOGNAME` and `$USER`
+     reflects the integration of features from both AT&T UNIX and BSD UNIX.
+     Although they usually return the same value, POSIX mandates `$LOGNAME`
+     for broader system compatibility, especially with utilities that depend
+     on login information.
+
+   * However with Murex, there isn't any requirement to maintain POSIX
+     compatibility with AT&T UNIX. What's more, neither of these two variables
+     are defined as environmental variables.
+
+     The reason Murex retains supports for `$LOGNAME` as a reserved variable is
+     simply to ensure nobody accidentally uses `$LOGNAME` for any other
+     purposes (such as logging) and then get confused why other utilities might
+     break after they've overwritten the contents of `$LOGNAME`
+
+## Other Reserved Variables
+
+* [Numeric (str)](../variables/numeric.md):
+  Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
+* [`$.`, Meta Values (json)](../variables/meta-values.md):
+  State information for iteration blocks
+* [`ARGV` (json)](../variables/argv.md):
+  Array of the command name and parameters within a given scope
+* [`COLUMNS` (int)](../variables/lines.md):
+  Character height of terminal
+* [`COLUMNS` (int)](../variables/columns.md):
+  Character width of terminal
+* [`EVENT_RETURN` (json)](../variables/event_return.md):
+  Return values for events
+* [`HOME` (path)](../variables/home.md):
+  Return the home directory for the current session user
+* [`HOSTNAME` (str)](../variables/hostname.md):
+  Hostname of the current machine
+* [`LOGNAME` (str)](../variables/logname.md):
+  Username for the current session (historic)
+* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
+  Array of the command name and parameters passed to the current shell
+* [`MUREX_EXE` (path)](../variables/murex_exe.md):
+  Absolute path to running shell
+* [`OLDPWD` (path)](../variables/oldpwd.md):
+  Return the home directory for the current session user
+* [`PARAMS` (json)](../variables/params.md):
+  Array of the parameters within a given scope
+* [`PWDHIST` (json)](../variables/pwdhist.md):
+  History of each change to the sessions working directory
+* [`PWD` (path)](../variables/pwd.md):
+  Current working directory
+* [`SELF` (json)](../variables/self.md):
+  Meta information about the running scope.
+* [`SHELL` (str)](../variables/shell.md):
+  Path of current shell
+* [`USER` (str)](../variables/user.md):
+  Username for the current session
+
+## See Also
+
+* [Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by Murex
+* [`USER` (str)](../variables/user.md):
+  Username for the current session
+* [`str` (string)](../types/str.md):
+  string (primitive)
+
+<hr/>
+
+This document was generated from [gen/variables/LOGNAME_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/variables/LOGNAME_doc.yaml).

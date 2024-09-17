@@ -139,7 +139,7 @@ Categories:
       DocumentTemplate: gen/commands-md-doc.tmpl
 
   - ID: parser
-    Title: Parser Reference
+    Title: Operators And Tokens
     Summary: >-
       Murex supports both expressions and statements. Thus you have a flexible language that is both highly readable and yet still concise. No other shell offers the best of both these worlds as well as Murex does
     Description: |-
@@ -174,7 +174,7 @@ Categories:
       VueIcon: angles-right
       Description:
     - ID: parser.conditionals
-      Title: Conditionals
+      Title: Conditionals & Boolean
       VueIcon: angles-right
       Description:
     - ID: parser.sigils
@@ -187,10 +187,6 @@ Categories:
       Description:
     - ID: parser.subshells
       Title: Sub-Shells
-      VueIcon: angles-right
-      Description:
-    - ID: parser.boolean
-      Title: Boolean Operations
       VueIcon: angles-right
       Description:
     - ID: parser.pipes

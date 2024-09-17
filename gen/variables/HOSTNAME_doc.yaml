@@ -15,7 +15,5 @@
   - HOSTNAME
   Related:
   - str
-  - set
-  - string
   - reserved-vars
 

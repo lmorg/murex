@@ -83,7 +83,7 @@
   - SELF
   Related:
   - json
-  - string
+  - str
   - function
   - scoping
   - pipeline
