@@ -21,10 +21,10 @@ reserved variable, and thus read only, if you require precision and safety.
   State information for iteration blocks
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope
-* [`COLUMNS` (int)](../variables/lines.md):
-  Character height of terminal
 * [`COLUMNS` (int)](../variables/columns.md):
   Character width of terminal
+* [`COLUMNS` (int)](../variables/lines.md):
+  Character height of terminal
 * [`EVENT_RETURN` (json)](../variables/event_return.md):
   Return values for events
 * [`HOME` (path)](../variables/home.md):
@@ -45,10 +45,14 @@ reserved variable, and thus read only, if you require precision and safety.
   History of each change to the sessions working directory
 * [`PWD` (path)](../variables/pwd.md):
   Current working directory
+* [`RANDOM` (int)](../variables/random.md):
+  Return a random 32-bit integer (historical)
 * [`SELF` (json)](../variables/self.md):
   Meta information about the running scope.
 * [`SHELL` (str)](../variables/shell.md):
   Path of current shell
+* [`TMPDIR` (path)](../variables/tmpdir.md):
+  Return the temporary directory
 * [`USER` (str)](../variables/user.md):
   Username for the current session
 

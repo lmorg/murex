@@ -261,7 +261,7 @@ endRange:
 }
 
 func isUserNameChar(r rune) bool {
-	return isBareChar(r) || r == '.' || r == '-'
+	return isBareChar(r) || r == '-'
 }
 
 func (tree *ParserT) parseVarTilde(exec bool) (string, error) {

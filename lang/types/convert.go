@@ -16,7 +16,7 @@ const (
 	// ErrUnexpectedGoType is returned if the Go data type is unhandled
 	ErrUnexpectedGoType = "unexpected Go type"
 
-	errCannotConvertToNumeric = "cannot convert data into the numeric type '%s'"
+	errCannotConvertInterfaceToNumeric = "cannot convert '%T' into the numeric type '%s'"
 )
 
 // ConvertGoType converts a Go lang variable into a murex variable
@@ -172,6 +172,7 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		return v, nil
 
 	case Integer:
+		v = strings.TrimSpace(v)
 		if v == "" {
 			v = "0"
 		}
@@ -183,6 +184,7 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		return int(f), nil
 
 	case Float, Number:
+		v = strings.TrimSpace(v)
 		if v == "" {
 			v = "0"
 		}
@@ -290,10 +292,38 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 		}
 
 	case Integer:
-		return 0, fmt.Errorf(errCannotConvertToNumeric, dataType)
+		s, err := Flatten(v)
+		if err != nil {
+			return 0, fmt.Errorf(errCannotConvertInterfaceToNumeric, v, dataType)
+		}
+
+		s = strings.TrimSpace(s)
+		if s == "" {
+			s = "0"
+		}
+
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return int(f), fmt.Errorf("cannot convert '%s' to an integer: %s", s, err.Error())
+		}
+		return int(f), nil
 
 	case Float, Number:
-		return 0, fmt.Errorf(errCannotConvertToNumeric, dataType)
+		s, err := Flatten(v)
+		if err != nil {
+			return 0, fmt.Errorf(errCannotConvertInterfaceToNumeric, v, dataType)
+		}
+
+		s = strings.TrimSpace(s)
+		if s == "" {
+			s = "0"
+		}
+
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return f, fmt.Errorf("cannot convert '%s' to a floating point number: %s", s, err.Error())
+		}
+		return f, nil
 
 	case Boolean:
 		s := fmt.Sprint(v)

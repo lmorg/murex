@@ -14,8 +14,8 @@
     {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Detail:
   Synonyms:
-  - tmpdir
-  - TMPDIR
+  - random
+  - RANDOM
   Related:
   - int
   - reserved-vars

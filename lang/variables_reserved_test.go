@@ -3,6 +3,7 @@ package lang_test
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"testing"
 
 	"github.com/lmorg/murex/test"
@@ -195,7 +196,7 @@ func TestVarHostname(t *testing.T) {
 	hostname := func() string {
 		s, err := os.Hostname()
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 		return s
 	}
@@ -214,7 +215,7 @@ func TestVarPwd(t *testing.T) {
 	pwd := func() string {
 		s, err := os.Getwd()
 		if err != nil {
-			t.Errorf(err.Error())
+			t.Error(err.Error())
 		}
 		return s
 	}
@@ -223,6 +224,47 @@ func TestVarPwd(t *testing.T) {
 		{
 			Block:  `out $PWD`,
 			Stdout: fmt.Sprintf("%s\n", pwd()),
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestVarUser(t *testing.T) {
+	u, _ := user.Current()
+	userName := u.Username
+	tests := []test.MurexTest{
+		{
+			Block:  `$USER`,
+			Stdout: userName,
+		},
+		{
+			Block:  `$LOGNAME`,
+			Stdout: userName,
+		},
+		/////
+		{
+			Block:  `$USER -> debug -> [[/Data-Type/Murex]]`,
+			Stdout: `str`,
+		},
+		{
+			Block:  `$LOGNAME-> debug -> [[/Data-Type/Murex]]`,
+			Stdout: `str`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestVarRandom(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `i = $RANDOM; if { $i > 0 && $i < 32768 } then { true } else { false }`,
+			Stdout: `true`,
+		},
+		{
+			Block:  `$RANDOM -> debug -> [[/Data-Type/Murex]]`,
+			Stdout: `int`,
 		},
 	}
 

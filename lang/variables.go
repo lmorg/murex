@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/envvars"
+	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 )
@@ -55,25 +56,37 @@ func errVarCannotStoreVariable(name string, err error) error {
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
 const (
-	DOT        = ""
-	SELF       = "SELF"
-	ARGV       = "ARGV"
-	ARGS       = "ARGS"
-	PARAMS     = "PARAMS"
-	MUREX_EXE  = "MUREX_EXE"
-	MUREX_ARGS = "MUREX_ARGS"
-	MUREX_ARGV = "MUREX_ARGV"
-	HOSTNAME   = "HOSTNAME"
-	PWD        = "PWD"
-	ENV        = "ENV"
-	GLOBAL     = "GLOBAL"
-	MODULE     = "MOD"
-	COLUMNS    = "COLUMNS"
+	_VAR_DOT        = ""
+	_VAR_SELF       = "SELF"       // Scope: function
+	_VAR_ARGV       = "ARGV"       // Scope: function
+	_VAR_ARGS       = "ARGS"       // Scope: function
+	_VAR_PARAMS     = "PARAMS"     // Scope: function
+	_VAR_MUREX_EXE  = "MUREX_EXE"  // Scope: global
+	_VAR_MUREX_ARGS = "MUREX_ARGS" // Scope: global
+	_VAR_MUREX_ARGV = "MUREX_ARGV" // Scope: global
+	_VAR_HOSTNAME   = "HOSTNAME"   // Scope: global
+	_VAR_MODULE     = "MOD"        // Scope: module
+	_VAR_GLOBAL     = "GLOBAL"     // Scope: global
+	_VAR_ENV        = "ENV"        // Scope: session (environmental variable)
+	_VAR_PWD        = "PWD"        // POSIX
+	_VAR_OLDPWD     = "OLDPWD"     // POSIX (not tested)
+	_VAR_HOME       = "HOME"       // POSIX (not tested)
+	_VAR_TMPDIR     = "TMPDIR"     // POSIX (not tested)
+	_VAR_COLUMNS    = "COLUMNS"    // POSIX
+	_VAR_LINES      = "LINES"      // POSIX
+	_VAR_RANDOM     = "RANDOM"     // POSIX
+	_VAR_USER       = "USER"       // POSIX
+	_VAR_LOGNAME    = "LOGNAME"    // POSIX
 )
 
 var ReservedVariableNames = []string{
-	SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV,
-	HOSTNAME, PWD, ENV, MODULE, GLOBAL, COLUMNS,
+	_VAR_SELF, _VAR_ARGV, _VAR_ARGS, _VAR_PARAMS,
+	_VAR_MUREX_EXE, _VAR_MUREX_ARGS, _VAR_MUREX_ARGV,
+	_VAR_HOSTNAME,
+	_VAR_MODULE, _VAR_GLOBAL, _VAR_ENV,
+	_VAR_PWD, _VAR_OLDPWD, _VAR_HOME, _VAR_TMPDIR,
+	_VAR_COLUMNS, _VAR_LINES, _VAR_RANDOM,
+	_VAR_USER, _VAR_LOGNAME,
 }
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -118,7 +131,7 @@ type variable struct {
 // use GetString instead.
 func (v *Variables) GetValue(path string) (interface{}, error) {
 	if path == "." {
-		return v.getValue(DOT)
+		return v.getValue(_VAR_DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -144,38 +157,56 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
-	case ENV:
+	case _VAR_ENV:
 		return getEnvVarValue(v), nil
 
-	case GLOBAL:
+	case _VAR_GLOBAL:
 		return getGlobalValues(), nil
 
-	case MODULE:
+	case _VAR_MODULE:
 		return ModuleVariables.GetValues(v.process), nil
 
-	case SELF:
+	case _VAR_SELF:
 		return getVarSelf(v.process), nil
 
-	case ARGV, ARGS:
+	case _VAR_ARGV, _VAR_ARGS:
 		return getVarArgs(v.process), nil
 
-	case PARAMS:
+	case _VAR_PARAMS:
 		return v.process.Scope.Parameters.StringArray(), nil
 
-	case MUREX_EXE:
+	case _VAR_MUREX_EXE:
 		return getVarMurexExeValue()
 
-	case MUREX_ARGV, MUREX_ARGS:
+	case _VAR_MUREX_ARGV, _VAR_MUREX_ARGS:
 		return getVarMurexArgs(), nil
 
-	case HOSTNAME:
+	case _VAR_HOSTNAME:
 		return getHostname(), nil
 
-	case PWD:
+	case _VAR_PWD:
 		return getPwdValue()
 
-	case COLUMNS:
+	case _VAR_OLDPWD:
+		return getVarOldPwdValue()
+
+	case _VAR_HOME:
+		return home.MyDir, nil
+
+	case _VAR_TMPDIR:
+		return getVarTmpDirValue(), nil
+
+	case _VAR_COLUMNS:
 		return getVarColumnsValue(), nil
+
+	case _VAR_LINES:
+		return getVarLinesValue()
+
+	case _VAR_RANDOM:
+		return getVarRandomValue(), nil
+
+	case _VAR_USER, _VAR_LOGNAME:
+		return getVarUserNameValue()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -250,7 +281,7 @@ func (v *Variables) getEnvValueValue(name, str string) (interface{}, error) {
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(path string) (string, error) {
 	if path == "." {
-		return v.getString(DOT)
+		return v.getString(_VAR_DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -288,45 +319,64 @@ func (v *Variables) GetString(path string) (string, error) {
 
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
-	case ENV:
+	case _VAR_ENV:
 		b, err := json.Marshal(getEnvVarString(), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case GLOBAL:
+	case _VAR_GLOBAL:
 		b, err := json.Marshal(getGlobalValues(), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case MODULE:
+	case _VAR_MODULE:
 		b, err := json.Marshal(ModuleVariables.GetValues(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case SELF:
+	case _VAR_SELF:
 		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case ARGV, ARGS:
+	case _VAR_ARGV, _VAR_ARGS:
 		b, err := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case PARAMS:
+	case _VAR_PARAMS:
 		b, err := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case MUREX_EXE:
+	case _VAR_MUREX_EXE:
 		return os.Executable()
 
-	case MUREX_ARGV, MUREX_ARGS:
+	case _VAR_MUREX_ARGV, _VAR_MUREX_ARGS:
 		b, err := json.Marshal(getVarMurexArgs(), v.process.Stdout.IsTTY())
 		return string(b), err
 
-	case HOSTNAME:
+	case _VAR_HOSTNAME:
 		return getHostname(), nil
 
-	case PWD:
+	case _VAR_PWD:
 		return os.Getwd()
 
-	case COLUMNS:
+	case _VAR_OLDPWD:
+		return getVarOldPwdValue()
+
+	case _VAR_HOME:
+		return home.MyDir, nil
+
+	case _VAR_TMPDIR:
+		return getVarTmpDirValue(), nil
+
+	case _VAR_COLUMNS:
 		return strconv.Itoa(getVarColumnsValue()), nil
+
+	case _VAR_LINES:
+		i, err := getVarLinesValue()
+		return strconv.Itoa(i), err
+
+	case _VAR_RANDOM:
+		return strconv.Itoa(getVarRandomValue()), nil
+
+	case _VAR_USER, _VAR_LOGNAME:
+		return getVarUserNameValue()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -389,7 +439,7 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(path string) string {
 	if path == "." {
-		return v.getDataType(DOT)
+		return v.getDataType(_VAR_DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -400,11 +450,11 @@ func (v *Variables) GetDataType(path string) string {
 		return v.getDataType(split[0])
 	default:
 		switch split[0] {
-		case ENV:
+		case _VAR_ENV:
 			return getEnvVarDataType(split[1])
-		case GLOBAL:
+		case _VAR_GLOBAL:
 			return getGlobalDataType(split[1])
-		case MODULE:
+		case _VAR_MODULE:
 			return ModuleVariables.GetDataType(v.process, split[1])
 		}
 
@@ -437,29 +487,32 @@ func (v *Variables) GetDataType(path string) string {
 
 func (v *Variables) getDataType(name string) string {
 	switch name {
-	case ENV, GLOBAL, MODULE:
+	case _VAR_ENV, _VAR_GLOBAL, _VAR_MODULE:
 		return types.Json
 
-	case SELF:
+	case _VAR_SELF:
 		return types.Json
 
-	case ARGV, ARGS:
+	case _VAR_ARGV, _VAR_ARGS:
 		return types.Json
 
-	case PARAMS:
+	case _VAR_PARAMS:
 		return types.Json
 
-	case MUREX_EXE:
+	case _VAR_MUREX_EXE:
 		return types.Path
 
-	case MUREX_ARGV, MUREX_ARGS:
+	case _VAR_MUREX_ARGV, _VAR_MUREX_ARGS:
 		return types.Json
 
-	case PWD:
+	case _VAR_PWD, _VAR_OLDPWD, _VAR_TMPDIR, _VAR_HOME:
 		return types.Path
 
-	case COLUMNS:
+	case _VAR_COLUMNS, _VAR_LINES, _VAR_RANDOM:
 		return types.Integer
+
+	case _VAR_USER, _VAR_LOGNAME:
+		return types.String
 
 	case "0":
 		return types.String
@@ -560,7 +613,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 
 func (v *Variables) getNestedDataType(name string, dataType string) string {
 	switch name {
-	case GLOBAL, MODULE:
+	case _VAR_GLOBAL, _VAR_MODULE:
 		return dataType
 	default:
 		return v.GetDataType(name)
@@ -570,15 +623,20 @@ func (v *Variables) getNestedDataType(name string, dataType string) string {
 // Set writes a variable
 func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
 	switch name {
-	case SELF, ARGV, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, MUREX_ARGV, HOSTNAME, PWD, COLUMNS, "_":
+	case _VAR_SELF, _VAR_ARGV, _VAR_ARGS, _VAR_PARAMS,
+		_VAR_MUREX_EXE, _VAR_MUREX_ARGS, _VAR_MUREX_ARGV,
+		_VAR_HOSTNAME, _VAR_PWD, _VAR_OLDPWD, _VAR_HOME, _VAR_TMPDIR,
+		_VAR_COLUMNS, _VAR_LINES, _VAR_RANDOM,
+		_VAR_USER, _VAR_LOGNAME,
+		"_":
 		return errVariableReserved(name)
-	case ENV:
+	case _VAR_ENV:
 		return setEnvVar(value, changePath)
-	case GLOBAL:
+	case _VAR_GLOBAL:
 		return setGlobalVar(value, changePath, dataType)
-	case MODULE:
+	case _VAR_MODULE:
 		return ModuleVariables.Set(p, value, changePath, dataType)
-	case DOT:
+	case _VAR_DOT:
 		goto notReserved
 	}
 	for _, r := range name {
@@ -659,7 +717,7 @@ notReserved:
 
 func setGlobalVar(v interface{}, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", GLOBAL, GLOBAL)
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", _VAR_GLOBAL, _VAR_GLOBAL)
 	}
 
 	switch t := v.(type) {
@@ -675,7 +733,7 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	var value interface{}
 
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$%s.EXAMPLE`", ENV, ENV)
+		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$%s.EXAMPLE`", _VAR_ENV, _VAR_ENV)
 	}
 
 	switch t := v.(type) {
@@ -826,16 +884,24 @@ func DumpVariables(p *Process) map[string]interface{} {
 	}
 	p.Variables.mutex.Unlock()
 
-	m[SELF], _ = p.Variables.GetValue(SELF)
-	m[ARGV], _ = p.Variables.GetValue(ARGV)
-	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
-	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
-	m[MUREX_ARGV], _ = p.Variables.GetValue(MUREX_ARGV)
-	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
-	m[PWD], _ = p.Variables.GetValue(PWD)
-	m[ENV], _ = p.Variables.GetValue(ENV)
-	m[GLOBAL] = ".."
-	m[COLUMNS], _ = p.Variables.GetValue(COLUMNS)
+	m[_VAR_SELF], _ = p.Variables.GetValue(_VAR_SELF)
+	m[_VAR_ARGV], _ = p.Variables.GetValue(_VAR_ARGV)
+	m[_VAR_PARAMS], _ = p.Variables.GetValue(_VAR_PARAMS)
+	m[_VAR_MUREX_EXE], _ = p.Variables.GetValue(_VAR_MUREX_EXE)
+	m[_VAR_MUREX_ARGV], _ = p.Variables.GetValue(_VAR_MUREX_ARGV)
+	m[_VAR_HOSTNAME], _ = p.Variables.GetValue(_VAR_HOSTNAME)
+	m[_VAR_PWD], _ = p.Variables.GetValue(_VAR_PWD)
+	m[_VAR_OLDPWD], _ = p.Variables.GetValue(_VAR_OLDPWD)
+	m[_VAR_HOME], _ = p.Variables.GetValue(_VAR_HOME)
+	m[_VAR_TMPDIR], _ = p.Variables.GetValue(_VAR_TMPDIR)
+	m[_VAR_GLOBAL] = ".."
+	m[_VAR_MODULE] = ".."
+	m[_VAR_ENV], _ = p.Variables.GetValue(_VAR_ENV)
+	m[_VAR_COLUMNS], _ = p.Variables.GetValue(_VAR_COLUMNS)
+	m[_VAR_LINES], _ = p.Variables.GetValue(_VAR_LINES)
+	m[_VAR_RANDOM], _ = p.Variables.GetValue(_VAR_RANDOM)
+	m[_VAR_USER], _ = p.Variables.GetValue(_VAR_USER)
+	m[_VAR_LOGNAME], _ = p.Variables.GetValue(_VAR_LOGNAME)
 
 	return m
 }

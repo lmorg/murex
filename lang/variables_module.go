@@ -43,7 +43,7 @@ func (mod *ModuleVars) GetDataType(p *Process, name string) (dt string) {
 
 func (mod *ModuleVars) Set(p *Process, value interface{}, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a module variable name, eg `$%s.example`", MODULE, MODULE)
+		return fmt.Errorf("invalid use of $%s. Expecting a module variable name, eg `$%s.example`", _VAR_MODULE, _VAR_MODULE)
 	}
 
 	switch t := value.(type) {
