@@ -1,6 +1,7 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 icon: file-code
 description: {{ quote .Summary }}
+category: {{ .CategoryTitle }}
 {{ if .SubCategories }}tag:{{ range $cat := .SubCategories }}
   - {{ .Title }}{{ end }}{{ end }}
 ---

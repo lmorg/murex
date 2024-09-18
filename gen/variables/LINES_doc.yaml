@@ -1,6 +1,6 @@
 - DocumentID: lines
   Title: >-
-    `COLUMNS` (int)
+    `LINES` (int)
   CategoryID: variables
   SubCategoryIDs: [ vars.reserved, vars.posix ]
   Summary: >-

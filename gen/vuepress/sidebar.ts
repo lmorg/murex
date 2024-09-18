@@ -1,6 +1,7 @@
 import { sidebar } from "vuepress-theme-hope";
 import commandsMenu from "./commands_generated.json"
 import parserMenu from "./parser_generated.json"
+import variablesMenu from "./variables_generated.json"
 
 export default sidebar({
   "/": [
@@ -47,18 +48,18 @@ export default sidebar({
       children: commandsMenu,
       collapsible: true,
     },
-    {
+    /*{
       text: "Optional Builtins",
       icon: "cube",
       prefix: "optional/",
       children: "structure",
       collapsible: true,
-    },
+    },*/
     {
       text: "Special Variables",
       icon: "dollar",
-      prefix: "variables/",
-      children: "structure",
+      prefix: "/",
+      children: variablesMenu,
       collapsible: true,
     },
     {

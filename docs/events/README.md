@@ -1,3 +1,9 @@
+# events
+
+
+
+## Pages
+
 * [`onCommandCompletion`](../events/oncommandcompletion.md):
   Trigger an event upon a command's completion
 * [`onFileSystemChange`](../events/onfilesystemchange.md):

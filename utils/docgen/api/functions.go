@@ -199,7 +199,7 @@ func funcInclude(s string) string {
 		w := bytes.NewBuffer([]byte{})
 		t := template.Must(template.New(path).Funcs(funcMap).Parse(string(b)))
 		if err := t.Execute(w, nil); err != nil {
-			panic(err.Error())
+			panic(fmt.Sprintf("%s (%s)", err.Error(), path))
 		}
 
 		s = strings.Replace(s, match[i][0], w.String(), -1)
