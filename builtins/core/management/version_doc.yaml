@@ -41,6 +41,8 @@
       Returns only the major and minor version as a `num` data-type
     --no-app-name: >-
       Returns full version string minus app name
+    --sember: >-
+      Returns the semver version number (major.minor.Revision)
     --license: >-
       Just print the license name
     --license-full: >-

@@ -16,7 +16,8 @@ func init() {
 	defaults.AppendProfile(`
 	autocomplete set version %[{
 		Flags: [
-			--short     --no-app-name --license --license-full
+			--short     --no-app-name --semver
+			--license   --license-full
 			--copyright --build-date  --branch
 		]
 	}]
@@ -37,6 +38,11 @@ func cmdVersion(p *lang.Process) error {
 	case "--no-app-name":
 		p.Stdout.SetDataType(types.String)
 		_, err := p.Stdout.Writeln([]byte(app.Version()))
+		return err
+
+	case "--semver":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(fmt.Sprintf("%d.%d.%d", app.Major, app.Minor, app.Revision)))
 		return err
 
 	case "--license":
