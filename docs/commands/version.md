@@ -52,6 +52,8 @@ Copyright: 2018-2024 Laurence Morgan
     Prints the full license terms
 * `--no-app-name`
     Returns full version string minus app name
+* `--sember`
+    Returns the semver version number (major.minor.Revision)
 * `--short`
     Returns only the major and minor version as a `num` data-type
 

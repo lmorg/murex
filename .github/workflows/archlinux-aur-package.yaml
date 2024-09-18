@@ -31,12 +31,12 @@ jobs:
 
       - name: Download Murex tarball
         run: |
-          export MUREX_VERSION=$(./murex -c "version --no-app-name")
+          export MUREX_VERSION=$(./murex -c "version --semver")
           wget -O - https://github.com/lmorg/murex/archive/refs/tags/v${MUREX_VERSION}.tar.gz > murex.tar.gz
 
       - name: Update PKGBUILD and SRCINFO
         run: |
-          export MUREX_VERSION=$(./murex -c "version --no-app-name")
+          export MUREX_VERSION=$(./murex -c "version --semver")
           export PKG_RELEASE="${{ github.run_number }}"
           sha256sum murex.tar.gz | awk '{ print $1 }' > chksum
           export CHECKSUM=$(cat chksum)
