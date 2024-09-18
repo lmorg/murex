@@ -45,7 +45,7 @@ Categories:
       VueIcon: quote-left
       Description: |-
         Commands for working with strings.
-        > All list based tools also work with strings.
+        > Several list based tools will also work with strings. Those that can, are included in this sub-section.
     - ID: commands.num
       Title: Numeric / Math Tools
       VueIcon: square-root-variable

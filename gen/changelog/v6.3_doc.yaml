@@ -1,0 +1,25 @@
+- DocumentID: v6.3
+  Title: >-
+    v6.3
+  CategoryID: changelog
+  DateTime: 2024-09-18 20:00
+  Summary: >-
+    This is a massive release ahead of the v7.0. This brings notifications of 
+    new deprecations, new builtins, new flags, improved CI/CD flow, and changes
+    to the website. Unfortunately it also carries 3 breaking changes.
+  Description: |-
+    {{ include "gen/changelog/v6.3.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - expr
+    - operators-and-tokens
+    - for
+    - tilde
+    - alter
+    - count
+    - mjoin
+    - list.case
+    - regexp
+    - version
+    - config
+    - integrations

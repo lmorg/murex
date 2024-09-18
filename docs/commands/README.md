@@ -158,7 +158,7 @@ Commands that operate against a list or array.
 ### String Manipulation
 
 Commands for working with strings.
-> All list based tools also work with strings.
+> Several list based tools will also work with strings. Those that can, are included in this sub-section.
 
 * [Change Text Case (`list.case`)](../commands/list.case.md):
   Changes the character case of a string or all elements in an array

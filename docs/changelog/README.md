@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 18.09.2024 - [v6.3](../changelog/v6.3.md)
+
+This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.
+
+
 ### 19.07.2024 - [v6.2](../changelog/v6.2.md)
 
 Bug fix release
