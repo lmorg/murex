@@ -71,13 +71,14 @@ func (rl *Instance) autocompleteHeightAdjust() {
 		height = 25
 	}
 
+	rl.previewAutocompleteHeight(height)
+
 	switch {
 	case height <= 4:
 		rl.MaxTabCompleterRows = 1
 	case height-4 <= rl.MaxTabCompleterRows:
 		rl.MaxTabCompleterRows = height - 4
 	}
-
 }
 
 func (rl *Instance) moveTabCompletionHighlight(x, y int) {

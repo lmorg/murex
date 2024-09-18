@@ -418,6 +418,7 @@ func init() {
 		"changelog/v6.0":                  "Despite this being a new major version release, it is a vary minor update. Aside from a handful of bugfixes, the most significant change is notice of deprecation for `=`, `let`, and `?`.",
 		"changelog/v6.1":                  "This release sees a massive jump in event-driven capabilities as well as several new features and bug fixes.",
 		"changelog/v6.2":                  "Bug fix release",
+		"changelog/v6.3":                  "This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.",
 	}
 
 	Synonym = map[string]string{
@@ -1070,5 +1071,6 @@ func init() {
 		"changelog/v6.0":                  "changelog/v6.0",
 		"changelog/v6.1":                  "changelog/v6.1",
 		"changelog/v6.2":                  "changelog/v6.2",
+		"changelog/v6.3":                  "changelog/v6.3",
 	}
 }

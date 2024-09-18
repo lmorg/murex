@@ -107,6 +107,8 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 		width = 80
 	}
 
+	rl.previewAutocompleteHeight(height)
+
 	preview, forward := getPreviewWidth(width)
 	size := &PreviewSizeT{
 		Height:  height - rl.MaxTabCompleterRows - 10, // hintText, multi-line prompts, etc
@@ -115,6 +117,24 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 	}
 
 	return size, nil
+}
+
+func (rl *Instance) previewAutocompleteHeight(height int) {
+	switch {
+	case height < 40:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 4)
+	case height < 30:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 3)
+	case height < 20:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 2)
+	}
+}
+
+func noLargerThan(src, max int) int {
+	if src > max {
+		return max
+	}
+	return src
 }
 
 func (rl *Instance) writePreviewStr() string {
@@ -144,9 +164,9 @@ func (rl *Instance) writePreviewStr() string {
 	}
 
 	size, err := rl.getPreviewXY()
-	if err != nil || size.Height < 8 || size.Width < 10 {
+	if err != nil || size.Height < 4 || size.Width < 10 {
 		rl.previewCache = nil
-		return ""
+		return previewTerminalTooSmall
 	}
 
 	item := rl.previewItem
@@ -157,6 +177,8 @@ func (rl *Instance) writePreviewStr() string {
 
 	return ""
 }
+
+var previewTerminalTooSmall = fmt.Sprintf("%s%sTerminal too small to display preview%s", curPosSave, curHome, curPosRestore)
 
 const (
 	curHome       = "\x1b[H"
