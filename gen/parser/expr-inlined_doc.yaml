@@ -2,6 +2,7 @@
   Title: >-
     ( expression )
   CategoryID: parser
+  SubCategoryIDs: [ parser.subshells ]
   Summary: >-
     Inline expressions
   Description: |-

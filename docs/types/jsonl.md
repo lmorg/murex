@@ -141,30 +141,30 @@ cases for JSON lines.
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
 * [`csv`](../types/csv.md):
   CSV files (and other character delimited tables)
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`hcl`](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonc`](../types/jsonc.md):
   Concatenated JSON
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml`](../types/yaml.md):

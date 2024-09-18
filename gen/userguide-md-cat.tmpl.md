@@ -1,8 +1,9 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 title: {{ md .Title }}
+description: {{ quote .Summary }}
 index: true
-category:
-  - {{ md .ID }}
+icon: book
+category: {{ .Title }}
 ---
 
 {{ end }}<h1>{{ md .Title }}</h1>{{ if .Description }}
@@ -13,6 +14,7 @@ category:
 
 <div id="toc">
 
+- [category: {{ .Title }}](#category--title-)
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
 - [Integrations](#integrations)
@@ -22,6 +24,7 @@ category:
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
 - [Events](#events)
+- [Variables](#variables)
 - [Integrations](#integrations-1)
 - [API Reference](#api-reference)
 
@@ -76,6 +79,12 @@ are only included by default on Windows.
 ## Events
 
 {{ if otherdocs "events" }}{{ range $i,$a := otherdocs "events" }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+
+## Variables
+
+{{ if otherdocs "variables" }}{{ range $i,$a := otherdocs "variables" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 

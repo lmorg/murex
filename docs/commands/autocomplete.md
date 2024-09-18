@@ -1,4 +1,4 @@
-# `autocomplete`
+# Tab Autocompletion (`autocomplete`)
 
 > Set definitions for tab-completion in the command line
 
@@ -604,25 +604,30 @@ for that command rather than for `sudo` itself.
 Specifies if a match is required for the index in this schema. ie optional
 flags.
 
+## Synonyms
+
+* `autocomplete`
+
+
 ## See Also
 
-* [`<stdin>`](../commands/stdin.md):
-  Read the stdin belonging to the parent code block
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`alias`](../commands/alias.md):
+* [Alias Pointer (`alias`)](../commands/alias.md):
   Create an alias for a command
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`function`](../commands/function.md):
-  Define a function block
-* [`get-type`](../commands/get-type.md):
+* [Get Data Type (`get-type`)](../commands/get-type.md):
   Returns the data-type of a variable or pipe
-* [`private`](../commands/private.md):
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
-* [`summary` ](../commands/summary.md):
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
+* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Set Command Summary Hint (`summary`)](../commands/summary.md):
   Defines a summary help text for a command
-* [`switch`](../commands/switch.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Switch Conditional (`switch`)](../commands/switch.md):
   Blocks of cascading conditionals
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

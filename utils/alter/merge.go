@@ -59,7 +59,12 @@ func mergeMap(v interface{}, new *interface{}) (ret interface{}, err error) {
 			case string, int, float64, bool, nil:
 				ret.(map[string]interface{})[key] = t
 			default:
-				oldKind := reflect.TypeOf(ret.(map[string]interface{})[key]).Kind()
+				mapVal, ok := ret.(map[string]interface{})[key]
+				if !ok {
+					ret.(map[string]interface{})[key] = t
+					return
+				}
+				oldKind := reflect.TypeOf(mapVal).Kind()
 				newKind := reflect.TypeOf(val).Kind()
 				switch {
 				case oldKind != newKind:

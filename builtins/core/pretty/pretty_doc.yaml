@@ -1,7 +1,9 @@
 - DocumentID: pretty
   Title: >+
-    `pretty`
+    Prettify JSON
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.str
   Summary: >-
     Prettifies JSON to make it human readable
   Description: |-
@@ -27,8 +29,9 @@
     }
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
+    - pretty
   Related:
     - tout
     - out

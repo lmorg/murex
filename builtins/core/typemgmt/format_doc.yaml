@@ -1,7 +1,12 @@
 - DocumentID: format
   Title: >+
-    `format`
+    Reformat Data type (`format`)
   CategoryID: commands
+  SubCategoryIDs: 
+    - commands.str
+    - commands.list
+    - commands.struct
+    - commands.table
   Summary: >-
     Reformat one data-type into another data-type
   Description: |-

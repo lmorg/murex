@@ -3,7 +3,6 @@ package management
 import (
 	"errors"
 	"fmt"
-	"runtime"
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
@@ -14,16 +13,12 @@ import (
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
-	"github.com/lmorg/murex/utils/posix"
 )
 
 func init() {
 	lang.DefineFunction("exitnum", cmdExitNum, types.Integer)
 	lang.DefineFunction("bexists", cmdBuiltinExists, types.Json)
 	lang.DefineFunction("cd", cmdCd, types.Null)
-	lang.DefineFunction("os", cmdOs, types.String)
-	lang.DefineFunction("cpuarch", cmdCpuArch, types.String)
-	lang.DefineFunction("cpucount", cmdCpuCount, types.Integer)
 	lang.DefineFunction("murex-update-exe-list", cmdUpdateExeList, types.Null)
 	lang.DefineFunction("man-summary", cmdManSummary, types.Null)
 }
@@ -88,37 +83,6 @@ func cmdCd(p *lang.Process) error {
 	default:
 		return cd.Chdir(p, path)
 	}
-}
-
-func cmdOs(p *lang.Process) error {
-	if p.Parameters.Len() == 0 {
-		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Write([]byte(runtime.GOOS))
-		return err
-	}
-
-	for _, os := range p.Parameters.StringArray() {
-		if os == runtime.GOOS || (os == "posix" && posix.IsPosix()) {
-			_, err := p.Stdout.Write(types.TrueByte)
-			return err
-		}
-	}
-
-	p.ExitNum = 1
-	_, err := p.Stdout.Write(types.FalseByte)
-	return err
-}
-
-func cmdCpuArch(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.String)
-	_, err = p.Stdout.Write([]byte(runtime.GOARCH))
-	return
-}
-
-func cmdCpuCount(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Integer)
-	_, err = p.Stdout.Write([]byte(strconv.Itoa(runtime.NumCPU())))
-	return
 }
 
 func cmdUpdateExeList(p *lang.Process) error {

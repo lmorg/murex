@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 18.09.2024 - [v6.3](../changelog/v6.3.md)
+
+This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.
+
+
 ### 19.07.2024 - [v6.2](../changelog/v6.2.md)
 
 Bug fix release
@@ -56,7 +61,7 @@ Murex usage has raised considerably in recent weeks. This release addresses a nu
 
 ### 04.06.2023 - [v4.1.x](../changelog/v4.1.md)
 
-The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
+The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
 
 
 ### 26.03.2023 - [v4.0](../changelog/v4.0.md)

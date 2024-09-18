@@ -1,3 +1,5 @@
+//go:generate ./update-version.mx
+
 package app
 
 import (
@@ -10,36 +12,33 @@ import (
 const Name = "murex"
 
 // Version number of $SHELL
-// Format of version string should be "(major).(minor).(revision) DESCRIPTION"
+// Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
-	version  = "%d.%d.%d"
-	Major    = 6
-	Minor    = 2
-	Revision = 4000
+	Major     = 6
+	Minor     = 3
+	Revision  = 4221
+	Branch    = "develop"
+	BuildDate = "2024-09-18  21:37:02"
 )
 
 // Copyright is the copyright owner string
-const Copyright = "© 2018-2024 Laurence Morgan"
+const Copyright = "2018-2024 Laurence Morgan"
 
 // License is the projects software license
-const License = "License GPL v2"
+const License = "GPL v2"
+
+var licenseFull string
+
+func GetLicenseFull() string  { return licenseFull }
+func SetLicenseFull(s string) { licenseFull = s }
 
 // ShellModule is the name of the module that REPL code gets imported into
 var ShellModule = Name + "/shell"
 
-func init() {
-	v = fmt.Sprintf(version, Major, Minor, Revision)
-	sv, _ = semver.Parse(v)
-}
-
-var v string
-
 func Version() string {
-	return v
+	return fmt.Sprintf("%d.%d.%04d (%s)", Major, Minor, Revision, Branch)
 }
-
-var sv *semver.Version
 
 func Semver() *semver.Version {
-	return sv
+	return &semver.Version{Major, Minor, Revision}
 }

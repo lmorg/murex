@@ -2,6 +2,7 @@
   Title: >-
     `&&` And Logical Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.conditional ]
   Summary: >-
     Continues next operation if previous operation passes
   Description: |-
@@ -56,6 +57,7 @@
   Title: >-
     `||` Or Logical Operator
   CategoryID: parser
+  SubCategoryIDs: [ parser.conditional ]
   Summary: >-
     Continues next operation only if previous operation fails
   Description: |-

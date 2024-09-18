@@ -1,8 +1,8 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
-title: {{ md .Title }}
 index: true
-category:
-  - {{ md .ID }}
+title: {{ md .Title }}
+description: {{ quote .Summary }}
+category: {{ .Title }}
 ---
 
 {{ end }}# {{ md .Title }}{{ if .Description }}

@@ -4,7 +4,7 @@ import "github.com/lmorg/murex/utils/lists"
 
 var tokeniseCurlyBraceCommands = []string{
 	"if", "!if",
-	"foreach", "formap",
+	"foreach", "formap", "for",
 	"switch",
 }
 

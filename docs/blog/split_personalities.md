@@ -228,14 +228,14 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
+* [If Conditional (`if`)](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Reading Lists From The Command Line](../blog/reading_lists.md):
   How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
   A tabulated list of Bashism's and their equivalent Murex syntax
-* [`if`](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
 
 <hr/>
 

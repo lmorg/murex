@@ -1,0 +1,19 @@
+- DocumentID: user
+  Title: >-
+    `USER` (str)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.posix ]
+  Summary: >-
+    Username for the current session
+  Description: |-
+    `USER` returns the user name of the current Murex session.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Synonyms:
+  - user
+  - USER
+  Related:
+  - str
+  - reserved-vars
+  - logname
+

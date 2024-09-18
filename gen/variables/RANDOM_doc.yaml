@@ -1,0 +1,24 @@
+- DocumentID: random
+  Title: >-
+    `RANDOM` (int)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.posix ]
+  Summary: >-
+    Return a random 32-bit integer (historical)
+  Description: |-
+    `$RANDOM` returns a number between 0 and 32767 (inclusive).
+
+    `$RANDOM` was included for POSIX support however the idiomatic way to generate
+    random tokens in Murex is via the {{link "`rand` builtin" "rand"}}.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail:
+  Synonyms:
+  - random
+  - RANDOM
+  Related:
+  - int
+  - reserved-vars
+  - rand
+
+

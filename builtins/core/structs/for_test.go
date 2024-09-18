@@ -10,7 +10,7 @@ import (
 func TestFor(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `for ( i=1; i<6; i++ ) { echo $i }`,
+			Block:  `for { $i=1; $i<6; $i=$i+1 } { echo $i }`,
 			Stdout: "1\n2\n3\n4\n5\n",
 		},
 	}

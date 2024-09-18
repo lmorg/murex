@@ -5,6 +5,8 @@ murex.exe
 murex.upx
 /docgen
 /docgen.exe
+/stringer
+/stringer.exe
 bin/
 VERSION
 deleteme.db
@@ -23,12 +25,15 @@ wasm_exec.js
 # optional builtins
 /builtins/imports_build
 
-# test working directories
+# test and debugging files
 /deleteme
 /test/tmp
 *.test
 *.prof
 *.pprof
+*local.*
+
+debug.log
 
 # IDE
 .idea/
@@ -41,7 +46,6 @@ murex.iml
 /vendor.new
 /pkg
 /src
-/gen/docs-test/
 
 # Misc
 .DS_Store

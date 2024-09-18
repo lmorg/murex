@@ -2,6 +2,7 @@
   Title: >-
     `ARGV` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.scoped ]
   Summary: >-
     Array of the command name and parameters within a given
     scope
@@ -11,7 +12,7 @@
 
     Unlike `$PARAMS`, `$ARGV` includes the function name.
 
-    This is a reserved variable so it cannot be changed.
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Examples: |-
     ```
     » function example { $ARGV }
@@ -40,7 +41,7 @@
   Related:
   - params
   - json
-  - string
+  - str
   - array
   - set
   - function

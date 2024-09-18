@@ -1,11 +1,5 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
-title: {{ .Title }}
-#tag:
-#  - {{ md .CategoryID }}
-{{ if .Related }}{{ range $i,$a := .Related }}{{ if gt $i 0 }}{{ end }}
-#  - {{ md .Hierarchy }}{{ end }}
-{{ end }}
-
+description: {{ quote .Summary }}
 {{ end }}{{ md (include .Description) }}{{ if .Related }}
 
 ## See Also

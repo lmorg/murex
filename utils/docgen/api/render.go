@@ -6,6 +6,7 @@ import (
 	"io"
 	golog "log"
 	"os"
+	"sort"
 )
 
 var (
@@ -30,6 +31,7 @@ func Render() (err error) {
 	}()
 
 	walkSourcePath(Config.SourcePath)
+	sort.Sort(Documents)
 
 	if !unique() {
 		golog.Print("[ERROR] duplicate DocumentID found")

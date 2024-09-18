@@ -56,22 +56,22 @@ a
 
 ## See Also
 
+* [Count (`count`)](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array (`ja`)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create New Array (`ta`)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
 * [Decimal Ranges](../mkarray/decimal.md):
   Create arrays of decimal integers
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
 * [Non-Decimal Ranges](../mkarray/non-decimal.md):
   Create arrays of integers from non-decimal number bases
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [`ta` (mkarray)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 

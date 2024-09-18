@@ -1,0 +1,11 @@
+{{ $doc := doct "" "integrations" }}{{ if env "DOCGEN_TARGET=vuepress" }}---
+index: true
+icon: puzzle-piece
+title: {{ quote .Title }}
+description: {{ quote .Summary }}
+category: {{ .Title }}
+---
+
+{{ end }}# {{ .Title }}
+
+{{ include $doc.Description }}

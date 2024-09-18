@@ -1,0 +1,16 @@
+{{ $doc := doct "" "operators-and-tokens" }}{{ if env "DOCGEN_TARGET=vuepress" }}---
+title: {{ $doc.Title }}
+description: {{ quote .Summary }}
+index: true
+category: {{ .Title }}
+---
+
+{{ end }}# {{ md $doc.Title }}{{ if .Description }}
+
+{{ md (include .Description) }}{{ end }}
+
+## Pages
+
+{{ if .Documents }}{{ range $i,$a := .Documents }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}

@@ -1,4 +1,4 @@
-# `openagent`
+# Define Handlers For "`open`" (`openagent`)
 
 > Creates a handler function for `open`
 
@@ -42,15 +42,15 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 
 ## See Also
 
+* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
 * [Modules And Packages](../user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`fexec` ](../commands/fexec.md):
-  Execute a command or function, bypassing the usual order of precedence.
-* [`open`](../commands/open.md):
+* [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
-* [`runtime`](../commands/runtime.md):
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

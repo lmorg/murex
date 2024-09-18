@@ -141,10 +141,22 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Function / Module Defaults (`runmode`)](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
+* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
+* [Truncate File (`>`)](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
+* [Try Block (`try`)](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
 * [`>>` Append File](../parser/file-append.md):
@@ -153,20 +165,8 @@ if you want to learn more about shell scripting in Murex.
   Writes stdin to disk - appending contents if file already exists
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`runmode`](../commands/runmode.md):
-  Alter the scheduler's behaviour at higher scoping level
 * [`string` (stringing)](../types/str.md):
   string (primitive)
-* [`try`](../commands/try.md):
-  Handles non-zero exits inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
-* [`|>` Truncate File](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [index](../parser/item-index.md):

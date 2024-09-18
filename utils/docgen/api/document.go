@@ -5,6 +5,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/lmorg/murex/utils/lists"
 )
 
 // Document is the catalogue of config files found in the search path
@@ -17,6 +19,9 @@ type document struct {
 
 	// CategoryID as per the Categories map (see below)
 	CategoryID string `yaml:"CategoryID"`
+
+	// SubCategory is an optional field for grouping documents in a particular category
+	SubCategoryIDs []string `yaml:"SubCategoryIDs"`
 
 	// Summary is a one line summary
 	Summary string `yaml:"Summary"`
@@ -126,6 +131,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		CategoryID:          d.CategoryID,
 		CategoryTitle:       t.ref.Title,
 		CategoryDescription: t.ref.Description,
+		SubCategories:       documentSubCategories(d),
 		Summary:             d.Summary,
 		Description:         d.Description,
 		Usage:               d.Usage,
@@ -190,6 +196,29 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 	return dv
 }
 
+type documentValuesSubCats struct {
+	ID          string
+	Title       string
+	Description string
+}
+
+func documentSubCategories(d *document) []documentValuesSubCats {
+	var subs []documentValuesSubCats
+	for _, cat := range Config.Categories {
+		for _, sub := range cat.SubCategories {
+			if !lists.Match(d.SubCategoryIDs, sub.ID) {
+				continue
+			}
+			subs = append(subs, documentValuesSubCats{
+				ID:          sub.ID,
+				Title:       sub.Title,
+				Description: sub.Description,
+			})
+		}
+	}
+	return subs
+}
+
 type documentValues struct {
 	ID                  string
 	Title               string
@@ -201,6 +230,7 @@ type documentValues struct {
 	CategoryID          string
 	CategoryTitle       string
 	CategoryDescription string
+	SubCategories       []documentValuesSubCats
 	Summary             string
 	Description         string
 	Payload             string
@@ -317,3 +347,13 @@ func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 
 // Documents is all of the collated documents pre-rendering
 var Documents documents
+
+func (d *document) IsInSubCategory(id string) bool {
+	for i := range d.SubCategoryIDs {
+		if d.SubCategoryIDs[i] == id {
+			return true
+		}
+	}
+
+	return false
+}

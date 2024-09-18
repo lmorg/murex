@@ -1,10 +1,9 @@
+{{ $doc := doct "" "tour" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: plane-departure
+title: {{ quote $doc.Title }}
 
 ---
-
-{{ end }}<h1>Language Tour</h1>
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
@@ -78,8 +77,8 @@ and UNIX over the last 50 years.
 {{ end }}
 
 Murex doesn't just aim to be a well thought out language, the interactive shell
-boast an excellent out-of-the-box experience with makes other shells feel stone
-age in comparison.
+boasts an excellent out-of-the-box experience which makes other shells feel
+stone age in comparison.
 
 If you want to learn more about the interactive shell then there is a dedicated
 document detailing {{ link "Murex's REPL features" "interactive-shell" }}.
@@ -92,8 +91,8 @@ readability and terseness is to make heavy use of barewords. Barewords are
 ostensibly just instructions that are not quoted. In our case, command names
 and command parameters.
 
-Murex also makes heavy use of barewords and so that places requirements on
-the choice of syntax we can use.
+Murex also makes heavy use of barewords and so that places restrictions on the
+choice of syntax we can use.
 
 ### Expressions and Statements
 
@@ -345,7 +344,7 @@ out "message" >> append-file.txt
 ### Type Conversion
 
 Aside from annotating variables upon definition, you can also transform data
-along the pipeline.
+along the pipeline using `format`.
 
 #### Cast
 
@@ -372,7 +371,7 @@ out [1,2,3] | :json: foreach { ... }
 
 ## Sub-Shells
 
-There are two types of emendable sub-shells: strings and arrays.
+There are two main types of emendable sub-shells: strings and arrays.
 
 * string sub-shells, `${ command }`, take the results from the sub-shell and
   return it as a single parameter. This saves the need to encapsulate the shell
@@ -388,9 +387,9 @@ touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
 touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
 ```
 
-The reason Murex breaks from the POSIX tradition of using backticks and
-parentheses is because Murex works on the principle that everything inside
-a curly bracket is considered a new block of code.
+The reason Murex breaks from the traditions of using backticks and parentheses
+is because Murex works on the principle that everything inside a curly bracket
+is considered a new block of code.
 
 ## Filesystem Wildcards (Globbing)
 

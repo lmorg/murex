@@ -1,4 +1,4 @@
-# `eschtml`
+# Escape HTML (`eschtml`)
 
 > Encode or decodes text for HTML
 
@@ -52,18 +52,18 @@ eschtml string to escape -> <stdout>
 
 ## See Also
 
-* [`escape`](../commands/escape.md):
-  Escape or unescape input
-* [`esccli`](../commands/esccli.md):
-  Escapes an array so output is valid shell code
-* [`escurl`](../commands/escurl.md):
-  Encode or decodes text for the URL
-* [`get`](../commands/get.md):
-  Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../commands/getfile.md):
+* [Download File (`getfile`)](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`post`](../commands/post.md):
+* [Escape Command Line String (`esccli`)](../commands/esccli.md):
+  Escapes an array so output is valid shell code
+* [Escape URL (`escurl`)](../commands/escurl.md):
+  Encode or decodes text for the URL
+* [Get Request (`get`)](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [Post Request (`post`)](../commands/post.md):
   HTTP POST request with a JSON-parsable return
+* [Quote String (`escape`)](../commands/escape.md):
+  Escape or unescape input
 
 <hr/>
 

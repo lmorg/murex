@@ -1,9 +1,9 @@
+{{ $doc := doct "" "DOWNLOAD" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: terminal
+title: {{ quote $doc.Title }}
 
 ---
-{{ end }}<h1>Download Murex</h1>
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 [![Version](version.svg)](DOWNLOAD.md)
 
@@ -30,9 +30,11 @@
 {{ end }}
 ## Download Links
 
-Below are the instructions to download a pre-compiled binary via HTTPS. If you
-wish to install from source or use your preferred package manager, then please
-refer to the {{ if env "DOCGEN_TARGET=vuepress" }}[install](install.md){{ else }}[INSTALL](INSTALL.md){{ end }} page for further instructions.
+Below are the instructions to download a pre-compiled binary via HTTPS.
+
+If you wish to install from source or use your preferred package manager, then
+please refer to the {{ if env "DOCGEN_TARGET=vuepress" }}[install](install.md){{ else }}[INSTALL](INSTALL.md){{ end }}
+page for further instructions.
 
 ### Darwin (macOS)
 

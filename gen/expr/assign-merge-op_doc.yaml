@@ -2,6 +2,7 @@
   Title: >-
     `<~` Assign Or Merge
   CategoryID: parser
+  SubCategoryIDs: [ parser.assignment, parser.data ]
   Summary: >-
     Merges the right hand value to a variable on the left hand side (expression)
   Description: |-

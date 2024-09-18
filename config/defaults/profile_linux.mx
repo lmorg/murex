@@ -1,18 +1,17 @@
 function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
-    if { ${os}=="linux" } then {
-        #params -> [ 1 ] -> set pid
+    if { os linux } then {
         $1 -> set pid
         
-        g <!null> /proc/$pid/fd/* -> regexp <!null> (f,/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+        g <!null> /proc/$(pid)/fd/* -> regexp <!null> (f,/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
             trypipe <!null> {
-                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
-                readlink: /proc/$pid/fd/$fd -> set file
+                open /proc/$(pid)/fdinfo/$(fd) -> :yaml: [ pos ] -> set pos
+                readlink /proc/$(pid)/fd/$(fd) -> set file
                 du -b $file -> [ :0 ] -> set int size
-                if { = size > 0 } then {
-                    = ($pos/$size)*100 -> set int percent
-                    out "$percent% ($pos/$size) $file"
+                if { $size > 0 } then {
+                    ($pos/$size)*100 -> set int percent
+                    out "$(percent)% ($(pos)/$(size)) $file"
                 }
             }
         }

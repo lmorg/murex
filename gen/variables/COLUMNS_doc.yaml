@@ -2,6 +2,7 @@
   Title: >-
     `COLUMNS` (int)
   CategoryID: variables
+  SubCategoryIDs: [ vars.reserved, vars.posix ]
   Summary: >-
     Character width of terminal
   Description: |-
@@ -11,14 +12,13 @@
     as Chinese logograms and zero-width joiners. Whereas one ASCII character is
     the same width as one terminal cell.
 
-    This is a reserved variable so it cannot be changed.
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
   Synonyms:
   - columns
   - COLUMNS
   Related:
-  - str
-  - set
-  - string
+  - int
   - reserved-vars
   - interactive-shell
+  - lines
 

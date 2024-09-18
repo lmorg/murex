@@ -1,4 +1,4 @@
-# `expr`
+# Expressions (`expr`)
 
 > Expressions: mathematical, string comparisons, logical operators
 
@@ -14,7 +14,7 @@ underlying builtin:
 # idiomatic expressions
 1 + 2
 
-# non-idiotmatic expressions
+# non-idiomatic expressions
 expr 1 + 2
 ```
 
@@ -167,6 +167,9 @@ var orderOfOperations = []symbols.Exp{
 	// 04. Addition and subtraction
 	symbols.Add,
 
+	// 04.1 Merge
+	symbols.Merge,
+
 	// 05. Bitwise shift left and right
 	// 06. Comparisons: less-than and greater-than
 	symbols.GreaterThan,
@@ -209,7 +212,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignUpdate:
 			err = expAssign(tree, false)
 		case symbols.AssignAndAdd:
-			err = expAssignAdd(tree)
+			//err = expAssignAdd(tree)
+			err = expAssignAndOperate(tree, _assAdd)
 		case symbols.AssignAndSubtract:
 			err = expAssignAndOperate(tree, _assSub)
 		case symbols.AssignAndDivide:
@@ -261,13 +265,20 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expGtLt(tree, _ltEqF, _ltEqS)
 
 		// 05. Bitwise shift left and right
-		// 04. Addition and subtraction
+
+		// 04.1 Merge
+		case symbols.Merge:
+			err = expMerge(tree)
+
+			// 04. Addition and subtraction
+		case symbols.PlusPlus:
+			err = expPlusPlus(tree, 1)
+		case symbols.MinusMinus:
+			err = expPlusPlus(tree, -1)
 		case symbols.Add:
 			err = expAdd(tree)
 		case symbols.Subtract:
 			err = expSubtract(tree)
-		case symbols.MergeInto:
-			err = expMergeInto(tree)
 
 		// 03. Multiplication, division, modulo
 		case symbols.Multiply:
@@ -299,6 +310,10 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 * [( expression )](../parser/expr-inlined.md):
   Inline expressions
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types
 * [`%[]` Array Builder](../parser/create-array.md):
@@ -327,10 +342,6 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
 
 <hr/>
 

@@ -1,4 +1,4 @@
-# `round`
+# Round Number (`round`)
 
 > Round a number by a user defined precision
 
@@ -71,9 +71,15 @@ Rounding to the nearest multiple of `20`:
 * `-u`
     shorthand for `--up`
 
+## Synonyms
+
+* `round`
+* `num.round`
+
+
 ## See Also
 
-* [`expr`](../commands/expr.md):
+* [Expressions (`expr`)](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 
 <hr/>

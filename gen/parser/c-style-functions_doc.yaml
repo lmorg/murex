@@ -2,6 +2,7 @@
   Title: >-
     C-style functions
   CategoryID: parser
+  SubCategoryIDs: [ parser.subshells ]
   Summary: >-
     Inlined commands for expressions and statements
   Description: |-

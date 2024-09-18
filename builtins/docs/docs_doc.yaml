@@ -1,7 +1,8 @@
 - DocumentID: murex-docs
   Title: >+
-    `murex-docs`
+    Murex's Offline Documentation (`murex-docs`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.help ]
   Summary: >-
     Displays the man pages for Murex builtins
   Description: |-

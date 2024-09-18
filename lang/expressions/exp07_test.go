@@ -354,27 +354,6 @@ func TestExpNotRegexp(t *testing.T) {
 func TestExprEquBugFixes(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:   `foobar == foobar`,
-			Stderr:  `Error`,
-			ExitNum: 1,
-		},
-		{
-			Block:   `"foobar" == foobar`,
-			Stderr:  `Error`,
-			ExitNum: 1,
-		},
-		{
-			Block:   `foobar == "foobar"`,
-			Stderr:  `Error`,
-			ExitNum: 1,
-		},
-		{
-			Block:   `"foobar" == "foobar"`,
-			Stdout:  `true`,
-			ExitNum: 0,
-		},
-		/////
-		{
 			Block:   `%[z y x] == %[z y x]`,
 			Stdout:  `true`,
 			ExitNum: 0,

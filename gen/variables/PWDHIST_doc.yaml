@@ -2,6 +2,7 @@
   Title: >-
     `PWDHIST` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.env ]
   Summary: >-
     History of each change to the sessions working directory
   Description: |-
@@ -26,7 +27,6 @@
   - path
   - json
   - pwd
-  - string
   - array
   - set
   - cd
@@ -34,3 +34,4 @@
   - pipeline
   - modules
   - reserved-vars
+  - oldpwd

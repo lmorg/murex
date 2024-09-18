@@ -238,3 +238,60 @@ func TestParseExprLogicalAnd(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseExprPlusPlus(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "TestParseExprPlusPlus0 = 0; $TestParseExprPlusPlus0++; $TestParseExprPlusPlus0",
+			Stdout: "^1$",
+		},
+		{
+			Block:  "TestParseExprPlusPlus1 = 1; TestParseExprPlusPlus1++; $TestParseExprPlusPlus1",
+			Stdout: "^1$",
+			Stderr: "Error",
+		},
+		{
+			Block:  "TestParseExprPlusPlus2 = 2; $TestParseExprPlusPlus2 ++; $TestParseExprPlusPlus2",
+			Stdout: "^3$",
+		},
+		/*{ // doesn't compile
+			Block:  "TestParseExprPlusPlus3 = 3; $TestParseExprPlusPlus3 ++ 4; $TestParseExprPlusPlus3",
+			Stdout: "^3$",
+			Stderr: "commands cannot begin with",
+		},*/
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
+
+func TestParseExprMinusMinus(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "TestParseExprMinusMinus0 = 0; $TestParseExprMinusMinus0--; $TestParseExprMinusMinus0",
+			Stdout: "^-1$",
+		},
+		{
+			Block:  "TestParseExprMinusMinus1 = 1; TestParseExprMinusMinus1--; $TestParseExprMinusMinus1",
+			Stdout: "^1$",
+			Stderr: "Error",
+		},
+		{
+			Block:  "TestParseExprMinusMinus2 = 2; $TestParseExprMinusMinus2 --; $TestParseExprMinusMinus2",
+			Stdout: "^1$",
+		},
+		/*{ // doesn't compile
+			Block:  "TestParseExprMinusMinus3 = 3; $TestParseExprMinusMinus3 -- 4; $TestParseExprMinusMinus3",
+			Stdout: "^7$",
+		},*/
+		{
+			Block:  "TestParseExprMinusMinus4 = 4; $TestParseExprMinusMinus4 --5; $TestParseExprMinusMinus4",
+			Stdout: "^94$",
+		},
+		{
+			Block:  "TestParseExprMinusMinus5 = 5; $TestParseExprMinusMinus5--6; $TestParseExprMinusMinus5",
+			Stdout: "^115$",
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

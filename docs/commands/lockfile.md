@@ -1,4 +1,4 @@
-# `lockfile`
+# Lock Files (`lockfile`)
 
 > Create and manage lock files
 
@@ -48,11 +48,16 @@ lockfile wait example
 out "lock file gone!"
 ```
 
+## Synonyms
+
+* `lockfile`
+
+
 ## See Also
 
-* [`bg`](../commands/bg.md):
+* [Background Process (`bg`)](../commands/bg.md):
   Run processes in the background
-* [`out`](../commands/out.md):
+* [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

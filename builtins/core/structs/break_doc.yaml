@@ -1,7 +1,8 @@
 - DocumentID: return
   Title: >+
-    `return`
+    Exit Function (`return`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Exits current function scope
   Description: |-
@@ -63,8 +64,9 @@
 
 - DocumentID: break
   Title: >+
-    `break`
+    Exit Block (`break`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Terminate execution of a block within your processes scope
   Description: |-
@@ -170,8 +172,9 @@
 
 - DocumentID: continue
   Title: >+
-    `continue`
+    Next Iteration (`continue`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Terminate process of a block within a caller function
   Description: |-

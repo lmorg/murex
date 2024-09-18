@@ -87,7 +87,7 @@ prompt:
 
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [`config`](../commands/config.md):
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

@@ -1,9 +1,8 @@
 package management
 
 import (
-	"errors"
 	"fmt"
-	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config/defaults"
@@ -15,13 +14,14 @@ func init() {
 	lang.DefineFunction("version", cmdVersion, types.String)
 
 	defaults.AppendProfile(`
-	autocomplete set version { [{
-		"Flags": [ "--short", "--no-app-name", "--license", "--copyright" ]
-	}] }
+	autocomplete set version %[{
+		Flags: [
+			--short     --no-app-name --license --license-full
+			--copyright --build-date  --branch
+		]
+	}]
 `)
 }
-
-var rxVersionNum = regexp.MustCompile(`^[0-9]+\.[0-9]+`)
 
 func cmdVersion(p *lang.Process) error {
 	s, _ := p.Parameters.String(0)
@@ -30,11 +30,8 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--short":
 		p.Stdout.SetDataType(types.Number)
-		num := rxVersionNum.FindStringSubmatch(app.Version())
-		if len(num) != 1 {
-			return errors.New("unable to extract version number from string")
-		}
-		_, err := p.Stdout.Write([]byte(num[0]))
+		version := fmt.Sprintf("%d.%d", app.Major, app.Minor)
+		_, err := p.Stdout.Write([]byte(version))
 		return err
 
 	case "--no-app-name":
@@ -47,14 +44,34 @@ func cmdVersion(p *lang.Process) error {
 		_, err := p.Stdout.Writeln([]byte(app.License))
 		return err
 
+	case "--license-full":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(app.GetLicenseFull()))
+		return err
+
 	case "--copyright":
 		p.Stdout.SetDataType(types.String)
 		_, err := p.Stdout.Writeln([]byte(app.Copyright))
 		return err
 
+	case "--build-date":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(app.BuildDate))
+		return err
+
+	case "--branch":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(app.Branch))
+		return err
+
 	case "":
 		p.Stdout.SetDataType(types.String)
-		v := fmt.Sprintf("%s: %s\n%s\n%s", app.Name, app.Version(), app.License, app.Copyright)
+		v := fmt.Sprintf(
+			"%s: %s\nBuilt: %s\nLicense: %s\nCopyright: %s",
+			strings.Title(app.Name), app.Version(),
+			app.BuildDate,
+			app.License,
+			app.Copyright)
 		_, err := p.Stdout.Writeln([]byte(v))
 		return err
 

@@ -1,7 +1,11 @@
 - DocumentID: expr
   Title: >+
-    `expr`
+    Expressions (`expr`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.num
+    - commands.lang
+    - commands.posix
   Summary: >-
     Expressions: mathematical, string comparisons, logical operators
   Description: |-
@@ -15,7 +19,7 @@
     # idiomatic expressions
     1 + 2
 
-    # non-idiotmatic expressions
+    # non-idiomatic expressions
     expr 1 + 2
     ```
 

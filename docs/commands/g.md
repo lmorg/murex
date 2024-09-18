@@ -1,4 +1,4 @@
-# `g`
+# Globbing (`g`)
 
 > Glob pattern matching for file system objects (eg `*.txt`)
 
@@ -78,7 +78,7 @@ g [aeiou]*/*
 
 ### Pattern Reference
 
-Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match)
+Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/filepath#Match).
 
 #### pattern
 
@@ -102,14 +102,10 @@ Murex globbing is based on [Go's stdlib Match library](https://pkg.go.dev/path/f
 ### Inverse Matches
 
 If you want to exclude any matches based on wildcards, rather than include
-them, then you can use the bang prefix. eg
+them, then you can use the bang prefix. For example, here we use an asterisks
+to exclude everything:
 
 ```
-» g READ*
-[
-    "README.md"
-]
-
 » !g *
 Error in `!g` (1,1): No data returned.
 ```
@@ -136,14 +132,14 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
 
 ## See Also
 
-* [`f`](../commands/f.md):
+* [List Filesystem Objects (`f`)](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [`match`](../commands/match.md):
+* [Match String (`match`)](../commands/match.md):
   Match an exact value in an array
-* [`regexp`](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [`rx`](../commands/rx.md):
+* [Regex Matches (`rx`)](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+* [Regex Operations (`regexp`)](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 
 <hr/>
 

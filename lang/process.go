@@ -338,7 +338,8 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		// Don't here p.State.Set(state.Executing) - this should be done in `exec` builtin
+		// Don't put the following here: p.State.Set(state.Executing)
+		// That should be done in the `exec` builtin instead
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
 			_, cpErr := ParseExpression(p.raw, 0, false)
@@ -355,7 +356,6 @@ executeProcess:
 	}
 
 cleanUpProcess:
-	//debug.Json("Execute process (cleanUpProcess)", p)
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))
@@ -380,19 +380,19 @@ cleanUpProcess:
 	if len(p.NamedPipeOut) > 7 /* tmp:$FID/$MD5 */ && p.NamedPipeOut[:4] == "tmp:" {
 		out, err := GlobalPipes.Get(p.NamedPipeOut)
 		if err != nil {
-			p.Stderr.Writeln([]byte(fmt.Sprintf("Error connecting to temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
+			p.Stderr.Writeln([]byte(fmt.Sprintf("!!! Error connecting to temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
 		} else {
 			p.stdoutOldPtr.Open()
 			_, err = out.WriteTo(p.stdoutOldPtr)
 			p.stdoutOldPtr.Close()
 			if err != nil && err != io.EOF {
-				p.Stderr.Writeln([]byte(fmt.Sprintf("Error piping from temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
+				p.Stderr.Writeln([]byte(fmt.Sprintf("!!! Error piping from temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
 			}
 		}
 
 		err = GlobalPipes.Close(p.NamedPipeOut)
 		if err != nil {
-			p.Stderr.Writeln([]byte(fmt.Sprintf("Error closing temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
+			p.Stderr.Writeln([]byte(fmt.Sprintf("!!! Error closing temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
 		}
 	}
 

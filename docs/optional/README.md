@@ -38,6 +38,8 @@ murex-docs trypipe
 
 ## Pages
 
+* [Inline SQL (`select`)](../optional/select.md):
+  Inlining SQL into shell pipelines
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file
 * [`base64` ](../optional/base64.md):
@@ -46,7 +48,5 @@ murex-docs trypipe
   Compress or decompress a gzip file
 * [`qr`](../optional/qr.md):
   Creates a QR code from stdin
-* [`select`](../optional/select.md):
-  Inlining SQL into shell pipelines
 * [`sleep`](../optional/sleep.md):
   Suspends the shell for a number of seconds

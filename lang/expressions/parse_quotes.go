@@ -3,6 +3,7 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/utils/ansi"
 )
@@ -149,8 +150,11 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 
 		case r == '~':
 			// tilde
-			tilde := tree.parseVarTilde(exec)
-			value = append(value, []rune(tilde)...)
+			home, err := tree.parseVarTilde(exec)
+			if err != nil {
+				return nil, err
+			}
+			value = append(value, []rune(home)...)
 
 		case r == '(' && qEnd == ')':
 			v, err := tree.parseParenthesis(exec)
@@ -183,7 +187,7 @@ endString:
 
 func (tree *ParserT) parseBackTick(quote rune, exec bool) ([]rune, error) {
 	if exec {
-		//lang.Deprecated("Automatic backtick (`) converstions to single quote (')", tree.p.FileRef)
+		lang.FeatureDeprecated("Automatic backtick (`) conversions to single quote (')", tree.p.FileRef)
 		quote = '\''
 	}
 

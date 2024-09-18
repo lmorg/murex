@@ -1,9 +1,10 @@
+{{ $doc := doct "" "INSTALL" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: download
+icon: download
+title: {{ quote $doc.Title }}
 
 ---
-{{ end }}<h1>Install Murex</h1>
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 

@@ -1,4 +1,4 @@
-# `f`
+# List Filesystem Objects (`f`)
 
 > Lists or filters file system objects (eg files)
 
@@ -110,14 +110,19 @@ rx '\.(txt|md)' -> f +fw
 `+` flags are always matched first. Then the `-` flags are used to filter out
 any matches from the `+` flags.
 
+## Synonyms
+
+* `f`
+
+
 ## See Also
 
-* [`g`](../commands/g.md):
+* [Globbing (`g`)](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
+* [Regex Matches (`rx`)](../commands/rx.md):
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`rx`](../commands/rx.md):
-  Regexp pattern matching for file system objects (eg `.*\\.txt`)
 
 <hr/>
 

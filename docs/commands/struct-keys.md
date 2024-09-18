@@ -1,4 +1,4 @@
-# `struct-keys`
+# Print Map / Structure Keys (`struct-keys`)
 
 > Outputs all the keys in a structure as a file path
 
@@ -156,16 +156,21 @@ Separator can also be multiple characters:
 * `-s`
     Alias for `--separator`
 
+## Synonyms
+
+* `struct-keys`
+
+
 ## See Also
 
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`formap`](../commands/formap.md):
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [For Each In Map (`formap`)](../commands/formap.md):
   Iterate through a map or other collection of data
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
 
 <hr/>
 

@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
@@ -34,6 +35,13 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 		hasError := false
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		go func(testNum int) {
+			time.Sleep(30 * time.Second)
+			if !fork.Process.HasCancelled() {
+				panic(fmt.Sprintf("timeout in %s() test %d", t.Name(), testNum))
+			}
+		}(i)
+
 		fork.Name.Set("RunMurexTests()")
 		fork.FileRef = &ref.File{Source: &ref.Source{Module: fmt.Sprintf("murex/%s-%d", t.Name(), i)}}
 		exitNum, err := fork.Execute([]rune(tests[i].Block))

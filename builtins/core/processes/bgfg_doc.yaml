@@ -1,7 +1,9 @@
 - DocumentID: bg
   Title: >+
-    `bg`
+    Background Process (`bg`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Run processes in the background
   Description: |-
@@ -30,6 +32,7 @@
     non-platforms. This means the usage described in the examples is cross
     cross platform while `bg int` currently does not work on Windows nor Plan 9.
   Synonyms:
+    - bg
   Related:
     - fid-list
     - fid-kill
@@ -42,8 +45,10 @@
 
 - DocumentID: fg
   Title: >+
-    `fg`
+    Foreground Process (`fg`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.proc
   Summary: >-
     Sends a background process into the foreground
   Description: |-
@@ -54,12 +59,13 @@
     ```
     fg fid
     ```
-  Examples: |-
+  Examples:
   Flags:
   Detail: |-
     This builtin is only supported on POSIX systems. There is no support planned
     for Windows (due to the kernel not supporting the right signals) nor Plan 9.
   Synonyms:
+    - fg
   Related:
     - fid-list
     - fid-kill

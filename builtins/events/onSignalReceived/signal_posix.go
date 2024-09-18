@@ -28,14 +28,23 @@ func cmdSendSignal(p *lang.Process) error {
 		return err
 	}
 
-	proc, err := os.FindProcess(pid)
-	if err != nil {
-		return err
-	}
-
 	if !isValidInterrupt(sig) {
 		return fmt.Errorf("invalid signal name '%s'. Expecting something like 'SIGINT'", sig)
 	}
 
+	proc, err := os.FindProcess(pid)
+	defer release(proc)
+	if err != nil {
+		return err
+	}
+
 	return proc.Signal(interrupts[sig])
+}
+
+func release(proc *os.Process) {
+	err := proc.Release()
+	if err != nil {
+		msg := fmt.Sprintf("!!! Cannot release process: %s", err.Error())
+		lang.ShellProcess.Stderr.Writeln([]byte(msg))
+	}
 }

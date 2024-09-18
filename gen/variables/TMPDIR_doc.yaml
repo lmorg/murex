@@ -1,0 +1,21 @@
+- DocumentID: tmpdir
+  Title: >-
+    `TMPDIR` (path)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.posix ]
+  Summary: >-
+    Return the temporary directory
+  Description: |-
+    `TMPDIR` returns the temporary directory.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail:
+  Synonyms:
+  - tmpdir
+  - TMPDIR
+  Related:
+  - path
+  - reserved-vars
+  - tilde
+
+

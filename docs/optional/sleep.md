@@ -32,11 +32,11 @@ or similar platforms then you will need to launch with the `exec` builtin:
 
 ## See Also
 
-* [`exec`](../commands/exec.md):
+* [Execute External Command (`exec`)](../commands/exec.md):
   Runs an executable
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
-* [`time`](../commands/time.md):
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
+* [Processes Execution Time (`time`)](../commands/time.md):
   Returns the execution run time of a command or block
 
 <hr/>

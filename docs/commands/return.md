@@ -1,4 +1,4 @@
-# `return`
+# Exit Function (`return`)
 
 > Exits current function scope
 
@@ -56,20 +56,20 @@ was passed).
 
 ## See Also
 
-* [`break`](../commands/break.md):
+* [Exit Block (`break`)](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [`continue`](../commands/continue.md):
-  Terminate process of a block within a caller function
-* [`exit`](../commands/exit.md):
+* [Exit Murex (`exit`)](../commands/exit.md):
   Exit murex
-* [`exitnum`](../commands/exitnum.md):
+* [Get Exit Code (`exitnum`)](../commands/exitnum.md):
   Output the exit number of the previous process
-* [`function`](../commands/function.md):
-  Define a function block
-* [`out`](../commands/out.md):
+* [Next Iteration (`continue`)](../commands/continue.md):
+  Terminate process of a block within a caller function
+* [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [`private`](../commands/private.md):
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
+* [Public Function (`function`)](../commands/function.md):
+  Define a function block
 
 <hr/>
 

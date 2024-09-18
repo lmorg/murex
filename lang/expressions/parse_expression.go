@@ -149,14 +149,18 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				tree.appendAst(symbols.Like)
 				tree.charPos++
 			case '>':
-				// merge into
-				tree.appendAst(symbols.MergeInto)
+				// immutable merge
+				tree.appendAst(symbols.Merge)
 				tree.charPos++
 			default:
 				// tilde
+				home, err := tree.parseVarTilde(exec)
+				if err != nil {
+					return err
+				}
 				tree.appendAstWithPrimitive(symbols.Calculated, primitives.NewPrimitive(
 					primitives.String,
-					tree.parseVarTilde(exec),
+					home,
 				))
 			}
 
@@ -200,7 +204,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			if err != nil {
 				return err
 			}
-			tree.charPos += branch.charPos - 1
+
 			if exec {
 				dt, err := branch.executeExpr()
 				if err != nil {
@@ -210,10 +214,11 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				if err != nil {
 					return err
 				}
-				tree.appendAstWithPrimitive(symbols.Exp(val.Primitive), dt)
+				tree.appendAstWithPrimitive(symbols.Exp(val.Primitive), dt, '(')
 			} else {
 				tree.appendAst(symbols.SubExpressionBegin)
 			}
+			tree.charPos += branch.charPos - 1
 
 		case ')':
 			tree.charPos++
@@ -313,11 +318,11 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))
 				}
-				if !exec {
-					dt := primitives.NewScalar(mxDt, v)
+				if exec {
+					dt := primitives.NewFunction(fn)
 					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
 				} else {
-					dt := primitives.NewFunction(fn)
+					dt := primitives.NewScalar(mxDt, v)
 					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
 				}
 			}
@@ -326,7 +331,7 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 			next := tree.nextChar()
 			switch {
 			case next == '{':
-				// subshell
+				// sub-shell
 				runes, fn, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
@@ -358,8 +363,11 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				// equal add
 				tree.appendAst(symbols.AssignAndAdd)
 				tree.charPos++
+			case '+':
+				tree.appendAst(symbols.PlusPlus)
+				tree.charPos++
 			default:
-				// add (+append)
+				// add
 				tree.appendAst(symbols.Add)
 			}
 
@@ -384,6 +392,10 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				// arrow pipe
 				tree.charPos--
 				return nil
+			case c == '-' && (tree.charPos+2 >= len(tree.expression) ||
+				!(tree.expression[tree.charPos+2] >= '0' && '9' >= tree.expression[tree.charPos+2])):
+				tree.appendAst(symbols.MinusMinus)
+				tree.charPos++
 			default:
 				tree.appendAst(symbols.Subtract)
 				// invalid hyphen
@@ -463,4 +475,31 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 	}
 
 	return nil
+}
+
+func (tree *ParserT) parseSubExpression(exec bool) (any, error) {
+	start := tree.charPos
+	tree.charPos++
+	branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
+	branch.charOffset = tree.charPos + tree.charOffset
+	branch.subExp = true
+	err := branch.parseExpression(exec, true)
+	if err != nil {
+		return nil, err
+	}
+	tree.charPos += branch.charPos - 1
+	if exec {
+		dt, err := branch.executeExpr()
+		if err != nil {
+			return nil, err
+		}
+		val, err := dt.GetValue()
+		if err != nil {
+			return nil, err
+		}
+		return val.Value, nil
+	} else {
+		return string(tree.expression[start:tree.charPos]), nil
+	}
+
 }

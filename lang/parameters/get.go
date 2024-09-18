@@ -59,6 +59,14 @@ func (p *Parameters) RuneArray() [][]rune {
 	return r
 }
 
+// RuneAll returns all parameters as one space-delimited array of runes
+func (p *Parameters) RuneAll() []rune {
+	p.mutex.RLock()
+	defer p.mutex.RUnlock()
+
+	return []rune(strings.Join(p.params, " "))
+}
+
 // String gets a single parameter as string
 func (p *Parameters) String(pos int) (string, error) {
 	p.mutex.RLock()

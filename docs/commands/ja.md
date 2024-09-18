@@ -1,4 +1,4 @@
-# `ja` (mkarray)
+# Create JSON Array (`ja`)
 
 > A sophisticated yet simply way to build a JSON array
 
@@ -56,24 +56,24 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
+* [Count (`count`)](../commands/count.md):
+  Count items in a map, list or array
+* [Create New Array (`ta`)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Reverse Array (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
-  Count items in a map, list or array
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
-* [`mtac`](../commands/mtac.md):
-  Reverse the order of an array
-* [`ta` (mkarray)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
 
 <hr/>
 

@@ -49,7 +49,7 @@ func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting
 		}
 		b = utils.CrLfTrim(b)
 		val.DataType = fork.Stdout.GetDataType()
-		val.Value, err = formatBytes(b, val.DataType, strOrVal)
+		val.Value, err = formatBytes(tree, b, val.DataType, strOrVal)
 		if err != nil {
 			return nil, fmt.Errorf("function `%s` STDOUT conversion error: %s", string(cmd), err.Error())
 		}
@@ -127,7 +127,6 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 				// generic pipe
 				return nil, errNotAllowedInFunctions(cmd, "generic pipes", []rune(`=>`)...)
 			default:
-				// assign value
 				continue
 			}
 

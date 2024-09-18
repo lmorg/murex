@@ -1,7 +1,8 @@
 - DocumentID: rx
   Title: >+
-    `rx`
+    Regex Matches (`rx`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Regexp pattern matching for file system objects (eg `.*\\.txt`)
   Description: |-

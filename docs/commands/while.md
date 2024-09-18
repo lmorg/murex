@@ -1,4 +1,4 @@
-# `while`
+# Loop While (`while`)
 
 > Loop until condition false
 
@@ -96,22 +96,22 @@ The following meta values are defined:
 
 ## See Also
 
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`for`](../commands/for.md):
-  A more familiar iteration loop to existing developers
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`formap`](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [`global`](../commands/global.md):
+* [Define Global (`global`)](../commands/global.md):
   Define a global variable and set it's value
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [For Each In Map (`formap`)](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Loop (`for`)](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 
 <hr/>
 

@@ -1,6 +1,7 @@
 - DocumentID: multiply-by
   Title: >-
     `*=` Multiply By Operator
+  SubCategoryIDs: [ parser.assignment ]
   CategoryID: parser
   Summary: >-
     Multiplies a variable by the right hand value (expression)

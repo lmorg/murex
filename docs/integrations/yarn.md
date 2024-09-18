@@ -23,36 +23,35 @@ under `/integrations`.
 
 ## See Also
 
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
 * [`onPreview`](../events/onpreview.md):
   Full screen previews for files and command documentation
 
 ## Other Integrations
 
 * [ChatGPT](../integrations/chatgpt.md):
-  How to enable ChatGPT hints
+    How to enable ChatGPT hints
 * [Cheat.sh](../integrations/cheatsh.md):
-  Cheatsheets provided by cheat.sh
+    Cheatsheets provided by cheat.sh
 * [Kitty Integrations](../integrations/kitty.md):
-  Get more out of Kitty terminal emulator
+    Get more out of Kitty terminal emulator
 * [Makefiles / `make`](../integrations/make.md):
-  `make` integrations
+    `make` integrations
 * [Man Pages (POSIX)](../integrations/man-pages.md):
-  Linux/UNIX `man` page integrations
+    Linux/UNIX `man` page integrations
 * [Spellcheck](../integrations/spellcheck.md):
-  How to enable inline spellchecking
+    How to enable inline spellchecking
 * [Terminology Integrations](../integrations/terminology.md):
-  Get more out of Terminology terminal emulator
+    Get more out of Terminology terminal emulator
 * [`direnv` Integrations](../integrations/direnv.md):
-  Directory specific environmental variables
+    Directory specific environmental variables
 * [`yarn` Integrations](../integrations/yarn.md):
-  Working with `yarn` and `package.json`
+    Working with `yarn` and `package.json`
 * [iTerm2 Integrations](../integrations/iterm2.md):
-  Get more out of iTerm2 terminal emulator
-
+    Get more out of iTerm2 terminal emulator
 
 <hr/>
 

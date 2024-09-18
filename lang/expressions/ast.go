@@ -90,7 +90,7 @@ func (tree *ParserT) foldAst(new *astNodeT) error {
 
 	case tree.astPos >= len(tree.ast)-1:
 		return fmt.Errorf("cannot fold when tree.astPos<%d> >= len(tree.ast)-1<%d> (%s)",
-			tree.astPos, len(tree.ast), consts.IssueTrackerURL)
+			tree.astPos, len(tree.ast)-1, consts.IssueTrackerURL)
 
 	case len(tree.ast) == 3:
 		tree.ast = []*astNodeT{new}
@@ -104,6 +104,34 @@ func (tree *ParserT) foldAst(new *astNodeT) error {
 	default:
 		start := append(tree.ast[:tree.astPos-1], new)
 		end := tree.ast[tree.astPos+2:]
+		tree.ast = append(start, end...)
+	}
+
+	return nil
+}
+
+func (tree *ParserT) foldLeftAst(new *astNodeT) error {
+	switch {
+	case tree.astPos <= 0:
+		return fmt.Errorf("cannot fold when tree.astPos<%d> <= 0<%d> (%s)",
+			tree.astPos, len(tree.ast), consts.IssueTrackerURL)
+
+	case tree.astPos >= len(tree.ast):
+		return fmt.Errorf("cannot fold when tree.astPos<%d> >= len(tree.ast)<%d> (%s)",
+			tree.astPos, len(tree.ast), consts.IssueTrackerURL)
+
+	case len(tree.ast) == 2:
+		tree.ast = []*astNodeT{new}
+
+	case tree.astPos == 1:
+		tree.ast = append([]*astNodeT{new}, tree.ast[2:]...)
+
+	case tree.astPos == len(tree.ast)-1:
+		tree.ast = append(tree.ast[:len(tree.ast)-2], new)
+
+	default:
+		start := append(tree.ast[:tree.astPos-1], new)
+		end := tree.ast[tree.astPos+1:]
 		tree.ast = append(start, end...)
 	}
 

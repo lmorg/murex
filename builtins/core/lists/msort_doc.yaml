@@ -1,7 +1,9 @@
 - DocumentID: msort
   Title: >-
-    `msort`
+    Sort Array (`msort`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Sorts an array - data type agnostic
   Description: |-
@@ -42,7 +44,7 @@
         "a"
     ]
     ```
-  Detail: |-
+  Detail:
   Synonyms:
     - msort
     - list.sort

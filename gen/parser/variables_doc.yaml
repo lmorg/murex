@@ -1,18 +1,45 @@
 - DocumentID: scalar
   Title: >-
-    `$Variable` Sigil
+    `$Scalar` Sigil (eg variables)
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Expand values as a scalar
   Description: |-
     The scalar token is used to tell Murex to expand variables and sub-shells as a
     string (ie one single parameter) irrespective of the data that is stored in the
-    string. One handy common use case is file names where traditional POSIX shells
-    would treat spaces as a new file, whereas Murex treats spaces as a printable
-    character unless explicitly told to do otherwise.
+    string.
+    
+    One common use case where Murex's approach is better is with file names.
+    Traditional shells would treat spaces as a new file. Whereas Murex treats
+    spaces as any other printable character character.
 
-    The string token must be followed with one of the following characters: 
-    alpha, numeric, underscore (`_`) or a full stop / period (`.`).
+    ## Variable Syntax
+
+    There are two basic syntaxes. _Bare_ and _enclosed_.
+    
+    ### Bare Syntax
+
+    _Bare_ syntax looks like the following:
+
+    ```
+    $scalar
+    ```
+    
+    The variable token must be followed with one of the following characters: 
+    alpha (`a` to `z`, upper and lower case), numeric (`0` to `1`), underscore
+    (`_`) and/or a full stop (`.`).
+
+    ### Enclosed Syntax
+
+    _Enclosed_ syntax looks like the following:
+
+    ```
+    $(scalar)
+    ```
+
+    _Enclosed_ syntax supports any unicode characters however the variable name
+    needs to be surrounded by parenthesis. See examples below.
  
   Examples: |-
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
@@ -63,6 +90,7 @@
   Title: >-
     `@Array` Sigil
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Expand values as an array
   Description: |-
@@ -106,10 +134,18 @@
   Title: >-
     `~` Home Sigil
   CategoryID: parser
+  SubCategoryIDs: [ parser.sigils ]
   Summary: >-
     Home directory path variable
   Description: |-
-    The tilde token is used as a lazy reference to the users home directory.
+    The tilde token is used as a convenience shortcut to users home directory.
+
+    By itself, `~` will point to the current users home directory.
+
+    If a username follows, eg `~joe.bloggs`, then the home directory for that user
+    is returned irrespective of who is presently logged in. Characters supported by
+    tilde usernames are alpha upper and lower case, numeric, underscore, full stop
+    (period), and hyphens.
   Examples: |-
     ### Current user
 
@@ -140,6 +176,8 @@
     /
     ```
   Detail: |-
+    ### Infixing
+
     Tilde can be expanded inside double quotes, brace quotes as well as used naked.
     But it cannot be expanded inside single quotes.
     
@@ -156,6 +194,16 @@
     » out %(~)
     /home/bob
     ```
+
+    ### Error Handling
+
+    If a username is supplied that that user doesn't exist, the tilde will raise an
+    error. For example:
+
+    ```
+    » ~joe.bloggs
+    Error in `expr` (0,1): cannot expand variable `~joe.bloggs`: user: unknown user joe.bloggs
+    ```
   Related:
   - string
   - array
@@ -167,3 +215,4 @@
   - ja
   - brace-quote-func
   - reserved-vars
+  - home

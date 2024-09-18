@@ -1,10 +1,13 @@
 # `die`
 
-> Terminate murex with an exit number of 1
+> Terminate murex with an exit number of 1 (deprecated)
 
 ## Description
 
 Terminate Murex with an exit number of 1.
+
+> This builtin has now been deprecated. The same behaviour can be achieved via
+> `exit 1`
 
 ## Usage
 
@@ -20,11 +23,11 @@ die
 
 ## See Also
 
-* [`break`](../commands/break.md):
+* [Exit Block (`break`)](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [`exit`](../commands/exit.md):
+* [Exit Murex (`exit`)](../commands/exit.md):
   Exit murex
-* [`null`](../commands/devnull.md):
+* [Null (`null`)](../commands/devnull.md):
   null function. Similar to /dev/null
 
 <hr/>

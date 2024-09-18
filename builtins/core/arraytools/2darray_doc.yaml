@@ -1,14 +1,15 @@
 - DocumentID: 2darray
   Title: >-
-    `2darray` 
+    Create 2d Array (`2darray`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.struct ]
   Summary: >-
     Create a 2D JSON array from multiple input sources
   Description: |-
     `2darray` merges multiple input sources to create a two dimensional array in JSON
   Usage: |-
     ```
-    2darray { code-block } { code-block } -> <stdout>
+    2darray { code-block } { code-block } ... -> <stdout>
     ```
   Examples: |-
     ```
@@ -86,6 +87,7 @@
   Detail: |-
     `2darray` can have as many or as few code blocks as you wish.
   Synonyms:
+  - 2darray
   Related:
   - prepend
   - append

@@ -1,4 +1,4 @@
-# `switch`
+# Switch Conditional (`switch`)
 
 > Blocks of cascading conditionals
 
@@ -203,32 +203,32 @@ switch {
 
 ## See Also
 
-* [`!` (not)](../commands/not-func.md):
-  Reads the stdin and exit number from previous process and not's it's condition
-* [`and`](../commands/and.md):
-  Returns `true` or `false` depending on whether multiple conditions are met
-* [`break`](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [`catch`](../commands/catch.md):
+* [Caught Error Block (`catch`)](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [`false`](../commands/false.md):
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Exit Block (`break`)](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [False (`false`)](../commands/false.md):
   Returns a `false` value
-* [`if`](../commands/if.md):
+* [If Conditional (`if`)](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [Logic And Statements (`and`)](../commands/and.md):
+  Returns `true` or `false` depending on whether multiple conditions are met
+* [Logic Or Statements (`or`)](../commands/or.md):
+  Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
+* [Loop While (`while`)](../commands/while.md):
+  Loop until condition false
+* [Not (`!`)](../commands/not-func.md):
+  Reads the stdin and exit number from previous process and not's it's condition
+* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [True (`true`)](../commands/true.md):
+  Returns a `true` value
+* [Try Block (`try`)](../commands/try.md):
+  Handles non-zero exits inside a block of code
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`or`](../commands/or.md):
-  Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`true`](../commands/true.md):
-  Returns a `true` value
-* [`try`](../commands/try.md):
-  Handles non-zero exits inside a block of code
-* [`trypipe`](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
-* [`while`](../commands/while.md):
-  Loop until condition false
 
 <hr/>
 

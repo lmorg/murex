@@ -1,0 +1,17 @@
+#!/usr/bin/env murex
+
+words = list.join('%20' @PARAMS)
+
+open https://api.dictionaryapi.dev/api/v2/entries/en/$(words) \
+-> foreach {
+    -> [ meanings ] -> foreach meaning {
+        -> [ definitions ] -> foreach def {
+            $definitions <~ %[ {
+                partOfSpeech: $meaning.partOfSpeech
+                meaning:      $def.definition
+            } ]
+        }
+    }
+}
+
+$definitions

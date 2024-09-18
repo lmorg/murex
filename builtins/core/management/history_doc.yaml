@@ -1,7 +1,9 @@
 - DocumentID: history
   Title: >+
-    `history`
+    Command Line History (`history`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Outputs murex's command history
   Description: |-
@@ -35,6 +37,7 @@
   Detail: |-
     The history file is typically located on disk in a file called `~/.murex.history`.
   Synonyms:
+    - history
   Related:
     - config
     - runtime

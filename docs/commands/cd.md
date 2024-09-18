@@ -1,4 +1,4 @@
-# `cd`
+# Change Directory (`cd`)
 
 > Change (working) directory
 
@@ -79,10 +79,10 @@ config set shell auto-cd true
 
 ## See Also
 
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
 
 <hr/>
 

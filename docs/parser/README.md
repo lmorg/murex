@@ -1,4 +1,4 @@
-# Parser Reference
+# Operators And Tokens
 
 <h2>Table of Contents</h2>
 
@@ -12,6 +12,7 @@
 - [Operators And Tokens](#operators-and-tokens)
   - [Terminology](#terminology)
   - [Modifiers](#modifiers)
+  - [Immutable Merge](#immutable-merge)
   - [Comparators](#comparators)
   - [Assignment](#assignment)
   - [Conditionals](#conditionals)
@@ -57,12 +58,13 @@ Order of operations:
 2. sub-shells / sub-expressions
 3. multiplication / division (expressions only)
 4. addition / subtraction (expressions only)
-5. comparisons, eg greater than
-6. logical and (sub-expressions only)
-7. logical or (sub-expressions only)
-8. elvis (expressions only)
-9. assign (expressions only)
-10. _left_ to _right_
+5. immutable merge
+6. comparisons, eg greater than (expressions only)
+7. logical and (sub-expressions only)
+8. logical or (sub-expressions only)
+9. elvis (expressions only)
+10. assign (expressions only)
+11. _left_ to _right_
 
 ### Expression Or Statement Discovery
 
@@ -102,6 +104,23 @@ Read more:
 * Strict types config: [strict types](/docs/user-guide/strict-types.md)
 * Operators: [+](/docs/parser/addition.md), [-](/docs/parser/subtraction.md), [*](/docs/parser/multiplication.md), [/](/docs/parser/division.md)
 
+### Immutable Merge
+
+Returns the result of merging _right_ into _left_.
+
+_immutable merge_ does not modify the contents of either _left_ nor _right_.
+
+The direction of the arrow indicates that the result returned is a new value
+rather than an updated assignment.
+
+_Left_ can be a statement or expression, whereas _right_ can only be an
+expression. However you can still use a sub-shell as part of, or the entirety,
+of, that expression.
+
+| Operator | Name            | Operation                                   |
+|----------|-----------------|---------------------------------------------|
+| `~>`     | Immutable Merge | Returns merged value of _right_ into _left_ |
+
 ### Comparators
 
 All comparators replace the _left_, operator and _right_ with the returned
@@ -129,23 +148,25 @@ Read more:
 
 ### Assignment
 
-Assignment returns `true` if successful.
+Assignment returns `null` if successful.
 
 Assignment is only supported in expressions.
 
-| Operator | Name                | Operation                                         |
-|----------|---------------------|---------------------------------------------------|
-| `=`      | Assign (overwrite)  | Assign _right_ to _left_                          |
-| `:=`     | Assign (retain)     | **EXPERIMENTAL**                                  |
-| `<~`     | Assign Or Merge     | Merge _right_ (array / object) into _left_        |
-| `+=`     | Assign And Add      | Add _right_ to _left_ and assign to _left_        |
-| `-=`     | Assign And Subtract | Subtract _right_ from _left_ and assign to _left_ |
-| `*=`     | Assign And Multiply | Multiply _right_ with _left_ and assign to _left_ |
-| `/=`     | Assign And Divide   | Divide _right_ with _left_ and assign to _left_   |
+| Operator | Name                  | Operation                                         |
+|----------|-----------------------|---------------------------------------------------|
+| `=`      | Assign (overwrite)    | Assign _right_ to _left_                          |
+| `:=`     | Assign (retain)       | **EXPERIMENTAL**                                  |
+| `<~`     | Assign Or Merge       | Merge _right_ (array / object) into _left_        |
+| `+=`     | Assign And Add        | Add _right_ to _left_ and assign to _left_        |
+| `-=`     | Assign And Subtract   | Subtract _right_ from _left_ and assign to _left_ |
+| `*=`     | Assign And Multiply   | Multiply _right_ with _left_ and assign to _left_ |
+| `/=`     | Assign And Divide     | Divide _right_ with _left_ and assign to _left_   |
+| `++`     | Add one to variable   | Adds one to _right_ and reassigns                 |
+| `--`     | Subtract one from var | Subtracts one from _right_ and reassigns          |
 
 Read more:
 * Data types: [bool](/docs/types/bool.md)
-* Operators: =, [<~](/docs/parser/assign-or-merge.md), [+=](/docs/parser/add-with.md),  [-=](/docs/parser/subtract-by.md), [=](/docs/parser/multiply-by.md), [=](/docs/parser/divide-by.md)
+* Operators: =, [<~](/docs/parser/assign-or-merge.md), [+=](/docs/parser/add-with.md),  [-=](/docs/parser/subtract-by.md), [*=](/docs/parser/multiply-by.md), [/=](/docs/parser/divide-by.md)
 
 ### Conditionals
 
@@ -180,17 +201,18 @@ Sigils are supported in both expressions and statements.
 Constants are supported in both expressions and statements. However `null`,
 `true`, `false` and _number_ will all be interpreted as strings in statements.
 
-| Token         | Name           | Operation                                          |
-|---------------|----------------|----------------------------------------------------|
-| `null`        | Null           | `null` (null / nil / void) type                    |
-| `true`        | True           | `bool` (boolean) true                              |
-| `false`       | False          | `bool` (boolean) false                             |
-| number        | Number         | `num` (numeric) value                              |
-| `'`string`'`  | String Literal | `str` (string) literal value                       |
-| `"`string`"`  | Infix String   | `str` (string) value, supports escaping & infixing |
-| `%(`string`)` | String Builder | Creates a nestable `str` (string)                  |
-| `%[`array`]`  | Array Builder  | Creates a `json` (JSON) array (list)               |
-| `%{`map`}`    | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
+| Token          | Name           | Operation                                          |
+|----------------|----------------|----------------------------------------------------|
+| `null`         | Null           | `null` (null / nil / void) type                    |
+| `true`         | True           | `bool` (boolean) true                              |
+| `false`        | False          | `bool` (boolean) false                             |
+| number         | Number         | `num` (numeric) value                              |
+| `'`string`'`   | String Literal | `str` (string) literal value                       |
+| `"`string`"`   | Infix String   | `str` (string) value, supports escaping & infixing |
+| `{` code `}`   | Code Block     | `str` (string) value, surrounded by curly braces   |
+| `%(` string `)`| String Builder | Creates a nestable `str` (string)                  |
+| `%[` array `]` | Array Builder  | Creates a `json` (JSON) array (list)               |
+| `%{` map `}`   | Object Builder | Creates a `json` (JSON) object (map / dictionary)  |
 
 Read more:
 * Operators: ['string'](/docs/parser/single-quote.md), ["string"](/docs/parser/double-quote.md), [%(string)](/docs/parser/brace-quote.md), [%[array]](/docs/parser/create-array.md), [%{map}](/docs/parser/create-object.md)
@@ -207,6 +229,7 @@ expression or statement. Because of this they are supported in both.
 | `@{`command parameters...`}` | Sub-shell (array)  | expand a command line as an array  |
 | `(`expression`)`             | Sub-expression     | Inline an expression (_statement_) |
 | `(`expression`)`             | Sub-expression     | Order of evaluation (_expression_) |
+| `[{` code block `}]`         | Lambda             | Run operations across lists / maps |
 
 Read more:
 * [C-style functions](/docs/parser/c-style-fun.md), [sub-shells](/docs/tour.md#sub-shells), [sub-expressions](/docs/parser/expr-inlined.md)
@@ -273,7 +296,7 @@ characters have special meanings when escaped.
 
 ### Murex's Source Code
 
-The parser is located Murex's source under the `lang/` path of the project
+The parser is located Murex's source under the `lang/expressions/` path of the project
 files.
 
 ## Pages
@@ -282,9 +305,21 @@ files.
   Inline expressions
 * [C-style functions](../parser/c-style-fun.md):
   Inlined commands for expressions and statements
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+  Reads from a Murex named pipe
+* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Truncate File (`>`)](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`$Variable` Sigil](../parser/scalar.md):
+* [`$Scalar` Sigil (eg variables)](../parser/scalar.md):
   Expand values as a scalar
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -332,18 +367,10 @@ files.
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
 * [`[{ Lambda }]`](../parser/lambda.md):
   Iterate through structured data
 * [`{ Curly Brace }`](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [`|>` Truncate File](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`||` Or Logical Operator](../parser/logical-or.md):

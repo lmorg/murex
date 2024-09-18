@@ -1,7 +1,8 @@
 - DocumentID: is-null
   Title: >+
-    `is-null`
+    Is Value Null (`is-null`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.lang ]
   Summary: >-
     Checks if a variable is null or undefined
   Description: |-

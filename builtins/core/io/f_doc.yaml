@@ -1,7 +1,8 @@
 - DocumentID: f
   Title: >+
-    `f`
+    List Filesystem Objects (`f`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.fs ]
   Summary: >-
     Lists or filters file system objects (eg files)
   Description: |-
@@ -82,6 +83,7 @@
     `+` flags are always matched first. Then the `-` flags are used to filter out
     any matches from the `+` flags.
   Synonyms:
+    - f
   Related:
     - g
     - rx

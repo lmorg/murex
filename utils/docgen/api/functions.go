@@ -2,6 +2,7 @@ package docgen
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -16,23 +17,25 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"md":         funcMarkdown,
-	"quote":      funcQuote,
-	"trim":       strings.TrimSpace,
-	"doc":        funcRenderedDocuments,
-	"cat":        funcRenderedCategories,
-	"link":       funcLink,
-	"bookmark":   funcLinkBookmark,
-	"section":    funcSection,
-	"file":       funcFile,
-	"notanindex": funcNotAnIndex,
-	"date":       funcDate,
-	"time":       funcTime,
-	"doct":       funcDocT,
-	"othercats":  funcOtherCats,
-	"otherdocs":  funcOtherDocs,
-	"env":        funcEnv,
-	"fn":         funcFunctions,
+	"md":           funcMarkdown,
+	"quote":        funcQuote,
+	"trim":         strings.TrimSpace,
+	"doc":          funcRenderedDocuments,
+	"cat":          funcRenderedCategories,
+	"link":         funcLink,
+	"bookmark":     funcLinkBookmark,
+	"section":      funcSection,
+	"file":         funcFile,
+	"notanindex":   funcNotAnIndex,
+	"date":         funcDate,
+	"time":         funcTime,
+	"doct":         funcDocT,
+	"othercats":    funcOtherCats,
+	"otherdocs":    funcOtherDocs,
+	"env":          funcEnv,
+	"fn":           funcFunctions,
+	"vuepressmenu": funcVuePressMenu,
+	"dump":         funcDump,
 }
 
 var funcMap__fn = template.FuncMap{}
@@ -196,7 +199,7 @@ func funcInclude(s string) string {
 		w := bytes.NewBuffer([]byte{})
 		t := template.Must(template.New(path).Funcs(funcMap).Parse(string(b)))
 		if err := t.Execute(w, nil); err != nil {
-			panic(err.Error())
+			panic(fmt.Sprintf("%s (%s)", err.Error(), path))
 		}
 
 		s = strings.Replace(s, match[i][0], w.String(), -1)
@@ -258,6 +261,9 @@ func funcTime(dt time.Time) string {
 // Takes: string (category, document ID)
 // Returns: document type
 func funcDocT(cat, doc string) *document {
+	if cat == "" || cat == "*" {
+		cat = "???"
+	}
 	return Documents.ByID("!!!", cat, doc)
 }
 
@@ -325,4 +331,92 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	return w.String()
+}
+
+/************
+ * VuePress *
+ ************/
+
+const (
+	_VUE_TEXT        = "text"
+	_VUE_LINK        = "link"
+	_VUE_ICON        = "icon"
+	_VUE_INDEX       = "index"
+	_VUE_CHILDREN    = "children"
+	_VUE_COLLAPSIBLE = "collapsible"
+)
+
+// Takes: string, category ID
+// Returns: JSON string
+func funcVuePressMenu(catID string) string {
+	cat := Config.Categories.ByID(catID)
+	if cat == nil {
+		panic(fmt.Sprintf("cannot find category with ID '%s'", catID))
+	}
+
+	index := map[string]any{
+		_VUE_TEXT:  vueTitle(cat.Title),
+		_VUE_ICON:  "file-lines",
+		_VUE_INDEX: true,
+		_VUE_LINK:  fmt.Sprintf("/%s/", cat.ID),
+	}
+	menu := append([]map[string]any{index}, vuePressSubMenu(cat)...)
+
+	for i := range Documents {
+		if Documents[i].CategoryID != cat.ID || len(Documents[i].SubCategoryIDs) > 0 {
+			continue
+		}
+		menu = append(menu, map[string]any{
+			_VUE_TEXT: vueTitle(Documents[i].Title),
+			_VUE_LINK: Documents[i].Hierarchy() + ".html",
+			_VUE_ICON: "file-lines", //cat.VueIcon,
+		})
+	}
+
+	b, err := json.MarshalIndent(menu, "", "    ")
+	if err != nil {
+		panic(fmt.Sprintf("cannot marshal JSON: %s", err.Error()))
+	}
+
+	return string(b)
+}
+
+func vuePressSubMenu(cat *category) []map[string]any {
+	var menu []map[string]any
+	for _, sub := range cat.SubCategories {
+		var subMenu []map[string]any
+		for i := range Documents {
+			if Documents[i].IsInSubCategory(sub.ID) {
+				subMenu = append(subMenu, map[string]any{
+					_VUE_TEXT: vueTitle(Documents[i].Title),
+					_VUE_LINK: Documents[i].Hierarchy() + ".html",
+					_VUE_ICON: "file-lines",
+				})
+			}
+		}
+		menu = append(menu, map[string]any{
+			_VUE_TEXT:        vueTitle(sub.Title),
+			_VUE_ICON:        "folder-closed", //"angles-right", //sub.VueIcon,
+			_VUE_CHILDREN:    subMenu,
+			_VUE_COLLAPSIBLE: true,
+		})
+	}
+
+	return menu
+}
+
+var rxVueTitle = regexp.MustCompile("[\\r\\n`]")
+
+func vueTitle(s string) string {
+	return rxVueTitle.ReplaceAllString(s, "")
+}
+
+/************
+ *   Dump   *
+ ************/
+
+// Returns: A JSON dump of something (this is an internal tool for debugging)
+func funcDump() string {
+	b, _ := json.MarshalIndent(Config.Categories, "", "    ")
+	return string(b)
 }

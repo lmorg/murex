@@ -116,13 +116,13 @@ empty Filename string.
 
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
-* [`murex-package`](../commands/murex-package.md):
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
+* [Murex Package Management (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
-* [`private`](../commands/private.md):
+* [Private Function (`private`)](../commands/private.md):
   Define a private function block
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
-* [`test`](../commands/test.md):
+* [Shell Script Tests (`test`)](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
 
 <hr/>

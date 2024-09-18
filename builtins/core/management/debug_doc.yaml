@@ -1,7 +1,9 @@
 - DocumentID: debug
   Title: >+
-    `debug`
+    Debugging Mode (`debug`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.shell
   Summary: >-
     Debugging information
   Description: |-
@@ -184,6 +186,7 @@
     debug panic
     ```
   Synonyms:
+  - debug
   Related:
   - runtime
   - test

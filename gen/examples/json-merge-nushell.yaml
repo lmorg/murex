@@ -1,0 +1,23 @@
+- DocumentID: json-merge-nushell
+  Title: >-
+    JSON Merge
+  CategoryID: examples
+  Summary: >-
+    Merging two JSON arrays (comparing Murex to Nushell)
+  Description: |-
+    In this example we'll merge two JSON files together, using example code from
+    Nushell to illustrate Murex's syntax.
+  Detail: |-
+    {{ include "gen/examples/json-merge-nushell.md" }}
+  Related:
+  - expr
+  - addition
+  - subtract-by
+  - multiply-by
+  - divide-by
+  - int
+  - float
+  - num
+  - config
+  - cast
+  - operators-and-tokens

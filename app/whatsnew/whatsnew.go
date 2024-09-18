@@ -34,8 +34,9 @@ func Display() {
 	}
 
 changelog:
-	fmt.Fprintf(os.Stdout, "Welcome to murex %d.%d.%d\nChangelog: https://murex.rocks/changelog/\nOr run `help changelog/v%d.%d` from the command line\n",
-		app.Major, app.Minor, app.Revision, app.Major, app.Minor)
+	fmt.Fprintf(os.Stdout, "Welcome to murex %s\nChangelog: https://murex.rocks/changelog/\nOr run `help changelog/v%d.%d` from the command line\n",
+		app.Version(),
+		app.Major, app.Minor)
 
 	f, err = os.OpenFile(profile.ModulePath()+"/version", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {

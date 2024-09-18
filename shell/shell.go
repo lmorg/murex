@@ -19,6 +19,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/session"
+	signalhandler "github.com/lmorg/murex/shell/signal_handler"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -58,6 +60,8 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 // Start the interactive shell
 func Start() {
 	defer crash.Handler()
+
+	session.UnixOpenTTY()
 
 	whatsnew.Display()
 
@@ -119,7 +123,7 @@ func showPrompt() {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
-	SignalHandler(true)
+	//lang.UnixPidToFg(0)
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
@@ -157,7 +161,7 @@ func showPrompt() {
 			ansititle.Tmux([]byte(app.Name))
 		}
 
-		signalRegister(true)
+		signalhandler.Register(true)
 
 		setPromptHistory()
 		Prompt.TabCompleter = tabCompletion
@@ -189,7 +193,7 @@ func showPrompt() {
 			case readline.ErrCtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Fprintln(os.Stdout, PromptSIGINT)
+				fmt.Fprintln(os.Stdout, signalhandler.PromptSIGINT)
 				callEventsPrompt(promptops.Cancel, nil)
 				continue
 
@@ -382,7 +386,7 @@ func Spellchecker(r []rune) []rune {
 	new, err := spellcheck.String(s)
 	if err != nil && !ignoreSpellCheckErr {
 		ignoreSpellCheckErr = true
-		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
+		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
 	}
 

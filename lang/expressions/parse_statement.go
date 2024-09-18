@@ -151,14 +151,38 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				tree.charPos--
 				return err
 			default:
-				// assign value
 				appendToParam(tree, r)
 			}
 
 		case '~':
-			// tilde
 			tree.statement.validFunction = false
-			appendToParam(tree, []rune(tree.parseVarTilde(exec))...)
+			switch tree.nextChar() {
+			case '>':
+				// redirect (merge into)
+				if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
+					appendToParam(tree, r, '>')
+					tree.charPos++
+					if err := tree.nextParameter(); err != nil {
+						return err
+					}
+				} else {
+					if len(tree.statement.paramTemp) > 0 {
+						tree.statement.paramTemp = tree.statement.paramTemp[:len(tree.statement.paramTemp)-2]
+						if err := tree.nextParameter(); err != nil {
+							return err
+						}
+					}
+					tree.charPos--
+					return nil
+				}
+			default:
+				// tilde
+				home, err := tree.parseVarTilde(exec)
+				if err != nil {
+					return err
+				}
+				appendToParam(tree, []rune(home)...)
+			}
 
 		case '<':
 			tree.statement.validFunction = false
@@ -448,6 +472,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			case next == '[' && len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0:
 				// @[ command
 				appendToParam(tree, '@', '[')
+				//lang.Deprecated(`@[`, tree.p.FileRef)
 				tree.charPos++
 				if err := tree.nextParameter(); err != nil {
 					return err

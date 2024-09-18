@@ -1,0 +1,72 @@
+- DocumentID: logname
+  Title: >-
+    `LOGNAME` (str)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.posix ]
+  Summary: >-
+    Username for the current session (historic)
+  Description: |-
+    `LOGNAME` returns the user name of the current Murex session. It's behaviour is
+    identical to `USER`.
+
+    > `LOGNAME` is a historical relic. Please use `USER` in your scripts instead.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail: |-
+    ### USER vs LOGNAME
+
+    The `$USER` and `$LOGNAME` environment variables serve similar but slightly
+    different purposes. Plus and their distinctions stem from historical and
+    compatibility reasons.
+
+    1. Historical Context:
+
+       * `$LOGNAME` originates from early AT&T UNIX systems and was intended to
+         hold the user’s login name, particularly for system utilities that relied
+         on it.
+         
+         It has been part of POSIX since early UNIX specifications, which is why it
+         is a required variable in POSIX-compliant systems.
+
+       * `$USER` came from BSD UNIX and was commonly used by shells and more user-
+         focused applications. This variable has been adopted widely in modern
+         systems like Linux to refer to the current user within shell scripts and
+         interactive environments.
+
+    2. Functional Difference:
+
+       Both variables typically hold the same value, representing the current
+       user's login name. However, in certain contexts in POSIX environments,
+       (such as running `sudo` from Bash), their behavior may differ:
+         
+       * `$LOGNAME` is more tightly bound to the user who originally logged in,
+
+       * while `$USER` may be altered during a session.
+
+       **With regards to Murex, both variables call the same underlying function
+       and thus will always return the same values under all circumstances.**
+      
+    3. Why Two Variables?:
+
+       * In POSIX shells like Bash, the existence of both `$LOGNAME` and `$USER`
+         reflects the integration of features from both AT&T UNIX and BSD UNIX.
+         Although they usually return the same value, POSIX mandates `$LOGNAME`
+         for broader system compatibility, especially with utilities that depend
+         on login information.
+
+       * However with Murex, there isn't any requirement to maintain POSIX
+         compatibility with AT&T UNIX. What's more, neither of these two variables
+         are defined as environmental variables.
+
+         The reason Murex retains supports for `$LOGNAME` as a reserved variable is
+         simply to ensure nobody accidentally uses `$LOGNAME` for any other
+         purposes (such as logging) and then get confused why other utilities might
+         break after they've overwritten the contents of `$LOGNAME`
+  Synonyms:
+  - logname
+  - LOGNAME
+  Related:
+  - str
+  - reserved-vars
+  - user
+

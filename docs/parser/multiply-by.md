@@ -43,8 +43,14 @@ value op value**, for example:
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Expressions (`expr`)](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
-  A table of all supported operators and tokens
+  All supported operators and tokens
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
 * [`*` Multiplication Operator](../parser/multiplication.md):
   Multiplies one numeric value with another (expression)
 * [`+=` Add With Operator](../parser/add-with.md):
@@ -53,12 +59,6 @@ value op value**, for example:
   Subtracts a variable by the right hand value (expression)
 * [`/=` Divide By Operator](../parser/divide-by.md):
   Divides a variable by the right hand value (expression)
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`expr`](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
 * [`float` (floating point number)](../types/float.md):
   Floating point number (primitive)
 * [`int`](../types/int.md):

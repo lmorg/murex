@@ -1,7 +1,10 @@
 - DocumentID: out
   Title: >+
-    `out`
+    Output String (`out`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.posix
   Summary: >-
     Print a string to the stdout with a trailing new line character
   Description: |-
@@ -20,7 +23,7 @@
 
     ### echo
 
-    For compatibility with other shells, `echo` is also supported:
+    For compatibility with other shells (and POSIX), `echo` is also supported:
 
     ```
     » echo Hello, World!
@@ -52,8 +55,9 @@
 
 - DocumentID: tout
   Title: >+
-    `tout`
+    Output With Type Annotation (`tout`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.io ]
   Summary: >-
     Print a string to the stdout and set it's data-type
   Description: |-
@@ -76,6 +80,7 @@
 
     Unlike `out`, `tout` does not append a carriage return / line feed.
   Synonyms:
+    - tout
   Related:
     - out
     - err
@@ -91,6 +96,7 @@
   Title: >+
     `(brace quote)`
   CategoryID: parser
+  SubCategoryIDs: [ commands.io ]
   Summary: >-
     Write a string to the stdout without new line (deprecated)
   Description: |-
@@ -141,8 +147,9 @@
 
 - DocumentID: err
   Title: >+
-    `err`
+    Error String (`err`)
   CategoryID: commands
+  SubCategoryIDs: [ commands.io ]
   Summary: >-
     Print a line to the stderr
   Description: |-
@@ -185,6 +192,7 @@
 
     `err` supports ANSI constants.
   Synonyms:
+    - err
   Related:
     - tout
     - out

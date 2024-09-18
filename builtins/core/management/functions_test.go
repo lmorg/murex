@@ -1,7 +1,6 @@
 package management_test
 
 import (
-	"runtime"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
@@ -64,29 +63,4 @@ func TestBuiltinExistsErrors(t *testing.T) {
 	}
 
 	test.RunMurexTestsRx(tests, t)
-}
-
-func TestOs(t *testing.T) {
-	tests := []test.MurexTest{
-		{
-			Block:  `os`,
-			Stdout: runtime.GOOS,
-		},
-		{
-			Block:   `os: bob`,
-			Stdout:  "false",
-			ExitNum: 1,
-		},
-		{
-			Block:   `os: windows`,
-			Stdout:  "false",
-			ExitNum: 1,
-		},
-		{
-			Block:  `os: ` + runtime.GOOS,
-			Stdout: "true",
-		},
-	}
-
-	test.RunMurexTests(tests, t)
 }

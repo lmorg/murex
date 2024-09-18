@@ -1,4 +1,4 @@
-# `tout`
+# Output With Type Annotation (`tout`)
 
 > Print a string to the stdout and set it's data-type
 
@@ -29,22 +29,27 @@ tout data-type "string to write" -> <stdout>
 
 Unlike `out`, `tout` does not append a carriage return / line feed.
 
+## Synonyms
+
+* `tout`
+
+
 ## See Also
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Error String (`err`)](../commands/err.md):
+  Print a line to the stderr
+* [Output String (`out`)](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`err`](../commands/err.md):
-  Print a line to the stderr
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
 
 <hr/>
 

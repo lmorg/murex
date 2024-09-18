@@ -1,4 +1,4 @@
-# `map`
+# Create Map (`map`)
 
 > Creates a map from two data sources
 
@@ -25,28 +25,33 @@ map { code-block } { code-block } -> <stdout>
 }
 ```
 
+## Synonyms
+
+* `map`
+
+
 ## See Also
 
-* [`[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [`alter`](../commands/alter.md):
+* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
+* [Append To List (`append`)](../commands/append.md):
   Add data to the end of an array
-* [`count`](../commands/count.md):
+* [Count (`count`)](../commands/count.md):
   Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
+* [Create JSON Array (`ja`)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [`prepend`](../commands/prepend.md):
+* [Filter By Range `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Prepend To List (`prepend`)](../commands/prepend.md):
   Add data to the start of an array
+* [Split String (`jsplit`)](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Stream New List (`a`)](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
 
 <hr/>
 

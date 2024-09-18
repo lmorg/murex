@@ -1,9 +1,10 @@
+{{ $doc := doct "" "compatibility" }}
 {{ if env "DOCGEN_TARGET=vuepress" }}
-{{ if env "DOCGEN_TARGET=ignore-prefix" }}
-### {{ end }}icon: recycle
+icon: recycle
+title: {{ quote $doc.Title }}
 
 ---
-{{ end }}<h1>Compatibility Commitment</h1>
+{{ else }}<h1>{{ $doc.Title }}</h1>{{ end }}
 
 Murex is committed to backwards compatibility. While we do want to continue to
 grow and improve the shell, this will not come at the expense of long term
@@ -66,7 +67,7 @@ Breaking changes _might_ happen outside of the feature deprecation life cycle
   that solely consists of the new operator is now parsed as an operator rather
   than a string)
 
-Breaking changes will be published in the [changelog](https://murex.rocks/changelog).
+Breaking changes will be published in the [changelog](https://murex.rocks/changelog/).
 
 ### Experimental features
 

@@ -2,6 +2,7 @@
   Title: >-
     `EVENT_RETURN` (json)
   CategoryID: variables
+  SubCategoryIDs: [ vars.scoped ]
   Summary: >-
     Return values for events
   Description: |-

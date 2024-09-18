@@ -76,20 +76,20 @@ hosts = [
 
 ## See Also
 
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
+* [Define Type (`cast`)](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Reformat Data type (`format`)](../commands/format.md):
   Reformat one data-type into another data-type
+* [Shell Runtime (`runtime`)](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl`](../types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [index](../parser/item-index.md):

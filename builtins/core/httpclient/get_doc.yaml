@@ -1,7 +1,9 @@
 - DocumentID: get
   Title: >+
-    `get`
+    Get Request (`get`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.http
   Summary: >-
     Makes a standard HTTP request and returns the result as a JSON object
   Description: |-
@@ -77,8 +79,10 @@
 
 - DocumentID: getfile
   Title: >+
-    `getfile`
+    Download File (`getfile`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.http
   Summary: >-
     Makes a standard HTTP request and return the contents as Murex-aware data type
     for passing along Murex pipelines.

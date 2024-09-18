@@ -1,0 +1,45 @@
+- DocumentID: oldpwd
+  Title: >-
+    `OLDPWD` (path)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.posix ]
+  Summary: >-
+    Return the home directory for the current session user
+  Description: |-
+    `OLDPWD` return the previous directory.
+
+    This variable exists to support POSIX, however the idiomatic way to access this
+    same data is via `$PWDHIST`.
+
+    {{ include "gen/includes/this-is-a-reserved-var.inc.md" }}
+  Detail: |-
+    ### Comparison With PWDHIST
+
+    `PWDHIST` is an array that holds the entire `PWD` history rather than just the
+    previously accessed path.
+
+    `OLDPWD` reads `PWDHIST`, so if `PWDHIST` is overwritten, this will affect the
+    value of `OLDPWD` as well.
+
+    ### Error Handling
+
+    If a previous directory cannot be determined, then `OLDPWD` will error. For
+    example:
+
+    ```
+    » cd $OLDPWD
+    Error in `cd` (0,1): cannot assign value to $OLDPWD: already at oldest entry in $PWDHIST
+                       > Expression: cd $OLDPWD
+                       >           :          ^
+                       > Character : 9
+    ```
+  Synonyms:
+  - oldpwd
+  - OLDPWD
+  Related:
+  - path
+  - reserved-vars
+  - pwd
+  - pwdhist
+
+

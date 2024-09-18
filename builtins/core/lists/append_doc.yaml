@@ -1,7 +1,9 @@
 - DocumentID: prepend
   Title: >-
-    `prepend`
+    Prepend To List (`prepend`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Add data to the start of an array
   Description: |-
@@ -55,8 +57,10 @@
 
 - DocumentID: append
   Title: >+
-    `append`
+    Append To List (`append`)
   CategoryID: commands
+  SubCategoryIDs:
+    - commands.list
   Summary: >-
     Add data to the end of an array
   Description: |-

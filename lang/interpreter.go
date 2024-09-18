@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/expressions/functions"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
@@ -108,6 +109,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].CCExists = parent.CCExists
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 		procs[i].Forks = NewForkManagement()
+		procs[i].SystemProcess = process.NewSystemProcessStruct()
 
 		procs[i].FileRef.Column = parent.FileRef.Column + (*tree)[i].ColumnN
 		procs[i].FileRef.Line = (*tree)[i].LineN
@@ -150,7 +152,6 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		case (*tree)[i].Properties.NewChain():
 			// new chain
 			procs[i].Stdin = streams.NewStdin()
-			//procs[i].Stdin = new(null.Null)
 		}
 
 		// Define stdout / stderr interfaces:

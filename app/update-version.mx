@@ -1,0 +1,27 @@
+#!/usr/bin/env murex
+
+$GLOBAL.APP_GO = "./app.go"
+
+function get_revision_number {
+    $rev = ${ open $GLOBAL.APP_GO -> :str: regexp 'f/Revision\s+=\s+([0-9]+)' }
+    out ($rev+1)
+}
+
+function get_branch_name {
+    git(rev-parse --abbrev-ref HEAD)
+}
+
+!if { g $GLOBAL.APP_GO } then { return }
+
+$rev    = get_revision_number()
+$branch = get_branch_name()
+$date   = datetime(--in {now} --out "{go}2006-01-02 15:04:05")
+
+open $GLOBAL.APP_GO -> cast str \
+-> regexp s %(Revision\s+=\s+[0-9]+) %(Revision  = $rev)      \
+-> regexp s %(Branch\s+=\s+".*?")    %(Branch    = "$branch") \
+-> regexp s %(BuildDate\s+=\s+".*?") %(BuildDate = "$date")   \
+-> set app_go
+
+$app_go |> $GLOBAL.APP_GO
+go <err> fmt $GLOBAL.APP_GO

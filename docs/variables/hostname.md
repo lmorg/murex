@@ -7,46 +7,13 @@
 `HOSTNAME` returns the hostname of the machine (host / server / virtual machine
 / et al) that Murex is running from.
 
-This is a reserved variable so it cannot be changed.
-
-## Other Reserved Variables
-
-* [Numeric (str)](../variables/numeric.md):
-  Variables who's name is a positive integer, eg `0`, `1`, `2`, `3` and above
-* [`$.`, Meta Values (json)](../variables/meta-values.md):
-  State information for iteration blocks
-* [`ARGV` (json)](../variables/argv.md):
-  Array of the command name and parameters within a given scope
-* [`COLUMNS` (int)](../variables/columns.md):
-  Character width of terminal
-* [`EVENT_RETURN` (json)](../variables/event_return.md):
-  Return values for events
-* [`HOSTNAME` (str)](../variables/hostname.md):
-  Hostname of the current machine
-* [`MUREX_ARGV` (json)](../variables/murex_argv.md):
-  Array of the command name and parameters passed to the current shell
-* [`MUREX_EXE` (path)](../variables/murex_exe.md):
-  Absolute path to running shell
-* [`PARAMS` (json)](../variables/params.md):
-  Array of the parameters within a given scope
-* [`PWDHIST` (json)](../variables/pwdhist.md):
-  History of each change to the sessions working directory
-* [`PWD` (path)](../variables/pwd.md):
-  Current working directory
-* [`SELF` (json)](../variables/self.md):
-  Meta information about the running scope.
-* [`SHELL` (str)](../variables/shell.md):
-  Path of current shell
+This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be changed.
 
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
 * [`str` (string)](../types/str.md):
-  string (primitive)
-* [`string` (stringing)](../types/str.md):
   string (primitive)
 
 <hr/>

@@ -10,19 +10,32 @@ Read the [Language Tour]({{if env "DOCGEN_TARGET="}}/docs{{end}}/tour.md) for mo
 
 For clarity, it is worth explaining a couple of terms:
 
-1. "Data-types" in Murex are a description of the format of data. This
-means that while any stdio stream in UNIX will by "bytes", Murex might
-label that data as being a JSON string or CSV file (for example) which
-means any builtins that parse that stdio stream, for example to return
-the first 8 items, would need to parse those types differently. Thus a
-"data-type" in Murex is actually more than just a description of a data
-structure; it is a series of APIs to marshall and unmarshall data from
-complex file formats. This enables you to use the same command line tools
-to query any type of output.
+1. _Data-types_ in Murex _data-types_ are an annotation describing the format
+   of data contained in a pipe or variable. _Data-types_ can be _primitives_ or
+   structured documents like JSON, CSV, and s-expressions.
 
-2. "Primitive" data-types refer to types that are the required by Murex
-to function. These will be `int`, `float` / `number`, `bool`, `string`,
-`generic`, and `null`.
+   Objects like maps and arrays are just documents (typically JSON) however
+   because Murex's builtin commands and expressions work consistently across a
+   multitude of different document types, those JSON objects and CSV tables
+   (et al) feel as native as Murex _data-types_, as strings do in Bash, s-expr
+   in LISP and JSON in JavaScript.
+
+2. _Primitives_ refer to the atomic component of a _data-type_. In other words,
+   the smallest possible format for a piece of data. Where a JSON file might
+   arrays and maps, the values for those objects cannot be divided any smaller
+   than numbers, strings or a small number of constants like `true`, `false`,
+   and `null`.
+
+   In Murex, these are defined as _primitives_ and the following _data-types_
+   are considered to be _primitive types_:
+
+   * Numeric: `int`, `float` and `num`
+  
+   * Boolean: `bool`
+  
+   * Text: `string` and `*` (generic)
+  
+   * Null: `null`
 
 ## Feature Sets
 

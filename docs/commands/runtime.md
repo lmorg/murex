@@ -1,4 +1,4 @@
-# `runtime`
+# Shell Runtime (`runtime`)
 
 > Returns runtime information on the internal state of Murex
 
@@ -281,56 +281,57 @@ functions.
 
 * `runtime`
 * `builtins`
+* `shell.runtime`
 
 
 ## See Also
 
+* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+  Manage Murex named pipes
+* [Debugging Mode (`debug`)](../commands/debug.md):
+  Debugging information
+* [Define Environmental Variable (`export`)](../commands/export.md):
+  Define an environmental variable and set it's value
+* [Define Global (`global`)](../commands/global.md):
+  Define a global variable and set it's value
+* [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
+  Creates a handler function for `open`
+* [Define Method Relationships (`method`)](../commands/method.md):
+  Define a methods supported data-types
+* [Define Variable (`set`)](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+  Lists all running functions within the current Murex session
+* [For Each In List (`foreach`)](../commands/foreach.md):
+  Iterate through an array
+* [For Each In Map (`formap`)](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [Get Item (`[ Index ]`)](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+  Import Murex code from another file or code block
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
-* [`[ Index ]`](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define Murex runtime settings
-* [`debug`](../commands/debug.md):
-  Debugging information
-* [`event`](../commands/event.md):
+* [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
-* [`export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current Murex session
-* [`foreach`](../commands/foreach.md):
-  Iterate through an array
-* [`formap`](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`function`](../commands/function.md):
+* [Open File (`open`)](../commands/open.md):
+  Open a file with a preferred handler
+* [Prettify JSON](../commands/pretty.md):
+  Prettifies JSON to make it human readable
+* [Private Function (`private`)](../commands/private.md):
+  Define a private function block
+* [Public Function (`function`)](../commands/function.md):
   Define a function block
-* [`global`](../commands/global.md):
-  Define a global variable and set it's value
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
+* [Shell Configuration And Settings (`config`)](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Script Tests (`test`)](../commands/test.md):
+  Murex's test framework - define tests, run tests and debug shell scripts
+* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [`open`](../commands/open.md):
-  Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
-  Creates a handler function for `open`
-* [`pipe`](../commands/pipe.md):
-  Manage Murex named pipes
-* [`pretty`](../commands/pretty.md):
-  Prettifies JSON to make it human readable
-* [`private`](../commands/private.md):
-  Define a private function block
-* [`set`](../commands/set.md):
-  Define a local variable and set it's value
-* [`source`](../commands/source.md):
-  Import Murex code from another file of code block
-* [`test`](../commands/test.md):
-  Murex's test framework - define tests, run tests and debug shell scripts
 
 <hr/>
 

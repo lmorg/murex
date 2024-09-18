@@ -33,14 +33,14 @@ the following:
 
 ## See Also
 
+* [Define Type (`cast`)](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+  Outputs an element from a nested structure
+* [Reformat Data type (`format`)](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`*` (generic)](../types/generic.md):
   generic (primitive)
-* [`[[ Element ]]`](../parser/element.md):
-  Outputs an element from a nested structure
-* [`cast`](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [`format`](../commands/format.md):
-  Reformat one data-type into another data-type
 * [`str` (string)](../types/str.md):
   string (primitive)
 * [index](../parser/item-index.md):
