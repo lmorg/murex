@@ -2,6 +2,8 @@
   Title: >-
     Integrations
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     Default integrations shipped with Murex
   Description: |-

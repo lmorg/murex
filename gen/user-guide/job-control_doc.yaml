@@ -2,6 +2,8 @@
   Title: >-
     Job Control
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     How to manage jobs with Murex
   Description: |-
