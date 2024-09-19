@@ -7,10 +7,8 @@
   Summary: >-
     Examples using arrays within Murex
   Description: |-
-    In this example we'll merge two JSON files together, using example code from
-    Nushell to illustrate Murex's syntax.
-  Detail: |-
-    {{ include "gen/examples/arrays.inc.md" }}
+    {{ include "gen/user-guide/arrays.inc.md" }}
+  Detail:
   Related:
   - expr
   - addition
