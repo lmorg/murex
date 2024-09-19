@@ -2,7 +2,7 @@
 
 > Examples using arrays within Murex
 
-### Creating Arrays
+## Creating Arrays
 
 Arrays can be defined with `%[ ... ]`.
 
@@ -107,7 +107,7 @@ Returning to our multi-part array, perhaps you want **fall** instead of
 ]
 ```
 
-### Creating Multi-Dimensional Arrays
+### Multi-Dimensional Arrays
 
 But what if they were supposed to be nested rather than flattened arrays? Well
 that's not a problem either. Just make sure your first nested array is also
@@ -158,7 +158,7 @@ This is obviously an absurd example because nobody in their right mind would
 want to ping every valid IPv4 address. But it does demonstrate the advantages
 of streaming lists rather than creating arrays.
 
-### Accessing Array Values
+## Accessing Array Values
 
 There are two main ways to access values inside an array:
 
@@ -168,7 +168,7 @@ There are two main ways to access values inside an array:
 
 Why two? Because they support different features.
 
-#### Square Brackets (immutable)
+### Square Brackets (immutable)
 
 With square brackets you can select more than just a single element. For
 example, if you wanted the first element you can reference it the same way
@@ -224,7 +224,7 @@ $my_array[..4]
 
 > Ranges are indexed from 1. Yes, I know that's stupid and confusing.
 
-#### As A Function
+#### Elements From A Pipeline
 
 The square brackets can also be used as a function too. Which means any kind of
 array or list can be queried from stdin, you don't have to first convert it to
@@ -247,19 +247,19 @@ tool (`cloud-api` for our made up purposes here) returns JSON:
 cloud-api list-containers | :json: [-1]
 ```
 
-#### Making Changes
+### Making Changes
 
 That's all great, but what if I want to make a change to the host array?
 
 Well this is where dot notation comes in...
 
-### Dot Notation (mutable)
+## Dot Notation (mutable)
 
 Dot notation is a lot more limited in what you can do because it's designed for
 making careful edits of the underlying data structure. So it can only be used
 with variables.
 
-#### Assignment
+### Assignment
 
 You can edit an element, for example renaming **Wednesday** to **Humpday**:
 
@@ -280,7 +280,7 @@ You can edit an element, for example renaming **Wednesday** to **Humpday**:
 
 > Remember: arrays are zero based
 
-#### Printing
+### Printing
 
 You can also use dot notation to return a value, just like you would with the
 square braces solution above. But dot notation doesn't support any special
@@ -290,7 +290,7 @@ magic and still only works on variables:
 $my_array.2
 ```
 
-### Appending Arrays
+## Appending Arrays
 
 There are several ways to append an array. You can create a copy of that array
 and append via the pipeline:
