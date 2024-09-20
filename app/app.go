@@ -14,11 +14,11 @@ const Name = "murex"
 // Version number of $SHELL
 // Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
-	Major     = 6
-	Minor     = 3
-	Revision  = 4225
-	Branch    = "develop"
-	BuildDate = "2024-09-18  22:09:49"
+	Major     = 7
+	Minor     = 0
+	Revision  = 101
+	Branch    = "851/file-redirect"
+	BuildDate = "2024-09-20  23:49:34"
 )
 
 // Copyright is the copyright owner string
