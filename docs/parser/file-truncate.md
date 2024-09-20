@@ -49,4 +49,4 @@ g * |> files.txt
 
 <hr/>
 
-This document was generated from [builtins/core/io/file_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/file_doc.yaml).
+This document was generated from [builtins/core/io/write_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/write_doc.yaml).
