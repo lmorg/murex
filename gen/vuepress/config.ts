@@ -85,11 +85,11 @@ const config = {
           getter: (page) => page.frontmatter.category,
           formatter: "Category: $content",
         },
-        // {
-        //   //@ts-ignore
-        //   getter: (page) => page.frontmatter.tag,
-        //   formatter: "Tag: $content",
-        // },
+        {
+          //@ts-ignore
+          getter: (page) => page.frontmatter.tag,
+          formatter: "Tag: $content",
+        },
       ],
     }),
   ],
@@ -98,5 +98,6 @@ const config = {
 if (environment === "DEV") {
   config.base = "/";
 }
+
 //@ts-ignore
 export default defineUserConfig(config);
