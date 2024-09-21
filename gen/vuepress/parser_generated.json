@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file-lines",
+        "icon": "file",
         "index": true,
         "link": "/parser/",
         "text": "Operators And Tokens"
@@ -8,251 +8,251 @@
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/multiplication.html",
                 "text": "* Multiplication Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/addition.html",
                 "text": "+ Addition Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/subtraction.html",
                 "text": "- Subtraction Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/division.html",
                 "text": "/ Division Operator"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Modifiers"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "commands/alter.html",
                 "text": "Alter Data Structure (alter / ~\u003e)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "commands/cast.html",
                 "text": "Define Type (cast)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/range.html",
                 "text": "Filter By Range [ ..Range ]"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/item-index.html",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/element.html",
                 "text": "Get Nested Element ([[ Element ]])"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/assign-or-merge.html",
                 "text": "\u003c~ Assign Or Merge"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Data Manipulation"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/multiply-by.html",
                 "text": "*= Multiply By Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/add-with.html",
                 "text": "+= Add With Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/subtract-by.html",
                 "text": "-= Subtract By Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/divide-by.html",
                 "text": "/= Divide By Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/assign-or-merge.html",
                 "text": "\u003c~ Assign Or Merge"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Assignment"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/elvis.html",
                 "text": "?: Elvis Operator"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/null-coalescing.html",
                 "text": "?? Null Coalescing Operator"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Conditionals \u0026 Boolean"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/scalar.html",
                 "text": "$Scalar Sigil (eg variables)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/array.html",
                 "text": "@Array Sigil"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/tilde.html",
                 "text": "~ Home Sigil"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Sigils"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/double-quote.html",
                 "text": "\"Double Quote\""
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/brace-quote.html",
                 "text": "%(Brace Quote)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/create-array.html",
                 "text": "%[] Array Builder"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/create-object.html",
                 "text": "%{} Object Builder"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/single-quote.html",
                 "text": "'Single Quote'"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/curly-brace.html",
                 "text": "{ Curly Brace }"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Constants"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/expr-inlined.html",
                 "text": "( expression )"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/c-style-fun.html",
                 "text": "C-style functions"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/lambda.html",
                 "text": "[{ Lambda }]"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Sub-Shells"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "commands/cast.html",
                 "text": "Define Type (cast)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/namedpipe.html",
                 "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/stdin.html",
                 "text": "Read From Stdin (\u003cstdin\u003e)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/file-truncate.html",
                 "text": "Truncate File (\u003e)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/pipe-arrow.html",
                 "text": "-\u003e Arrow Pipe"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/pipe-generic.html",
                 "text": "=\u003e Generic Pipe"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/file-append.html",
                 "text": "\u003e\u003e Append File"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "parser/pipe-posix.html",
                 "text": "| POSIX Pipe"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Pipes"
     },
     {
-        "icon": "file-lines",
+        "icon": "file",
         "link": "parser/equ.html",
         "text": "= (arithmetic evaluation)"
     },
     {
-        "icon": "file-lines",
+        "icon": "file",
         "link": "parser/pipe-err.html",
         "text": "? stderr Pipe"
     }

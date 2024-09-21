@@ -4,6 +4,8 @@ import parserMenu from "./parser_generated.json"
 import variablesMenu from "./variables_generated.json"
 import userguideMenu from "./userguide_generated.json"
 
+const defaultCollapsible = false
+
 export default sidebar({
   "/": [
     {
@@ -19,35 +21,35 @@ export default sidebar({
         "/contributing",
         "/blog/",
       ],
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "User Guide",
       icon: "book",
       prefix: "/",
       children: userguideMenu,
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Integrations",
       icon: "puzzle-piece",
       prefix: "integrations/",
       children: "structure",
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Operators And Tokens",
       icon: "hashtag",
       prefix: "/",
       children: parserMenu,
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Builtin Commands",
       icon: "cubes",
       prefix: "/",
       children: commandsMenu,
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     /*{
       text: "Optional Builtins",
@@ -61,28 +63,28 @@ export default sidebar({
       icon: "dollar",
       prefix: "/",
       children: variablesMenu,
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Data Types",
       icon: "file-contract",
       prefix: "types/",
       children: "structure",
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Events",
       icon: "bolt",
       prefix: "events/",
       children: "structure",
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
     {
       text: "API Reference",
       icon: "gears",
       prefix: "apis/",
       children: "structure",
-      collapsible: false,
+      collapsible: defaultCollapsible,
     },
   ],
 });

@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file-lines",
+        "icon": "file",
         "index": true,
         "link": "/variables/",
         "text": "Special Variables"
@@ -8,179 +8,179 @@
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/pwdhist.html",
                 "text": "PWDHIST (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/pwd.html",
                 "text": "PWD (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/shell.html",
                 "text": "SHELL (str)"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Environmental Variables"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/numeric.html",
                 "text": "Numeric (str)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/meta-values.html",
                 "text": "$., Meta Values (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/argv.html",
                 "text": "ARGV (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/event_return.html",
                 "text": "EVENT_RETURN (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/params.html",
                 "text": "PARAMS (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/self.html",
                 "text": "SELF (json)"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Locally Scoped Variables"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/columns.html",
                 "text": "COLUMNS (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/home.html",
                 "text": "HOME (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/lines.html",
                 "text": "LINES (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/logname.html",
                 "text": "LOGNAME (str)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/oldpwd.html",
                 "text": "OLDPWD (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/pwd.html",
                 "text": "PWD (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/random.html",
                 "text": "RANDOM (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/shell.html",
                 "text": "SHELL (str)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/tmpdir.html",
                 "text": "TMPDIR (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/user.html",
                 "text": "USER (str)"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Defined by POSIX"
     },
     {
         "children": [
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/numeric.html",
                 "text": "Numeric (str)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/argv.html",
                 "text": "ARGV (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/columns.html",
                 "text": "COLUMNS (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/hostname.html",
                 "text": "HOSTNAME (str)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/lines.html",
                 "text": "LINES (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/murex_argv.html",
                 "text": "MUREX_ARGV (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/murex_exe.html",
                 "text": "MUREX_EXE (path)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/params.html",
                 "text": "PARAMS (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/random.html",
                 "text": "RANDOM (int)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/self.html",
                 "text": "SELF (json)"
             },
             {
-                "icon": "file-lines",
+                "icon": "file",
                 "link": "variables/user.html",
                 "text": "USER (str)"
             }
         ],
         "collapsible": true,
-        "icon": "folder-closed",
+        "icon": "folder",
         "text": "Reserved Variables"
     }
 ]

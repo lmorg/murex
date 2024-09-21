@@ -348,7 +348,8 @@ const (
 
 const (
 	_VUE_DEFAULT_FILE_ICON   = "file"
-	_VUE_DEFAULT_FOLDER_ICON = "folder"
+	_VUE_DEFAULT_FOLDER_ICON = "" //"folder"
+	_VUE_DEFAULT_COLLAPSIBLE = false
 )
 
 // Takes: string, category ID
@@ -373,7 +374,7 @@ func funcVuePressMenu(catID string) string {
 		}
 		menu = append(menu, map[string]any{
 			_VUE_TEXT: vueTitle(Documents[i].Title),
-			_VUE_LINK: Documents[i].Hierarchy() + ".html",
+			_VUE_LINK: Documents[i].Hierarchy() + ".md",
 			_VUE_ICON: _VUE_DEFAULT_FILE_ICON, //cat.VueIcon,
 		})
 	}
@@ -394,7 +395,7 @@ func vuePressSubMenu(cat *category) []map[string]any {
 			if Documents[i].IsInSubCategory(sub.ID) {
 				subMenu = append(subMenu, map[string]any{
 					_VUE_TEXT: vueTitle(Documents[i].Title),
-					_VUE_LINK: Documents[i].Hierarchy() + ".html",
+					_VUE_LINK: Documents[i].Hierarchy() + ".md",
 					_VUE_ICON: _VUE_DEFAULT_FILE_ICON,
 				})
 			}
@@ -403,7 +404,7 @@ func vuePressSubMenu(cat *category) []map[string]any {
 			_VUE_TEXT:        vueTitle(sub.Title),
 			_VUE_ICON:        _VUE_DEFAULT_FOLDER_ICON, //"angles-right", //sub.VueIcon,
 			_VUE_CHILDREN:    subMenu,
-			_VUE_COLLAPSIBLE: true,
+			_VUE_COLLAPSIBLE: _VUE_DEFAULT_COLLAPSIBLE,
 		})
 	}
 
