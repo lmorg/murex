@@ -29,7 +29,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Beginners Guides"
     },
     {
@@ -56,7 +56,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Cheat Sheets"
     },
     {
@@ -118,7 +118,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Read More"
     },
     {

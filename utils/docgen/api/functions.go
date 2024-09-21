@@ -347,7 +347,7 @@ const (
 )
 
 const (
-	_VUE_DEFAULT_FILE_ICON   = "file"
+	_VUE_DEFAULT_FILE_ICON   = "file-lines"
 	_VUE_DEFAULT_FOLDER_ICON = "folder"
 	_VUE_DEFAULT_COLLAPSIBLE = true
 )

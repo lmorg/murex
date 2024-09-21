@@ -64,7 +64,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Input / Output Streams"
     },
     {
@@ -111,7 +111,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Filesystem Operations"
     },
     {
@@ -168,7 +168,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Defined by POSIX"
     },
     {
@@ -275,7 +275,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "List / Array Editing"
     },
     {
@@ -347,7 +347,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "String Manipulation"
     },
     {
@@ -369,7 +369,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Numeric / Math Tools"
     },
     {
@@ -426,7 +426,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Structured Data Management"
     },
     {
@@ -458,7 +458,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Table Management"
     },
     {
@@ -485,7 +485,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "System Inspection"
     },
     {
@@ -587,7 +587,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Shell / Murex Management"
     },
     {
@@ -619,7 +619,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "String Escaping / Character Codes"
     },
     {
@@ -686,7 +686,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Process Management"
     },
     {
@@ -808,7 +808,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Language And Scripting"
     },
     {
@@ -850,7 +850,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Error Handling"
     },
     {
@@ -877,7 +877,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Help and Hint Tools"
     },
     {

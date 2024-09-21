@@ -24,7 +24,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Environmental Variables"
     },
     {
@@ -61,7 +61,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Locally Scoped Variables"
     },
     {
@@ -118,7 +118,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Defined by POSIX"
     },
     {
@@ -180,7 +180,7 @@
             }
         ],
         "collapsible": true,
-        "icon": "",
+        "icon": "folder",
         "text": "Reserved Variables"
     }
 ]
