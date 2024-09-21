@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file",
+        "icon": "file-lines",
         "index": true,
         "link": "/parser/",
         "text": "Operators And Tokens"
@@ -8,22 +8,22 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/multiplication.md",
                 "text": "* Multiplication Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/addition.md",
                 "text": "+ Addition Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/subtraction.md",
                 "text": "- Subtraction Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/division.md",
                 "text": "/ Division Operator"
             }
@@ -35,32 +35,32 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/alter.md",
                 "text": "Alter Data Structure (alter / ~\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cast.md",
                 "text": "Define Type (cast)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/range.md",
                 "text": "Filter By Range [ ..Range ]"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/item-index.md",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/element.md",
                 "text": "Get Nested Element ([[ Element ]])"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/assign-or-merge.md",
                 "text": "\u003c~ Assign Or Merge"
             }
@@ -72,27 +72,27 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/multiply-by.md",
                 "text": "*= Multiply By Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/add-with.md",
                 "text": "+= Add With Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/subtract-by.md",
                 "text": "-= Subtract By Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/divide-by.md",
                 "text": "/= Divide By Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/assign-or-merge.md",
                 "text": "\u003c~ Assign Or Merge"
             }
@@ -104,12 +104,12 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/elvis.md",
                 "text": "?: Elvis Operator"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/null-coalescing.md",
                 "text": "?? Null Coalescing Operator"
             }
@@ -121,17 +121,17 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/scalar.md",
                 "text": "$Scalar Sigil (eg variables)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/array.md",
                 "text": "@Array Sigil"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/tilde.md",
                 "text": "~ Home Sigil"
             }
@@ -143,32 +143,32 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/double-quote.md",
                 "text": "\"Double Quote\""
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/brace-quote.md",
                 "text": "%(Brace Quote)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/create-array.md",
                 "text": "%[] Array Builder"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/create-object.md",
                 "text": "%{} Object Builder"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/single-quote.md",
                 "text": "'Single Quote'"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/curly-brace.md",
                 "text": "{ Curly Brace }"
             }
@@ -180,17 +180,17 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/expr-inlined.md",
                 "text": "( expression )"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/c-style-fun.md",
                 "text": "C-style functions"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/lambda.md",
                 "text": "[{ Lambda }]"
             }
@@ -202,42 +202,42 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cast.md",
                 "text": "Define Type (cast)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/namedpipe.md",
                 "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/stdin.md",
                 "text": "Read From Stdin (\u003cstdin\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/file-truncate.md",
                 "text": "Truncate File (\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/pipe-arrow.md",
                 "text": "-\u003e Arrow Pipe"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/pipe-generic.md",
                 "text": "=\u003e Generic Pipe"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/file-append.md",
                 "text": "\u003e\u003e Append File"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/pipe-posix.md",
                 "text": "| POSIX Pipe"
             }
@@ -247,12 +247,12 @@
         "text": "Pipes"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "parser/equ.md",
         "text": "= (arithmetic evaluation)"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "parser/pipe-err.md",
         "text": "? stderr Pipe"
     }

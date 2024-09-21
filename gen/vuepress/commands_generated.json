@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file",
+        "icon": "file-lines",
         "index": true,
         "link": "/commands/",
         "text": "Builtin Commands"
@@ -8,57 +8,57 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/pipe.md",
                 "text": "Create Named Pipe (pipe)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/err.md",
                 "text": "Error String (err)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/pt.md",
                 "text": "Get Pipe Status (pt)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/out.md",
                 "text": "Output String (out)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tout.md",
                 "text": "Output With Type Annotation (tout)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/namedpipe.md",
                 "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/stdin.md",
                 "text": "Read From Stdin (\u003cstdin\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/read.md",
                 "text": "Read User Input (read)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tread.md",
                 "text": "Read With Type (tread) (removed 7.x)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/open-image.md",
                 "text": "Render Image In Terminal (open-image)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/brace-quote-func.md",
                 "text": "(brace quote)"
             }
@@ -70,42 +70,42 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tmp.md",
                 "text": "Create Temporary File (tmp)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/g.md",
                 "text": "Globbing (g)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/f.md",
                 "text": "List Filesystem Objects (f)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/lockfile.md",
                 "text": "Lock Files (lockfile)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/open.md",
                 "text": "Open File (open)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/rx.md",
                 "text": "Regex Matches (rx)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/open-image.md",
                 "text": "Render Image In Terminal (open-image)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/file-truncate.md",
                 "text": "Truncate File (\u003e)"
             }
@@ -117,52 +117,52 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/alias.md",
                 "text": "Alias Pointer (alias)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cd.md",
                 "text": "Change Directory (cd)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/type.md",
                 "text": "Display Command Type (type)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/expr.md",
                 "text": "Expressions (expr)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/false.md",
                 "text": "False (false)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/which.md",
                 "text": "Location Of Command (which)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/out.md",
                 "text": "Output String (out)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/time.md",
                 "text": "Processes Execution Time (time)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/read.md",
                 "text": "Read User Input (read)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/true.md",
                 "text": "True (true)"
             }
@@ -174,102 +174,102 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/prefix.md",
                 "text": "Add Prefix (prefix)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/suffix.md",
                 "text": "Add Suffix (suffix)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/append.md",
                 "text": "Append To List (append)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/list.case.md",
                 "text": "Change Text Case (list.case)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/count.md",
                 "text": "Count (count)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/ja.md",
                 "text": "Create JSON Array (ja)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/ta.md",
                 "text": "Create New Array (ta)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/range.md",
                 "text": "Filter By Range [ ..Range ]"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/foreach.md",
                 "text": "For Each In List (foreach)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/item-index.md",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/mjoin.md",
                 "text": "Join Array To String (mjoin)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/left.md",
                 "text": "Left Sub-String (left)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/match.md",
                 "text": "Match String (match)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/prepend.md",
                 "text": "Prepend To List (prepend)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data type (format)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/regexp.md",
                 "text": "Regex Operations (regexp)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/mtac.md",
                 "text": "Reverse Array (mtac)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/right.md",
                 "text": "Right Sub-String (right)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/msort.md",
                 "text": "Sort Array (msort)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/a.md",
                 "text": "Stream New List (a)"
             }
@@ -281,67 +281,67 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/list.case.md",
                 "text": "Change Text Case (list.case)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/datetime.md",
                 "text": "Date And Time Conversion (datetime)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/esccli.md",
                 "text": "Escape Command Line String (esccli)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/eschtml.md",
                 "text": "Escape HTML (eschtml)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/escurl.md",
                 "text": "Escape URL (escurl)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/rand.md",
                 "text": "Generate Random Sequence (rand)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/left.md",
                 "text": "Left Sub-String (left)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/pretty.md",
                 "text": "Prettify JSON"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/escape.md",
                 "text": "Quote String (escape)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data type (format)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/regexp.md",
                 "text": "Regex Operations (regexp)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/right.md",
                 "text": "Right Sub-String (right)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/jsplit.md",
                 "text": "Split String (jsplit)"
             }
@@ -353,17 +353,17 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/expr.md",
                 "text": "Expressions (expr)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/rand.md",
                 "text": "Generate Random Sequence (rand)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/round.md",
                 "text": "Round Number (round)"
             }
@@ -375,52 +375,52 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/alter.md",
                 "text": "Alter Data Structure (alter / ~\u003e)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/count.md",
                 "text": "Count (count)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/2darray.md",
                 "text": "Create 2d Array (2darray)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/map.md",
                 "text": "Create Map (map)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/formap.md",
                 "text": "For Each In Map (formap)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/item-index.md",
                 "text": "Get Item ([ Index ])"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "parser/element.md",
                 "text": "Get Nested Element ([[ Element ]])"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/struct-keys.md",
                 "text": "Print Map / Structure Keys (struct-keys)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data type (format)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tabulate.md",
                 "text": "Transformation Tools (tabulate)"
             }
@@ -432,27 +432,27 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/addheading.md",
                 "text": "Add Heading (addheading)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/formap.md",
                 "text": "For Each In Map (formap)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "optional/select.md",
                 "text": "Inline SQL (select)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data type (format)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tabulate.md",
                 "text": "Transformation Tools (tabulate)"
             }
@@ -464,22 +464,22 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cpuarch.md",
                 "text": "CPU Architecture (cpuarch)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cpucount.md",
                 "text": "CPU Count (cpucount)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/export.md",
                 "text": "Define Environmental Variable (export)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/os.md",
                 "text": "Operating System (os)"
             }
@@ -491,97 +491,97 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/alias.md",
                 "text": "Alias Pointer (alias)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/history.md",
                 "text": "Command Line History (history)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/pipe.md",
                 "text": "Create Named Pipe (pipe)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/debug.md",
                 "text": "Debugging Mode (debug)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/openagent.md",
                 "text": "Define Handlers For \"open\" (openagent)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/method.md",
                 "text": "Define Method Relationships (method)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/fexec.md",
                 "text": "Execute Shell Function or Builtin (fexec)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/source.md",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/event.md",
                 "text": "Murex Event Subsystem (event)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/murex-package.md",
                 "text": "Murex Package Management (murex-package)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/version.md",
                 "text": "Murex Version (version)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/private.md",
                 "text": "Private Function (private)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/function.md",
                 "text": "Public Function (function)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/murex-update-exe-list.md",
                 "text": "Re-Scan $PATH For Executables"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/summary.md",
                 "text": "Set Command Summary Hint (summary)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/config.md",
                 "text": "Shell Configuration And Settings (config)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/runtime.md",
                 "text": "Shell Runtime (runtime)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/test.md",
                 "text": "Shell Script Tests (test)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/autocomplete.md",
                 "text": "Tab Autocompletion (autocomplete)"
             }
@@ -593,27 +593,27 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/key-code.md",
                 "text": "ASCII And ANSI Escape Sequences (key-code)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/esccli.md",
                 "text": "Escape Command Line String (esccli)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/eschtml.md",
                 "text": "Escape HTML (eschtml)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/escurl.md",
                 "text": "Escape URL (escurl)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/escape.md",
                 "text": "Quote String (escape)"
             }
@@ -625,62 +625,62 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/bg.md",
                 "text": "Background Process (bg)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/bexists.md",
                 "text": "Check Builtin Exists (bexists)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/fid-list.md",
                 "text": "Display Running Functions (fid-list)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/exec.md",
                 "text": "Execute External Command (exec)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/fg.md",
                 "text": "Foreground Process (fg)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/exitnum.md",
                 "text": "Get Exit Code (exitnum)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/source.md",
                 "text": "Include / Evaluate Murex Code (source)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/fid-killall.md",
                 "text": "Kill All In Session (fid-killall)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/fid-kill.md",
                 "text": "Kill Function (fid-kill)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/which.md",
                 "text": "Location Of Command (which)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/time.md",
                 "text": "Processes Execution Time (time)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/signal.md",
                 "text": "Send Signal IPC (signal)"
             }
@@ -692,117 +692,117 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/args.md",
                 "text": "Define Function Arguments (args)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/global.md",
                 "text": "Define Global (global)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/cast.md",
                 "text": "Define Type (cast)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/set.md",
                 "text": "Define Variable (set)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/break.md",
                 "text": "Exit Block (break)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/return.md",
                 "text": "Exit Function (return)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/exit.md",
                 "text": "Exit Murex (exit)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/expr.md",
                 "text": "Expressions (expr)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/foreach.md",
                 "text": "For Each In List (foreach)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/formap.md",
                 "text": "For Each In Map (formap)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/for.md",
                 "text": "For Loop (for)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/get-type.md",
                 "text": "Get Data Type (get-type)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/if.md",
                 "text": "If Conditional (if)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/is-null.md",
                 "text": "Is Value Null (is-null)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/and.md",
                 "text": "Logic And Statements (and)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/or.md",
                 "text": "Logic Or Statements (or)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/while.md",
                 "text": "Loop While (while)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/continue.md",
                 "text": "Next Iteration (continue)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/not-func.md",
                 "text": "Not (!)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/devnull.md",
                 "text": "Null (null)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/private.md",
                 "text": "Private Function (private)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/function.md",
                 "text": "Public Function (function)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/switch.md",
                 "text": "Switch Conditional (switch)"
             }
@@ -814,37 +814,37 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/catch.md",
                 "text": "Caught Error Block (catch)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/unsafe.md",
                 "text": "Disable Error Handling In Block (unsafe)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/runmode.md",
                 "text": "Function / Module Defaults (runmode)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/trypipe.md",
                 "text": "Pipe Fail (trypipe)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/trypipeerr.md",
                 "text": "Stderr Checking In Pipes (trypipeerr)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/tryerr.md",
                 "text": "Stderr Checking In TTY (tryerr)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/try.md",
                 "text": "Try Block (try)"
             }
@@ -856,22 +856,22 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/man-summary.md",
                 "text": "Man-Page Summary (man-summary)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/murex-docs.md",
                 "text": "Murex's Offline Documentation (murex-docs)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/man-get-flags.md",
                 "text": "Parse Man-Page For Flags (man-get-flags)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "commands/summary.md",
                 "text": "Set Command Summary Hint (summary)"
             }
@@ -881,17 +881,17 @@
         "text": "Help and Hint Tools"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "commands/die.md",
         "text": "die"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "commands/let.md",
         "text": "let"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "commands/murex-parser.md",
         "text": "murex-parser"
     }

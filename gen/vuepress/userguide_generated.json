@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file",
+        "icon": "file-lines",
         "index": true,
         "link": "/user-guide/",
         "text": "User Guide"
@@ -8,22 +8,22 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/interactive-shell.md",
                 "text": "Interactive Shell"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/modules.md",
                 "text": "Modules And Packages"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/terminal-keys.md",
                 "text": "Terminal Hotkeys"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/murex-arrays.md",
                 "text": "Working With Arrays"
             }
@@ -35,22 +35,22 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/ansi.md",
                 "text": "ANSI Constants"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/operators-and-tokens.md",
                 "text": "Operators And Tokens"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/rosetta-stone.md",
                 "text": "Rosetta Stone"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/terminal-keys.md",
                 "text": "Terminal Hotkeys"
             }
@@ -62,57 +62,57 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/bang-prefix.md",
                 "text": "Bang Prefix"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/fileref.md",
                 "text": "FileRef"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/hint-text.md",
                 "text": "Hint Text"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/integrations.md",
                 "text": "Integrations"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/job-control.md",
                 "text": "Job Control"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/namedpipes.md",
                 "text": "Named Pipes"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/profile.md",
                 "text": "Profile Files"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/reserved-vars.md",
                 "text": "Reserved Variables"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/schedulers.md",
                 "text": "Schedulers"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/strict-types.md",
                 "text": "Strict Types In Expressions"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "user-guide/scoping.md",
                 "text": "Variable And Config Scoping"
             }
@@ -122,12 +122,12 @@
         "text": "Read More"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "user-guide/code-block.md",
         "text": "Code Block Parsing"
     },
     {
-        "icon": "file",
+        "icon": "file-lines",
         "link": "user-guide/pipeline.md",
         "text": "Pipeline"
     }

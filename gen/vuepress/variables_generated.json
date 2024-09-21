@@ -1,6 +1,6 @@
 [
     {
-        "icon": "file",
+        "icon": "file-lines",
         "index": true,
         "link": "/variables/",
         "text": "Special Variables"
@@ -8,17 +8,17 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/pwdhist.md",
                 "text": "PWDHIST (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/pwd.md",
                 "text": "PWD (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/shell.md",
                 "text": "SHELL (str)"
             }
@@ -30,32 +30,32 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/numeric.md",
                 "text": "Numeric (str)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/meta-values.md",
                 "text": "$., Meta Values (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/argv.md",
                 "text": "ARGV (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/event_return.md",
                 "text": "EVENT_RETURN (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/params.md",
                 "text": "PARAMS (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/self.md",
                 "text": "SELF (json)"
             }
@@ -67,52 +67,52 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/columns.md",
                 "text": "COLUMNS (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/home.md",
                 "text": "HOME (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/lines.md",
                 "text": "LINES (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/logname.md",
                 "text": "LOGNAME (str)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/oldpwd.md",
                 "text": "OLDPWD (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/pwd.md",
                 "text": "PWD (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/random.md",
                 "text": "RANDOM (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/shell.md",
                 "text": "SHELL (str)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/tmpdir.md",
                 "text": "TMPDIR (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/user.md",
                 "text": "USER (str)"
             }
@@ -124,57 +124,57 @@
     {
         "children": [
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/numeric.md",
                 "text": "Numeric (str)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/argv.md",
                 "text": "ARGV (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/columns.md",
                 "text": "COLUMNS (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/hostname.md",
                 "text": "HOSTNAME (str)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/lines.md",
                 "text": "LINES (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/murex_argv.md",
                 "text": "MUREX_ARGV (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/murex_exe.md",
                 "text": "MUREX_EXE (path)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/params.md",
                 "text": "PARAMS (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/random.md",
                 "text": "RANDOM (int)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/self.md",
                 "text": "SELF (json)"
             },
             {
-                "icon": "file",
+                "icon": "file-lines",
                 "link": "variables/user.md",
                 "text": "USER (str)"
             }

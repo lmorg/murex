@@ -4,7 +4,7 @@ import parserMenu from "./parser_generated.json"
 import variablesMenu from "./variables_generated.json"
 import userguideMenu from "./userguide_generated.json"
 
-const defaultCollapsible = false
+const defaultCollapsible = true
 
 export default sidebar({
   "/": [
