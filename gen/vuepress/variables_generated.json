@@ -23,7 +23,7 @@
                 "text": "SHELL (str)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Environmental Variables"
     },
@@ -60,7 +60,7 @@
                 "text": "SELF (json)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Locally Scoped Variables"
     },
@@ -117,7 +117,7 @@
                 "text": "USER (str)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Defined by POSIX"
     },
@@ -179,7 +179,7 @@
                 "text": "USER (str)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Reserved Variables"
     }

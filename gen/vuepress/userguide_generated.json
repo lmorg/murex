@@ -28,7 +28,7 @@
                 "text": "Working With Arrays"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Beginners Guides"
     },
@@ -55,7 +55,7 @@
                 "text": "Terminal Hotkeys"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Cheat Sheets"
     },
@@ -117,7 +117,7 @@
                 "text": "Variable And Config Scoping"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Read More"
     },

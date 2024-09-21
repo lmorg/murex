@@ -63,7 +63,7 @@
                 "text": "(brace quote)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Input / Output Streams"
     },
@@ -110,7 +110,7 @@
                 "text": "Truncate File (\u003e)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Filesystem Operations"
     },
@@ -167,7 +167,7 @@
                 "text": "True (true)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Defined by POSIX"
     },
@@ -274,7 +274,7 @@
                 "text": "Stream New List (a)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "List / Array Editing"
     },
@@ -346,7 +346,7 @@
                 "text": "Split String (jsplit)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "String Manipulation"
     },
@@ -368,7 +368,7 @@
                 "text": "Round Number (round)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Numeric / Math Tools"
     },
@@ -425,7 +425,7 @@
                 "text": "Transformation Tools (tabulate)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Structured Data Management"
     },
@@ -457,7 +457,7 @@
                 "text": "Transformation Tools (tabulate)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Table Management"
     },
@@ -484,7 +484,7 @@
                 "text": "Operating System (os)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "System Inspection"
     },
@@ -586,7 +586,7 @@
                 "text": "Tab Autocompletion (autocomplete)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Shell / Murex Management"
     },
@@ -618,7 +618,7 @@
                 "text": "Quote String (escape)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "String Escaping / Character Codes"
     },
@@ -685,7 +685,7 @@
                 "text": "Send Signal IPC (signal)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Process Management"
     },
@@ -807,7 +807,7 @@
                 "text": "Switch Conditional (switch)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Language And Scripting"
     },
@@ -849,7 +849,7 @@
                 "text": "Try Block (try)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Error Handling"
     },
@@ -876,7 +876,7 @@
                 "text": "Set Command Summary Hint (summary)"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Help and Hint Tools"
     },

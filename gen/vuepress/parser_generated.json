@@ -28,7 +28,7 @@
                 "text": "/ Division Operator"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Modifiers"
     },
@@ -65,7 +65,7 @@
                 "text": "\u003c~ Assign Or Merge"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Data Manipulation"
     },
@@ -97,7 +97,7 @@
                 "text": "\u003c~ Assign Or Merge"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Assignment"
     },
@@ -114,7 +114,7 @@
                 "text": "?? Null Coalescing Operator"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Conditionals \u0026 Boolean"
     },
@@ -136,7 +136,7 @@
                 "text": "~ Home Sigil"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Sigils"
     },
@@ -173,7 +173,7 @@
                 "text": "{ Curly Brace }"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Constants"
     },
@@ -195,7 +195,7 @@
                 "text": "[{ Lambda }]"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Sub-Shells"
     },
@@ -242,7 +242,7 @@
                 "text": "| POSIX Pipe"
             }
         ],
-        "collapsible": false,
+        "collapsible": true,
         "icon": "",
         "text": "Pipes"
     },
