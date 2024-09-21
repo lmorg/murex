@@ -36,6 +36,11 @@ func writeFile(p *lang.Process, fn func(io.Reader, string) error) error {
 		return err
 	}
 
+	if !p.IsMethod {
+		// nothing to write
+		return fn(bytes.NewBuffer([]byte{}), filename)
+	}
+
 	if filename == _DONT_CHECK_PIPELINE {
 		filename, err = p.Parameters.String(1)
 		if err != nil {
