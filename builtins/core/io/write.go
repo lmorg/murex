@@ -20,9 +20,10 @@ func init() {
 }
 
 const (
-	_WAIT_EOF_LONG       = "--wait-for-eof"
-	_WAIT_EOF_SHORT      = "-w"
-	_DONT_CHECK_PIPELINE = "--ignore-pipeline-check"
+	_WAIT_EOF_SHORT        = "-w"
+	_WAIT_EOF_LONG         = "--wait-for-eof"
+	_IGNORE_PIPELINE_SHORT = "-i"
+	_IGNORE_PIPELINE_LONG  = "--ignore-pipeline-check"
 )
 
 func cmdTruncateFile(p *lang.Process) error { return writeFile(p, truncateFile) }
@@ -41,28 +42,35 @@ func writeFile(p *lang.Process, fn func(io.Reader, string) error) error {
 		return fn(bytes.NewBuffer([]byte{}), filename)
 	}
 
-	if filename == _DONT_CHECK_PIPELINE {
-		filename, err = p.Parameters.String(1)
-		if err != nil {
-			return err
+	if filename == _IGNORE_PIPELINE_SHORT || filename == _IGNORE_PIPELINE_LONG {
+		parameter2, err := p.Parameters.String(1)
+		if err == nil {
+			return fn(p.Stdin, parameter2)
 		}
-		return fn(p.Stdin, filename)
+		// no second parameter so lets assume the flag was actually a file name
 	}
 
 	wait := filename == _WAIT_EOF_SHORT || filename == _WAIT_EOF_LONG
 
 	if wait {
-		filename, err = p.Parameters.String(1)
-		if err != nil {
-			return err
+		parameter2, err := p.Parameters.String(1)
+		if err == nil {
+			filename = parameter2
+
+		} else {
+			// no second parameter so lets assume the flag was actually a file name
+			wait = false
 		}
-	} else {
-		wait = isFileOpen(p, filename)
 	}
 
-	if wait {
-		_, _ = p.Stderr.Writeln([]byte(fmt.Sprintf("warning: '%s' appears as a parameter elsewhere in the pipeline so I'm going to cache the file in RAM before writing to disk.\n       : this message can be suppressed using `%s` or `%s`.", filename, _WAIT_EOF_LONG, _DONT_CHECK_PIPELINE)))
-	} else {
+	if !wait {
+		wait = isFileOpen(p, filename)
+		if wait {
+			_, _ = p.Stderr.Writeln([]byte(fmt.Sprintf("warning: '%s' appears as a parameter elsewhere in the pipeline so I'm going to cache the file in RAM before writing to disk.\n       : This message can be suppressed using `%s` or `%s`.", filename, _WAIT_EOF_LONG, _IGNORE_PIPELINE_LONG)))
+		}
+	}
+
+	if !wait {
 		return fn(p.Stdin, filename)
 	}
 

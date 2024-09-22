@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 
