@@ -16,10 +16,12 @@ specified data-type
 ## Examples
 
 ```
-» tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
-One: 1
-Three: 3
-Two: 2
+» %{ One: 1, Two: 2, Three: 3 } -> format xml
+<xml>
+    <One>1</One>
+    <Three>3</Three>
+    <Two>2</Two>
+</xml>
 ```
 
 ## See Also
