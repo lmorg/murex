@@ -27,6 +27,7 @@ func init() {
 		"application/x-yaml",
 		"text/yaml",
 		"text/x-yaml",
+		"+yaml",
 	)
 
 	lang.SetFileExtensions(typeName, "yaml", "yml")

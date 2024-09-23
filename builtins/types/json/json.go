@@ -23,6 +23,7 @@ func init() {
 		"application/x-json",
 		"text/json",
 		"text/x-json",
+		"+json",
 	)
 	lang.SetFileExtensions(types.Json, "json", "tfstate")
 }

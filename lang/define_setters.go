@@ -26,6 +26,7 @@ var (
 
 var (
 	mimes        = make(map[string]string)
+	mimeSuffixes = make(map[string]string)
 	fileExts     = make(map[string]string)
 	defaultMimes = make(map[string]string)
 )
@@ -36,7 +37,16 @@ func SetMime(dataType string, mime ...string) {
 	defaultMimes[dataType] = mime[0] // default should always be first
 
 	for i := range mime {
-		mimes[mime[i]] = dataType
+		switch {
+		case len(mime[i]) == 0:
+			continue
+
+		case mime[i][0] == '+':
+			mimeSuffixes[mime[i]] = dataType
+
+		default:
+			mimes[mime[i]] = dataType
+		}
 	}
 }
 
@@ -61,7 +71,7 @@ func WriteMimes(v interface{}) error {
 		return nil
 
 	default:
-		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
+		return fmt.Errorf("invalid data-type expecting a %s encoded string", types.Json)
 	}
 }
 

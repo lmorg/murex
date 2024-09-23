@@ -14,6 +14,7 @@ external source packages for the shell to compile.
 
 * **Extension**: `yaml`
 * **Extension**: `yml`
+* **MIME**: `+yaml`
 * **MIME**: `application/x-yaml`
 * **MIME**: `application/yaml`
 * **MIME**: `text/x-yaml`
