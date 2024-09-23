@@ -79,7 +79,7 @@ stdin is a long running process or non-standard stream (eg network pipe).
 * [Prepend To List (`prepend`)](../commands/prepend.md):
   Add data to the start of an array
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Sort Array (`msort`)](../commands/msort.md):
   Sorts an array - data type agnostic
 * [Split String (`jsplit`)](../commands/jsplit.md):

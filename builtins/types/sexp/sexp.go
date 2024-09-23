@@ -38,7 +38,7 @@ func init() {
 		"text/x-sexp",
 	)
 
-	lang.SetFileExtensions(sexpr, "sexp")
+	lang.SetFileExtensions(sexpr, "sexp", "lisp")
 }
 
 func readIndexC(p *lang.Process, params []string) error { return readIndex(p, params, true) }

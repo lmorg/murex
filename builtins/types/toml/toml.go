@@ -30,6 +30,7 @@ func init() {
 		"application/x-toml",
 		"text/toml",
 		"text/x-toml",
+		"+toml",
 	)
 
 	lang.SetFileExtensions(typeName, "toml")

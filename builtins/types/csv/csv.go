@@ -26,6 +26,7 @@ func init() {
 		"application/x-csv",
 		"text/csv",
 		"text/x-csv",
+		"+csv",
 	)
 
 	lang.SetFileExtensions(typeName, "csv")

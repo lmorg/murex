@@ -1,4 +1,4 @@
-package pretty_test
+package xml_test
 
 import (
 	"fmt"

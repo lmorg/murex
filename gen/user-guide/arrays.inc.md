@@ -243,19 +243,19 @@ tool (`cloud-api` for our made up purposes here) returns JSON:
 cloud-api list-containers | :json: [-1]
 ```
 
-### Making Changes
+#### Making Changes
 
 That's all great, but what if I want to make a change to the host array?
 
 Well this is where dot notation comes in...
 
-## Dot Notation (mutable)
+### Dot Notation (mutable)
 
 Dot notation is a lot more limited in what you can do because it's designed for
 making careful edits of the underlying data structure. So it can only be used
 with variables.
 
-### Assignment
+#### Assignment
 
 You can edit an element, for example renaming **Wednesday** to **Humpday**:
 
@@ -276,7 +276,7 @@ You can edit an element, for example renaming **Wednesday** to **Humpday**:
 
 > Remember: arrays are zero based
 
-### Printing
+#### Printing
 
 You can also use dot notation to return a value, just like you would with the
 square braces solution above. But dot notation doesn't support any special
