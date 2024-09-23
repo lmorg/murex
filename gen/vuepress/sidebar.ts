@@ -2,6 +2,9 @@ import { sidebar } from "vuepress-theme-hope";
 import commandsMenu from "./commands_generated.json"
 import parserMenu from "./parser_generated.json"
 import variablesMenu from "./variables_generated.json"
+import userguideMenu from "./userguide_generated.json"
+
+const defaultCollapsible = true
 
 export default sidebar({
   "/": [
@@ -18,35 +21,35 @@ export default sidebar({
         "/contributing",
         "/blog/",
       ],
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "User Guide",
       icon: "book",
-      prefix: "user-guide/",
-      children: "structure",
-      collapsible: true,
+      prefix: "/",
+      children: userguideMenu,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Integrations",
       icon: "puzzle-piece",
       prefix: "integrations/",
       children: "structure",
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Operators And Tokens",
       icon: "hashtag",
       prefix: "/",
       children: parserMenu,
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Builtin Commands",
       icon: "cubes",
       prefix: "/",
       children: commandsMenu,
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     /*{
       text: "Optional Builtins",
@@ -60,28 +63,28 @@ export default sidebar({
       icon: "dollar",
       prefix: "/",
       children: variablesMenu,
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Data Types",
-      icon: "file-contract",
+      icon: "object-group",
       prefix: "types/",
       children: "structure",
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "Events",
       icon: "bolt",
       prefix: "events/",
       children: "structure",
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
     {
       text: "API Reference",
       icon: "gears",
       prefix: "apis/",
       children: "structure",
-      collapsible: true,
+      collapsible: defaultCollapsible,
     },
   ],
 });

@@ -2,6 +2,8 @@
   Title: >-
     Rosetta Stone
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.reference
   Summary: >-
     A tabulated list of Bashism's and their equivalent Murex syntax
   Description: |-

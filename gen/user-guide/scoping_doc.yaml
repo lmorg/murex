@@ -2,6 +2,8 @@
   Title: >-
     Variable And Config Scoping
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     How scoping works within Murex
   Description: |-

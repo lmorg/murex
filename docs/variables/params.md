@@ -29,7 +29,7 @@ This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):

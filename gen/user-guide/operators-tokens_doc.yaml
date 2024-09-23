@@ -2,6 +2,8 @@
   Title: >-
     Operators And Tokens
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.reference
   Summary: >-
     All supported operators and tokens
   Description: |-

@@ -2,6 +2,8 @@
   Title: >-
     Schedulers
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     Overview of the different schedulers (or 'run modes') in Murex
   Description: |-

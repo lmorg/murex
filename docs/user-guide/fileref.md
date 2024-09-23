@@ -59,7 +59,7 @@ empty Filename string.
 * [Include / Evaluate Murex Code (`source`)](../commands/source.md):
   Import Murex code from another file or code block
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Murex Package Management (`murex-package`)](../commands/murex-package.md):
   Murex's package manager
 * [Shell Runtime (`runtime`)](../commands/runtime.md):
