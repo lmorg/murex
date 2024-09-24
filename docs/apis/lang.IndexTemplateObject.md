@@ -141,7 +141,8 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 
 		for i := range params {
 			if len(params[i]) > 2 && params[i][0] == '[' && params[i][len(params[i])-1] == ']' {
-				obj, err = ElementLookup(v, params[i][1:len(params[i])-1])
+				FeatureDeprecated("ElementLookup() inside index", p.FileRef)
+				obj, err = ElementLookup(v, params[i][1:len(params[i])-1], "")
 				if err != nil {
 					return err
 				}

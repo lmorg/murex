@@ -147,7 +147,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 		}
 
 		propertyPath := strings.Join(split[1:], ".")
-		value, err := ElementLookup(val, "."+propertyPath)
+		value, err := ElementLookup(val, "."+propertyPath, v.getDataType(split[0]))
 		if err != nil {
 			err = errVarCannotGetProperty(split[0], propertyPath, err)
 		}
@@ -297,7 +297,7 @@ func (v *Variables) GetString(path string) (string, error) {
 		}
 
 		propertyPath := strings.Join(split[1:], ".")
-		val, err = ElementLookup(val, "."+propertyPath)
+		val, err = ElementLookup(val, "."+propertyPath, v.getDataType(split[0]))
 		if err != nil {
 			return "", errVarCannotGetProperty(split[0], propertyPath, err)
 		}
@@ -463,7 +463,7 @@ func (v *Variables) GetDataType(path string) string {
 			return v.getDataType(split[0])
 		}
 
-		val, err = ElementLookup(val, "."+strings.Join(split[1:], "."))
+		val, err = ElementLookup(val, "."+strings.Join(split[1:], "."), v.getDataType(split[0]))
 		if err != nil {
 			return v.getDataType(split[0])
 		}

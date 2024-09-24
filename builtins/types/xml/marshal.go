@@ -2,6 +2,7 @@ package xml
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/clbanning/mxj/v2"
 	"github.com/lmorg/murex/lang"
@@ -11,37 +12,77 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	return MarshalTTY(v, p.Stdout.IsTTY())
 }
 
-/*const (
-	_ROOT    = ".."
-	_ELEMENT = "."
-)*/
-
 func MarshalTTY(v any, isTTY bool) ([]byte, error) {
-	defaultRoot := "xml"
+	return marshalTTY(v, isTTY, xmlDefaultRoot, xmlDefaultElement)
+}
 
+func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, error) {
 	switch m := v.(type) {
 	case map[string]any:
-		/*if m[_ROOT] != nil {
+		if m[lang.ELEMENT_META_ROOT] != nil {
 			var ok bool
-			defaultRoot, ok = m[_ROOT].(string)
+			defaultRoot, ok = m[lang.ELEMENT_META_ROOT].(string)
 			if ok {
-				delete(m, _ROOT)
+				delete(m, lang.ELEMENT_META_ROOT)
 				break
 			}
-		}*/
+		}
 
 		if len(m) == 1 {
 			for defaultRoot = range m {
 			}
 			v = m[defaultRoot]
 		}
+
+	case []string:
+		if len(m) >= 2 {
+			key := elementMeta(m[0], lang.ELEMENT_META_ROOT)
+			if key == "" {
+				break
+			}
+			defaultRoot = key
+			key = elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			if key == "" {
+				break
+			}
+			defaultElement = key
+			v = m[2:]
+		}
+
+	case []any:
+		if len(m) >= 2 {
+			key := elementMeta(m[0], lang.ELEMENT_META_ROOT)
+			if key == "" {
+				break
+			}
+			defaultRoot = key
+			key = elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			if key == "" {
+				break
+			}
+			defaultElement = key
+			v = m[2:]
+		}
 	}
 
 	if isTTY {
-		return mxj.AnyXmlIndent(v, "", "    ", defaultRoot)
+		return mxj.AnyXmlIndent(v, "", "    ", defaultRoot, defaultElement)
 	}
 
-	return mxj.AnyXml(v, defaultRoot)
+	return mxj.AnyXml(v, defaultRoot, defaultElement)
+}
+
+func elementMeta(v any, prefix string) string {
+	key, ok := v.(string)
+	if !ok {
+		return ""
+	}
+
+	if !strings.HasPrefix(key, prefix) {
+		return ""
+	}
+
+	return key[len(prefix):]
 }
 
 func UnmarshalFromProcess(p *lang.Process) (v any, err error) {
@@ -64,24 +105,6 @@ func unmarshaller(b []byte, v any) error {
 	if err != nil {
 		return err
 	}
-
-	/*if len(m) == 1 {
-		var root string
-		for root = range m {
-		}
-
-		switch t := m[root].(type) {
-		case map[string]any:
-			t[_ROOT] = root
-			*ptr = t
-			return nil
-
-		case []any:
-			t = append([]any{root}, t...)
-			*ptr = t
-			return nil
-		}
-	}*/
 
 	*ptr = map[string]any(m)
 	return nil

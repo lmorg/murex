@@ -49,3 +49,8 @@ func init() {
 }
 
 const dataType = "xml"
+
+const (
+	xmlDefaultRoot    = "xml"
+	xmlDefaultElement = "list"
+)
