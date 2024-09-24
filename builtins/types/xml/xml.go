@@ -26,8 +26,26 @@ func init() {
 		"text/xml-external-parsed-entity",
 		"application/xml-dtd",
 		"+xml",
+
+		// while valid SGML might not be valid XML, a lot of SGML documents are
+		// ostensibly XML and since we don't have an SGML parser, lets include
+		// SGMLs MIMEs in `xml` because it might still work _some_ of the time.
+		"application/sgml",
+		"application/x-sgml",
+		"text/sgml",
+		"text/x-sgml",
+		"+sgml",
 	)
-	lang.SetFileExtensions(dataType, "xml", "svg", "xhtml", "xht", "rss", "atom")
+	lang.SetFileExtensions(dataType,
+		// xml documents
+		"xml", "svg", "xhtml", "xht", "rss", "atom",
+
+		// while valid SGML might not be valid XML, a lot of SGML documents are
+		// ostensibly XML and since we don't have an SGML parser, lets include
+		// SGMLs extension in `xml` because it might still work _some_ of the
+		// time.
+		"sgml",
+	)
 }
 
 const dataType = "xml"
