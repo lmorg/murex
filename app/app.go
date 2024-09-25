@@ -15,10 +15,10 @@ const Name = "murex"
 // Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
 	Major     = 6
-	Minor     = 3
-	Revision  = 4239
+	Minor     = 4
+	Revision  = 101
 	Branch    = "develop"
-	BuildDate = "2024-09-25  20:12:31"
+	BuildDate = "2024-09-25  20:16:38"
 )
 
 // Copyright is the copyright owner string

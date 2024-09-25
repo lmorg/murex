@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/debug"
 )
@@ -47,4 +48,11 @@ func docsImport(path string) []byte {
 
 	b, _ := docsEmbeded.ReadFile(path)
 	return b
+}
+
+//go:embed LICENSE
+var license string
+
+func init() {
+	app.SetLicenseFull(license)
 }
