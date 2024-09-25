@@ -36,12 +36,12 @@ func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, 
 
 	case []string:
 		if len(m) >= 2 {
-			key := elementMeta(m[0], lang.ELEMENT_META_ROOT)
+			key := _elementMeta(m[0], lang.ELEMENT_META_ROOT)
 			if key == "" {
 				break
 			}
 			defaultRoot = key
-			key = elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			key = _elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
 			if key == "" {
 				break
 			}
@@ -51,12 +51,12 @@ func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, 
 
 	case []any:
 		if len(m) >= 2 {
-			key := elementMeta(m[0], lang.ELEMENT_META_ROOT)
+			key := _elementMeta(m[0], lang.ELEMENT_META_ROOT)
 			if key == "" {
 				break
 			}
 			defaultRoot = key
-			key = elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			key = _elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
 			if key == "" {
 				break
 			}
@@ -72,7 +72,7 @@ func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, 
 	return mxj.AnyXml(v, defaultRoot, defaultElement)
 }
 
-func elementMeta(v any, prefix string) string {
+func _elementMeta(v any, prefix string) string {
 	key, ok := v.(string)
 	if !ok {
 		return ""
@@ -109,3 +109,20 @@ func unmarshaller(b []byte, v any) error {
 	*ptr = map[string]any(m)
 	return nil
 }
+
+/*func demeta(v any) error {
+	ptr, ok := v.(*any)
+	if !ok {
+		return fmt.Errorf("expecting a pointer, instead got %T", v)
+	}
+
+	switch t := (*ptr).(type) {
+	case map[string]any:
+		delete(t, lang.ELEMENT_META_ROOT)
+		delete(t, lang.ELEMENT_META_ELEMENT)
+		*ptr = t
+	}
+
+	return nil
+}
+*/
