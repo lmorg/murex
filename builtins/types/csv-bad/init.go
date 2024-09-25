@@ -14,8 +14,8 @@ func init() {
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 
-	lang.Marshallers[typeName] = marshal
-	lang.Unmarshallers[typeName] = unmarshal
+	lang.RegisterMarshaller(typeName, marshal)
+	lang.RegisterUnmarshaller(typeName, unmarshal)
 
 	// The following syntax is defined in the `csv` type.
 	// Uncomment it if - for whatever reason - you want to disable the default

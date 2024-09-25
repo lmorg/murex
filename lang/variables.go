@@ -798,7 +798,7 @@ func varConvertPrimitive(value interface{}, name *string) (string, error) {
 }
 
 func varConvertString(parent *Process, value []byte, dataType string, name *string) (interface{}, error) {
-	UnmarshalData := Unmarshallers[dataType]
+	UnmarshalData := _unmarshallers[dataType]
 
 	// no unmarshaller exists so lets just return the bare string
 	if UnmarshalData == nil {
@@ -819,8 +819,42 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }
 
+/*func varConvertString(parent *Process, value []byte, dataType string, name *string) (interface{}, error) {
+	// no unmarshaller exists so lets just return the bare string
+	if _unmarshallers[dataType] == nil {
+		return string(value), nil
+	}
+
+	v, err := UnmarshalDataBuffered(parent, value, dataType)
+	if err != nil {
+		return nil, errVarCannotStoreVariable(*name, err)
+	}
+	return v, nil
+}*/
+
+/*func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
+	// no marshaller exists so lets just return the bare string
+	if _marshallers[dataType] == nil {
+		s, err := types.ConvertGoType(value, types.String)
+		if err != nil {
+			return "", errVarCannotStoreVariable(*name, err)
+		}
+		return s.(string), nil
+	}
+
+	b, err := MarshalData(p, dataType, value)
+	if err != nil {
+		return "", errVarCannotStoreVariable(*name, err)
+	}
+	s, err := types.ConvertGoType(b, types.String)
+	if err != nil {
+		return "", errVarCannotStoreVariable(*name, err)
+	}
+	return s.(string), nil
+}*/
+
 func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
-	MarshalData := Marshallers[dataType]
+	MarshalData := _marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
 	if MarshalData == nil {

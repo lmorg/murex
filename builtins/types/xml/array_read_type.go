@@ -13,5 +13,5 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 		return MarshalTTY(v, read.IsTTY())
 	}
 
-	return lang.ArrayWithTypeTemplate(ctx, dataType, marshaller, unmarshaller, read, callback)
+	return lang.ArrayWithTypeTemplate(ctx, typeName, marshaller, unmarshaller, read, callback)
 }
