@@ -2,6 +2,9 @@
   Title: >-
     Terminal Hotkeys
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.beginners
+    - guide.reference
   Summary: >-
     A list of all the terminal hotkeys and their uses
   Description: |-

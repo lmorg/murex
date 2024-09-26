@@ -1,6 +1,6 @@
 # Modules And Packages
 
-> An introduction to Murex modules and packages
+> Modules and packages: An Introduction
 
 ## Description
 

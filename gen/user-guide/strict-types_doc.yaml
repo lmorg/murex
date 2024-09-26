@@ -2,6 +2,8 @@
   Title: >-
     Strict Types In Expressions
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     Expressions can auto-convert types or strictly honour data types
   Description: |-

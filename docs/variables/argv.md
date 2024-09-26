@@ -41,7 +41,7 @@ deprecated and may be removed from future releases.
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):

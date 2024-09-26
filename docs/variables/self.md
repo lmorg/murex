@@ -85,7 +85,7 @@ terminal (TTY) or a pipe?)
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Public Function (`function`)](../commands/function.md):

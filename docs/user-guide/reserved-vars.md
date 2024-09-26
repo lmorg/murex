@@ -38,7 +38,7 @@ Error in `set` (0,1): cannot set a reserved variable: SELF
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Variable And Config Scoping](../user-guide/scoping.md):

@@ -2,13 +2,15 @@
   Title: >-
     JSON Merge
   CategoryID: examples
+  SubCategoryIDs:
+    - eg.nushell
   Summary: >-
     Merging two JSON arrays (comparing Murex to Nushell)
   Description: |-
     In this example we'll merge two JSON files together, using example code from
     Nushell to illustrate Murex's syntax.
   Detail: |-
-    {{ include "gen/examples/json-merge-nushell.md" }}
+    {{ include "gen/examples/json-merge-nushell.inc.md" }}
   Related:
   - expr
   - addition
