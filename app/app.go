@@ -16,7 +16,7 @@ const Name = "murex"
 const (
 	Major     = 6
 	Minor     = 4
-	Revision  = 101
+	Revision  = 200
 	Branch    = "develop"
 	BuildDate = "2024-09-25  20:16:38"
 )
