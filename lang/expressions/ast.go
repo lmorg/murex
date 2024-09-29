@@ -41,13 +41,10 @@ type ParserT struct {
 	_expandGlob   interface{}
 }
 
-func (tree *ParserT) nextChar() rune {
-	if tree.charPos+1 >= len(tree.expression) {
-		return 0
-	}
-	return tree.expression[tree.charPos+1]
-}
-
+// prevChar returns the current character, performing bounds checks in the
+// process.
+//
+// If `charPos` is out of bounds, then `prevChar()` returns `0`.
 func (tree *ParserT) prevChar() rune {
 	if tree.charPos < 1 {
 		return 0
@@ -55,13 +52,39 @@ func (tree *ParserT) prevChar() rune {
 	return tree.expression[tree.charPos-1]
 }
 
+// currentChar returns the current character, performing bounds checks in the
+// process. If bounds checking is not required, then please use
+//
+//	tree.expression[tree.charPos]
+//
+// instead because it saves on a branching instruction inside hot code.
+//
+// If `charPos` is out of bounds, then `currentChar()` returns `0`.
+func (tree *ParserT) currentChar() rune {
+	if tree.charPos >= len(tree.expression) {
+		return 0
+	}
+	return tree.expression[tree.charPos]
+}
+
+// nextChar returns the current character, performing bounds checks in the
+// process.
+//
+// If `charPos` is out of bounds, then `nextChar()` returns `0`.
+func (tree *ParserT) nextChar() rune {
+	if tree.charPos+1 >= len(tree.expression) {
+		return 0
+	}
+	return tree.expression[tree.charPos+1]
+}
+
 func (tree *ParserT) crLf() {
 	tree.endRow++
-	tree.endCol = tree.charPos
+	tree.endCol = 0 //tree.charPos
 }
 
 func (tree *ParserT) GetColumnN() int { return tree.charOffset - tree.startCol + 2 }
-func (tree *ParserT) GetLineN() int   { return tree.startRow }
+func (tree *ParserT) GetLineN() int   { return tree.endRow }
 
 func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {
 	tree.ast = append(tree.ast, &astNodeT{
