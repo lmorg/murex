@@ -17,6 +17,21 @@ type testElementLookupT struct {
 func TestElementLookup(t *testing.T) {
 	tests := []testElementLookupT{
 		{
+			Object: map[string]any{
+				"one": map[string]any{"two": map[string]any{"three": "four"}},
+			},
+			Path:     "/one/two/three",
+			Expected: "four",
+		},
+		{
+			Object: map[string]any{
+				"one": map[string]any{"two": map[string]any{"three": "four"}},
+			},
+			Path:     "😅one😅two😅three",
+			Expected: "four",
+		},
+
+		{
 			Object: []string{
 				"foo", "bar",
 			},
