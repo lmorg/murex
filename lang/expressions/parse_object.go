@@ -154,7 +154,7 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			default:
 				// inline scalar
 				strOrVal := varFormatting(o.stage)
-				scalar, val, _, err := tree.parseVarScalar(exec, strOrVal)
+				scalar, val, _, err := tree.parseVarScalar(exec, exec, strOrVal)
 				if err != nil {
 					return nil, nil, err
 				}

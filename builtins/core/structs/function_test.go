@@ -93,7 +93,7 @@ func TestPrivate(t *testing.T) {
 	fn := "TestPrivate"
 	mod := fmt.Sprintf("GoTest-%d", rand.Int())
 
-	count.Tests(t, 2)
+	count.Tests(t, 4)
 
 	lang.InitEnv()
 
@@ -117,5 +117,19 @@ func TestPrivate(t *testing.T) {
 
 	if !lang.PrivateFunctions.ExistsString(fn, mod) {
 		t.Fatalf("Expecting '%s/%s' to be created, it did not", mod, fn)
+	}
+
+	err = lang.PrivateFunctions.Undefine(fn, p.FileRef)
+	if err != nil {
+		t.Fatalf("Expecting no errors. Got %v", err)
+	}
+
+	if lang.PrivateFunctions.ExistsString(fn, mod) {
+		t.Fatalf("Expecting '%s/%s' to be removed, it was not", mod, fn)
+	}
+
+	err = lang.PrivateFunctions.Undefine(fn, p.FileRef)
+	if err == nil {
+		t.Fatalf("Expecting and error")
 	}
 }

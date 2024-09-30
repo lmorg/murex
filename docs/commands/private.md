@@ -54,9 +54,8 @@ preference below).
 
 ### Undefining a private
 
-Because private functions are fixed to the source file that declares them,
-there isn't much point in undefining them. Thus at this point in time, it
-is not possible to do so.
+Like all other definable states in Murex, you can delete a function with
+the bang prefix `!private`
 
 ### Order of preference
 
@@ -93,6 +92,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 ## Synonyms
 
 * `private`
+* `!private`
 
 
 ## See Also

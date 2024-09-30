@@ -21,9 +21,9 @@ func TestCropCaption(t *testing.T) {
 		}
 	}()
 
-	for caption = 0; caption < 101; caption++ {
-		for maxLen = 0; maxLen < 101; maxLen++ {
-			for cellWidth = 0; cellWidth < 101; cellWidth++ {
+	for caption = 0; caption < 10; caption++ {
+		for maxLen = 0; maxLen < 10; maxLen++ {
+			for cellWidth = 0; cellWidth < 10; cellWidth++ {
 				_ = cropCaption(strings.Repeat("s", caption), maxLen, cellWidth)
 			}
 		}

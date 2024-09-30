@@ -16,16 +16,23 @@ func ElementLookup(v any, path string, dataType string) (any, error) {
 		return nil, fmt.Errorf("invalid path for element lookup: `%s` is too short", path)
 	}
 
+	var separator string
+	for _, r := range path {
+		separator = string(r)
+		break
+	}
+
 	if dataType == "xml" {
 		m, ok := v.(map[string]any)
 		if ok && len(m) == 1 {
 			for root := range m {
-				path = path[0:1] + root + path
+				path = separator + root + path
 			}
 		}
 	}
 
-	pathSplit := strings.Split(path, path[0:1])
+	pathSplit := strings.Split(path, separator)
+
 	obj := v
 	var err error
 
@@ -34,7 +41,7 @@ func ElementLookup(v any, path string, dataType string) (any, error) {
 			if i == len(pathSplit)-1 {
 				break
 			} else {
-				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, "/"))
+				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, separator))
 			}
 		}
 
@@ -172,11 +179,15 @@ func isValidElementIndex(key string, length int) (int, error) {
 	}
 
 	if i < 0 {
-		return 0, fmt.Errorf("negative keys are not allowed for arrays: %s", key)
+		i += length
+		if i < 0 {
+			return 0, fmt.Errorf("element is an array however key (%s -> %d) is greater than the length (%d)", key, i, length)
+		}
+		return i, nil
 	}
 
 	if i >= length {
-		return 0, fmt.Errorf("element is an array however key is greater than the length: %s", key)
+		return 0, fmt.Errorf("element is an array however key (%s) is greater than the length (%d)", key, length)
 	}
 
 	return i, nil
