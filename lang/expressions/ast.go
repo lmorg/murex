@@ -80,6 +80,7 @@ func (tree *ParserT) nextChar() rune {
 
 func (tree *ParserT) crLf() {
 	tree.endRow++
+	tree.startCol = 0
 	tree.endCol = 0 //tree.charPos
 }
 

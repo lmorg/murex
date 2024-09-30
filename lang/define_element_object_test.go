@@ -1,9 +1,8 @@
-package lang_test
+package lang
 
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -35,8 +34,8 @@ func TestElementLookup(t *testing.T) {
 			Object: []string{
 				"foo", "bar",
 			},
-			Path:  ".-1",
-			Error: true,
+			Path:     ".-1",
+			Expected: "bar",
 		},
 
 		/////
@@ -59,8 +58,8 @@ func TestElementLookup(t *testing.T) {
 			Object: []interface{}{
 				"foo", "bar",
 			},
-			Path:  ".-1",
-			Error: true,
+			Path:     ".-1",
+			Expected: "bar",
 		},
 
 		/////
@@ -186,7 +185,7 @@ func TestElementLookup(t *testing.T) {
 	for i, test := range tests {
 		expected := json.LazyLogging(test.Expected)
 
-		v, err := lang.ElementLookup(test.Object, test.Path)
+		v, err := ElementLookup(test.Object, test.Path)
 		actual := json.LazyLogging(v)
 
 		if (err != nil) != test.Error || actual != expected {
@@ -198,5 +197,74 @@ func TestElementLookup(t *testing.T) {
 			t.Logf("  err exp:  %v", test.Error)
 			t.Logf("  err act:  %v", err)
 		}
+	}
+}
+
+func TestIsValidElementIndex(t *testing.T) {
+	tests := []struct {
+		Key    string
+		Length int
+		Index  int
+		Error  bool
+	}{
+		{
+			Key:    "-",
+			Length: 0,
+			Index:  0,
+			Error:  true,
+		},
+		{
+			Key:    "0",
+			Length: 0,
+			Index:  0,
+			Error:  true,
+		},
+		{
+			Key:    "0",
+			Length: 1,
+			Index:  0,
+			Error:  false,
+		},
+		{
+			Key:    "3",
+			Length: 2,
+			Index:  0,
+			Error:  true,
+		},
+		{
+			Key:    "-1",
+			Length: 7,
+			Index:  6,
+			Error:  false,
+		},
+		{
+			Key:    "-10",
+			Length: 7,
+			Index:  0,
+			Error:  true,
+		},
+		{
+			Key:    "-5",
+			Length: 5,
+			Index:  0,
+			Error:  false,
+		},
+	}
+
+	count.Tests(t, len(tests))
+
+	for i, test := range tests {
+		index, err := isValidElementIndex(test.Key, test.Length)
+
+		if index != test.Index || (err != nil) != test.Error {
+			t.Errorf("Unexpected return in test %d: ", i)
+			t.Logf("  Key:      '%s'", test.Key)
+			t.Logf("  Length:    %d", test.Length)
+			t.Logf("  exp index: %d", test.Index)
+			t.Logf("  act index: %d", index)
+			t.Logf("  exp err:   %v", test.Error)
+			t.Logf("  act err:   %v", err)
+		}
+
 	}
 }

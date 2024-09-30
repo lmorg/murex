@@ -123,11 +123,15 @@ func isValidElementIndex(key string, length int) (int, error) {
 	}
 
 	if i < 0 {
-		return 0, fmt.Errorf("negative keys are not allowed for arrays: %s", key)
+		i += length
+		if i < 0 {
+			return 0, fmt.Errorf("element is an array however key (%s -> %d) is greater than the length (%d)", key, i, length)
+		}
+		return i, nil
 	}
 
 	if i >= length {
-		return 0, fmt.Errorf("element is an array however key is greater than the length: %s", key)
+		return 0, fmt.Errorf("element is an array however key (%s) is greater than the length (%d)", key, length)
 	}
 
 	return i, nil
