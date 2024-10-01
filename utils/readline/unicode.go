@@ -35,8 +35,8 @@ func (u *UnicodeT) _offByOne(i int) int {
 	if len(u.value) == 0 {
 		return 0
 	}
-	if u.rl != nil && u.rl.modeViMode != vimInsert && i == len(u.value) {
-		i = len(u.value) - 1
+	if i == len(u.value) && (u.rl == nil || u.rl.modeViMode != vimInsert) {
+		i = len(u.value)
 	}
 	return i
 }
