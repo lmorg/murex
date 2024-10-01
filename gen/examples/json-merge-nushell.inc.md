@@ -4,7 +4,7 @@ First we need to create two JSON files.
 
 Here the syntax is pretty similar however with the Nushell code we are using
 the command `save` whereas the Murex equivalent uses the `|>` operator, which
-is like the Bash `>` redirection pipe.
+is equivalent to the Bash redirection pipe, `>`.
 
 Nushell:
 

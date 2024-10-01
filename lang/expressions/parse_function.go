@@ -205,7 +205,7 @@ func (tree *ParserT) parseFunctionParameters(cmd []rune) ([]rune, error) {
 				}
 			default:
 				// start scalar
-				_, _, _, err := tree.parseVarScalar(false, varAsString)
+				_, _, _, err := tree.parseVarScalar(false, false, varAsString)
 				if err != nil {
 					return nil, raiseError(tree.expression, nil, tree.charPos, err.Error())
 				}

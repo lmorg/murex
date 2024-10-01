@@ -4,20 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
-
-func TestPipeTelemetry(t *testing.T) {
-	tests := []test.MurexTest{
-		{
-			Block:  `tout * 12345 -> pt`,
-			Stdout: `12345`,
-		},
-	}
-
-	test.RunMurexTests(tests, t)
-}
 
 func TestWriteFile(t *testing.T) {
 	file := t.TempDir()

@@ -3,6 +3,7 @@ package lang
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
 )
@@ -13,6 +14,7 @@ func ErrPrivateNotFound(module string) error {
 
 type privateFunctions struct {
 	module map[string]*MurexFuncs
+	mutex  sync.RWMutex
 }
 
 func NewMurexPrivs() *privateFunctions {
@@ -22,14 +24,21 @@ func NewMurexPrivs() *privateFunctions {
 }
 
 func (pf *privateFunctions) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
+	pf.mutex.Lock()
+
 	if pf.module[fileRef.Source.Module] == nil {
 		pf.module[fileRef.Source.Module] = NewMurexFuncs()
 	}
 
 	pf.module[fileRef.Source.Module].Define(name, parameters, block, fileRef)
+
+	pf.mutex.Unlock()
 }
 
 func (pf *privateFunctions) get(name string, fileRef *ref.File) *murexFuncDetails {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[fileRef.Source.Module] == nil {
 		return nil
 	}
@@ -38,6 +47,9 @@ func (pf *privateFunctions) get(name string, fileRef *ref.File) *murexFuncDetail
 }
 
 func (pf *privateFunctions) GetString(name string, module string) *murexFuncDetails {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[module] == nil {
 		return nil
 	}
@@ -46,6 +58,9 @@ func (pf *privateFunctions) GetString(name string, module string) *murexFuncDeta
 }
 
 func (pf *privateFunctions) Exists(name string, fileRef *ref.File) bool {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[fileRef.Source.Module] == nil {
 		return false
 	}
@@ -54,6 +69,9 @@ func (pf *privateFunctions) Exists(name string, fileRef *ref.File) bool {
 }
 
 func (pf *privateFunctions) ExistsString(name string, module string) bool {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[module] == nil {
 		return false
 	}
@@ -62,6 +80,9 @@ func (pf *privateFunctions) ExistsString(name string, module string) bool {
 }
 
 func (pf *privateFunctions) BlockString(name string, module string) ([]rune, error) {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[module] == nil {
 		return nil, ErrPrivateNotFound(module)
 	}
@@ -70,6 +91,9 @@ func (pf *privateFunctions) BlockString(name string, module string) ([]rune, err
 }
 
 func (pf *privateFunctions) Summary(name string, fileRef *ref.File) (string, error) {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
 	if pf.module[fileRef.Source.Module] == nil {
 		return "", ErrPrivateNotFound(fileRef.Source.Module)
 	}
@@ -78,6 +102,9 @@ func (pf *privateFunctions) Summary(name string, fileRef *ref.File) (string, err
 }
 
 func (pf *privateFunctions) Undefine(name string, fileRef *ref.File) error {
+	pf.mutex.Lock()
+	defer pf.mutex.Unlock()
+
 	if pf.module[fileRef.Source.Module] == nil {
 		return ErrPrivateNotFound(fileRef.Source.Module)
 	}
@@ -85,8 +112,11 @@ func (pf *privateFunctions) Undefine(name string, fileRef *ref.File) error {
 	return pf.module[fileRef.Source.Module].Undefine(name)
 }
 
-func (pf *privateFunctions) Dump() interface{} {
-	dump := make(map[string]map[string]interface{})
+func (pf *privateFunctions) Dump() any {
+	pf.mutex.RLock()
+	defer pf.mutex.RUnlock()
+
+	dump := make(map[string]map[string]any)
 	for name, module := range pf.module {
 		path := strings.SplitN(name, "/", 2)
 		if len(path) != 2 {
@@ -94,7 +124,7 @@ func (pf *privateFunctions) Dump() interface{} {
 		}
 
 		if len(dump[path[0]]) == 0 {
-			dump[path[0]] = make(map[string]interface{})
+			dump[path[0]] = make(map[string]any)
 		}
 
 		dump[path[0]][path[1]] = module.Dump()

@@ -32,8 +32,8 @@ func (rl *Instance) vi(r rune) string {
 	switch r {
 	case 'a':
 		if rl.line.CellLen() > 0 {
-			output = moveCursorForwardsStr(1)
-			rl.line.SetRunePos(rl.line.RunePos())
+			//output = moveCursorForwardsStr(1)
+			rl.line.SetRunePos(rl.line.RunePos() + 1)
 		}
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
@@ -41,8 +41,8 @@ func (rl *Instance) vi(r rune) string {
 
 	case 'A':
 		if rl.line.RuneLen() > 0 {
-			output = moveCursorForwardsStr(rl.line.CellLen() - rl.line.CellPos())
-			rl.line.SetRunePos(rl.line.RuneLen())
+			//output = moveCursorForwardsStr(rl.line.CellLen() - rl.line.CellPos())
+			rl.line.SetRunePos(rl.line.RuneLen() + 1)
 		}
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""

@@ -2,6 +2,8 @@
   Title: >-
     FileRef
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     How to track what code was loaded and from where
   Description: |-

@@ -19,7 +19,7 @@ func init() {
 	lang.DefineFunction("function", cmdFunc, types.Null)
 	lang.DefineFunction("!function", cmdUnfunc, types.Null)
 	lang.DefineFunction("private", cmdPrivate, types.Null)
-	//lang.DefineFunction("!private", cmdUnprivate, types.Null)
+	lang.DefineFunction("!private", cmdUnprivate, types.Null)
 	lang.DefineFunction("method", cmdMethod, types.Null)
 
 	defaults.AppendProfile(`
@@ -185,14 +185,14 @@ func cmdPrivate(p *lang.Process) error {
 	}
 }
 
-/*func cmdUnprivate(p *lang.Process) error {
+func cmdUnprivate(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	return lang.PrivateFunctions.Undefine(name)
-}*/
+	return lang.PrivateFunctions.Undefine(name, p.FileRef)
+}
 
 func cmdMethod(p *lang.Process) error {
 	fn, err := p.Parameters.String(0)

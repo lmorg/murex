@@ -65,31 +65,26 @@ bool
 » config -> [[ \|shell\|syntax-highlighting\|Data-Type ]]
 bool
 
-» config -> [[ >shell>syntax-highlighting>Data-Type ]]
+» config -> [[ 😅shell😅syntax-highlighting😅Data-Type ]]
 bool
 ```
 
 However there are a few of caveats:
 
-1. Currently **element** does not support unicode separators. All separators
-   must be 1 byte characters. This limitation is highlighted as a bug, albeit
-   a low priority one. If this limitation does directly affect you then raise
-   an issue on GitHub to get the priority bumped up.
-
-2. Any shell tokens (eg pipe `|`, `;`, `}`, etc) will need to be escaped. For
+1. Any shell tokens (eg pipe `|`, `;`, `}`, etc) will need to be escaped. For
    readability reasons it is recommended not to use such characters even
    though it is technically possible to.
 
-```
+    ```
     # Would fail because the semi-colon is an unescaped / unquoted shell token
     config -> [[ ;shell-syntax-highlighting;Data-Type ]]
-```
+    ```
 
-3. Please also make sure you don't use a character that is also used inside
+2. Please also make sure you don't use a character that is also used inside
    key names because keys _cannot_ be escaped. For example both of the
    following would fail:
 
-```
+    ```
     # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
     # the separator character
     config -> [[ -shell-syntax-highlighting-Data-Type ]]
@@ -97,7 +92,7 @@ However there are a few of caveats:
     # Would fail because you cannot escape key names (escaping happens at the
     # shell parser level rather than command parameter level)
     config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
-```
+    ```
 
 ### Quoting parameters
 

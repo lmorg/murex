@@ -2,8 +2,10 @@
   Title: >-
     Modules And Packages
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.beginners
   Summary: >-
-    An introduction to Murex modules and packages
+    Modules and packages: An Introduction
   Description: |-
     ## Description
     

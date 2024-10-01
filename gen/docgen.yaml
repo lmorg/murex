@@ -224,7 +224,6 @@ Categories:
       DocumentTemplate: gen/types-md-doc.tmpl
 
   # special variables:
-
   - ID: variables
     Title: Special Variables
     Summary: >-
@@ -249,7 +248,7 @@ Categories:
       Description: |-
         Environmental variables are variables held at an operating system level and thus will get passed between running processes.
     - ID: vars.scoped
-      Title: Scoped Variables
+      Title: Locally Scoped Variables
       VueIcon: arrows-turn-to-dots
       Description: |-
         Scoped variables are defined within a specific function's scope. These might be reserved variables but they might also be used to provide structured returns from a particular scope.
@@ -295,6 +294,26 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
+
+    - OutputPath: gen/vuepress
+      CategoryFile: userguide_generated.json
+      CategoryTemplate: gen/userguide-vue-cat.tmpl
+
+    SubCategories:
+      - ID: guide.beginners
+        Title: Beginners Guides
+        VueIcon:
+        Description: |-
+          Just getting started in Murex? Then have a read of these guides.
+      - ID: guide.reference
+        Title: Cheat Sheets
+        Description: |-
+          The guides are useful for beginners and experiences users alike.
+      - ID: guide.readmore
+        Title: Read More
+        Description: |-
+          Read more about specific features within Murex. This section contains more detailed contents rather than broader documents providing an overview. The contents is suitable for beginners and experienced users alike.
+
 
   # integrations
   - ID: integrations

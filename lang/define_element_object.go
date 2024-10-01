@@ -13,7 +13,13 @@ func ElementLookup(v interface{}, path string) (interface{}, error) {
 		return nil, fmt.Errorf("invalid path for element lookup: `%s` is too short", path)
 	}
 
-	pathSplit := strings.Split(path, path[0:1])
+	var separator string
+	for _, r := range path {
+		separator = string(r)
+		break
+	}
+
+	pathSplit := strings.Split(path, separator)
 	obj := v
 
 	for i := 1; i < len(pathSplit); i++ {
@@ -21,7 +27,7 @@ func ElementLookup(v interface{}, path string) (interface{}, error) {
 			if i == len(pathSplit)-1 {
 				break
 			} else {
-				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, "/"))
+				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, separator))
 			}
 		}
 
@@ -123,11 +129,15 @@ func isValidElementIndex(key string, length int) (int, error) {
 	}
 
 	if i < 0 {
-		return 0, fmt.Errorf("negative keys are not allowed for arrays: %s", key)
+		i += length
+		if i < 0 {
+			return 0, fmt.Errorf("element is an array however key (%s -> %d) is greater than the length (%d)", key, i, length)
+		}
+		return i, nil
 	}
 
 	if i >= length {
-		return 0, fmt.Errorf("element is an array however key is greater than the length: %s", key)
+		return 0, fmt.Errorf("element is an array however key (%s) is greater than the length (%d)", key, length)
 	}
 
 	return i, nil
