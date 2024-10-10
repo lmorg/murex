@@ -1,4 +1,4 @@
-package typemgmt
+package time
 
 import (
 	"errors"

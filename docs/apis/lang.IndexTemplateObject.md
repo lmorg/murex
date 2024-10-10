@@ -147,18 +147,30 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 				}
 
 			} else {
+				var (
+					iString int
+					key     string
+					ok      bool
+				)
 
-				switch {
-				case v[params[i]] != nil:
-					obj = v[params[i]]
-				case v[strings.Title(params[i])] != nil:
-					obj = v[strings.Title(params[i])]
-				case v[strings.ToLower(params[i])] != nil:
-					obj = v[strings.ToLower(params[i])]
-				case v[strings.ToUpper(params[i])] != nil:
-					obj = v[strings.ToUpper(params[i])]
-				default:
-					return errors.New("key '" + params[i] + "' not found")
+				for {
+					switch iString {
+					case 0:
+						key = params[i]
+					case 1:
+						key = strings.Title(params[i])
+					case 2:
+						key = strings.ToLower(params[i])
+					case 3:
+						key = strings.ToUpper(params[i])
+					default:
+						return errors.New("key '" + params[i] + "' not found")
+					}
+					obj, ok = v[key]
+					if ok {
+						break
+					}
+					iString++
 				}
 			}
 
