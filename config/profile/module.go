@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -47,6 +48,7 @@ type Dependencies struct {
 	Required     []string
 	Platform     []string
 	MurexVersion string
+	ChangeLog    map[string]string
 }
 
 // Package is some basic details about the package itself as seen in the
@@ -105,6 +107,10 @@ func (m *Module) validate() error {
 		} else if fi.IsDir() {
 			message += fmt.Sprintf("  * Script `%s` exists but is a directory%s", m.Path(), utils.NewLineString)
 		}
+	}
+
+	if m.Dependencies.MurexVersion == "" {
+		m.Dependencies.MurexVersion = fmt.Sprintf(">= %s", modver.Default)
 	}
 
 	if message != "" {
@@ -174,13 +180,11 @@ checkDeps:
 	var message string
 
 	// check supported version
-	if m.Dependencies.MurexVersion != "" {
-		ok, err := semver.Compare(app.Version(), m.Dependencies.MurexVersion)
-		if err != nil {
-			message += "  * Error checking supported Murex version: " + err.Error()
-		} else if !ok {
-			message += "  * This module is not supported for this version of Murex"
-		}
+	ok, err := semver.Compare(app.Semver().String(), m.Dependencies.MurexVersion)
+	if err != nil {
+		message += "  * Error checking supported Murex version: " + err.Error()
+	} else if !ok {
+		message += "  * This module is not supported for this version of Murex"
 	}
 
 	// check dependencies

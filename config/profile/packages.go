@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/semver"
@@ -151,7 +152,7 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 	}
 
 	if pkg.Dependencies.MurexVersion != "" {
-		ok, err := semver.Compare(app.Version(), pkg.Dependencies.MurexVersion)
+		ok, err := semver.Compare(app.Semver().String(), pkg.Dependencies.MurexVersion)
 		if err != nil {
 			message += fmt.Sprintf("* Package '%s': Error checking supported Murex version: %s\n", pkg.Name, err.Error())
 		} else if !ok {
@@ -192,6 +193,20 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		if !execute || module[i].Disabled {
 			continue
 		}
+
+		useMurexVersion, err := semver.VersionFromComparison(module[i].Dependencies.MurexVersion)
+		if err != nil {
+			message += fmt.Sprintf(
+				"* Package '%s': Error reading Murex version string in module `%s` in path `%s`:%s%s%s",
+				pkg.Name,
+				module[i].Name,
+				module[i].Path(),
+				utils.NewLineString,
+				err.Error(),
+				utils.NewLineString,
+			)
+		}
+		modver.Set(fmt.Sprintf("%s/%s", pkg.Name, module[i].Name), useMurexVersion)
 
 		err = os.Chdir(path)
 		if err != nil {

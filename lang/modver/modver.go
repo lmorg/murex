@@ -6,11 +6,21 @@ import (
 	"github.com/lmorg/murex/utils/semver"
 )
 
+const Default = "6.0"
+
 var (
 	modver   = make(map[string]*semver.Version)
 	mutex    sync.Mutex
-	baseline = &semver.Version{6, 0, 0}
+	baseline *semver.Version
 )
+
+func init() {
+	var err error
+	baseline, err = semver.Parse(Default)
+	if err != nil {
+		panic(err.Error())
+	}
+}
 
 func Set(module string, version *semver.Version) {
 	mutex.Lock()

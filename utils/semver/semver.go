@@ -17,6 +17,10 @@ func (v *Version) Compare(comparison *Version) compareResult {
 	return compare(v, comparison)
 }
 
+func (v *Version) String() string {
+	return fmt.Sprintf("%d.%d.%d", v.Major, v.Minor, v.Patch)
+}
+
 func raiseError(err error, context string, values ...any) (*Version, error) {
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf(context, values...) + ": " + err.Error())
@@ -105,6 +109,11 @@ func parseComparison(comparison string) (string, string) {
 		}
 	}
 	return "", ""
+}
+
+func VersionFromComparison(comparison string) (*Version, error) {
+	_, s := parseComparison(comparison)
+	return Parse(s)
 }
 
 func parseCompVersion(s string) (*Version, error) {
