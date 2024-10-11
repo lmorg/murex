@@ -60,12 +60,16 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 type indexValueT interface {
 	~string | ~bool | ~int | ~float64 | any
 }
+
+var Version7_0 = &semver.Version{7, 0, 0}
 
 // IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
@@ -73,6 +77,7 @@ func IndexTemplateObject(p *Process, params []string, object *any, marshaller fu
 	if p.IsNot {
 		return itoNot(p, params, object, marshaller)
 	}
+
 	return itoIndex(p, params, object, marshaller)
 }
 
@@ -153,13 +158,13 @@ func itoIndexArray[V indexValueT](p *Process, params []string, v []V, marshaller
 func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map[K]V, marshaller func(any) ([]byte, error)) error {
 	var (
 		objArray []any
+		objMap   = make(map[string]any)
 		obj      any
 		err      error
 	)
 
 	for i := range params {
 		if len(params[i]) > 2 && params[i][0] == '[' && params[i][len(params[i])-1] == ']' {
-			//FeatureDeprecated("ElementLookup() inside index", p.FileRef)
 			obj, err = ElementLookup(v, params[i][1:len(params[i])-1], "")
 			if err != nil {
 				return err
@@ -195,7 +200,11 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 		}
 
 		if len(params) > 1 {
-			objArray = append(objArray, obj)
+			if modver.Get(p.FileRef.Source.Module).Compare(Version7_0).IsLessThan() {
+				objArray = append(objArray, obj)
+			} else {
+				objMap[params[i]] = obj
+			}
 
 		} else {
 			switch obj := obj.(type) {
@@ -228,15 +237,25 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 			}
 		}
 	}
-	if len(objArray) > 0 {
-		b, err := marshaller(objArray)
-		if err != nil {
-			return err
-		}
-		p.Stdout.Writeln(b)
-	}
-	return nil
 
+	if modver.Get(p.FileRef.Source.Module).Compare(Version7_0).IsLessThan() {
+		if len(objArray) == 0 {
+			return nil
+		}
+		obj = objArray
+	} else {
+		if len(objMap) == 0 {
+			return nil
+		}
+		obj = objMap
+	}
+
+	b, err := marshaller(obj)
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Writeln(b)
+	return err
 }
 
 // itoNot requires the indexes to be explicit
