@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
@@ -61,6 +62,7 @@ func InitEnv() {
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Forks = NewForkManagement()
 	ShellProcess.SystemProcess = process.NewSystemProcessStruct()
+	modver.Set(app.ShellModule, app.Semver())
 
 	switch {
 	case FlagTry:

@@ -7,7 +7,6 @@ import (
 
 func init() {
 	// Register data type
-	//lang.RegisterDeMetaer(typeName, demeta)
 	lang.RegisterMarshaller(typeName, marshal)
 	lang.RegisterUnmarshaller(typeName, UnmarshalFromProcess)
 	lang.ReadIndexes[typeName] = index
