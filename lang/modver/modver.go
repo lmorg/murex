@@ -3,24 +3,17 @@ package modver
 import (
 	"sync"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/utils/semver"
 )
 
-const Default = "6.0"
+const ModuleDefault = "6.0"
 
 var (
 	modver   = make(map[string]*semver.Version)
 	mutex    sync.Mutex
-	baseline *semver.Version
+	baseline = app.Semver()
 )
-
-func init() {
-	var err error
-	baseline, err = semver.Parse(Default)
-	if err != nil {
-		panic(err.Error())
-	}
-}
 
 func Set(module string, version *semver.Version) {
 	mutex.Lock()
@@ -38,4 +31,16 @@ func Get(module string) *semver.Version {
 	}
 
 	return baseline
+}
+
+func Dump() any {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	dump := make(map[string]string)
+	for mod, v := range modver {
+		dump[mod] = v.String()
+	}
+
+	return dump
 }

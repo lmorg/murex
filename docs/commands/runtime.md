@@ -166,6 +166,8 @@ flag names. eg
     Outputs the running state of Go's runtime
 * `--methods`
     Lists all commands with a defined stdout and stdin data type. This is used to generate smarter autocompletion suggestions with `->`
+* `--module-murex-versions`
+    Lists which modules has specified which versions of the Murex runtime
 * `--modules`
     Lists all installed [modules](/docs/user-guide/modules.md)
 * `--named-pipes`

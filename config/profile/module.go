@@ -110,7 +110,7 @@ func (m *Module) validate() error {
 	}
 
 	if m.Dependencies.MurexVersion == "" {
-		m.Dependencies.MurexVersion = fmt.Sprintf(">= %s", modver.Default)
+		m.Dependencies.MurexVersion = fmt.Sprintf(">= %s", modver.ModuleDefault)
 	}
 
 	if message != "" {
