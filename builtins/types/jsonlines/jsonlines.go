@@ -8,8 +8,8 @@ import (
 
 func init() {
 	// Register data type
-	lang.Marshallers[types.JsonLines] = marshal
-	lang.Unmarshallers[types.JsonLines] = unmarshal
+	lang.RegisterMarshaller(types.JsonLines, marshal)
+	lang.RegisterUnmarshaller(types.JsonLines, unmarshal)
 	lang.ReadIndexes[types.JsonLines] = index
 	lang.ReadNotIndexes[types.JsonLines] = index
 

@@ -317,7 +317,7 @@ functions.
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Private Function (`private`)](../commands/private.md):
   Define a private function block
 * [Public Function (`function`)](../commands/function.md):

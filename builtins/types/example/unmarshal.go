@@ -8,11 +8,11 @@ import (
 
 func init() {
 	// Register data-type
-	lang.Unmarshallers["example"] = unmarshal
+	lang.RegisterUnmarshaller("example", unmarshal)
 }
 
 // Describe unmarshaller
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	// Read data from STDIN. Because JSON expects closing tokens, we should
 	// read the entire stream before unmarshalling it. For formats like CSV or
 	// jsonlines which are more line based, we might want to read STDIN line by
@@ -25,7 +25,7 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 		return nil, err
 	}
 
-	var v interface{}
+	var v any
 	err = json.Unmarshal(b, &v)
 
 	// Return the Go data structure or error

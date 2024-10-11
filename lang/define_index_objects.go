@@ -103,12 +103,13 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 		err      error
 	)
 
-	for i := range params {
-		if len(params[i]) > 2 && params[i][0] == '[' && params[i][len(params[i])-1] == ']' {
-			obj, err = ElementLookup(v, params[i][1:len(params[i])-1])
-			if err != nil {
-				return err
-			}
+		for i := range params {
+			if len(params[i]) > 2 && params[i][0] == '[' && params[i][len(params[i])-1] == ']' {
+				FeatureDeprecated("ElementLookup() inside index", p.FileRef)
+				obj, err = ElementLookup(v, params[i][1:len(params[i])-1])
+				if err != nil {
+					return err
+				}
 
 		} else {
 			var (

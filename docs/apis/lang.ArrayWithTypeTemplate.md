@@ -58,7 +58,7 @@ import (
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
-func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func(interface{}, string)) error {
+func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(any) ([]byte, error), unmarshal func([]byte, any) error, read stdio.Io, callback func(any, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -68,15 +68,18 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 		return nil
 	}
 
-	var v interface{}
+	var v any
 	err = unmarshal(b, &v)
-
 	if err != nil {
 		return err
 	}
 
-	switch v := v.(type) {
-	case []interface{}:
+	return ArrayDataWithTypeTemplate(ctx, dataType, marshal, unmarshal, v, callback)
+}
+
+func ArrayDataWithTypeTemplate(ctx context.Context, dataType string, marshal func(any) ([]byte, error), unmarshal func([]byte, any) error, data any, callback func(any, string)) error {
+	switch v := data.(type) {
+	case []any:
 		return readArrayWithTypeBySliceInterface(ctx, dataType, marshal, v, callback)
 
 	case []string:
@@ -103,25 +106,25 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	case map[string]string:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
-	case map[string]interface{}:
+	case map[string]any:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
-	case map[interface{}]string:
+	case map[any]string:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
 	case map[int]string:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
-	case map[int]interface{}:
+	case map[int]any:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
 	case map[float64]string:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
-	case map[float64]interface{}:
+	case map[float64]any:
 		return readArrayWithTypeByMap(ctx, dataType, marshal, v, callback)
 
 	default:
@@ -129,13 +132,13 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	}
 }
 
-func readArrayWithTypeByString(v string, callback func(interface{}, string)) error {
+func readArrayWithTypeByString(v string, callback func(any, string)) error {
 	callback(v, types.String)
 
 	return nil
 }
 
-func readArrayWithTypeBySliceInt(ctx context.Context, v []int, callback func(interface{}, string)) error {
+func readArrayWithTypeBySliceInt(ctx context.Context, v []int, callback func(any, string)) error {
 	for i := range v {
 		select {
 		case <-ctx.Done():
@@ -149,7 +152,7 @@ func readArrayWithTypeBySliceInt(ctx context.Context, v []int, callback func(int
 	return nil
 }
 
-func readArrayWithTypeBySliceFloat(ctx context.Context, v []float64, callback func(interface{}, string)) error {
+func readArrayWithTypeBySliceFloat(ctx context.Context, v []float64, callback func(any, string)) error {
 	for i := range v {
 		select {
 		case <-ctx.Done():
@@ -163,7 +166,7 @@ func readArrayWithTypeBySliceFloat(ctx context.Context, v []float64, callback fu
 	return nil
 }
 
-func readArrayWithTypeBySliceBool(ctx context.Context, v []bool, callback func(interface{}, string)) error {
+func readArrayWithTypeBySliceBool(ctx context.Context, v []bool, callback func(any, string)) error {
 	for i := range v {
 		select {
 		case <-ctx.Done():
@@ -178,7 +181,7 @@ func readArrayWithTypeBySliceBool(ctx context.Context, v []bool, callback func(i
 	return nil
 }
 
-func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func(interface{}, string)) error {
+func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func(any, string)) error {
 	for i := range v {
 		select {
 		case <-ctx.Done():
@@ -192,7 +195,7 @@ func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback fu
 	return nil
 }
 
-func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func(interface{}, string)) error {
+func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(any) ([]byte, error), v []any, callback func(any, string)) error {
 	if len(v) == 0 {
 		return nil
 	}
@@ -243,7 +246,7 @@ func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, mar
 	return nil
 }
 
-func readArrayWithTypeByMap[K comparable, V any](ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v map[K]V, callback func(interface{}, string)) error {
+func readArrayWithTypeByMap[K comparable, V any](ctx context.Context, dataType string, marshal func(any) ([]byte, error), v map[K]V, callback func(any, string)) error {
 	for key, val := range v {
 		select {
 		case <-ctx.Done():
