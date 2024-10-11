@@ -6,7 +6,12 @@ import (
 
 	"github.com/clbanning/mxj/v2"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/lists"
 )
+
+type mapValueT interface {
+	~string | ~bool | ~int | ~float64 | any
+}
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	return MarshalTTY(v, p.Stdout.IsTTY())
@@ -19,6 +24,11 @@ func MarshalTTY(v any, isTTY bool) ([]byte, error) {
 func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, error) {
 	switch m := v.(type) {
 	case map[string]any:
+		err := sanitizeKeysMap(m)
+		if err != nil {
+			return nil, err
+		}
+
 		if m[lang.ELEMENT_META_ROOT] != nil {
 			var ok bool
 			defaultRoot, ok = m[lang.ELEMENT_META_ROOT].(string)
@@ -106,23 +116,68 @@ func unmarshaller(b []byte, v any) error {
 		return err
 	}
 
-	*ptr = map[string]any(m)
+	if len(m) == 1 {
+		v, ok := m[xmlDefaultRoot]
+		if ok {
+			*ptr = v
+			return nil
+		}
+	}
+
+	*ptr = m
 	return nil
 }
 
-/*func demeta(v any) error {
-	ptr, ok := v.(*any)
-	if !ok {
-		return fmt.Errorf("expecting a pointer, instead got %T", v)
-	}
+func sanitizeKeysMap[K comparable, V mapValueT](m map[K]V) error {
+	for key := range m {
+		new, ok, err := sanitizeKeyName(key)
+		if err != nil {
+			return err
+		}
+		if ok {
+			continue
+		}
 
-	switch t := (*ptr).(type) {
-	case map[string]any:
-		delete(t, lang.ELEMENT_META_ROOT)
-		delete(t, lang.ELEMENT_META_ELEMENT)
-		*ptr = t
+		m[new] = m[key]
+		delete(m, key)
 	}
 
 	return nil
 }
-*/
+
+func sanitizeKeyName[V mapValueT](key V) (V, bool, error) {
+	var err error
+	switch v := any(key).(type) {
+	case string:
+		b := []byte(v)
+		for i := 0; i < len(b); {
+
+			switch b[i] {
+
+			case '/':
+				if i != 0 {
+					b[i] = '.'
+					i++
+					continue
+				}
+
+				fallthrough
+
+			case '[', ']':
+				b, err = lists.RemoveOrdered(b, i)
+				if err != nil {
+					return key, false, err
+				}
+				continue
+
+			}
+			i++
+		}
+
+		var s mapValueT = string(b)
+		return s.(V), s == v, nil
+
+	default:
+		return key, false, fmt.Errorf("invalid key '%v' (%T): XML only support string keys", v, v)
+	}
+}
