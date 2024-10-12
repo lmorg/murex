@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -35,6 +34,7 @@ type Module struct {
 	Summary      string
 	Version      string
 	Source       string
+	pkg          *Package
 	Package      string
 	Disabled     bool
 	Loaded       bool
@@ -110,7 +110,7 @@ func (m *Module) validate() error {
 	}
 
 	if m.Dependencies.MurexVersion == "" {
-		m.Dependencies.MurexVersion = fmt.Sprintf(">= %s", modver.ModuleDefault)
+		m.Dependencies.MurexVersion = m.pkg.Dependencies.MurexVersion
 	}
 
 	if message != "" {

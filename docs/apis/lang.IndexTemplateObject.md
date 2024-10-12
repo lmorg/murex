@@ -169,6 +169,7 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 			if err != nil {
 				return err
 			}
+			params[i] = params[i][2 : len(params[i])-1]
 
 		} else {
 			var (

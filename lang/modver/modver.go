@@ -30,6 +30,10 @@ func Get(module string) *semver.Version {
 		return ver
 	}
 
+	//if strings.HasPrefix(module, app.ShellProfile) {
+	//	return app.Semver()
+	//}
+
 	return baseline
 }
 

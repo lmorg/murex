@@ -114,7 +114,7 @@ func NewTestProcess() (p *Process) {
 	p.Stderr = new(null.Null)
 	p.Config = config.InitConf.Copy()
 	p.Variables = NewVariables(p)
-	p.FileRef = &ref.File{Source: &ref.Source{Module: "builtin/testing"}}
+	p.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellProfile + "/testing"}}
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
 	p.Parent = ShellProcess
 	p.Scope = ShellProcess

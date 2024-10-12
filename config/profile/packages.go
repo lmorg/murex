@@ -151,13 +151,14 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		return nil, err
 	}
 
-	if pkg.Dependencies.MurexVersion != "" {
-		ok, err := semver.Compare(app.Semver().String(), pkg.Dependencies.MurexVersion)
-		if err != nil {
-			message += fmt.Sprintf("* Package '%s': Error checking supported Murex version: %s\n", pkg.Name, err.Error())
-		} else if !ok {
-			message += fmt.Sprintf("* Package '%s': Package not supported (%s) for this version of Murex (%s)\n", pkg.Name, pkg.Dependencies.MurexVersion, app.Version())
-		}
+	if pkg.Dependencies.MurexVersion == "" {
+		pkg.Dependencies.MurexVersion = fmt.Sprintf(">= %s", modver.ModuleDefault)
+	}
+	ok, err := semver.Compare(app.Semver().String(), pkg.Dependencies.MurexVersion)
+	if err != nil {
+		message += fmt.Sprintf("* Package '%s': Error checking supported Murex version: %s\n", pkg.Name, err.Error())
+	} else if !ok {
+		message += fmt.Sprintf("* Package '%s': Package not supported (%s) for this version of Murex (%s)\n", pkg.Name, pkg.Dependencies.MurexVersion, app.Version())
 	}
 
 	// load modules
@@ -174,6 +175,7 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 	}
 
 	for i := range module {
+		module[i].pkg = &pkg
 		module[i].Package = f.Name()
 		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Package+"/"+module[i].Name)
 		err = module[i].validate()
