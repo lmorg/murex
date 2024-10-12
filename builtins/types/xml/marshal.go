@@ -73,6 +73,9 @@ func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, 
 			defaultElement = key
 			v = m[2:]
 		}
+
+	default:
+		panic(fmt.Sprintf("%T", v))
 	}
 
 	if isTTY {
@@ -124,7 +127,7 @@ func unmarshaller(b []byte, v any) error {
 		}
 	}
 
-	*ptr = m
+	*ptr = map[string]any(m)
 	return nil
 }
 
