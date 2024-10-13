@@ -1,0 +1,89 @@
+- DocumentID: xml
+  Title: >-
+    `xml`
+  CategoryID: types
+  Summary: >-
+    Extensible Markup Language (XML) (experimental)
+  Description: |-
+    XML is a structured data-type within Murex.
+
+    [Wikipedia](https://en.wikipedia.org/wiki/XML#Applications) describes XML usage as:
+
+    > XML has come into common use for the interchange of data over the Internet.
+    > Hundreds of document formats using XML syntax have been developed, including
+    > RSS, Atom, Office Open XML, OpenDocument, SVG, COLLADA, and XHTML. XML also
+    > provides the base language for communication protocols such as SOAP and XMPP.
+    > It is one of the message exchange formats used in the Asynchronous JavaScript
+    > and XML (AJAX) programming technique.
+
+
+  Usage:
+  Examples: |-
+    The following XML document is based on the same data as seen in the
+    {{ link "JSON example" "json" }}.
+
+    ```
+    <person>
+        <address>
+            <city>New York</city>
+            <postalCode>10021-3100</postalCode>
+            <state>NY</state>
+            <streetAddress>21 2nd Street</streetAddress>
+        </address>
+        <age>27</age>
+        <children/>    <firstName>John</firstName>
+        <isAlive>true</isAlive>
+        <lastName>Smith</lastName>
+        <phoneNumbers>
+            <number>212 555-1234</number>
+            <type>home</type>
+        </phoneNumbers>
+        <phoneNumbers>
+            <number>646 555-4567</number>
+            <type>office</type>
+        </phoneNumbers>
+        <phoneNumbers>
+            <number>123 456-7890</number>
+            <type>mobile</type>
+        </phoneNumbers>
+        <spouse/>
+    </person>
+    ```
+  Hooks:
+    ReadArray(): experimental; Works with XML arrays. Maps are converted into arrays
+    ReadArrayWithType(): experimental; Works with XML arrays. Maps are converted into arrays. Elements data-type in Murex mirrors the XML type of the element (if known)
+    ReadMap(): experimental; Works with XML maps
+    WriteArray(): experimental; Works with XML arrays
+    ReadIndex(): experimental; Works against all properties in XML
+    ReadNotIndex(): experimental; Works against all properties in XML
+    Marshal(): Writes minified XML when no TTY detected and indented XML when stdout is a TTY
+    Unmarshal(): Supported
+  Detail:
+  Associations:
+    Mimes:
+      - application/xml
+      - application/x-xml
+      - text/xml
+      - text/x-xml
+      - application/xml-external-parsed-entity
+      - text/xml-external-parsed-entity
+      - application/xml-dtd
+      - "+xml"
+    Extensions:
+      - xml
+      - svg
+      - xhtml
+      - xht
+      - rss
+      - atom
+  Related:
+    - yaml
+    - json
+    - toml
+    - csv
+    - open
+    - index
+    - element
+    - cast
+    - format
+    - pretty

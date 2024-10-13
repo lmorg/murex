@@ -31,6 +31,10 @@ func TestMimeToMurex_appPlusJson(t *testing.T) {
 			Mime:     "foo/bar",
 			DataType: types.Generic,
 		},
+		{
+			Mime:     "foo/bar+xml",
+			DataType: "xml",
+		},
 	}
 
 	count.Tests(t, len(tests))
@@ -39,7 +43,7 @@ func TestMimeToMurex_appPlusJson(t *testing.T) {
 		dt := lang.MimeToMurex(test.Mime)
 
 		if dt != test.DataType {
-			t.Errorf("Mime convertion failed in test %d", i)
+			t.Errorf("Mime conversion failed in test %d", i)
 			t.Logf("Mime:     '%s'", test.Mime)
 			t.Logf("Expected: '%s'", test.DataType)
 			t.Logf("Actual:   '%s'", dt)

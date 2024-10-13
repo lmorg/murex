@@ -16,7 +16,7 @@ func cmdTime(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Integer)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters")
+		return errors.New("missing parameters")
 	}
 
 	block := p.Parameters.StringAll()
@@ -27,7 +27,8 @@ func cmdTime(p *lang.Process) (err error) {
 		return
 	}
 
-	s := types.FloatToString(time.Now().Sub(start).Seconds())
+	s := types.FloatToString(time.Since(start).Seconds())
+
 	_, err = p.Stderr.Write([]byte(s))
 	return
 }

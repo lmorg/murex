@@ -72,6 +72,36 @@ func TestRemoveOrdered(t *testing.T) {
 			Expected: nil,
 			Error:    true,
 		},
+
+		/////
+
+		{
+			Slice:    []any{'b', 'a', 'r'},
+			Index:    -1,
+			Expected: nil,
+			Error:    true,
+		},
+		{
+			Slice:    []any{'b', 'a', 'r'},
+			Index:    0,
+			Expected: []any{'a', 'r'},
+		},
+		{
+			Slice:    []any{'b', 'a', 'r'},
+			Index:    1,
+			Expected: []any{'b', 'r'},
+		},
+		{
+			Slice:    []any{'b', 'a', 'r'},
+			Index:    2,
+			Expected: []any{'b', 'a'},
+		},
+		{
+			Slice:    []any{'b', 'a', 'r'},
+			Index:    3,
+			Expected: nil,
+			Error:    true,
+		},
 	}
 
 	count.Tests(t, len(tests))
