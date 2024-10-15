@@ -10,7 +10,7 @@ import (
 type testFuncParseDataTypesT struct {
 	Parameters string
 	Error      bool
-	Expected   []MxFunctionParams
+	Expected   []MurexFuncParam
 }
 
 func testFuncParseDataTypes(t *testing.T, tests []testFuncParseDataTypesT) {
@@ -43,7 +43,7 @@ func TestFuncParseDataTypes(t *testing.T) {
 	tests := []testFuncParseDataTypesT{
 		{
 			Parameters: `name, age`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:     "name",
 				DataType: "str",
 			}, {
@@ -53,7 +53,7 @@ func TestFuncParseDataTypes(t *testing.T) {
 		},
 		{
 			Parameters: `name: str, age: int`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:     "name",
 				DataType: "str",
 			}, {
@@ -63,7 +63,7 @@ func TestFuncParseDataTypes(t *testing.T) {
 		},
 		{
 			Parameters: `name: str "What is your name?", age: int "How old are you?"`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "name",
 				DataType:    "str",
 				Description: "What is your name?",
@@ -75,81 +75,91 @@ func TestFuncParseDataTypes(t *testing.T) {
 		},
 		{
 			Parameters: `name: str [Bob], age: int [100]`,
-			Expected: []MxFunctionParams{{
-				Name:     "name",
-				DataType: "str",
-				Default:  "Bob",
+			Expected: []MurexFuncParam{{
+				Name:       "name",
+				DataType:   "str",
+				Default:    "Bob",
+				HasDefault: true,
 			}, {
-				Name:     "age",
-				DataType: "int",
-				Default:  "100",
+				Name:       "age",
+				DataType:   "int",
+				Default:    "100",
+				HasDefault: true,
 			}},
 		},
 		{
 			Parameters: `name: str "What is your name?" [Bob], age: int "How old are you?" [100]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "name",
 				DataType:    "str",
 				Description: "What is your name?",
 				Default:     "Bob",
+				HasDefault:  true,
 			}, {
 				Name:        "age",
 				DataType:    "int",
 				Description: "How old are you?",
 				Default:     "100",
+				HasDefault:  true,
 			}},
 		},
 		{
 			Parameters: `name: str [Bob]`,
-			Expected: []MxFunctionParams{{
-				Name:     "name",
-				DataType: "str",
-				Default:  "Bob",
+			Expected: []MurexFuncParam{{
+				Name:       "name",
+				DataType:   "str",
+				Default:    "Bob",
+				HasDefault: true,
 			}},
 		},
 		{
 			Parameters: `colon: str ":" [:]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "colon",
 				DataType:    "str",
 				Description: ":",
 				Default:     ":",
+				HasDefault:  true,
 			}},
 		},
 		{
 			Parameters: `quote: str "'" ["]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "quote",
 				DataType:    "str",
 				Description: "'",
 				Default:     "\"",
+				HasDefault:  true,
 			}},
 		},
 		{
 			Parameters: `square: str "[" [[]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "square",
 				DataType:    "str",
 				Description: "[",
 				Default:     "[",
+				HasDefault:  true,
 			}},
 		},
 		{
 			Parameters: `square: str "]" [square]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "square",
 				DataType:    "str",
 				Description: "]",
 				Default:     "square",
+				HasDefault:  true,
 			}},
 		},
 		{
 			Parameters: `comma: str "," [,]`,
-			Expected: []MxFunctionParams{{
+			Expected: []MurexFuncParam{{
 				Name:        "comma",
 				DataType:    "str",
 				Description: ",",
 				Default:     ",",
+				HasDefault:  true,
 			}},
 		},
 	}
@@ -162,7 +172,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 		{
 			Parameters: `foo baz [bar]`,
 			Error:      true,
-			/*Expected: []MxFunctionParams{{
+			/*Expected: []MurexFuncParam{{
 				Name:     "foo",
 				DataType: "baz",
 				Default:  "bar",
@@ -171,7 +181,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 		{
 			Parameters: `foo "baz" [bar]`,
 			Error:      true,
-			/*Expected: []MxFunctionParams{{
+			/*Expected: []MurexFuncParam{{
 				Name:        "foo",
 				Description: "baz",
 				Default:     "bar",
@@ -180,7 +190,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 		{
 			Parameters: `foo [bar]`,
 			Error:      true,
-			/*Expected: []MxFunctionParams{{
+			/*Expected: []MurexFuncParam{{
 				Name:     "foo",
 				DataType: "str",
 				Default:  "bar",
@@ -503,12 +513,13 @@ func TestFuncParseDocExamples(t *testing.T) {
 	tests := []testFuncParseDataTypesT{
 		{
 			Parameters: `var:datatype [default-value] "description"`,
-			Expected: []MxFunctionParams{
+			Expected: []MurexFuncParam{
 				{
 					Name:        "var",
 					DataType:    "datatype",
 					Default:     "default-value",
 					Description: "description",
+					HasDefault:  true,
 				},
 			},
 		},
@@ -517,18 +528,198 @@ func TestFuncParseDocExamples(t *testing.T) {
 				variable1: data-type [default-value] "description",
 				variable2: data-type [default-value] "description"
 			`,
-			Expected: []MxFunctionParams{
+			Expected: []MurexFuncParam{
 				{
 					Name:        "variable1",
 					DataType:    "data-type",
 					Default:     "default-value",
 					Description: "description",
+					HasDefault:  true,
 				},
 				{
 					Name:        "variable2",
 					DataType:    "data-type",
 					Default:     "default-value",
 					Description: "description",
+					HasDefault:  true,
+				},
+			},
+		},
+	}
+
+	testFuncParseDataTypes(t, tests)
+}
+
+func TestFuncParseOptional(t *testing.T) {
+	tests := []testFuncParseDataTypesT{
+		{
+			Parameters: `!var:datatype [default-value] "description"`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "datatype",
+					Default:     "default-value",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `
+				!variable1: data-type [default-value] "description",
+				!variable2: data-type [default-value] "description"
+			`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "variable1",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+				{
+					Name:        "variable2",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `
+				variable1: data-type [default-value] "description",
+				!variable2: data-type [default-value] "description"
+			`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "variable1",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+					HasDefault:  true,
+				},
+				{
+					Name:        "variable2",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `
+				!variable1: data-type [default-value] "description",
+				variable2: data-type [default-value] "description"
+			`,
+			Error: true,
+		},
+		{
+			Parameters: `var: !data-type [default-value] "description"`,
+			Error:      true,
+		},
+		{
+			Parameters: `var: data-!type [default-value] "description"`,
+			Error:      true,
+		},
+		{
+			Parameters: `var: data-type [!default-value] "description"`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "!default-value",
+					Description: "description",
+					HasDefault:  true,
+				},
+			},
+		},
+		{
+			Parameters: `var: data-type [default-value] "!description"`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "!description",
+					HasDefault:  true,
+				},
+			},
+		},
+	}
+	testFuncParseDataTypes(t, tests)
+}
+
+func TestFuncParseHasDefault(t *testing.T) {
+	tests := []testFuncParseDataTypesT{
+		{
+			Parameters: `!var: data-type "description"`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "",
+					Description: "description",
+					HasDefault:  false,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `!var: data-type`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "",
+					Description: "",
+					HasDefault:  false,
+					Optional:    true,
+				},
+			},
+		},
+		/////
+		{
+			Parameters: `!var: data-type "description" []`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `!var: data-type [] "description"`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "",
+					Description: "description",
+					HasDefault:  true,
+					Optional:    true,
+				},
+			},
+		},
+		{
+			Parameters: `!var: data-type []`,
+			Expected: []MurexFuncParam{
+				{
+					Name:        "var",
+					DataType:    "data-type",
+					Default:     "",
+					Description: "",
+					HasDefault:  true,
+					Optional:    true,
 				},
 			},
 		},

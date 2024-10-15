@@ -47,7 +47,7 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Shell Runtime (`runtime`)](../commands/runtime.md):

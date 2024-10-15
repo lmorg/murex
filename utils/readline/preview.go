@@ -121,12 +121,20 @@ func (rl *Instance) getPreviewXY() (*PreviewSizeT, error) {
 
 func (rl *Instance) previewAutocompleteHeight(height int) {
 	switch {
-	case height < 40:
-		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 4)
-	case height < 30:
-		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 3)
 	case height < 20:
 		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 2)
+	case height < 25:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 3)
+	case height < 28:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 4)
+	case height < 31:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 5)
+	case height < 34:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 6)
+	case height < 37:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 7)
+	case height < 40:
+		rl.MaxTabCompleterRows = noLargerThan(rl.MaxTabCompleterRows, 8)
 	}
 }
 

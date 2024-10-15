@@ -1,0 +1,134 @@
+[
+    {
+        "icon": "file-lines",
+        "index": true,
+        "link": "/user-guide/",
+        "text": "User Guide"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-lines",
+                "link": "user-guide/interactive-shell.html",
+                "text": "Interactive Shell"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/modules.html",
+                "text": "Modules And Packages"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/terminal-keys.html",
+                "text": "Terminal Hotkeys"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/murex-arrays.html",
+                "text": "Working With Arrays"
+            }
+        ],
+        "collapsible": true,
+        "icon": "folder-closed",
+        "text": "Beginners Guides"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-lines",
+                "link": "user-guide/ansi.html",
+                "text": "ANSI Constants"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/operators-and-tokens.html",
+                "text": "Operators And Tokens"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/rosetta-stone.html",
+                "text": "Rosetta Stone"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/terminal-keys.html",
+                "text": "Terminal Hotkeys"
+            }
+        ],
+        "collapsible": true,
+        "icon": "folder-closed",
+        "text": "Cheat Sheets"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-lines",
+                "link": "user-guide/bang-prefix.html",
+                "text": "Bang Prefix"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/fileref.html",
+                "text": "FileRef"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/hint-text.html",
+                "text": "Hint Text"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/integrations.html",
+                "text": "Integrations"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/job-control.html",
+                "text": "Job Control"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/namedpipes.html",
+                "text": "Named Pipes"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/profile.html",
+                "text": "Profile Files"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/reserved-vars.html",
+                "text": "Reserved Variables"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/schedulers.html",
+                "text": "Schedulers"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/strict-types.html",
+                "text": "Strict Types In Expressions"
+            },
+            {
+                "icon": "file-lines",
+                "link": "user-guide/scoping.html",
+                "text": "Variable And Config Scoping"
+            }
+        ],
+        "collapsible": true,
+        "icon": "folder-closed",
+        "text": "Read More"
+    },
+    {
+        "icon": "file-lines",
+        "link": "user-guide/code-block.html",
+        "text": "Code Block Parsing"
+    },
+    {
+        "icon": "file-lines",
+        "link": "user-guide/pipeline.html",
+        "text": "Pipeline"
+    }
+]

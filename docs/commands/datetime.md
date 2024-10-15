@@ -96,4 +96,4 @@ required.
 
 <hr/>
 
-This document was generated from [builtins/core/typemgmt/datetime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/typemgmt/datetime_doc.yaml).
+This document was generated from [builtins/core/time/datetime_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/time/datetime_doc.yaml).

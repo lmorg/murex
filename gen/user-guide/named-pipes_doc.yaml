@@ -2,6 +2,8 @@
   Title: >-
     Named Pipes
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     A detailed breakdown of named pipes in Murex
   Description: |-

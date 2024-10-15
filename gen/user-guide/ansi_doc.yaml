@@ -2,6 +2,8 @@
   Title: >-
     ANSI Constants
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.reference
   Summary: >-
     Infixed constants that return ANSI escape sequences
   Description: |-

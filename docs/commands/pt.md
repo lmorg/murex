@@ -42,4 +42,4 @@ curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
 
 <hr/>
 
-This document was generated from [builtins/core/io/file_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/file_doc.yaml).
+This document was generated from [builtins/core/io/pt_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/pt_doc.yaml).

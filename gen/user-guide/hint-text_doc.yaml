@@ -2,6 +2,8 @@
   Title: >-
     Hint Text
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     A status bar for your shell
   Description: |-
