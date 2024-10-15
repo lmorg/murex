@@ -23,7 +23,7 @@ func NewMurexPrivs() *privateFunctions {
 	return pf
 }
 
-func (pf *privateFunctions) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
+func (pf *privateFunctions) Define(name string, parameters []MurexFuncParam, block []rune, fileRef *ref.File) {
 	pf.mutex.Lock()
 
 	if pf.module[fileRef.Source.Module] == nil {

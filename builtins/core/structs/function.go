@@ -110,7 +110,7 @@ func cmdUnalias(p *lang.Process) error {
 }
 
 func cmdFunc(p *lang.Process) error {
-	var dtParamsT []lang.MxFunctionParams
+	var dtParamsT []lang.MurexFuncParam
 
 	name, err := p.Parameters.String(0)
 	if err != nil {
