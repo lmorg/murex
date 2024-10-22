@@ -56,6 +56,7 @@ type Process struct {
 	hasTerminatedV     bool
 	State              state.State
 	Background         process.Background
+	_hasJobId          bool
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
@@ -73,21 +74,21 @@ type Process struct {
 
 func (p *Process) Dump() map[string]any {
 	return map[string]any{
-		"Id":           p.Id,
-		"Cache":        p.cache != nil && p.cache.use,
-		"Raw":          string(p.raw),
-		"Name":         p.Name.String(),
-		"Parameters":   p.Parameters.Dump(),
-		"NamedPipes":   p.namedPipes,
-		"Stdin":        statsToStruct(p.Stdin),
-		"Stdout":       statsToStruct(p.Stdout),
-		"Stderr":       statsToStruct(p.Stderr),
-		"stdoutOldPtr": statsToStruct(p.stdoutOldPtr),
-		"ExitNum":      p.ExitNum,
-		"Forks":        p.Forks.GetForks(),
-		"IsFork":       p.IsFork,
-		//"Done":             p.Done,
-		//"Kill":             p.Kill,
+		"Id":               p.Id,
+		"Cache":            p.cache != nil && p.cache.use,
+		"Raw":              string(p.raw),
+		"Name":             p.Name.String(),
+		"Parameters":       p.Parameters.Dump(),
+		"NamedPipes":       p.namedPipes,
+		"Stdin":            statsToStruct(p.Stdin),
+		"Stdout":           statsToStruct(p.Stdout),
+		"Stderr":           statsToStruct(p.Stderr),
+		"stdoutOldPtr":     statsToStruct(p.stdoutOldPtr),
+		"ExitNum":          p.ExitNum,
+		"Forks":            p.Forks.GetForks(),
+		"IsFork":           p.IsFork,
+		"Done":             p.cache != nil,
+		"Kill":             p.cache != nil,
 		"SysProcId":        _jsonfySysProc(p),
 		"ScopeFid":         p.Scope.Id,
 		"ParentFid":        p.Parent.Id,
@@ -105,6 +106,7 @@ func (p *Process) Dump() map[string]any {
 		//"HasStopped":       p.hasCancelledStopped(),
 		"State":         p.State.String(),
 		"Background":    p.Background.Get(),
+		"HasJobId":      p._hasJobId,
 		"RunMode":       p.RunMode.String(),
 		"RunModeStrict": p.RunMode.IsStrict(),
 		//Config             *config.Config
