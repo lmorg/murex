@@ -36,9 +36,7 @@ func runModeNormal(procs *[]Process) (exitNum int) {
 				((*procs)[i].OperatorLogicOr && (*procs)[prev].ExitNum == 0) ||
 				(skipPipeline && ((*procs)[i].OperatorLogicAnd || (*procs)[i].OperatorLogicOr)) {
 
-				(*procs)[i].hasTerminatedM.Lock()
-				(*procs)[i].hasTerminatedV = true
-				(*procs)[i].hasTerminatedM.Unlock()
+				(*procs)[i].SetTerminatedState(true)
 				(*procs)[i].ExitNum = (*procs)[prev].ExitNum
 				skipPipeline = true
 			} else {
@@ -76,9 +74,7 @@ func runModeTry(procs *[]Process, tryErr bool) (exitNum int) {
 			if next < len(*procs) {
 				if exitNum < 1 && (*procs)[next].OperatorLogicOr {
 					i++
-					(*procs)[i].hasTerminatedM.Lock()
-					(*procs)[i].hasTerminatedV = true
-					(*procs)[i].hasTerminatedM.Unlock()
+					(*procs)[i].SetTerminatedState(true)
 					(*procs)[i].Stdout.Close()
 					(*procs)[i].Stderr.Close()
 					GlobalFIDs.Deregister((*procs)[i].Id)
@@ -125,9 +121,7 @@ func runModeTryPipe(procs *[]Process, tryPipeErr bool) (exitNum int) {
 		if next < len(*procs) {
 			if exitNum < 1 && (*procs)[next].OperatorLogicOr {
 				i++
-				(*procs)[i].hasTerminatedM.Lock()
-				(*procs)[i].hasTerminatedV = true
-				(*procs)[i].hasTerminatedM.Unlock()
+				(*procs)[i].SetTerminatedState(true)
 				(*procs)[i].Stdout.Close()
 				(*procs)[i].Stderr.Close()
 				GlobalFIDs.Deregister((*procs)[i].Id)

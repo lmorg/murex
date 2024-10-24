@@ -31,12 +31,10 @@ func cmdBackground(p *lang.Process) (err error) {
 
 	p.Background.Set(true)
 	p.WaitForTermination <- false
-	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND)
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_ASSIGN_JOBID)
 	fork.Name.Set(p.Name.String())
 	fork.Parameters.CopyFrom(&p.Parameters)
 	go fork.Execute(block)
-
-	//lang.GlobalFIDs.WaitOnChildState(p, state.Executing.State())
 
 	return nil
 }

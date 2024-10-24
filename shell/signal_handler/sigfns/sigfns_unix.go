@@ -43,6 +43,11 @@ func returnFromSigtstp(p *lang.Process) {
 		stopStatus(p)
 	}
 
+	if !p.HasJobId.Get() {
+		p.HasJobId.Set(true)
+		lang.Jobs.Add(p)
+	}
+
 	lang.ShowPrompt <- true
 
 	p.HasStopped <- true
