@@ -1,6 +1,7 @@
 package columns
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
@@ -11,6 +12,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
 	case []string:
 		marshalSliceStr(v, b)
+		b = bytes.TrimRight(b, "\t")
 		return
 
 	/*case [][]string:
@@ -23,6 +25,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		for i := range v {
 			b = append(b, iface2str(&v[i])...)
 		}
+		b = bytes.TrimRight(b, "\t")
 		return
 
 	/*case map[string]string:
@@ -62,7 +65,6 @@ func marshalSliceStr(a []string, b []byte) {
 
 func iface2str(v *interface{}) (b []byte) {
 	return []byte(fmt.Sprintf("%v\t", *v))
-
 }
 
 /*func unmarshal(p *lang.Process) (interface{}, error) {

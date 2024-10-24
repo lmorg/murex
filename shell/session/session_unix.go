@@ -46,24 +46,10 @@ func UnixCreateSession() {
 	debug.Log("!!! Entering UnixSetSid()")
 
 	var err error
-	//pid := os.Getpid()
-
-	// create a new group
-	/*err = unix.Setpgid(pid, os.Getpid())
-	if err != nil {
-		debug.Logf("!!! UnixSetSid()->unix.Setpgid():1 failed: %s", err.Error())
-	}*/
 
 	// Create a new session
 	unixSid, err = unix.Setsid()
 	if err != nil {
 		debug.Logf("!!! UnixSetSid()->syscall.Setsid():1 failed: %s", err.Error())
 	}
-
-	/*pgid, err := unix.Getpgid(pid)
-	debug.Logf("pid: %d, ppid: %d, pgid: %d, err: %v", pid, os.Getppid(), pgid, err)
-	pgrp := syscall.Getpgrp()
-	debug.Logf("pid: %d, ppid: %d, pgid: %d, err: --", pid, os.Getppid(), pgrp)
-	sid, err := syscall.Getsid(pid)
-	debug.Logf("pid: %d, ppid: %d, sid: %d, err: %v", pid, os.Getppid(), sid, err)*/
 }

@@ -7,10 +7,10 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-func TestBackground(t *testing.T) {
+func TestAtomicBoolean(t *testing.T) {
 	count.Tests(t, 6)
 
-	bg := new(process.Background)
+	bg := new(process.AtomicBool)
 
 	bg.Set(false)
 	if bg.Get() {

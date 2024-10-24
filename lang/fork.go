@@ -109,7 +109,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
-	fork._hasJobId = flags&F_ASSIGN_JOBID != 0 || p._hasJobId
+	fork.HasJobId.Set(flags&F_ASSIGN_JOBID != 0 || p.HasJobId.Get())
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd

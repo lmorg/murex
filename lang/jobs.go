@@ -1,7 +1,9 @@
 package lang
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -45,8 +47,6 @@ func (j *jobs) GarbageCollect() {
 	switch last {
 	case -1:
 		break
-	/*case 0:
-	j.jobs = nil*/
 	default:
 		j.jobs = j.jobs[:last]
 	}
@@ -73,6 +73,37 @@ func (j *jobs) Get(jobId int) (*Process, error) {
 	}
 
 	return j.jobs[i], nil
+}
+
+func (j *jobs) GetLatest() (*Process, error) {
+	j.mutex.Lock()
+	defer j.mutex.Unlock()
+
+	for i := len(j.jobs) - 1; i >= 0; i-- {
+		if j._hasTerminated(i) {
+			continue
+		}
+		return j.jobs[i], nil
+	}
+
+	return nil, errors.New("no running commands are in job control")
+}
+
+func (j *jobs) GetFromCommandLine(s string) (*Process, error) {
+	j.mutex.Lock()
+	defer j.mutex.Unlock()
+
+	for i := len(j.jobs) - 1; i >= 0; i-- {
+		if j._hasTerminated(i) {
+			continue
+		}
+		if strings.Contains(j.jobs[i].Name.String(), s) ||
+			strings.Contains(string(j.jobs[i].Parameters.GetRaw()), s) {
+			return j.jobs[i], nil
+		}
+	}
+
+	return nil, fmt.Errorf("no command in job control contains the string '%s'", s)
 }
 
 type JobT struct {

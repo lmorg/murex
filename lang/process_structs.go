@@ -55,8 +55,8 @@ type Process struct {
 	hasTerminatedM     sync.Mutex `json:"-"`
 	hasTerminatedV     bool
 	State              state.State
-	Background         process.Background
-	_hasJobId          bool
+	Background         process.AtomicBool
+	HasJobId           process.AtomicBool
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
@@ -106,7 +106,7 @@ func (p *Process) Dump() map[string]any {
 		//"HasStopped":       p.hasCancelledStopped(),
 		"State":         p.State.String(),
 		"Background":    p.Background.Get(),
-		"HasJobId":      p._hasJobId,
+		"HasJobId":      p.HasJobId.Get(),
 		"RunMode":       p.RunMode.String(),
 		"RunModeStrict": p.RunMode.IsStrict(),
 		//Config             *config.Config

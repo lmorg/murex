@@ -96,7 +96,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].OperatorLogicAnd = (*tree)[i].Properties.LogicAnd()
 		procs[i].OperatorLogicOr = (*tree)[i].Properties.LogicOr()
 		procs[i].Background.Set(parent.Background.Get())
-		procs[i]._hasJobId = parent._hasJobId
+		procs[i].HasJobId.Set(parent.HasJobId.Get())
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)

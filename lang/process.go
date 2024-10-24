@@ -279,7 +279,7 @@ executeProcess:
 		}
 
 	}
-	if p._hasJobId {
+	if p.HasJobId.Get() {
 		Jobs.Add(p)
 	}
 
@@ -451,6 +451,8 @@ func deregisterProcess(p *Process) {
 	go func() {
 		p.State.Set(state.AwaitingGC)
 		GlobalFIDs.Deregister(p.Id)
-		Jobs.GarbageCollect()
+		if p.HasJobId.Get() {
+			Jobs.GarbageCollect()
+		}
 	}()
 }
