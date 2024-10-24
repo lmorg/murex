@@ -42,7 +42,6 @@ import (
 	"fmt"
 )
 
-
 type UnmarshallerT func(*Process) (any, error)
 
 var (
@@ -70,9 +69,6 @@ func UnmarshalData(p *Process, dataType string) (v any, err error) {
 	// races -- PROVIDING developers strictly follow the pattern of only writing
 	// to this map within init() func's.
 
-
-
-
 	if _unmarshallers[dataType] == nil {
 		return nil, fmt.Errorf("unknown data type. I don't know how to unmarshal `%s`", dataType)
 	}
@@ -90,6 +86,7 @@ func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (interfac
 	defer fork.Kill()
 
 	_, err := fork.Stdin.Write(b)
+	defer fork.Stdin.Close()
 	if err != nil {
 		return nil, fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())
 	}
