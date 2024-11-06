@@ -30,7 +30,10 @@ func (param *Parameters) Dump() interface{} {
 	return dump
 }
 
-func (param *Parameters) GetRaw() []rune {
+// GetRawishExpression should only be used for expressions.
+// Added to pass TestExpressionsMultipleParams():
+// builtins/core/expressions/expressions_test.go:220
+func (param *Parameters) GetRawishExpression() []rune {
 	var r []rune
 
 	for i := range param.PreParsed {
