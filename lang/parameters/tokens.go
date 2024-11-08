@@ -30,10 +30,11 @@ func (param *Parameters) Dump() interface{} {
 	return dump
 }
 
-func (param *Parameters) GetRaw() []rune {
+func (param *Parameters) Raw() []rune {
 	var r []rune
 
 	for i := range param.PreParsed {
+		r = append(r, ' ')
 		r = append(r, param.PreParsed[i]...)
 	}
 

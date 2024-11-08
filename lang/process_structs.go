@@ -124,6 +124,10 @@ func (p *Process) Dump() map[string]any {
 	}
 }
 
+func (p *Process) GetRaw() string {
+	return string(p.raw)
+}
+
 func _jsonfySysProc(p *Process) any {
 	if !p.SystemProcess.External() {
 		return nil

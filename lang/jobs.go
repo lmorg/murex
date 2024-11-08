@@ -97,8 +97,7 @@ func (j *jobs) GetFromCommandLine(s string) (*Process, error) {
 		if j._hasTerminated(i) {
 			continue
 		}
-		if strings.Contains(j.jobs[i].Name.String(), s) ||
-			strings.Contains(string(j.jobs[i].Parameters.GetRaw()), s) {
+		if strings.Contains(j.jobs[i].GetRaw(), s) {
 			return j.jobs[i], nil
 		}
 	}
