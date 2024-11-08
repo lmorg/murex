@@ -343,7 +343,6 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		p._execAdded = true
 		// Don't put the following here: p.State.Set(state.Executing)
 		// That should be done in the `exec` builtin instead
 		err = GoFunctions["exec"](p)

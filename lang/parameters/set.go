@@ -11,6 +11,9 @@ func (p *Parameters) DefineParsed(params []string) {
 func (p *Parameters) Prepend(params []string) {
 	p.mutex.Lock()
 	p.params = append(params, p.params...)
+	for i := range params {
+		p.PreParsed = append([][]rune{[]rune(params[i])}, p.PreParsed...)
+	}
 	p.mutex.Unlock()
 }
 

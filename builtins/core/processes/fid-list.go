@@ -28,7 +28,7 @@ func init() {
 }
 
 func getParams(p *lang.Process) string {
-	s := string(p.GetRawParameters())
+	s := string(p.Parameters.Raw())
 	s = strings.ReplaceAll(s, "\r", "")
 	s = strings.ReplaceAll(s, "\n", " ")
 	s = strings.TrimSpace(s)

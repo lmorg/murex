@@ -42,7 +42,7 @@ func StatementParametersParser(expression []rune, p *lang.Process) (string, []st
 	if p.Name.String() == lang.ExpressionFunctionName {
 		// Added to pass TestExpressionsMultipleParams():
 		// builtins/core/expressions/expressions_test.go:220
-		return lang.ExpressionFunctionName, []string{string(p.Parameters.GetRawishExpression())}, nil
+		return lang.ExpressionFunctionName, []string{string(p.Parameters.Raw())}, nil
 	}
 
 	tree := NewParser(nil, expression, 0)

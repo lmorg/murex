@@ -3,7 +3,6 @@ package lang
 import (
 	"context"
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 
@@ -24,7 +23,6 @@ type Process struct {
 	Id                 uint32
 	cache              *cacheT
 	raw                []rune
-	_execAdded         bool
 	Name               process.Name
 	Parameters         parameters.Parameters
 	namedPipes         []string
@@ -128,15 +126,6 @@ func (p *Process) Dump() map[string]any {
 
 func (p *Process) GetRaw() string {
 	return string(p.raw)
-}
-
-func (p *Process) GetRawParameters() string {
-	if p._execAdded {
-		return string(p.raw)
-	}
-
-	params := string(p.raw[len(p.Name.String()):])
-	return string(strings.TrimLeft(params, " "))
 }
 
 func _jsonfySysProc(p *Process) any {
