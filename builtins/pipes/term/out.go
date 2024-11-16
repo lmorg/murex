@@ -53,7 +53,8 @@ func (t *Out) SetDataType(dt string) {
 	OutSetDataTypeIPC = false
 	f.Close()*/
 
-	if os.Getenv("MXTTY") != "true" {
+	if os.Getenv("MXTTY") != "true" ||
+		(os.Getenv("TMUX") != "" && os.Getenv("MXTTY_TMUX") != "true") {
 		return
 	}
 
