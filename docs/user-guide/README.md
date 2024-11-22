@@ -46,7 +46,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [Job Control](../user-guide/job-control.md):
   How to manage jobs with Murex
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
@@ -67,6 +67,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   A list of all the terminal hotkeys and their uses
 * [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex
+* [Working With Arrays](../user-guide/murex-arrays.md):
+  Examples using arrays within Murex
 
 ## Operators And Tokens
 

@@ -28,7 +28,7 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 * [Define Variable (`set`)](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
-  An introduction to Murex modules and packages
+  Modules and packages: An Introduction
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):

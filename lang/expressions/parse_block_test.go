@@ -196,7 +196,7 @@ func TestParseBlockPipeAppendFile1(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  fmt.Sprintf(`%%(%s) >> %s; %%(%s) >> %s; open %s; rm %s`, filename, filename, filename, filename, filename, filename),
-			Stdout: filename + filename,
+			Stdout: fmt.Sprintf(`%s%s`, filename, filename),
 		},
 	}
 
@@ -208,11 +208,12 @@ func TestParseBlockPipeAppendFile2(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  fmt.Sprintf(`echo %s >> %s; echo %s >> %s; open %s; rm %s`, filename, filename, filename, filename, filename, filename),
-			Stdout: fmt.Sprintf("%s\n%s\n", filename, filename),
+			Stdout: fmt.Sprintf("^%s\n%s\n$", filename, filename),
+			Stderr: `^warning:`,
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestParseBlockLogicOperators(t *testing.T) {

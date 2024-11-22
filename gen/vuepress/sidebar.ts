@@ -2,6 +2,7 @@ import { sidebar } from "vuepress-theme-hope";
 import commandsMenu from "./commands_generated.json"
 import parserMenu from "./parser_generated.json"
 import variablesMenu from "./variables_generated.json"
+import userguideMenu from "./userguide_generated.json"
 
 export default sidebar({
   "/": [
@@ -23,8 +24,8 @@ export default sidebar({
     {
       text: "User Guide",
       icon: "book",
-      prefix: "user-guide/",
-      children: "structure",
+      prefix: "/",
+      children: userguideMenu,
       collapsible: true,
     },
     {

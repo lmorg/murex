@@ -15,6 +15,5 @@ func Exit(exitNum int) {
 	ProfMemCleanUp()
 	ProfTraceCleanUp()
 
-	//cache.CloseDb()
 	os.Exit(exitNum)
 }

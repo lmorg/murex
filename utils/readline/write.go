@@ -211,5 +211,6 @@ func (rl *Instance) updateHelpersStr() string {
 	}
 	output := rl.clearHelpersStr()
 	output += rl.renderHelpersStr()
+
 	return output
 }

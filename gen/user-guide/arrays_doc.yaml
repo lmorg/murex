@@ -1,0 +1,23 @@
+- DocumentID: murex-arrays
+  Title: >-
+    Working With Arrays
+  CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.beginners
+  Summary: >-
+    Examples using arrays within Murex
+  Description: |-
+    {{ include "gen/user-guide/arrays.inc.md" }}
+  Detail:
+  Related:
+  - expr
+  - addition
+  - subtract-by
+  - multiply-by
+  - divide-by
+  - int
+  - float
+  - num
+  - config
+  - cast
+  - operators-and-tokens

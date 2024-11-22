@@ -24,6 +24,7 @@
     ```
     <stdin> -> datetime --in "format" --out "format" -> <stdout>
     ```
+
   Examples: |-
     ### Output current date and time
 

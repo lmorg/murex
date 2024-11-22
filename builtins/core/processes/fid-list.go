@@ -28,15 +28,11 @@ func init() {
 }
 
 func getParams(p *lang.Process) string {
-	params := p.Parameters.StringArray()
-	if len(params) == 0 && len(p.Parameters.PreParsed) > 0 {
-		params = make([]string, len(p.Parameters.PreParsed))
-		for i := range p.Parameters.PreParsed {
-			params[i] = string(p.Parameters.PreParsed[i])
-		}
-	}
-
-	return strings.Join(params, " ")
+	s := string(p.Parameters.Raw())
+	s = strings.ReplaceAll(s, "\r", "")
+	s = strings.ReplaceAll(s, "\n", " ")
+	s = strings.TrimSpace(s)
+	return s
 }
 
 func cmdFidList(p *lang.Process) error {

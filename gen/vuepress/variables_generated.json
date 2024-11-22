@@ -62,7 +62,7 @@
         ],
         "collapsible": true,
         "icon": "folder-closed",
-        "text": "Scoped Variables"
+        "text": "Locally Scoped Variables"
     },
     {
         "children": [

@@ -2,6 +2,8 @@
   Title: >-
     Interactive Shell
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.beginners
   Summary: >-
     What's different about Murex's interactive shell?
   Description: |-

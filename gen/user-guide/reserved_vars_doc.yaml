@@ -2,6 +2,8 @@
   Title: >-
     Reserved Variables
   CategoryID: user-guide
+  SubCategoryIDs:
+    - guide.readmore
   Summary: >-
     Special variables reserved by Murex
   Description: |-

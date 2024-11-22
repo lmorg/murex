@@ -50,7 +50,7 @@ var (
 	// GlobalAliases is a table of global aliases
 	GlobalAliases = NewAliases()
 
-	// GlobalPipes is a table of  named pipes
+	// GlobalPipes is a table of named pipes
 	GlobalPipes = pipes.NewNamed()
 
 	// GlobalFIDs is a table of running murex processes
@@ -61,6 +61,9 @@ var (
 
 	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = newForegroundProc()
+
+	// Jobs is used for job control to store processes manually backgrounded
+	Jobs = NewJobs()
 
 	// ShellExitNum is for when running murex in interactive shell mode
 	ShellExitNum int
@@ -275,7 +278,9 @@ executeProcess:
 			ansititle.Tmux([]byte(name))
 		}
 
-		//ansititle.Write([]byte(name))
+	}
+	if p.HasJobId.Get() {
+		Jobs.Add(p)
 	}
 
 	// execution mode:
@@ -446,5 +451,8 @@ func deregisterProcess(p *Process) {
 	go func() {
 		p.State.Set(state.AwaitingGC)
 		GlobalFIDs.Deregister(p.Id)
+		if p.HasJobId.Get() {
+			Jobs.GarbageCollect()
+		}
 	}()
 }
