@@ -42,7 +42,7 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--semver":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(fmt.Sprintf("%d.%d.%d", app.Major, app.Minor, app.Revision)))
+		_, err := p.Stdout.Writeln([]byte(fmt.Sprintf("%d.%d.%04d", app.Major, app.Minor, app.Revision)))
 		return err
 
 	case "--license":
