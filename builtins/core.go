@@ -70,6 +70,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/types/querystring" // encoding values as URL query strings
 	_ "github.com/lmorg/murex/builtins/types/string"      // string data type
 	_ "github.com/lmorg/murex/builtins/types/toml"        // TOML data type
+	_ "github.com/lmorg/murex/builtins/types/xml"         // XML data type
 	_ "github.com/lmorg/murex/builtins/types/yaml"        // YAML data type
 
 	_ "github.com/lmorg/murex/builtins/optional" // optional plugins

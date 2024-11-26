@@ -95,7 +95,7 @@ same data-type.
 * [Prepend To List (`prepend`)](../commands/prepend.md):
   Add data to the start of an array
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Regex Operations (`regexp`)](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [Sort Array (`msort`)](../commands/msort.md):

@@ -22,8 +22,8 @@ func init() {
 	stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, newArrayWriter)
 
-	lang.Marshallers[typeName] = marshal
-	lang.Unmarshallers[typeName] = unmarshal
+	lang.RegisterMarshaller(typeName, marshal)
+	lang.RegisterUnmarshaller(typeName, unmarshal)
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
 	lang.SetMime(typeName,

@@ -18,8 +18,8 @@ func init() {
 	stdio.RegisterWriteArray(sexpr, newArrayWriterS)
 	lang.ReadIndexes[sexpr] = readIndexS
 	lang.ReadNotIndexes[sexpr] = readIndexS
-	lang.Marshallers[sexpr] = marshalS
-	lang.Unmarshallers[sexpr] = unmarshal
+	lang.RegisterMarshaller(sexpr, marshalS)
+	lang.RegisterUnmarshaller(sexpr, unmarshal)
 
 	stdio.RegisterReadArray(csexp, readArrayC)
 	stdio.RegisterReadArrayWithType(csexp, readArrayWithTypeC)
@@ -27,8 +27,8 @@ func init() {
 	stdio.RegisterWriteArray(csexp, newArrayWriterC)
 	lang.ReadIndexes[csexp] = readIndexC
 	lang.ReadNotIndexes[csexp] = readIndexC
-	lang.Marshallers[csexp] = marshalC
-	lang.Unmarshallers[csexp] = unmarshal
+	lang.RegisterMarshaller(csexp, marshalC)
+	lang.RegisterUnmarshaller(csexp, unmarshal)
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
 	lang.SetMime(sexpr,
@@ -38,7 +38,7 @@ func init() {
 		"text/x-sexp",
 	)
 
-	lang.SetFileExtensions(sexpr, "sexp")
+	lang.SetFileExtensions(sexpr, "sexp", "lisp")
 }
 
 func readIndexC(p *lang.Process, params []string) error { return readIndex(p, params, true) }

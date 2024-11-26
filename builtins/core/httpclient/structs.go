@@ -13,5 +13,5 @@ type httpStatus struct {
 type jsonHttp struct {
 	Status  httpStatus
 	Headers http.Header
-	Body    string
+	Body    any
 }
