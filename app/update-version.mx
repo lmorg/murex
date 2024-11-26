@@ -4,7 +4,8 @@ $GLOBAL.APP_GO = "./app.go"
 
 function get_revision_number {
     $rev = ${ open $GLOBAL.APP_GO -> :str: regexp 'f/Revision\s+=\s+([0-9]+)' }
-    out ($rev+1)
+    if { $MUREX_DEV } then { $rev++ }
+    out $rev
 }
 
 function get_branch_name {
