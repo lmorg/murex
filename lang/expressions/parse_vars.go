@@ -70,7 +70,7 @@ parseBareword:
 			return tree.expression[startPos : tree.charPos-1], nil, "", err
 		}
 		tree.charPos++
-		if execScalars {
+		if exec {
 			s, err := types.ConvertGoType(v, types.String)
 			if err != nil {
 				return tree.expression[startPos : tree.charPos-1], nil, "", err
