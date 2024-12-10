@@ -26,7 +26,7 @@ func formatTitle(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '2', ';'})
@@ -51,7 +51,7 @@ func formatIcon(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '1', ';'})
@@ -79,7 +79,7 @@ func formatTmux(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+4)
 
 	copy(ansi[0:2], []byte{27, 'k'})
@@ -89,7 +89,7 @@ func formatTmux(title []byte) []byte {
 	return ansi
 }
 
-func sanatise(b []byte) []byte {
+func sanitize(b []byte) []byte {
 	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
 	// replace all control characters with space
 	for i := range b {

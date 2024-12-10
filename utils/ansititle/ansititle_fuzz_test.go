@@ -35,14 +35,14 @@ func FuzzFormatTmux(f *testing.F) {
 	})
 }
 
-func FuzzSanatise(f *testing.F) {
+func FuzzSanitize(f *testing.F) {
 	for _, tc := range fuzzTests {
 		f.Add(tc)
 	}
 
 	f.Fuzz(func(t *testing.T, title string) {
 		count.Tests(t, 1)
-		sanatise([]byte(title))
+		sanitize([]byte(title))
 		// we are just testing we can't cause an unhandled panic
 	})
 }
