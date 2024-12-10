@@ -4,7 +4,7 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
-### 22.11.2024 - [v6.4](../changelog/v6.4.md)
+### 11.12.2024 - [v6.4](../changelog/v6.4.md)
 
 This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.
 

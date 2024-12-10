@@ -190,8 +190,8 @@ func TestParseVarsTilderPlusNameNegative(t *testing.T) {
 			ExitNum: 1,
 		},
 		{
-			Block:   `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
-			Stdout:  `~TestParseVarsTilderPlusName2`,
+			Block:  `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
+			Stdout: `~TestParseVarsTilderPlusName2`,
 		},
 		{
 			Block:   `%[~TestParseVarsTilderPlusName3]`,
@@ -383,4 +383,16 @@ func TestParseVarsParen(t *testing.T) {
 	}
 
 	test.RunMurexTestsRx(tests, t)
+}
+
+// https://github.com/lmorg/murex/issues/892
+func TestParseVarsIssue892(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsIssue892=%[1 2 3 4 5]; $TestParseVarsIssue892.(1+2)`,
+			Stdout: `4`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }
