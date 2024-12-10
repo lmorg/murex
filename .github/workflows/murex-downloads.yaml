@@ -51,23 +51,19 @@ jobs:
           mkdir -p website-cache
           
           export MUREXVERSION="$(./murex -c 'version --no-app-name')"
-          OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
+          #OLDVER="$(curl -s https://nojs.murex.rocks/VERSION | head -n1)"
           
-          #if [ "$MUREXVERSION" == "$OLDVER" ]; then
-          #    echo "No version change, skipping binary build."
-          #else
-              echo "Building latest binaries...."
-              ./murex ./test/build_all_platforms.mx --inc-latest --compress
-              mv -v ./bin ./website-cache
-      
-              echo "Compiling WebAssembly...."
-              export GOOS=js
-              export GOARCH=wasm
-              export LD_FLAGS="-extldflags=-static"
-              export tags="$(cat builtins/optional/standard-opts.txt),sqlite_omit_load_extension,osusergo,netgo"
-              go build -ldflags "$LD_FLAGS" -tags "$tags" -o ./gen/website/wasm/murex.wasm
-              cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
-          #fi
+          echo "Building latest binaries...."
+          ./murex ./test/build_all_platforms.mx --inc-latest --compress
+          mv -v ./bin ./website-cache
+  
+          echo "Compiling WebAssembly...."
+          export GOOS=js
+          export GOARCH=wasm
+          export LD_FLAGS="-extldflags=-static"
+          export tags="$(cat builtins/optional/standard-opts.txt),sqlite_omit_load_extension,osusergo,netgo"
+          go build -ldflags "$LD_FLAGS" -tags "$tags" -o ./gen/website/wasm/murex.wasm
+          cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
   
       - name: Build Website
         run: |
@@ -76,42 +72,48 @@ jobs:
           export MUREXCOMMITL="$(git rev-parse HEAD)"
           export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
 
-          sed -i "s/\$DATE/`date`/g;
-          s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
-          s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
-          s/\$MUREXVERSION/$MUREXVERSION/g;
-          s/\$MUREXTESTS/$MUREXTESTS/g" \
-          gen/website/header.html
+          sed -i "
+            s/\$DATE/`date`/g;
+            s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+            s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+            s/\$MUREXVERSION/$MUREXVERSION/g;
+            s/\$MUREXTESTS/$MUREXTESTS/g" \
+            gen/website/header.html
   
-          sed -i "s/\$DATE/`date`/;
-                  s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
-                  s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
-                  s/\$MUREXVERSION/$MUREXVERSION/g;
-                  s/\$MUREXTESTS/$MUREXTESTS/g" \
-                  gen/website/footer.html
+          sed -i "
+            s/\$DATE/`date`/;
+            s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+            s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+            s/\$MUREXVERSION/$MUREXVERSION/g;
+            s/\$MUREXTESTS/$MUREXTESTS/g" \
+            gen/website/footer.html
           
           cp gen/website/404.md .
           for f in *.md; do
-                  ./murex gen/website/find-exec.mx $f
+            ./murex gen/website/find-exec.mx $f
           done
           find docs -name "*.md" -exec ./murex gen/website/find-exec.mx {} \;
           
-          sed -i '0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;' \
-                  README.html
+          sed -i '
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;' \
+            README.html
           
-          sed -i '0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;
-                  0,/<img src/s//<img class="no-border" src/;' \
-                  INSTALL.html
+          sed -i '
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;
+            0,/<img src/s//<img class="no-border" src/;' \
+            INSTALL.html
           
-          sed -i '0,/<img src/s//<img class="no-border" src/;' \
-                  DOWNLOAD.html
+          sed -i '
+            0,/<img src/s//<img class="no-border" src/;' \
+            DOWNLOAD.html
           
           sed -i 's.\\|.|.g;' \
-                  docs/user-guide/rosetta-stone.html
+            docs/user-guide/rosetta-stone.html
           
           echo "$MUREXVERSION" > VERSION
           
