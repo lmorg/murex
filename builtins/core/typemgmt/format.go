@@ -19,23 +19,13 @@ func cmdFormat(p *lang.Process) error {
 
 	dt := p.Stdin.GetDataType()
 
-	if lang.Unmarshallers[dt] == nil {
-		p.Stdout.SetDataType(types.Null)
-		return errors.New("I don't know how to unmarshal `" + dt + "`.")
-	}
-
-	if lang.Marshallers[format] == nil {
-		p.Stdout.SetDataType(types.Null)
-		return errors.New("I don't know how to marshal `" + format + "`.")
-	}
-
-	v, err := lang.Unmarshallers[dt](p)
+	v, err := lang.UnmarshalData(p, dt)
 	if err != nil {
 		p.Stdout.SetDataType(types.Null)
 		return errors.New("[" + dt + " unmarshaller] " + err.Error())
 	}
 
-	b, err := lang.Marshallers[format](p, v)
+	b, err := lang.MarshalData(p, format, v)
 	if err != nil {
 		p.Stdout.SetDataType(types.Null)
 		return errors.New("[" + format + " marshaller] " + err.Error())

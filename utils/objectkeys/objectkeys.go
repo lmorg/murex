@@ -8,7 +8,20 @@ import (
 	"github.com/lmorg/murex/lang"
 )
 
-func Recursive(ctx context.Context, path string, v interface{}, separator string, writeString func(string) error, iteration int) error {
+func Recursive(ctx context.Context, path string, v interface{}, dataType string, separator string, writeString func(string) error, iteration int) error {
+	if dataType == "xml" {
+		m, ok := v.(map[string]any)
+		if ok && len(m) == 1 {
+			for root := range m {
+				return recursive(ctx, path, m[root], separator, writeString, iteration)
+			}
+		}
+	}
+
+	return recursive(ctx, path, v, separator, writeString, iteration)
+}
+
+func recursive(ctx context.Context, path string, v interface{}, separator string, writeString func(string) error, iteration int) error {
 	if iteration == 0 {
 		return nil
 	}
@@ -102,7 +115,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 			if err != nil {
 				return err
 			}
-			err = Recursive(ctx, newPath, t[i], separator, writeString, iteration-1)
+			err = recursive(ctx, newPath, t[i], separator, writeString, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -122,7 +135,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 			if err != nil {
 				return err
 			}
-			err = Recursive(ctx, newPath, t[i], separator, writeString, iteration-1)
+			err = recursive(ctx, newPath, t[i], separator, writeString, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -142,7 +155,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 			if err != nil {
 				return err
 			}
-			err = Recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
+			err = recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -162,7 +175,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 			if err != nil {
 				return err
 			}
-			err = Recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
+			err = recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -182,7 +195,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 			if err != nil {
 				return err
 			}
-			err = Recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
+			err = recursive(ctx, newPath, t[key], separator, writeString, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -193,7 +206,7 @@ func Recursive(ctx context.Context, path string, v interface{}, separator string
 		return nil
 
 	case lang.MxInterface:
-		return Recursive(ctx, path, t.GetValue(), separator, writeString, iteration)
+		return recursive(ctx, path, t.GetValue(), separator, writeString, iteration)
 
 	default:
 		return fmt.Errorf("found %T but no case exists for handling it", t)

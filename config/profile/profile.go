@@ -116,7 +116,7 @@ func profile(name, path string) error {
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	moduleName := "profile/" + name
+	moduleName := app.UserProfile + name
 	fork.FileRef = &ref.File{Source: &ref.Source{Module: moduleName}}
 	fork.FileRef.Source = ref.History.AddSource(path, moduleName, b)
 

@@ -200,7 +200,7 @@ func TestElementLookup(t *testing.T) {
 	for i, test := range tests {
 		expected := json.LazyLogging(test.Expected)
 
-		v, err := ElementLookup(test.Object, test.Path)
+		v, err := ElementLookup(test.Object, test.Path, "")
 		actual := json.LazyLogging(v)
 
 		if (err != nil) != test.Error || actual != expected {
