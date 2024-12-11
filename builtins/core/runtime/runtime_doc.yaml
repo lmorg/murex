@@ -209,7 +209,11 @@
     --cache-namespaces: >-
       Lists namespaces in cache
     --go-gc: >-
-      Forces the Go runtime to run its garbage collection
+      Forces the Go runtime to run its garbage collection and then deallocate
+      any free memory
+    --about: >-
+      Returns debugging information about the Murex executable. Such as compiler
+      flags and resource utilization
     --help: >-
       Outputs a list of `runtimes`'s flags
 

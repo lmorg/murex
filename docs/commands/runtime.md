@@ -120,6 +120,8 @@ flag names. eg
 
 ## Flags
 
+* `--about`
+    Returns debugging information about the Murex executable. Such as compiler flags and resource utilization
 * `--aliases`
     Lists all [aliases](/docs/commands/alias.md)
 * `--autocomplete`
@@ -153,7 +155,7 @@ flag names. eg
 * `--globals`
     Lists all [global variables](/docs/commands/global.md)
 * `--go-gc`
-    Forces the Go runtime to run its garbage collection
+    Forces the Go runtime to run its garbage collection and then deallocate any free memory
 * `--help`
     Outputs a list of `runtimes`'s flags
 * `--indexes`
