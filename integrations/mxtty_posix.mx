@@ -12,7 +12,7 @@ function csv-table {
     }
 }
 
-alias ps = csv-tables ps
+alias ps = csv-table ps
 
 function ls {
     config set proc strict-arrays false
@@ -30,4 +30,13 @@ function ls {
     } else {
         exec ls @PARAMS
     }
+}
+
+event onPrompt output-block=after {
+    tout str '{ESC}_begin;output-block{ESC}\'
+}
+
+event onPrompt output-block=before {
+    exitnum = exitnum()
+    tout str %({ESC}_end;output-block;{"ExitNum":$exitnum}{ESC}\)
 }

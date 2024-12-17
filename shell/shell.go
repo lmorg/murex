@@ -223,6 +223,8 @@ func showPrompt() {
 			continue
 		}
 
+		callEventsPrompt(promptops.Return, block)
+
 		if string(expanded) != string(block) {
 			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
 		}
