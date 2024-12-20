@@ -67,7 +67,7 @@ func (t *Out) SetDataType(dt string) {
 
 	switch t.dataType {
 	case "csv":
-		t.File().WriteString("\x1b_begin;csv;{\"Headings\":true}\x1b\\")
+		t.File().WriteString("\x1b_begin;csv\x1b\\")
 	}
 
 }

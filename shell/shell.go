@@ -38,17 +38,17 @@ var (
 	Prompt = readline.NewInstance()
 
 	// Events is a callback for onPrompt & onPreview events
-	EventsPrompt  func(string, []rune)
+	EventsPrompt  func(string, []rune, int)
 	EventsPreview func(context.Context, string, string, []rune, []string, *readline.PreviewSizeT, readline.PreviewFuncCallbackT)
 
 	promptShown atomic.Bool
 )
 
-func callEventsPrompt(interrupt string, cmdLine []rune) {
+func callEventsPrompt(interrupt string, cmdLine []rune, exitNum int) {
 	if EventsPrompt == nil {
 		return
 	}
-	EventsPrompt(interrupt, cmdLine)
+	EventsPrompt(interrupt, cmdLine, exitNum)
 }
 
 func callEventsPreview(ctx context.Context, interrupt string, previewItem string, cmdLine []rune, previousLines []string, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {
@@ -180,7 +180,7 @@ func showPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			callEventsPrompt(promptops.Before, nil)
+			callEventsPrompt(promptops.Before, nil, -1)
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -195,12 +195,12 @@ func showPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(os.Stdout, signalhandler.PromptSIGINT)
-				callEventsPrompt(promptops.Cancel, nil)
+				callEventsPrompt(promptops.Cancel, nil, -1)
 				continue
 
 			case readline.ErrEOF:
 				fmt.Fprintln(os.Stdout, utils.NewLineString)
-				callEventsPrompt(promptops.EOF, nil)
+				callEventsPrompt(promptops.EOF, nil, -1)
 				lang.Exit(0)
 
 			default:
@@ -222,6 +222,8 @@ func showPrompt() {
 			nLines = 1
 			continue
 		}
+
+		callEventsPrompt(promptops.Return, block, -1)
 
 		if string(expanded) != string(block) {
 			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
@@ -274,7 +276,7 @@ func showPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEventsPrompt(promptops.After, block)
+			callEventsPrompt(promptops.After, block, -1)
 
 			go func() {
 				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
@@ -282,7 +284,8 @@ func showPrompt() {
 				fork.Stderr = term.NewErr(ansi.IsAllowed())
 				fork.CCEvent = lang.ShellProcess.CCEvent
 				fork.CCExists = lang.ShellProcess.CCExists
-				lang.ShellExitNum, err = fork.Execute(expanded)
+				exitNum, err := fork.Execute(expanded)
+				lang.ShellExitNum = exitNum
 
 				if err != nil {
 					fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
@@ -290,6 +293,8 @@ func showPrompt() {
 
 				lang.ShellProcess.Stdout.SetDataType("") // reset data type
 				godebug.FreeOSMemory()
+
+				callEventsPrompt(promptops.CommandCompletion, block, exitNum)
 
 				lang.ShowPrompt <- true
 			}()

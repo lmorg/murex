@@ -2,26 +2,41 @@
     return
 }
 
-function ps {
+function csv-table {
     config set proc strict-arrays false
 
     if { $SELF.TTY } then {
-        tout str '{ESC}_begin;table{ESC}\'
-        exec ps @PARAMS
-        tout str '{ESC}_end;table{ESC}\'
+        exec @PARAMS -> format csv
     } else {
-        exec ps @PARAMS
+        exec @PARAMS
     }
 }
 
-function last {
+alias ps = csv-table ps
+
+function ls {
     config set proc strict-arrays false
 
     if { $SELF.TTY } then {
-        tout str '{ESC}_begin;table;{ "HeadMissing": true }{ESC}\'
-        exec last @PARAMS
-        tout str '{ESC}_end;table{ESC}\'
+        params := $PARAMS
+        !if { $params -> count } then {
+            params = %[-l]
+        }
+
+        tout str '{ESC}_begin;csv{ESC}\'
+        exec ls @params -> [2..] -> format csv -> cast *
+        tout str '{ESC}_end;csv;{"CreateHeadings":true}{ESC}\'
+
     } else {
-        exec last @PARAMS
+        exec ls @PARAMS
     }
+}
+
+event onPrompt output-block=after {
+    tout str '{ESC}_begin;output-block{ESC}\'
+}
+
+event onPrompt output-block=command-completion {
+    exitnum = ${ <stdin> -> [[/Interrupt/ExitNum]] }
+    tout str %({ESC}_end;output-block;{"ExitNum":$exitnum}{ESC}\)
 }

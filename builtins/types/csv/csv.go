@@ -42,4 +42,10 @@ func init() {
 		Default:     `#`,
 		DataType:    types.String,
 	})
+
+	config.InitConf.Define("csv", "left-trim", config.Properties{
+		Description: "Trim leading whitespace if input is generic or string, and when heading contains whitespace",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
 }
