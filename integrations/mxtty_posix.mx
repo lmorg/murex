@@ -17,14 +17,10 @@ alias ps = csv-table ps
 function ls {
     config set proc strict-arrays false
 
-    if { $SELF.TTY } then {
-        params := $PARAMS
-        !if { $params -> count } then {
-            params = %[-l]
-        }
-
+    if { $SELF.TTY && @PARAMS } then {
+        
         tout str '{ESC}_begin;csv{ESC}\'
-        exec ls @params -> [2..] -> format csv -> cast *
+        exec ls -la -> [2..] -> format csv -> cast *
         tout str '{ESC}_end;csv;{"CreateHeadings":true}{ESC}\'
 
     } else {
