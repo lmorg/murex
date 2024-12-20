@@ -396,3 +396,23 @@ func TestParseVarsIssue892(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+// https://github.com/lmorg/murex/issues/903
+func TestParseVarsIssue903(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsIssue903_0 = 1; $TestParseVarsIssue903_0; $TestParseVarsIssue903_0 == 1`,
+			Stdout: `1true`,
+		},
+		{
+			Block:  `TestParseVarsIssue903_1 = ${%[1..2]->count}; $TestParseVarsIssue903_1; $TestParseVarsIssue903_1 == 2`,
+			Stdout: `2true`,
+		},
+		{
+			Block:  `%[1..3]->count -> set TestParseVarsIssue903_2; $TestParseVarsIssue903_2; $TestParseVarsIssue903_2 == 3`,
+			Stdout: `3true`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

@@ -9,6 +9,7 @@ import (
 
 var interrupts = []string{
 	ops.Before,
+	ops.Return,
 	ops.After,
 	ops.EOF,
 	ops.Cancel,

@@ -6,6 +6,7 @@ import (
 	"os"
 	"regexp"
 	"runtime"
+	godebug "runtime/debug"
 	"strings"
 	"sync/atomic"
 	"time"
@@ -222,6 +223,8 @@ func showPrompt() {
 			continue
 		}
 
+		callEventsPrompt(promptops.Return, block)
+
 		if string(expanded) != string(block) {
 			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
 		}
@@ -282,11 +285,13 @@ func showPrompt() {
 				fork.CCEvent = lang.ShellProcess.CCEvent
 				fork.CCExists = lang.ShellProcess.CCExists
 				lang.ShellExitNum, err = fork.Execute(expanded)
-				lang.ShellProcess.Stdout.SetDataType("") // reset data type
 
 				if err != nil {
 					fmt.Fprintln(os.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
 				}
+
+				lang.ShellProcess.Stdout.SetDataType("") // reset data type
+				godebug.FreeOSMemory()
 
 				lang.ShowPrompt <- true
 			}()

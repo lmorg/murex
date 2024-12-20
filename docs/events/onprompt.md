@@ -11,9 +11,9 @@ section below.
 ## Usage
 
 ```
-event onPrompt name=(before|after|abort|eof) { code block }
+event onPrompt name=(before|return|after|abort|eof) { code block }
 
-!event onPrompt name[.before|.after|.abort|.eof]
+!event onPrompt name[.before|.return|.after|.abort|.eof]
 ```
 
 ## Valid Interrupts
@@ -26,6 +26,8 @@ event onPrompt name=(before|after|abort|eof) { code block }
     Triggered before readline displays the interactive prompt
 * `eof`
     Triggered if `ctrl`+`d` pressed while in the interactive prompt
+* `return`
+    Triggered when `return` is pressed while cursor is still on same line as prompt
 
 ## Payload
 
