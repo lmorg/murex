@@ -412,6 +412,15 @@ func TestParseVarsIssue903(t *testing.T) {
 			Block:  `%[1..3]->count -> set TestParseVarsIssue903_2; $TestParseVarsIssue903_2; $TestParseVarsIssue903_2 == 3`,
 			Stdout: `3true`,
 		},
+		{
+			Block:  `%[1..4]->count -> set TestParseVarsIssue903_3; $TestParseVarsIssue903_3; $TestParseVarsIssue903_3 < 5`,
+			Stdout: `4true`,
+		},
+		{
+			Block:   `%[1..5]->count -> set TestParseVarsIssue903_4; $TestParseVarsIssue903_4; $TestParseVarsIssue903_4 < 5`,
+			Stdout:  `5false`,
+			ExitNum: 1,
+		},
 	}
 
 	test.RunMurexTests(tests, t)
