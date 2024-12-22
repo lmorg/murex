@@ -238,6 +238,11 @@ readKey:
 			}
 			rl.tabMutex.Unlock()
 
+			if rl.modeViMode == vimCommand {
+				print(rl.vimCommandModeReturnStr())
+				continue
+			}
+
 			switch {
 			case rl.previewMode == previewModeOpen:
 				output += rl.clearPreviewStr()
@@ -282,10 +287,13 @@ readKey:
 			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
-			if rl.modeTabFind {
+			switch {
+			case rl.modeTabFind:
 				print(rl.backspaceTabFindStr())
 				rl.viUndoSkipAppend = true
-			} else {
+			case rl.modeViMode == vimCommand:
+				print(rl.vimCommandModeBackspaceStr())
+			default:
 				print(rl.backspaceStr())
 			}
 
@@ -552,6 +560,10 @@ func (rl *Instance) readlineInputStr(r []rune) string {
 			output += rl.deleteStr()
 			output += rl.insertStr([]rune{char})
 		}
+		output += rl.viHintMessageStr()
+
+	case vimCommand:
+		output += rl.vimCommandMode(r)
 		output += rl.viHintMessageStr()
 
 	default:

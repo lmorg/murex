@@ -16,6 +16,7 @@ const (
 	vimReplaceMany
 	vimDelete
 	vimKeys
+	vimCommand
 )
 
 func (rl *Instance) vi(r rune) string {
@@ -30,9 +31,13 @@ func (rl *Instance) vi(r rune) string {
 
 	var output string
 	switch r {
+	case ':':
+		rl.modeViMode = vimCommand
+		rl.viUndoSkipAppend = true
+		//rl.line.SetRunePos(rl.line.RunePos() + 1)
+
 	case 'a':
 		if rl.line.CellLen() > 0 {
-			//output = moveCursorForwardsStr(1)
 			rl.line.SetRunePos(rl.line.RunePos() + 1)
 		}
 		rl.modeViMode = vimInsert
@@ -41,7 +46,6 @@ func (rl *Instance) vi(r rune) string {
 
 	case 'A':
 		if rl.line.RuneLen() > 0 {
-			//output = moveCursorForwardsStr(rl.line.CellLen() - rl.line.CellPos())
 			rl.line.SetRunePos(rl.line.RuneLen() + 1)
 		}
 		rl.modeViMode = vimInsert
@@ -263,6 +267,8 @@ func (rl *Instance) viHintMessageStr() string {
 		rl.hintText = []rune("-- REPLACE --")
 	case vimDelete:
 		rl.hintText = []rune("-- DELETE --")
+	case vimCommand:
+		rl.hintText = rl.vimCommandModeHintText()
 	default:
 		rl.getHintText()
 	}
