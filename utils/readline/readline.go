@@ -228,6 +228,11 @@ readKey:
 		case '\r':
 			fallthrough
 		case '\n':
+			if rl.modeViMode == vimCommand {
+				print(rl.vimCommandModeReturnStr())
+				continue
+			}
+
 			var output string
 			rl.tabMutex.Lock()
 			var suggestions *suggestionsT
@@ -237,11 +242,6 @@ readKey:
 				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
-
-			if rl.modeViMode == vimCommand {
-				print(rl.vimCommandModeReturnStr())
-				continue
-			}
 
 			switch {
 			case rl.previewMode == previewModeOpen:
@@ -563,7 +563,7 @@ func (rl *Instance) readlineInputStr(r []rune) string {
 		output += rl.viHintMessageStr()
 
 	case vimCommand:
-		output += rl.vimCommandMode(r)
+		output += rl.vimCommandModeInput(r)
 		output += rl.viHintMessageStr()
 
 	default:

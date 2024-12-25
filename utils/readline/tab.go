@@ -37,7 +37,13 @@ func (rl *Instance) getTabCompletion() {
 	rl.delayedTabContext = DelayedTabContext{rl: rl}
 	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
 
-	rl.tcr = rl.TabCompleter(rl.line.Runes(), rl.line.RunePos(), rl.delayedTabContext)
+	if rl.modeViMode == vimCommand {
+		rl.tcr = rl.vimCommandModeSuggestions()
+
+	} else {
+
+		rl.tcr = rl.TabCompleter(rl.line.Runes(), rl.line.RunePos(), rl.delayedTabContext)
+	}
 	if rl.tcr == nil {
 		return
 	}

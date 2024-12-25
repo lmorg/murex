@@ -32,9 +32,7 @@ func (rl *Instance) vi(r rune) string {
 	var output string
 	switch r {
 	case ':':
-		rl.modeViMode = vimCommand
-		rl.viUndoSkipAppend = true
-		//rl.line.SetRunePos(rl.line.RunePos() + 1)
+		rl.vimCommandModeInit()
 
 	case 'a':
 		if rl.line.CellLen() > 0 {
