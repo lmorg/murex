@@ -68,7 +68,9 @@ func (rl *Instance) vimCommandModeSuggestions() *TabCompleterReturnT {
 		last := rl.History.Len() - 1
 		line, err := rl.History.GetLine(last)
 		if err != nil {
-			return nil
+			tcr.Suggestions = []string{err.Error()}
+			tcr.Prefix = " "
+			return tcr
 		}
 		n := strconv.Itoa(last)
 		tcr.Suggestions = []string{n}
@@ -79,7 +81,9 @@ func (rl *Instance) vimCommandModeSuggestions() *TabCompleterReturnT {
 		for i := rl.History.Len() - 1; i >= 0; i-- {
 			line, err := rl.History.GetLine(i)
 			if err != nil {
-				return nil // TODO: print err
+				tcr.Suggestions = []string{err.Error()}
+				tcr.Prefix = " "
+				return tcr
 			}
 			n := strconv.Itoa(i)
 			if strings.Contains(n, s) {
@@ -90,18 +94,24 @@ func (rl *Instance) vimCommandModeSuggestions() *TabCompleterReturnT {
 
 	case s[0] == 'm':
 		if len(s) == 1 {
-			return nil
+			tcr.Suggestions = []string{"Usage: m/find/", "  (separator can be any 1-byte wide character)"}
+			tcr.Prefix = " "
+			return tcr
 		}
 		split := strings.Split(s, string(s[1]))
 		rx, err := regexp.Compile(split[1])
 		if err != nil {
-			return nil // TODO: print err
+			tcr.Suggestions = []string{err.Error()}
+			tcr.Prefix = " "
+			return tcr
 		}
 		tcr.Descriptions = make(map[string]string)
 		for i := rl.History.Len() - 1; i >= 0; i-- {
 			line, err := rl.History.GetLine(i)
 			if err != nil {
-				return nil // TODO: print err
+				tcr.Suggestions = []string{err.Error()}
+				tcr.Prefix = " "
+				return tcr
 			}
 			if rx.MatchString(line) {
 				n := strconv.Itoa(i)
@@ -112,15 +122,21 @@ func (rl *Instance) vimCommandModeSuggestions() *TabCompleterReturnT {
 
 	case s[0] == 's':
 		if len(s) == 1 {
-			return nil
+			tcr.Suggestions = []string{"Usage: s/find/replace/", "  (separator can be any 1-byte wide character)"}
+			tcr.Prefix = " "
+			return tcr
 		}
 		split := strings.Split(s, string(s[1]))
 		if len(split) < 3 {
-			return nil // TODO: print err
+			tcr.Suggestions = []string{"Usage: s/find/replace/", "  (separator can be any 1-byte wide character)"}
+			tcr.Prefix = " "
+			return tcr
 		}
 		rx, err := regexp.Compile(split[1])
 		if err != nil {
-			return nil // TODO: print err
+			tcr.Suggestions = []string{err.Error()}
+			tcr.Prefix = " "
+			return tcr
 		}
 		substitution := rx.ReplaceAllString(rl.line.String(), split[2])
 		tcr.Suggestions = []string{substitution}
