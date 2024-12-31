@@ -131,7 +131,7 @@ func compareTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (inter
 		rv = right.Value
 	}
 
-	if left.Primitive == right.Primitive || notCompatible {
+	if left.DataType == right.DataType || notCompatible {
 		return lv, rv, nil
 	}
 

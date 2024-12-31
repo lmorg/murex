@@ -34,7 +34,7 @@ func (rl *Instance) writeHintTextStr() string {
 	hintText := string(rl.hintText)
 
 	if rl.modeTabCompletion && rl.tcDisplayType == TabDisplayGrid &&
-		!rl.modeTabFind && len(rl.tcSuggestions) > 0 {
+		!rl.modeTabFind && rl.modeViMode != vimCommand && len(rl.tcSuggestions) > 0 {
 		cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 		description := rl.tcDescriptions[rl.tcSuggestions[cell]]
 
