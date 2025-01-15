@@ -16,3 +16,8 @@
     - index
     - element
     - runtime
+    - config
+    - onPrompt
+    - csv
+    - expr
+    - int
