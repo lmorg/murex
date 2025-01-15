@@ -16,13 +16,13 @@ const Name = "murex"
 const (
 	Major     = 6
 	Minor     = 4
-	Revision  = 2057
+	Revision  = 2062
 	Branch    = "develop"
-	BuildDate = "2025-01-15  22:24:00"
+	BuildDate = "2025-01-15  22:31:35"
 )
 
 // Copyright is the copyright owner string
-const Copyright = "2018-2024 Laurence Morgan"
+const Copyright = "2018-2025 Laurence Morgan"
 
 // License is the projects software license
 const License = "GPL v2"
