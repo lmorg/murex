@@ -1,3 +1,7 @@
+!if { which terraform } then {
+    return
+}
+
 !if { man-summary terraform } then {
     summary terraform "Write, Plan, and Create Infrastructure as Code"
 }
