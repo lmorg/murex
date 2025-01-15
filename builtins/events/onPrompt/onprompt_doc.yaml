@@ -10,9 +10,9 @@
     section below.
   Usage: |-
     ```
-    event onPrompt name=(before|after|abort|eof) { code block }
+    event onPrompt name=(before|return|after|abort|eof) { code block }
 
-    !event onPrompt name[.before|.after|.abort|.eof]
+    !event onPrompt name[.before|.return|.after|.abort|.eof]
     ```
   Payload: |-
     {{ include "gen/includes/event-payload-summary.inc.md" }}
@@ -50,6 +50,8 @@
   Flags:
     before: >-
       Triggered before readline displays the interactive prompt
+    return: >-
+      Triggered when `return` is pressed while cursor is still on same line as prompt
     after: >-
       Triggered after user has written a command into the interactive prompt and then hit `enter`
     abort: >-

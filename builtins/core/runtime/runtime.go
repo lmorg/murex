@@ -215,7 +215,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fMarshallers:
 			ret[flag[2:]] = lang.DumpMarshaller()
 		case fUnmarshallers:
-			ret[fUnmarshallers[2:]] = lang.DumpUnmarshaller()
+			ret[flag[2:]] = lang.DumpUnmarshaller()
 		case fEvents:
 			ret[flag[2:]] = events.DumpEvents()
 		case fEventTypes:
@@ -343,13 +343,11 @@ func dumpAbout() any {
 	m["BuildSettings"] = buildSettings
 
 	m["MemStats"] = map[string]any{
-		"Alloc":       humannumbers.Bytes(mem.Alloc),
-		"TotalAlloc":  humannumbers.Bytes(mem.TotalAlloc),
-		"Sys":         humannumbers.Bytes(mem.Sys),
-		"Mallocs":     mem.Mallocs,
-		"Frees":       mem.Frees,
-		"NumGC":       mem.NumGC,
-		"NumForcedGC": mem.NumForcedGC,
+		"Alloc":           humannumbers.Bytes(mem.Alloc),
+		"SessionLifeTime": humannumbers.Bytes(mem.TotalAlloc),
+		"Sys":             humannumbers.Bytes(mem.Sys),
+		"NumGC":           mem.NumGC,
+		"NumForcedGC":     mem.NumForcedGC,
 	}
 
 	return m
