@@ -43,31 +43,47 @@ is the standard place to put all user and/or machine specific config in.
 al, profiles will not be read from `/etc/profile.d` nor similar. Modules
 should be used in its place.
 
-## Overriding The Default Paths (XDG)
+## Overriding The Default Paths
+
+Each of the config paths can be manually overridden:
+
+### Specific Entities
+
+- `MUREX_PRELOAD` defines the preload path and file name
+- `MUREX_MODULES` defines the module path
+- `MUREX_PROFILE` defines the profile path and file name
+- `MUREX_HISTORY` defines the history path and file name
+
+Where `MUREX_PRELOAD`, `MUREX_PROFILE` and/or `MUREX_HISTORY` are directories
+rather than absolute file names, the path is appended with the default file
+names. ie the file name listed above.
+
+### Root Config Directory
+
+You can also specify one directory for all the above entities via the following
+environmental variable:
+
+- `MUREX_CONFIG_DIR`
+
+This path can be superseded for specific entities by using (for example)
+`MUREX_PRELOAD`. This would mean those entities would follow their specific
+environmental variable path while unnamed entities would fall back to
+`MUREX_CONFIG_DIR`.
+
+If the path does not exist, then it is created automatically by Murex.
+
+### XDG 
 
 Some individuals, particularly those running Linux, follow a standard called
 [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).
 While Murex does not adhere to this standard, instead conforming to the
-_de facto_ standard defined by the past precedents of previous shells, in
-order to offer flexibility for those who do prefer the XDG specification
-Murex does support overriding its own default paths via special environmental
-variables.
-
-- `MUREX_PRELOAD` defines the preload path (and file name)
-- `MUREX_MODULES` defines the module path (only)
-- `MUREX_PROFILE` defines the profile path (and file name)
-
-Where `MUREX_PRELOAD` and/or `MUREX_PROFILE` are directories rather than
-absolute file names, the path is appended with the default file names as
-named above.
+_de facto_ standard defined by the past precedents of previous shells.
 
 For people who wish to use XDG paths, in many instances you can get away
 with setting the follow prior to launching Murex (eg in `/etc/profile.d`):
 
 ```
-MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
-MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
-MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
+MUREX_CONFIG_DIR="$XDG_CONFIG_HOME/murex/"
 ```
 
 This, however, depends on `$XDG_CONFIG_HOME` pointing to a single path rather
