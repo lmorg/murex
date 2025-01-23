@@ -13,6 +13,11 @@ type Version struct {
 	Patch int
 }
 
+var (
+	Version7_0 = &Version{7, 0, 0}
+	Version8_0 = &Version{8, 0, 0}
+)
+
 func (v *Version) Compare(comparison *Version) compareResult {
 	return compare(v, comparison)
 }

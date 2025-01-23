@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
+	"github.com/lmorg/murex/utils/semver"
 )
 
 func cmdGet(p *lang.Process) error  { return request(p, "GET") }
@@ -69,7 +70,7 @@ func request(p *lang.Process, method string) (err error) {
 }
 
 func convertBodyToObj(p *lang.Process, b []byte, mime string) any {
-	if modver.Get(p.FileRef.Source.Module).Compare(lang.Version7_0).IsLessThan() {
+	if modver.Get(p.FileRef.Source.Module).Compare(semver.Version7_0).IsLessThan() {
 		return string(b)
 	}
 

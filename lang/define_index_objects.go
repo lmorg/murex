@@ -15,8 +15,6 @@ type indexValueT interface {
 	~string | ~bool | ~int | ~float64 | any
 }
 
-var Version7_0 = &semver.Version{7, 0, 0}
-
 // IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
 func IndexTemplateObject(p *Process, params []string, object *any, marshaller func(any) ([]byte, error)) error {
@@ -147,7 +145,7 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 		}
 
 		if len(params) > 1 {
-			if modver.Get(p.FileRef.Source.Module).Compare(Version7_0).IsLessThan() {
+			if modver.Get(p.FileRef.Source.Module).Compare(semver.Version8_0).IsLessThan() {
 				objArray = append(objArray, obj)
 			} else {
 				objMap[params[i]] = obj
@@ -185,7 +183,7 @@ func itoIndexMap[K comparable, V indexValueT](p *Process, params []string, v map
 		}
 	}
 
-	if modver.Get(p.FileRef.Source.Module).Compare(Version7_0).IsLessThan() {
+	if modver.Get(p.FileRef.Source.Module).Compare(semver.Version8_0).IsLessThan() {
 		if len(objArray) == 0 {
 			return nil
 		}
