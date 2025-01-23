@@ -49,6 +49,7 @@
       - application/x-csv
       - text/csv
       - text/x-csv
+      - +csv
     Extensions:
       - csv
   Synonyms:

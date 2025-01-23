@@ -175,7 +175,7 @@ Commands for working with strings.
 * [Left Sub-String (`left`)](../commands/left.md):
   Left substring every item in a list
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Quote String (`escape`)](../commands/escape.md):
   Escape or unescape input
 * [Reformat Data type (`format`)](../commands/format.md):

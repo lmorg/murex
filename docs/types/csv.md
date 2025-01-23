@@ -37,6 +37,7 @@ use `config`)
 ## Default Associations
 
 * **Extension**: `csv`
+* **MIME**: `+csv`
 * **MIME**: `application/csv`
 * **MIME**: `application/x-csv`
 * **MIME**: `text/csv`

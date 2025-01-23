@@ -8,11 +8,11 @@ import (
 
 func init() {
 	// Register data-type
-	lang.Marshallers["json"] = marshal
+	lang.RegisterMarshaller("example", marshal)
 }
 
 // Describe marshaller
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+func marshal(p *lang.Process, v any) ([]byte, error) {
 	if p.Stdout.IsTTY() {
 		// If STDOUT is a TTY (ie not pipe, text file or other destination other
 		// than a terminal) then output JSON in an indented, human readable,

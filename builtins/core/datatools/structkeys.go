@@ -47,7 +47,8 @@ func cmdStructKeys(p *lang.Process) error {
 		nDeep = -1
 	}
 
-	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())
+	dt := p.Stdin.GetDataType()
+	v, err := lang.UnmarshalData(p, dt)
 	if err != nil {
 		return err
 	}
@@ -59,7 +60,7 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	err = objectkeys.Recursive(p.Context, "", v, separator, aw.WriteString, nDeep)
+	err = objectkeys.Recursive(p.Context, "", v, dt, separator, aw.WriteString, nDeep)
 	if err != nil {
 		return err
 	}

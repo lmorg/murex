@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/integrations"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
@@ -58,6 +59,7 @@ const (
 	fTests              = "--tests"
 	fTestResults        = "--test-results"
 	fModules            = "--modules"
+	fModver             = "--module-murex-versions"
 	fDebug              = "--debug"
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
@@ -104,6 +106,7 @@ var flags = map[string]string{
 	fTests:              types.Boolean,
 	fTestResults:        types.Boolean,
 	fModules:            types.Boolean,
+	fModver:             types.Boolean,
 	fDebug:              types.Boolean,
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
@@ -232,6 +235,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[flag[2:]] = dumpTestResults(p)
 		case fModules:
 			ret[flag[2:]] = profile.Packages
+		case fModver:
+			ret[flag[2:]] = modver.Dump()
 		case fDebug:
 			ret[flag[2:]] = debug.Dump()
 		case fSources:

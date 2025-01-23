@@ -182,6 +182,8 @@
       A dump of any unreported {{link "test" "test"}} results
     --modules: >-
       Lists all installed {{link "modules" "modules"}}
+    --module-murex-versions: >-
+      Lists which modules has specified which versions of the Murex runtime
     --debug: >-
       Outputs the state of {{link "debug mode" "debug"}}
     --sources: >-
