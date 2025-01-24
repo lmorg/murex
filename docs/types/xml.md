@@ -17,21 +17,18 @@ XML is a structured data-type within Murex.
 
 ## Examples
 
-The following XML document is based on the same data as seen in the
-{{ link "JSON example" "json" }}.
-
 ```
 <person>
+    <firstName>John</firstName>
+    <lastName>Smith</lastName>
+    <isAlive>true</isAlive>
+    <age>27</age>
     <address>
         <city>New York</city>
         <postalCode>10021-3100</postalCode>
         <state>NY</state>
         <streetAddress>21 2nd Street</streetAddress>
     </address>
-    <age>27</age>
-    <children/>    <firstName>John</firstName>
-    <isAlive>true</isAlive>
-    <lastName>Smith</lastName>
     <phoneNumbers>
         <number>212 555-1234</number>
         <type>home</type>
@@ -44,6 +41,7 @@ The following XML document is based on the same data as seen in the
         <number>123 456-7890</number>
         <type>mobile</type>
     </phoneNumbers>
+    <children/>
     <spouse/>
 </person>
 ```
