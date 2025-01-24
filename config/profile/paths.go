@@ -14,6 +14,7 @@ const (
 	preloadFileName = ".murex_preload"
 	moduleDirName   = ".murex_modules/"
 	profileFileName = ".murex_profile"
+	historyFileName = ".murex_history"
 	fileNameCrop    = len(".murex_")
 
 	// PreloadEnvVar environmental variable name for the preload profile override path. It's stored as a constant so typos are caught by the compiler
@@ -25,20 +26,43 @@ const (
 	// ProfileEnvVar environmental variable name for the profile override path. It's stored as a constant so typos are caught by the compiler
 	ProfileEnvVar = "MUREX_PROFILE"
 
+	HistoryEnvVar = "MUREX_HISTORY"
+
 	ConfigEnvVar = "MUREX_CONFIG_DIR"
+)
+
+var (
+	_pathPreload string
+	_pathModules string
+	_pathProfile string
+	_pathHistory string
 )
 
 // PreloadPath returns the path of the preload profile
 func PreloadPath() string {
-	return ValidateProfilePath(PreloadEnvVar, preloadFileName, false)
+	if _pathPreload == "" {
+		_pathPreload = validateProfilePath(PreloadEnvVar, preloadFileName, false)
+	}
+	return _pathPreload
 }
 
 // ProfilePath returns the path of your murex profile
 func ProfilePath() string {
-	return ValidateProfilePath(ProfileEnvVar, profileFileName, false)
+	if _pathProfile == "" {
+		_pathProfile = validateProfilePath(ProfileEnvVar, profileFileName, false)
+	}
+	return _pathProfile
 }
 
-func ValidateProfilePath(envvar, defaultFileName string, isDir bool) string {
+// HistoryPath returns the path of your shell's history file
+func HistoryPath() string {
+	if _pathHistory == "" {
+		_pathHistory = validateProfilePath(HistoryEnvVar, historyFileName, false)
+	}
+	return _pathHistory
+}
+
+func validateProfilePath(envvar, defaultFileName string, isDir bool) string {
 	path := os.Getenv(envvar)
 	if strings.TrimSpace(path) != "" {
 		return _validateProfilePathWithProfileEnvVar(envvar, defaultFileName, path, isDir)
@@ -107,7 +131,15 @@ func _validateProfilePathWithHome(defaultFileName string) string {
 
 // ModulePath returns the install path of the murex modules / packages
 func ModulePath() string {
-	path := ValidateProfilePath(ModuleEnvVar, moduleDirName, true)
+	if _pathModules == "" {
+		_pathModules = modulePath()
+	}
+
+	return _pathModules
+}
+
+func modulePath() string {
+	path := validateProfilePath(ModuleEnvVar, moduleDirName, true)
 
 	fi, err := os.Stat(path)
 	if err != nil {

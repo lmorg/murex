@@ -12,22 +12,13 @@ import (
 
 var promptHistory readline.History
 
-const (
-	historyFileName = ".murex_history"
-	historyEnvVar   = "MUREX_HISTORY"
-)
-
 func definePromptHistory() {
-	h, err := history.New(HistoryPath())
+	h, err := history.New(profile.HistoryPath())
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
 	} else {
 		promptHistory = h
 	}
-}
-
-func HistoryPath() string {
-	return profile.ValidateProfilePath(historyEnvVar, historyEnvVar, false)
 }
 
 func setPromptHistory() {

@@ -83,7 +83,7 @@ For people who wish to use XDG paths, in many instances you can get away
 with setting the follow prior to launching Murex (eg in `/etc/profile.d`):
 
 ```
-MUREX_CONFIG_DIR="$XDG_CONFIG_HOME/murex/"
+export MUREX_CONFIG_DIR="$XDG_CONFIG_HOME/murex/"
 ```
 
 This, however, depends on `$XDG_CONFIG_HOME` pointing to a single path rather
