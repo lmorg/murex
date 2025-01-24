@@ -5,17 +5,17 @@
   SubCategoryIDs:
     - commands.str
   Summary: >-
-    Prettifies JSON to make it human readable
+    Prettifies data documents to make it human readable
   Description: |-
-    Takes JSON from the stdin and reformats it to make it human readable, then
+    Takes JSON or XML from the stdin and reformats it to make it human readable, then
     outputs that to stdout.
   Usage: |-
     ```
-    <stdin> -> pretty -> <stdout>
+    <stdin> -> [ --strict | --type (XML|JSON) ] -> <stdout>
     ```
   Examples: |-
     ```
-    » tout json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
+    » %{Array:[1,2,3],Map:{String:Foobar,Number:123.456}} -> pretty 
     {
         "Array": [
             1,
@@ -23,12 +23,16 @@
             3
         ],
         "Map": {
-            "String": "Foobar",
-            "Number": 123.456
+            "Number": 123.456,
+            "String": "Foobar"
         }
     }
     ```
   Flags:
+    "--strict": >-
+      If data type doesn't have a pretty parser, then just output stdin (default behaviour is to try every parser until one works)
+    "--type": >-
+      Specify a pretty parser (supported values: "json", "xml")
   Detail:
   Synonyms:
     - pretty

@@ -184,6 +184,7 @@ jsonl
 ## Default Associations
 
 * **Extension**: `json`
+* **MIME**: `+json`
 * **MIME**: `application/json`
 * **MIME**: `application/x-json`
 * **MIME**: `text/json`
@@ -218,7 +219,7 @@ jsonl
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Reformat Data type (`format`)](../commands/format.md):
   Reformat one data-type into another data-type
 * [Shell Runtime (`runtime`)](../commands/runtime.md):

@@ -56,7 +56,7 @@ const (
 
 // previewPos should be a percentage represented as a decimal value (eg 0.5 == 50%)
 func getScrollBarSize(previewHeight int, previewPos float64) int {
-	size := int((float64(previewHeight) + 2) * previewPos) //+ 3
+	size := int((float64(previewHeight) + 2) * previewPos)
 	/*if previewPos < 1 && size >= previewHeight {
 		size--
 	}*/

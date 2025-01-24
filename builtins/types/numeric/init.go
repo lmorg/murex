@@ -7,12 +7,12 @@ import (
 
 func init() {
 	// Register data types
-	lang.Marshallers[types.Integer] = marshalInt
-	lang.Unmarshallers[types.Integer] = unmarshalInt
+	lang.RegisterMarshaller(types.Integer, marshalInt)
+	lang.RegisterUnmarshaller(types.Integer, unmarshalInt)
 
-	lang.Marshallers[types.Float] = marshalFloat
-	lang.Unmarshallers[types.Float] = unmarshalFloat
+	lang.RegisterMarshaller(types.Float, marshalFloat)
+	lang.RegisterUnmarshaller(types.Float, unmarshalFloat)
 
-	lang.Marshallers[types.Number] = marshalNumber
-	lang.Unmarshallers[types.Number] = unmarshalNumber
+	lang.RegisterMarshaller(types.Number, marshalNumber)
+	lang.RegisterUnmarshaller(types.Number, unmarshalNumber)
 }

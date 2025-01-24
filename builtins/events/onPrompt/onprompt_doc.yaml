@@ -10,9 +10,9 @@
     section below.
   Usage: |-
     ```
-    event onPrompt name=(before|return|after|abort|eof) { code block }
+    event onPrompt name=(before|return|after|command-completion|abort|eof) { code block }
 
-    !event onPrompt name[.before|.return|.after|.abort|.eof]
+    !event onPrompt name[.before|.return|.after|.command-completion|.abort|.eof]
     ```
   Payload: |-
     {{ include "gen/includes/event-payload-summary.inc.md" }}
@@ -23,7 +23,8 @@
         "Interrupt": {
             "Name": "",
             "Operation": "",
-            "CmdLine": ""
+            "CmdLine": "",
+            "ExitNum": -1
         }
     }
     ```
@@ -46,7 +47,15 @@
 
     This is the command line executed, ie what you typed into the _readline_ prompt.
 
-    Please note this is only populated if the interrupt is **after**.
+    Please note this is only populated if the interrupt is **after** or
+    **command-completion**.
+
+    ### Interrupt/ExitNum
+
+    This is the exit number for the command line that is executed.
+
+    Please note this is only populated if the interrupt is **command-completion**
+    otherwise it defaults to `-1`.
   Flags:
     before: >-
       Triggered before readline displays the interactive prompt
@@ -54,6 +63,8 @@
       Triggered when `return` is pressed while cursor is still on same line as prompt
     after: >-
       Triggered after user has written a command into the interactive prompt and then hit `enter`
+    command-completion: >-
+      Triggered after a command has completed. Also passes it's exit number via STDIN. A cheaper alternative to onCommandCompletion event
     abort: >-
       Triggered if `ctrl`+`c` pressed while in the interactive prompt
     eof: >-

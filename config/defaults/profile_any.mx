@@ -715,6 +715,7 @@ openagent set image {
 
     if { $mode == "auto" } {
         switch {
+            case { $MXTTY_TMUX }                  { $mode = "mxtty" }
             case { $TMUX }                        { $mode = "compatible" }
             case { $MXTTY }                       { $mode = "mxtty" }     
             case { $ITERM_PROFILE }               { $mode = "iterm" }

@@ -46,6 +46,13 @@ const config = {
     [
       "link",
       {
+        href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
+        rel: "stylesheet",
+      },
+    ],
+    [
+      "link",
+      {
         href: "/favicon.ico?v="+commitHash,
         rel: "icon",
         type: "image/png",
@@ -85,11 +92,11 @@ const config = {
           getter: (page) => page.frontmatter.category,
           formatter: "Category: $content",
         },
-        // {
-        //   //@ts-ignore
-        //   getter: (page) => page.frontmatter.tag,
-        //   formatter: "Tag: $content",
-        // },
+        {
+          //@ts-ignore
+          getter: (page) => page.frontmatter.tag,
+          formatter: "Tag: $content",
+        },
       ],
     }),
   ],
@@ -98,5 +105,6 @@ const config = {
 if (environment === "DEV") {
   config.base = "/";
 }
+
 //@ts-ignore
 export default defineUserConfig(config);

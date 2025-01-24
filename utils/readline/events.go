@@ -52,6 +52,7 @@ const (
 	EventModeInputVimReplaceOnce = "VimReplaceOnce"
 	EventModeInputVimReplaceMany = "VimReplaceMany"
 	EventModeInputVimDelete      = "VimDelete"
+	EventModeInputVimCommand     = "VimCommand"
 	EventModeInputAutocomplete   = "Autocomplete"
 	EventModeInputFuzzyFind      = "FuzzyFind"
 )
@@ -67,6 +68,8 @@ func (rl *Instance) _getInputMode() string {
 		return EventModeInputVimReplaceMany
 	case rl.modeViMode == vimDelete:
 		return EventModeInputVimDelete
+	case rl.modeViMode == vimCommand:
+		return EventModeInputVimCommand
 	case rl.modeTabFind:
 		return EventModeInputFuzzyFind
 	case rl.modeTabCompletion:

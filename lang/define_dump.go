@@ -22,7 +22,7 @@ func DumpNotIndex() (dump []string) {
 
 // DumpUnmarshaller returns an array of compiled builtins supporting unmarshalling
 func DumpUnmarshaller() (dump []string) {
-	for name := range Unmarshallers {
+	for name := range _unmarshallers {
 		dump = append(dump, name)
 	}
 	sort.Strings(dump)
@@ -31,7 +31,7 @@ func DumpUnmarshaller() (dump []string) {
 
 // DumpMarshaller returns an array of compiled builtins supporting marshalling
 func DumpMarshaller() (dump []string) {
-	for name := range Marshallers {
+	for name := range _marshallers {
 		dump = append(dump, name)
 	}
 	sort.Strings(dump)
