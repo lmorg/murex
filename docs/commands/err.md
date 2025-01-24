@@ -71,7 +71,7 @@ a new Murex named pipe.
 * [Output With Type Annotation (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [Truncate File (`>`)](../parser/file-truncate.md):

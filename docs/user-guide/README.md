@@ -328,7 +328,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [Prepend To List (`prepend`)](../commands/prepend.md):
   Add data to the start of an array
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Print Map / Structure Keys (`struct-keys`)](../commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
 * [Private Function (`private`)](../commands/private.md):
@@ -447,6 +447,8 @@ are only included by default on Windows.
   string (primitive)
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
+* [`xml`](../types/xml.md):
+  Extensible Markup Language (XML) (experimental)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):

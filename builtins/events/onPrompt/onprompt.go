@@ -24,6 +24,7 @@ type Interrupt struct {
 	Name      string
 	Operation string
 	CmdLine   string
+	ExitNum   int
 }
 
 type promptEvent struct {
@@ -105,7 +106,7 @@ func (evt *promptEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
-func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
+func (evt *promptEvents) callback(interrupt string, cmdLine []rune, exitNum int) {
 
 	//evt.mutex.Lock()
 
@@ -116,6 +117,7 @@ func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
 				Name:      key.Name,
 				Operation: interrupt,
 				CmdLine:   string(cmdLine),
+				ExitNum:   exitNum,
 			}
 			_, err := events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, nil, false)
 			if err != nil {

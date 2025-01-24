@@ -28,6 +28,7 @@
       - application/x-yaml
       - text/yaml
       - text/x-yaml
+      - +yaml
     Extensions:
       - yaml
       - yml

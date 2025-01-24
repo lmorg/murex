@@ -59,6 +59,7 @@
       - application/x-json
       - text/json
       - text/x-json
+      - +json
     Extensions:
       - json
   Related:

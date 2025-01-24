@@ -19,14 +19,15 @@ func init() {
 	stdio.RegisterWriteArray(typeName, newArrayWriter)
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
-	lang.Marshallers[typeName] = marshal
-	lang.Unmarshallers[typeName] = unmarshal
+	lang.RegisterMarshaller(typeName, marshal)
+	lang.RegisterUnmarshaller(typeName, unmarshal)
 
 	lang.SetMime(typeName,
 		"application/yaml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-yaml",
 		"text/yaml",
 		"text/x-yaml",
+		"+yaml",
 	)
 
 	lang.SetFileExtensions(typeName, "yaml", "yml")

@@ -228,6 +228,11 @@ readKey:
 		case '\r':
 			fallthrough
 		case '\n':
+			if rl.modeViMode == vimCommand {
+				print(rl.vimCommandModeReturnStr())
+				continue
+			}
+
 			var output string
 			rl.tabMutex.Lock()
 			var suggestions *suggestionsT
@@ -282,10 +287,13 @@ readKey:
 			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
-			if rl.modeTabFind {
+			switch {
+			case rl.modeTabFind:
 				print(rl.backspaceTabFindStr())
 				rl.viUndoSkipAppend = true
-			} else {
+			case rl.modeViMode == vimCommand:
+				print(rl.vimCommandModeBackspaceStr())
+			default:
 				print(rl.backspaceStr())
 			}
 
@@ -552,6 +560,10 @@ func (rl *Instance) readlineInputStr(r []rune) string {
 			output += rl.deleteStr()
 			output += rl.insertStr([]rune{char})
 		}
+		output += rl.viHintMessageStr()
+
+	case vimCommand:
+		output += rl.vimCommandModeInput(r)
 		output += rl.viHintMessageStr()
 
 	default:

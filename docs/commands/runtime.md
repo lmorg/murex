@@ -168,6 +168,8 @@ flag names. eg
     Outputs the running state of Go's runtime
 * `--methods`
     Lists all commands with a defined stdout and stdin data type. This is used to generate smarter autocompletion suggestions with `->`
+* `--module-murex-versions`
+    Lists which modules has specified which versions of the Murex runtime
 * `--modules`
     Lists all installed [modules](/docs/user-guide/modules.md)
 * `--named-pipes`
@@ -319,7 +321,7 @@ functions.
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Private Function (`private`)](../commands/private.md):
   Define a private function block
 * [Public Function (`function`)](../commands/function.md):

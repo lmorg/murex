@@ -59,7 +59,7 @@ func element(p *lang.Process) (err error) {
 		return err
 	}
 
-	obj, err = lang.ElementLookup(obj, params[0])
+	obj, err = lang.ElementLookup(obj, params[0], dt)
 	if err != nil {
 		return err
 	}
