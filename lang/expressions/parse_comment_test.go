@@ -196,3 +196,53 @@ func TestParseCommentMultiLine(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseCommentIssue913(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				# comment \`,
+			Stdout: "^$",
+			Stderr: "^$",
+		},
+		{
+			Block: `
+				# comment \ hello world`,
+			Stdout: "^$",
+			Stderr: "^$",
+		},
+		{
+			Block: `
+				out hello # comment \
+				world`,
+			Stdout: "^hello world\n$",
+			Stderr: "^$",
+		},
+		{
+			Block: `
+				ls      # directory listing \
+				    -l  # include timestamps et al \
+				    -A  # include dot-prefixed files
+				`,
+			Stdout: `\.go`,
+			Stderr: "^$",
+		},
+		{
+			Block: `
+				out "TestParseCommentIssue913 1"
+				# comment \
+				`,
+			Stdout: "TestParseCommentIssue913 1",
+			Stderr: "^$",
+		},
+		{
+			Block: `
+				# comment \
+				out "TestParseCommentIssue913 2"`,
+			Stdout: "TestParseCommentIssue913 2",
+			Stderr: "^$",
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
