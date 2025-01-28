@@ -41,17 +41,25 @@ var (
 // PreloadPath returns the path of the preload profile
 func PreloadPath() string {
 	if _pathPreload == "" {
-		_pathPreload = validateProfilePath(PreloadEnvVar, preloadFileName, false)
+		_pathPreload = PreloadPathTestable()
 	}
 	return _pathPreload
+}
+
+func PreloadPathTestable() string {
+	return validateProfilePath(PreloadEnvVar, preloadFileName, false)
 }
 
 // ProfilePath returns the path of your murex profile
 func ProfilePath() string {
 	if _pathProfile == "" {
-		_pathProfile = validateProfilePath(ProfileEnvVar, profileFileName, false)
+		_pathProfile = ProfilePathTestable()
 	}
 	return _pathProfile
+}
+
+func ProfilePathTestable() string {
+	return validateProfilePath(ProfileEnvVar, profileFileName, false)
 }
 
 // HistoryPath returns the path of your shell's history file
@@ -63,14 +71,18 @@ func HistoryPath() string {
 }
 
 func validateProfilePath(envvar, defaultFileName string, isDir bool) string {
-	path := os.Getenv(envvar)
-	if strings.TrimSpace(path) != "" {
-		return _validateProfilePathWithProfileEnvVar(envvar, defaultFileName, path, isDir)
+	profilePath := strings.TrimSpace(os.Getenv(envvar))
+	configPath := strings.TrimSpace(os.Getenv(ConfigEnvVar))
+	return _validateProfilePath(envvar, defaultFileName, profilePath, configPath, isDir)
+}
+
+func _validateProfilePath(envvar, defaultFileName, profilePath, configPath string, isDir bool) string {
+	if profilePath != "" {
+		return _validateProfilePathWithProfileEnvVar(envvar, defaultFileName, profilePath, isDir)
 	}
 
-	path = os.Getenv(ConfigEnvVar)
-	if path != "" {
-		return _validateProfilePathWithConfigEnvVar(defaultFileName, path)
+	if configPath != "" {
+		return _validateProfilePathWithConfigEnvVar(defaultFileName, configPath)
 	}
 
 	return _validateProfilePathWithHome(defaultFileName)
@@ -79,9 +91,9 @@ func validateProfilePath(envvar, defaultFileName string, isDir bool) string {
 func _validateProfilePathWithProfileEnvVar(envvar, defaultFileName, path string, isDir bool) string {
 	fi, err := os.Stat(path)
 	if err != nil {
-		fmt.Fprintf(os.Stderr,
-			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new file will be created.\n",
-			envvar, path)
+		if isDir {
+			return _makeDirectory(path, envvar, defaultFileName)
+		}
 		return path
 	}
 
@@ -95,22 +107,11 @@ func _validateProfilePathWithProfileEnvVar(envvar, defaultFileName, path string,
 }
 
 func _validateProfilePathWithConfigEnvVar(defaultFileName, path string) string {
-	fi, err := os.Stat(path)
 	pathFile := path + consts.PathSlash + defaultFileName[fileNameCrop:]
+
+	fi, err := os.Stat(path)
 	if err != nil {
-		fmt.Fprintf(os.Stderr,
-			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new directory will be created.\n",
-			ConfigEnvVar, path)
-
-		err = os.MkdirAll(path, os.ModePerm)
-		if err != nil {
-			home := _validateProfilePathWithHome(defaultFileName)
-			fmt.Fprintf(os.Stderr, "!!! ERROR: %s\n!!! This path cannot be used so defaulting to $HOME: %s\n",
-				err.Error(), home)
-			return home
-		}
-
-		return pathFile
+		return _makeDirectory(pathFile, ConfigEnvVar, defaultFileName)
 	}
 
 	if fi.IsDir() {
@@ -125,6 +126,21 @@ func _validateProfilePathWithConfigEnvVar(defaultFileName, path string) string {
 	return home
 }
 
+func _makeDirectory(path, envvar, defaultFileName string) string {
+	fmt.Fprintf(os.Stderr,
+		"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new file will be created.\n",
+		envvar, path)
+
+	err := os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		home := _validateProfilePathWithHome(defaultFileName)
+		fmt.Fprintf(os.Stderr, "!!! ERROR: %s\n!!! This path cannot be used so defaulting to $HOME: %s\n",
+			err.Error(), home)
+		return home
+	}
+	return path
+}
+
 func _validateProfilePathWithHome(defaultFileName string) string {
 	return home.MyDir + consts.PathSlash + defaultFileName
 }
@@ -132,16 +148,16 @@ func _validateProfilePathWithHome(defaultFileName string) string {
 // ModulePath returns the install path of the murex modules / packages
 func ModulePath() string {
 	if _pathModules == "" {
-		_pathModules = modulePath()
+		_pathModules = ModulePathTestable()
 	}
 
 	return _pathModules
 }
 
-func modulePath() string {
+func ModulePathTestable() string {
 	path := validateProfilePath(ModuleEnvVar, moduleDirName, true)
 
-	fi, err := os.Stat(path)
+	/*fi, err := os.Stat(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
 			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new directory will be created.\n",
@@ -154,7 +170,7 @@ func modulePath() string {
 			"Override path specified in %s is a file, directory expected: '%s'!\n  Falling back to default path.\n",
 			ModuleEnvVar, path)
 		return _validateProfilePathWithHome(moduleDirName)
-	}
+	}*/
 
 	return addTrailingSlash(path)
 }
