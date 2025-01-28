@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
@@ -87,12 +88,12 @@ func defaultProfile() {
 	defaults.AddMurexProfile()
 
 	for _, profile := range defaults.DefaultProfiles {
-		ref := ref.History.AddSource("(builtin)", "builtin/"+profile.Name, profile.Block)
+		ref := ref.History.AddSource("(builtin)", app.ShellProfile+profile.Name, profile.Block)
 		execSource([]rune(string(profile.Block)), ref, false)
 	}
 
 	for _, profile := range integrations.Profiles() {
-		ref := ref.History.AddSource("(builtin)", "builtin/integrations_"+profile.Name, profile.Block)
+		ref := ref.History.AddSource("(builtin)", app.ShellProfile+"integrations_"+profile.Name, profile.Block)
 		execSource([]rune(string(profile.Block)), ref, false)
 	}
 }

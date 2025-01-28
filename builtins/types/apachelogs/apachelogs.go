@@ -17,6 +17,6 @@ func init() {
 
 	lang.ReadIndexes[typeAccess] = index
 	lang.ReadNotIndexes[typeAccess] = index
-	//lang.Marshallers[typeAccess] = marshal
-	lang.Unmarshallers[typeAccess] = unmarshal
+	//lang.RegisterMarshaller(typeAccess,marshal)
+	lang.RegisterUnmarshaller(typeAccess, unmarshal)
 }

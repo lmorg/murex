@@ -118,6 +118,12 @@ func HkFnCancelAction(rl *Instance) {
 	case rl.modeTabFind:
 		output += rl.resetTabFindStr()
 
+	case rl.modeViMode == vimCommand:
+		rl.vimCommandModeCancel()
+		//output += rl.clearHelpersStr()
+		output += rl.updateHelpersStr()
+		//output += rl.renderHelpersStr()
+
 	case rl.modeTabCompletion:
 		//output = rl.clearPreviewStr()
 		output += rl.clearHelpersStr()
@@ -125,10 +131,10 @@ func HkFnCancelAction(rl *Instance) {
 		output += rl.renderHelpersStr()
 
 	default:
-		if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
-			rl.line.SetRunePos(rl.line.RunePos() - 1)
-			output = moveCursorBackwardsStr(1)
-		}
+		//if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
+		//	rl.line.SetRunePos(rl.line.RunePos() - 1)
+		//	output = moveCursorBackwardsStr(1)
+		//}
 		rl.modeViMode = vimKeys
 		rl.viIteration = ""
 		output += rl.viHintMessageStr()

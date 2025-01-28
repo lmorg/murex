@@ -13,6 +13,19 @@ type Version struct {
 	Patch int
 }
 
+var (
+	Version7_0 = &Version{7, 0, 0}
+	Version8_0 = &Version{8, 0, 0}
+)
+
+func (v *Version) Compare(comparison *Version) compareResult {
+	return compare(v, comparison)
+}
+
+func (v *Version) String() string {
+	return fmt.Sprintf("%d.%d.%d", v.Major, v.Minor, v.Patch)
+}
+
 func raiseError(err error, context string, values ...any) (*Version, error) {
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf(context, values...) + ": " + err.Error())
@@ -103,6 +116,11 @@ func parseComparison(comparison string) (string, string) {
 	return "", ""
 }
 
+func VersionFromComparison(comparison string) (*Version, error) {
+	_, s := parseComparison(comparison)
+	return Parse(s)
+}
+
 func parseCompVersion(s string) (*Version, error) {
 	if len(s) == 0 {
 		return nil, errors.New("empty version string")
@@ -146,13 +164,21 @@ func parseCompVersion(s string) (*Version, error) {
 	return ver, err
 }
 
+type compareResult int
+
 const (
-	lessThan    = -1
-	equalTo     = 0
-	greaterThan = 1
+	lessThan    compareResult = -1
+	equalTo     compareResult = 0
+	greaterThan compareResult = 1
 )
 
-func compare(version *Version, comparison *Version) int {
+func (cr compareResult) IsLessThan() bool       { return cr == lessThan }
+func (cr compareResult) IsLessOrEqual() bool    { return cr != greaterThan }
+func (cr compareResult) IsEqualTo() bool        { return cr == equalTo }
+func (cr compareResult) IsGreaterOrEqual() bool { return cr != lessThan }
+func (cr compareResult) IsGreaterThan() bool    { return cr == greaterThan }
+
+func compare(version *Version, comparison *Version) compareResult {
 	switch {
 	case version.Major > comparison.Major:
 		return greaterThan
