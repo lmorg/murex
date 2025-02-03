@@ -1,6 +1,3 @@
-//go:build ignore
-// +build ignore
-
 package profile_test
 
 import (
@@ -32,7 +29,7 @@ func TestProfilePaths(t *testing.T) {
 	// get running settings
 
 	bakPreload := os.Getenv(profile.PreloadEnvVar)
-	bakModule := os.Getenv(profile.ModuleEnvVar)
+	bakModules := os.Getenv(profile.ModuleEnvVar)
 	bakProfile := os.Getenv(profile.ProfileEnvVar)
 
 	defer func() {
@@ -40,8 +37,8 @@ func TestProfilePaths(t *testing.T) {
 			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.PreloadEnvVar, bakPreload)
 		}
 
-		if err := os.Setenv(profile.ModuleEnvVar, bakModule); err != nil {
-			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ModuleEnvVar, bakModule)
+		if err := os.Setenv(profile.ModuleEnvVar, bakModules); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ModuleEnvVar, bakModules)
 		}
 
 		if err := os.Setenv(profile.ProfileEnvVar, bakProfile); err != nil {
