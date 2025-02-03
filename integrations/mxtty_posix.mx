@@ -14,7 +14,7 @@ function csv-table {
 
 alias ps = csv-table ps
 
-function ls {
+/#function ls {
     config set proc strict-arrays false
 
     if { $SELF.TTY && @PARAMS } then {
@@ -26,7 +26,7 @@ function ls {
     } else {
         exec ls @PARAMS
     }
-}
+}#/
 
 event onPrompt output-block=after {
     tout str '{ESC}_begin;output-block{ESC}\'
