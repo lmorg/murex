@@ -1,5 +1,4 @@
-//go:build no_cgo || linux || (windows && amd64) || darwin
-// +build no_cgo linux windows,amd64 darwin
+//go:build !use_cgo
 
 /*
 	This file uses a pure Go driver for sqlite. Unlike lib_c.go, this one does
@@ -8,7 +7,7 @@
 	the C driver for sqlite.
 */
 
-package sqlselect
+package sqlite3
 
 import (
 	_ "modernc.org/sqlite"

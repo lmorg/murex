@@ -1,8 +1,4 @@
-//go:build !no_cgo && !linux && !(windows && amd64) && !darwin
-// +build !no_cgo
-// +build !linux
-// +build !windows !amd64
-// +build !darwin
+//go:build use_cgo
 
 /*
 	This file uses the C SQLite3 library. To compile it you will need gcc
@@ -13,7 +9,7 @@
 	compiled against this C library instead.
 */
 
-package cachedb
+package sqlite3
 
 import (
 	_ "github.com/mattn/go-sqlite3"
