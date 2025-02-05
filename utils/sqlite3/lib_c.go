@@ -1,4 +1,4 @@
-//go:build use_cgo
+//go:build use_cgo || (freebsd && (386 || arm)) || openbsd || netbsd || dragonfly || solaris || plan9 || (windows && (386 || arm))
 
 /*
 	This file uses the C SQLite3 library. To compile it you will need gcc

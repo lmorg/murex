@@ -1,4 +1,4 @@
-//go:build !use_cgo
+//go:build !use_cgo && (darwin || (freebsd && (amd64 || arm64)) || linux || (windows && (amd64 || arm64)))
 
 /*
 	This file uses a pure Go driver for sqlite. Unlike lib_c.go, this one does
