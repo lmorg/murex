@@ -163,6 +163,7 @@ type Instance struct {
 	viUndoHistory    []*UnicodeT
 	viUndoSkipAppend bool
 	viYankBuffer     string
+	viCommandLine    []rune
 
 	// event
 	evtKeyPress map[string]keyPressEventCallbackT

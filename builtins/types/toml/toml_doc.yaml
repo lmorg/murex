@@ -64,6 +64,7 @@
       - application/x-toml
       - text/toml
       - text/x-toml
+      - +toml
     Extensions:
       - toml
   Related:

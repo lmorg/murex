@@ -12,8 +12,8 @@ func init() {
 	// Register data type
 	lang.ReadIndexes[types.Generic] = index
 	lang.ReadNotIndexes[types.Generic] = index
-	lang.Marshallers[types.Generic] = marshal
-	lang.Unmarshallers[types.Generic] = unmarshal
+	lang.RegisterMarshaller(types.Generic, marshal)
+	lang.RegisterUnmarshaller(types.Generic, unmarshal)
 
 	stdio.RegisterReadArray(types.Generic, readArray)
 	stdio.RegisterReadArrayWithType(types.Generic, readArrayWithType)
@@ -23,8 +23,8 @@ func init() {
 	// descriptive name
 	lang.ReadIndexes["generic"] = index
 	lang.ReadNotIndexes["generic"] = index
-	lang.Marshallers["generic"] = marshal
-	lang.Unmarshallers["generic"] = unmarshal
+	lang.RegisterMarshaller("generic", marshal)
+	lang.RegisterUnmarshaller("generic", unmarshal)
 
 	stdio.RegisterReadArray("generic", readArray)
 	stdio.RegisterReadMap("generic", readMap)

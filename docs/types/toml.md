@@ -53,6 +53,7 @@ hosts = [
 ## Default Associations
 
 * **Extension**: `toml`
+* **MIME**: `+toml`
 * **MIME**: `application/toml`
 * **MIME**: `application/x-toml`
 * **MIME**: `text/toml`

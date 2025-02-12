@@ -16,8 +16,8 @@ func init() {
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 
-	lang.Marshallers[typeName] = marshal
-	lang.Unmarshallers[typeName] = unmarshal
+	lang.RegisterMarshaller(typeName, marshal)
+	lang.RegisterUnmarshaller(typeName, unmarshal)
 
 	// `application/csv` and `text/csv` are the common ones. `x-csv` is added just in case anyone decides to use
 	// something non-standard.
@@ -26,6 +26,7 @@ func init() {
 		"application/x-csv",
 		"text/csv",
 		"text/x-csv",
+		"+csv",
 	)
 
 	lang.SetFileExtensions(typeName, "csv")

@@ -118,6 +118,12 @@ func HkFnCancelAction(rl *Instance) {
 	case rl.modeTabFind:
 		output += rl.resetTabFindStr()
 
+	case rl.modeViMode == vimCommand:
+		rl.vimCommandModeCancel()
+		//output += rl.clearHelpersStr()
+		output += rl.updateHelpersStr()
+		//output += rl.renderHelpersStr()
+
 	case rl.modeTabCompletion:
 		//output = rl.clearPreviewStr()
 		output += rl.clearHelpersStr()
@@ -125,10 +131,10 @@ func HkFnCancelAction(rl *Instance) {
 		output += rl.renderHelpersStr()
 
 	default:
-		if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
-			rl.line.SetRunePos(rl.line.RunePos() - 1)
-			output = moveCursorBackwardsStr(1)
-		}
+		//if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
+		//	rl.line.SetRunePos(rl.line.RunePos() - 1)
+		//	output = moveCursorBackwardsStr(1)
+		//}
 		rl.modeViMode = vimKeys
 		rl.viIteration = ""
 		output += rl.viHintMessageStr()
@@ -152,6 +158,9 @@ func HkFnRecallWord12(rl *Instance)   { hkFnRecallWord(rl, 12) }
 func HkFnRecallWordLast(rl *Instance) { hkFnRecallWord(rl, -1) }
 
 func HkFnModePreviewToggle(rl *Instance) {
+	if rl.PreviewLine == nil {
+		return
+	}
 	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
 		rl.previewMode == previewModeClosed {
 
@@ -193,6 +202,9 @@ func _fnPreviewToggle(rl *Instance) {
 }
 
 func HkFnModePreviewLine(rl *Instance) {
+	if rl.PreviewLine == nil {
+		return
+	}
 	if rl.PreviewInit != nil {
 		// forced rerun of command line preview
 		rl.PreviewInit()

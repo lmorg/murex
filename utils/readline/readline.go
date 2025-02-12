@@ -13,7 +13,16 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
-func (rl *Instance) Readline() (_ string, err error) {
+func (rl *Instance) Readline() (string, error) { return rl.readline("") }
+
+// Readline displays the readline prompt primed with a default value.
+// It will return a string (user entered data) or an error.
+// Discussion: https://github.com/lmorg/readline/issues/12
+func (rl *Instance) ReadlineWithDefault(defaultValue string) (string, error) {
+	return rl.readline(defaultValue)
+}
+
+func (rl *Instance) readline(defaultValue string) (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
 
@@ -24,6 +33,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	if err != nil {
 		return "", fmt.Errorf("unable to modify fd %d: %s", os.Stdout.Fd(), err.Error())
+	}
+
+	if rl.HintText == nil {
+		rl.HintText = func(_ []rune, _ int) []rune { return nil }
 	}
 
 	defer func() {
@@ -45,18 +58,18 @@ func (rl *Instance) Readline() (_ string, err error) {
 		rl.fdMutex.Unlock()
 	}()
 
-	rl.forceNewLine()
-	print(rl.prompt)
-
-	rl.line.Set(rl, []rune{})
-	rl.line.SetRunePos(0)
-	rl.lineChange = ""
+	rl.line.Set(rl, []rune(defaultValue))
+	rl.line.SetRunePos(len(defaultValue))
+	rl.lineChange = defaultValue
 	rl.viUndoHistory = []*UnicodeT{rl.line.Duplicate()}
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
 	rl.resetHintText()
 	rl.resetTabCompletion()
+
+	rl.forceNewLine()
+	print(rl.prompt + rl.line.String())
 
 	if len(rl.multiSplit) > 0 {
 		r := []rune(rl.multiSplit[0])
@@ -228,6 +241,11 @@ readKey:
 		case '\r':
 			fallthrough
 		case '\n':
+			if rl.modeViMode == vimCommand {
+				print(rl.vimCommandModeReturnStr())
+				continue
+			}
+
 			var output string
 			rl.tabMutex.Lock()
 			var suggestions *suggestionsT
@@ -282,10 +300,13 @@ readKey:
 			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
-			if rl.modeTabFind {
+			switch {
+			case rl.modeTabFind:
 				print(rl.backspaceTabFindStr())
 				rl.viUndoSkipAppend = true
-			} else {
+			case rl.modeViMode == vimCommand:
+				print(rl.vimCommandModeBackspaceStr())
+			default:
 				print(rl.backspaceStr())
 			}
 
@@ -552,6 +573,10 @@ func (rl *Instance) readlineInputStr(r []rune) string {
 			output += rl.deleteStr()
 			output += rl.insertStr([]rune{char})
 		}
+		output += rl.viHintMessageStr()
+
+	case vimCommand:
+		output += rl.vimCommandModeInput(r)
 		output += rl.viHintMessageStr()
 
 	default:

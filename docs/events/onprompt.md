@@ -11,9 +11,9 @@ section below.
 ## Usage
 
 ```
-event onPrompt name=(before|return|after|abort|eof) { code block }
+event onPrompt name=(before|return|after|command-completion|abort|eof) { code block }
 
-!event onPrompt name[.before|.return|.after|.abort|.eof]
+!event onPrompt name[.before|.return|.after|.command-completion|.abort|.eof]
 ```
 
 ## Valid Interrupts
@@ -24,6 +24,8 @@ event onPrompt name=(before|return|after|abort|eof) { code block }
     Triggered after user has written a command into the interactive prompt and then hit `enter`
 * `before`
     Triggered before readline displays the interactive prompt
+* `command-completion`
+    Triggered after a command has completed. Also passes it's exit number via STDIN. A cheaper alternative to onCommandCompletion event
 * `eof`
     Triggered if `ctrl`+`d` pressed while in the interactive prompt
 * `return`
@@ -39,7 +41,8 @@ The following payload is passed to the function via stdin:
     "Interrupt": {
         "Name": "",
         "Operation": "",
-        "CmdLine": ""
+        "CmdLine": "",
+        "ExitNum": -1
     }
 }
 ```
@@ -62,7 +65,15 @@ Valid interrupt operation values are specified below.
 
 This is the command line executed, ie what you typed into the _readline_ prompt.
 
-Please note this is only populated if the interrupt is **after**.
+Please note this is only populated if the interrupt is **after** or
+**command-completion**.
+
+### Interrupt/ExitNum
+
+This is the exit number for the command line that is executed.
+
+Please note this is only populated if the interrupt is **command-completion**
+otherwise it defaults to `-1`.
 
 ## Event Return
 

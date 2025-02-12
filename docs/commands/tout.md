@@ -45,7 +45,7 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 * [Output String (`out`)](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Reformat Data type (`format`)](../commands/format.md):
   Reformat one data-type into another data-type
 * [`(brace quote)`](../parser/brace-quote-func.md):

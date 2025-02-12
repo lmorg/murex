@@ -9,6 +9,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/sqlite3"
 )
 
 const (
@@ -23,7 +24,7 @@ var (
 )
 
 func dbConnect() *sql.DB {
-	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?cache=shared", path))
+	db, err := sql.Open(sqlite3.DriverName(), fmt.Sprintf("file:%s?cache=shared", path))
 	if err != nil {
 		dbFailed("opening cache database", err)
 		return nil

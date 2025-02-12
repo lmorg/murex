@@ -79,6 +79,8 @@ details about specific hooks.
   string (primitive)
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
+* [`xml`](../types/xml.md):
+  Extensible Markup Language (XML) (experimental)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):

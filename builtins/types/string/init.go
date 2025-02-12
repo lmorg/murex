@@ -15,8 +15,8 @@ func init() {
 
 	lang.ReadIndexes[types.String] = index
 	lang.ReadNotIndexes[types.String] = index
-	lang.Marshallers[types.String] = marshal
-	lang.Unmarshallers[types.String] = unmarshal
+	lang.RegisterMarshaller(types.String, marshal)
+	lang.RegisterUnmarshaller(types.String, unmarshal)
 
 	lang.SetMime(types.String,
 		"application/x-latex",
@@ -40,7 +40,7 @@ func init() {
 
 	lang.ReadIndexes["string"] = index
 	lang.ReadNotIndexes["string"] = index
-	lang.Marshallers["string"] = marshal
-	lang.Unmarshallers["string"] = unmarshal
+	lang.RegisterMarshaller("string", marshal)
+	lang.RegisterUnmarshaller("string", unmarshal)
 
 }

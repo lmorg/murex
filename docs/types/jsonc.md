@@ -139,7 +139,7 @@ parser is still in beta), it is shipped as an additional data-type.
 * [Open File (`open`)](../commands/open.md):
   Open a file with a preferred handler
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Reformat Data type (`format`)](../commands/format.md):
   Reformat one data-type into another data-type
 * [Shell Runtime (`runtime`)](../commands/runtime.md):

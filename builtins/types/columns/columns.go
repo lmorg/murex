@@ -6,5 +6,5 @@ import (
 )
 
 func init() {
-	lang.Marshallers[types.Columns] = marshal
+	lang.RegisterMarshaller(types.Columns, marshal)
 }
