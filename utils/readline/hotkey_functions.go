@@ -158,6 +158,9 @@ func HkFnRecallWord12(rl *Instance)   { hkFnRecallWord(rl, 12) }
 func HkFnRecallWordLast(rl *Instance) { hkFnRecallWord(rl, -1) }
 
 func HkFnModePreviewToggle(rl *Instance) {
+	if rl.PreviewLine == nil {
+		return
+	}
 	if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
 		rl.previewMode == previewModeClosed {
 
@@ -199,6 +202,9 @@ func _fnPreviewToggle(rl *Instance) {
 }
 
 func HkFnModePreviewLine(rl *Instance) {
+	if rl.PreviewLine == nil {
+		return
+	}
 	if rl.PreviewInit != nil {
 		// forced rerun of command line preview
 		rl.PreviewInit()
