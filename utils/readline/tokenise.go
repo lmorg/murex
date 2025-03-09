@@ -58,6 +58,12 @@ func tokeniseSplitSpaces(line []rune, linePos int) ([]string, int, int) {
 		return nil, 0, 0
 	}
 
+	var adjust int
+	if linePos >= len(line) {
+		adjust = linePos - len(line) - 1
+		linePos = len(line) - 1
+	}
+
 	var index, pos int
 	split := make([]string, 1)
 
@@ -79,7 +85,7 @@ func tokeniseSplitSpaces(line []rune, linePos int) ([]string, int, int) {
 		}
 	}
 
-	return split, index, pos
+	return split, index, pos - adjust
 }
 
 func tokeniseBrackets(line []rune, linePos int) ([]string, int, int) {
