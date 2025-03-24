@@ -1,6 +1,14 @@
-!if { which terraform } then {
-    return
-}
+/#
+ # Normally we'd want code like the below. However because the terraform
+ # executable might not be in $PATH due to the `devops` module, and an
+ # autocompletion against a command that doesn't exist isn't going to cause
+ # any damage, lets all this code to run regardless of whether `terraform`
+ # is installed or not. 
+ #
+ # !if { which terraform } then {
+ #    return
+ # }
+ #/
 
 !if { man-summary terraform } then {
     summary terraform "Write, Plan, and Create Infrastructure as Code"
