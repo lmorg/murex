@@ -11,9 +11,7 @@ var rxMimePrefix = regexp.MustCompile(`^([-0-9a-zA-Z]+)/.*$`)
 
 // MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
-	mime := strings.Split(mimeType, ";")[0]
-	mime = strings.TrimSpace(mime)
-	mime = strings.ToLower(mime)
+	mime := NormalizeMime(mimeType)
 
 	// Check suffix
 	for suffix := range mimeSuffixes {
@@ -48,6 +46,16 @@ func MimeToMurex(mimeType string) string {
 		// Mime type not recognized so lets just make it a generic
 		return types.Generic
 	}
+}
+
+// NormalizeMime prepares a mime type for processing by removing charset
+// information, trimming leading/trailing spaces, and making it lower case
+func NormalizeMime(rawMimeType string) string {
+	mime := strings.Split(rawMimeType, ";")[0]
+	mime = strings.TrimSpace(mime)
+	mime = strings.ToLower(mime)
+
+	return mime
 }
 
 // MurexToMime returns the default MIME for a given Murex data type.

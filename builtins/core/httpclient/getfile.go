@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -13,6 +14,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/file"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/readline"
@@ -41,11 +43,28 @@ func cmdGetFile(p *lang.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.SetDataType(lang.MimeToMurex(resp.Header.Get("Content-Type")))
+	reqContentType := lang.NormalizeMime(resp.Header.Get("Content-Type"))
+	filename := extractFileName(url)
+
+	var dataType string
+
+	if reqContentType == "text/plain" {
+		dlExt := strings.ToLower(strings.TrimPrefix(path.Ext(filename), "."))
+		knownType, ok := lang.GetFileExts()[dlExt]
+
+		if ok {
+			dataType = knownType
+		} else {
+			dataType = types.String
+		}
+	} else {
+		dataType = lang.MimeToMurex(reqContentType)
+	}
+
+	p.Stdout.SetDataType(dataType)
 
 	quit := make(chan bool)
 	cl := resp.Header.Get("Content-Length")
-	filename := extractFileName(url)
 	if p.Stdout.IsTTY() {
 		p.Stdout, err = file.NewFile(filename)
 		if err != nil {
