@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"path"
 	"regexp"
 	"strings"
 
@@ -46,6 +47,38 @@ func MimeToMurex(mimeType string) string {
 		// Mime type not recognized so lets just make it a generic
 		return types.Generic
 	}
+}
+
+// RequestToMurex attempts to pick a data type for the content of
+// a downloaded file using the value of the Content-Type header
+// or, if not, the filename. If neither can be used to infer a
+// usable data type, types.Generic is returned.
+func RequestMetadataToMurex(contentType string, filename string) string {
+	if contentType != "" {
+		contentType = NormalizeMime(contentType)
+
+		if contentType != "text/plain" {
+			foundType := MimeToMurex(contentType)
+
+			// MimeToMurex will return Generic when it can't find
+			// any other matches, but in that case we still want
+			// to check the filename ext if possible
+			if foundType != types.Generic {
+				return foundType
+			}
+		}
+	}
+
+	if filename != "" {
+		ext := strings.ToLower(strings.TrimPrefix(path.Ext(filename), "."))
+		knownType, foundType := GetFileExts()[ext]
+
+		if foundType {
+			return knownType
+		}
+	}
+
+	return types.Generic
 }
 
 // NormalizeMime prepares a mime type for processing by removing charset
