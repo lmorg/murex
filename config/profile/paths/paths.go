@@ -1,4 +1,4 @@
-package profile
+package profilepaths
 
 import (
 	"fmt"
@@ -11,9 +11,9 @@ import (
 
 const (
 	// default locations
-	preloadFileName = ".murex_preload"
+	PreloadFileName = ".murex_preload"
 	moduleDirName   = ".murex_modules/"
-	profileFileName = ".murex_profile"
+	ProfileFileName = ".murex_profile"
 	historyFileName = ".murex_history"
 	fileNameCrop    = len(".murex_")
 
@@ -47,7 +47,7 @@ func PreloadPath() string {
 }
 
 func PreloadPathTestable() string {
-	return validateProfilePath(PreloadEnvVar, preloadFileName, false)
+	return validateProfilePath(PreloadEnvVar, PreloadFileName, false)
 }
 
 // ProfilePath returns the path of your murex profile
@@ -59,7 +59,7 @@ func ProfilePath() string {
 }
 
 func ProfilePathTestable() string {
-	return validateProfilePath(ProfileEnvVar, profileFileName, false)
+	return validateProfilePath(ProfileEnvVar, ProfileFileName, false)
 }
 
 // HistoryPath returns the path of your shell's history file

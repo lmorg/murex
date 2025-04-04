@@ -8,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/httpclient"
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/cd"
@@ -24,7 +25,7 @@ func packageDirExists(pack string) error {
 }
 
 func importModules(p *lang.Process) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 	path, err := p.Parameters.String(1)
 	if err != nil {
 		return err

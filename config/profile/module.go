@@ -10,6 +10,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -78,7 +79,7 @@ func isDisabled(name string) bool {
 
 // Path returns the full path to the murex script that is sourced into your running shell
 func (m *Module) Path() string {
-	return ModulePath() + m.Package + consts.PathSlash + m.Source
+	return profilepaths.ModulePath() + m.Package + consts.PathSlash + m.Source
 }
 
 func (m *Module) validate() error {

@@ -8,6 +8,7 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/core/structs"
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/consts"
@@ -126,36 +127,36 @@ func TestModulesAndCustomPaths(t *testing.T) {
 
 	// get running settings
 
-	bakPreload := os.Getenv(profile.PreloadEnvVar)
-	bakModule := os.Getenv(profile.ModuleEnvVar)
-	bakProfile := os.Getenv(profile.ProfileEnvVar)
+	bakPreload := os.Getenv(profilepaths.PreloadEnvVar)
+	bakModule := os.Getenv(profilepaths.ModuleEnvVar)
+	bakProfile := os.Getenv(profilepaths.ProfileEnvVar)
 
 	defer func() {
-		if err := os.Setenv(profile.PreloadEnvVar, bakPreload); err != nil {
-			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.PreloadEnvVar, bakPreload)
+		if err := os.Setenv(profilepaths.PreloadEnvVar, bakPreload); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profilepaths.PreloadEnvVar, bakPreload)
 		}
 
-		if err := os.Setenv(profile.ModuleEnvVar, bakModule); err != nil {
-			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ModuleEnvVar, bakModule)
+		if err := os.Setenv(profilepaths.ModuleEnvVar, bakModule); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profilepaths.ModuleEnvVar, bakModule)
 		}
 
-		if err := os.Setenv(profile.ProfileEnvVar, bakProfile); err != nil {
-			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ProfileEnvVar, bakProfile)
+		if err := os.Setenv(profilepaths.ProfileEnvVar, bakProfile); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profilepaths.ProfileEnvVar, bakProfile)
 		}
 	}()
 
 	// set env vars
 
-	if err := os.Setenv(profile.PreloadEnvVar, path+preloadFileName); err != nil {
-		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
+	if err := os.Setenv(profilepaths.PreloadEnvVar, path+preloadFileName); err != nil {
+		t.Errorf("Unable to set env var %s: %s", profilepaths.PreloadEnvVar, err.Error())
 	}
 
-	if err := os.Setenv(profile.ModuleEnvVar, path+modulesPathName); err != nil {
-		t.Errorf("Unable to set env var %s: %s", profile.ModuleEnvVar, err.Error())
+	if err := os.Setenv(profilepaths.ModuleEnvVar, path+modulesPathName); err != nil {
+		t.Errorf("Unable to set env var %s: %s", profilepaths.ModuleEnvVar, err.Error())
 	}
 
-	if err := os.Setenv(profile.ProfileEnvVar, path+profileFileName); err != nil {
-		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
+	if err := os.Setenv(profilepaths.ProfileEnvVar, path+profileFileName); err != nil {
+		t.Errorf("Unable to set env var %s: %s", profilepaths.ProfileEnvVar, err.Error())
 	}
 
 	// initialize empty directory structures
@@ -209,7 +210,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 
 	count.Tests(t, 3)
 	var disabled []string
-	err = profile.ReadJson(profile.ModulePath()+profile.DisabledFile, &disabled)
+	err = profile.ReadJson(profilepaths.ModulePath()+profile.DisabledFile, &disabled)
 	if err != nil {
 		t.Fatalf("profile.ReadJson() err: %s", err.Error())
 	}
@@ -235,7 +236,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	}
 
 	count.Tests(t, 3)
-	err = profile.ReadJson(profile.ModulePath()+profile.DisabledFile, &disabled)
+	err = profile.ReadJson(profilepaths.ModulePath()+profile.DisabledFile, &disabled)
 	if err != nil {
 		t.Fatalf("profile.ReadJson() err: %s", err.Error())
 	}

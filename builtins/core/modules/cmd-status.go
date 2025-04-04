@@ -4,12 +4,13 @@ import (
 	"bytes"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func statusModules(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath() + profile.PackagesFile)
+	db, err := readPackagesFile(profilepaths.ModulePath() + profile.PackagesFile)
 	if err != nil {
 		return err
 	}
@@ -17,7 +18,7 @@ func statusModules(p *lang.Process) error {
 	for i := range db {
 		p.Stdout.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
 
-		if err := packageDirExists(profile.ModulePath() + "/" + db[i].Package); err == nil {
+		if err := packageDirExists(profilepaths.ModulePath() + "/" + db[i].Package); err == nil {
 			write(p, "{BLUE}Skipping package '{BOLD}%s{RESET}{BLUE}'....{RESET}", db[i].Package)
 			continue
 		}

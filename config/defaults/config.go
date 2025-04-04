@@ -5,7 +5,7 @@ import (
 	"runtime"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/lang/types"
@@ -132,7 +132,7 @@ func Config(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "cache.db-enabled", config.Properties{
-		Description: "Enable or disable the persistent cache.db. Typically located in: " + profile.ModulePath(),
+		Description: "Enable or disable the persistent cache.db. Typically located in: " + profilepaths.ModulePath(),
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,

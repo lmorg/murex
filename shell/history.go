@@ -4,7 +4,7 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils/readline"
@@ -13,7 +13,7 @@ import (
 var promptHistory readline.History
 
 func definePromptHistory() {
-	h, err := history.New(profile.HistoryPath())
+	h, err := history.New(profilepaths.HistoryPath())
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
 	} else {

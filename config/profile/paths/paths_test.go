@@ -1,4 +1,4 @@
-package profile
+package profilepaths
 
 import (
 	"os"
@@ -18,7 +18,7 @@ func TestValidateProfilePathAsFilExistingFile(t *testing.T) {
 
 	profilePath := t.TempDir() + "/TestValidateProfilePathAsFilExistingFile"
 
-	path := _validateProfilePath("", profileFileName, profilePath, "", false)
+	path := _validateProfilePath("", ProfileFileName, profilePath, "", false)
 
 	if path != profilePath {
 		t.Error("Unexpected output:")
@@ -32,9 +32,9 @@ func TestValidateProfilePathAsFileNewFile(t *testing.T) {
 
 	profilePath := t.TempDir()
 
-	path := _validateProfilePath("", profileFileName, profilePath, "", false)
+	path := _validateProfilePath("", ProfileFileName, profilePath, "", false)
 
-	if path != profilePath+consts.PathSlash+profileFileName {
+	if path != profilePath+consts.PathSlash+ProfileFileName {
 		t.Error("Unexpected output:")
 		t.Logf("  Expected: %s", profilePath)
 		t.Logf("  Actual:   %s", path)

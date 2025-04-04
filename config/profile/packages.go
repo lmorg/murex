@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/app"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -77,7 +78,7 @@ func disabledFile() error {
 		return err
 	}
 
-	return ReadJson(ModulePath()+DisabledFile, &disabled)
+	return ReadJson(profilepaths.ModulePath()+DisabledFile, &disabled)
 }
 
 func packageFile() error {
@@ -85,7 +86,7 @@ func packageFile() error {
 }
 
 func autoFile(name string) error {
-	filename := ModulePath() + name
+	filename := profilepaths.ModulePath() + name
 
 	fi, err := os.Stat(filename)
 	switch {

@@ -16,6 +16,8 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
+	"github.com/lmorg/murex/config/profile/source"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
@@ -55,7 +57,7 @@ func runTests() error {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	defaultProfile()
+	profile.Execute(profile.F_DEFAULT)
 
 	// enable tests
 	if err := lang.ShellProcess.Config.Set("test", "enabled", true, nil); err != nil {
@@ -98,12 +100,14 @@ func runCommandString(commandString string) {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	defaultProfile()
+	profiles := profile.F_DEFAULT
 
 	// load modules and profile
 	if fLoadMods {
-		profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
+		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 	}
+
+	profile.Execute(profiles)
 
 	// read block from command line parameters
 	term.OutSetDataTypeIPC()
@@ -112,7 +116,7 @@ func runCommandString(commandString string) {
 		Filename: "",
 		Module:   "murex/-c",
 	}
-	execSource([]rune(commandString), &sourceRef, true)
+	source.Exec([]rune(commandString), &sourceRef, true)
 
 	if fInteractive {
 		shell.Start()
@@ -127,12 +131,14 @@ func runSource(filename string) {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	defaultProfile()
+	profiles := profile.F_DEFAULT
 
-	// load modules a profile
+	// load modules and profile
 	if fLoadMods {
-		profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
+		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 	}
+
+	profile.Execute(profiles)
 
 	// read block from disk
 	term.OutSetDataTypeIPC()
@@ -152,7 +158,7 @@ func runSource(filename string) {
 		Filename: filename,
 		Module:   "murex/#!",
 	}
-	execSource([]rune(string(disk)), &sourceRef, true)
+	source.Exec([]rune(string(disk)), &sourceRef, true)
 }
 
 func startMurexRepl() {
@@ -161,14 +167,18 @@ func startMurexRepl() {
 	// default config
 	defaults.Config(lang.ShellProcess.Config, true)
 
-	cache.SetPath(profile.ModulePath() + "cache.db")
+	cache.SetPath(profilepaths.ModulePath() + "cache.db")
 	cache.InitCache()
 
 	// compiled profile
-	defaultProfile()
+	profiles := profile.F_DEFAULT
 
 	// load modules and profile
-	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
+	if fLoadMods {
+		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
+	}
+
+	profile.Execute(profiles)
 
 	// start interactive shell
 	registerSignalHandlers(true)
