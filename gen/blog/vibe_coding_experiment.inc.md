@@ -1,7 +1,3 @@
-# My Vibe Coding Experiment
-
-> My personal thoughts after trying out "vibe coding" for the first time.
-
 So I tried out vibe coding for the first time the other day. If you've not heard of "vibe coding" before, and I hadn't either, basically it's where you describe your requirements and let AI write the code for you.
 
 My problem: I wanted code that could parse a `plist` file. For anyone unfamiliar with plists: it is a horrible macOS-specific file format based on XML. This specific file is iTerm's colour theme config. I wanted to enable support for iTerm2 themes in my own terminal emulator.
@@ -17,16 +13,3 @@ That all said, the final code was still generated quicker than it likely would h
 So I can see the appeal of this type of development for some people...and particularly if you're not already comfortable writing code yourself. It's a massive productive gain. However I wouldn't yet trust it for anything important just yet. A little like how you'd have lesser experienced developers working on less mission critical code while you're training them on the job.
 
 However, for me, I cannot see "vibe coding" becoming anything more than a fun novelty that I seldom fallback on. For me, it felt a little too heavy on the "_let's see if this black box can randomly throw the correct sequence of characters_" to consider using this on anything that actually mattered.
-
-<hr>
-
-Published: 21.03.2025 at 21:11
-
-## See Also
-
-* [iTerm2 Integrations](../integrations/iterm2.md):
-  Get more out of iTerm2 terminal emulator
-
-<hr/>
-
-This document was generated from [gen/blog/vibe_coding_experiment_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/blog/vibe_coding_experiment_doc.yaml).
