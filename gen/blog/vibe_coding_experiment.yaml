@@ -1,0 +1,17 @@
+- DocumentID: vibe_coding_experiment
+  Title: >-
+    My personal thoughts after trying out "vibe coding" for the first time
+  CategoryID: blog
+  DateTime: 2025-04-21 21:11
+  Summary: >-
+    Shell usage is split between the need to write something quickly and frequently
+    verses the need to write something more complex but only the once. In this
+    article is explore those opposing use cases and how different $SHELLs have
+    chosen to address them.
+  Description: |-
+    {{ include "gen/blog/vibe_coding_experiment.inc.md" }}
+  Synonyms:
+  Related:
+    - iterm2
+
+
