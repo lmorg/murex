@@ -18,7 +18,7 @@ func Exec(source []rune, sourceRef *ref.Source, exitOnError bool) {
 	}
 
 	if debug.Enabled {
-		os.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
+		debug.Logf("Loading profile `%s`", sourceRef.Module)
 	}
 
 	var stdin int
