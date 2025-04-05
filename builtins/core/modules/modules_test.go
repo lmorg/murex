@@ -162,7 +162,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// initialize empty directory structures
 
 	lang.InitEnv()
-	profile.Execute(profile.F_MODULES)
+	profile.Execute(profile.F_DEFAULT | profile.F_MODULES)
 
 	// initialize test package
 

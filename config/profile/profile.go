@@ -50,8 +50,10 @@ func Execute(flags int) {
 		}
 	}
 
-	defaultProfile()
-	autocomplete.UpdateGlobalExeList()
+	if flags&F_DEFAULT != 0 {
+		defaultProfile()
+		autocomplete.UpdateGlobalExeList()
+	}
 
 	if flags&F_MODULES != 0 {
 		if err := modules(profilepaths.ModulePath()); err != nil {

@@ -171,12 +171,7 @@ func startMurexRepl() {
 	cache.InitCache()
 
 	// compiled profile
-	profiles := profile.F_DEFAULT
-
-	// load modules and profile
-	if fLoadMods {
-		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
-	}
+	profiles := profile.F_DEFAULT | profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 
 	profile.Execute(profiles)
 
