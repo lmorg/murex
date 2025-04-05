@@ -84,7 +84,11 @@ func importModules(p *lang.Process) error {
 
 		db = append(db, importDb[i])
 
-		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true)
+		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true, true)
+		if err != nil {
+			write(p, "{RED}%s{RESET}", err.Error())
+		}
+		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true, false)
 		if err != nil {
 			write(p, "{RED}%s{RESET}", err.Error())
 		}

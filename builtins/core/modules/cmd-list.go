@@ -109,7 +109,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) 
 			continue
 		}
 
-		mods, _ := profile.LoadPackage(pack, false)
+		mods, _ := profile.LoadPackage(pack, false, false)
 
 		// these should NOT equate ;)
 		if strings.HasSuffix(f.Name(), profile.IgnoredExt) != enabled {

@@ -104,7 +104,7 @@ func runCommandString(commandString string) {
 
 	// load modules and profile
 	if fLoadMods {
-		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
+		profiles |= profile.F_PRELOAD | profile.F_MOD_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 	}
 
 	profile.Execute(profiles)
@@ -135,7 +135,7 @@ func runSource(filename string) {
 
 	// load modules and profile
 	if fLoadMods {
-		profiles |= profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
+		profiles |= profile.F_PRELOAD | profile.F_MOD_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 	}
 
 	profile.Execute(profiles)
@@ -171,7 +171,7 @@ func startMurexRepl() {
 	cache.InitCache()
 
 	// compiled profile
-	profiles := profile.F_DEFAULT | profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE
+	profiles := profile.F_DEFAULT | profile.F_PRELOAD | profile.F_MOD_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 
 	profile.Execute(profiles)
 

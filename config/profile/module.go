@@ -35,6 +35,7 @@ type Module struct {
 	Summary      string
 	Version      string
 	Source       string
+	Preload      string
 	pkg          *Package
 	Package      string
 	Disabled     bool
@@ -82,7 +83,12 @@ func (m *Module) Path() string {
 	return profilepaths.ModulePath() + m.Package + consts.PathSlash + m.Source
 }
 
-func (m *Module) validate() error {
+// Path returns the full path to the murex script that is sourced into your running shell
+func (m *Module) PreloadPath() string {
+	return profilepaths.ModulePath() + m.Package + consts.PathSlash + m.Preload
+}
+
+func (m *Module) validate(preload bool) error {
 	var message string
 	if strings.TrimSpace(m.Name) == "" {
 		message += `  * Property "Name" is empty. This should contain the name of the module` + utils.NewLineString
@@ -118,11 +124,20 @@ func (m *Module) validate() error {
 		return errors.New(message)
 	}
 
+	if preload {
+		return nil
+	}
+
 	return m.checkDependencies()
 }
 
-func (m *Module) execute() error {
-	file, err := os.OpenFile(m.Path(), os.O_RDONLY, 0640)
+var msgLoad = map[bool]string{
+	true:  "Configuring",
+	false: "Loading",
+}
+
+func (m *Module) execute(path string, preload bool) error {
+	file, err := os.OpenFile(path, os.O_RDONLY, 0640)
 	if err != nil {
 		return err
 	}
@@ -138,7 +153,7 @@ func (m *Module) execute() error {
 
 	quiet, _ := lang.ShellProcess.Config.Get("shell", "quiet", types.Boolean)
 	if v, ok := quiet.(bool); !ok || !v {
-		os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
+		os.Stderr.WriteString(fmt.Sprintf("%s module `%s/%s`%s", msgLoad[preload], m.Package, m.Name, utils.NewLineString))
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NO_STDIN)

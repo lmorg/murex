@@ -118,9 +118,9 @@ func TestValidate(t *testing.T) {
 	}
 	autocomplete.GlobalExes.Set(&globalExes)
 
-	errPosix := posix.validate()
-	errPlan9 := plan9.validate()
-	errWindows := windows.validate()
+	errPosix := posix.validate(false)
+	errPlan9 := plan9.validate(false)
+	errWindows := windows.validate(false)
 
 	if runtime.GOOS != "plan9" && runtime.GOOS != "windows" && errPosix != nil {
 		t.Errorf("Failed to validate: %s", err)

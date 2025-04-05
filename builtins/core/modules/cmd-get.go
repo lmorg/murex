@@ -48,7 +48,11 @@ func getModule(p *lang.Process) error {
 		message += err.Error() + utils.NewLineString
 	}
 
-	_, err = profile.LoadPackage(modulePath+pack, true)
+	_, err = profile.LoadPackage(modulePath+pack, true, true)
+	if err != nil {
+		message += err.Error() + utils.NewLineString
+	}
+	_, err = profile.LoadPackage(modulePath+pack, true, false)
 	if err != nil {
 		message += err.Error() + utils.NewLineString
 	}

@@ -28,6 +28,7 @@ const preloadMessage = `# This file is loaded before any murex modules. It shoul
 const (
 	F_DEFAULT = 1 << iota
 	F_PRELOAD
+	F_MOD_PRELOAD
 	F_MODULES
 	F_PROFILE
 )
@@ -43,6 +44,13 @@ func Execute(flags int) {
 		os.Stderr.WriteString(err.Error())
 	}
 
+	if flags&F_MOD_PRELOAD != 0 {
+		if err := modules(profilepaths.ModulePath(), true); err != nil {
+			os.Stderr.WriteString("There were problems loading modules `" + profilepaths.ModulePath() + "`:" + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
+	}
+
 	if flags&F_PRELOAD != 0 {
 		if err := profile(profilepaths.PreloadFileName, profilepaths.PreloadPath()); err != nil {
 			os.Stderr.WriteString("There were problems loading profile `" + profilepaths.PreloadPath() + "`:" + utils.NewLineString)
@@ -56,7 +64,7 @@ func Execute(flags int) {
 	}
 
 	if flags&F_MODULES != 0 {
-		if err := modules(profilepaths.ModulePath()); err != nil {
+		if err := modules(profilepaths.ModulePath(), false); err != nil {
 			os.Stderr.WriteString("There were problems loading modules `" + profilepaths.ModulePath() + "`:" + utils.NewLineString)
 			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
