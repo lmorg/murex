@@ -10,6 +10,7 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell"
 	signalhandler "github.com/lmorg/murex/shell/signal_handler"
@@ -37,7 +38,7 @@ func startMurex() {
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	defaultProfile()
+	profile.Execute(profile.F_DEFAULT)
 }
 
 // wasmShellExec returns a Promise
