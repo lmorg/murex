@@ -54,18 +54,16 @@ func MimeToMurex(mimeType string) string {
 // or, if not, the filename. If neither can be used to infer a
 // usable data type, types.Generic is returned.
 func RequestMetadataToMurex(contentType string, filename string) string {
-	if contentType != "" {
-		contentType = NormalizeMime(contentType)
+	contentType = NormalizeMime(contentType)
 
-		if contentType != "text/plain" {
-			foundType := MimeToMurex(contentType)
+	if !(contentType == "" || contentType == "text/plain") {
+		foundType := MimeToMurex(contentType)
 
-			// MimeToMurex will return Generic when it can't find
-			// any other matches, but in that case we still want
-			// to check the filename ext if possible
-			if foundType != types.Generic {
-				return foundType
-			}
+		// MimeToMurex will return Generic when it can't find
+		// any other matches, but in that case we still want
+		// to check the filename ext if possible
+		if foundType != types.Generic {
+			return foundType
 		}
 	}
 
