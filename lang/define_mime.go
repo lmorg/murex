@@ -12,11 +12,12 @@ var rxMimePrefix = regexp.MustCompile(`^([-0-9a-zA-Z]+)/.*$`)
 
 // MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
-	mime := NormalizeMime(mimeType)
-
+	return mimeToMurex(normalizeMime(mimeType))
+}
+func mimeToMurex(mime string) string {
 	// Check suffix
 	for suffix := range mimeSuffixes {
-		if strings.HasSuffix(mimeType, suffix) {
+		if strings.HasSuffix(mime, suffix) {
 			return mimeSuffixes[suffix]
 		}
 	}
@@ -54,10 +55,10 @@ func MimeToMurex(mimeType string) string {
 // or, if not, the filename. If neither can be used to infer a
 // usable data type, types.Generic is returned.
 func RequestMetadataToMurex(contentType string, filename string) string {
-	contentType = NormalizeMime(contentType)
+	contentType = normalizeMime(contentType)
 
 	if !(contentType == "" || contentType == "text/plain") {
-		foundType := MimeToMurex(contentType)
+		foundType := mimeToMurex(contentType)
 
 		// MimeToMurex will return Generic when it can't find
 		// any other matches, but in that case we still want
@@ -81,7 +82,7 @@ func RequestMetadataToMurex(contentType string, filename string) string {
 
 // NormalizeMime prepares a mime type for processing by removing charset
 // information, trimming leading/trailing spaces, and making it lower case
-func NormalizeMime(rawMimeType string) string {
+func normalizeMime(rawMimeType string) string {
 	mime := strings.Split(rawMimeType, ";")[0]
 	mime = strings.TrimSpace(mime)
 	mime = strings.ToLower(mime)
