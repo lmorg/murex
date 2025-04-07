@@ -4,15 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"net/url"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/file"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/readline"
@@ -41,11 +40,12 @@ func cmdGetFile(p *lang.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.SetDataType(lang.MimeToMurex(resp.Header.Get("Content-Type")))
+	filename := utils.ExtractFileNameFromURL(url)
+
+	p.Stdout.SetDataType(lang.RequestMetadataToMurex(resp.Header.Get(("Content-Type")), filename))
 
 	quit := make(chan bool)
 	cl := resp.Header.Get("Content-Length")
-	filename := extractFileName(url)
 	if p.Stdout.IsTTY() {
 		p.Stdout, err = file.NewFile(filename)
 		if err != nil {
@@ -113,26 +113,6 @@ func cmdGetFile(p *lang.Process) (err error) {
 
 	_, err = io.Copy(p.Stdout, resp.Body)
 	return err
-}
-
-func extractFileName(address string) string {
-	u, err := url.Parse(address)
-	if err != nil {
-		return address
-	}
-
-	if len(u.Path) == 0 || u.Path == "/" {
-		return u.Host
-	}
-
-	split := strings.Split(u.Path, "/")
-	for i := len(split) - 1; i > -1; i-- {
-		if len(split[i]) != 0 && split[i] != "/" {
-			return split[i]
-		}
-	}
-
-	return u.Path
 }
 
 func printGaugeBar(value, max float64, message string) {
