@@ -262,6 +262,11 @@ Categories:
       VueIcon: arrows-turn-to-dots
       Description: |-
         Reserved variables are read only values that are dynamically generated at the point of querying. They behave a little more like functions than variables, albeit the convenience of being called like a variable.
+    - ID: vars.profile
+      Title: Configuration Variables
+      VueIcon: arrows-turn-to-dots
+      Description: |-
+        Environmental variables loaded by Murex to configure Murex.
 
   # pipes:
 

@@ -1,0 +1,26 @@
+- DocumentID: v7.0
+  Title: >-
+    v7.0
+  CategoryID: changelog
+  DateTime: 2025-04-14 23:50
+  Summary: >-
+    This change brings a number of ergonomic improvements to job control,
+    `datetime` and working with structures.
+  Description: |-
+    {{ include "gen/changelog/v7.0.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - xml
+    - pretty
+    - runtime
+    - index
+    - get
+    - getfile
+    - post
+    - open
+    - cd
+    - event
+    - onPrompt
+    - MUREX_HISTORY
+    - MUREX_CONFIG_DIR
+    - murex_preload

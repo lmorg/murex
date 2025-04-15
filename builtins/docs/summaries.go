@@ -422,6 +422,7 @@ func init() {
 		"changelog/v6.2":                  "Bug fix release",
 		"changelog/v6.3":                  "This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.",
 		"changelog/v6.4":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
+		"changelog/v7.0":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
 	}
 
 	Synonym = map[string]string{
@@ -1080,5 +1081,6 @@ func init() {
 		"changelog/v6.2":                  "changelog/v6.2",
 		"changelog/v6.3":                  "changelog/v6.3",
 		"changelog/v6.4":                  "changelog/v6.4",
+		"changelog/v7.0":                  "changelog/v7.0",
 	}
 }

@@ -98,10 +98,10 @@
   Synonyms:
   - profile
   - .murex_profile
-  - murex_profile
   - .murex_preload
-  - murex_preload
+  - .murex_history
   Related:
   - murex-package
   - modules
   - export
+  - history
