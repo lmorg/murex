@@ -4,11 +4,6 @@ A collection of Murex related documents and personal thoughts.
 
 ## Articles
 
-### 08.04.2025 - [Tmux Is Listening](../blog/tmux_is_listening.md)
-
-> A surprising behaviour of Tmux that broadcasts your live session to any program that wants to listen
-
-
 ### 21.03.2025 - [My Vibe Coding Experiment](../blog/vibe_coding_experiment.md)
 
 > My personal thoughts after trying out "vibe coding" for the first time.

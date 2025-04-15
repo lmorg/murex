@@ -19,7 +19,7 @@
     - post
     - open
     - cd
-    - events
+    - event
     - onPrompt
     - MUREX_HISTORY
     - MUREX_CONFIG_DIR

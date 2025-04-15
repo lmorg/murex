@@ -93,6 +93,8 @@ how you define that value.
 
 ## See Also
 
+* [Command Line History (`history`)](../commands/history.md):
+  Outputs murex's command history
 * [Define Environmental Variable (`export`)](../commands/export.md):
   Define an environmental variable and set it's value
 * [Modules And Packages](../user-guide/modules.md):

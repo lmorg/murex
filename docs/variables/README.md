@@ -70,8 +70,18 @@ of terms:
   Username for the current session (historic)
 * [`MUREX_ARGV` (json)](../variables/murex_argv.md):
   Array of the command name and parameters passed to the current shell
+* [`MUREX_CONFIG_DIR` (str)](../variables/murex_config_dir.md):
+  Defines the path to Murex's config
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
+* [`MUREX_HISTORY` (str)](../variables/murex_history.md):
+  Defines the path to the `.murex_history` log
+* [`MUREX_MODULES` (str)](../variables/murex_modules.md):
+  Defines the path to the modules directory
+* [`MUREX_PRELOAD` (str)](../variables/murex_preload.md):
+  Defines the path to the `.murex_preload` script
+* [`MUREX_PROFILE` (str)](../variables/murex_profile.md):
+  Defines the path to the `.murex_profile` script
 * [`OLDPWD` (path)](../variables/oldpwd.md):
   Return the home directory for the current session user
 * [`PARAMS` (json)](../variables/params.md):
