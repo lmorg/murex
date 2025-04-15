@@ -182,5 +182,37 @@
         "collapsible": true,
         "icon": "folder",
         "text": "Reserved Variables"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-lines",
+                "link": "variables/murex_config_dir.md",
+                "text": "MUREX_CONFIG_DIR (str)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "variables/murex_history.md",
+                "text": "MUREX_HISTORY (str)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "variables/murex_modules.md",
+                "text": "MUREX_MODULES (str)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "variables/murex_preload.md",
+                "text": "MUREX_PRELOAD (str)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "variables/murex_profile.md",
+                "text": "MUREX_PROFILE (str)"
+            }
+        ],
+        "collapsible": true,
+        "icon": "folder",
+        "text": "Configuration Variables"
     }
 ]
