@@ -2,22 +2,22 @@
 
 > Special variables reserved by Murex
 
-In Murex, there are five different classes of variables:
+In Murex, there are different classes of variables:
 
-1. Local variables (scope limited to a function et al)
-
-2. Module variables (scoped to a module)
-
-3. Global variables (available to every function within Murex but not shared
+- Murex variables, of varying scope:
+  1. Local variables (scope limited to a function et al)
+  2. Module variables (scoped to a module)
+  3. Global variables (available to every function within Murex but not shared
     with processes outside of the Murex's runtime)
 
-4. Environmental variables (available to every function and process -- internal
+- Environmental variables (available to every function and process -- internal
     and external to Murex)
 
-5. Reserved variables
+- Reserved variables
 
-Reserved variables are data that are available to any code running within
-Murex and exposed as a variable.
+Reserved variables are Murex variables which contain read-only runtime data and
+thus made available via Murex's runtime rather than assigned by any running
+Murex code.
 
 Reserved variables are called _reserved_ because they are read only. 
 
