@@ -34,6 +34,10 @@ func init() {
 }
 
 func garbageCollection() {
+	if !lang.Interactive {
+		return
+	}
+
 	for {
 		time.Sleep(time.Duration(gcSleep) * time.Second)
 
