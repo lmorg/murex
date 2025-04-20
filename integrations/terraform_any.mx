@@ -1,44 +1,45 @@
-!if { which terraform } then {
-    return
-}
+%[terraform tofu] -> foreach exec_name {
 
-!if { man-summary terraform } then {
-    summary terraform "Write, Plan, and Create Infrastructure as Code"
-}
-
-private autocomplete.terraform {
-    cast json
-    config set proc strict-arrays false
-
-    if { $1 == "workspace" && $2 == "select" } then {
-        terraform workspace list \
-        -> regexp (s/^[\s\*]+//) \
-        -> [..-2] -> suffix ': "Terraform workspace"' \
-        -> grep -v "^:" \
-        -> cast yaml \
-        -> format json
-
-    } else {
-        terraform -help @PARAMS \
-        -> tabulate --map --column-wraps --key-inc-hint
+    !if { which $exec_name } then {
+        continue
     }
-}
 
-test unit private autocomplete.terraform %{
-    StdoutType:        json
-    StdoutGreaterThan: 10
-	StdoutIsMap:       true
-}
+    !if { man-summary $exec_name } then {
+        summary $exec_name "Write, Plan, and Create Infrastructure as Code"
+    }
 
-autocomplete: set terraform %[
-    {
-        DynamicDesc: '{
+    private autocomplete.$exec_name "{
+        cast json
+        config set proc strict-arrays false
+
+        if { \$1 == 'workspace' && \$2 == 'select' } then {
+            exec $exec_name workspace list \\
+            -> regexp %(s/^[\s\*]+//) \\
+            -> [..-2] -> suffix %(: $exec_name workspace) \\
+            -> grep -v %(^:) \\
+            -> cast yaml \\
+            -> format json
+
+        } else {
+            exec $exec_name -help @PARAMS \\
+            -> tabulate --map --column-wraps --key-inc-hint
+        }
+    }"
+
+    test unit private autocomplete.$exec_name %{
+        StdoutType:        json
+        StdoutGreaterThan: 10
+        StdoutIsMap:       true
+    }
+
+    autocomplete set $exec_name %[{
+        DynamicDesc: "{ 
             config set proc strict-arrays false
-            autocomplete.terraform @PARAMS
-        }'
+            autocomplete.$exec_name \@PARAMS
+        }"
         AllowMultiple: true
         AllowAny:      true
         ListView:      true
         CacheTTL:      60
-    }
-]
+    }]
+}
