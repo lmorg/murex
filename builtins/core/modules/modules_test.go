@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/structs"
+	_ "github.com/lmorg/murex/builtins/types/generic"
 	"github.com/lmorg/murex/config/profile"
 	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
@@ -162,7 +163,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// initialize empty directory structures
 
 	lang.InitEnv()
-	profile.Execute(profile.F_DEFAULT | profile.F_MODULES)
+	profile.Execute(profile.F_BUILTIN | profile.F_MOD_PRELOAD | profile.F_MODULES)
 
 	// initialize test package
 
@@ -179,7 +180,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// import new packages
 
 	count.Tests(t, 1) // importing from non-standard location
-	profile.Execute(profile.F_MODULES)
+	profile.Execute(profile.F_MOD_PRELOAD | profile.F_MODULES)
 
 	if !lang.MxFunctions.Exists(testFunction1) || !lang.MxFunctions.Exists(testFunction2) {
 		t.Fatalf("test functions were not imported from test package. Reason: unknown\n%s\nTry deleting '%s' and then rerun",

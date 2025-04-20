@@ -57,7 +57,7 @@ func runTests() error {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	profile.Execute(profile.F_DEFAULT)
+	profile.Execute(profile.F_BUILTIN)
 
 	// enable tests
 	if err := lang.ShellProcess.Config.Set("test", "enabled", true, nil); err != nil {
@@ -100,7 +100,7 @@ func runCommandString(commandString string) {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	profiles := profile.F_DEFAULT
+	profiles := profile.F_BUILTIN
 
 	// load modules and profile
 	if fLoadMods {
@@ -131,7 +131,7 @@ func runSource(filename string) {
 	registerSignalHandlers(fInteractive)
 
 	// compiled profile
-	profiles := profile.F_DEFAULT
+	profiles := profile.F_BUILTIN
 
 	// load modules and profile
 	if fLoadMods {
@@ -171,7 +171,7 @@ func startMurexRepl() {
 	cache.InitCache()
 
 	// compiled profile
-	profiles := profile.F_DEFAULT | profile.F_PRELOAD | profile.F_MOD_PRELOAD | profile.F_MODULES | profile.F_PROFILE
+	profiles := profile.F_BUILTIN | profile.F_PRELOAD | profile.F_MOD_PRELOAD | profile.F_MODULES | profile.F_PROFILE
 
 	profile.Execute(profiles)
 

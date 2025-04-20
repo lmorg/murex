@@ -26,7 +26,7 @@ const preloadMessage = `# This file is loaded before any murex modules. It shoul
 # `
 
 const (
-	F_DEFAULT = 1 << iota
+	F_BUILTIN = 1 << iota
 	F_PRELOAD
 	F_MOD_PRELOAD
 	F_MODULES
@@ -58,8 +58,8 @@ func Execute(flags int) {
 		}
 	}
 
-	if flags&F_DEFAULT != 0 {
-		defaultProfile()
+	if flags&F_BUILTIN != 0 {
+		builtinProfile()
 		autocomplete.UpdateGlobalExeList()
 	}
 

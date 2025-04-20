@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 )
 
-func defaultProfile() {
+func builtinProfile() {
 	defaults.AddMurexProfile()
 
 	for _, profile := range defaults.DefaultProfiles {
