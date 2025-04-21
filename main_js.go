@@ -38,7 +38,7 @@ func startMurex() {
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	profile.Execute(profile.F_DEFAULT)
+	profile.Execute(profile.F_BUILTIN)
 }
 
 // wasmShellExec returns a Promise
