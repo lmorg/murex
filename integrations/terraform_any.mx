@@ -1,7 +1,7 @@
 %[terraform tofu] -> foreach exec_name {
 
     !if { which $exec_name } then {
-        continue
+        continue foreach
     }
 
     !if { man-summary $exec_name } then {
