@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/builtins/events/onPreview/previewops"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func PreviewCommand(ctx context.Context, _cmdLine []rune, command string, _ bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {

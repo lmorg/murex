@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/dedup"
 	"github.com/lmorg/murex/utils/objectkeys"
 	"github.com/lmorg/murex/utils/parser"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func errCallback(err error) {

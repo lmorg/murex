@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/parser"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 type testAutocompleteFlagsT struct {

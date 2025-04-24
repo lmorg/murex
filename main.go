@@ -24,7 +24,7 @@ import (
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/cache"
 	"github.com/lmorg/murex/utils/escape"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func main() {

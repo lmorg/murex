@@ -8,7 +8,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var ErrNotTTY = errors.New("not a TTY")

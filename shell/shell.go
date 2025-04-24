@@ -29,8 +29,8 @@ import (
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/crash"
-	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
+	"github.com/lmorg/readline/v4"
 )
 
 var (

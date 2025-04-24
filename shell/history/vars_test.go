@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test/count"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func newReadlineInstance() *readline.Instance {
