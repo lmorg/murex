@@ -81,3 +81,29 @@ func TestRedirectionParserBug(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestRedirectionPid(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   "exec <pid:TestRedirectionPid> sleep 1; $TestRedirectionPid",
+			Stdout:  "^[0-9]+$",
+			Stderr:  "^$",
+			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
+
+func TestRedirectionFid(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   "bg <fid:TestRedirectionFid> { sleep 2 }; $TestRedirectionFid",
+			Stdout:  "^[0-9]+$",
+			Stderr:  "^$",
+			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
