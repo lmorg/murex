@@ -29,10 +29,21 @@ alias ps = csv-table ps
 }#/
 
 event onPrompt output-block=after {
-    tout str '{ESC}_begin;output-block{ESC}\'
+    <stdin> -> set event
+    
+    json_payload = %{
+        CmdLine: $event.Interrupt.CmdLine
+    }
+
+    tout str %({ESC}_begin;output-block;$(json_payload){ESC}\)
 }
 
 event onPrompt output-block=command-completion {
-    exitnum = ${ <stdin> -> [[/Interrupt/ExitNum]] }
-    tout str %({ESC}_end;output-block;{"ExitNum":$exitnum}{ESC}\)
+    <stdin> -> set event
+
+    json_payload = %{
+        ExitNum: $event.Interrupt.ExitNum
+    }
+
+    tout str %({ESC}_end;output-block;$(json_payload){ESC}\)
 }
