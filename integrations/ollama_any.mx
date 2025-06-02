@@ -23,7 +23,7 @@ autocomplete set ollama %[{
         "":   [{
             DynamicDesc: '{
                 ollama $ARGV[1] -h \
-                -> [^Flags..]r \
+                -> [^Flags..Environment Variables]r \
                 -> tabulate --map --split-comma
             }'
         }]
