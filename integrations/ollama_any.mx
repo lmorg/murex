@@ -1,0 +1,31 @@
+!if { which ollama } then {
+    return
+}
+
+!if { man-summary ollama } then {
+    summary go "Large language model runner"
+}
+
+private autocomplete.ollama.models {
+    ollama list -> [NAME] -> [2..]
+}
+
+autocomplete set ollama %[{   
+    DynamicDesc: %({
+        ollama help -> [^Available Commands..]r -> tabulate --map --split-comma
+    })
+
+    FlagValues: {
+        show: [{ dynamic: '{ autocomplete.ollama.models }' }]
+        run:  [{ dynamic: '{ autocomplete.ollama.models }' }]
+        stop: [{ dynamic: '{ autocomplete.ollama.models }' }]
+        rm:   [{ dynamic: '{ autocomplete.ollama.models }' }]
+        "":   [{
+            DynamicDesc: '{
+                ollama $ARGV[1] -h \
+                -> [^Flags..]r \
+                -> tabulate --map --split-comma
+            }'
+        }]
+    }
+}]
