@@ -122,7 +122,7 @@ You can supply multiple functions in the array.
 
 Supported values are:
 
-```
+```go
 package onkeypress
 
 import "github.com/lmorg/readline/v4"
@@ -143,8 +143,10 @@ var fnLookup = map[string]func(*readline.Instance){
 	"CursorMoveToStartOfLine": readline.HkFnCursorMoveToStartOfLine,
 	"ModeAutocomplete":        readline.HkFnModeAutocomplete,
 	"ModeFuzzyFind":           readline.HkFnModeFuzzyFind,
+	"ModeNextLine":            readline.HkFnModeNextLine,
 	"ModePreviewLine":         readline.HkFnModePreviewLine,
 	"ModePreviewToggle":       readline.HkFnModePreviewToggle,
+	"ModePreviousLine":        readline.HkFnModePreviousLine,
 	"ModeSearchHistory":       readline.HkFnModeSearchHistory,
 	"RecallWord1":             readline.HkFnRecallWord1,
 	"RecallWord10":            readline.HkFnRecallWord10,
