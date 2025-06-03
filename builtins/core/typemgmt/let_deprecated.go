@@ -1,3 +1,6 @@
+//go:build deprecated_builtins
+// +build deprecated_builtins
+
 package typemgmt
 
 import (
@@ -22,7 +25,7 @@ func init() {
 }
 
 func cmdLet(p *lang.Process) (err error) {
-	lang.FeatureDeprecatedBuiltin(p)
+	//lang.FeatureDeprecatedBuiltin(p)
 
 	if !debug.Enabled {
 		defer func() {

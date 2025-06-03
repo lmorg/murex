@@ -1,3 +1,6 @@
+//go:build deprecated_builtins
+// +build deprecated_builtins
+
 package typemgmt
 
 import (

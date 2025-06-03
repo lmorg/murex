@@ -1,3 +1,6 @@
+//go:build deprecated_builtins
+// +build deprecated_builtins
+
 package typemgmt
 
 import (
@@ -16,7 +19,7 @@ func init() {
 }
 
 func cmdEqu(p *lang.Process) (err error) {
-	lang.FeatureDeprecatedBuiltin(p)
+	//lang.FeatureDeprecatedBuiltin(p)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("missing expression")
