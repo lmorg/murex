@@ -1,6 +1,3 @@
-//go:build deprecated_builtins
-// +build deprecated_builtins
-
 package ranges
 
 import (
