@@ -11,26 +11,15 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func init() {
 	lang.DefineMethod("read", cmdRead, types.String, types.Null)
-	lang.DefineMethod("tread", cmdTread, types.String, types.Null)
 }
 
 func cmdRead(p *lang.Process) error {
 	return read(p, types.String, 0)
-}
-
-func cmdTread(p *lang.Process) error {
-	lang.FeatureDeprecatedBuiltin(p)
-
-	dt, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-	return read(p, dt, 1)
 }
 
 const (

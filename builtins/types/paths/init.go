@@ -8,10 +8,10 @@ import (
 
 func init() {
 	// Register data type
-	lang.Marshallers[types.Path] = marshalPath
-	lang.Marshallers[types.Paths] = marshalPaths
-	lang.Unmarshallers[types.Path] = unmarshalPath
-	lang.Unmarshallers[types.Paths] = unmarshalPaths
+	lang.RegisterMarshaller(types.Path, marshalPath)
+	lang.RegisterMarshaller(types.Paths, marshalPaths)
+	lang.RegisterUnmarshaller(types.Path, unmarshalPath)
+	lang.RegisterUnmarshaller(types.Paths, unmarshalPaths)
 	lang.ReadIndexes[types.Path] = indexPath
 	lang.ReadIndexes[types.Paths] = indexPaths
 	lang.ReadNotIndexes[types.Path] = indexPath

@@ -78,7 +78,7 @@ func TestSetNewStream(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	stream.SetDataType("foo")
@@ -99,7 +99,7 @@ func TestSetOpenClose(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	stream.Open()
@@ -111,7 +111,7 @@ func TestSetCloseError1(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -128,7 +128,7 @@ func TestSetOpenCloseError(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	stream.Open()
@@ -148,7 +148,7 @@ func TestSetForceClose(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	stream.ForceClose()
@@ -159,7 +159,7 @@ func TestSetOpenForceClose(t *testing.T) {
 
 	stream, err := newStream("")
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	stream.Open()

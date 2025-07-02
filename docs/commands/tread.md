@@ -51,7 +51,7 @@ variable.
 * [Output With Type Annotation (`tout`)](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Read User Input (`read`)](../commands/read.md):
   `read` a line of input from the user and store as a variable
 * [Reformat Data type (`format`)](../commands/format.md):

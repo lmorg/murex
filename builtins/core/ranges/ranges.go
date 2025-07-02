@@ -11,20 +11,11 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func init() {
-	lang.DefineMethod("@[", deprecatedRange, types.ReadArray, types.WriteArray)
-}
-
 const usage = "\nUsage: [start..end] / [start..end]se\n(start or end can be omitted)"
 
 // if additional ranges are added here, they will also need to be added to
 // /home/lau/dev/go/src/github.com/lmorg/murex/lang/parameters.go
 var RxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8ernsiu]*)\s*$`)
-
-func deprecatedRange(p *lang.Process) error {
-	lang.FeatureDeprecatedBuiltin(p)
-	return CmdRange(p)
-}
 
 func CmdRange(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()

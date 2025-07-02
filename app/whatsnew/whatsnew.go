@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/lmorg/murex/app"
-	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 )
 
 func Display() {
@@ -16,7 +16,7 @@ func Display() {
 		b       []byte
 	)
 
-	f, err := os.OpenFile(profile.ModulePath()+"/version", os.O_CREATE|os.O_RDONLY, 0644)
+	f, err := os.OpenFile(profilepaths.ModulePath()+"/version", os.O_CREATE|os.O_RDONLY, 0644)
 	if err != nil {
 		goto changelog
 	}
@@ -38,7 +38,7 @@ changelog:
 		app.Version(),
 		app.Major, app.Minor)
 
-	f, err = os.OpenFile(profile.ModulePath()+"/version", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	f, err = os.OpenFile(profilepaths.ModulePath()+"/version", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return
 	}

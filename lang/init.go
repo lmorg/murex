@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
@@ -61,6 +62,7 @@ func InitEnv() {
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Forks = NewForkManagement()
 	ShellProcess.SystemProcess = process.NewSystemProcessStruct()
+	modver.Set(app.ShellModule, app.Semver())
 
 	switch {
 	case FlagTry:
@@ -112,7 +114,7 @@ func NewTestProcess() (p *Process) {
 	p.Stderr = new(null.Null)
 	p.Config = config.InitConf.Copy()
 	p.Variables = NewVariables(p)
-	p.FileRef = &ref.File{Source: &ref.Source{Module: "builtin/testing"}}
+	p.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellProfile + "/testing"}}
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
 	p.Parent = ShellProcess
 	p.Scope = ShellProcess

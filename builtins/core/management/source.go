@@ -3,10 +3,14 @@ package management
 import (
 	"crypto/md5"
 	"encoding/base64"
+	"fmt"
 	"io"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
@@ -19,51 +23,98 @@ func init() {
 }
 
 func cmdSource(p *lang.Process) error {
-	var (
-		block []rune
-		name  string
-		err   error
-		b     []byte
-	)
-
+	// source from STDIN
 	if p.IsMethod {
-		b, err = p.Stdin.ReadAll()
-		if err != nil {
-			return err
-		}
-		block = []rune(string(b))
-		name = "<stdin>"
+		return sourceExecReader(p, p.Stdin, "<stdin>", sourceQuickHash(p, "<stdin>"))
+	}
 
-	} else {
-		block, err = p.Parameters.Block(0)
-		if err == nil {
-			b = []byte(string(block))
-			name = "N/A"
+	// source from ARGV
+	block, err := p.Parameters.Block(0)
+	if err == nil {
+		return sourceExecBlock(p, block, []byte(string(block)), "$ARGV", sourceQuickHash(p, "$ARGV"))
+	}
 
-		} else {
-			// get block from file
-			name, err = p.Parameters.String(0)
-			if err != nil {
-				return err
-			}
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
 
-			file, err := os.Open(name)
-			if err != nil {
-				return err
-			}
+	// source from module
+	if strings.HasPrefix(name, "module:") {
+		return sourceModuleLocate(p, name[7:])
+	}
 
-			b, err = io.ReadAll(file)
-			if err != nil {
-				return err
-			}
-			block = []rune(string(b))
+	// source from file
+	f, err := os.Open(name)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	return sourceExecReader(p, f, name, sourceQuickHash(p, name))
+}
+
+func sourceModuleLocate(p *lang.Process, name string) error {
+	split := strings.SplitN(name, "/", 2)
+	if len(split) != 2 {
+		return fmt.Errorf("invalid package/module name '%s'", name)
+	}
+
+	path := profilepaths.ModulePath()
+	mod, err := profile.LoadPackage(path+"/"+split[0], false, false)
+	if err != nil {
+		return err
+	}
+
+	for i := range mod {
+		if mod[i].Name == split[1] {
+			return sourceModuleExecute(p, &mod[i])
 		}
 	}
 
-	hash := ":" + quickHash(name+time.Now().String())
-	fileRef := &ref.File{Source: ref.History.AddSource(name, p.FileRef.Source.Module+hash, b)}
+	return fmt.Errorf("cannot find module '%s'", split[1])
+}
 
-	p.RunMode = runmode.Normal
+func sourceModuleExecute(p *lang.Process, mod *profile.Module) error {
+	if mod.Preload != "" {
+		f, err := os.Open(mod.PreloadPath())
+		defer f.Close()
+		if err != nil {
+			return fmt.Errorf("cannot open preload script: %v", err)
+		}
+		err = sourceExecReader(p, f, mod.PreloadPath(), fmt.Sprintf("%s/%s", mod.Package, mod.Name))
+		if err != nil {
+			return fmt.Errorf("error executing preload script: %v", err)
+		}
+	}
+
+	f, err := os.Open(mod.Path())
+	defer f.Close()
+	if err != nil {
+		return fmt.Errorf("cannot open module script: %v", err)
+	}
+	err = sourceExecReader(p, f, mod.Path(), fmt.Sprintf("%s/%s", mod.Package, mod.Name))
+	if err != nil {
+		return fmt.Errorf("error executing module script: %v", err)
+	}
+	return nil
+}
+
+func sourceExecReader(p *lang.Process, r io.Reader, filename, packageModule string) error {
+	b, err := io.ReadAll(r)
+	if err != nil {
+		return err
+	}
+
+	return sourceExecBlock(p, []rune(string(b)), b, filename, packageModule)
+}
+
+func sourceExecBlock(p *lang.Process, block []rune, b []byte, filename, packageModule string) error {
+	var err error
+
+	fileRef := &ref.File{Source: ref.History.AddSource(filename, packageModule, b)}
+
+	p.RunMode = runmode.Normal // TODO: is this a bug or correct?
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 
 	fork.Name.Set(p.Name.String())
@@ -72,8 +123,8 @@ func cmdSource(p *lang.Process) error {
 	return err
 }
 
-func quickHash(s string) string {
+func sourceQuickHash(p *lang.Process, name string) string {
 	hasher := md5.New()
-	hasher.Write([]byte(s))
-	return base64.RawURLEncoding.EncodeToString(hasher.Sum(nil))
+	hasher.Write([]byte(name + time.Now().String()))
+	return p.FileRef.Source.Module + ":" + base64.RawURLEncoding.EncodeToString(hasher.Sum(nil))
 }

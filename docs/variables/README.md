@@ -23,16 +23,16 @@ of terms:
   can be written to, or read from.
 
 * _local_ (scope): this refers to variables that cannot be read nor modified
-    outside of the current function. Thus one function cannot read nor write to
-    a variable in another function.
+  outside of the current function. Thus one function cannot read nor write to a
+  variable in another function.
 
 * _module_ (scope): these variables are accessible by any function or routine
-    from within the same module. You'll only need _module scoped_ variables if
-    you're writing modules -- and even then, only if you want that variable
-    available to all functions within that module.
+  from within the same module. You'll only need _module scoped_ variables if
+  you're writing modules -- and even then, only if you want that variable
+  available to all functions within that module.
 
 * _global_ (scope): these are variables which are accessible from any function,
-    anywhere within Murex.
+  anywhere within Murex.
 
 * _environmental variables_: sometimes written as _env vars_ for short, these
   are system variables. They can be passed from one process to another, so
@@ -42,6 +42,11 @@ of terms:
 * _reserved variables_: this refers to variables that are read only. Some
   reserved variables are dynamic and thus can change their value depending on
   contextual circumstances.
+
+* _POSIX_: this is a specification that Linux, Apple macOS, FreeBSD and its ilk
+  follow. It defines a lot of the commonality between these environments.
+  Windows and Plan 9 are not POSIX-compatible out-of-the-box but can support
+  POSIX (eg via WSL).
 
 ## Pages
 
@@ -65,8 +70,18 @@ of terms:
   Username for the current session (historic)
 * [`MUREX_ARGV` (json)](../variables/murex_argv.md):
   Array of the command name and parameters passed to the current shell
+* [`MUREX_CONFIG_DIR` (str)](../variables/murex_config_dir.md):
+  Defines the path to Murex's config
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
+* [`MUREX_HISTORY` (str)](../variables/murex_history.md):
+  Defines the path to the `.murex_history` log
+* [`MUREX_MODULES` (str)](../variables/murex_modules.md):
+  Defines the path to the modules directory
+* [`MUREX_PRELOAD` (str)](../variables/murex_preload.md):
+  Defines the path to the `.murex_preload` script
+* [`MUREX_PROFILE` (str)](../variables/murex_profile.md):
+  Defines the path to the `.murex_profile` script
 * [`OLDPWD` (path)](../variables/oldpwd.md):
   Return the home directory for the current session user
 * [`PARAMS` (json)](../variables/params.md):

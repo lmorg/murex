@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/dedup"
 	"github.com/lmorg/murex/utils/objectkeys"
 	"github.com/lmorg/murex/utils/parser"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func errCallback(err error) {
@@ -62,6 +62,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		r.Prefix = pt.VarSigil + r.Prefix
 		if strings.Contains(r.Prefix, ".") {
 			name := strings.Split(r.Prefix, ".")[0][1:]
+			dt := lang.ShellProcess.Variables.GetDataType(name)
 			v, err := lang.ShellProcess.Variables.GetValue(name)
 			if err != nil {
 				act.ErrCallback(err)
@@ -81,7 +82,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 				return nil
 			}
 
-			err = objectkeys.Recursive(dtc.Context, "", v, ".", writeString, -1)
+			err = objectkeys.Recursive(dtc.Context, "", v, dt, ".", writeString, -1)
 			if err != nil {
 				act.ErrCallback(err)
 			}

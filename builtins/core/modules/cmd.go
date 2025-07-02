@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
@@ -88,7 +89,7 @@ func detectProtocol(uri string) (string, error) {
 }
 
 func cdPackage(p *lang.Process) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 
 	path, err := p.Parameters.String(1)
 	if err != nil {
@@ -112,13 +113,13 @@ func cdPackage(p *lang.Process) error {
 }
 
 func updateModules(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath() + profile.PackagesFile)
+	db, err := readPackagesFile(profilepaths.ModulePath() + profile.PackagesFile)
 	if err != nil {
 		return err
 	}
 
 	for i := range db {
-		if err := packageDirExists(profile.ModulePath() + "/" + db[i].Package); err == nil {
+		if err := packageDirExists(profilepaths.ModulePath() + "/" + db[i].Package); err == nil {
 			write(p, "{BLUE}Skipping package '{BOLD}%s{RESET}{BLUE}'....{RESET}", db[i].Package)
 			continue
 		}

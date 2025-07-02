@@ -19,12 +19,12 @@ func TestNull(t *testing.T) {
 		t.Errorf("i should be 6: %d", i)
 	}
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	b, err := n.ReadAll()
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 	if len(b) > 0 {
 		t.Errorf("ReadAll should be empty: %s", string(b))

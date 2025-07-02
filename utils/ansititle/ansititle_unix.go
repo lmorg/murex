@@ -8,7 +8,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var ErrNotTTY = errors.New("not a TTY")
@@ -31,7 +31,6 @@ func formatTitle(title []byte) []byte {
 
 	copy(ansi[0:4], []byte{27, ']', '2', ';'})
 	copy(ansi[4:len(title)+4], title)
-	//ansi[len(ansi)-1] = 7
 	ansi[len(ansi)-2] = 27
 	ansi[len(ansi)-1] = '\\'
 
@@ -56,7 +55,6 @@ func formatIcon(title []byte) []byte {
 
 	copy(ansi[0:4], []byte{27, ']', '1', ';'})
 	copy(ansi[4:len(title)+4], title)
-	//ansi[len(ansi)-1] = 7
 	ansi[len(ansi)-2] = 27
 	ansi[len(ansi)-1] = '\\'
 

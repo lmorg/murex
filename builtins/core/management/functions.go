@@ -3,6 +3,7 @@ package management
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
@@ -57,9 +58,29 @@ func cmdBuiltinExists(p *lang.Process) error {
 
 const cdErrMsg = "cannot find previous directory"
 
+var osc7 = []byte{27, ']', '7', ';', 'f', 'i', 'l', 'e', ':', '/', '/'}
+
+func ansiOsc7(p *lang.Process) {
+	host, err := os.Hostname()
+	if err != nil {
+		host = "localhost"
+	}
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		return
+	}
+
+	p.Stdout.Write(fmt.Append(osc7, host+pwd+"\x07"))
+}
+
 func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	path, _ := p.Parameters.String(0)
+
+	if lang.Interactive && p.Stdout.IsTTY() {
+		defer ansiOsc7(p)
+	}
 
 	switch path {
 	case "":

@@ -4,7 +4,7 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func definePromptHistory() {

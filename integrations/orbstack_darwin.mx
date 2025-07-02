@@ -1,4 +1,4 @@
-if { which orb } then {
+!if { which orb } then {
     return
 }
 

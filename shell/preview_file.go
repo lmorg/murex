@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/eliukblau/pixterm/pkg/ansimage"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 type color struct{}

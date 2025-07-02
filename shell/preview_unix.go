@@ -8,8 +8,8 @@ import (
 	"os/exec"
 
 	"github.com/lmorg/murex/utils/man"
-	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/rmbs"
+	"github.com/lmorg/readline/v4"
 )
 
 func previewFile(filename string) []byte {

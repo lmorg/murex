@@ -6,9 +6,9 @@ import (
 	"regexp"
 	"strings"
 
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/utils/ansi"
 
-	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/which"
 )
@@ -26,7 +26,7 @@ func gitUpdate(p *lang.Process, pack *packageDb) error {
 		return err
 	}
 
-	return gitExec(p, "-C", profile.ModulePath()+pack.Package, "pull", "-q")
+	return gitExec(p, "-C", profilepaths.ModulePath()+pack.Package, "pull", "-q")
 }
 
 func gitStatus(p *lang.Process, pack *packageDb) error {
@@ -36,7 +36,7 @@ func gitStatus(p *lang.Process, pack *packageDb) error {
 
 	// git fetch
 
-	params := []string{"-C", profile.ModulePath() + pack.Package, "fetch"}
+	params := []string{"-C", profilepaths.ModulePath() + pack.Package, "fetch"}
 
 	if ansi.IsAllowed() {
 		params = append([]string{"-c", "color.status=always"}, params...)
@@ -48,7 +48,7 @@ func gitStatus(p *lang.Process, pack *packageDb) error {
 
 	// git status
 
-	params = []string{"-C", profile.ModulePath() + pack.Package, "status", "-sb"}
+	params = []string{"-C", profilepaths.ModulePath() + pack.Package, "status", "-sb"}
 
 	if ansi.IsAllowed() {
 		params = append([]string{"-c", "color.status=always"}, params...)
@@ -76,7 +76,7 @@ func gitGetPath(uri string) (string, error) {
 }
 
 func gitGet(p *lang.Process, uri string) (string, error) {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 
 	if err := gitSupported(); err != nil {
 		return "", err
@@ -114,4 +114,3 @@ func gitExec(p *lang.Process, args ...string) error {
 
 	return nil
 }
-

@@ -14,11 +14,11 @@ const Name = "murex"
 // Version number of $SHELL
 // Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
-	Major     = 6
-	Minor     = 4
-	Revision  = 2063
+	Major     = 7
+	Minor     = 0
+	Revision  = 2106
 	Branch    = "develop"
-	BuildDate = "2025-01-15  22:45:47"
+	BuildDate = "2025-06-10  22:42:45"
 )
 
 // Copyright is the copyright owner string
@@ -32,8 +32,12 @@ var licenseFull string
 func GetLicenseFull() string  { return licenseFull }
 func SetLicenseFull(s string) { licenseFull = s }
 
-// ShellModule is the name of the module that REPL code gets imported into
-var ShellModule = Name + "/shell"
+const (
+	// ShellModule is the name of the module that REPL code gets imported into
+	ShellModule  = Name + "/shell"
+	ShellProfile = "builtin/"
+	UserProfile  = "profile/"
+)
 
 func Version() string {
 	return fmt.Sprintf("%d.%d.%04d (%s)", Major, Minor, Revision, Branch)

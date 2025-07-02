@@ -7,6 +7,6 @@ import (
 
 func init() {
 	// Register data types
-	lang.Marshallers[types.Boolean] = marshal
-	lang.Unmarshallers[types.Boolean] = unmarshal
+	lang.RegisterMarshaller(types.Boolean, marshal)
+	lang.RegisterUnmarshaller(types.Boolean, unmarshal)
 }

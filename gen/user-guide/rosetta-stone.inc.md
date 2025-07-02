@@ -122,7 +122,7 @@ if you want to learn more about shell scripting in Murex.
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
 | Add `$PATH` entries | `export PATH="$PATH:/usr/local/bin:$HOME/bin"` | The same Bash code works in Murex too. However you can also take advantage of Murex treating `$PATH` as an array <br/><br/>`%[ @PATH /usr/local/bin "$HOME/bin" ] \| format paths \| export $PATH` |
-| Iterate directories | `for i in $(find . -maxdepth 1 -mindepth 1 -type d); do`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`echo $i`<br/>`done`| `f +d \| foreach $dir {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`out $i`<br/>`}` |
+| Iterate directories | `for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`echo $dir`<br/>`done`| `f +d \| foreach $dir {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`out $dir`<br/>`}` |
 | If `$dir` exists... | `if [ -d "$dir" ]; then`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`fi` | `if { g $dir \| f +d } then {`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`# exists`<br/>`}` |
 | Print current directory | `result=${PWD##*/}; result=${result:-/}; printf '%s' "${PWD##*/}"` ([read more](https://stackoverflow.com/a/1371283)) | `$PWD[-1]` |
 ### Footnotes

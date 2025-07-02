@@ -29,7 +29,7 @@ autocomplete set go %[{
         tool: [{    
             Dynamic: %({
                 cast str
-                go tool
+                go tool -> regexp s,^.*/,,
             })
             FlagValues: {
                 trace: [
