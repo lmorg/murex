@@ -14,7 +14,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/hashicorp/hcl v1.0.0
 	github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad
-	github.com/lmorg/readline/v4 v4.1.2
+	github.com/lmorg/readline/v4 v4.1.3
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/pelletier/go-toml v1.9.5
