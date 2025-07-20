@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"regexp"
-	"runtime"
 	godebug "runtime/debug"
 	"strings"
 	"sync/atomic"
@@ -26,7 +24,6 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/cd"
-	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/crash"
 	"github.com/lmorg/murex/utils/spellcheck"
@@ -68,11 +65,11 @@ func Start() {
 
 	lang.ShellProcess.StartTime = time.Now()
 
-	// disable this for Darwin (macOS) because the messages it pops up might
+	/*// disable this for Darwin (macOS) because the messages it pops up might
 	// spook many macOS users.
 	if runtime.GOOS != "darwin" {
 		go cache.GatherFileCompletions(".")
-	}
+	}*/
 
 	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
 	if err != nil {
@@ -302,53 +299,6 @@ func showPrompt() {
 			return
 		}
 	}
-}
-
-var rxMacroVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
-
-func getMacroVars(s string) ([]string, []string, error) {
-	var err error
-
-	if !rxMacroVar.MatchString(s) {
-		return nil, nil, nil
-	}
-
-	assigned := make(map[string]bool)
-
-	match := rxMacroVar.FindAllString(s, -1)
-	vars := make([]string, len(match))
-	for i := range match {
-		if assigned[match[i]] {
-			continue
-		}
-
-		for {
-			rl := readline.NewInstance()
-			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
-				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
-			)))
-			rl.History = new(readline.NullHistory)
-			vars[i], err = rl.Readline()
-			if err != nil {
-				return nil, nil, err
-			}
-			if vars[i] != "" {
-				break
-			}
-			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
-		}
-		assigned[match[i]] = true
-	}
-
-	return match, vars, nil
-}
-
-func expandMacroVars(s string, match, vars []string) string {
-	for i := range match {
-		s = strings.ReplaceAll(s, match[i], vars[i])
-	}
-
-	return s
 }
 
 func getSyntaxHighlighting() {
