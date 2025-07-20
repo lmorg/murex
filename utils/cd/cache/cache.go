@@ -2,6 +2,7 @@ package cache
 
 import (
 	"context"
+	"io/fs"
 	"os"
 	"path"
 	"path/filepath"
@@ -16,7 +17,7 @@ import (
 
 type cachedWalkT struct {
 	Path     string
-	FileInfo os.FileInfo
+	FileInfo fs.DirEntry
 }
 
 var (
@@ -98,7 +99,7 @@ func GatherFileCompletions(pwd string) {
 		//m  sync.Mutex
 	)
 
-	walker := func(walkedPath string, info os.FileInfo, err error) error {
+	walker := func(walkedPath string, d fs.DirEntry, err error) error {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
@@ -120,13 +121,13 @@ func GatherFileCompletions(pwd string) {
 		}*/
 
 		//m.Lock()
-		cw = append(cw, cachedWalkT{walkedPath, info})
+		cw = append(cw, cachedWalkT{walkedPath, d})
 		//m.Unlock()
 
 		return nil
 	}
 
-	filepath.Walk(pwd, walker)
+	filepath.WalkDir(pwd, walker)
 
 	mutex.Lock()
 	cachedWalk[pwd] = cw
@@ -134,7 +135,7 @@ func GatherFileCompletions(pwd string) {
 	mutex.Unlock()
 }
 
-func WalkCompletions(pwd string, walker filepath.WalkFunc) bool {
+func WalkCompletions(pwd string, walker fs.WalkDirFunc) bool {
 	pwd = cleanPath(pwd)
 
 	if len(pwd) == 0 {
@@ -162,7 +163,7 @@ func WalkCompletions(pwd string, walker filepath.WalkFunc) bool {
 	return true
 }
 
-func DumpCompletions() interface{} {
+func DumpCompletions() any {
 	type dumpT struct {
 		Walk     []cachedWalkT
 		LastScan string
