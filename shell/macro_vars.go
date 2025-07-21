@@ -40,6 +40,7 @@ func getMacroVars(cmdline string) ([]string, []string, error) {
 				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
 			)))
 			rl.History = history[match[i]]
+			rl.TabCompleter = history[match[i]].TabCompleter
 			vars[i], err = rl.Readline()
 			if err != nil {
 				return nil, nil, err
@@ -80,4 +81,18 @@ func (h macroVarHistory) GetLine(i int) (string, error) {
 	default:
 		return (h)[i], nil
 	}
+}
+
+func (h macroVarHistory) TabCompleter(r []rune, _ int, _ readline.DelayedTabContext) *readline.TabCompleterReturnT {
+	tcr := &readline.TabCompleterReturnT{
+		//Prefix: string(r),
+	}
+
+	for i := range h {
+		if strings.HasPrefix(h[i], tcr.Prefix) {
+			tcr.Suggestions = append(tcr.Suggestions, h[i][len(r):])
+		}
+	}
+
+	return tcr
 }
