@@ -52,7 +52,8 @@ func TestAutocomplete(t *testing.T) {
         "AutoBranch": false,
         "ExecCmdline": true,
         "CacheTTL": 5,
-        "IgnorePrefix": false
+        "IgnorePrefix": false,
+        "AllowSubString": false
     }
 ]
 `

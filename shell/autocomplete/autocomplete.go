@@ -72,7 +72,7 @@ func (act *AutoCompleteT) disposable() *AutoCompleteT {
 func MatchFunction(partial string, act *AutoCompleteT) {
 	switch {
 	case pathIsLocal(partial):
-		act.Items = matchLocal(partial, true)
+		act.Items = matchLocal(partial)
 		act.Items = append(act.Items, matchDirs(partial, act)...)
 	default:
 		exes := allExecutables(true)

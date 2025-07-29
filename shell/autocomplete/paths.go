@@ -125,7 +125,7 @@ func partialPath(s string) (path, partial string) {
 	return
 }
 
-func matchLocal(s string, includeColon bool) (items []string) {
+func matchLocal(s string) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
 	listExes(path, exes)

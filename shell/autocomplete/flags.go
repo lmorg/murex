@@ -47,6 +47,7 @@ type Flags struct {
 	ExecCmdline      bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	CacheTTL         int                // Length of time in seconds to cache autocomplete (defaults to 0)
 	IgnorePrefix     bool               // Doesn't filter Dynamic and DynamicDesc results by prefix & allows the prefix to get overwritten in readline
+	AllowSubString   bool
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
