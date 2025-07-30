@@ -183,7 +183,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 				default:
 					switch {
-					case f.AllowSubString && strings.Contains(s, partial):
+					case f.AllowSubstring && strings.Contains(s, partial):
 						fallthrough
 					case f.IgnorePrefix:
 						items = append(items, "\x02"+s)
@@ -245,7 +245,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				value = strings.ReplaceAll(value.(string), "\n", " ")
 
 				switch {
-				case f.AllowSubString && strings.Contains(readmap.Key, partial):
+				case f.AllowSubstring && strings.Contains(readmap.Key, partial):
 					fallthrough
 
 				case f.IgnorePrefix:
