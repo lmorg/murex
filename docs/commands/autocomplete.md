@@ -38,6 +38,7 @@ The directives are listed below.
 - [Alias](#alias)
 - [AllowAny](#allowany)
 - [AllowMultiple](#allowmultiple)
+- [AllowSubstring](#allowsubstring)
 - [AnyValue](#anyvalue)
 - [AutoBranch](#autobranch)
 - [CacheTTL](#cachettl)
@@ -105,6 +106,19 @@ autocomplete set example %[{
     AllowMultiple: true
 }]
 ```
+
+### AllowSubstring
+
+> Value: `bool` (default: `false`)
+
+Typically autocomplete will match based on prefix unless `ctrl`+`f` is pressed.
+
+Setting **AllowSubstring** to `true` to allows flags to be matched based on any
+occurrence of the partial term within the entire completion suggestion.
+
+For example, with **AllowSubstring** enabled, if you typed `da[tab]` then
+autocomplete might show suggestions for `Monday`, `Tuesday` (etc) because they
+contain the partial term `da`.
 
 ### AnyValue
 
