@@ -110,9 +110,11 @@
     ```
   Flags:
     --jmap: >-
-      Write a `json` map to stdout instead of an array
+      Write a `json` map to stdout instead of an array. Cannot be used with `--step` nor `--parallel`
+    --parallel: >-
+      `<int>` Runs _n_ functions in parallel. Ensures there is always _n_ functions running in the pipeline until all iterations are complete. Thus `--parallel` does not group; use `--step` if you need grouping. Cannot be used with `--jmap` nor `--step`
     --step: >-
-      `<int>` Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
+      `<int>` Iterates in steps. Value passed to block is an array of items in the step range. However step does not run functions in parallel; use `--parallel` if you need concurrent execution. Cannot be used with `--jmap` nor `--parallel`
 
   Detail: |-
     {{ include "gen/includes/meta-values.inc.md" }}
