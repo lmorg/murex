@@ -2,6 +2,7 @@ package structs
 
 import (
 	"sync"
+	"sync/atomic"
 
 	"github.com/lmorg/murex/lang"
 )
@@ -24,17 +25,17 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 	}
 
 	var (
-		iteration = -1
+		iteration = int64(-1)
 		wg        = new(sync.WaitGroup)
 		wait      = make(chan struct{}, parallel)
 	)
 
 	err = p.Stdin.ReadArrayWithType(p.Context, func(varValue any, dataType string) {
-		iteration++
+		i := atomic.AddInt64(&iteration, 1)
 		wait <- struct{}{}
 		wg.Add(1)
 		go func() {
-			forEachInnerLoop(p, block, varName, varValue, dataType, iteration)
+			forEachInnerLoop(p, block, varName, varValue, dataType, int(i))
 			wg.Done()
 			<-wait
 		}()
