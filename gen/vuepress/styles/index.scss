@@ -157,7 +157,7 @@ html[data-theme="dark"] ::marker {
 }
 
 html[data-theme="dark"] code {
-    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
 }
 
 ::marker {
