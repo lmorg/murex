@@ -86,10 +86,6 @@ figcaption code {
     color: #202020;
 }
 
-[data-theme=dark] code {
-    background-color:  #202020; 
-}
-
 .centre-image {
     max-width: 100%;
     max-height: 600px;
@@ -156,9 +152,12 @@ blockquote {
     }*/
 }
 
-
 html[data-theme="dark"] ::marker {
     color: #666666;
+}
+
+html[data-theme="dark"] code {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
 }
 
 ::marker {
