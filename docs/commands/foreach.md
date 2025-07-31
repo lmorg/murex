@@ -112,23 +112,11 @@ Iteration 4: [
 ## Flags
 
 * `--jmap`
-    Write a `json` map to stdout instead of an array.
-
-`--jmap` cannot be used with `--step` nor `--parallel`.
+    Write a `json` map to stdout instead of an array. `--jmap` cannot be used with `--step` nor `--parallel`
 * `--parallel`
-    `<int>` Runs _n_ functions in parallel.
-
-Ensures there is always _n_ functions running in the pipeline until all iterations are complete. Thus `--parallel` does not group; use `--step` if you need grouping.
-
-If you wish all iterations to run concurrently then _n_ should be set to `0` or a negative number.
-
-`--parallel` cannot be used with `--jmap` nor `--step`.
+    `<int>` Runs _n_ functions in parallel. Ensures there is always _n_ functions running in the pipeline until all iterations are complete. Thus `--parallel` does not group; use `--step` if you need grouping. If you wish all iterations to run concurrently then _n_ should be set to `0` or a negative number. `--parallel` cannot be used with `--jmap` nor `--step`
 * `--step`
-    `<int>` Iterates in steps.
-
-Value passed to block is an array of items in the step range. However step does not run functions in parallel; use `--parallel` if you need concurrent execution.
-
-`--step` be used with `--jmap` nor `--parallel`.
+    `<int>` Iterates in steps. Value passed to block is an array of items in the step range. However step does not run functions in parallel; use `--parallel` if you need concurrent execution. `--step` cannot be used with `--jmap` nor `--parallel`
 
 ## Detail
 
