@@ -136,26 +136,12 @@ blockquote {
       color: p.$code-color;
       background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
-    /*.vp-code-tab-nav {
-      padding-bottom:20px
-    }
-    .vp-code-tab .line-numbers-mode {
-      border-width:0px;
-      padding-top:1px;
-      padding-bottom:1px
-    }
-    // The following is needed for some code block styles to fix vertical alignment
-    /*pre,
-    code {
-      padding-top:3px!important;
-      padding-bottom:3px!important;
-    }*/
 }
 
 // Make inlined `fixed width` text less distracting in dark mode
 html[data-theme="dark"] code {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
-    color: #c0c0c0;
+    color: #d0d5d0;
 }
 
 // But lets not apply the above values to code blocks

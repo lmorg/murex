@@ -7,8 +7,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/json"
 	"github.com/mattn/go-runewidth"
 )
 
@@ -74,18 +72,13 @@ func getFlagValueInt(flags map[string]string, flagName string) (int, error) {
 	return v.(int), nil
 }
 
-func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) error {
+func forEachInitializer(p *lang.Process, additional []string) (block []rune, varName string, err error) {
 	dataType := p.Stdin.GetDataType()
 	if dataType == types.Json {
 		p.Stdout.SetDataType(types.JsonLines)
 	} else {
 		p.Stdout.SetDataType(dataType)
 	}
-
-	var (
-		block   []rune
-		varName string
-	)
 
 	switch len(additional) {
 	case 1:
@@ -97,10 +90,19 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 		block = []rune(additional[1])
 
 	default:
-		return errors.New("invalid number of parameters")
+		return nil, "", errors.New("invalid number of parameters")
 	}
 	if !types.IsBlockRune(block) {
-		return fmt.Errorf("invalid code block: `%s`", runewidth.Truncate(string(block), 70, "…"))
+		return nil, "", fmt.Errorf("invalid code block: `%s`", runewidth.Truncate(string(block), 70, "…"))
+	}
+
+	return
+}
+
+func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) error {
+	block, varName, err := forEachInitializer(p, additional)
+	if err != nil {
+		return err
 	}
 
 	steps, err := getFlagValueInt(flags, foreachStep)
@@ -209,80 +211,4 @@ func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue an
 		p.Done()
 		return
 	}
-}
-
-func cmdForEachJmap(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Json)
-
-	varName, err := p.Parameters.String(1)
-	if err != nil {
-		return err
-	}
-
-	blockKey, err := p.Parameters.Block(2)
-	if err != nil {
-		return err
-	}
-
-	blockVal, err := p.Parameters.Block(3)
-	if err != nil {
-		return err
-	}
-
-	var (
-		m         = make(map[string]string)
-		iteration int
-	)
-
-	err = p.Stdin.ReadArrayWithType(p.Context, func(v any, dt string) {
-		var b []byte
-		b, err = convertToByte(v)
-		if err != nil {
-			p.Done()
-			return
-		}
-
-		if len(b) == 0 || p.HasCancelled() {
-			return
-		}
-
-		if varName != "!" {
-			p.Variables.Set(p, varName, v, dt)
-		}
-
-		iteration++
-		if !setMetaValues(p, iteration) {
-			return
-		}
-
-		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
-		forkKey.Execute(blockKey)
-		bKey, err := forkKey.Stdout.ReadAll()
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-			p.Kill()
-		}
-
-		forkVal := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
-		forkVal.Execute(blockVal)
-		bVal, err := forkVal.Stdout.ReadAll()
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-			p.Kill()
-		}
-
-		m[string(utils.CrLfTrim(bKey))] = string(utils.CrLfTrim(bVal))
-	})
-
-	if err != nil {
-		return err
-	}
-
-	b, err := json.Marshal(m, p.Stdout.IsTTY())
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
-	return err
 }
