@@ -95,7 +95,7 @@ figcaption code {
 }
 
 th {
-    background-color: rgba(red(p.$theme-color), green(p.$theme-color), blue(p.$theme-color), 20%);
+    background-color: rgba(color.red(p.$theme-color), color.green(p.$theme-color), color.blue(p.$theme-color), 20%);
 }
 
 // custom styles
@@ -106,7 +106,7 @@ blockquote {
 }
 
 /*code:not(a) {
-    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
+    background-color: rgba(color.red(p.$code-color), color.green(p.$code-color), color.blue(p.$code-color), 5%) !important;
     color: p.$code-color;
 }*/
   
@@ -122,7 +122,7 @@ blockquote {
       border-left-width:5px;
       padding-left:10px;
       padding-right: 10px;
-      background-color: rgba(red(p.$quote-color), green(p.$quote-color), blue(p.$quote-color), 5%) !important;
+      background-color: rgba(color.red(p.$quote-color), color.green(p.$quote-color), color.blue(p.$quote-color), 5%) !important;
     }
     div[class*=language-].line-numbers-mode .line-number {
       line-height:unset!important
@@ -134,7 +134,7 @@ blockquote {
       border-radius: 0px!important;
       border-color: p.$code-color;
       color: p.$code-color;
-      background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
+      background-color: rgba(color.red(p.$code-color), color.green(p.$code-color), color.blue(p.$code-color), 5%) !important;
     }
     /*.vp-code-tab-nav {
       padding-bottom:20px
@@ -154,13 +154,13 @@ blockquote {
 
 // Make inlined `fixed width` text less distracting in dark mode
 html[data-theme="dark"] code {
-    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
-    color: #f0fff0;
+    background-color: rgba(color.red(p.$code-color), color.green(p.$code-color), color.blue(p.$code-color), 10%) !important;
+    color: #c0c0c0;
 }
 
 // But lets not apply the above values to code blocks
 html[data-theme="dark"] pre.language-text code {
-    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 0%) !important;
+    background-color: rgba(color.red(p.$code-color), color.green(p.$code-color), color.blue(p.$code-color), 0%) !important;
 }
 
 html[data-theme="dark"] ::marker {
