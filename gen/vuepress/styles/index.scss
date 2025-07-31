@@ -152,13 +152,13 @@ blockquote {
     }*/
 }
 
-// Make inlined `fixed width` text less distracting in dark mode
-html[data-theme="dark"] code {
-    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
+// Make inlined `fixed width` text less distracting
+code {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 15%) !important;
 }
 
 // But lets not apply the above values to code blocks
-html[data-theme="dark"] pre.language-text code {
+pre.language-text code {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 0%) !important;
 }
 
