@@ -35,7 +35,7 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 		wait <- struct{}{}
 		wg.Add(1)
 		go func() {
-			forEachInnerLoop(p, block, varName, varValue, dataType, int(i))
+			forEachParallelInnerLoop(p, block, varName, varValue, dataType, int(i))
 			wg.Done()
 			<-wait
 		}()
@@ -47,4 +47,47 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 
 	wg.Wait()
 	return nil
+}
+
+func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, varValue any, dataType string, iteration int) {
+	var b []byte
+	b, err := convertToByte(varValue)
+	if err != nil {
+		p.Done()
+		return
+	}
+
+	if len(b) == 0 || p.HasCancelled() {
+		return
+	}
+
+	if varName != "!" {
+		err = p.Variables.Set(p, varName, varValue, dataType)
+		if err != nil {
+			p.Stderr.Writeln([]byte("error: " + err.Error()))
+			p.Done()
+			return
+		}
+	}
+
+	if !setMetaValues(p, iteration) {
+		return
+	}
+
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork.Name.Set("foreach--parallel")
+	fork.FileRef = p.FileRef
+	fork.Stdin.SetDataType(dataType)
+	_, err = fork.Stdin.Writeln(b)
+	if err != nil {
+		p.Stderr.Writeln([]byte("error: " + err.Error()))
+		p.Done()
+		return
+	}
+	_, err = fork.Execute(block)
+	if err != nil {
+		p.Stderr.Writeln([]byte("error: " + err.Error()))
+		p.Done()
+		return
+	}
 }
