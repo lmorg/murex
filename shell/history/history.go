@@ -106,6 +106,6 @@ func (h *History) Len() int {
 }
 
 // Dump returns the entire history file
-func (h *History) Dump() interface{} {
+func (h *History) Dump() any {
 	return h.list
 }

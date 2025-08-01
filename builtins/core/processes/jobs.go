@@ -21,7 +21,7 @@ func cmdJobs(p *lang.Process) error {
 		return err
 	}
 
-	b, err := lang.MarshalData(p, dtLine, []interface{}{
+	b, err := lang.MarshalData(p, dtLine, []any{
 		"JobID",
 		"FunctionID",
 		"State",
@@ -38,7 +38,7 @@ func cmdJobs(p *lang.Process) error {
 	}
 
 	for _, job := range lang.Jobs.List() {
-		b, err := lang.MarshalData(p, dtLine, []interface{}{
+		b, err := lang.MarshalData(p, dtLine, []any{
 			job.JobId,
 			job.Process.Id,
 			job.Process.State.String(),

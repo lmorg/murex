@@ -20,7 +20,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 	return parse(b, cb)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

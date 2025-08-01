@@ -16,7 +16,7 @@ allowing them to be data-type agnostic.
 ### A Collection of Functions
 
 `WriteArray()` should return a `struct` that satisfies the following
-`interface{}`:
+`any`:
 
 ```go
 package stdio

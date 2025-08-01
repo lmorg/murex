@@ -6,7 +6,7 @@ import (
 	"sort"
 )
 
-func MapToTable(v []interface{}, callback func([]string) error) error {
+func MapToTable(v []any, callback func([]string) error) error {
 	if len(v) == 0 {
 		return nil
 	}

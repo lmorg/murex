@@ -6,17 +6,17 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
 	}
 
-	var jsonc []interface{}
+	var jsonc []any
 	var i int
 
 	cb := func(j []byte) {
-		var v interface{}
+		var v any
 		err = json.Unmarshal(j, &v)
 		debug.Json(string(j), v)
 		jsonc = append(jsonc, v)

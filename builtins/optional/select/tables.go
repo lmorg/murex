@@ -15,7 +15,7 @@ import (
 
 func loadTables(p *lang.Process, fromFile string, pipes, vars []string, parameters string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool, confDataType string) error {
 	var (
-		v      interface{}
+		v      any
 		dt     string
 		err    error
 		tables []string
@@ -77,7 +77,7 @@ func loadTables(p *lang.Process, fromFile string, pipes, vars []string, paramete
 	return runQuery(p, db, dt, tables, parameters, confPrintHeadings)
 }
 
-func readPipe(p *lang.Process, name string) (interface{}, error) {
+func readPipe(p *lang.Process, name string) (any, error) {
 	pipe, err := lang.GlobalPipes.Get(name)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func readPipe(p *lang.Process, name string) (interface{}, error) {
 	return v, nil
 }
 
-func readVariable(p *lang.Process, name string) (interface{}, error) {
+func readVariable(p *lang.Process, name string) (any, error) {
 	s, err := p.Variables.GetString(name)
 	if err != nil {
 		return nil, err
@@ -114,9 +114,9 @@ func readVariable(p *lang.Process, name string) (interface{}, error) {
 	return v, nil
 }
 
-func readFile(p *lang.Process, fromFile string) (interface{}, string, error) {
+func readFile(p *lang.Process, fromFile string) (any, string, error) {
 	var (
-		v   interface{}
+		v   any
 		dt  string
 		err error
 	)
@@ -157,13 +157,13 @@ func readFile(p *lang.Process, fromFile string) (interface{}, string, error) {
 	return v, dt, nil
 }
 
-func createTable(p *lang.Process, db *sql.DB, name string, v interface{}, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings bool) error {
+func createTable(p *lang.Process, db *sql.DB, name string, v any, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings bool) error {
 	debug.Log("Creating table:", name)
 	switch v := v.(type) {
 	case [][]string:
 		return createTable_SliceSliceString(p, db, name, v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
 
-	case []interface{}:
+	case []any:
 		table := make([][]string, len(v)+1)
 		i := 1
 		err := types.MapToTable(v, func(s []string) error {

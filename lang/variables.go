@@ -118,7 +118,7 @@ func NewGlobals() *Variables {
 // variable is an individual variable or global variable
 type variable struct {
 	DataType    string
-	Value       interface{}
+	Value       any
 	String      string
 	IsInterface bool
 	Modify      time.Time
@@ -129,7 +129,7 @@ type variable struct {
 // GetValue will return nil. Please check if p.Config.Get("proc", "strict-vars", "bool")
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
-func (v *Variables) GetValue(path string) (interface{}, error) {
+func (v *Variables) GetValue(path string) (any, error) {
 	if path == "." {
 		return v.getValue(_VAR_DOT)
 	}
@@ -155,7 +155,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 	}
 }
 
-func (v *Variables) getValue(name string) (interface{}, error) {
+func (v *Variables) getValue(name string) (any, error) {
 	switch name {
 	case _VAR_ENV:
 		return getEnvVarValue(v), nil
@@ -247,7 +247,7 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	return nil, nil
 }
 
-func (v *Variables) getValueValue(name string) interface{} {
+func (v *Variables) getValueValue(name string) any {
 	v.mutex.Lock()
 	variable := v.vars[name]
 	if variable == nil {
@@ -268,7 +268,7 @@ func (v *Variables) getValueValue(name string) interface{} {
 	return value
 }
 
-func (v *Variables) getEnvValueValue(name, str string) (interface{}, error) {
+func (v *Variables) getEnvValueValue(name, str string) (any, error) {
 	dt := getEnvVarDataType(name)
 	if dt == types.String {
 		return str, nil
@@ -582,7 +582,7 @@ func getEnvVarDataType(name string) string {
 	return types.String
 }
 
-func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
+func (v *Variables) Set(p *Process, path string, value any, dataType string) error {
 	if strings.Contains(path, "[") {
 		return errVarCannotUpdateIndexOrElement(path)
 	}
@@ -621,7 +621,7 @@ func (v *Variables) getNestedDataType(name string, dataType string) string {
 }
 
 // Set writes a variable
-func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
+func (v *Variables) set(p *Process, name string, value any, dataType string, changePath []string) error {
 	switch name {
 	case _VAR_SELF, _VAR_ARGV, _VAR_ARGS, _VAR_PARAMS,
 		_VAR_MUREX_EXE, _VAR_MUREX_ARGS, _VAR_MUREX_ARGV,
@@ -695,7 +695,7 @@ notReserved:
 		return nil
 	}
 
-	s, iface, err := convertDataType(p, value, dataType, &name)
+	convStr, convVal, err := convertDataType(p, value, dataType, &name)
 	if err != nil {
 		return err
 	}
@@ -703,8 +703,8 @@ notReserved:
 	v.mutex.Lock()
 
 	v.vars[name] = &variable{
-		Value:    iface,
-		String:   s,
+		Value:    convVal,
+		String:   convStr,
 		DataType: dataType,
 		Modify:   time.Now(),
 		FileRef:  fileRef,
@@ -715,13 +715,13 @@ notReserved:
 	return nil
 }
 
-func setGlobalVar(v interface{}, changePath []string, dataType string) (err error) {
+func setGlobalVar(v any, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
 		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$%s.example`", _VAR_GLOBAL, _VAR_GLOBAL)
 	}
 
 	switch t := v.(type) {
-	case map[string]interface{}:
+	case map[string]any:
 		return GlobalVariables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
 
 	default:
@@ -729,15 +729,15 @@ func setGlobalVar(v interface{}, changePath []string, dataType string) (err erro
 	}
 }
 
-func setEnvVar(v interface{}, changePath []string) (err error) {
-	var value interface{}
+func setEnvVar(v any, changePath []string) (err error) {
+	var value any
 
 	if len(changePath) == 0 {
 		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$%s.EXAMPLE`", _VAR_ENV, _VAR_ENV)
 	}
 
 	switch t := v.(type) {
-	case map[string]interface{}:
+	case map[string]any:
 		value, err = types.ConvertGoType(t[changePath[0]], types.String)
 		if err != nil {
 			return err
@@ -750,46 +750,46 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	return os.Setenv(changePath[0], value.(string))
 }
 
-func convertDataType(p *Process, value interface{}, dataType string, name *string) (string, interface{}, error) {
+func convertDataType(p *Process, value any, dataType string, name *string) (string, any, error) {
 	var (
-		s     string
-		iface interface{}
-		err   error
+		convStr string
+		convVal any
+		err     error
 	)
 
-	switch v := value.(type) {
+	switch t := value.(type) {
 	case float64, int, bool, nil:
-		s, err = varConvertPrimitive(value, name)
-		iface = value
+		convStr, err = varConvertPrimitive(value, name)
+		convVal = value
 	case string:
-		s = v
+		convStr = t
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString(p, []byte(v), dataType, name)
+			convVal, err = varConvertString(p, []byte(t), dataType, name)
 		} else {
-			iface = s
+			convVal = convStr
 		}
 	case []byte:
-		s = string(v)
+		convStr = string(t)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString(p, v, dataType, name)
+			convVal, err = varConvertString(p, t, dataType, name)
 		} else {
-			iface = s
+			convVal = convStr
 		}
 	case []rune:
-		s = string(v)
+		convStr = string(t)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString(p, []byte(string(v)), dataType, name)
+			convVal, err = varConvertString(p, []byte(string(t)), dataType, name)
 		} else {
-			iface = s
+			convVal = convStr
 		}
 	default:
-		s, err = varConvertInterface(p, v, dataType, name)
-		iface = value
+		convStr, err = varConvertInterface(p, t, dataType, name)
+		convVal = value
 	}
-	return s, iface, err
+	return convStr, convVal, err
 }
 
-func varConvertPrimitive(value interface{}, name *string) (string, error) {
+func varConvertPrimitive(value any, name *string) (string, error) {
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
 		return "", errVarCannotStoreVariable(*name, err)
@@ -797,7 +797,7 @@ func varConvertPrimitive(value interface{}, name *string) (string, error) {
 	return s.(string), nil
 }
 
-func varConvertString(parent *Process, value []byte, dataType string, name *string) (interface{}, error) {
+func varConvertString(parent *Process, value []byte, dataType string, name *string) (any, error) {
 	UnmarshalData := _unmarshallers[dataType]
 
 	// no unmarshaller exists so lets just return the bare string
@@ -819,7 +819,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }
 
-/*func varConvertString(parent *Process, value []byte, dataType string, name *string) (interface{}, error) {
+/*func varConvertString(parent *Process, value []byte, dataType string, name *string) (any, error) {
 	// no unmarshaller exists so lets just return the bare string
 	if _unmarshallers[dataType] == nil {
 		return string(value), nil
@@ -832,7 +832,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return v, nil
 }*/
 
-/*func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
+/*func varConvertInterface(p *Process, value any, dataType string, name *string) (string, error) {
 	// no marshaller exists so lets just return the bare string
 	if _marshallers[dataType] == nil {
 		s, err := types.ConvertGoType(value, types.String)
@@ -853,7 +853,7 @@ func varConvertString(parent *Process, value []byte, dataType string, name *stri
 	return s.(string), nil
 }*/
 
-func varConvertInterface(p *Process, value interface{}, dataType string, name *string) (string, error) {
+func varConvertInterface(p *Process, value any, dataType string, name *string) (string, error) {
 	MarshalData := _marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
@@ -891,7 +891,7 @@ func (v *Variables) Unset(name string) error {
 }
 
 // Dump returns a map of the structure of all variables in scope
-func (v *Variables) Dump() interface{} {
+func (v *Variables) Dump() any {
 	v.mutex.Lock()
 	vars := v.vars // TODO: This isn't thread safe
 	v.mutex.Unlock()
@@ -901,8 +901,8 @@ func (v *Variables) Dump() interface{} {
 
 // DumpVariables returns a map of the variables and values for all variables
 // in scope.
-func DumpVariables(p *Process) map[string]interface{} {
-	m := make(map[string]interface{})
+func DumpVariables(p *Process) map[string]any {
+	m := make(map[string]any)
 
 	envvars.All(m)
 

@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func iface2Str(a []interface{}) []string {
+func iface2Str(a []any) []string {
 	s := make([]string, len(a))
 	for i := range a {
 		s[i] = fmt.Sprint(a[i])
@@ -18,12 +18,12 @@ func iface2Str(a []interface{}) []string {
 	return s
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	var (
-		jStruct  []interface{}
-		v        interface{}
+		jStruct  []any
+		v        any
 		jTable   [][]string
-		row      []interface{}
+		row      []any
 		b        []byte
 		err      error
 		nextEOF  bool
@@ -110,12 +110,12 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	return jTable, err
 }
 
-func unmarshalNoCrLF(b []byte) (interface{}, error) {
+func unmarshalNoCrLF(b []byte) (any, error) {
 	var (
 		start   int
-		v       interface{}
+		v       any
 		err     error
-		jStruct []interface{}
+		jStruct []any
 		quoted  bool
 		escaped bool
 	)

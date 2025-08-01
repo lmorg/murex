@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, interface{}, string, primitives.FunctionT, error) {
+func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, any, string, primitives.FunctionT, error) {
 	runes, v, mxDt, err := tree.parseVarScalar(exec, execScalars, varAsValue)
 
 	if exec {
@@ -35,7 +35,7 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, interfa
 	return runes, v, mxDt, nil, err
 }
 
-func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, any, string, error) {
 	if tree.nextChar() == '(' {
 		tree.charPos++
 		return tree.parseVarParenthesis(execScalars, strOrVal)
@@ -100,7 +100,7 @@ parseBareword:
 	return r, nil, "", nil
 }
 
-func (tree *ParserT) parseVarParenthesis(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarParenthesis(exec bool, strOrVal varFormatting) ([]rune, any, string, error) {
 	start := tree.charPos
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -130,7 +130,7 @@ endParenthesis:
 	return value, v, dt, nil
 }
 
-func (tree *ParserT) parseVarIndexElement(exec bool, sigil rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarIndexElement(exec bool, sigil rune, varName []rune, strOrVal varFormatting) ([]rune, any, string, error) {
 	if tree.nextChar() == '{' {
 		//return tree.parseLambdaScala(exec, '$', varName, strOrVal)
 		//return tree.parseLambdaStatement(exec, '$')
@@ -206,7 +206,7 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
-func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
+func (tree *ParserT) parseVarArray(exec bool) ([]rune, any, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
 	}
@@ -230,7 +230,7 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	return value, v, err
 }
 
-func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
+func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, any, error) {
 	if tree.nextChar() == '{' {
 		if exec {
 			r, v, _, err := tree.parseLambdaExecTrue(varName, '@', "") // TODO: test me

@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/debug"
 )
 
-func mergeArray(v interface{}, new *interface{}) (ret interface{}, err error) {
+func mergeArray(v any, new *any) (ret any, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
@@ -29,8 +29,8 @@ func mergeArray(v interface{}, new *interface{}) (ret interface{}, err error) {
 	case []bool:
 		ret = append(v, (*new).([]bool)...)
 
-	case []interface{}:
-		ret = append(v, (*new).([]interface{})...)
+	case []any:
+		ret = append(v, (*new).([]any)...)
 
 	default:
 		return v, fmt.Errorf("path either points to an object that's not an array or no condition has been made for %T", v)
@@ -39,7 +39,7 @@ func mergeArray(v interface{}, new *interface{}) (ret interface{}, err error) {
 	return
 }
 
-func mergeMap(v interface{}, new *interface{}) (ret interface{}, err error) {
+func mergeMap(v any, new *any) (ret any, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
@@ -52,94 +52,94 @@ func mergeMap(v interface{}, new *interface{}) (ret interface{}, err error) {
 
 	//interface
 
-	case map[string]interface{}:
+	case map[string]any:
 		ret = v
-		for key, val := range (*new).(map[string]interface{}) {
+		for key, val := range (*new).(map[string]any) {
 			switch t := val.(type) {
 			case string, int, float64, bool, nil:
-				ret.(map[string]interface{})[key] = t
+				ret.(map[string]any)[key] = t
 			default:
-				mapVal, ok := ret.(map[string]interface{})[key]
+				mapVal, ok := ret.(map[string]any)[key]
 				if !ok {
-					ret.(map[string]interface{})[key] = t
+					ret.(map[string]any)[key] = t
 					return
 				}
 				oldKind := reflect.TypeOf(mapVal).Kind()
 				newKind := reflect.TypeOf(val).Kind()
 				switch {
 				case oldKind != newKind:
-					ret.(map[string]interface{})[key] = t
+					ret.(map[string]any)[key] = t
 				case newKind == reflect.Slice:
-					ret.(map[string]interface{})[key], err = mergeArray(ret.(map[string]interface{})[key], &val)
+					ret.(map[string]any)[key], err = mergeArray(ret.(map[string]any)[key], &val)
 				case newKind == reflect.Map:
-					ret.(map[string]interface{})[key], err = mergeMap(ret.(map[string]interface{})[key], &val)
+					ret.(map[string]any)[key], err = mergeMap(ret.(map[string]any)[key], &val)
 				default:
 					// possibly not an object so lets just overwrite...
-					ret.(map[string]interface{})[key] = t
+					ret.(map[string]any)[key] = t
 				}
 			}
 		}
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		ret = v
-		for key, val := range (*new).(map[interface{}]interface{}) {
-			ret.(map[interface{}]interface{})[key] = val
+		for key, val := range (*new).(map[any]any) {
+			ret.(map[any]any)[key] = val
 		}
 
 		// string
 
 	case map[string]string:
 		ret = v
-		for key, val := range (*new).(map[string]interface{}) {
-			ret.(map[string]interface{})[key] = val
+		for key, val := range (*new).(map[string]any) {
+			ret.(map[string]any)[key] = val
 		}
 
-	case map[interface{}]string:
+	case map[any]string:
 		ret = v
-		for key, val := range (*new).(map[interface{}]interface{}) {
-			ret.(map[interface{}]interface{})[key] = val
+		for key, val := range (*new).(map[any]any) {
+			ret.(map[any]any)[key] = val
 		}
 
 		// integer
 
 	case map[string]int:
 		ret = v
-		for key, val := range (*new).(map[string]interface{}) {
-			ret.(map[string]interface{})[key] = val
+		for key, val := range (*new).(map[string]any) {
+			ret.(map[string]any)[key] = val
 		}
 
-	case map[interface{}]int:
+	case map[any]int:
 		ret = v
-		for key, val := range (*new).(map[interface{}]interface{}) {
-			ret.(map[interface{}]interface{})[key] = val
+		for key, val := range (*new).(map[any]any) {
+			ret.(map[any]any)[key] = val
 		}
 
 		// float
 
 	case map[string]float64:
 		ret = v
-		for key, val := range (*new).(map[string]interface{}) {
-			ret.(map[string]interface{})[key] = val
+		for key, val := range (*new).(map[string]any) {
+			ret.(map[string]any)[key] = val
 		}
 
-	case map[interface{}]float64:
+	case map[any]float64:
 		ret = v
-		for key, val := range (*new).(map[interface{}]interface{}) {
-			ret.(map[interface{}]interface{})[key] = val
+		for key, val := range (*new).(map[any]any) {
+			ret.(map[any]any)[key] = val
 		}
 
 		// bool
 
 	case map[string]bool:
 		ret = v
-		for key, val := range (*new).(map[string]interface{}) {
-			ret.(map[string]interface{})[key] = val
+		for key, val := range (*new).(map[string]any) {
+			ret.(map[string]any)[key] = val
 		}
 
-	case map[interface{}]bool:
+	case map[any]bool:
 		ret = v
-		for key, val := range (*new).(map[interface{}]interface{}) {
-			ret.(map[interface{}]interface{})[key] = val
+		for key, val := range (*new).(map[any]any) {
+			ret.(map[any]any)[key] = val
 		}
 
 	default:

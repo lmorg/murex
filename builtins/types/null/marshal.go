@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
+func marshal(_ *lang.Process, v any) ([]byte, error) {
 	i, err := types.ConvertGoType(v, types.Null)
 	if err != nil {
 		return types.FalseByte, err
@@ -15,7 +15,7 @@ func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
 	return []byte(s.(string)), err
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return false, err

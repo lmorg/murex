@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-func inlineJson(v interface{}) string {
+func inlineJson(v any) string {
 	b, _ := json.Marshal(v)
 	return string(b)
 }

@@ -36,9 +36,9 @@ type ParserT struct {
 	expression    []rune
 	subExp        bool
 	p             *lang.Process
-	_strictTypes  interface{}
-	_strictArrays interface{}
-	_expandGlob   interface{}
+	_strictTypes  any
+	_strictArrays any
+	_expandGlob   any
 }
 
 // prevChar returns the current character, performing bounds checks in the

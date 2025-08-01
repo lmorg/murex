@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/lists"
 )
 
-func sumMap(v interface{}, new *interface{}) (ret interface{}, err error) {
+func sumMap(v any, new *any) (ret any, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
@@ -42,8 +42,8 @@ func sumMap(v interface{}, new *interface{}) (ret interface{}, err error) {
 
 		lists.SumFloat64(ret, newV)
 
-	case map[string]interface{}:
-		err := lists.SumInterface(ret, (*new).(map[string]interface{}))
+	case map[string]any:
+		err := lists.SumInterface(ret, (*new).(map[string]any))
 		return ret, err
 
 	default:

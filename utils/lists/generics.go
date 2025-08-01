@@ -6,8 +6,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// GenericToString converts []interface to []string
-func GenericToString(list interface{}) ([]string, error) {
+// GenericToString converts []any to []string
+func GenericToString(list any) ([]string, error) {
 	switch t := list.(type) {
 	case []string:
 		return t, nil

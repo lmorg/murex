@@ -59,7 +59,7 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 
 	b, ioErr := fork.Stdout.ReadAll()
 	if fork.Stdout.GetDataType() == types.Json {
-		var v interface{}
+		var v any
 		err = json.Unmarshal(b, &v)
 		if err != nil {
 			goto output

@@ -20,7 +20,7 @@ const (
 )
 
 // ConvertGoType converts a Go lang variable into a murex variable
-func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
+func ConvertGoType(v any, dataType string) (any, error) {
 	switch t := v.(type) {
 	case nil:
 		return goNilRecast(dataType)
@@ -48,7 +48,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	}
 }
 
-func goNilRecast(dataType string) (interface{}, error) {
+func goNilRecast(dataType string) (any, error) {
 	switch dataType {
 	case Integer:
 		return 0, nil
@@ -67,7 +67,7 @@ func goNilRecast(dataType string) (interface{}, error) {
 	}
 }
 
-func goIntegerRecast(v int, dataType string) (interface{}, error) {
+func goIntegerRecast(v int, dataType string) (any, error) {
 	switch dataType {
 	case Generic:
 		return v, nil
@@ -95,7 +95,7 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 	}
 }
 
-func goFloatRecast(v float64, dataType string) (interface{}, error) {
+func goFloatRecast(v float64, dataType string) (any, error) {
 	switch dataType {
 	case Generic:
 		return v, nil
@@ -123,7 +123,7 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 	}
 }
 
-func goBooleanRecast(v bool, dataType string) (interface{}, error) {
+func goBooleanRecast(v bool, dataType string) (any, error) {
 	switch dataType {
 	case Generic:
 		return v, nil
@@ -166,7 +166,7 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 	}
 }
 
-func goStringRecast(v string, dataType string) (interface{}, error) {
+func goStringRecast(v string, dataType string) (any, error) {
 	switch dataType {
 	case Generic:
 		return v, nil
@@ -215,13 +215,13 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 	}
 }
 
-func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
+func goDefaultRecast(v any, dataType string) (any, error) {
 	switch dataType {
 	case Generic:
 		switch t := v.(type) {
 		case []string:
 			return strings.Join(t, " "), nil
-		case []interface{}:
+		case []any:
 			a := make([]string, len(t))
 			for i := range t {
 				a[i] = fmt.Sprint(t[i])
@@ -258,7 +258,7 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 		switch t := v.(type) {
 		case []string:
 			return strings.Join(t, "\n"), nil
-		case []interface{}:
+		case []any:
 			a := make([]string, len(t))
 			for i := range t {
 				a[i] = fmt.Sprint(t[i])

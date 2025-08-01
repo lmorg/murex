@@ -10,11 +10,11 @@ import (
 	"github.com/lmorg/murex/utils/path"
 )
 
-func marshalPath(_ *lang.Process, v interface{}) ([]byte, error) {
+func marshalPath(_ *lang.Process, v any) ([]byte, error) {
 	return path.Marshal(v)
 }
 
-func unmarshalPath(p *lang.Process) (interface{}, error) {
+func unmarshalPath(p *lang.Process) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
@@ -23,14 +23,14 @@ func unmarshalPath(p *lang.Process) (interface{}, error) {
 	return path.Unmarshal(b)
 }
 
-func marshalPaths(_ *lang.Process, v interface{}) ([]byte, error) {
+func marshalPaths(_ *lang.Process, v any) ([]byte, error) {
 	switch t := v.(type) {
 	case string:
 		return []byte(t), nil
 	case []string:
 		s := strings.Join(t, string(pathsSeparator))
 		return []byte(s), nil
-	case []interface{}:
+	case []any:
 		a := make([]string, len(t))
 		for i := range t {
 			s, err := types.ConvertGoType(t[i], types.String)
@@ -45,14 +45,14 @@ func marshalPaths(_ *lang.Process, v interface{}) ([]byte, error) {
 	}
 }
 
-func unmarshalPaths(p *lang.Process) (interface{}, error) {
+func unmarshalPaths(p *lang.Process) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
 	}
 
 	split := bytes.Split(b, pathsSeparator)
-	a := make([]interface{}, len(split))
+	a := make([]any, len(split))
 	for i := range split {
 		a[i] = string(split[i])
 	}

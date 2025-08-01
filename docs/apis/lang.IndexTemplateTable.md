@@ -457,7 +457,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `[]string`: slice of parameters used in `[` / `![` 
 3. `chan []string`: a channel for rows (each element in the slice is a column within the row). This allows tables to be stream-able
-4. `func(interface{}) ([]byte, error)`: data type marshaller function
+4. `func(any) ([]byte, error)`: data type marshaller function
 
 ## See Also
 

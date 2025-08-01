@@ -21,8 +21,8 @@ func TestUnmarshal(t *testing.T) {
 		t.Error(err)
 	}
 
-	if v.(map[string]interface{})["Foo"] != "Bar" ||
-		v.(map[string]interface{})["Bar"] != "Foo" {
+	if v.(map[string]any)["Foo"] != "Bar" ||
+		v.(map[string]any)["Bar"] != "Foo" {
 		t.Error("JSON unmarshal failed")
 	}
 }

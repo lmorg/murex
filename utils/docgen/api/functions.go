@@ -309,7 +309,7 @@ func funcEnv(env string) any {
 	}
 
 	key, value := envvars.Split(env)
-	v := make(map[string]interface{})
+	v := make(map[string]any)
 	envvars.All(v)
 	s, _ := v[key].(string)
 	return s == value

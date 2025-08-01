@@ -52,7 +52,7 @@ func RegisterReadArray(dataType string, function func(ctx context.Context, read 
 
 // RegisterReadArrayWithType is used by types (/builtins/types) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegisterReadArrayWithType(dataType string, function func(ctx context.Context, read Io, callback func(interface{}, string)) error) {
+func RegisterReadArrayWithType(dataType string, function func(ctx context.Context, read Io, callback func(any, string)) error) {
 	if readArrayWithType[dataType] != nil {
 		panic("readArrayWithType already registered for the data type: " + dataType)
 	}

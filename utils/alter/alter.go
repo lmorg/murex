@@ -24,12 +24,12 @@ const (
 // any pull requests from other developers wishing to improve this - or other -
 // functions. I'm also open to any breaking changes those optimisations might
 // bring (at least until the project reaches version 1.0).
-func Alter(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
+func Alter(ctx context.Context, v any, path []string, new any) (any, error) {
 	return loop(ctx, v, 0, path, &new, actionAlter)
 }
 
 // Merge a data structure; like Alter but merges arrays and maps where possible
-func Merge(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
+func Merge(ctx context.Context, v any, path []string, new any) (any, error) {
 	if len(path) == 1 && path[0] == "" {
 		path = []string{}
 	}
@@ -38,7 +38,7 @@ func Merge(ctx context.Context, v interface{}, path []string, new interface{}) (
 
 // Sum a data structure; like Merge but sums values in arrays and maps where
 // duplication exists
-func Sum(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
+func Sum(ctx context.Context, v any, path []string, new any) (any, error) {
 	if len(path) == 1 && path[0] == "" {
 		path = []string{}
 	}
@@ -56,7 +56,7 @@ const (
 	errIndexGreaterThanArray     = "index greater than length of array in path element"
 )
 
-func loop(ctx context.Context, v interface{}, i int, path []string, new *interface{}, action int) (ret interface{}, err error) {
+func loop(ctx context.Context, v any, i int, path []string, new *any, action int) (ret any, err error) {
 	if !debug.Enabled {
 		defer func() {
 			r := recover()
@@ -75,7 +75,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 	switch {
 	case i < len(path):
 		switch v := v.(type) {
-		case []interface{}:
+		case []any:
 			pathI, err := strconv.Atoi(path[i])
 			if err != nil {
 				return nil, fmt.Errorf("%s '%s': %s", errExpectingAnArrayIndex, path[i], err)
@@ -211,7 +211,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 				ret = v
 			}
 
-		case map[interface{}]interface{}:
+		case map[any]any:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
 				v[path[i]] = *new
@@ -222,7 +222,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 				ret = v
 			}
 
-		case map[string]interface{}:
+		case map[string]any:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
 				v[path[i]] = *new
@@ -233,7 +233,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 				ret = v
 			}
 
-		case map[interface{}]string:
+		case map[any]string:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
 				s, err := types.ConvertGoType(*new, types.String)
@@ -292,7 +292,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 		case nil:
 			ret = *new
 
-		case []string, []bool, []float64, []int, []interface{}:
+		case []string, []bool, []float64, []int, []any:
 			switch action {
 			case actionMerge, actionSum:
 				return mergeArray(v, new)
@@ -302,9 +302,9 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 				return nil, errInvalidAction
 			}
 
-		case map[string]interface{}, map[interface{}]interface{},
-			map[string]int, map[interface{}]int,
-			map[string]float64, map[interface{}]float64:
+		case map[string]any, map[any]any,
+			map[string]int, map[any]int,
+			map[string]float64, map[any]float64:
 			switch action {
 			case actionMerge:
 				return mergeMap(v, new)
@@ -316,8 +316,8 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *interfa
 				return nil, errInvalidAction
 			}
 
-		case map[string]string, map[interface{}]string,
-			map[string]bool, map[interface{}]bool:
+		case map[string]string, map[any]string,
+			map[string]bool, map[any]bool:
 			switch action {
 			case actionMerge, actionSum:
 				return mergeMap(v, new)

@@ -12,15 +12,15 @@ import (
 
 var wslMounts []string
 
-// Read returns an interface{} of the user dictionary.
+// Read returns an any of the user dictionary.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func WslMountsGet() (interface{}, error) {
+func WslMountsGet() (any, error) {
 	return wslMounts, nil
 }
 
 // Write takes a JSON-encoded string and writes it to the dictionary slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WslMountsSet(v interface{}) error {
+func WslMountsSet(v any) error {
 	switch v := v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v), &wslMounts)

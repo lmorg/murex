@@ -70,7 +70,7 @@ func TestIsTrue(t *testing.T) {
 		"disabled":      false,
 	}
 
-	exitNums := map[int]interface{}{
+	exitNums := map[int]any{
 		-42: true,
 		-1:  true,
 		0:   nil,

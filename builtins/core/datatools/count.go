@@ -192,32 +192,32 @@ func countTotal(p *lang.Process) (int, error) {
 		return len(v), nil
 	case []bool:
 		return len(v), nil
-	case []interface{}:
+	case []any:
 		return len(v), nil
 
 	case map[string]string:
 		return len(v), nil
-	case map[interface{}]string:
+	case map[any]string:
 		return len(v), nil
 
 	case map[string]int:
 		return len(v), nil
-	case map[interface{}]int:
+	case map[any]int:
 		return len(v), nil
 
 	case map[string]float64:
 		return len(v), nil
-	case map[interface{}]float64:
+	case map[any]float64:
 		return len(v), nil
 
 	case map[string]bool:
 		return len(v), nil
-	case map[interface{}]bool:
+	case map[any]bool:
 		return len(v), nil
 
-	case map[string]interface{}:
+	case map[string]any:
 		return len(v), nil
-	case map[interface{}]interface{}:
+	case map[any]any:
 		return len(v), nil
 
 	case [][]string:
@@ -250,7 +250,7 @@ func countSum(p *lang.Process, strict bool) (float64, error) {
 
 	case []string:
 		return sumArrayStr(t, strict)
-	case []interface{}:
+	case []any:
 		return sumArrayStr(t, strict)
 
 	case map[string]int:

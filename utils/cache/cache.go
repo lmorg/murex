@@ -40,11 +40,11 @@ func read(namespace string, key string, ptr any) bool {
 }
 
 type dumpT struct {
-	Internal interface{}
-	CacheDb  interface{}
+	Internal any
+	CacheDb  any
 }
 
-func Dump(ctx context.Context) (interface{}, error) {
+func Dump(ctx context.Context) (any, error) {
 	dump := make(map[string]dumpT)
 
 	for _, namespace := range ListNamespaces() {
@@ -82,7 +82,7 @@ type trimmedT struct {
 }
 
 // Trim removes stale cache values from the cache databases
-func Trim(ctx context.Context) (interface{}, error) {
+func Trim(ctx context.Context) (any, error) {
 	trimmed := make(map[string]trimmedT)
 
 	for namespace := range cache {
@@ -99,7 +99,7 @@ func Trim(ctx context.Context) (interface{}, error) {
 }
 
 // Clear the cache completely
-func Clear(ctx context.Context) (interface{}, error) {
+func Clear(ctx context.Context) (any, error) {
 	flushed := make(map[string]trimmedT)
 
 	for namespace := range cache {

@@ -61,7 +61,7 @@ func openTable(db *sql.DB, name string, headings []string) (*sql.Tx, error) {
 	return tx, nil
 }
 
-func insertRecords(tx *sql.Tx, name string, records []interface{}) error {
+func insertRecords(tx *sql.Tx, name string, records []any) error {
 	if len(records) == 0 {
 		return fmt.Errorf("no records to insert into transaction on table %s", name)
 	}

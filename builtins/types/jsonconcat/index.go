@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func iface2Str(a []interface{}) []string {
+func iface2Str(a []any) []string {
 	s := make([]string, len(a))
 	for i := range a {
 		s[i] = fmt.Sprint(a[i])
@@ -66,7 +66,7 @@ func indexTable(p *lang.Process, params []string) error {
 
 	go func() {
 		err1 := p.Stdin.ReadArray(p.Context, func(b []byte) {
-			var v []interface{}
+			var v []any
 			err2 := json.Unmarshal(b, &v)
 			if err2 != nil {
 				status <- err2

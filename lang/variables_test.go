@@ -101,7 +101,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 }
 
-func panicErr(v interface{}, err error) interface{} {
+func panicErr(v any, err error) any {
 	if err != nil {
 		panic(err)
 	}

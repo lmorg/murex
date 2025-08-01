@@ -93,7 +93,7 @@ func testModulesWriteBytes(t *testing.T, name, path string, contents []byte) {
 	}
 }
 
-func testModulesWriteStruct(t *testing.T, name, path string, v interface{}) {
+func testModulesWriteStruct(t *testing.T, name, path string, v any) {
 	t.Helper()
 
 	b, err := json.MarshalIndent(v, "", "    ")
@@ -104,7 +104,7 @@ func testModulesWriteStruct(t *testing.T, name, path string, v interface{}) {
 	testModulesWriteBytes(t, name, path, b)
 }
 
-func vToString(t *testing.T, v interface{}) string {
+func vToString(t *testing.T, v any) string {
 	t.Helper()
 
 	b, err := json.MarshalIndent(v, "", "    ")

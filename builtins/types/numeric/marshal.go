@@ -5,11 +5,11 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshalInt(p *lang.Process, v interface{}) ([]byte, error)    { return marshal(v, types.Integer) }
-func marshalFloat(p *lang.Process, v interface{}) ([]byte, error)  { return marshal(v, types.Float) }
-func marshalNumber(p *lang.Process, v interface{}) ([]byte, error) { return marshal(v, types.Number) }
+func marshalInt(p *lang.Process, v any) ([]byte, error)    { return marshal(v, types.Integer) }
+func marshalFloat(p *lang.Process, v any) ([]byte, error)  { return marshal(v, types.Float) }
+func marshalNumber(p *lang.Process, v any) ([]byte, error) { return marshal(v, types.Number) }
 
-func marshal(v interface{}, dataType string) ([]byte, error) {
+func marshal(v any, dataType string) ([]byte, error) {
 	i, err := types.ConvertGoType(v, dataType)
 	if err != nil {
 		return []byte{'0'}, err
@@ -19,11 +19,11 @@ func marshal(v interface{}, dataType string) ([]byte, error) {
 	return []byte(s.(string)), err
 }
 
-func unmarshalInt(p *lang.Process) (interface{}, error)    { return unmarshal(p, types.Integer) }
-func unmarshalFloat(p *lang.Process) (interface{}, error)  { return unmarshal(p, types.Float) }
-func unmarshalNumber(p *lang.Process) (interface{}, error) { return unmarshal(p, types.Number) }
+func unmarshalInt(p *lang.Process) (any, error)    { return unmarshal(p, types.Integer) }
+func unmarshalFloat(p *lang.Process) (any, error)  { return unmarshal(p, types.Float) }
+func unmarshalNumber(p *lang.Process) (any, error) { return unmarshal(p, types.Number) }
 
-func unmarshal(p *lang.Process, dataType string) (interface{}, error) {
+func unmarshal(p *lang.Process, dataType string) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return 0, err

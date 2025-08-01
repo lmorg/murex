@@ -2,12 +2,12 @@ package json
 
 import "encoding/json"
 
-func LazyLogging(v interface{}) string {
+func LazyLogging(v any) string {
 	b, _ := json.Marshal(v)
 	return string(b)
 }
 
-func LazyLoggingPretty(v interface{}) string {
+func LazyLoggingPretty(v any) string {
 	b, _ := json.MarshalIndent(v, "", "    ")
 	return string(b)
 }

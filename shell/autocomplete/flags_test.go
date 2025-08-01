@@ -146,7 +146,7 @@ func testAutocompleteFlags(t *testing.T, tests []testAutocompleteFlagsT) {
 	}
 }
 
-func jsonOutput(v interface{}) string {
+func jsonOutput(v any) string {
 	b, err := json.Marshal(v, false)
 	if err != nil && !strings.Contains(err.Error(), "o data returned") {
 		panic(err.Error())

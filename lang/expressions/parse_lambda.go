@@ -27,7 +27,7 @@ func (tree *ParserT) parseLambdaExecFalse(sigil rune) ([]rune, error) {
 	return r, nil
 }
 
-func (tree *ParserT) parseLambdaExecTrue(varName []rune, sigil rune, dt string) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseLambdaExecTrue(varName []rune, sigil rune, dt string) ([]rune, any, string, error) {
 	// no `exec` boolean here because this method should only be invoked when `exec == true`
 	defer treePlusPlus(tree)
 	if tree.p == nil {
@@ -86,11 +86,11 @@ func _parseLambdaExecTrue(p *lang.Process, varName []rune, sigil rune, dt string
 	case []bool:
 		return parseLambdaArray(p, sigil, t, dt, r, block)
 
-	case []interface{}:
+	case []any:
 		return parseLambdaArray(p, sigil, t, dt, r, block)
 	case map[string]string:
 		return parseLambdaMap(p, sigil, t, dt, r, block)
-	case map[string]interface{}:
+	case map[string]any:
 		return parseLambdaMap(p, sigil, t, dt, r, block)
 
 	default:
@@ -98,7 +98,7 @@ func _parseLambdaExecTrue(p *lang.Process, varName []rune, sigil rune, dt string
 	}
 }
 
-func (tree *ParserT) parseLambdaStatement(exec bool, sigil rune) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseLambdaStatement(exec bool, sigil rune) ([]rune, any, string, error) {
 	if exec {
 		if tree.p.IsMethod {
 			return tree.parseLambdaStdinExecTrue(sigil)
@@ -115,7 +115,7 @@ func (tree *ParserT) parseLambdaStatement(exec bool, sigil rune) ([]rune, interf
 	}
 }
 
-func (tree *ParserT) parseLambdaStdinExecTrue(sigil rune) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseLambdaStdinExecTrue(sigil rune) ([]rune, any, string, error) {
 	dataType := tree.p.Stdin.GetDataType()
 	b, err := tree.p.Stdin.ReadAll()
 	if err != nil {
@@ -156,7 +156,7 @@ const (
 )
 
 func writeKeyValVariable[K comparable](p *lang.Process, iteration int, key K, value any) error {
-	element, err := json.Marshal(map[string]interface{}{
+	element, err := json.Marshal(map[string]any{
 		LAMBDA_ITERATION: iteration,
 		LAMBDA_KEY:       key,
 		LAMBDA_VALUE:     value,
@@ -182,55 +182,7 @@ func readKeyValVariable(p *lang.Process) (any, any, error) {
 	}
 }
 
-/*func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{}, error) {
-	var (
-		item interface{}
-		err  error
-		r    []rune
-		j    int
-		fn   primitives.FunctionT
-	)
-
-	split := rxLineSeparator.Split(t, -1)
-	array := make([]any, len(split))
-
-	for i := range split {
-		//tree.charPos = pos
-		err = tree.p.Variables.Set(tree.p, "", split[i], types.String)
-		if err != nil {
-			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
-		}
-
-		r, fn, err = tree.parseSubShell(true, '$', varAsValue)
-		if err != nil {
-			return nil, nil, err
-		}
-		val, err := fn()
-		item = val.Value
-		if err != nil {
-			return nil, nil, err
-		}
-		switch t := item.(type) {
-		case string:
-			if len(t) > 0 {
-				array[j] = item
-				j++
-			}
-		case bool:
-			if t {
-				array[j] = split[i]
-				j++
-			}
-		default:
-			array[j] = item
-			j++
-		}
-	}
-
-	return r, array[:j], nil
-}*/
-
-func parseLambdaArray[V any](p *lang.Process, sigil rune, t []V, dt string, r []rune, block []rune) ([]rune, interface{}, string, error) {
+func parseLambdaArray[V any](p *lang.Process, sigil rune, t []V, dt string, r []rune, block []rune) ([]rune, any, string, error) {
 	var (
 		array  []any
 		stdout []string
@@ -291,9 +243,9 @@ func parseLambdaArray[V any](p *lang.Process, sigil rune, t []V, dt string, r []
 	}
 }
 
-func parseLambdaMap[K comparable, V any](p *lang.Process, sigil rune, t map[K]V, dt string, r []rune, block []rune) ([]rune, interface{}, string, error) {
+func parseLambdaMap[K comparable, V any](p *lang.Process, sigil rune, t map[K]V, dt string, r []rune, block []rune) ([]rune, any, string, error) {
 	var (
-		object = make(map[any]interface{})
+		object = make(map[any]any)
 		stdout []string
 	)
 

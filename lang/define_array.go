@@ -19,7 +19,7 @@ func ArrayTemplate(ctx context.Context, marshal func(any) ([]byte, error), unmar
 		return nil
 	}
 
-	var v interface{}
+	var v any
 	err = unmarshal(b, &v)
 	if err != nil {
 		return err
@@ -36,19 +36,19 @@ func ArrayDataTemplate(ctx context.Context, marshal func(any) ([]byte, error), u
 	case []string:
 		return readArrayBySliceString(ctx, v, callback)
 
-	case []interface{}:
+	case []any:
 		return readArrayBySliceInterface(ctx, marshal, v, callback)
 
 	case map[string]string:
 		return readArrayByMapStrStr(ctx, v, callback)
 
-	case map[string]interface{}:
+	case map[string]any:
 		return readArrayByMapStrIface(ctx, marshal, v, callback)
 
-	case map[interface{}]string:
+	case map[any]string:
 		return readArrayByMapIfaceStr(ctx, v, callback)
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		return readArrayByMapIfaceIface(ctx, marshal, v, callback)
 
 	default:
@@ -84,7 +84,7 @@ func readArrayBySliceString(ctx context.Context, v []string, callback func([]byt
 	return nil
 }
 
-func readArrayBySliceInterface(ctx context.Context, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
+func readArrayBySliceInterface(ctx context.Context, marshal func(any) ([]byte, error), v []any, callback func([]byte)) error {
 	if len(v) == 0 {
 		return nil
 	}
@@ -115,7 +115,7 @@ func readArrayBySliceInterface(ctx context.Context, marshal func(interface{}) ([
 	return nil
 }
 
-func readArrayByMapIfaceIface(ctx context.Context, marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte)) error {
+func readArrayByMapIfaceIface(ctx context.Context, marshal func(any) ([]byte, error), v map[any]any, callback func([]byte)) error {
 	for key, val := range v {
 		select {
 		case <-ctx.Done():
@@ -148,7 +148,7 @@ func readArrayByMapStrStr(ctx context.Context, v map[string]string, callback fun
 	return nil
 }
 
-func readArrayByMapStrIface(ctx context.Context, marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte)) error {
+func readArrayByMapStrIface(ctx context.Context, marshal func(any) ([]byte, error), v map[string]any, callback func([]byte)) error {
 	for key, val := range v {
 		select {
 		case <-ctx.Done():
@@ -167,7 +167,7 @@ func readArrayByMapStrIface(ctx context.Context, marshal func(interface{}) ([]by
 	return nil
 }
 
-func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callback func([]byte)) error {
+func readArrayByMapIfaceStr(ctx context.Context, v map[any]string, callback func([]byte)) error {
 	for key, val := range v {
 		select {
 		case <-ctx.Done():

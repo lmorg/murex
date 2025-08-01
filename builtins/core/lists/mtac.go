@@ -57,7 +57,7 @@ func cmdMtac(p *lang.Process) error {
 			v[i], v[opp] = v[opp], v[i]
 		}
 
-	case []interface{}:
+	case []any:
 		for i := len(v)/2 - 1; i >= 0; i-- {
 			opp := len(v) - 1 - i
 			v[i], v[opp] = v[opp], v[i]

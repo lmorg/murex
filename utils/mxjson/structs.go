@@ -137,7 +137,7 @@ type nestedObject struct {
 }
 type item struct {
 	key     *str
-	value   interface{}
+	value   any
 	objType objectType
 }
 
@@ -153,7 +153,7 @@ func newObjs() (no nestedObject) {
 func (no *nestedObject) New(objType objectType) {
 	no.len++
 
-	var v interface{}
+	var v any
 	switch objType {
 	case objUndefined:
 		panic("Undef object type - We should know what the data type is by now!")
@@ -169,7 +169,7 @@ func (no *nestedObject) New(objType objectType) {
 
 	case objArrayUndefined:
 		//panic("Undef array - We should know what the array is by now!")
-		v = []interface{}{}
+		v = []any{}
 
 	case objArrayBoolean:
 		v = []bool{}
@@ -181,13 +181,13 @@ func (no *nestedObject) New(objType objectType) {
 		v = []string{}
 
 	case objArrayArray:
-		v = [][]interface{}{}
+		v = [][]any{}
 
 	case objArrayMap:
-		v = []interface{}{}
+		v = []any{}
 
 	case objMap:
-		v = make(map[string]interface{})
+		v = make(map[string]any)
 
 	default:
 		panic("This condition shouldn't arise!")
@@ -220,7 +220,7 @@ func (no *nestedObject) SetObjType(objType objectType) {
 	no.nest[no.len].objType = objType
 }
 
-func (no *nestedObject) SetValue(value interface{}) error {
+func (no *nestedObject) SetValue(value any) error {
 	if no.len < 0 {
 		return fmt.Errorf("unable to marshal '%v' into parent structure. This might be due to the an incorrect file", value)
 	}
@@ -240,7 +240,7 @@ func (no *nestedObject) SetValue(value interface{}) error {
 
 	case objArrayUndefined:
 		//panic("Undef array - We should know what the array is by now!")
-		no.nest[no.len].value = append(no.nest[no.len].value.([]interface{}), value)
+		no.nest[no.len].value = append(no.nest[no.len].value.([]any), value)
 
 	case objArrayBoolean:
 		no.nest[no.len].value = append(no.nest[no.len].value.([]bool), value.(bool))
@@ -252,13 +252,13 @@ func (no *nestedObject) SetValue(value interface{}) error {
 		no.nest[no.len].value = append(no.nest[no.len].value.([]string), value.(string))
 
 	case objArrayArray:
-		no.nest[no.len].value = append(no.nest[no.len].value.([][]interface{}), value.([]interface{}))
+		no.nest[no.len].value = append(no.nest[no.len].value.([][]any), value.([]any))
 
 	case objArrayMap:
-		no.nest[no.len].value = append(no.nest[no.len].value.([]interface{}), value)
+		no.nest[no.len].value = append(no.nest[no.len].value.([]any), value)
 
 	case objMap:
-		no.nest[no.len].value.(map[string]interface{})[no.nest[no.len].key.String()] = value
+		no.nest[no.len].value.(map[string]any)[no.nest[no.len].key.String()] = value
 
 	default:
 		return fmt.Errorf("switch statement unexpectedly failed. This condition shouldn't arise, so please file a bug at https://github.com/lmorg/murex/issues")

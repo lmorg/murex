@@ -29,7 +29,7 @@ func dynamicAutocomplete(p *lang.Process, confFailColMismatch, confTableIncHeadi
 		case [][]string:
 			completions = v[0]
 
-		case [][]interface{}:
+		case [][]any:
 			completions = make([]string, len(v[0]))
 			for i := range completions {
 				completions[i] = fmt.Sprint(v[0][i])

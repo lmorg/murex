@@ -13,7 +13,7 @@ type mapValueT interface {
 	~string | ~bool | ~int | ~float64 | any
 }
 
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+func marshal(p *lang.Process, v any) ([]byte, error) {
 	return MarshalTTY(v, p.Stdout.IsTTY())
 }
 
