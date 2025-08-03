@@ -9,9 +9,9 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 

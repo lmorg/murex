@@ -8,20 +8,20 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func MapTemplate(dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func(*stdio.Map)) error {
+func MapTemplate(dataType string, marshal func(any) ([]byte, error), unmarshal func([]byte, any) error, read stdio.Io, callback func(*stdio.Map)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
 	}
 
-	var obj interface{}
+	var obj any
 	err = unmarshal(b, &obj)
 	if err != nil {
 		return err
 	}
 
 	switch t := obj.(type) {
-	case []interface{}:
+	case []any:
 		for i := range t {
 			b, err := marshal(t[i])
 			if err != nil {
@@ -44,10 +44,10 @@ func MapTemplate(dataType string, marshal func(interface{}) ([]byte, error), unm
 	case map[string]bool:
 		return mapTemplateStringOfPrimitives(t, callback)
 
-	case map[string]interface{}:
+	case map[string]any:
 		return mapTemplateStringOfObjects(marshal, t, dataType, callback)
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		return readMapAsInterfaceOfInterfaces(marshal, t, dataType, callback)
 
 	default:
@@ -73,7 +73,7 @@ func mapTemplateStringOfPrimitives[V string | int | float64 | bool](t map[string
 	return nil
 }
 
-func mapTemplateStringOfObjects(marshal func(interface{}) ([]byte, error), t map[string]any, dataType string, callback func(*stdio.Map)) error {
+func mapTemplateStringOfObjects(marshal func(any) ([]byte, error), t map[string]any, dataType string, callback func(*stdio.Map)) error {
 	i := 1
 	for key, val := range t {
 		switch val.(type) {
@@ -104,7 +104,7 @@ func mapTemplateStringOfObjects(marshal func(interface{}) ([]byte, error), t map
 	return nil
 }
 
-func readMapAsInterfaceOfInterfaces(marshal func(interface{}) ([]byte, error), t map[any]any, dataType string, callback func(*stdio.Map)) error {
+func readMapAsInterfaceOfInterfaces(marshal func(any) ([]byte, error), t map[any]any, dataType string, callback func(*stdio.Map)) error {
 	i := 1
 	for key, val := range t {
 		s, err := types.ConvertGoType(key, types.String)

@@ -32,15 +32,15 @@ func Get() []string {
 	return a
 }
 
-// Read returns an interface{} of the user dictionary.
+// Read returns an any of the user dictionary.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func Read() (interface{}, error) {
+func Read() (any, error) {
 	return Get(), nil
 }
 
 // Write takes a JSON-encoded string and writes it to the dictionary slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func Write(v interface{}) error {
+func Write(v any) error {
 	switch v := v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v), &dictionary)

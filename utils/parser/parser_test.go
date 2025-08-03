@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
-func quickJson(v interface{}) string {
+func quickJson(v any) string {
 	b, _ := json.MarshalIndent(v, "", "    ")
 	return string(b)
 }

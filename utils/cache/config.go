@@ -10,13 +10,13 @@ var configCacheDisabled bool
 
 // ReadMimes returns boolean
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadStatus() (interface{}, error) {
+func ReadStatus() (any, error) {
 	return !configCacheDisabled && !disabled, nil
 }
 
 // WriteStatus takes a bool
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteStatus(v interface{}) error {
+func WriteStatus(v any) error {
 	v, err := types.ConvertGoType(v, types.Boolean)
 
 	if err != nil {

@@ -13,7 +13,7 @@ import (
 // Unmarshal is a wrapper around the standard json.Unmarshal function. This is
 // done this way so that murex can swap out the JSON unmarshaller from the
 // standard libraries with a 3rd party decoder that might run more efficiently.
-func Unmarshal(data []byte, v interface{}) (err error) {
+func Unmarshal(data []byte, v any) (err error) {
 	//err = gojay.Unmarshal(data, v)
 	//if err == nil {
 	//	return
@@ -25,7 +25,7 @@ func Unmarshal(data []byte, v interface{}) (err error) {
 // UnmarshalMurex is a wrapper around Go's JSON unmarshaller to support nested
 // brace quotes (which allows for a cleaner syntax when embedding Murex code as
 // JSON strings) and line comments via the hash, `#`, prefix.
-func UnmarshalMurex(data []byte, v interface{}) error {
+func UnmarshalMurex(data []byte, v any) error {
 	err := unmarshalMurex(data, v)
 	if err == nil {
 		return nil
@@ -35,7 +35,7 @@ func UnmarshalMurex(data []byte, v interface{}) error {
 	return fmt.Errorf("mxjson parse error: %s\n%s", err, mxerr)
 }
 
-func unmarshalMurex(data []byte, v interface{}) error {
+func unmarshalMurex(data []byte, v any) error {
 	var (
 		escape   bool
 		comment  bool

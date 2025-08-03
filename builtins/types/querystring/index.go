@@ -13,7 +13,7 @@ func index(p *lang.Process, params []string) error {
 	}
 
 	var (
-		v       interface{}
+		v       any
 		typeErr error
 	)
 

@@ -147,7 +147,7 @@ func cmdFidListCSV(p *lang.Process) error {
 func cmdFidListPipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.JsonLines)
 
-	b, err := lang.MarshalData(p, types.Json, []interface{}{
+	b, err := lang.MarshalData(p, types.Json, []any{
 		"FID",
 		"Parent",
 		"Scope",
@@ -169,7 +169,7 @@ func cmdFidListPipe(p *lang.Process) error {
 
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {
-		b, err = lang.MarshalData(p, types.Json, []interface{}{
+		b, err = lang.MarshalData(p, types.Json, []any{
 			process.Id,
 			process.Parent.Id,
 			process.Scope.Id,

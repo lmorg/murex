@@ -37,7 +37,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 	return lang.ArrayTemplate(ctx, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	return lang.ArrayWithTypeTemplate(ctx, typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
@@ -58,7 +58,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 }
 
 func readIndex(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -73,7 +73,7 @@ func readIndex(p *lang.Process, params []string) error {
 	return lang.IndexTemplateObject(p, params, &jInterface, yaml.Marshal)
 }
 
-func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
+func marshal(_ *lang.Process, v any) ([]byte, error) {
 	switch t := v.(type) {
 	case [][]string:
 		var i int
@@ -92,7 +92,7 @@ func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
 	}
 }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

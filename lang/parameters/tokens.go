@@ -9,8 +9,8 @@ type Parameters struct {
 	PreParsed [][]rune
 }
 
-func (param *Parameters) Dump() interface{} {
-	dump := make(map[string]interface{})
+func (param *Parameters) Dump() any {
+	dump := make(map[string]any)
 
 	param.mutex.Lock()
 	params := make([]string, len(param.params))

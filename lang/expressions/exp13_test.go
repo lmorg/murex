@@ -24,7 +24,7 @@ func TestExpElvis(t *testing.T) {
 		},
 		/*{
 			Expression: `null ?: %[1..3]`,
-			Expected:   []interface{}{1,2,3},
+			Expected:   []any{1,2,3},
 		},*/
 	}
 

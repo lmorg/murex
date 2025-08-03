@@ -143,7 +143,7 @@ func (p *PTY) ReadArray(ctx context.Context, callback func([]byte)) error {
 	return p.out.ReadArray(ctx, callback)
 }
 
-func (p *PTY) ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error {
+func (p *PTY) ReadArrayWithType(ctx context.Context, callback func(any, string)) error {
 	return p.out.ReadArrayWithType(ctx, callback)
 }
 

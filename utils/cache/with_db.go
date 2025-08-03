@@ -26,7 +26,7 @@ func Read(namespace string, key string, ptr any) bool {
 	return true
 }
 
-func listDb(ctx context.Context, namespace string) (interface{}, error) {
+func listDb(ctx context.Context, namespace string) (any, error) {
 	return cachedb.List(ctx, namespace)
 }
 

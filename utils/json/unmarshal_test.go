@@ -22,7 +22,7 @@ func runTestCases(t *testing.T, tests []testCase) {
 }
 
 func testMx(t *testing.T, src string, sExp string, fail bool, testNum int) {
-	var v interface{}
+	var v any
 	err := json.UnmarshalMurex([]byte(src), &v)
 	/*bAct, jsonErr := corejson.Marshal(v)
 	if jsonErr != nil {

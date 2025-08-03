@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+func marshal(p *lang.Process, v any) ([]byte, error) {
 	var (
 		b, jsonl []byte
 		err      error
@@ -22,11 +22,11 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 		}
 		return jsonl, nil
 
-	case []interface{}:
+	case []any:
 		for i := range t {
 			b, err = json.Marshal(t[i], p.Stdout.IsTTY())
 			if err != nil {
-				err = fmt.Errorf("unable to marshal %T on line %d: %s", v.([]interface{})[i], i, err)
+				err = fmt.Errorf("unable to marshal %T on line %d: %s", v.([]any)[i], i, err)
 				return nil, err
 			}
 
@@ -50,11 +50,11 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 
 		return jsonl, nil
 
-	case [][]interface{}:
+	case [][]any:
 		for i := range t {
 			b, err = json.Marshal(t[i], false)
 			if err != nil {
-				err = fmt.Errorf("unable to marshal %T on line %d: %s", v.([][]interface{})[i], i, err)
+				err = fmt.Errorf("unable to marshal %T on line %d: %s", v.([][]any)[i], i, err)
 				return nil, err
 			}
 

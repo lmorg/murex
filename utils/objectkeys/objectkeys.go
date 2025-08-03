@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang"
 )
 
-func Recursive(ctx context.Context, path string, v interface{}, dataType string, separator string, writeString func(string) error, iteration int) error {
+func Recursive(ctx context.Context, path string, v any, dataType string, separator string, writeString func(string) error, iteration int) error {
 	if dataType == "xml" {
 		m, ok := v.(map[string]any)
 		if ok && len(m) == 1 {
@@ -21,7 +21,7 @@ func Recursive(ctx context.Context, path string, v interface{}, dataType string,
 	return recursive(ctx, path, v, separator, writeString, iteration)
 }
 
-func recursive(ctx context.Context, path string, v interface{}, separator string, writeString func(string) error, iteration int) error {
+func recursive(ctx context.Context, path string, v any, separator string, writeString func(string) error, iteration int) error {
 	if iteration == 0 {
 		return nil
 	}
@@ -102,7 +102,7 @@ func recursive(ctx context.Context, path string, v interface{}, separator string
 		}
 		return nil
 
-	case []interface{}:
+	case []any:
 		for i := range t {
 			select {
 			case <-ctx.Done():
@@ -142,7 +142,7 @@ func recursive(ctx context.Context, path string, v interface{}, separator string
 		}
 		return nil
 
-	case map[string]interface{}:
+	case map[string]any:
 		for key := range t {
 			select {
 			case <-ctx.Done():
@@ -162,7 +162,7 @@ func recursive(ctx context.Context, path string, v interface{}, separator string
 		}
 		return nil
 
-	case map[int]interface{}:
+	case map[int]any:
 		for key := range t {
 			select {
 			case <-ctx.Done():
@@ -182,7 +182,7 @@ func recursive(ctx context.Context, path string, v interface{}, separator string
 		}
 		return nil
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for key := range t {
 			select {
 			case <-ctx.Done():

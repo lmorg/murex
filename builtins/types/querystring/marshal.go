@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
+func marshal(_ *lang.Process, iface any) (b []byte, err error) {
 	qs := make(url.Values)
 
 	switch v := iface.(type) {
@@ -20,7 +20,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		b = []byte(qs.Encode())
 
-	case []interface{}:
+	case []any:
 		for i := range v {
 			t, err := types.ConvertGoType(v[i], types.String)
 			if err != nil {
@@ -36,7 +36,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		b = []byte(qs.Encode())
 
-	case map[string]interface{}:
+	case map[string]any:
 		for s := range v {
 			t, err := types.ConvertGoType(v[s], types.String)
 			if err != nil {
@@ -46,7 +46,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		b = []byte(qs.Encode())
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for s := range v {
 			t1, err := types.ConvertGoType(s, types.String)
 			if err != nil {
@@ -60,7 +60,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		b = []byte(qs.Encode())
 
-	case map[interface{}]string:
+	case map[any]string:
 		for s := range v {
 			t, err := types.ConvertGoType(s, types.String)
 			if err != nil {
@@ -70,7 +70,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		b = []byte(qs.Encode())
 
-	case interface{}:
+	case any:
 		qs.Add(fmt.Sprint(v), "")
 
 	default:
@@ -80,7 +80,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	return
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 		return nil, err
 	}
 
-	qs := make(map[string]interface{})
+	qs := make(map[string]any)
 	for s := range values {
 		if len(values[s]) == 1 {
 			float, tnErr := toNumber(values[s][0])

@@ -21,7 +21,7 @@ func (mxi mxiPath) New(path string) (lang.MxInterface, error) {
 	return &mxiPath{path}, nil
 }
 
-func (mxi *mxiPath) GetValue() interface{} {
+func (mxi *mxiPath) GetValue() any {
 	v, _ := path.Unmarshal([]byte(mxi.path))
 	return v
 }
@@ -30,7 +30,7 @@ func (mxi *mxiPath) GetString() string {
 	return gopath.Clean(mxi.path)
 }
 
-func (mxi *mxiPath) Set(v interface{}, changePath []string) error {
+func (mxi *mxiPath) Set(v any, changePath []string) error {
 	switch t := v.(type) {
 	case string:
 		mxi.path = t

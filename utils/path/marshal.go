@@ -17,7 +17,7 @@ const (
 	EXISTS      = "Exists"
 )
 
-func Marshal(v interface{}) ([]byte, error) {
+func Marshal(v any) ([]byte, error) {
 	switch t := v.(type) {
 	case string:
 		return []byte(t), nil
@@ -26,14 +26,14 @@ func Marshal(v interface{}) ([]byte, error) {
 		s := Join(t)
 		return []byte(s), nil
 
-	case map[string]interface{}:
+	case map[string]any:
 		name, err := types.ConvertGoType(t[VALUE], types.String)
 		if err != nil {
 			return nil, fmt.Errorf("unable to get '%s' from %v", VALUE, t)
 		}
 		return []byte(name.(string)), nil
 
-	case []interface{}:
+	case []any:
 		if len(t) == 0 {
 			return nil, nil
 		}
@@ -44,13 +44,13 @@ func Marshal(v interface{}) ([]byte, error) {
 	}
 }
 
-func marshalPathInterface(v []interface{}) ([]byte, error) {
+func marshalPathInterface(v []any) ([]byte, error) {
 	a := make([]string, len(v))
 
 	for i := range v {
 		switch v[i].(type) {
-		case map[string]interface{}:
-			name, err := types.ConvertGoType(v[i].(map[string]interface{})[VALUE], types.String)
+		case map[string]any:
+			name, err := types.ConvertGoType(v[i].(map[string]any)[VALUE], types.String)
 			if err != nil {
 				return nil, fmt.Errorf("unable to get '%s' from %v", VALUE, v[i])
 			}
@@ -73,7 +73,7 @@ func marshalPathInterface(v []interface{}) ([]byte, error) {
 
 var pathSlashByte = consts.PathSlash[0]
 
-func Unmarshal(b []byte) (interface{}, error) {
+func Unmarshal(b []byte) (any, error) {
 	if len(b) == 0 {
 		b = []byte{'.'}
 	}
@@ -95,10 +95,10 @@ func Unmarshal(b []byte) (interface{}, error) {
 		_, err = os.Stat(strings.Join(split[:i], consts.PathSlash))
 	}
 
-	v := make([]interface{}, len(split))
+	v := make([]any, len(split))
 
 	for i := range split {
-		v[i] = map[string]interface{}{
+		v[i] = map[string]any{
 			IS_RELATIVE: relative && i == 0,
 			IS_DIR:      (dir && i == len(split)-1) || i < len(split)-1,
 			VALUE:       split[i],

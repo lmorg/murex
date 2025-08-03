@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/utils/path"
 )
 
-func readArrayWithTypePath(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithTypePath(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func readArrayWithTypePath(ctx context.Context, read stdio.Io, callback func(int
 	return nil
 }
 
-func readArrayWithTypePaths(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithTypePaths(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

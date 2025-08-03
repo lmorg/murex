@@ -24,7 +24,7 @@ func (kv *parseObjectKvT) Value() any {
 type parseObjectT struct {
 	keyValue [2]parseObjectKvT
 	stage    objStageT
-	obj      map[string]interface{}
+	obj      map[string]any
 	tree     *ParserT
 }
 
@@ -37,7 +37,7 @@ const (
 
 func newParseObjectT(tree *ParserT) *parseObjectT {
 	o := new(parseObjectT)
-	o.obj = make(map[string]interface{})
+	o.obj = make(map[string]any)
 	o.tree = tree
 	return o
 }
@@ -94,7 +94,7 @@ func (o *parseObjectT) AppendRune(r ...rune) error {
 	return nil
 }
 
-func (o *parseObjectT) UpdateInterface(v interface{}) error {
+func (o *parseObjectT) UpdateInterface(v any) error {
 	if o.ExpectNextStage() {
 		if o.stage == OBJ_STAGE_KEY {
 			return raiseError(o.tree.expression, nil, o.tree.charPos, objErrUnexpectedKey)

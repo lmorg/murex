@@ -25,7 +25,7 @@ func (tree *ParserT) createArrayAst(exec bool) error {
 func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error) {
 	var (
 		start = tree.charPos
-		slice = []interface{}{}
+		slice = []any{}
 	)
 
 	// check if valid mkarray
@@ -158,7 +158,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			// inline array
 			var (
 				name []rune
-				v    interface{}
+				v    any
 			)
 			switch tree.nextChar() {
 			case '{':
@@ -185,10 +185,10 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			switch t := v.(type) {
 			case nil:
 				slice = append(slice, t)
-			case []interface{}:
+			case []any:
 				slice = append(slice, t...)
 			case []string, []float64, []int:
-				slice = append(slice, v.([]interface{})...)
+				slice = append(slice, v.([]any)...)
 			case string:
 				slice = append(slice, t)
 			default:
@@ -250,7 +250,7 @@ endArrayBareword:
 	return value
 }
 
-func formatArrayValue(value []rune) interface{} {
+func formatArrayValue(value []rune) any {
 	s := string(value)
 	switch s {
 	case "true":
@@ -338,8 +338,8 @@ endParseArrayMaker:
 		return nil, start, errors.New(string(b))
 	}
 
-	var slice []interface{}
-	err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+	var slice []any
+	err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v any, _ string) {
 		slice = append(slice, v)
 	})
 

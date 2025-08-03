@@ -34,7 +34,7 @@ import (
 )
 
 func index(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -46,7 +46,7 @@ func index(p *lang.Process, params []string) error {
 		return err
 	}
 
-	marshaller := func(iface interface{}) ([]byte, error) {
+	marshaller := func(iface any) ([]byte, error) {
 		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 

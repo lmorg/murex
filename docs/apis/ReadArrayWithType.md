@@ -44,7 +44,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		select {
@@ -84,9 +84,9 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
@@ -101,7 +101,7 @@ pipelines.
 ## Parameters
 
 1. `stdio.Io`: stream to read from (eg stdin)
-2. `func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element
+2. `func(any, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element
 
 ## See Also
 

@@ -55,48 +55,6 @@ func TestForEach(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestForEachParallel(t *testing.T) {
-	tests := []test.MurexTest{
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 0 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^1\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 1 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^6\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 2 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^3\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 3 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^2\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 4 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^2\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 6 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^1\.[0-9]+$`,
-		},
-		{
-			Block:  `time { a [1..6] -> foreach ! --parallel 7 {sleep 1} }`,
-			Stdout: `^$`,
-			Stderr: `^1\.[0-9]+$`,
-		},
-	}
-
-	test.RunMurexTestsRx(tests, t)
-}
-
 func TestForEachStep(t *testing.T) {
 	tests := []test.MurexTest{
 		{

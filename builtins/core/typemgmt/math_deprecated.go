@@ -82,7 +82,7 @@ func cmdEqu(p *lang.Process) (err error) {
 	return err
 }
 
-func evaluate(p *lang.Process, expression string) (value interface{}, dataType string, err error) {
+func evaluate(p *lang.Process, expression string) (value any, dataType string, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {

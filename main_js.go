@@ -43,12 +43,12 @@ func startMurex() {
 
 // wasmShellExec returns a Promise
 func wasmShellExec() js.Func {
-	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	return js.FuncOf(func(this js.Value, args []js.Value) any {
 		block := args[0].String()
 
 		// Handler for the Promise: this is a JS function
 		// It receives two arguments, which are JS functions themselves: resolve and reject
-		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		handler := js.FuncOf(func(this js.Value, args []js.Value) any {
 			resolve := args[0]
 			reject := args[1]
 
@@ -80,9 +80,9 @@ func wasmShellExec() js.Func {
 
 // wasmShellStart starts the interactive shell as a Promise
 func wasmShellStart() js.Func {
-	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	return js.FuncOf(func(this js.Value, args []js.Value) any {
 
-		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		handler := js.FuncOf(func(this js.Value, args []js.Value) any {
 			resolve := args[0]
 			//reject := args[1]
 
@@ -103,10 +103,10 @@ func wasmShellStart() js.Func {
 
 // wasmKeyPress starts the interactive shell as a Promise
 func wasmKeyPress() js.Func {
-	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	return js.FuncOf(func(this js.Value, args []js.Value) any {
 		stdin := args[0].String()
 
-		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		handler := js.FuncOf(func(this js.Value, args []js.Value) any {
 			//resolve := args[0]
 			//reject := args[1]
 

@@ -8,8 +8,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func getDynamic(block []rune, args []string, fileRef *ref.File) func() (interface{}, int, error) {
-	return func() (interface{}, int, error) {
+func getDynamic(block []rune, args []string, fileRef *ref.File) func() (any, int, error) {
+	return func() (any, int, error) {
 		block = block[1 : len(block)-1]
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
@@ -31,8 +31,8 @@ func getDynamic(block []rune, args []string, fileRef *ref.File) func() (interfac
 	}
 }
 
-func setDynamic(block []rune, args []string, fileRef *ref.File, dataType string) func(interface{}) (int, error) {
-	return func(value interface{}) (int, error) {
+func setDynamic(block []rune, args []string, fileRef *ref.File, dataType string) func(any) (int, error) {
+	return func(value any) (int, error) {
 		block = block[1 : len(block)-1]
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_CREATE_STDIN)
 		fork.Name.Set("config")

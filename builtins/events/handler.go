@@ -35,12 +35,12 @@ func AddEventType(eventTypeName string, handlerInterface eventType, err error) e
 
 type j struct {
 	Name      string
-	Interrupt interface{}
+	Interrupt any
 }
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout, stderr stdio.Io, evtReturn any, background bool) (any, error) {
+func Callback(name string, interrupt any, block []rune, fileRef *ref.File, stdout, stderr stdio.Io, evtReturn any, background bool) (any, error) {
 	if fileRef == nil {
 		if debug.Enabled {
 			panic("fileRef should not be nil value")
@@ -102,8 +102,8 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 }
 
 // DumpEvents is used for `runtime` to output all the saved events
-func DumpEvents() (dump map[string]interface{}) {
-	dump = make(map[string]interface{})
+func DumpEvents() (dump map[string]any) {
+	dump = make(map[string]any)
 
 	for et := range events {
 		dump[et] = events[et].Dump()

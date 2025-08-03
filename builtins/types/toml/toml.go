@@ -37,7 +37,7 @@ func init() {
 }
 
 func readIndex(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -52,11 +52,11 @@ func readIndex(p *lang.Process, params []string) error {
 	return lang.IndexTemplateObject(p, params, &jInterface, toml.Marshal)
 }
 
-func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
+func marshal(_ *lang.Process, v any) ([]byte, error) {
 	return toml.Marshal(v)
 }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

@@ -27,7 +27,7 @@ import (
 )
 
 func index(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -39,7 +39,7 @@ func index(p *lang.Process, params []string) error {
 		return err
 	}
 
-	marshaller := func(iface interface{}) ([]byte, error) {
+	marshaller := func(iface any) ([]byte, error) {
 		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 
@@ -344,8 +344,8 @@ func itoNotMap[K comparable, V indexValueT](p *Process, params []string, v map[K
 
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `[]string`: slice of parameters used in `[` / `![` 
-3. `*interface{}`: a pointer to the data structure being indexed
-4. `func(interface{}) ([]byte, error)`: data type marshaller function
+3. `*any`: a pointer to the data structure being indexed
+4. `func(any) ([]byte, error)`: data type marshaller function
 
 ## See Also
 

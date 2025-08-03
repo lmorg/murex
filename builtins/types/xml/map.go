@@ -9,7 +9,7 @@ import (
 
 func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return MarshalTTY(v, read.IsTTY())
 	}
 

@@ -21,7 +21,7 @@ func Read(namespace string, key string, ptr any) bool {
 	return read(namespace, key, ptr)
 }
 
-func listDb(_ context.Context, _ string) (interface{}, error) {
+func listDb(_ context.Context, _ string) (any, error) {
 	return nil, nil
 }
 

@@ -162,7 +162,7 @@ func cmdRuntime(p *lang.Process) error {
 		return errors.New("please include one or more parameters")
 	}
 
-	ret := make(map[string]interface{})
+	ret := make(map[string]any)
 	for flag := range f {
 		switch flag {
 		case fVars:
@@ -170,7 +170,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fGlobals:
 			ret[flag[2:]] = lang.GlobalVariables.Dump()
 		case fExports:
-			m := make(map[string]interface{})
+			m := make(map[string]any)
 			envvars.All(m)
 			ret[flag[2:]] = m
 		case fAliases:
@@ -290,7 +290,7 @@ func cmdRuntime(p *lang.Process) error {
 
 	var b []byte
 	if len(ret) == 1 {
-		var obj interface{}
+		var obj any
 		for _, obj = range ret {
 		}
 		b, err = json.Marshal(obj, p.Stdout.IsTTY())
@@ -309,8 +309,8 @@ func cmdRuntime(p *lang.Process) error {
 	return err
 }
 
-func dumpTestResults(p *lang.Process) interface{} {
-	return map[string]interface{}{
+func dumpTestResults(p *lang.Process) any {
+	return map[string]any{
 		"shell":   lang.ShellProcess.Tests.Results.Dump(),
 		"process": p.Tests.Results.Dump(),
 	}

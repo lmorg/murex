@@ -17,7 +17,7 @@ type plan struct {
 }
 
 func reMarshal(s string) string {
-	var v interface{}
+	var v any
 	err := json.Unmarshal([]byte(s), &v)
 	if err != nil {
 		panic(err.Error())

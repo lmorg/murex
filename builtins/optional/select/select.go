@@ -168,8 +168,8 @@ func dissectParameters(p *lang.Process) (parameters, fromFile string, pipes, var
 	}
 }
 
-func stringToInterfaceTrim(s []string, max int) []interface{} {
-	slice := make([]interface{}, max)
+func stringToInterfaceTrim(s []string, max int) []any {
+	slice := make([]any, max)
 
 	if max <= len(s) {
 		var i int
@@ -192,8 +192,8 @@ func stringToInterfaceTrim(s []string, max int) []interface{} {
 	return slice
 }
 
-func stringToInterfaceMerge(s []string, max int) []interface{} {
-	slice := make([]interface{}, max)
+func stringToInterfaceMerge(s []string, max int) []any {
+	slice := make([]any, max)
 
 	switch {
 	case max == 0:
@@ -225,8 +225,8 @@ func stringToInterfaceMerge(s []string, max int) []interface{} {
 	return slice
 }
 
-func stringToInterfacePtr(s *[]string, max int) []interface{} {
-	slice := make([]interface{}, max)
+func stringToInterfacePtr(s *[]string, max int) []any {
+	slice := make([]any, max)
 	for i := range slice {
 		slice[i] = &(*s)[i]
 	}

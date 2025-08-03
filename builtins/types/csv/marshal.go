@@ -12,7 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
+func marshal(p *lang.Process, iface any) ([]byte, error) {
 	inputType := p.Stdin.GetDataType()
 
 	var b []byte
@@ -61,7 +61,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			}
 		}
 
-	case []interface{}:
+	case []any:
 		if len(v) == 0 {
 			w.Flush()
 			return buf.Bytes(), w.Error()
@@ -92,7 +92,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	csvReader := enc.NewReader(p.Stdin)
 	csvReader.TrimLeadingSpace = true
 

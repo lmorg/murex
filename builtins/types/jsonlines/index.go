@@ -58,7 +58,7 @@ func indexTable(p *lang.Process, params []string) error {
 
 	go func() {
 		err1 := p.Stdin.ReadArray(p.Context, func(b []byte) {
-			var v []interface{}
+			var v []any
 			err2 := json.Unmarshal(b, &v)
 			if err2 != nil {
 				//close(cRecords)
@@ -71,8 +71,8 @@ func indexTable(p *lang.Process, params []string) error {
 			case []string:
 				cRecords <- v.([]string)
 				return
-			case []interface{}:
-			cRecords <- iface2Str(v.([]interface{}))
+			case []any:
+			cRecords <- iface2Str(v.([]any))
 			return
 			default:
 				//close(cRecords)

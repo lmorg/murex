@@ -81,7 +81,7 @@ func UnmarshalData(p *Process, dataType string) (v any, err error) {
 	return v, nil
 }
 
-func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (interface{}, error) {
+func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (any, error) {
 	fork := parent.Fork(F_BACKGROUND | F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
 	defer fork.Kill()
 

@@ -50,7 +50,7 @@ type internalDumpT struct {
 	TTL   string
 }
 
-func (ic *internalCacheT) Dump(ctx context.Context) interface{} {
+func (ic *internalCacheT) Dump(ctx context.Context) any {
 	if disabled {
 		return nil
 	}

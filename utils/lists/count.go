@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func Count(slice interface{}) (map[string]int, error) {
+func Count(slice any) (map[string]int, error) {
 	switch t := slice.(type) {
 	case []int:
 		return countInt(t), nil
@@ -18,7 +18,7 @@ func Count(slice interface{}) (map[string]int, error) {
 		return countString(t), nil
 	case []bool:
 		return countBool(t), nil
-	case []interface{}:
+	case []any:
 		return countInterface(t)
 
 	case [][]string:
@@ -73,7 +73,7 @@ func countBool(s []bool) map[string]int {
 	return m
 }
 
-func countInterface(s []interface{}) (map[string]int, error) {
+func countInterface(s []any) (map[string]int, error) {
 	m := make(map[string]int)
 	for i := range s {
 		v, err := types.ConvertGoType(s[i], types.String)

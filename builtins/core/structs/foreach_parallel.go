@@ -61,8 +61,12 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		return
 	}
 
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork.Name.Set("foreach--parallel")
+	fork.FileRef = p.FileRef
+
 	if varName != "!" {
-		err = p.Variables.Set(p, varName, varValue, dataType)
+		err = fork.Variables.Set(p, varName, varValue, dataType)
 		if err != nil {
 			p.Stderr.Writeln([]byte("error: " + err.Error()))
 			p.Done()
@@ -70,13 +74,10 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		}
 	}
 
-	if !setMetaValues(p, iteration) {
+	if !setMetaValues(fork.Process, iteration) {
 		return
 	}
 
-	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
-	fork.Name.Set("foreach--parallel")
-	fork.FileRef = p.FileRef
 	fork.Stdin.SetDataType(dataType)
 	_, err = fork.Stdin.Writeln(b)
 	if err != nil {

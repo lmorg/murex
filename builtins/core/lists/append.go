@@ -19,11 +19,11 @@ func cmdPrepend(p *lang.Process) error {
 	}
 
 	var (
-		array    []interface{}
+		array    []any
 		cachedDt string
 	)
 
-	err := p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+	err := p.Stdin.ReadArrayWithType(p.Context, func(v any, dt string) {
 		array = append(array, v)
 		cachedDt = dt
 	})
@@ -32,7 +32,7 @@ func cmdPrepend(p *lang.Process) error {
 		return err
 	}
 
-	var new []interface{}
+	var new []any
 	params := p.Parameters.StringArray()
 	for i := range params {
 		v, err := types.ConvertGoType(params[i], cachedDt)
@@ -61,11 +61,11 @@ func cmdAppend(p *lang.Process) error {
 	}
 
 	var (
-		array    []interface{}
+		array    []any
 		cachedDt string
 	)
 
-	err := p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+	err := p.Stdin.ReadArrayWithType(p.Context, func(v any, dt string) {
 		array = append(array, v)
 		cachedDt = dt
 	})

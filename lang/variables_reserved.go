@@ -17,9 +17,9 @@ var envDataTypes = map[string][]string{
 	types.Paths: {"PATH", "LD_LIBRARY_PATH", "MANPATH", "INFOPATH"},
 }
 
-func getVarSelf(p *Process) interface{} {
+func getVarSelf(p *Process) any {
 	bg := p.Scope.Background.Get()
-	return map[string]interface{}{
+	return map[string]any{
 		"Parent":      int(p.Scope.Parent.Id),
 		"Scope":       int(p.Scope.Id),
 		"TTY":         p.Scope.Stdout.IsTTY(),
@@ -31,15 +31,15 @@ func getVarSelf(p *Process) interface{} {
 	}
 }
 
-func getVarArgs(p *Process) interface{} {
+func getVarArgs(p *Process) any {
 	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
 }
 
-func getVarMurexArgs() interface{} {
+func getVarMurexArgs() any {
 	return os.Args
 }
 
-func getVarMurexExeValue() (interface{}, error) {
+func getVarMurexExeValue() (any, error) {
 	pwd, err := os.Executable()
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func getHostname() string {
 	return name
 }
 
-func getPwdValue() (interface{}, error) {
+func getPwdValue() (any, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -62,9 +62,9 @@ func getPwdValue() (interface{}, error) {
 	return path.Unmarshal([]byte(pwd))
 }
 
-func getEnvVarValue(v *Variables) interface{} {
+func getEnvVarValue(v *Variables) any {
 	var err error
-	evTable := make(map[string]interface{})
+	evTable := make(map[string]any)
 	envvars.All(evTable)
 	for env, val := range evTable {
 		val, err = v.getEnvValueValue(env, val.(string))
@@ -75,14 +75,14 @@ func getEnvVarValue(v *Variables) interface{} {
 	return evTable
 }
 
-func getEnvVarString() interface{} {
-	evTable := make(map[string]interface{})
+func getEnvVarString() any {
+	evTable := make(map[string]any)
 	envvars.All(evTable)
 	return evTable
 }
 
-func getGlobalValues() interface{} {
-	m := make(map[string]interface{})
+func getGlobalValues() any {
+	m := make(map[string]any)
 
 	GlobalVariables.mutex.Lock()
 	for name, v := range GlobalVariables.vars {

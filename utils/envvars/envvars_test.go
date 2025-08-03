@@ -243,7 +243,7 @@ func testEnvVarsAll(t *testing.T, tests []envAllTestT) {
 			test.Expected = make(map[string]string)
 		}
 
-		actual := make(map[string]interface{})
+		actual := make(map[string]any)
 		all(test.Slice, actual)
 
 		/*if (err != nil) != test.Error {
@@ -273,7 +273,7 @@ func testEnvVarsAll(t *testing.T, tests []envAllTestT) {
 	}
 }
 
-func testJsonEncode(v interface{}) string {
+func testJsonEncode(v any) string {
 	b, _ := json.MarshalIndent(v, "    ", "    ")
 	return string(b)
 }
@@ -299,7 +299,7 @@ func TestEnvVarsE2E(t *testing.T) {
 		}
 	}
 
-	m := make(map[string]interface{})
+	m := make(map[string]any)
 	All(m)
 
 	for k, v := range tests {

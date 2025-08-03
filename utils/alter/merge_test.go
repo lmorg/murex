@@ -18,7 +18,7 @@ func mergeTest(t *testing.T, test *plan) {
 		panic(err)
 	}
 
-	var expV interface{}
+	var expV any
 	if err := json.Unmarshal([]byte(test.expected), &expV); err != nil {
 		panic(err)
 	}
@@ -28,7 +28,7 @@ func mergeTest(t *testing.T, test *plan) {
 	}
 	test.expected = string(b)
 
-	var old interface{}
+	var old any
 	err = json.Unmarshal([]byte(test.original), &old)
 	if err != nil {
 		t.Error("Error unmarshalling original for alter.Merge()")

@@ -38,16 +38,16 @@ func init() {
 
 func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
 	return lang.ArrayTemplate(ctx, marshaller, hcl.Unmarshal, read, callback)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
@@ -56,7 +56,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 
 func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
@@ -64,7 +64,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 }
 
 func readIndex(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -76,18 +76,18 @@ func readIndex(p *lang.Process, params []string) error {
 		return err
 	}
 
-	marshaller := func(iface interface{}) ([]byte, error) {
+	marshaller := func(iface any) ([]byte, error) {
 		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 
 	return lang.IndexTemplateObject(p, params, &jInterface, marshaller)
 }
 
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+func marshal(p *lang.Process, v any) ([]byte, error) {
 	return json.Marshal(v, p.Stdout.IsTTY())
 }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

@@ -444,7 +444,7 @@ func (mf *MurexFuncs) Undefine(name string) error {
 }
 
 // Dump list all murex functions in table
-func (mf *MurexFuncs) Dump() interface{} {
+func (mf *MurexFuncs) Dump() any {
 	type funcs struct {
 		Summary    string
 		Parameters []MurexFuncParam

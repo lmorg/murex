@@ -8,9 +8,9 @@ import (
 )
 
 type testElementLookupT struct {
-	Object   interface{}
+	Object   any
 	Path     string
-	Expected interface{}
+	Expected any
 	Error    bool
 }
 
@@ -56,21 +56,21 @@ func TestElementLookup(t *testing.T) {
 		/////
 
 		{
-			Object: []interface{}{
+			Object: []any{
 				"foo", "bar",
 			},
 			Path:     "/1",
 			Expected: "bar",
 		},
 		{
-			Object: []interface{}{
+			Object: []any{
 				"foo", "bar",
 			},
 			Path:     ".1",
 			Expected: "bar",
 		},
 		{
-			Object: []interface{}{
+			Object: []any{
 				"foo", "bar",
 			},
 			Path:     ".-1",
@@ -119,7 +119,7 @@ func TestElementLookup(t *testing.T) {
 		/////
 
 		{
-			Object: map[string]interface{}{
+			Object: map[string]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"South Park": "Cartman",
@@ -128,7 +128,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Homer",
 		},
 		{
-			Object: map[string]interface{}{
+			Object: map[string]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"South Park": "Cartman",
@@ -137,7 +137,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Bender",
 		},
 		{
-			Object: map[string]interface{}{
+			Object: map[string]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"SOUTH PARK": "Cartman",
@@ -146,7 +146,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Cartman",
 		},
 		{
-			Object: map[string]interface{}{
+			Object: map[string]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"south park": "Cartman",
@@ -158,7 +158,7 @@ func TestElementLookup(t *testing.T) {
 		/////
 
 		{
-			Object: map[interface{}]interface{}{
+			Object: map[any]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"South Park": "Cartman",
@@ -167,7 +167,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Homer",
 		},
 		{
-			Object: map[interface{}]interface{}{
+			Object: map[any]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"South Park": "Cartman",
@@ -176,7 +176,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Bender",
 		},
 		{
-			Object: map[interface{}]interface{}{
+			Object: map[any]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"SOUTH PARK": "Cartman",
@@ -185,7 +185,7 @@ func TestElementLookup(t *testing.T) {
 			Expected: "Cartman",
 		},
 		{
-			Object: map[interface{}]interface{}{
+			Object: map[any]any{
 				"Simpsons":   "Homer",
 				"Futurama":   "Bender",
 				"south park": "Cartman",
