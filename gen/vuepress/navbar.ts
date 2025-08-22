@@ -26,6 +26,7 @@ export default navbar([
     ],
   },
   { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
+  { text: "Cheat Sheet", link: "user-guide/rosetta-stone.html", icon: "table" },
   "/changelog/",
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
   "/contributing",
