@@ -25,6 +25,7 @@ export default navbar([
       },
     ],
   },
+  { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
   "/changelog/",
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
   "/contributing",
