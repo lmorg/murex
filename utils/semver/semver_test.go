@@ -70,7 +70,7 @@ func TestParse(t *testing.T) {
 	}
 }
 
-func TestCompare(t *testing.T) {
+func TestCompareFunc(t *testing.T) {
 	tests := []struct {
 		Version    string
 		Comparison string
@@ -318,6 +318,63 @@ func TestCompare(t *testing.T) {
 			t.Logf("  Actual:     %v", actual)
 			t.Logf("  exp err:    %v", test.Error)
 			t.Logf("  act err:    %v", err)
+		}
+	}
+}
+
+func TestVersionCompare(t *testing.T) {
+	tests := []struct {
+		Version    string
+		Comparison string
+		Expected   []bool
+	}{
+		{
+			Version:    "1.2.3",
+			Comparison: "2.0.0",
+			Expected:   []bool{true, true, false, false, false},
+		},
+		{
+			Version:    "1.2.3",
+			Comparison: "1.2.3",
+			Expected:   []bool{false, true, true, true, false},
+		},
+		{
+			Version:    "2.1.0",
+			Comparison: "1.2.3",
+			Expected:   []bool{false, false, false, true, true},
+		},
+	}
+
+	count.Tests(t, 5*len(tests))
+
+	for i, test := range tests {
+		version, err := semver.Parse(test.Version)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		comparison, err := semver.Parse(test.Comparison)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		result := version.Compare(comparison)
+
+		expected := json.LazyLogging(test.Expected)
+		actual := json.LazyLogging([]bool{
+			result.IsLessThan(),
+			result.IsLessOrEqual(),
+			result.IsEqualTo(),
+			result.IsGreaterOrEqual(),
+			result.IsGreaterThan(),
+		})
+
+		if expected != actual {
+			t.Errorf("One or more result functions are incorrect in test %d", i)
+			t.Logf("  Version:    %s", test.Version)
+			t.Logf("  Comparison: %s", test.Comparison)
+			t.Logf("  Expected:   %s", expected)
+			t.Logf("  Actual:     %s", actual)
 		}
 	}
 }

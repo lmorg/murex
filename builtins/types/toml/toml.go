@@ -10,7 +10,7 @@ import (
 
 const typeName = "toml"
 
-var errNakedArrays = errors.New("The TOML specification doesn't support naked arrays")
+var errNakedArrays = errors.New("the TOML specification doesn't support naked arrays")
 
 func init() {
 	stdio.RegisterReadArray(typeName, readArray)
@@ -22,14 +22,15 @@ func init() {
 
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
-	lang.Marshallers[typeName] = marshal
-	lang.Unmarshallers[typeName] = unmarshal
+	lang.RegisterMarshaller(typeName, marshal)
+	lang.RegisterUnmarshaller(typeName, unmarshal)
 
 	lang.SetMime(typeName,
 		"application/toml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-toml",
 		"text/toml",
 		"text/x-toml",
+		"+toml",
 	)
 
 	lang.SetFileExtensions(typeName, "toml")

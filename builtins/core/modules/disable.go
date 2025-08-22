@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -19,7 +20,7 @@ func disableModules(p *lang.Process) error {
 	}
 
 	var disabled []string
-	if err := profile.ReadJson(profile.ModulePath()+profile.DisabledFile, &disabled); err != nil {
+	if err := profile.ReadJson(profilepaths.ModulePath()+profile.DisabledFile, &disabled); err != nil {
 		return err
 	}
 
@@ -44,7 +45,7 @@ func disableModules(p *lang.Process) error {
 }
 
 func disablePack(pack string) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 	return os.Rename(modulePath+pack, modulePath+pack+profile.IgnoredExt)
 }
 
@@ -60,7 +61,7 @@ func disableMod(mod string, disabled *[]string) error {
 }
 
 func writeDisabled(disabled *[]string) error {
-	file, err := os.OpenFile(profile.ModulePath()+profile.DisabledFile, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0640)
+	file, err := os.OpenFile(profilepaths.ModulePath()+profile.DisabledFile, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0640)
 	if err != nil {
 		return err
 	}

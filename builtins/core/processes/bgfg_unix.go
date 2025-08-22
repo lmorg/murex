@@ -5,6 +5,10 @@ package processes
 
 import (
 	"errors"
+	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
 	"syscall"
 
 	"github.com/lmorg/murex/debug"
@@ -13,13 +17,39 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func mkbg(p *lang.Process) error {
-	fid, err := p.Parameters.Uint32(0)
-	if err != nil {
-		return errors.New("invalid parameters. Expecting either a code block or FID of a stopped process")
+var rxJobId = regexp.MustCompile(`^%[0-9]+$`)
+
+func getProcess(s string) (*lang.Process, error) {
+	s = strings.TrimSpace(s)
+
+	// empty command. Get latest
+	if len(s) == 0 {
+		return lang.Jobs.GetLatest()
 	}
 
-	f, err := lang.GlobalFIDs.Proc(fid)
+	// is a number, likely function ID
+	i, err := strconv.Atoi(s)
+	if err == nil {
+		return lang.GlobalFIDs.Proc(uint32(i))
+	}
+
+	// has a % prefix, likely a job ID
+	if rxJobId.MatchString(s) {
+		i, err = strconv.Atoi(s[1:])
+		if err != nil {
+			return nil, fmt.Errorf("cannot get job ID from '%s': %s", s, err.Error())
+		}
+
+		return lang.Jobs.Get(i)
+	}
+
+	// lets just match it to the most recent command
+	return lang.Jobs.GetFromCommandLine(s)
+}
+
+func mkbg(p *lang.Process) error {
+	s := p.Parameters.StringAll()
+	f, err := getProcess(s)
 	if err != nil {
 		return err
 	}
@@ -47,12 +77,8 @@ func mkbg(p *lang.Process) error {
 func cmdForeground(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	fid, err := p.Parameters.Uint32(0)
-	if err != nil {
-		return err
-	}
-
-	f, err := lang.GlobalFIDs.Proc(fid)
+	s := p.Parameters.StringAll()
+	f, err := getProcess(s)
 	if err != nil {
 		return err
 	}

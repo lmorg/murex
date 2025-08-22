@@ -37,7 +37,7 @@ func parseRedirection(p *Process) {
 
 		case len(name) > 4 && name[:4] == "fid:":
 			varName := name[4:]
-			err := p.Variables.Set(p, varName, p.Id, types.Integer)
+			err := p.Variables.Set(p, varName, int(p.Id), types.Integer)
 			if err != nil {
 				ShellProcess.Stderr.Writeln([]byte(
 					fmt.Sprintf("Cannot write variable '%s': %s", varName, err.Error()),

@@ -328,7 +328,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 * [Prepend To List (`prepend`)](../commands/prepend.md):
   Add data to the start of an array
 * [Prettify JSON](../commands/pretty.md):
-  Prettifies JSON to make it human readable
+  Prettifies data documents to make it human readable
 * [Print Map / Structure Keys (`struct-keys`)](../commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
 * [Private Function (`private`)](../commands/private.md):
@@ -447,6 +447,8 @@ are only included by default on Windows.
   string (primitive)
 * [`toml`](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
+* [`xml`](../types/xml.md):
+  Extensible Markup Language (XML) (experimental)
 * [`yaml`](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):
@@ -491,8 +493,18 @@ are only included by default on Windows.
   Username for the current session (historic)
 * [`MUREX_ARGV` (json)](../variables/murex_argv.md):
   Array of the command name and parameters passed to the current shell
+* [`MUREX_CONFIG_DIR` (str)](../variables/murex_config_dir.md):
+  Defines the path to Murex's config
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell
+* [`MUREX_HISTORY` (str)](../variables/murex_history.md):
+  Defines the path to the `.murex_history` log
+* [`MUREX_MODULES` (str)](../variables/murex_modules.md):
+  Defines the path to the modules directory
+* [`MUREX_PRELOAD` (str)](../variables/murex_preload.md):
+  Defines the path to the `.murex_preload` script
+* [`MUREX_PROFILE` (str)](../variables/murex_profile.md):
+  Defines the path to the `.murex_profile` script
 * [`OLDPWD` (path)](../variables/oldpwd.md):
   Return the home directory for the current session user
 * [`PARAMS` (json)](../variables/params.md):

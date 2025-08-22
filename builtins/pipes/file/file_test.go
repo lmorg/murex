@@ -23,7 +23,7 @@ func TestSetDataType(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -53,7 +53,7 @@ func TestSetOpenClose(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -74,7 +74,7 @@ func TestSetCloseError1(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -100,7 +100,7 @@ func TestSetOpenCloseError(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -129,7 +129,7 @@ func TestSetForceClose(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -149,7 +149,7 @@ func TestSetOpenForceClose(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -170,7 +170,7 @@ func TestSetWriteStat(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -183,7 +183,7 @@ func TestSetWriteStat(t *testing.T) {
 	f.Open()
 	i, err := f.Write([]byte("12345"))
 	if err != nil {
-		t.Error(err.Error())
+		t.Error(err)
 	}
 	w, r := f.Stats()
 	f.Close()
@@ -203,7 +203,7 @@ func TestSetWritelnStat(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -216,7 +216,7 @@ func TestSetWritelnStat(t *testing.T) {
 	f.Open()
 	i, err := f.Writeln([]byte("12345"))
 	if err != nil {
-		t.Error(err.Error())
+		t.Error(err)
 	}
 	w, r := f.Stats()
 	f.Close()
@@ -236,7 +236,7 @@ func TestSetWriteAfterClose(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {
@@ -264,7 +264,7 @@ func TestSetWritelnAfterClose(t *testing.T) {
 
 	f, err := NewFile(filename)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	defer func() {

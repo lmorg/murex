@@ -4,6 +4,16 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 14.04.2025 - [v7.0](../changelog/v7.0.md)
+
+This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.
+
+
+### 11.12.2024 - [v6.4](../changelog/v6.4.md)
+
+This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.
+
+
 ### 18.09.2024 - [v6.3](../changelog/v6.3.md)
 
 This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.

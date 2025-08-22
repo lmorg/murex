@@ -25,6 +25,8 @@ World!
 
 ## Detail
 
+### Syntactic Sugar
+
 This is just syntactic sugar for `-> >>`. Thus when the parser reads code like
 the following:
 
@@ -39,7 +41,7 @@ instead:
 out "foobar" | >> example.txt
 ```
 
-### Truncating a file
+### Truncating A File
 
 To truncate a file (ie overwrite its contents) use `|>` instead.
 
@@ -68,4 +70,4 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 <hr/>
 
-This document was generated from [gen/parser/pipes_doc.yaml](https://github.com/lmorg/murex/blob/master/gen/parser/pipes_doc.yaml).
+This document was generated from [builtins/core/io/write_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/io/write_doc.yaml).

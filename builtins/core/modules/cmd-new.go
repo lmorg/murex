@@ -3,7 +3,7 @@ package modules
 import (
 	"embed"
 
-	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -22,7 +22,7 @@ func newPackage(p *lang.Process) error {
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 	fork.Name.Set("(new package)")
 	fork.FileRef = ref.NewModule("shell/modules.newPackage")
-	fork.Variables.Set(p, "MUREX_MODULE_PATH", profile.ModulePath(), types.String)
+	fork.Variables.Set(p, "MUREX_MODULE_PATH", profilepaths.ModulePath(), types.String)
 
 	exitNum, err := fork.Execute(block)
 	p.ExitNum = exitNum

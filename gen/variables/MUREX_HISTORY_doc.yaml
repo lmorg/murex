@@ -1,0 +1,23 @@
+- DocumentID: murex_history
+  Title: >-
+    `MUREX_HISTORY` (str)
+  CategoryID: variables
+  SubCategoryIDs: [ vars.profile ]
+  Summary: >-
+    Defines the path to the `.murex_history` log
+  Description: |-
+    `MUREX_HISTORY` should be set outside of Murex and then passed to Murex upon
+    its start up.
+
+    {{ include "gen/includes/vars-murex-profile.inc.md" }}
+  Detail:
+  Synonyms:
+  - murex_history
+  - MUREX_HISTORY
+  Related:
+  - profile
+  - MUREX_PROFILE
+  - MUREX_PRELOAD
+  - MUREX_MODULES
+  - MUREX_CONFIG_DIR
+  - history

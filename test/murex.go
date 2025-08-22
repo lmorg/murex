@@ -14,6 +14,8 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
+const _TIMEOUT_SECONDS = 30
+
 // MurexTest is a basic framework to test murex code.
 // Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 type MurexTest struct {
@@ -36,7 +38,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 		go func(testNum int) {
-			time.Sleep(30 * time.Second)
+			time.Sleep(_TIMEOUT_SECONDS * time.Second)
 			if !fork.Process.HasCancelled() {
 				panic(fmt.Sprintf("timeout in %s() test %d", t.Name(), testNum))
 			}
@@ -109,6 +111,13 @@ func RunMurexTestsRx(tests []MurexTest, t *testing.T) {
 		hasError := false
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		go func(testNum int) {
+			time.Sleep(_TIMEOUT_SECONDS * time.Second)
+			if !fork.Process.HasCancelled() {
+				panic(fmt.Sprintf("timeout in %s() test %d", t.Name(), testNum))
+			}
+		}(i)
+
 		fork.Name.Set("RunMurexTestsRx()")
 		fork.FileRef = &ref.File{Source: &ref.Source{Module: fmt.Sprintf("murex/%s-%d", t.Name(), i)}}
 		exitNum, err := fork.Execute([]rune(tests[i].Block))

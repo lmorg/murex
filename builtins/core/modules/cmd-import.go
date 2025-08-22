@@ -8,10 +8,11 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/httpclient"
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/cd"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func packageDirExists(pack string) error {
@@ -24,7 +25,7 @@ func packageDirExists(pack string) error {
 }
 
 func importModules(p *lang.Process) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 	path, err := p.Parameters.String(1)
 	if err != nil {
 		return err
@@ -83,7 +84,11 @@ func importModules(p *lang.Process) error {
 
 		db = append(db, importDb[i])
 
-		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true)
+		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true, true)
+		if err != nil {
+			write(p, "{RED}%s{RESET}", err.Error())
+		}
+		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true, false)
 		if err != nil {
 			write(p, "{RED}%s{RESET}", err.Error())
 		}

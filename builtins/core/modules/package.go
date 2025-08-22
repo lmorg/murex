@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -23,7 +24,7 @@ func readPackagesFile(path string) ([]packageDb, error) {
 }
 
 func writePackagesFile(db *[]packageDb) error {
-	path := profile.ModulePath() + profile.PackagesFile
+	path := profilepaths.ModulePath() + profile.PackagesFile
 
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0640)
 	if err != nil {
@@ -57,12 +58,12 @@ func mvPackagePath(path string) (string, error) {
 		return path, err
 	}
 
-	if path != profile.ModulePath()+pack.Name {
-		err = os.Rename(path, profile.ModulePath()+pack.Name)
+	if path != profilepaths.ModulePath()+pack.Name {
+		err = os.Rename(path, profilepaths.ModulePath()+pack.Name)
 		if err != nil {
 			os.Stdout.WriteString(fmt.Sprintf(
 				"WARNING: unable to do post-install tidy up: %s.\n         To manually apply the changes please run the following commands:\n             mv %s %s\n             murex-package reload\n",
-				err, path, profile.ModulePath()+pack.Name,
+				err, path, profilepaths.ModulePath()+pack.Name,
 			))
 		}
 	}

@@ -19,6 +19,17 @@ test unit private autocomplete.pids %{
 
 autocomplete set kill %[
     {
+        Dynamic: %({ kill -l -> jsplit %(\s) -> prefix %(-) })
+        FlagsDesc: {
+            -s: signal_name
+            -l: "list signals"
+        }
+        FlagValues: {
+            -s: [{ Dynamic: %({ kill -l -> jsplit %(\s) -> prefix %(-) }) }]
+        }
+        Optional: true
+    }
+    {
         DynamicDesc: '{ autocomplete.pids }'
         ListView: true
         AllowMultiple: true

@@ -139,7 +139,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				}
 
 			default:
-				_, v, _, err := tree.parseVarScalar(exec, varAsValue)
+				_, v, _, err := tree.parseVarScalar(exec, exec, varAsValue)
 				if err != nil {
 					return nil, nil, err
 				}

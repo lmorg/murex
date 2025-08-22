@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var (

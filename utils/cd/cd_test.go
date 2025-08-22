@@ -21,29 +21,29 @@ func TestCd(t *testing.T) {
 	new := ".."
 	before, err := os.Getwd()
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 		return
 	}
 
 	err = os.Chdir(new)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 		return
 	}
 	new, err = os.Getwd()
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 		return
 	}
 	err = os.Chdir(before)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 		return
 	}
 
 	before, err = os.Getwd()
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 		return
 	}
 
@@ -56,12 +56,12 @@ func TestCd(t *testing.T) {
 	// add some history to the path history global
 	err = lang.GlobalVariables.Set(p, cd.GlobalVarName, []string{"/1/1/1", "/2/2/2"}, types.Json)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	err = cd.Chdir(p, new)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	pwdHist, _ := lang.GlobalVariables.GetValue(cd.GlobalVarName)
@@ -87,13 +87,13 @@ func TestCd(t *testing.T) {
 	// break the path history
 	err = lang.GlobalVariables.Set(p, cd.GlobalVarName, "", types.String)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	// set the path back again
 	err = cd.Chdir(p, before)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err)
 	}
 
 	pwdHist, _ = lang.GlobalVariables.GetValue(cd.GlobalVarName)

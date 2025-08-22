@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/path"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var envDataTypes = map[string][]string{

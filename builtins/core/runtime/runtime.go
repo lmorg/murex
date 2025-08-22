@@ -3,8 +3,11 @@ package cmdruntime
 import (
 	"errors"
 	"runtime"
+	godebug "runtime/debug"
 	"sort"
+	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/core/open"
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
@@ -12,6 +15,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/integrations"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/modver"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
@@ -21,6 +25,7 @@ import (
 	"github.com/lmorg/murex/utils/cache"
 	cdcache "github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/envvars"
+	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -54,6 +59,7 @@ const (
 	fTests              = "--tests"
 	fTestResults        = "--test-results"
 	fModules            = "--modules"
+	fModver             = "--module-murex-versions"
 	fDebug              = "--debug"
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
@@ -66,6 +72,7 @@ const (
 	fCacheDbEnabled     = "--cache-db-enabled"
 	fCacheDbPath        = "--cache-db-path"
 	fGoGarbageCollect   = "--go-gc"
+	fAbout              = "--about"
 	fHelp               = "--help"
 )
 
@@ -99,6 +106,7 @@ var flags = map[string]string{
 	fTests:              types.Boolean,
 	fTestResults:        types.Boolean,
 	fModules:            types.Boolean,
+	fModver:             types.Boolean,
 	fDebug:              types.Boolean,
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
@@ -111,6 +119,7 @@ var flags = map[string]string{
 	fCacheDbEnabled:     types.Boolean,
 	fCacheDbPath:        types.Boolean,
 	fGoGarbageCollect:   types.Boolean,
+	fAbout:              types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -209,7 +218,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fMarshallers:
 			ret[flag[2:]] = lang.DumpMarshaller()
 		case fUnmarshallers:
-			ret[fUnmarshallers[2:]] = lang.DumpUnmarshaller()
+			ret[flag[2:]] = lang.DumpUnmarshaller()
 		case fEvents:
 			ret[flag[2:]] = events.DumpEvents()
 		case fEventTypes:
@@ -226,6 +235,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[flag[2:]] = dumpTestResults(p)
 		case fModules:
 			ret[flag[2:]] = profile.Packages
+		case fModver:
+			ret[flag[2:]] = modver.Dump()
 		case fDebug:
 			ret[flag[2:]] = debug.Dump()
 		case fSources:
@@ -261,10 +272,17 @@ func cmdRuntime(p *lang.Process) error {
 		case fCacheDbPath:
 			ret[flag[2:]] = cache.DbPath()
 		case fGoGarbageCollect:
-			runtime.GC()
-			ret[fGoGarbageCollect] = "done"
+			//runtime.GC()
+			godebug.FreeOSMemory()
+			ret[flag[2:]] = "done"
+		case fAbout:
+			v := dumpAbout()
+			if v == nil {
+				return errors.New("unexpected error: reason unknown")
+			}
+			ret[flag[2:]] = v
 		case fHelp:
-			ret[fHelp[2:]] = Help()
+			ret[flag[2:]] = Help()
 		default:
 			return errors.New("unrecognized parameter: " + flag)
 		}
@@ -296,4 +314,46 @@ func dumpTestResults(p *lang.Process) interface{} {
 		"shell":   lang.ShellProcess.Tests.Results.Dump(),
 		"process": p.Tests.Results.Dump(),
 	}
+}
+
+func dumpAbout() any {
+	info, ok := godebug.ReadBuildInfo()
+	if !ok {
+		return nil
+	}
+
+	var mem runtime.MemStats
+	runtime.ReadMemStats(&mem)
+
+	m := map[string]any{
+		"GoVersion":    info.GoVersion,
+		"GitBranch":    app.Branch,
+		"SemVer":       app.Semver(),
+		"BuildDate":    app.BuildDate,
+		"DebugEnabled": debug.Enabled,
+		//"TestEnabled":  p.Scope.Tests != nil,
+		"NumCgoCalls": runtime.NumCgoCall(),
+		"NumRoutines": runtime.NumGoroutine(),
+		"NumCpus":     runtime.NumCPU(),
+	}
+
+	buildSettings := make(map[string]any)
+	for _, setting := range info.Settings {
+		if setting.Key == "-tags" || setting.Key == "DefaultGODEBUG" {
+			buildSettings[setting.Key] = sort.StringSlice(strings.Split(setting.Value, ","))
+		} else {
+			buildSettings[setting.Key] = setting.Value
+		}
+	}
+	m["BuildSettings"] = buildSettings
+
+	m["MemStats"] = map[string]any{
+		"Alloc":           humannumbers.Bytes(mem.Alloc),
+		"SessionLifeTime": humannumbers.Bytes(mem.TotalAlloc),
+		"Sys":             humannumbers.Bytes(mem.Sys),
+		"NumGC":           mem.NumGC,
+		"NumForcedGC":     mem.NumForcedGC,
+	}
+
+	return m
 }

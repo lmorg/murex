@@ -55,6 +55,9 @@ const (
 	// F_BACKGROUND this process will run in the background
 	F_BACKGROUND
 
+	// F_ASSIGN_JOBID will allow child functions to gain an %n job id for job control
+	F_ASSIGN_JOBID
+
 	// F_CREATE_STDIN will create a new stdin stdio.Io interface
 	F_CREATE_STDIN
 
@@ -106,6 +109,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
+	fork.HasJobId.Set(flags&F_ASSIGN_JOBID != 0 || p.HasJobId.Get())
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd

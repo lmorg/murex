@@ -14,8 +14,8 @@ import (
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/pathsplit"
-	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/which"
+	"github.com/lmorg/readline/v4"
 )
 
 // Flags is a struct to store auto-complete options

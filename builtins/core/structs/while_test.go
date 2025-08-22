@@ -13,10 +13,10 @@ func TestWhileStdoutEvaluated(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block: `
-				let: i=0
+				i=0
 				while {
-					let: i++
-					= i<5
+					$i++
+					$i<5
 				}
 				out: $i`,
 			Stdout: "truetruetruetruefalse5\n",
@@ -30,9 +30,9 @@ func TestWhileConditionalEvaluated(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block: `
-				let: i=0
-				while { = i<5 } {
-					let: i++
+				i=0
+				while { $i<5 } {
+					$i++
 				}
 				out: $i`,
 			Stdout: "5\n",

@@ -222,6 +222,10 @@ interactive command prompt.
 #### General Hotkeys
 
 * `ctrl`+`k`: clears line after cursor
+
+* `ctrl`+`n`: next line from history
+
+* `ctrl`+`p`: previous line from history
   
 * `ctrl`+`u`: clears the whole line
 

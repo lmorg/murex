@@ -33,9 +33,10 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 		Package:  "/..",
 		Disabled: false,
 		Dependencies: Dependencies{
-			Optional: []string{"foo", "bar"},
-			Required: []string{"sh"},
-			Platform: []string{"posix"},
+			Optional:     []string{"foo", "bar"},
+			Required:     []string{"sh"},
+			Platform:     []string{"posix"},
+			MurexVersion: ">= 1.2.3",
 		},
 	}
 
@@ -47,9 +48,10 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 		Package:  "/..",
 		Disabled: false,
 		Dependencies: Dependencies{
-			Optional: []string{"foo", "bar"},
-			Required: []string{"rc"},
-			Platform: []string{"plan9"},
+			Optional:     []string{"foo", "bar"},
+			Required:     []string{"rc"},
+			Platform:     []string{"plan9"},
+			MurexVersion: ">= 1.2.3",
 		},
 	}
 
@@ -61,9 +63,10 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 		Package:  "/..",
 		Disabled: false,
 		Dependencies: Dependencies{
-			Optional: []string{"foo", "bar"},
-			Required: []string{"cmd.exe"},
-			Platform: []string{"windows"},
+			Optional:     []string{"foo", "bar"},
+			Required:     []string{"cmd.exe"},
+			Platform:     []string{"windows"},
+			MurexVersion: ">= 1.2.3",
 		},
 	}
 
@@ -115,9 +118,9 @@ func TestValidate(t *testing.T) {
 	}
 	autocomplete.GlobalExes.Set(&globalExes)
 
-	errPosix := posix.validate()
-	errPlan9 := plan9.validate()
-	errWindows := windows.validate()
+	errPosix := posix.validate(false)
+	errPlan9 := plan9.validate(false)
+	errWindows := windows.validate(false)
 
 	if runtime.GOOS != "plan9" && runtime.GOOS != "windows" && errPosix != nil {
 		t.Errorf("Failed to validate: %s", err)

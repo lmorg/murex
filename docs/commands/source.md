@@ -28,6 +28,12 @@ source filename.mx
 source { code-block }
 ```
 
+### Execute a module
+
+```
+source module:package/module
+```
+
 ## Examples
 
 ### Execute source from stdin
@@ -50,6 +56,19 @@ Hello, world!
 ```
 » source { out "Hello, world!" }
 Hello, world!
+```
+
+### Execute a module
+
+Lets say we want to use the `secrets` function from the `devops` package. This
+`secrets` function allows us to store and recall GPG encrypted API keys, so
+pretty useful functionality for a script. But since this is a script, it
+wouldn't automatically load all of the profiles and nor would we want it to.
+
+So we could prepend the following to our script:
+
+```
+source module:devops/secret
 ```
 
 ## Synonyms

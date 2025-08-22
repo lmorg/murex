@@ -46,10 +46,16 @@ The history file is typically located on disk in a file called `~/.murex.history
 
 ## See Also
 
+* [Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [Shell Configuration And Settings (`config`)](../commands/config.md):
   Query or define Murex runtime settings
 * [Shell Runtime (`runtime`)](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [`MUREX_CONFIG_DIR` (str)](../variables/murex_config_dir.md):
+  Defines the path to Murex's config
+* [`MUREX_HISTORY` (str)](../variables/murex_history.md):
+  Defines the path to the `.murex_history` log
 
 <hr/>
 

@@ -190,8 +190,8 @@ func TestParseVarsTilderPlusNameNegative(t *testing.T) {
 			ExitNum: 1,
 		},
 		{
-			Block:   `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
-			Stdout:  `~TestParseVarsTilderPlusName2`,
+			Block:  `TestParseVarsTilderPlusName2='~TestParseVarsTilderPlusName2';$TestParseVarsTilderPlusName2`,
+			Stdout: `~TestParseVarsTilderPlusName2`,
 		},
 		{
 			Block:   `%[~TestParseVarsTilderPlusName3]`,
@@ -383,4 +383,45 @@ func TestParseVarsParen(t *testing.T) {
 	}
 
 	test.RunMurexTestsRx(tests, t)
+}
+
+// https://github.com/lmorg/murex/issues/892
+func TestParseVarsIssue892(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsIssue892=%[1 2 3 4 5]; $TestParseVarsIssue892.(1+2)`,
+			Stdout: `4`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+// https://github.com/lmorg/murex/issues/903
+func TestParseVarsIssue903(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsIssue903_0 = 1; $TestParseVarsIssue903_0; $TestParseVarsIssue903_0 == 1`,
+			Stdout: `1true`,
+		},
+		{
+			Block:  `TestParseVarsIssue903_1 = ${%[1..2]->count}; $TestParseVarsIssue903_1; $TestParseVarsIssue903_1 == 2`,
+			Stdout: `2true`,
+		},
+		{
+			Block:  `%[1..3]->count -> set TestParseVarsIssue903_2; $TestParseVarsIssue903_2; $TestParseVarsIssue903_2 == 3`,
+			Stdout: `3true`,
+		},
+		{
+			Block:  `%[1..4]->count -> set TestParseVarsIssue903_3; $TestParseVarsIssue903_3; $TestParseVarsIssue903_3 < 5`,
+			Stdout: `4true`,
+		},
+		{
+			Block:   `%[1..5]->count -> set TestParseVarsIssue903_4; $TestParseVarsIssue903_4; $TestParseVarsIssue903_4 < 5`,
+			Stdout:  `5false`,
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }
