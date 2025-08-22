@@ -1,4 +1,4 @@
-# Array Merge To String (`mjoin`)
+# Array Merge To String: `mjoin`
 
 > Joins a list or array into a single string
 

@@ -1,4 +1,4 @@
-# ASCII And ANSI Escape Sequences (`key-code`)
+# ASCII And ANSI Escape Sequences: `key-code`
 
 > Returns character sequences for any key pressed (ie sent from the terminal)
 
@@ -59,7 +59,7 @@ event onKeyPress close=$key {
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type

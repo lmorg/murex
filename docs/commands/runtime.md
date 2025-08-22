@@ -318,7 +318,7 @@ functions.
   Evaluate a mathematical function and assign to variable (deprecated)
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler

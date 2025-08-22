@@ -249,7 +249,7 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Makes a standard HTTP request and returns the result as a JSON object
 * [HTTP(S) Post Request: `post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler

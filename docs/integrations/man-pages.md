@@ -44,7 +44,7 @@ That command will generally be pulled from its accompanying `man` page.
 
 * [ChatGPT](../integrations/chatgpt.md):
   How to enable ChatGPT hints
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins

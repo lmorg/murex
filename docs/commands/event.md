@@ -1,4 +1,4 @@
-# Murex Event Subsystem (`event`)
+# Murex Event Subsystem: `event`
 
 > Event driven programming for shell scripts
 

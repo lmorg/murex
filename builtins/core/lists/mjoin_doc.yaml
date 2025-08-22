@@ -1,6 +1,6 @@
 - DocumentID: mjoin
   Title: >-
-    Array Merge To String (`mjoin`)
+    Array Merge To String: `mjoin`
   SubCategoryIDs:
     - commands.list
   CategoryID: commands

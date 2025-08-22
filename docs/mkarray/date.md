@@ -193,7 +193,7 @@ Friday, 03 January
 
 ## See Also
 
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [Count: `count`](../commands/count.md):
   Count items in a map, list or array

@@ -169,7 +169,7 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [Count: `count`](../commands/count.md):
   Count items in a map, list or array

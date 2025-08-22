@@ -145,9 +145,9 @@ unique count should be one less than the total count:
   Add data to the end of an array
 * [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [Array Sort: `msort`)](../commands/msort.md):
+* [Array Sort: `msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array

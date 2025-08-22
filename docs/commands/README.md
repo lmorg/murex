@@ -118,13 +118,13 @@ Commands that operate against a list or array.
   Prefix a string to every item in a list
 * [Array Append: `append`](../commands/append.md):
   Add data to the end of an array
-* [Array Merge To String (`mjoin`)](../commands/mjoin.md):
+* [Array Merge To String: `mjoin`](../commands/mjoin.md):
   Joins a list or array into a single string
 * [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [Array Sort: `msort`)](../commands/msort.md):
+* [Array Sort: `msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [Change Text Case: `list.case`](../commands/list.case.md):
   Changes the character case of a string or all elements in an array
@@ -229,7 +229,7 @@ Commands specifically for working with tabulated data.
   Adds headings to a table
 * [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [Inline SQL (`select`)](../optional/select.md):
+* [Inline SQL: `select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
@@ -269,7 +269,7 @@ Commands to manage the Murex shell session.
   Execute a command or function, bypassing the usual order of precedence.
 * [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Murex Package Manager: `murex-package`](../commands/murex-package.md):
   Murex's package manager
@@ -296,7 +296,7 @@ Commands to manage the Murex shell session.
 
 Commands to escape special characters in various different string formats.
 
-* [ASCII And ANSI Escape Sequences (`key-code`)](../commands/key-code.md):
+* [ASCII And ANSI Escape Sequences: `key-code`](../commands/key-code.md):
   Returns character sequences for any key pressed (ie sent from the terminal)
 * [Escape Command Line String: `esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
@@ -333,7 +333,7 @@ Management of system processes and Murex FIDs.
   Locate command origin
 * [Processes Execution Time: `time`](../commands/time.md):
   Returns the execution run time of a command or block
-* [Send Signal IPC (`signal`)](../commands/signal.md):
+* [Send Signal IPC: `signal`](../commands/signal.md):
   Sends a signal RPC
 
 ### Language And Scripting
@@ -426,7 +426,7 @@ Tools for providing help and hints, useful when working inside the interactive s
 
 ## Optional Builtins
 
-* [Inline SQL (`select`)](../optional/select.md):
+* [Inline SQL: `select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file

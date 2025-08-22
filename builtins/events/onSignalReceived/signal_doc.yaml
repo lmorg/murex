@@ -1,6 +1,6 @@
 - DocumentID: signal
   Title: >+
-    Send Signal IPC (`signal`)
+    Send Signal IPC: `signal`
   CategoryID: commands
   SubCategoryIDs: [ commands.proc ]
   Summary: >-

@@ -127,7 +127,7 @@ under `/integrations`.
 
 * [Man Pages (POSIX)](../integrations/man-pages.md):
   Linux/UNIX `man` page integrations
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins

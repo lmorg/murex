@@ -292,7 +292,7 @@ subject to this restriction.
   Add data to the end of an array
 * [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Array Sort: `msort`)](../commands/msort.md):
+* [Array Sort: `msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [Count: `count`](../commands/count.md):
   Count items in a map, list or array

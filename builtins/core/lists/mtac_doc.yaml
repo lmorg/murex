@@ -1,6 +1,6 @@
 - DocumentID: mtac
   Title: >+
-    Array Reverse (`mtac`)
+    Array Reverse: `mtac`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

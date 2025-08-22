@@ -1,4 +1,4 @@
-# Inline SQL (`select`)
+# Inline SQL: `select`
 
 > Inlining SQL into shell pipelines
 

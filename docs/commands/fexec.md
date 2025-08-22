@@ -92,7 +92,7 @@ alias to `fexec builtin`
   Sends a background process into the foreground
 * [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler

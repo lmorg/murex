@@ -218,7 +218,7 @@ var rangeMoon = map[string]int{
 
 ## See Also
 
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [Calendar Date Ranges](../mkarray/date.md):
   Create arrays of dates

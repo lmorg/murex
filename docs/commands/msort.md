@@ -1,4 +1,4 @@
-# Array Sort: `msort`)
+# Array Sort: `msort`
 
 > Sorts an array - data type agnostic
 
@@ -60,7 +60,7 @@ output of `msort` into another builtin:
   Add data to the end of an array
 * [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [Count: `count`](../commands/count.md):
   Count items in a map, list or array

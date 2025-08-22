@@ -151,7 +151,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ### Standard Builtins
 
-* [ASCII And ANSI Escape Sequences (`key-code`)](../commands/key-code.md):
+* [ASCII And ANSI Escape Sequences: `key-code`](../commands/key-code.md):
   Returns character sequences for any key pressed (ie sent from the terminal)
 * [Add Heading: `addheading`](../commands/addheading.md):
   Adds headings to a table
@@ -165,13 +165,13 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [Array Append: `append`](../commands/append.md):
   Add data to the end of an array
-* [Array Merge To String (`mjoin`)](../commands/mjoin.md):
+* [Array Merge To String: `mjoin`](../commands/mjoin.md):
   Joins a list or array into a single string
 * [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [Array Sort: `msort`)](../commands/msort.md):
+* [Array Sort: `msort`](../commands/msort.md):
   Sorts an array - data type agnostic
 * [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
@@ -307,7 +307,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Loop until condition false
 * [Man-Page Summary: `man-summary`](../commands/man-summary.md):
   Outputs a man page summary of a command
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Murex Package Manager: `murex-package`](../commands/murex-package.md):
   Murex's package manager
@@ -359,7 +359,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Right substring every item in a list
 * [Round Number: `round`](../commands/round.md):
   Round a number by a user defined precision
-* [Send Signal IPC (`signal`)](../commands/signal.md):
+* [Send Signal IPC: `signal`](../commands/signal.md):
   Sends a signal RPC
 * [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
@@ -394,7 +394,7 @@ These builtins are optional. `select` is included as part of the default build
 but can be disabled without breaking functionality. The other optional builtins
 are only included by default on Windows.
 
-* [Inline SQL (`select`)](../optional/select.md):
+* [Inline SQL: `select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file

@@ -147,7 +147,7 @@ Error in `[` ((builtin) 2,11): Key 'foobar' not found
 
 ## See Also
 
-* [Array Reverse (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [Count: `count`](../commands/count.md):
   Count items in a map, list or array

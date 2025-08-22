@@ -63,7 +63,7 @@ _scope_. Sub-shells also do not create a new _scope_ either.
   Import Murex code from another file or code block
 * [Integer Operations: `let`](../deprecated/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Private Function: `private`](../commands/private.md):
   Define a private function block

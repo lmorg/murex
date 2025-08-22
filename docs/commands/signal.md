@@ -1,4 +1,4 @@
-# Send Signal IPC (`signal`)
+# Send Signal IPC: `signal`
 
 > Sends a signal RPC
 
@@ -166,7 +166,7 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
   What's different about Murex's interactive shell?
 * [MUREX_EXE](../variables/murex_exe.md):
   Absolute path to running shell
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
 * [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
