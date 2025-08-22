@@ -1,0 +1,14 @@
+- DocumentID: vibe_coding_experiment
+  Title: >-
+    My Vibe Coding Experiment
+  CategoryID: blog
+  DateTime: 2025-03-21 21:11
+  Summary: >-
+    My personal thoughts after trying out "vibe coding" for the first time.
+  Description: |-
+    {{ include "gen/blog/vibe_coding_experiment.inc.md" }}
+  Synonyms:
+  Related:
+    - iterm2
+
+

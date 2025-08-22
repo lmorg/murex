@@ -56,7 +56,7 @@ import (
 )
 
 // ArrayTemplate is a template function for reading arrays from marshalled data
-func ArrayTemplate(ctx context.Context, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
+func ArrayTemplate(ctx context.Context, marshal func(any) ([]byte, error), unmarshal func([]byte, any) error, read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -68,12 +68,15 @@ func ArrayTemplate(ctx context.Context, marshal func(interface{}) ([]byte, error
 
 	var v interface{}
 	err = unmarshal(b, &v)
-
 	if err != nil {
 		return err
 	}
 
-	switch v := v.(type) {
+	return ArrayDataTemplate(ctx, marshal, unmarshal, v, callback)
+}
+
+func ArrayDataTemplate(ctx context.Context, marshal func(any) ([]byte, error), unmarshal func([]byte, any) error, data any, callback func([]byte)) error {
+	switch v := data.(type) {
 	case string:
 		return readArrayByString(v, callback)
 

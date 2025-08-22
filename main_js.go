@@ -10,11 +10,12 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell"
 	signalhandler "github.com/lmorg/murex/shell/signal_handler"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 const interactive = true
@@ -37,7 +38,7 @@ func startMurex() {
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	defaultProfile()
+	profile.Execute(profile.F_BUILTIN)
 }
 
 // wasmShellExec returns a Promise

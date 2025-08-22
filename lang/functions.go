@@ -8,7 +8,7 @@ import (
 
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 // MurexFuncs is a table of murex functions
@@ -21,15 +21,17 @@ type MurexFuncs struct {
 type murexFuncDetails struct {
 	Block      []rune
 	Summary    string
-	Parameters []MxFunctionParams
+	Parameters []MurexFuncParam
 	FileRef    *ref.File
 }
 
-type MxFunctionParams struct {
+type MurexFuncParam struct {
 	Name        string
 	DataType    string
 	Description string
 	Default     string
+	HasDefault  bool
+	Optional    bool
 }
 
 // NewMurexFuncs creates a new table of murex functions
@@ -98,6 +100,7 @@ const ( // function parameter error messages
 	fpeEofDefaultRead          = "missing closing square bracket on default %d (%d,%d)"
 	fpeParameterNoName         = "parameter %d is missing a name"
 	fpeParameterNoDataType     = "parameter %d is missing a data type"
+	fpeUnexpectedMandatory     = "mandatory parameters (%d) cannot follow optional parameters (%d)"
 )
 
 const ( // function parameter contexts
@@ -113,11 +116,13 @@ const ( // function parameter contexts
 )
 
 // Parse the function parameter and data type block
-func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
-	/* function example (
-		name: str [Bob] "User name",
-		age:  num [100] "How old are you?"
-	   ) {}*/
+func ParseMxFunctionParameters(parameters string) ([]MurexFuncParam, error) {
+	/*
+		function example (
+			name: str [Bob] "User name",
+			age:  num [100] "How old are you?"
+		) { ... }
+	*/
 
 	var (
 		context int
@@ -125,7 +130,7 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 		x, y    = 0, 1
 	)
 
-	mfp := make([]MxFunctionParams, 1)
+	mfp := make([]MurexFuncParam, 1)
 
 	for i, r := range parameters {
 		x++
@@ -190,6 +195,7 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				mfp[counter].Default += "["
 			case fpcDescStart, fpcDescEnd:
 				context = fpcDefaultRead
+				mfp[counter].HasDefault = true
 			}
 
 		case ']':
@@ -210,15 +216,28 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				mfp[counter].Default += ","
 			case fpcNameRead:
 				mfp[counter].DataType = types.String
-				mfp = append(mfp, MxFunctionParams{})
+				mfp = append(mfp, MurexFuncParam{})
 				counter++
 				context = fpcNameStart
 			case fpcTypeRead, fpcDescEnd, fpcDefaultEnd:
-				mfp = append(mfp, MxFunctionParams{})
+				mfp = append(mfp, MurexFuncParam{})
 				counter++
 				context = fpcNameStart
 			default:
 				return nil, fmt.Errorf(fpeUnexpectedComma, i+1, y, x)
+			}
+
+		case '!':
+			switch context {
+			case fpcNameStart:
+				context++
+				mfp[counter].Optional = true
+			case fpcDescRead:
+				mfp[counter].Description += string([]rune{r})
+			case fpcDefaultRead:
+				mfp[counter].Default += string([]rune{r})
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedCharacter, string([]rune{r}), r, i+1, y, x)
 			}
 
 		default:
@@ -274,12 +293,18 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 		return nil, fmt.Errorf(fpeEofDefaultRead, len(parameters), y, x)
 	}
 
+	var optional bool
 	for i := range mfp {
 		if mfp[i].Name == "" {
 			return nil, fmt.Errorf(fpeParameterNoName, i+1)
 		}
 		if mfp[i].DataType == "" {
 			return nil, fmt.Errorf(fpeParameterNoDataType, i+1)
+		}
+		if mfp[i].Optional {
+			optional = true
+		} else if optional {
+			return nil, fmt.Errorf(fpeUnexpectedMandatory, i+1, i)
 		}
 	}
 
@@ -294,31 +319,26 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 				return fmt.Errorf("cannot prompt for parameters when a function is run in the background: %s", err.Error())
 			}
 
-			prompt := mfd.Parameters[i].Description
-			if prompt == "" {
-				prompt = "Please enter a value for '" + mfd.Parameters[i].Name + "'"
+			if mfd.Parameters[i].Optional {
+				if mfd.Parameters[i].HasDefault {
+					s = mfd.Parameters[i].Default
+					goto convertType
+				}
+				continue
 			}
-			if len(mfd.Parameters[i].Default) > 0 {
-				prompt += " [" + mfd.Parameters[i].Default + "]"
-			}
-			rl := readline.NewInstance()
-			rl.SetPrompt(prompt + ": ")
-			rl.History = new(readline.NullHistory)
 
-			s, err = rl.Readline()
+			s, err = mfd.Parameters[i].promptParameters()
 			if err != nil {
 				return err
 			}
-
-			if s == "" {
-				s = mfd.Parameters[i].Default
-			}
 		}
 
+	convertType:
 		v, err := types.ConvertGoType(s, mfd.Parameters[i].DataType)
 		if err != nil {
 			return fmt.Errorf("cannot convert parameter %d '%s' to data type '%s'", i+1, s, mfd.Parameters[i].DataType)
 		}
+
 		err = p.Variables.Set(p, mfd.Parameters[i].Name, v, mfd.Parameters[i].DataType)
 		if err != nil {
 			return fmt.Errorf("cannot set function variable: %s", err.Error())
@@ -328,8 +348,32 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 	return nil
 }
 
+func (mfp *MurexFuncParam) promptParameters() (string, error) {
+	prompt := mfp.Description
+	if prompt == "" {
+		prompt = fmt.Sprintf("Please enter a value for '%s'", mfp.Name)
+	}
+	if len(mfp.Default) > 0 {
+		prompt += fmt.Sprintf(" [%s]", mfp.Default)
+	}
+	rl := readline.NewInstance()
+	rl.SetPrompt(prompt + ": ")
+	rl.History = new(readline.NullHistory)
+
+	s, err := rl.Readline()
+	if err != nil {
+		return "", err
+	}
+
+	if s == "" {
+		s = mfp.Default
+	}
+
+	return s, nil
+}
+
 // Define creates a function
-func (mf *MurexFuncs) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
+func (mf *MurexFuncs) Define(name string, parameters []MurexFuncParam, block []rune, fileRef *ref.File) {
 	summary := funcSummary(block)
 
 	mf.mutex.Lock()
@@ -403,7 +447,7 @@ func (mf *MurexFuncs) Undefine(name string) error {
 func (mf *MurexFuncs) Dump() interface{} {
 	type funcs struct {
 		Summary    string
-		Parameters []MxFunctionParams
+		Parameters []MurexFuncParam
 		Block      string
 		FileRef    *ref.File
 	}

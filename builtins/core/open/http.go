@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/httpclient"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils"
 )
 
 func http(p *lang.Process, url string) (io.ReadCloser, string, error) {
@@ -14,7 +15,8 @@ func http(p *lang.Process, url string) (io.ReadCloser, string, error) {
 		return nil, "", err
 	}
 
-	dt := lang.MimeToMurex(resp.Header.Get("Content-Type"))
+	filename := utils.ExtractFileNameFromURL(url)
+	dt := lang.RequestMetadataToMurex(resp.Header.Get("Content-Type"), filename)
 
 	// TODO: insert something about content-length detection
 

@@ -5,14 +5,16 @@ import (
 	enc "encoding/csv"
 	"fmt"
 	"io"
-	"os"
 	"reflect"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
+	inputType := p.Stdin.GetDataType()
+
 	var b []byte
 	buf := bytes.NewBuffer(b)
 	w := enc.NewWriter(buf)
@@ -25,6 +27,13 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 		w.Comma = []rune(separator.(string))[0]
 	}
 
+	leftTrimV, err := p.Config.Get("csv", "left-trim", types.Boolean)
+	if err != nil {
+		return nil, err
+	}
+
+	leftTrim := leftTrimV.(bool) && (inputType == types.Generic || inputType == types.String)
+
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
@@ -35,7 +44,17 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 		}
 
 	case [][]string:
+		if len(v) == 0 || len(v[0]) == 0 ||
+			(len(v[0][0]) != 0 && v[0][0][0] != ' ' && v[0][0][0] != '\t') {
+			leftTrim = false
+		}
 		for i := range v {
+			if leftTrim {
+				v[i][0] = strings.TrimSpace(v[i][0])
+				if len(v[i][0]) == 0 {
+					v[i] = v[i][1:]
+				}
+			}
 			err = w.Write(v[i])
 			if err != nil {
 				return buf.Bytes(), err
@@ -70,20 +89,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 
 	w.Flush()
 	err = w.Error()
-	if err != nil {
-		return buf.Bytes(), err
-	}
-
-	var table []byte
-	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
-		table = []byte("\x1b_begin;table;{\"Format\":\"csv\"}\x1b\\")
-	}
-	table = append(table, buf.Bytes()...)
-	if p.Stdout.IsTTY() && os.Getenv("MXTTY") == "true" {
-		table = append(table, []byte("\x1b_end;table\x1b\\")...)
-	}
-
-	return table, nil
+	return buf.Bytes(), err
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {

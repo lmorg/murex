@@ -13,7 +13,7 @@ import (
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/lists"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 const eventType = "onKeyPress"

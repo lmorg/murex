@@ -2,26 +2,48 @@
     return
 }
 
-function ps {
+function csv-table {
     config set proc strict-arrays false
 
     if { $SELF.TTY } then {
-        tout str '{ESC}_begin;table{ESC}\'
-        exec ps @PARAMS
-        tout str '{ESC}_end;table{ESC}\'
+        exec @PARAMS -> format csv
     } else {
-        exec ps @PARAMS
+        exec @PARAMS
     }
 }
 
-function last {
+alias ps = csv-table ps
+
+/#function ls {
     config set proc strict-arrays false
 
-    if { $SELF.TTY } then {
-        tout str '{ESC}_begin;table;{ "HeadMissing": true }{ESC}\'
-        exec last @PARAMS
-        tout str '{ESC}_end;table{ESC}\'
+    if { $SELF.TTY && @PARAMS } then {
+        
+        tout str '{ESC}_begin;csv{ESC}\'
+        exec ls -la -> [2..] -> format csv -> cast *
+        tout str '{ESC}_end;csv;{"CreateHeadings":true}{ESC}\'
+
     } else {
-        exec last @PARAMS
+        exec ls @PARAMS
     }
+}#/
+
+event onPrompt output-block=after {
+    <stdin> -> set event
+    
+    json_payload = %{
+        CmdLine: $event.Interrupt.CmdLine
+    }
+
+    tout str %({ESC}_begin;output-block;$(json_payload){ESC}\)
+}
+
+event onPrompt output-block=command-completion {
+    <stdin> -> set event
+
+    json_payload = %{
+        ExitNum: $event.Interrupt.ExitNum
+    }
+
+    tout str %({ESC}_end;output-block;$(json_payload){ESC}\)
 }

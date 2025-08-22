@@ -2,7 +2,6 @@ package processes
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -23,7 +22,8 @@ func cmdJobs(p *lang.Process) error {
 	}
 
 	b, err := lang.MarshalData(p, dtLine, []interface{}{
-		"PID",
+		"JobID",
+		"FunctionID",
 		"State",
 		"Background",
 		"Process",
@@ -37,23 +37,21 @@ func cmdJobs(p *lang.Process) error {
 		return err
 	}
 
-	procs := lang.GlobalFIDs.ListAll()
-	for _, process := range procs {
-		if process.Background.Get() || process.State.Get() == state.Stopped {
-			b, err := lang.MarshalData(p, dtLine, []interface{}{
-				process.Id,
-				process.State.String(),
-				process.Background.Get(),
-				process.Name.String(),
-				getParams(process),
-			})
-			if err != nil {
-				return err
-			}
-			err = aw.Write(b)
-			if err != nil {
-				return err
-			}
+	for _, job := range lang.Jobs.List() {
+		b, err := lang.MarshalData(p, dtLine, []interface{}{
+			job.JobId,
+			job.Process.Id,
+			job.Process.State.String(),
+			job.Process.Background.Get(),
+			job.Process.Name.String(),
+			getParams(job.Process),
+		})
+		if err != nil {
+			return err
+		}
+		err = aw.Write(b)
+		if err != nil {
+			return err
 		}
 	}
 

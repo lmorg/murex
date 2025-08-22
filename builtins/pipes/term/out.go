@@ -15,6 +15,7 @@ import (
 // Out is the Stdout interface for term
 type Out struct {
 	term
+	dataType string
 }
 
 func (t *Out) File() *os.File {
@@ -51,6 +52,24 @@ func (t *Out) SetDataType(dt string) {
 
 	OutSetDataTypeIPC = false
 	f.Close()*/
+
+	if os.Getenv("MXTTY") != "true" ||
+		(os.Getenv("TMUX") != "" && os.Getenv("MXTTY_TMUX") != "true") {
+		return
+	}
+
+	switch t.dataType {
+	case "csv":
+		t.File().WriteString("\x1b_end;csv\x1b\\")
+	}
+
+	t.dataType = dt
+
+	switch t.dataType {
+	case "csv":
+		t.File().WriteString("\x1b_begin;csv\x1b\\")
+	}
+
 }
 
 // Write is the io.Writer() interface for term

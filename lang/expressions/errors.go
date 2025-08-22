@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func raiseError(expression []rune, node *astNodeT, pos int, message string) error {

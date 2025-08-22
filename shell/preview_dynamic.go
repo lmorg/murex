@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/cache"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func DynamicPreview(previewBlock string, exe string, params []string) readline.PreviewFuncT {

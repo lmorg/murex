@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -68,7 +69,7 @@ func listAndPrint(fn func(*lang.Process, bool) (map[string]string, error), p *la
 // `enabled` / `disabled`
 func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) {
 	var disabled []string
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 
 	err := profile.ReadJson(modulePath+profile.DisabledFile, &disabled)
 	if err != nil {
@@ -108,7 +109,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) 
 			continue
 		}
 
-		mods, _ := profile.LoadPackage(pack, false)
+		mods, _ := profile.LoadPackage(pack, false, false)
 
 		// these should NOT equate ;)
 		if strings.HasSuffix(f.Name(), profile.IgnoredExt) != enabled {
@@ -142,7 +143,7 @@ func listModulesLoadNotLoad(p *lang.Process, loaded bool) (map[string]string, er
 }
 
 func listPackages(p *lang.Process) error {
-	paths, err := filepath.Glob(profile.ModulePath() + "*")
+	paths, err := filepath.Glob(profilepaths.ModulePath() + "*")
 	if err != nil {
 		return err
 	}

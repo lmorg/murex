@@ -96,12 +96,13 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].OperatorLogicAnd = (*tree)[i].Properties.LogicAnd()
 		procs[i].OperatorLogicOr = (*tree)[i].Properties.LogicOr()
 		procs[i].Background.Set(parent.Background.Get())
+		procs[i].HasJobId.Set(parent.HasJobId.Get())
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)
 		procs[i].WaitForStopped = make(chan bool)
 		procs[i].HasStopped = make(chan bool)
-		procs[i].RunMode = rm //parent.RunMode
+		procs[i].RunMode = rm
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables

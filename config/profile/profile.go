@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -25,7 +26,9 @@ const preloadMessage = `# This file is loaded before any murex modules. It shoul
 # `
 
 const (
-	F_PRELOAD = 1 << iota
+	F_BUILTIN = 1 << iota
+	F_PRELOAD
+	F_MOD_PRELOAD
 	F_MODULES
 	F_PROFILE
 )
@@ -36,30 +39,40 @@ func Execute(flags int) {
 		panic("no flags specified")
 	}
 
-	autocomplete.UpdateGlobalExeList()
-
 	pwd, err := os.Getwd()
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
 	}
 
-	if flags&F_PRELOAD != 0 {
-		if err := profile(preloadFileName, PreloadPath()); err != nil {
-			os.Stderr.WriteString("There were problems loading profile `" + PreloadPath() + "`:" + utils.NewLineString)
+	if flags&F_MOD_PRELOAD != 0 {
+		if err := modules(profilepaths.ModulePath(), true); err != nil {
+			os.Stderr.WriteString("There were problems loading modules `" + profilepaths.ModulePath() + "`:" + utils.NewLineString)
 			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
 	}
 
+	if flags&F_PRELOAD != 0 {
+		if err := profile(profilepaths.PreloadFileName, profilepaths.PreloadPath()); err != nil {
+			os.Stderr.WriteString("There were problems loading profile `" + profilepaths.PreloadPath() + "`:" + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
+	}
+
+	if flags&F_BUILTIN != 0 {
+		builtinProfile()
+		autocomplete.UpdateGlobalExeList()
+	}
+
 	if flags&F_MODULES != 0 {
-		if err := modules(ModulePath()); err != nil {
-			os.Stderr.WriteString("There were problems loading modules `" + ModulePath() + "`:" + utils.NewLineString)
+		if err := modules(profilepaths.ModulePath(), false); err != nil {
+			os.Stderr.WriteString("There were problems loading modules `" + profilepaths.ModulePath() + "`:" + utils.NewLineString)
 			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
 	}
 
 	if flags&F_PROFILE != 0 {
-		if err := profile(profileFileName, ProfilePath()); err != nil {
-			os.Stderr.WriteString("There were problems loading profile `" + ProfilePath() + "`:" + utils.NewLineString)
+		if err := profile(profilepaths.ProfileFileName, profilepaths.ProfilePath()); err != nil {
+			os.Stderr.WriteString("There were problems loading profile `" + profilepaths.ProfilePath() + "`:" + utils.NewLineString)
 			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
 	}
@@ -85,7 +98,7 @@ func profile(name, path string) error {
 		return err
 	}
 
-	if len(b) == 0 && path == PreloadPath() {
+	if len(b) == 0 && path == profilepaths.PreloadPath() {
 		err := file.Close()
 		if err != nil {
 			return err
@@ -94,7 +107,7 @@ func profile(name, path string) error {
 		if err != nil {
 			return err
 		}
-		_, err = file.WriteString(preloadMessage + ProfilePath() + strings.Repeat(utils.NewLineString, 3))
+		_, err = file.WriteString(preloadMessage + profilepaths.ProfilePath() + strings.Repeat(utils.NewLineString, 3))
 		if err != nil {
 			return err
 		}
@@ -116,7 +129,7 @@ func profile(name, path string) error {
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	moduleName := "profile/" + name
+	moduleName := app.UserProfile + name
 	fork.FileRef = &ref.File{Source: &ref.Source{Module: moduleName}}
 	fork.FileRef.Source = ref.History.AddSource(path, moduleName, b)
 

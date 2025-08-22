@@ -8,7 +8,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var ErrNotTTY = errors.New("not a TTY")
@@ -26,12 +26,11 @@ func formatTitle(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '2', ';'})
 	copy(ansi[4:len(title)+4], title)
-	//ansi[len(ansi)-1] = 7
 	ansi[len(ansi)-2] = 27
 	ansi[len(ansi)-1] = '\\'
 
@@ -51,12 +50,11 @@ func formatIcon(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+6)
 
 	copy(ansi[0:4], []byte{27, ']', '1', ';'})
 	copy(ansi[4:len(title)+4], title)
-	//ansi[len(ansi)-1] = 7
 	ansi[len(ansi)-2] = 27
 	ansi[len(ansi)-1] = '\\'
 
@@ -79,7 +77,7 @@ func formatTmux(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
-	title = sanatise(title)
+	title = sanitize(title)
 	ansi := make([]byte, len(title)+4)
 
 	copy(ansi[0:2], []byte{27, 'k'})
@@ -89,7 +87,7 @@ func formatTmux(title []byte) []byte {
 	return ansi
 }
 
-func sanatise(b []byte) []byte {
+func sanitize(b []byte) []byte {
 	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
 	// replace all control characters with space
 	for i := range b {

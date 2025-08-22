@@ -10,7 +10,7 @@ func (tree *ParserT) parseComment() {
 
 		case '\\':
 			next := tree.nextChar()
-			if next == '\r' || next == '\n' {
+			if tree.statement != nil && (next == '\r' || next == '\n') {
 				tree.statement.ignoreCrLf = true
 			}
 

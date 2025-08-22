@@ -5,7 +5,7 @@ import (
 
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func TestAutoGlobPromptHintText(t *testing.T) {
@@ -21,11 +21,11 @@ func TestAutoGlobPromptHintText(t *testing.T) {
 		},
 		{
 			Match: []string{"foo", "bar"},
-			Hint:  globExpandsTo+"foo, bar",
+			Hint:  globExpandsTo + "foo, bar",
 		},
 		{
 			Match: []string{"foo bar"},
-			Hint:  globExpandsTo+`foo\ bar`,
+			Hint:  globExpandsTo + `foo\ bar`,
 		},
 	}
 
@@ -43,4 +43,3 @@ func TestAutoGlobPromptHintText(t *testing.T) {
 	}
 
 }
-

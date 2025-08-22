@@ -1,0 +1,23 @@
+- DocumentID: v6.4
+  Title: >-
+    v6.4
+  CategoryID: changelog
+  DateTime: 2024-12-11 22:09
+  Summary: >-
+    This change brings a number of ergonomic improvements to job control,
+    `datetime` and working with structures.
+  Description: |-
+    {{ include "gen/changelog/v6.4.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - bg
+    - fg
+    - datetime
+    - index
+    - element
+    - runtime
+    - config
+    - onPrompt
+    - csv
+    - expr
+    - int

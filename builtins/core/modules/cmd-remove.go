@@ -6,12 +6,13 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/lists"
 )
 
 func removePackage(p *lang.Process) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 
 	db, err := readPackagesFile(modulePath + profile.PackagesFile)
 	if err != nil {

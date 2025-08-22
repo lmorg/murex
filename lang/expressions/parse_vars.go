@@ -11,7 +11,7 @@ import (
 )
 
 func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, interface{}, string, primitives.FunctionT, error) {
-	runes, v, mxDt, err := tree.parseVarScalar(execScalars, varAsValue)
+	runes, v, mxDt, err := tree.parseVarScalar(exec, execScalars, varAsValue)
 
 	if exec {
 		fn := func() (*primitives.Value, error) {
@@ -35,7 +35,7 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, interfa
 	return runes, v, mxDt, nil, err
 }
 
-func (tree *ParserT) parseVarScalar(execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '(' {
 		tree.charPos++
 		return tree.parseVarParenthesis(execScalars, strOrVal)
@@ -46,11 +46,44 @@ func (tree *ParserT) parseVarScalar(execScalars bool, strOrVal varFormatting) ([
 		return []rune{'$'}, "$", types.String, nil
 	}
 
+	startPos := tree.charPos
 	tree.charPos++
-	value := tree.parseBareword()
+	var value []rune
 
-	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
+parseBareword:
+	value = append(value, tree.parseBareword()...)
+
+	switch tree.currentChar() {
+	case 0:
+		break
+
+	case '[':
 		return tree.parseVarIndexElement(execScalars, '$', value, strOrVal)
+
+	case '(':
+		if tree.prevChar() != '.' {
+			break
+		}
+
+		v, err := tree.parseSubExpression(exec)
+		if err != nil {
+			return tree.expression[startPos : tree.charPos-1], nil, "", err
+		}
+		tree.charPos++
+		if exec {
+			s, err := types.ConvertGoType(v, types.String)
+			if err != nil {
+				return tree.expression[startPos : tree.charPos-1], nil, "", err
+			}
+			value = append(value, []rune(s.(string))...)
+
+		} else {
+			value = append(value, []rune(v.(string))...)
+		}
+
+		if tree.currentChar() == '.' {
+			goto parseBareword
+		}
 	}
 
 	tree.charPos--

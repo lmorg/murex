@@ -9,8 +9,8 @@ const dataType = "qs"
 
 func init() {
 	// Register data type
-	lang.Marshallers[dataType] = marshal
-	lang.Unmarshallers[dataType] = unmarshal
+	lang.RegisterMarshaller(dataType, marshal)
+	lang.RegisterUnmarshaller(dataType, unmarshal)
 	lang.ReadIndexes[dataType] = index
 
 	stdio.RegisterReadArray(dataType, readArray)

@@ -52,6 +52,7 @@ use should the MIME type not appear in `config`, as seen in the following code:
 package lang
 
 import (
+	"path"
 	"regexp"
 	"strings"
 
@@ -62,17 +63,23 @@ var rxMimePrefix = regexp.MustCompile(`^([-0-9a-zA-Z]+)/.*$`)
 
 // MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
-	mime := strings.Split(mimeType, ";")[0]
-	mime = strings.TrimSpace(mime)
-	mime = strings.ToLower(mime)
+	return mimeToMurex(normalizeMime(mimeType))
+}
+func mimeToMurex(mime string) string {
+	// Check suffix
+	for suffix := range mimeSuffixes {
+		if strings.HasSuffix(mime, suffix) {
+			return mimeSuffixes[suffix]
+		}
+	}
 
-	// Find a direct match. This is only used to pick up edge cases, eg text files used as images.
+	// Find a direct match
 	dt := mimes[mime]
 	if dt != "" {
 		return dt
 	}
 
-	// No direct match found. Fall back to prefix.
+	// No matches found. Fall back to prefix
 	prefix := rxMimePrefix.FindStringSubmatch(mime)
 	if len(prefix) != 2 {
 		return types.Generic
@@ -86,15 +93,52 @@ func MimeToMurex(mimeType string) string {
 		return types.Binary
 
 	case "application":
-		if strings.HasSuffix(mime, "+json") {
-			return types.Json
-		}
 		return types.Generic
 
 	default:
-		// Mime type not recognized so lets just make it a generic.
+		// Mime type not recognized so lets just make it a generic
 		return types.Generic
 	}
+}
+
+// RequestToMurex attempts to pick a data type for the content of
+// a downloaded file using the value of the Content-Type header
+// or, if not, the filename. If neither can be used to infer a
+// usable data type, types.Generic is returned.
+func RequestMetadataToMurex(contentType string, filename string) string {
+	contentType = normalizeMime(contentType)
+
+	if !(contentType == "" || contentType == "text/plain") {
+		foundType := mimeToMurex(contentType)
+
+		// MimeToMurex will return Generic when it can't find
+		// any other matches, but in that case we still want
+		// to check the filename ext if possible
+		if foundType != types.Generic {
+			return foundType
+		}
+	}
+
+	if filename != "" {
+		ext := strings.ToLower(strings.TrimPrefix(path.Ext(filename), "."))
+		knownType, foundType := GetFileExts()[ext]
+
+		if foundType {
+			return knownType
+		}
+	}
+
+	return types.Generic
+}
+
+// NormalizeMime prepares a mime type for processing by removing charset
+// information, trimming leading/trailing spaces, and making it lower case
+func normalizeMime(rawMimeType string) string {
+	mime := strings.Split(rawMimeType, ";")[0]
+	mime = strings.TrimSpace(mime)
+	mime = strings.ToLower(mime)
+
+	return mime
 }
 
 // MurexToMime returns the default MIME for a given Murex data type.

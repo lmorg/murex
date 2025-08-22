@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/parser"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 func PreviewParameter(ctx context.Context, block []rune, parameter string, incImages bool, size *readline.PreviewSizeT, callback readline.PreviewFuncCallbackT) {

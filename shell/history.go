@@ -4,17 +4,16 @@
 package shell
 
 import (
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/home"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline/v4"
 )
 
 var promptHistory readline.History
 
 func definePromptHistory() {
-	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
+	h, err := history.New(profilepaths.HistoryPath())
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
 	} else {

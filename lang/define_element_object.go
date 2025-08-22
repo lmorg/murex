@@ -6,22 +6,42 @@ import (
 	"strings"
 )
 
-func ElementLookup(v interface{}, path string) (interface{}, error) {
-	var err error
+const (
+	ELEMENT_META_ROOT    = "__MUREX_ELEMENT_META_ROOT_KEY__"
+	ELEMENT_META_ELEMENT = "__MUREX_ELEMENT_META_ELEMENT_KEY__"
+)
 
+func ElementLookup(v any, path string, dataType string) (any, error) {
 	if len(path) < 2 {
 		return nil, fmt.Errorf("invalid path for element lookup: `%s` is too short", path)
 	}
 
-	pathSplit := strings.Split(path, path[0:1])
+	var separator string
+	for _, r := range path {
+		separator = string(r)
+		break
+	}
+
+	if dataType == "xml" {
+		m, ok := v.(map[string]any)
+		if ok && len(m) == 1 {
+			for root := range m {
+				path = separator + root + path
+			}
+		}
+	}
+
+	pathSplit := strings.Split(path, separator)
+
 	obj := v
+	var err error
 
 	for i := 1; i < len(pathSplit); i++ {
 		if len(pathSplit[i]) == 0 {
 			if i == len(pathSplit)-1 {
 				break
 			} else {
-				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, "/"))
+				return nil, fmt.Errorf("path element %d is a zero length string: '%s'", i-1, strings.Join(pathSplit, separator))
 			}
 		}
 
@@ -31,10 +51,46 @@ func ElementLookup(v interface{}, path string) (interface{}, error) {
 		}
 	}
 
+	if dataType == "xml" {
+		l := len(pathSplit)
+		switch t := obj.(type) {
+		case map[string]any:
+			t[ELEMENT_META_ROOT] = pathSplit[l-1]
+			return t, nil
+
+		case []string:
+			var rootKey string
+			if len(pathSplit) > 1 {
+				rootKey = pathSplit[l-2]
+			} else {
+				rootKey = "xml"
+			}
+			t = append([]string{
+				ELEMENT_META_ROOT + rootKey,
+				ELEMENT_META_ELEMENT + pathSplit[l-1]},
+				t...)
+			return t, nil
+
+		case []any:
+			var rootKey string
+			if len(pathSplit) > 1 {
+				rootKey = pathSplit[l-2]
+			} else {
+				rootKey = "xml"
+			}
+			t = append([]any{
+				ELEMENT_META_ROOT + rootKey,
+				ELEMENT_META_ELEMENT + pathSplit[l-1]},
+				t...)
+			return t, nil
+
+		}
+	}
+
 	return obj, nil
 }
 
-func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{}, error) {
+func elementRecursiveLookup(path []string, i int, obj any) (any, error) {
 	switch v := obj.(type) {
 	case []string:
 		i, err := isValidElementIndex(path[i], len(v))
@@ -43,14 +99,14 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 		}
 		return v[i], nil
 
-	case []interface{}:
+	case []any:
 		i, err := isValidElementIndex(path[i], len(v))
 		if err != nil {
 			return nil, err
 		}
 		return v[i], nil
 
-	case []map[string]interface{}:
+	case []map[string]any:
 		i, err := isValidElementIndex(path[i], len(v))
 		if err != nil {
 			return nil, err
@@ -73,7 +129,7 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 			return "", nil
 		}
 
-	case map[string]interface{}:
+	case map[string]any:
 		switch {
 		case v[path[i]] != nil:
 			return v[path[i]], nil
@@ -89,7 +145,7 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 			return nil, fmt.Errorf("key '%s' not found", path[i])
 		}
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		switch {
 		case v[path[i]] != nil:
 			return v[path[i]], nil
@@ -123,11 +179,15 @@ func isValidElementIndex(key string, length int) (int, error) {
 	}
 
 	if i < 0 {
-		return 0, fmt.Errorf("negative keys are not allowed for arrays: %s", key)
+		i += length
+		if i < 0 {
+			return 0, fmt.Errorf("element is an array however key (%s -> %d) is greater than the length (%d)", key, i, length)
+		}
+		return i, nil
 	}
 
 	if i >= length {
-		return 0, fmt.Errorf("element is an array however key is greater than the length: %s", key)
+		return 0, fmt.Errorf("element is an array however key (%s) is greater than the length (%d)", key, length)
 	}
 
 	return i, nil

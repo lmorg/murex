@@ -1,4 +1,4 @@
-autocomplete: set terraform-docs %[
+autocomplete set terraform-docs %[
     {
         DynamicDesc: '{
             cast json

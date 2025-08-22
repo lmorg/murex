@@ -1,0 +1,30 @@
+- DocumentID: pt
+  Title: >+
+    Get Pipe Status (`pt`)
+  CategoryID: commands
+  SubCategoryIDs: [ commands.io ]
+  Summary: >-
+    Pipe telemetry. Writes data-types and bytes written
+  Description: |-
+    Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
+    directly to the OS's stderr so to preserved the pipeline.
+  Usage: |-
+    ```
+    <stdin> -> pt -> <stdout>
+    ```
+  Examples: |-
+    ```
+    curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
+    ```
+
+    (though Murex does also have it's own HTTP clients, `get`, `post` and
+    `getfile`)
+  Detail:
+  Synonyms:
+    - pt
+  Related:
+    - file-truncate
+    - file-append
+    - get
+    - post
+    - getfile

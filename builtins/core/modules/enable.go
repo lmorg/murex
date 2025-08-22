@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 )
 
@@ -16,7 +17,7 @@ func enableModules(p *lang.Process) error {
 	}
 
 	var disabled []string
-	err := profile.ReadJson(profile.ModulePath()+profile.DisabledFile, &disabled)
+	err := profile.ReadJson(profilepaths.ModulePath()+profile.DisabledFile, &disabled)
 	if err != nil {
 		return err
 	}
@@ -42,7 +43,7 @@ func enableModules(p *lang.Process) error {
 }
 
 func enablePack(pack string) error {
-	modulePath := profile.ModulePath()
+	modulePath := profilepaths.ModulePath()
 	return os.Rename(modulePath+pack+profile.IgnoredExt, modulePath+pack)
 }
 

@@ -2,25 +2,25 @@ package process
 
 import "sync/atomic"
 
-type Background struct {
+type AtomicBool struct {
 	i int32
 }
 
-func (bg *Background) Get() bool {
-	return atomic.LoadInt32(&bg.i) != 0
+func (ab *AtomicBool) Get() bool {
+	return atomic.LoadInt32(&ab.i) != 0
 }
 
-func (bg *Background) Set(v bool) {
+func (ab *AtomicBool) Set(v bool) {
 	if v {
-		atomic.StoreInt32(&bg.i, 1)
+		atomic.StoreInt32(&ab.i, 1)
 		return
 	}
 
-	atomic.StoreInt32(&bg.i, 0)
+	atomic.StoreInt32(&ab.i, 0)
 }
 
-func (bg *Background) String() string {
-	if bg.Get() {
+func (ab *AtomicBool) String() string {
+	if ab.Get() {
 		return "yes"
 	}
 

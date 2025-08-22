@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/lmorg/murex/utils/sqlite3"
 )
 
 const (
@@ -24,7 +26,7 @@ var (
 )
 
 func createDb() (*sql.DB, error) {
-	db, err := sql.Open(driverName, ":memory:" /*"file:debug.db"*/)
+	db, err := sql.Open(sqlite3.DriverName(), ":memory:" /*"file:debug.db"*/)
 	if err != nil {
 		return nil, fmt.Errorf("could not open database: %s", err.Error())
 	}

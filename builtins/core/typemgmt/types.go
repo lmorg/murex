@@ -11,7 +11,6 @@ import (
 
 func init() {
 	lang.DefineMethod("exec", lang.External, types.Any, types.Generic)
-	lang.DefineFunction("die", cmdDie, types.Null)
 	lang.DefineFunction("exit", cmdExit, types.Null)
 	lang.DefineFunction("null", cmdNull, types.Null)
 	lang.DefineFunction("true", cmdTrue, types.Boolean)
@@ -63,15 +62,6 @@ func cmdNot(p *lang.Process) error {
 	} else {
 		p.Stdout.Writeln(types.FalseByte)
 	}
-	return nil
-}
-
-func cmdDie(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Die)
-
-	lang.FeatureDeprecatedBuiltin(p)
-
-	lang.Exit(1)
 	return nil
 }
 

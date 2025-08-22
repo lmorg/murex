@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/lmorg/murex/config/profile"
+	profilepaths "github.com/lmorg/murex/config/profile/paths"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -19,19 +19,19 @@ func gitPackage(p *lang.Process) error {
 	params := p.Parameters.StringArray()
 	packageName := params[1]
 
-	f, err := os.Stat(profile.ModulePath() + "/" + packageName)
+	f, err := os.Stat(profilepaths.ModulePath() + "/" + packageName)
 	if err != nil {
 		return err
 	}
 	if !f.IsDir() {
-		return fmt.Errorf("package path doesn't exist or isn't a directory: %s", profile.ModulePath()+"/"+packageName)
+		return fmt.Errorf("package path doesn't exist or isn't a directory: %s", profilepaths.ModulePath()+"/"+packageName)
 	}
 
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 	fork.Name.Set("(git package)")
 	fork.Parameters.DefineParsed(params[2:])
 	fork.FileRef = ref.NewModule("shell/modules.gitPackage")
-	fork.Variables.Set(p, "MUREX_MODULE_PATH", profile.ModulePath(), types.String)
+	fork.Variables.Set(p, "MUREX_MODULE_PATH", profilepaths.ModulePath(), types.String)
 	fork.Variables.Set(p, "PACKAGE_NAME", packageName, types.String)
 
 	exitNum, err := fork.Execute([]rune(block))
