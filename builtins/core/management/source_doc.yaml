@@ -1,6 +1,6 @@
 - DocumentID: source
   Title: >+
-    Include / Evaluate Murex Code (`source`)
+    Include / Evaluate Murex Code: `source`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc

@@ -1,4 +1,4 @@
-# Append To List (`append`)
+# Array Append: `append`
 
 > Add data to the end of an array
 
@@ -43,34 +43,34 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 
 ## See Also
 
-* [Add Heading (`addheading`)](../commands/addheading.md):
+* [Add Heading: `addheading`](../commands/addheading.md):
   Adds headings to a table
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [Define Type (`cast`)](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [Match String (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [Prepend To List (`prepend`)](../commands/prepend.md):
+* [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Regex Operations (`regexp`)](../commands/regexp.md):
-  Regexp tools for arrays / lists of strings
-* [Reverse Array (`mtac`)](../commands/mtac.md):
+* [Array Reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [Sort Array (`msort`)](../commands/msort.md):
+* [Array Sort: `msort`)](../commands/msort.md):
   Sorts an array - data type agnostic
-* [Stream New List (`a`)](../commands/a.md):
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array: `ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Define Type: `cast`](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [Regex Patterns: `regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [String Match: `match`](../commands/match.md):
+  Match an exact value in an array
 
 <hr/>
 

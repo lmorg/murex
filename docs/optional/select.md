@@ -133,7 +133,7 @@ If you do run into any issues then please raise them on [Github](https://github.
 
 ## See Also
 
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)

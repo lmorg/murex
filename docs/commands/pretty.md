@@ -1,4 +1,4 @@
-# Prettify JSON
+# Prettify Objects: `pretty`
 
 > Prettifies data documents to make it human readable
 
@@ -44,11 +44,11 @@ outputs that to stdout.
 
 ## See Also
 
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
 
 <hr/>

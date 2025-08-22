@@ -1,6 +1,6 @@
 - DocumentID: match
   Title: >+
-    Match String (`match`)
+    String Match: `match`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

@@ -72,13 +72,13 @@ constants are available.
   Infixed constants that return ANSI escape sequences
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)

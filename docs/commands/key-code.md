@@ -61,7 +61,7 @@ event onKeyPress close=$key {
   Infixed constants that return ANSI escape sequences
 * [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [`onKeyPress`](../events/onkeypress.md):
   Custom definable key bindings and macros

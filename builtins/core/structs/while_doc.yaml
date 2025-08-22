@@ -1,6 +1,6 @@
 - DocumentID: while
   Title: >+
-    Loop While (`while`)
+    Loop While: `while`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

@@ -1,4 +1,4 @@
-# Truncate File (`>`)
+# Write File (Truncate): `>`
 
 > Writes stdin to disk - overwriting contents if file already exists
 
@@ -126,20 +126,20 @@ contents) use `>>` instead.
 
 ## See Also
 
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Create Temporary File (`tmp`)](../commands/tmp.md):
+* [Create Temporary File: `tmp`](../commands/tmp.md):
   Create a temporary file and write to it
-* [Globbing (`g`)](../commands/g.md):
+* [Globbing: `g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
+* [Write File (Append): `>>`](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`>>` Append File](../parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
 * [`?` stderr Pipe](../parser/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`|` POSIX Pipe](../parser/pipe-posix.md):

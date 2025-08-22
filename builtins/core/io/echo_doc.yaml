@@ -1,6 +1,6 @@
 - DocumentID: out
   Title: >+
-    Output String (`out`)
+    Output String, stdout: `out`
   CategoryID: commands
   SubCategoryIDs:
     - commands.io
@@ -55,7 +55,7 @@
 
 - DocumentID: tout
   Title: >+
-    Output With Type Annotation (`tout`)
+    Output With Type Annotation: `tout`
   CategoryID: commands
   SubCategoryIDs: [ commands.io ]
   Summary: >-
@@ -147,7 +147,7 @@
 
 - DocumentID: err
   Title: >+
-    Error String (`err`)
+    Error String, strerr: `err`
   CategoryID: commands
   SubCategoryIDs: [ commands.io ]
   Summary: >-

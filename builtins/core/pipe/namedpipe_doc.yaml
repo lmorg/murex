@@ -1,6 +1,6 @@
 - DocumentID: namedpipe
   Title: >+
-    Read / Write To A Named Pipe (`<pipe>`)
+    Read / Write To A Named Pipe: `<pipe>`
   CategoryID: parser
   SubCategoryIDs:
     - commands.io
@@ -54,7 +54,7 @@
 
 - DocumentID: stdin
   Title: >+
-    Read From Stdin (`<stdin>`)
+    Read From Stdin: `<stdin>`
   CategoryID: parser
   SubCategoryIDs:
     - commands.io

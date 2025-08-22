@@ -69,7 +69,7 @@ document but you can read more on them in links the links below.
 
 ## See Also
 
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions

@@ -1,6 +1,6 @@
 - DocumentID: prepend
   Title: >-
-    Prepend To List (`prepend`)
+    Array Prepend: `prepend`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -57,7 +57,7 @@
 
 - DocumentID: append
   Title: >+
-    Append To List (`append`)
+    Array Append: `append`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

@@ -1,6 +1,6 @@
 - DocumentID: pt
   Title: >+
-    Get Pipe Status (`pt`)
+    Get Pipe Status: `pt`
   CategoryID: commands
   SubCategoryIDs: [ commands.io ]
   Summary: >-

@@ -1,4 +1,4 @@
-# Stream New List (`a`)
+# Create Streamable Array `a`
 
 > A sophisticated yet simple way to stream an array or list (mkarray)
 
@@ -169,20 +169,20 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [Create New Array (`ta`)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [Reverse Array (`mtac`)](../commands/mtac.md):
+* [Array Reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array: `ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create New Array: `ta`](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 * [`str` (string)](../types/str.md):

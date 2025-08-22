@@ -50,17 +50,17 @@ There is no workaround for `trypipe`.
 
 ## See Also
 
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+* [Pipe Fail: `trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes

@@ -1,4 +1,4 @@
-# Get Nested Element (`[[ Element ]]`)
+# Get Nested Element: `[[ Element ]]`
 
 > Outputs an element from a nested structure
 
@@ -117,20 +117,20 @@ bool
 
 ## See Also
 
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Reverse Array (`mtac`)](../commands/mtac.md):
+* [Array Reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
-  Query or define Murex runtime settings
-* [Stream New List (`a`)](../commands/a.md):
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array: `ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Shell Configuration And Settings: `config`](../commands/config.md):
+  Query or define Murex runtime settings
 
 <hr/>
 

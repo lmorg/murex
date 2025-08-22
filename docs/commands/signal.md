@@ -160,7 +160,7 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
 
 ## See Also
 
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
@@ -168,7 +168,7 @@ Signals can be caught (often referred to as "trapped") in Murex with an event:
   Absolute path to running shell
 * [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses

@@ -1,6 +1,6 @@
 - DocumentID: fexec
   Title: >+
-    Execute Shell Function or Builtin (`fexec`)
+    Execute Function or Builtin: `fexec`
   CategoryID: commands
   SubCategoryIDs:
     - commands.shell

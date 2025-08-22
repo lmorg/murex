@@ -38,21 +38,21 @@ deprecated and may be removed from future releases.
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [Variable And Config Scoping](../user-guide/scoping.md):
   How scoping works within Murex

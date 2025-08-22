@@ -1,4 +1,4 @@
-# Read / Write To A Named Pipe (`<pipe>`)
+# Read / Write To A Named Pipe: `<pipe>`
 
 > Reads from a Murex named pipe
 
@@ -117,18 +117,18 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
-  Read the stdin belonging to the parent code block
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Read From Stdin: `<stdin>`](../parser/stdin.md):
+  Read the stdin belonging to the parent code block
+* [Shell Runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 
 <hr/>
 

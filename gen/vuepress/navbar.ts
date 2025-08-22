@@ -11,8 +11,8 @@ export default navbar([
         prefix: "/",
         children: [
           { text: "Install", link: "install.html", icon: "download" },
-          { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
-          { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
+          //{ text: "Language Tour", link: "tour.html", icon: "plane-departure" },
+          //{ text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
           { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
           { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },

@@ -1,4 +1,4 @@
-# For Each In List (`foreach`)
+# For Each In array: `foreach`
 
 > Iterate through an array
 
@@ -320,32 +320,32 @@ jsonl
 
 ## See Also
 
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Debugging Mode (`debug`)](../commands/debug.md):
-  Debugging information
-* [Define Type (`cast`)](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [Exit Block (`break`)](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [For Each In Map (`formap`)](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [For Loop (`for`)](../commands/for.md):
-  A more familiar iteration loop to existing developers
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [If Conditional (`if`)](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
-* [Left Sub-String (`left`)](../commands/left.md):
-  Left substring every item in a list
-* [Loop While (`while`)](../commands/while.md):
-  Loop until condition false
-* [Output String (`out`)](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [Reformat Data type (`format`)](../commands/format.md):
-  Reformat one data-type into another data-type
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Debug Mode: `debug`](../commands/debug.md):
+  Debugging information
+* [Define Type: `cast`](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [Exit Scope: `break`](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Loop: `for`](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [If Conditional: `if`](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Left Sub-String: `left`](../commands/left.md):
+  Left substring every item in a list
+* [Loop While: `while`](../commands/while.md):
+  Loop until condition false
+* [Output String, stdout: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Reformat Data Type: `format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
 * [`json`](../types/json.md):

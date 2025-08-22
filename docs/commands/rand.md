@@ -1,4 +1,4 @@
-# Generate Random Sequence (`rand`)
+# Generate Random Sequence: `rand`
 
 > Random field generator
 
@@ -67,12 +67,12 @@ cryptographically secure.
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Reformat Data type (`format`)](../commands/format.md):
-  Reformat one data-type into another data-type
-* [`let`](../commands/let.md):
+* [Integer Operations: `let`](../deprecated/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
+* [Reformat Data Type: `format`](../commands/format.md):
+  Reformat one data-type into another data-type
 
 <hr/>
 

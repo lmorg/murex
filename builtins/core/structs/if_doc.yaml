@@ -1,6 +1,6 @@
 - DocumentID: if
   Title: >+
-    If Conditional (`if`)
+    If Conditional: `if`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

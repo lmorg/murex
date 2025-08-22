@@ -170,9 +170,9 @@ from different interrupts).
   Event driven programming for shell scripts
 * [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses

@@ -218,24 +218,24 @@ var rangeMoon = map[string]int{
 
 ## See Also
 
+* [Array Reverse (`mtac`)](../commands/mtac.md):
+  Reverse the order of an array
 * [Calendar Date Ranges](../mkarray/date.md):
   Create arrays of dates
-* [Count (`count`)](../commands/count.md):
+* [Count: `count`](../commands/count.md):
   Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create New Array (`ta`)](../commands/ta.md):
+* [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Date And Time Conversion (`datetime`)](../commands/datetime.md):
-  A date and/or time conversion tool (like `printf` but for date and time values)
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [Reverse Array (`mtac`)](../commands/mtac.md):
-  Reverse the order of an array
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Date And Time Conversion: `datetime`](../commands/datetime.md):
+  A date and/or time conversion tool (like `printf` but for date and time values)
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [index](../parser/item-index.md):
   Outputs an element from an array, map or table
 

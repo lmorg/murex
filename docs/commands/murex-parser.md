@@ -1,4 +1,4 @@
-# `murex-parser`
+# Parse Murex Source: `murex-parser`
 
 > Runs the Murex parser against a block of code 
 
@@ -22,9 +22,9 @@ Please note this command is still very much in beta and is likely to change in i
 
 * [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

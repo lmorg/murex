@@ -1,4 +1,4 @@
-# Define Variable (`set`)
+# Define Variable: `set`
 
 > Define a variable (typically local) and set it's value
 
@@ -253,19 +253,19 @@ bar
 
 ## See Also
 
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Is Value Null (`is-null`)](../commands/is-null.md):
+* [Is Value Null: `is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex

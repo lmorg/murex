@@ -1,4 +1,4 @@
-# If Conditional (`if`)
+# If Conditional: `if`
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 
@@ -127,27 +127,27 @@ code block as false. Otherwise, it will be considered true.
 
 ## See Also
 
-* [Caught Error Block (`catch`)](../commands/catch.md):
+* [Caught Error Block: `catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [Debugging Mode (`debug`)](../commands/debug.md):
+* [Debug Mode: `debug`](../commands/debug.md):
   Debugging information
-* [False (`false`)](../commands/false.md):
+* [False: `false`](../commands/false.md):
   Returns a `false` value
-* [Logic And Statements (`and`)](../commands/and.md):
+* [Logic And Statements: `and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [Logic Or Statements (`or`)](../commands/or.md):
+* [Logic Or Statements: `or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [Not (`!`)](../commands/not-func.md):
+* [Not: `!`](../commands/not-func.md):
   Reads the stdin and exit number from previous process and not's it's condition
-* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+* [Pipe Fail: `trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
-* [Shell Script Tests (`test`)](../commands/test.md):
+* [Shell Script Tests: `test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [Switch Conditional (`switch`)](../commands/switch.md):
+* [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [True (`true`)](../commands/true.md):
+* [True: `true`](../commands/true.md):
   Returns a `true` value
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 
 <hr/>

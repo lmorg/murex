@@ -13,7 +13,7 @@ This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be
 
 ## See Also
 
-* [Generate Random Sequence (`rand`)](../commands/rand.md):
+* [Generate Random Sequence: `rand`](../commands/rand.md):
   Random field generator
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex

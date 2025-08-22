@@ -1,6 +1,6 @@
 - DocumentID: rand
   Title: >+
-    Generate Random Sequence (`rand`)
+    Generate Random Sequence: `rand`
   CategoryID: commands
   SubCategoryIDs:
     - commands.str

@@ -90,13 +90,13 @@ builtin.
 
 ## See Also
 
-* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
+* [Alter Data Structure: `alter`, `~>`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [For Each In List (`foreach`)](../commands/foreach.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
   Iterate through an array
-* [Globbing (`g`)](../commands/g.md):
+* [Globbing: `g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   All supported operators and tokens

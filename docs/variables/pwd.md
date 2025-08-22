@@ -10,9 +10,9 @@ It is updated via `cd` however you can overwrite its value manually via `export`
 
 ## See Also
 
-* [Change Directory (`cd`)](../commands/cd.md):
+* [Change Directory: `cd`](../commands/cd.md):
   Change (working) directory
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`PWDHIST` (json)](../variables/pwdhist.md):
   History of each change to the sessions working directory

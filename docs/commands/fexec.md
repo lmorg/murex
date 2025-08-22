@@ -1,4 +1,4 @@
-# Execute Shell Function or Builtin (`fexec`)
+# Execute Function or Builtin: `fexec`
 
 > Execute a command or function, bypassing the usual order of precedence.
 
@@ -80,29 +80,29 @@ alias to `fexec builtin`
 
 ## See Also
 
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
-* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+* [Display Running Functions: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Foreground Process (`fg`)](../commands/fg.md):
+* [Foreground Process: `fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
 * [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Shell Runtime (`builtins`)](../commands/runtime.md):
+* [Shell Runtime: `builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 
 <hr/>

@@ -1,6 +1,6 @@
 - DocumentID: format
   Title: >+
-    Reformat Data type (`format`)
+    Reformat Data Type: `format`
   CategoryID: commands
   SubCategoryIDs: 
     - commands.str

@@ -117,21 +117,21 @@ Stdout and stderr are both written to the terminal's stderr.
 
 ## See Also
 
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [If Conditional (`if`)](../commands/if.md):
+* [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+* [Read From Stdin: `<stdin>`](../parser/stdin.md):
   Read the stdin belonging to the parent code block
-* [Regex Operations (`regexp`)](../commands/regexp.md):
+* [Regex Patterns: `regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope

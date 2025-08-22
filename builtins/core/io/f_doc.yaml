@@ -1,6 +1,6 @@
 - DocumentID: f
   Title: >+
-    List Filesystem Objects (`f`)
+    Filesystem Objects: `f`
   CategoryID: commands
   SubCategoryIDs: [ commands.fs ]
   Summary: >-

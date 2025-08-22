@@ -1,4 +1,4 @@
-# For Each In Map (`formap`)
+# For Each In Map: `formap`
 
 > Iterate through a map or other collection of data
 
@@ -104,19 +104,19 @@ The following meta values are defined:
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Exit Block (`break`)](../commands/break.md):
+* [Exit Scope: `break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [For Each In List (`foreach`)](../commands/foreach.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
   Iterate through an array
-* [For Loop (`for`)](../commands/for.md):
+* [For Loop: `for`](../commands/for.md):
   A more familiar iteration loop to existing developers
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Loop While (`while`)](../commands/while.md):
+* [Loop While: `while`](../commands/while.md):
   Loop until condition false
-* [Transformation Tools (`tabulate`)](../commands/tabulate.md):
+* [Transformation Tools: `tabulate`](../commands/tabulate.md):
   Table transformation tools
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)

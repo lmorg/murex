@@ -1,4 +1,4 @@
-# Exit Murex (`exit`)
+# Exit Murex: `exit`
 
 > Exit murex
 
@@ -30,11 +30,11 @@ exit number
 
 ## See Also
 
-* [Exit Block (`break`)](../commands/break.md):
+* [Exit Scope: `break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [Null (`null`)](../commands/devnull.md):
+* [Null: `null`](../commands/devnull.md):
   null function. Similar to /dev/null
-* [`die`](../commands/die.md):
+* [`die`](../deprecated/die.md):
   Terminate murex with an exit number of 1 (deprecated)
 
 <hr/>

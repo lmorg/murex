@@ -1,4 +1,4 @@
-# Transformation Tools (`tabulate`)
+# Transformation Tools: `tabulate`
 
 > Table transformation tools
 
@@ -55,15 +55,15 @@ rsync --help                                                  # print rsync help
 
 ## See Also
 
-* [For Each In Map (`formap`)](../commands/formap.md):
+* [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 
 <hr/>

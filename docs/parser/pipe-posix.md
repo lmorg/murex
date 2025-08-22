@@ -44,15 +44,15 @@ Hello, Earth!
 
 ## See Also
 
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Regex Operations (`regexp`)](../commands/regexp.md):
+* [Regex Patterns: `regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command

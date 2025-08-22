@@ -1,6 +1,6 @@
 - DocumentID: alias
   Title: >+
-    Alias Pointer (`alias`)
+    Alias "shortcut": `alias`
   CategoryID: commands
   SubCategoryIDs:
     - commands.shell
@@ -105,7 +105,7 @@
 
 - DocumentID: function
   Title: >+
-    Public Function (`function`)
+    Public Function: `function`
   CategoryID: commands
   SubCategoryIDs: 
     - commands.lang
@@ -335,7 +335,7 @@
 
 - DocumentID: private
   Title: >+
-    Private Function (`private`)
+    Private Function: `private`
   CategoryID: commands
   SubCategoryIDs: 
     - commands.lang

@@ -1,4 +1,4 @@
-# Private Function (`private`)
+# Private Function: `private`
 
 > Define a private function block
 
@@ -97,30 +97,30 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
 * [Define Method Relationships (`method`)](../commands/method.md):
   Define a methods supported data-types
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [Exit Block (`break`)](../commands/break.md):
+* [Exit Scope: `break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [Globbing (`g`)](../commands/g.md):
+* [Globbing: `g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Public Function (`function`)](../commands/function.md):
-  Define a function block
-* [`let`](../commands/let.md):
+* [Integer Operations: `let`](../deprecated/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
+* [Public Function: `function`](../commands/function.md):
+  Define a function block
 
 <hr/>
 

@@ -31,15 +31,15 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`ARGV` (json)](../variables/argv.md):
   Array of the command name and parameters within a given scope

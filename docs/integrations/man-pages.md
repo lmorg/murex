@@ -48,7 +48,7 @@ That command will generally be pulled from its accompanying `man` page.
   Event driven programming for shell scripts
 * [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses

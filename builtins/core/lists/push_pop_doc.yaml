@@ -1,6 +1,6 @@
 - DocumentID: left
   Title: >+
-    Left Sub-String (`left`)
+    Left Sub-String: `left`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -64,7 +64,7 @@
 
 - DocumentID: right
   Title: >+
-    Right Sub-String (`right`)
+    Right Sub-String: `right`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -128,7 +128,7 @@
 
 - DocumentID: prefix
   Title: >+
-    Add Prefix (`prefix`)
+    Add Prefix: `prefix`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -175,7 +175,7 @@
 
 - DocumentID: suffix
   Title: >+
-    Add Suffix (`suffix`)
+    Add Suffix: `suffix`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

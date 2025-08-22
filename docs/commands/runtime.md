@@ -1,4 +1,4 @@
-# Shell Runtime (`runtime`)
+# Shell Runtime: `runtime`
 
 > Returns runtime information on the internal state of Murex
 
@@ -290,52 +290,52 @@ functions.
 
 ## See Also
 
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Debugging Mode (`debug`)](../commands/debug.md):
+* [Debug Mode: `debug`](../commands/debug.md):
   Debugging information
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
 * [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
   Creates a handler function for `open`
 * [Define Method Relationships (`method`)](../commands/method.md):
   Define a methods supported data-types
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+* [Display Running Functions: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
+* [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
+* [Integer Operations: `let`](../deprecated/let.md):
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
 * [Murex Event Subsystem (`event`)](../commands/event.md):
   Event driven programming for shell scripts
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Prettify JSON](../commands/pretty.md):
+* [Prettify Objects: `pretty`](../commands/pretty.md):
   Prettifies data documents to make it human readable
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
-* [Shell Script Tests (`test`)](../commands/test.md):
+* [Shell Script Tests: `test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
 
 <hr/>
 

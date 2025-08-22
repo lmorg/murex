@@ -1,4 +1,4 @@
-# Post Request (`post`)
+# HTTP(S) Post Request: `post`
 
 > HTTP POST request with a JSON-parsable return
 
@@ -97,15 +97,15 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ## See Also
 
-* [Download File (`getfile`)](../commands/getfile.md):
+* [Download File: `getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Get Request (`get`)](../commands/get.md):
+* [HTTP(S) Get Request: `get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

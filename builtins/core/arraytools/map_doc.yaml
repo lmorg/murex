@@ -1,6 +1,6 @@
 - DocumentID: map
   Title: >-
-    Create Map (`map`)
+    Create Map: `map`
   CategoryID: commands
   SubCategoryIDs: [ commands.struct ]
   Summary: >-

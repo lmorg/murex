@@ -95,13 +95,13 @@ how you define that value.
 
 ## See Also
 
-* [Command Line History (`history`)](../commands/history.md):
+* [Command Line History: `history`](../commands/history.md):
   Outputs murex's command history
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction
-* [Murex Package Management (`murex-package`)](../commands/murex-package.md):
+* [Murex Package Manager: `murex-package`](../commands/murex-package.md):
   Murex's package manager
 
 <hr/>

@@ -29,13 +29,13 @@ This error can be caught via `||`, `try` et al.
 
 ## See Also
 
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 * [`COLUMNS` (int)](../variables/columns.md):
   Character width of terminal

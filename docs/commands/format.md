@@ -1,4 +1,4 @@
-# Reformat Data type (`format`)
+# Reformat Data Type: `format`
 
 > Reformat one data-type into another data-type
 
@@ -26,9 +26,9 @@ specified data-type
 
 ## See Also
 
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

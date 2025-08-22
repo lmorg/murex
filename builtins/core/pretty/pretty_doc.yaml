@@ -1,6 +1,6 @@
 - DocumentID: pretty
   Title: >+
-    Prettify JSON
+    Prettify Objects: `pretty`
   CategoryID: commands
   SubCategoryIDs:
     - commands.str

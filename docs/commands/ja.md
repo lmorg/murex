@@ -1,4 +1,4 @@
-# Create JSON Array (`ja`)
+# Create JSON Array: `ja`
 
 > A sophisticated yet simply way to build a JSON array
 
@@ -56,22 +56,26 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create New Array (`ta`)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [Reverse Array (`mtac`)](../commands/mtac.md):
+* [Array Reverse (`mtac`)](../commands/mtac.md):
   Reverse the order of an array
-* [Stream New List (`a`)](../commands/a.md):
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create New Array: `ta`](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
+* [`%[]` Array Builder](../parser/create-array.md):
+  Quickly generate arrays
+* [`%{}` Object Builder](../parser/create-object.md):
+  Quickly generate objects (dictionaries / maps)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 

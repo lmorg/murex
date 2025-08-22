@@ -1,6 +1,6 @@
 - DocumentID: os
   Title: >+
-    Operating System (`os`)
+    Operating System: `os`
   CategoryID: commands
   SubCategoryIDs: [ commands.sys ]
   Summary: >-
@@ -79,7 +79,7 @@
 
 - DocumentID: cpuarch
   Title: >+
-    CPU Architecture (`cpuarch`)
+    CPU Architecture: `cpuarch`
   CategoryID: commands
   SubCategoryIDs: [ commands.sys ]
   Summary: >-
@@ -108,7 +108,7 @@
 
 - DocumentID: cpucount
   Title: >+
-    CPU Count (`cpucount`)
+    CPU Count: `cpucount`
   CategoryID: commands
   SubCategoryIDs: [ commands.sys ]
   Summary: >-
