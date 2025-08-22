@@ -168,7 +168,7 @@ from different interrupts).
   Linux/UNIX `man` page integrations
 * [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Public Function: `function`](../commands/function.md):
   Define a function block

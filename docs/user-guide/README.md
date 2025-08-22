@@ -313,7 +313,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Murex's package manager
 * [Murex Version: `version`](../commands/version.md):
   Get Murex version
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Next Iteration: `continue`](../commands/continue.md):
   Terminate process of a block within a caller function

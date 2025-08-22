@@ -186,7 +186,7 @@
             {
                 "icon": "file-lines",
                 "link": "commands/mjoin.md",
-                "text": "Array Merge To String (mjoin)"
+                "text": "Array Merge To String: mjoin"
             },
             {
                 "icon": "file-lines",
@@ -196,12 +196,12 @@
             {
                 "icon": "file-lines",
                 "link": "commands/mtac.md",
-                "text": "Array Reverse (mtac)"
+                "text": "Array Reverse: mtac"
             },
             {
                 "icon": "file-lines",
                 "link": "commands/msort.md",
-                "text": "Array Sort: msort)"
+                "text": "Array Sort: msort"
             },
             {
                 "icon": "file-lines",
@@ -439,7 +439,7 @@
             {
                 "icon": "file-lines",
                 "link": "optional/select.md",
-                "text": "Inline SQL (select)"
+                "text": "Inline SQL: select"
             },
             {
                 "icon": "file-lines",
@@ -528,7 +528,7 @@
             {
                 "icon": "file-lines",
                 "link": "commands/event.md",
-                "text": "Murex Event Subsystem (event)"
+                "text": "Murex Event Subsystem: event"
             },
             {
                 "icon": "file-lines",
@@ -590,7 +590,7 @@
             {
                 "icon": "file-lines",
                 "link": "commands/key-code.md",
-                "text": "ASCII And ANSI Escape Sequences (key-code)"
+                "text": "ASCII And ANSI Escape Sequences: key-code"
             },
             {
                 "icon": "file-lines",
@@ -677,7 +677,7 @@
             {
                 "icon": "file-lines",
                 "link": "commands/signal.md",
-                "text": "Send Signal IPC (signal)"
+                "text": "Send Signal IPC: signal"
             }
         ],
         "collapsible": true,

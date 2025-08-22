@@ -46,7 +46,7 @@ ae - no man page exists
 
 ## See Also
 
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Parse Man-Page For Flags: `man-get-flags`](../commands/man-get-flags.md):
   Parses man page files for command line flags 

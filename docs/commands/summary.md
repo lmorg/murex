@@ -55,7 +55,7 @@ Hello, world!
   Lists all running functions within the current Murex session
 * [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables

@@ -412,7 +412,7 @@ Tools for providing help and hints, useful when working inside the interactive s
 
 * [Man-Page Summary: `man-summary`](../commands/man-summary.md):
   Outputs a man page summary of a command
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Parse Man-Page For Flags: `man-get-flags`](../commands/man-get-flags.md):
   Parses man page files for command line flags 

@@ -46,7 +46,7 @@ That command will generally be pulled from its accompanying `man` page.
   How to enable ChatGPT hints
 * [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line

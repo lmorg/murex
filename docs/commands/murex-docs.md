@@ -1,4 +1,4 @@
-# Murex's Offline Documentation (`murex-docs`)
+# Murex's Offline Documentation: `murex-docs`
 
 > Displays the man pages for Murex builtins
 

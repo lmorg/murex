@@ -122,7 +122,7 @@ If you wish to view what modules are loaded in a current session then use
   Create an alias for a command
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [Private Function: `private`](../commands/private.md):
   Define a private function block
