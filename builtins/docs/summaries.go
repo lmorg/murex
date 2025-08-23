@@ -419,12 +419,12 @@ func init() {
 		"changelog/v6.2":                  "Bug fix release",
 		"changelog/v6.3":                  "This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.",
 		"changelog/v6.4":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
-		"changelog/v7.0":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
+		"changelog/v7.0":                  "Introducing experimental support for XML, new integrations, and several other quality-of-life improvements. Four deprecated builtins have been removed too, which is this release sees an increment of its major version number",
 		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
 		"deprecated/die":                  "Terminate murex with an exit number of 1 (removed 7.0)",
 		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
 		"deprecated/tread":                "`read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)",
-		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)",
+		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)",
 	}
 
 	Synonym = map[string]string{
