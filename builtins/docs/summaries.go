@@ -421,10 +421,10 @@ func init() {
 		"changelog/v6.4":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
 		"changelog/v7.0":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
 		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
+		"deprecated/die":                  "Terminate murex with an exit number of 1 (removed 7.0)",
 		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
-		"deprecated/tread":                "`read` a line of input from the user and store as a user defined *typed* variable (deprecated)",
+		"deprecated/tread":                "`read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)",
 		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)",
-		"deprecated/die":                  "Terminate murex with an exit number of 1 (deprecated)",
 	}
 
 	Synonym = map[string]string{

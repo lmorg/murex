@@ -1,6 +1,9 @@
 # Deprecated Features
 
-Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well supported.
+Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well maintained.
+
+Please read our [compatibility commitment](https://murex.rocks/compatibility.html) for more information on Murex's
+compatibility commitment
 
 ## Pages
 

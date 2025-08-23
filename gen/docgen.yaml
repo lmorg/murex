@@ -367,7 +367,7 @@ Categories:
     Summary: >-
       Deprecated commands, operators and other documented features
     Description: |-
-      Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well supported.
+      Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well maintained.
     Templates:
     - OutputPath: docs/deprecated
       CategoryFile: README.md

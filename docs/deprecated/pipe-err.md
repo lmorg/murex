@@ -1,5 +1,15 @@
 # `?` stderr Pipe
 
+**This feature has been deprecated** and thus the following documentation is
+provided for historical reference rather than recommendations for new code.
+
+While we do make every effort to maintain backwards compatibility, sometimes
+deprecations need to be made in order to keep Murex focused and maintainable.
+Please read our [compatibility commitment](https://murex.rocks/compatibility.html) for more information on Murex's
+compatibility commitment, and visit the [deprecated section](https://github.com/lmorg/murex/tree/master/docs/deprecated) if you need to
+research other deprecated features.
+
+
 > Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
 
 ## Description
