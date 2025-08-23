@@ -1,6 +1,6 @@
 # `?` stderr Pipe
 
-> Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+> Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
 
 ## Description
 

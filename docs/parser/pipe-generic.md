@@ -59,7 +59,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`?` stderr Pipe](../deprecated/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 

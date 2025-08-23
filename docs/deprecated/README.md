@@ -5,11 +5,24 @@ Murex is committed to backwards compatibility. While we do want to continue to g
 ## Pages
 
 
+### Builtins
+
+Builtin commands which have been removed from Murex
+
+* [Arithmetic Evaluation: `=`](../deprecated/equ.md):
+  Evaluate a mathematical function (removed 7.0)
+* [Integer Operations: `let`](../deprecated/let.md):
+  Evaluate a mathematical function and assign to variable (removed 7.0)
+
+### Tokens And Operators
+
+Tokens, operators, and other syntactic features which have been removed from Murex
+
+
+
 ### Uncategorised
 
 * [Read With Type: `tread` (removed 7.x)](../deprecated/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [`?` stderr Pipe](../deprecated/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`die`](../deprecated/die.md):
   Terminate murex with an exit number of 1 (deprecated)

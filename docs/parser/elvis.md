@@ -70,7 +70,7 @@ where it says:
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
 * [`?` stderr Pipe](../deprecated/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [null](../commands/devnull.md):

@@ -374,3 +374,16 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/deprecated-md-cat.tmpl
       DocumentTemplate: gen/deprecated-md-doc.tmpl
+
+    SubCategories:
+    - ID: deprecated.commands
+      Title: Builtins
+      #VueIcon: arrows-turn-to-dots
+      Description: |-
+        Builtin commands which have been removed from Murex
+
+    - ID: deprecated.tokens
+      Title: Tokens And Operators
+      #VueIcon: arrows-turn-to-dots
+      Description: |-
+        Tokens, operators, and other syntactic features which have been removed from Murex
