@@ -69,8 +69,8 @@ where it says:
   Continues next operation if previous operation passes
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [null](../commands/devnull.md):

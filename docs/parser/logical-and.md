@@ -61,8 +61,8 @@ try {
   Handles non-zero exits inside a block of code
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 

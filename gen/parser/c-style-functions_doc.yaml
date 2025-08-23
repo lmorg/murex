@@ -51,12 +51,12 @@
 
     ```
     # CSF
-    » datetime(--in {now} --out {unix}) / 60
-    28687556.3
+    » datetime({py}%H) * 60
+    1260
 
     # Sub-shell
-    » ${datetime --in {now} --out {unix}} / 60
-    28687556.3
+    » ${datetime {py}%H}} / 60
+    1260
     ```
 
     ### Statement Inlining
@@ -65,12 +65,12 @@
 
     ```
     # CSF
-    » echo It is datetime(--in {now} --out {py}%H) o\' clock
-    It is 23 o' clock
+    » echo It is datetime({py}%H) o\' clock
+    It is 21 o' clock
 
     # Sub-shell
-    » echo It is ${datetime --in {now} --out {py}%H} o\' clock
-    It is 23 o' clock
+    » echo It is ${datetime {py}%H} o\' clock
+    It is 21 o' clock
     ```
 
     Notice in the example above, `echo`'s parameters are not quoted. This is
@@ -86,12 +86,12 @@
 
     ```
     # CSF
-    » echo "It is datetime(--in {now} --out {py}%H) o\' clock"
-    It is datetime(--in {now} --out {py}%H) o' clock
+    » echo "It is datetime({py}%H) o\' clock"
+    It is datetime({py}%H) o' clock
 
     # Sub-shell
-    » echo "It is ${datetime --in {now} --out {py}%H} o\' clock"
-    It is 23 o' clock
+    » echo "It is ${datetime {py}%H} o\' clock"
+    It is 21 o' clock
     ```
   Related:
   - expr

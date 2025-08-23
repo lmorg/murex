@@ -140,8 +140,8 @@ contents) use `>>` instead.
   Writes stdin to disk - appending contents if file already exists
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command
-* [`?` stderr Pipe](../parser/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
 * [`|` POSIX Pipe](../parser/pipe-posix.md):
   Pipes stdout from the left hand command to stdin of the right hand command
 

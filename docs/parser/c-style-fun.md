@@ -53,12 +53,12 @@ As a C-style function (CSF) vs a sub-shell:
 
 ```
 # CSF
-» datetime(--in {now} --out {unix}) / 60
-28687556.3
+» datetime({py}%H) * 60
+1260
 
 # Sub-shell
-» ${datetime --in {now} --out {unix}} / 60
-28687556.3
+» ${datetime {py}%H}} / 60
+1260
 ```
 
 ### Statement Inlining
@@ -67,12 +67,12 @@ As a C-style function (CSF) vs a sub-shell:
 
 ```
 # CSF
-» echo It is datetime(--in {now} --out {py}%H) o\' clock
-It is 23 o' clock
+» echo It is datetime({py}%H) o\' clock
+It is 21 o' clock
 
 # Sub-shell
-» echo It is ${datetime --in {now} --out {py}%H} o\' clock
-It is 23 o' clock
+» echo It is ${datetime {py}%H} o\' clock
+It is 21 o' clock
 ```
 
 Notice in the example above, `echo`'s parameters are not quoted. This is
@@ -91,12 +91,12 @@ C-style functions do not support being infixed like sub-shells can be:
 
 ```
 # CSF
-» echo "It is datetime(--in {now} --out {py}%H) o\' clock"
-It is datetime(--in {now} --out {py}%H) o' clock
+» echo "It is datetime({py}%H) o\' clock"
+It is datetime({py}%H) o' clock
 
 # Sub-shell
-» echo "It is ${datetime --in {now} --out {py}%H} o\' clock"
-It is 23 o' clock
+» echo "It is ${datetime {py}%H} o\' clock"
+It is 21 o' clock
 ```
 
 ## See Also

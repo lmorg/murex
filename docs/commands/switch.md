@@ -214,7 +214,7 @@ switch {
 * [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Logic And Statements: `and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [Logic Or Statements: `or`](../commands/or.md):

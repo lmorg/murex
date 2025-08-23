@@ -206,7 +206,7 @@ jsonl
 * [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Loop While: `while`](../commands/while.md):
   Loop until condition false
 

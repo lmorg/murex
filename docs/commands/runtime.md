@@ -315,7 +315,7 @@ functions.
 * [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Integrations](../user-guide/integrations.md):
   Default integrations shipped with Murex
 * [Murex Event Subsystem: `event`](../commands/event.md):

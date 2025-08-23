@@ -291,7 +291,6 @@ func init() {
 		"parser/pipe-generic":             "Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command",
 		"parser/elvis":                    "Returns the right operand if the left operand is falsy (expression)",
 		"parser/null-coalescing":          "Returns the right operand if the left operand is empty / undefined (expression)",
-		"parser/pipe-err":                 "Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)",
 		"parser/array":                    "Expand values as an array",
 		"parser/lambda":                   "Iterate through structured data",
 		"parser/curly-brace":              "Initiates or terminates a code block",
@@ -421,6 +420,11 @@ func init() {
 		"changelog/v6.3":                  "This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.",
 		"changelog/v6.4":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
 		"changelog/v7.0":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
+		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
+		"deprecated/die":                  "Terminate murex with an exit number of 1 (removed 7.0)",
+		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
+		"deprecated/tread":                "`read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)",
+		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)",
 	}
 
 	Synonym = map[string]string{
@@ -656,7 +660,6 @@ func init() {
 		"pipe-generic":       "parser/pipe-generic",
 		"elvis":              "parser/elvis",
 		"null-coalescing":    "parser/null-coalescing",
-		"pipe-err":           "parser/pipe-err",
 		"array":              "parser/array",
 		"lambda":             "parser/lambda",
 		"curly-brace":        "parser/curly-brace",
@@ -898,7 +901,6 @@ func init() {
 		"parser/pipe-generic":             "parser/pipe-generic",
 		"parser/elvis":                    "parser/elvis",
 		"parser/null-coalescing":          "parser/null-coalescing",
-		"parser/pipe-err":                 "parser/pipe-err",
 		"parser/array":                    "parser/array",
 		"parser/lambda":                   "parser/lambda",
 		"parser/curly-brace":              "parser/curly-brace",
