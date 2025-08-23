@@ -58,9 +58,9 @@ Stdout and stderr are both written to the terminal.
 
 ## See Also
 
-* [Murex Event Subsystem (`event`)](../commands/event.md):
+* [Murex Event Subsystem: `event`](../commands/event.md):
   Event driven programming for shell scripts
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

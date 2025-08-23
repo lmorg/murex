@@ -1,4 +1,4 @@
-# Right Sub-String (`right`)
+# Right Sub-String: `right`
 
 > Right substring every item in a list
 
@@ -56,20 +56,20 @@ runtime --unmarshallers
 
 ## See Also
 
-* [Add Prefix (`prefix`)](../commands/prefix.md):
+* [Add Prefix: `prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [Add Suffix (`suffix`)](../commands/suffix.md):
+* [Add Suffix: `suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
-* [Count (`count`)](../commands/count.md):
+* [Count: `count`](../commands/count.md):
   Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Right Sub-String (`right`)](../commands/right.md):
-  Right substring every item in a list
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Right Sub-String: `right`](../commands/right.md):
+  Right substring every item in a list
+* [Shell Runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
 * [`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
   Converts structured memory into a Murex data-type (eg for stdio)
 * [`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):

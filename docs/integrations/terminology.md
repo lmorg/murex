@@ -27,7 +27,7 @@ beautifully.
   Creates a handler function for `open`
 * [Kitty Integrations](../integrations/kitty.md):
   Get more out of Kitty terminal emulator
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
 * [iTerm2 Integrations](../integrations/iterm2.md):
   Get more out of iTerm2 terminal emulator

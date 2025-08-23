@@ -1,6 +1,6 @@
 - DocumentID: pipe
   Title: >+
-    Create Named Pipe (`pipe`)
+    Create Named Pipe: `pipe`
   CategoryID: commands
   SubCategoryIDs:
     - commands.io

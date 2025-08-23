@@ -12,7 +12,7 @@ This is a [reserved variable](/docs/user-guide/reserved-vars.md) so it cannot be
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex

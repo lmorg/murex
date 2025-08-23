@@ -1,4 +1,4 @@
-# Reverse Array (`mtac`)
+# Array Reverse: `mtac`
 
 > Reverse the order of an array
 
@@ -60,32 +60,32 @@ stdin is a long running process or non-standard stream (eg network pipe).
 
 ## See Also
 
-* [Add Prefix (`prefix`)](../commands/prefix.md):
+* [Add Prefix: `prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [Add Suffix (`suffix`)](../commands/suffix.md):
+* [Add Suffix: `suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
-* [Append To List (`append`)](../commands/append.md):
+* [Array Append: `append`](../commands/append.md):
   Add data to the end of an array
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create 2d Array (`2darray`)](../commands/2darray.md):
-  Create a 2D JSON array from multiple input sources
-* [Create JSON Array (`ja`)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [Create Map (`map`)](../commands/map.md):
-  Creates a map from two data sources
-* [Create New Array (`ta`)](../commands/ta.md):
-  A sophisticated yet simple way to build an array of a user defined data-type
-* [Prepend To List (`prepend`)](../commands/prepend.md):
+* [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Prettify JSON](../commands/pretty.md):
-  Prettifies data documents to make it human readable
-* [Sort Array (`msort`)](../commands/msort.md):
+* [Array Sort: `msort`](../commands/msort.md):
   Sorts an array - data type agnostic
-* [Split String (`jsplit`)](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [Stream New List (`a`)](../commands/a.md):
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create 2d Array: `2darray`](../commands/2darray.md):
+  Create a 2D JSON array from multiple input sources
+* [Create JSON Array: `ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Map: `map`](../commands/map.md):
+  Creates a map from two data sources
+* [Create New Array: `ta`](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Prettify Objects: `pretty`](../commands/pretty.md):
+  Prettifies data documents to make it human readable
+* [String Split: `jsplit`](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
 
 <hr/>
 

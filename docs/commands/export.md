@@ -1,4 +1,4 @@
-# Define Environmental Variable (`export`)
+# Define Environmental Variable: `export`
 
 > Define an environmental variable and set it's value
 
@@ -271,13 +271,13 @@ bar
 
 ## See Also
 
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [Is Value Null (`is-null`)](../commands/is-null.md):
+* [Is Value Null: `is-null`](../commands/is-null.md):
   Checks if a variable is null or undefined
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex

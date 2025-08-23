@@ -23,9 +23,9 @@ It is updated via `cd` however you can overwrite its value manually via `set`.
 
 ## See Also
 
-* [Change Directory (`cd`)](../commands/cd.md):
+* [Change Directory: `cd`](../commands/cd.md):
   Change (working) directory
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction

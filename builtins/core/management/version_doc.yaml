@@ -1,6 +1,6 @@
 - DocumentID: version
   Title: >+
-    Murex Version (`version`)
+    Murex Version: `version`
   CategoryID: commands
   SubCategoryIDs:
     - commands.shell

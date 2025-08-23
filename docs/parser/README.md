@@ -305,17 +305,19 @@ files.
   Inline expressions
 * [C-style functions](../parser/c-style-fun.md):
   Inlined commands for expressions and statements
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+* [Read From Stdin: `<stdin>`](../parser/stdin.md):
   Read the stdin belonging to the parent code block
-* [Truncate File (`>`)](../parser/file-truncate.md):
+* [Write File (Append): `>>`](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 * [`"Double Quote"`](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -355,10 +357,6 @@ files.
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
-* [`=` (arithmetic evaluation)](../parser/equ.md):
-  Evaluate a mathematical function (deprecated)
-* [`>>` Append File](../parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](../parser/null-coalescing.md):

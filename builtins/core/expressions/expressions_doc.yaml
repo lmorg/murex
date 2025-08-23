@@ -1,6 +1,6 @@
 - DocumentID: expr
   Title: >+
-    Expressions (`expr`)
+    Expressions: `expr`
   CategoryID: commands
   SubCategoryIDs:
     - commands.num

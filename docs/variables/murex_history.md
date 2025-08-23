@@ -13,7 +13,7 @@ general.
 
 ## See Also
 
-* [Command Line History (`history`)](../commands/history.md):
+* [Command Line History: `history`](../commands/history.md):
   Outputs murex's command history
 * [MUREX_CONFIG_DIR](../variables/murex_config_dir.md):
   Defines the path to Murex's config

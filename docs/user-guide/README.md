@@ -76,17 +76,19 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Inline expressions
 * [C-style functions](parser/c-style-fun.md):
   Inlined commands for expressions and statements
-* [Filter By Range `[ ..Range ]`](parser/range.md):
+* [Filter By Range: `[ ..Range ]`](parser/range.md):
   Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](parser/item-index.md):
+* [Get Item Property: `[ Index ]`](parser/item-index.md):
   Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](parser/element.md):
   Outputs an element from a nested structure
-* [Read / Write To A Named Pipe (`<pipe>`)](parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Read From Stdin (`<stdin>`)](parser/stdin.md):
+* [Read From Stdin: `<stdin>`](parser/stdin.md):
   Read the stdin belonging to the parent code block
-* [Truncate File (`>`)](parser/file-truncate.md):
+* [Write File (Append): `>>`](parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 * [`"Double Quote"`](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -126,10 +128,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Merges the right hand value to a variable on the left hand side (expression)
 * [`=>` Generic Pipe](parser/pipe-generic.md):
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
-* [`=` (arithmetic evaluation)](parser/equ.md):
-  Evaluate a mathematical function (deprecated)
-* [`>>` Append File](parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
 * [`?:` Elvis Operator](parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](parser/null-coalescing.md):
@@ -153,248 +151,242 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
 
 ### Standard Builtins
 
-* [ASCII And ANSI Escape Sequences (`key-code`)](../commands/key-code.md):
+* [ASCII And ANSI Escape Sequences: `key-code`](../commands/key-code.md):
   Returns character sequences for any key pressed (ie sent from the terminal)
-* [Add Heading (`addheading`)](../commands/addheading.md):
+* [Add Heading: `addheading`](../commands/addheading.md):
   Adds headings to a table
-* [Add Prefix (`prefix`)](../commands/prefix.md):
+* [Add Prefix: `prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [Add Suffix (`suffix`)](../commands/suffix.md):
+* [Add Suffix: `suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
+* [Alter Data Structure: `alter`, `~>`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [Append To List (`append`)](../commands/append.md):
+* [Array Append: `append`](../commands/append.md):
   Add data to the end of an array
-* [Background Process (`bg`)](../commands/bg.md):
+* [Array Merge To String: `mjoin`](../commands/mjoin.md):
+  Joins a list or array into a single string
+* [Array Prepend: `prepend`](../commands/prepend.md):
+  Add data to the start of an array
+* [Array Reverse: `mtac`](../commands/mtac.md):
+  Reverse the order of an array
+* [Array Sort: `msort`](../commands/msort.md):
+  Sorts an array - data type agnostic
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
-* [CPU Architecture (`cpuarch`)](../commands/cpuarch.md):
+* [CPU Architecture: `cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [CPU Count (`cpucount`)](../commands/cpucount.md):
+* [CPU Count: `cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [Caught Error Block (`catch`)](../commands/catch.md):
+* [Caught Error Block: `catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [Change Directory (`cd`)](../commands/cd.md):
+* [Change Directory: `cd`](../commands/cd.md):
   Change (working) directory
-* [Change Text Case (`list.case`)](../commands/list.case.md):
+* [Change Text Case: `list.case`](../commands/list.case.md):
   Changes the character case of a string or all elements in an array
-* [Check Builtin Exists (`bexists`)](../commands/bexists.md):
+* [Check Builtin Exists: `bexists`](../commands/bexists.md):
   Check which builtins exist
-* [Command Line History (`history`)](../commands/history.md):
+* [Command Line History: `history`](../commands/history.md):
   Outputs murex's command history
-* [Count (`count`)](../commands/count.md):
+* [Count: `count`](../commands/count.md):
   Count items in a map, list or array
-* [Create 2d Array (`2darray`)](../commands/2darray.md):
+* [Create 2d Array: `2darray`](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Map (`map`)](../commands/map.md):
+* [Create Map: `map`](../commands/map.md):
   Creates a map from two data sources
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Create New Array (`ta`)](../commands/ta.md):
+* [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Temporary File (`tmp`)](../commands/tmp.md):
+* [Create Streamable Array `a`](../commands/a.md):
+  A sophisticated yet simple way to stream an array or list (mkarray)
+* [Create Temporary File: `tmp`](../commands/tmp.md):
   Create a temporary file and write to it
-* [Date And Time Conversion (`datetime`)](../commands/datetime.md):
+* [Date And Time Conversion: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [Debugging Mode (`debug`)](../commands/debug.md):
+* [Debug Mode: `debug`](../commands/debug.md):
   Debugging information
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [Define Function Arguments (`args`)](../commands/args.md):
+* [Define Function Arguments: `args`](../commands/args.md):
   Command line flag parser for Murex shell scripting
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
 * [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
   Creates a handler function for `open`
 * [Define Method Relationships (`method`)](../commands/method.md):
   Define a methods supported data-types
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Disable Error Handling In Block (`unsafe`)](../commands/unsafe.md):
+* [Disable Error Handling In Block: `unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
-* [Display Command Type (`type`)](../commands/type.md):
+* [Display Command Type: `type`](../commands/type.md):
   Command type (function, builtin, alias, etc)
-* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+* [Display Running Functions: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Download File (`getfile`)](../commands/getfile.md):
+* [Download File: `getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Escape Command Line String (`esccli`)](../commands/esccli.md):
+* [Escape Command Line String: `esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [Escape HTML (`eschtml`)](../commands/eschtml.md):
+* [Escape HTML: `eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [Escape URL (`escurl`)](../commands/escurl.md):
+* [Escape URL: `escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [Exit Block (`break`)](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [Exit Function (`return`)](../commands/return.md):
-  Exits current function scope
-* [Exit Murex (`exit`)](../commands/exit.md):
-  Exit murex
-* [Expressions (`expr`)](../commands/expr.md):
-  Expressions: mathematical, string comparisons, logical operators
-* [False (`false`)](../commands/false.md):
-  Returns a `false` value
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [For Loop (`for`)](../commands/for.md):
-  A more familiar iteration loop to existing developers
-* [Foreground Process (`fg`)](../commands/fg.md):
-  Sends a background process into the foreground
-* [Function / Module Defaults (`runmode`)](../commands/runmode.md):
-  Alter the scheduler's behaviour at higher scoping level
-* [Generate Random Sequence (`rand`)](../commands/rand.md):
-  Random field generator
-* [Get Data Type (`get-type`)](../commands/get-type.md):
-  Returns the data-type of a variable or pipe
-* [Get Exit Code (`exitnum`)](../commands/exitnum.md):
+* [Exit Code: `exitnum`](../commands/exitnum.md):
   Output the exit number of the previous process
-* [Get Pipe Status (`pt`)](../commands/pt.md):
-  Pipe telemetry. Writes data-types and bytes written
-* [Get Request (`get`)](../commands/get.md):
-  Makes a standard HTTP request and returns the result as a JSON object
-* [Globbing (`g`)](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [If Conditional (`if`)](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
-  Import Murex code from another file or code block
-* [Is Value Null (`is-null`)](../commands/is-null.md):
-  Checks if a variable is null or undefined
-* [Join Array To String (`mjoin`)](../commands/mjoin.md):
-  Joins a list or array into a single string
-* [Kill All In Session (`fid-killall`)](../commands/fid-killall.md):
-  Terminate all running Murex functions in current session
-* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
-  Terminate a running Murex function
-* [Left Sub-String (`left`)](../commands/left.md):
-  Left substring every item in a list
-* [List Filesystem Objects (`f`)](../commands/f.md):
+* [Exit Function: `return`](../commands/return.md):
+  Exits current function scope
+* [Exit Murex: `exit`](../commands/exit.md):
+  Exit murex
+* [Exit Scope: `break`](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [Expressions: `expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
+* [False: `false`](../commands/false.md):
+  Returns a `false` value
+* [Filesystem Objects: `f`](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [Location Of Command (`which`)](../commands/which.md):
-  Locate command origin
-* [Lock Files (`lockfile`)](../commands/lockfile.md):
-  Create and manage lock files
-* [Logic And Statements (`and`)](../commands/and.md):
-  Returns `true` or `false` depending on whether multiple conditions are met
-* [Logic Or Statements (`or`)](../commands/or.md):
-  Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [Loop While (`while`)](../commands/while.md):
-  Loop until condition false
-* [Man-Page Summary (`man-summary`)](../commands/man-summary.md):
-  Outputs a man page summary of a command
-* [Match String (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [Murex Event Subsystem (`event`)](../commands/event.md):
-  Event driven programming for shell scripts
-* [Murex Package Management (`murex-package`)](../commands/murex-package.md):
-  Murex's package manager
-* [Murex Version (`version`)](../commands/version.md):
-  Get Murex version
-* [Murex's Offline Documentation (`murex-docs`)](../commands/murex-docs.md):
-  Displays the man pages for Murex builtins
-* [Next Iteration (`continue`)](../commands/continue.md):
-  Terminate process of a block within a caller function
-* [Not (`!`)](../commands/not-func.md):
-  Reads the stdin and exit number from previous process and not's it's condition
-* [Null (`null`)](../commands/devnull.md):
-  null function. Similar to /dev/null
-* [Open File (`open`)](../commands/open.md):
-  Open a file with a preferred handler
-* [Operating System (`os`)](../commands/os.md):
-  Output the auto-detected OS name
-* [Output String (`out`)](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
-  Print a string to the stdout and set it's data-type
-* [Parse Man-Page For Flags (`man-get-flags`)](../commands/man-get-flags.md):
-  Parses man page files for command line flags 
-* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
-  Checks for non-zero exits of each function in a pipeline
-* [Post Request (`post`)](../commands/post.md):
+* [Filesystem Regex Match: `rx`](../commands/rx.md):
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [For Loop: `for`](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Foreground Process: `fg`](../commands/fg.md):
+  Sends a background process into the foreground
+* [Function / Module Defaults: `runmode`](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
+* [Generate Random Sequence: `rand`](../commands/rand.md):
+  Random field generator
+* [Get Data Type: `get-type`](../commands/get-type.md):
+  Returns the data-type of a variable or pipe
+* [Get Pipe Status: `pt`](../commands/pt.md):
+  Pipe telemetry. Writes data-types and bytes written
+* [Globbing: `g`](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
+* [HTTP(S) Get Request: `get`](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [HTTP(S) Post Request: `post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [Prepend To List (`prepend`)](../commands/prepend.md):
-  Add data to the start of an array
-* [Prettify JSON](../commands/pretty.md):
-  Prettifies data documents to make it human readable
-* [Print Map / Structure Keys (`struct-keys`)](../commands/struct-keys.md):
+* [If Conditional: `if`](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
+  Import Murex code from another file or code block
+* [Is Value Null: `is-null`](../commands/is-null.md):
+  Checks if a variable is null or undefined
+* [Kill All In Session: `fid-killall`](../commands/fid-killall.md):
+  Terminate all running Murex functions in current session
+* [Kill Function: `fid-kill`](../commands/fid-kill.md):
+  Terminate a running Murex function
+* [Left Sub-String: `left`](../commands/left.md):
+  Left substring every item in a list
+* [List object keys: `struct-keys`](../commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
-* [Private Function (`private`)](../commands/private.md):
+* [Location / Type Of Command: `which`](../commands/which.md):
+  Locate command origin
+* [Lock Files: `lockfile`](../commands/lockfile.md):
+  Create and manage lock files
+* [Logic And Statements: `and`](../commands/and.md):
+  Returns `true` or `false` depending on whether multiple conditions are met
+* [Logic Or Statements: `or`](../commands/or.md):
+  Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
+* [Loop While: `while`](../commands/while.md):
+  Loop until condition false
+* [Man-Page Summary: `man-summary`](../commands/man-summary.md):
+  Outputs a man page summary of a command
+* [Murex Event Subsystem: `event`](../commands/event.md):
+  Event driven programming for shell scripts
+* [Murex Package Manager: `murex-package`](../commands/murex-package.md):
+  Murex's package manager
+* [Murex Version: `version`](../commands/version.md):
+  Get Murex version
+* [Murex's Offline Documentation: `murex-docs`](../commands/murex-docs.md):
+  Displays the man pages for Murex builtins
+* [Next Iteration: `continue`](../commands/continue.md):
+  Terminate process of a block within a caller function
+* [Not: `!`](../commands/not-func.md):
+  Reads the stdin and exit number from previous process and not's it's condition
+* [Null: `null`](../commands/devnull.md):
+  null function. Similar to /dev/null
+* [Open File: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [Operating System: `os`](../commands/os.md):
+  Output the auto-detected OS name
+* [Output String, stdout: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Output With Type Annotation: `tout`](../commands/tout.md):
+  Print a string to the stdout and set it's data-type
+* [Parse Man-Page For Flags: `man-get-flags`](../commands/man-get-flags.md):
+  Parses man page files for command line flags 
+* [Parse Murex Source: `murex-parser`](../commands/murex-parser.md):
+  Runs the Murex parser against a block of code 
+* [Pipe Fail: `trypipe`](../commands/trypipe.md):
+  Checks for non-zero exits of each function in a pipeline
+* [Prettify Objects: `pretty`](../commands/pretty.md):
+  Prettifies data documents to make it human readable
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Processes Execution Time (`time`)](../commands/time.md):
+* [Processes Execution Time: `time`](../commands/time.md):
   Returns the execution run time of a command or block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Quote String (`escape`)](../commands/escape.md):
+* [Quote String: `escape`](../commands/escape.md):
   Escape or unescape input
 * [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [Read User Input (`read`)](../commands/read.md):
+* [Read User Input: `read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
-* [Read With Type (`tread`) (removed 7.x)](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [Regex Matches (`rx`)](../commands/rx.md):
-  Regexp pattern matching for file system objects (eg `.*\\.txt`)
-* [Regex Operations (`regexp`)](../commands/regexp.md):
+* [Regex Patterns: `regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [Render Image In Terminal (`open-image`)](../commands/open-image.md):
+* [Render Image In Terminal: `open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
-* [Reverse Array (`mtac`)](../commands/mtac.md):
-  Reverse the order of an array
-* [Right Sub-String (`right`)](../commands/right.md):
+* [Right Sub-String: `right`](../commands/right.md):
   Right substring every item in a list
-* [Round Number (`round`)](../commands/round.md):
+* [Round Number: `round`](../commands/round.md):
   Round a number by a user defined precision
-* [Send Signal IPC (`signal`)](../commands/signal.md):
+* [Send Signal IPC: `signal`](../commands/signal.md):
   Sends a signal RPC
-* [Set Command Summary Hint (`summary`)](../commands/summary.md):
+* [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [Shell Script Tests (`test`)](../commands/test.md):
+* [Shell Script Tests: `test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [Sort Array (`msort`)](../commands/msort.md):
-  Sorts an array - data type agnostic
-* [Split String (`jsplit`)](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [Stderr Checking In Pipes (`trypipeerr`)](../commands/trypipeerr.md):
+* [Stderr Checking In Pipes: `trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
-* [Stderr Checking In TTY (`tryerr`)](../commands/tryerr.md):
+* [Stderr Checking In TTY: `tryerr`](../commands/tryerr.md):
   Handles errors inside a block of code
-* [Stream New List (`a`)](../commands/a.md):
-  A sophisticated yet simple way to stream an array or list (mkarray)
-* [Switch Conditional (`switch`)](../commands/switch.md):
+* [String Match: `match`](../commands/match.md):
+  Match an exact value in an array
+* [String Split: `jsplit`](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
+* [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [Transformation Tools (`tabulate`)](../commands/tabulate.md):
+* [Transformation Tools: `tabulate`](../commands/tabulate.md):
   Table transformation tools
-* [True (`true`)](../commands/true.md):
+* [True: `true`](../commands/true.md):
   Returns a `true` value
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
-* [`die`](../commands/die.md):
-  Terminate murex with an exit number of 1 (deprecated)
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
-* [`murex-parser`](../commands/murex-parser.md):
-  Runs the Murex parser against a block of code 
 
 ### Optional Builtins
 
@@ -402,7 +394,7 @@ These builtins are optional. `select` is included as part of the default build
 but can be disabled without breaking functionality. The other optional builtins
 are only included by default on Windows.
 
-* [Inline SQL (`select`)](../optional/select.md):
+* [Inline SQL: `select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file

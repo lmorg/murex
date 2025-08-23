@@ -38,7 +38,7 @@ murex-docs trypipe
 
 ## Pages
 
-* [Inline SQL (`select`)](../optional/select.md):
+* [Inline SQL: `select`](../optional/select.md):
   Inlining SQL into shell pipelines
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file

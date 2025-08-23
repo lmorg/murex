@@ -1,4 +1,4 @@
-# Create Temporary File (`tmp`)
+# Create Temporary File: `tmp`
 
 > Create a temporary file and write to it
 
@@ -103,14 +103,14 @@ which itself is located in the appropriate temp directory for the host OS (eg
 
 ## See Also
 
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Truncate File (`>`)](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
-* [`>>` Append File](../parser/file-append.md):
+* [Write File (Append): `>>`](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

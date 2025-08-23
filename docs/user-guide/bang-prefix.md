@@ -21,19 +21,19 @@ bang prefix and what the behavior of that prefix is.
 
 ## See Also
 
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Logic And Statements (`and`)](../commands/and.md):
+* [Logic And Statements: `and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [Logic Or Statements (`or`)](../commands/or.md):
+* [Logic Or Statements: `or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [Not (`!`)](../commands/not-func.md):
+* [Not: `!`](../commands/not-func.md):
   Reads the stdin and exit number from previous process and not's it's condition
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

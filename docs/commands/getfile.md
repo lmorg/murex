@@ -1,4 +1,4 @@
-# Download File (`getfile`)
+# Download File: `getfile`
 
 > Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 
@@ -76,13 +76,13 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ## See Also
 
-* [Get Request (`get`)](../commands/get.md):
+* [HTTP(S) Get Request: `get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [Open File (`open`)](../commands/open.md):
-  Open a file with a preferred handler
-* [Post Request (`post`)](../commands/post.md):
+* [HTTP(S) Post Request: `post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Open File: `open`](../commands/open.md):
+  Open a file with a preferred handler
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 
 <hr/>

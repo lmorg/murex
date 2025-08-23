@@ -1,6 +1,6 @@
 - DocumentID: a
   Title: >+
-    Stream New List (`a`)
+    Create Streamable Array `a`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -149,7 +149,7 @@
 
 - DocumentID: ja
   Title: >+
-    Create JSON Array (`ja`)
+    Create JSON Array: `ja`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list
@@ -211,12 +211,14 @@
     - a
     - ta
     - json
+    - create-array
+    - create-object
 
 
 
 - DocumentID: ta
   Title: >+
-    Create New Array (`ta`)
+    Create New Array: `ta`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

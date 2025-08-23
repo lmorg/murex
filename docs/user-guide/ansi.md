@@ -222,11 +222,11 @@ it persistent.
 
 ## See Also
 
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up

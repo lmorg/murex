@@ -1,6 +1,6 @@
 - DocumentID: range
   Title: >-
-    Filter By Range `[ ..Range ]`
+    Filter By Range: `[ ..Range ]`
   CategoryID: parser
   SubCategoryIDs:
     - commands.list

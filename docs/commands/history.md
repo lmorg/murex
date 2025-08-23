@@ -1,4 +1,4 @@
-# Command Line History (`history`)
+# Command Line History: `history`
 
 > Outputs murex's command history
 
@@ -48,9 +48,9 @@ The history file is typically located on disk in a file called `~/.murex.history
 
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 * [`MUREX_CONFIG_DIR` (str)](../variables/murex_config_dir.md):
   Defines the path to Murex's config

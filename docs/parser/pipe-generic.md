@@ -48,13 +48,13 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 
 ## See Also
 
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command

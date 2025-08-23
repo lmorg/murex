@@ -1,6 +1,6 @@
 - DocumentID: return
   Title: >+
-    Exit Function (`return`)
+    Exit Function: `return`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -64,7 +64,7 @@
 
 - DocumentID: break
   Title: >+
-    Exit Block (`break`)
+    Exit Scope: `break`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -172,7 +172,7 @@
 
 - DocumentID: continue
   Title: >+
-    Next Iteration (`continue`)
+    Next Iteration: `continue`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

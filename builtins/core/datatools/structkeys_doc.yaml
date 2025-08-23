@@ -1,6 +1,6 @@
 - DocumentID: struct-keys
   Title: >+
-    Print Map / Structure Keys (`struct-keys`)
+    List object keys: `struct-keys`
   CategoryID: commands
   SubCategoryIDs: [ commands.struct ]
   Summary: >-

@@ -1,6 +1,6 @@
 - DocumentID: item-index
   Title: >+
-    Get Item (`[ Index ]`)
+    Get Item Property: `[ Index ]`
   CategoryID: parser
   SubCategoryIDs:
     - commands.struct

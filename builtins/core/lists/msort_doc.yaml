@@ -1,6 +1,6 @@
 - DocumentID: msort
   Title: >-
-    Sort Array (`msort`)
+    Array Sort: `msort`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

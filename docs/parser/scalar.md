@@ -157,11 +157,13 @@ do not.
 
 ## See Also
 
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Output String (`out`)](../commands/out.md):
+* [Integer Operations: `let`](../deprecated/let.md):
+  Evaluate a mathematical function and assign to variable (deprecated)
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
@@ -175,8 +177,6 @@ do not.
   Write a string to the stdout without new line (deprecated)
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
 * [`~` Home Sigil](../parser/tilde.md):
   Home directory path variable
 

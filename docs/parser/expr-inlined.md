@@ -23,11 +23,11 @@ that parameter will be treated like a string.
 
 ## See Also
 
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Operators And Tokens](../user-guide/operators-and-tokens.md):
   All supported operators and tokens
-* [Output String (`echo`)](../commands/out.md):
+* [Output String, stdecho: `echo`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 
 <hr/>

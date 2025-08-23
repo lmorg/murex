@@ -1,7 +1,7 @@
 - DocumentID: equ
   Title: >+
-    `=` (arithmetic evaluation)
-  CategoryID: parser
+    Arithmetic Evaluation: `=`
+  CategoryID: deprecated
   Summary: >-
     Evaluate a mathematical function (deprecated)
   Description: |-
@@ -66,8 +66,8 @@
 
 - DocumentID: let
   Title: >+
-    `let`
-  CategoryID: commands
+    Integer Operations: `let`
+  CategoryID: deprecated
   Summary: >-
     Evaluate a mathematical function and assign to variable (deprecated)
   Description: |-

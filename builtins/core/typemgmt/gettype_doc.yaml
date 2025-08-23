@@ -1,6 +1,6 @@
 - DocumentID: get-type
   Title: >+
-    Get Data Type (`get-type`)
+    Get Data Type: `get-type`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

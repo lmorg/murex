@@ -1,6 +1,6 @@
 - DocumentID: count
   Title: >+
-    Count (`count`)
+    Count: `count`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

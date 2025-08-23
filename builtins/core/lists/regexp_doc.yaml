@@ -1,6 +1,6 @@
 - DocumentID: regexp
   Title: >+
-    Regex Operations (`regexp`)
+    Regex Patterns: `regexp`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

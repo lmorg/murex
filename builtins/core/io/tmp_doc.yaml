@@ -1,6 +1,6 @@
 - DocumentID: tmp
   Title: >+
-    Create Temporary File (`tmp`)
+    Create Temporary File: `tmp`
   CategoryID: commands
   SubCategoryIDs: [ commands.fs ]
   Summary: >-

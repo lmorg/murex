@@ -1,6 +1,6 @@
 - DocumentID: runtime
   Title: >+
-    Shell Runtime (`runtime`)
+    Shell Runtime: `runtime`
   CategoryID: commands
   SubCategoryIDs:
     - commands.shell

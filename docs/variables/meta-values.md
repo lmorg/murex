@@ -24,11 +24,11 @@ iteration structure's documentation to check what information is exposed via
 
 ## See Also
 
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
+* [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [Loop While (`while`)](../commands/while.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [Loop While: `while`](../commands/while.md):
   Loop until condition false
 * [`[{ Lambda }]`](../parser/lambda.md):
   Iterate through structured data

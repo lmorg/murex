@@ -42,15 +42,15 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 
 ## See Also
 
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

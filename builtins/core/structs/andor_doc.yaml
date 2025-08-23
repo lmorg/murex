@@ -1,6 +1,6 @@
 - DocumentID: and
   Title: >+
-    Logic And Statements (`and`)
+    Logic And Statements: `and`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -55,7 +55,7 @@
 
 - DocumentID: or
   Title: >+
-    Logic Or Statements (`or`)
+    Logic Or Statements: `or`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

@@ -1,6 +1,6 @@
 - DocumentID: get
   Title: >+
-    Get Request (`get`)
+    HTTP(S) Get Request: `get`
   CategoryID: commands
   SubCategoryIDs:
     - commands.http
@@ -79,7 +79,7 @@
 
 - DocumentID: getfile
   Title: >+
-    Download File (`getfile`)
+    Download File: `getfile`
   CategoryID: commands
   SubCategoryIDs:
     - commands.http

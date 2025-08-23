@@ -1,6 +1,6 @@
 - DocumentID: test
   Title: >+
-    Shell Script Tests (`test`)
+    Shell Script Tests: `test`
   CategoryID: commands
   SubCategoryIDs: [ commands.shell ]
   Summary: >-

@@ -1,6 +1,6 @@
 - DocumentID: format
   Title: >+
-    Reformat Data type (`format`)
+    Reformat Data Type: `format`
   CategoryID: commands
   SubCategoryIDs: 
     - commands.str
@@ -18,10 +18,12 @@
     ```
   Examples: |-
     ```
-    » tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
-    One: 1
-    Three: 3
-    Two: 2
+    » %{ One: 1, Two: 2, Three: 3 } -> format xml
+    <xml>
+        <One>1</One>
+        <Three>3</Three>
+        <Two>2</Two>
+    </xml>
     ```
   Flags:
   Detail:

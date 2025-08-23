@@ -1,4 +1,4 @@
-# Create Named Pipe (`pipe`)
+# Create Named Pipe: `pipe`
 
 > Manage Murex named pipes
 
@@ -124,24 +124,24 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
-* [Match String (`match`)](../commands/match.md):
-  Match an exact value in an array
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+* [Read From Stdin: `<stdin>`](../parser/stdin.md):
   Read the stdin belonging to the parent code block
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [Shell Script Tests (`test`)](../commands/test.md):
+* [Shell Script Tests: `test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [String Match: `match`](../commands/match.md):
+  Match an exact value in an array
 
 <hr/>
 
