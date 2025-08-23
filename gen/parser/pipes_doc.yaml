@@ -63,7 +63,7 @@
   CategoryID: deprecated
   SubCategoryIDs: [ deprecated.parser ]
   Summary: >-
-    Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
+    Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
   Description: |-
     This token swaps the stdout and stderr streams of the left hand command.
 

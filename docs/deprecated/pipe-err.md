@@ -10,7 +10,7 @@ compatibility commitment, and visit the [deprecated section](https://github.com/
 research other deprecated features.
 
 
-> Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
+> Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
 
 ## Description
 

@@ -26,6 +26,6 @@ Builtin commands which have been removed from Murex
 Tokens, operators, and other syntactic features which have been removed from Murex
 
 * [`?` stderr Pipe](../deprecated/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 8.0)
 
 
