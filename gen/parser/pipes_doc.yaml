@@ -60,7 +60,7 @@
 - DocumentID: pipe-err
   Title: >-
     `?` stderr Pipe
-  CategoryID: parser
+  CategoryID: deprecated
   Summary: >-
     Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
   Description: |-

@@ -109,7 +109,7 @@ The following meta values are defined:
 * [For Loop: `for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 

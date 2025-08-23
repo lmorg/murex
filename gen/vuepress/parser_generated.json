@@ -245,10 +245,5 @@
         "collapsible": true,
         "icon": "folder",
         "text": "Pipes"
-    },
-    {
-        "icon": "file-lines",
-        "link": "parser/pipe-err.md",
-        "text": "? stderr Pipe"
     }
 ]

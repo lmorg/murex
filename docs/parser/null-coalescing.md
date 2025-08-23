@@ -76,7 +76,7 @@ The following extract was taken from [Wikipedia](https://en.wikipedia.org/wiki/N
   Continues next operation if previous operation passes
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` stderr Pipe](../parser/pipe-err.md):
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`||` Or Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails

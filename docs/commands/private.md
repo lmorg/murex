@@ -118,7 +118,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Public Function: `function`](../commands/function.md):
   Define a function block
 

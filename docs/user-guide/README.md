@@ -132,8 +132,6 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Returns the right operand if the left operand is falsy (expression)
 * [`??` Null Coalescing Operator](parser/null-coalescing.md):
   Returns the right operand if the left operand is empty / undefined (expression)
-* [`?` stderr Pipe](parser/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 * [`@Array` Sigil](parser/array.md):
   Expand values as an array
 * [`[{ Lambda }]`](parser/lambda.md):

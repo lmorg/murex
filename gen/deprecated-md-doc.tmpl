@@ -1,0 +1,49 @@
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+icon: file-code
+description: {{ quote .Summary }}
+category: {{ .CategoryTitle }}
+{{ if .SubCategories }}tag:{{ range $cat := .SubCategories }}
+  - {{ .Title }}{{ end }}{{ end }}
+---
+
+{{ end }}# {{ md .Title }}
+{{ if .Summary }}
+> {{ md .Summary }}{{ end }}
+
+## Description
+
+{{ md (fn (include .Description)) }}
+
+{{ if .Usage }}## Usage
+
+{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
+
+## Examples
+
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Flags }}
+
+## Flags
+
+{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
+{{ end }}* `{{ md .Flag }}`
+    {{ md (fn .Description) }}{{ end }}{{ end }}{{ if .Detail }}
+
+## Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+
+## Synonyms
+
+{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
+{{ end }}* `{{ md . }}`{{ end }}
+{{ end }}{{ if .Related }}
+
+## See Also
+
+{{ range $i,$a := .Related }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}
+
+<hr/>
+
+This document was generated from [{{ .SourcePath }}](https://github.com/lmorg/murex/blob/master/{{ .SourcePath }}).

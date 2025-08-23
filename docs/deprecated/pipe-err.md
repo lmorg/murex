@@ -1,45 +1,42 @@
-# `|` POSIX Pipe
+# `?` stderr Pipe
 
-> Pipes stdout from the left hand command to stdin of the right hand command
+> Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 
 ## Description
 
-This token behaves much like pipe would in Bash or similar shells. It passes
-stdout along the pipeline while merging stderr stream with the parents stderr
-stream.
+This token swaps the stdout and stderr streams of the left hand command.
 
-It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
+Please note that this token is only effective when it is prefixed by white
+space.
+
+> This feature has been deprecated. Please use `<err> <!out>` instead. For example:
+> ```
+> command <err> <!out> parameter-1 parameter-2 -> next-command parameter-1
+> ```
 
 
 
 ## Examples
 
-### Piping stdout
-
 ```
-» out Hello, world! | regexp s/world/Earth/
-Hello, Earth!
-
-» out Hello, world!|regexp s/world/Earth/
+» err Hello, world! ? regexp s/world/Earth/
 Hello, Earth!
 ```
 
-### Piping stderr
-
-In following example the first command is writing to stderr rather than stdout
+In following example the first command is writing to stdout rather than stderr
 so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
 
 ```
-» err Hello, world! | regexp s/world/Earth/
+» out Hello, world! ? regexp s/world/Earth/
 Hello, world!
 ```
 
-To pipe stderr you'd need to use the `<!>` syntax. For example `<!out>` to
-write stderr to stdout:
+In following example the stderr token isn't whitespace padded so is treated
+like any ordinary printable character:
 
 ```
-» err <!out> Hello, world! | regexp s/world/Earth/
-Hello, Earth!
+» err Hello, world!? regexp s/world/Earth/
+Hello, world!? regexp s/world/Earth/
 ```
 
 ## See Also
@@ -58,8 +55,8 @@ Hello, Earth!
   Pipes stdout from the left hand command to stdin of the right hand command
 * [`=>` Generic Pipe](../parser/pipe-generic.md):
   Pipes a reformatted stdout stream from the left hand command to stdin of the right hand command
-* [`?` stderr Pipe](../deprecated/pipe-err.md):
-  Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
+* [`|` POSIX Pipe](../parser/pipe-posix.md):
+  Pipes stdout from the left hand command to stdin of the right hand command
 
 <hr/>
 

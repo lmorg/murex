@@ -360,3 +360,17 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/changelog-md-cat.tmpl
       DocumentTemplate: gen/changelog-md-doc.tmpl
+
+  # deprecated
+  - ID: deprecated
+    Title: Deprecated Features
+    Summary: >-
+      Deprecated commands, operators and other documented features
+    Description: |-
+      Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well supported.
+    Templates:
+    - OutputPath: docs/deprecated
+      CategoryFile: README.md
+      OutputExt: .md
+      CategoryTemplate: gen/deprecated-md-cat.tmpl
+      DocumentTemplate: gen/deprecated-md-doc.tmpl

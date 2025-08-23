@@ -66,7 +66,7 @@ There is no workaround for `trypipe`.
   Continues next operation if previous operation passes
 * [`?:` Elvis Operator](../parser/elvis.md):
   Returns the right operand if the left operand is falsy (expression)
-* [`?` stderr Pipe](../parser/pipe-err.md):
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
   Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)
 
 <hr/>

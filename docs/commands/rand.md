@@ -70,7 +70,7 @@ cryptographically secure.
 * [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
 * [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
 
