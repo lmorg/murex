@@ -6,7 +6,7 @@ export default navbar([
     icon: "book",
     children: [
       {
-        text: "Documentation",
+        //text: "Documentation",
         prefix: "/",
         children: [
           { text: "User Guide", link: "user-guide/", icon: "book" },
@@ -23,8 +23,9 @@ export default navbar([
     ],
   },
   { text: "Install", link: "install.html", icon: "download" },
-  { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
+  { text: "Tour", link: "tour.html", icon: "plane-departure" },
   { text: "Cheat Sheet", link: "user-guide/rosetta-stone.html", icon: "table" },
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
-  "/contributing",
+  { text: "Contribute", link: "/contributing", icon: "handshake-angle" },
+  //"/contributing",
 ]);
