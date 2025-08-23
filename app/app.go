@@ -16,9 +16,9 @@ const Name = "murex"
 const (
 	Major     = 7
 	Minor     = 0
-	Revision  = 2125
+	Revision  = 2126
 	Branch    = "website"
-	BuildDate = "2025-08-23  22:25:19"
+	BuildDate = "2025-08-23  22:31:23"
 )
 
 // Copyright is the copyright owner string

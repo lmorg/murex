@@ -83,10 +83,11 @@
 
 - DocumentID: die
   Title: >+
-    `die`
+    Exit after error: `die`
   CategoryID: deprecated
+  SubCategoryIDs: [ deprecated.commands ]
   Summary: >-
-    Terminate murex with an exit number of 1 (deprecated)
+    Terminate murex with an exit number of 1 (removed 7.0)
   Description: |-
     Terminate Murex with an exit number of 1.
 

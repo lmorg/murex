@@ -48,8 +48,8 @@ These man pages are compiled into the Murex executable.
   Print a string to the stdout and set it's data-type
 * [Parse Man-Page For Flags: `man-get-flags`](../commands/man-get-flags.md):
   Parses man page files for command line flags 
-* [Read With Type: `tread` (removed 7.x)](../deprecated/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+* [Read With Type: `tread`](../deprecated/tread.md):
+  `read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)
 * [Write File (Append): `>>`](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
 * [Write File (Truncate): `>`](../parser/file-truncate.md):

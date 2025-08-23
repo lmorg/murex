@@ -11,18 +11,18 @@ Builtin commands which have been removed from Murex
 
 * [Arithmetic Evaluation: `=`](../deprecated/equ.md):
   Evaluate a mathematical function (removed 7.0)
+* [Exit after error: `die`](../deprecated/die.md):
+  Terminate murex with an exit number of 1 (removed 7.0)
 * [Integer Operations: `let`](../deprecated/let.md):
   Evaluate a mathematical function and assign to variable (removed 7.0)
+* [Read With Type: `tread`](../deprecated/tread.md):
+  `read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)
 
 ### Tokens And Operators
 
 Tokens, operators, and other syntactic features which have been removed from Murex
 
+* [`?` stderr Pipe](../deprecated/pipe-err.md):
+  Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
 
 
-### Uncategorised
-
-* [Read With Type: `tread` (removed 7.x)](../deprecated/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [`die`](../deprecated/die.md):
-  Terminate murex with an exit number of 1 (deprecated)

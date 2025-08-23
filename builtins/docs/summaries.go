@@ -423,7 +423,7 @@ func init() {
 		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
 		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
 		"deprecated/tread":                "`read` a line of input from the user and store as a user defined *typed* variable (deprecated)",
-		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (DEPRECATED)",
+		"deprecated/pipe-err":             "Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)",
 		"deprecated/die":                  "Terminate murex with an exit number of 1 (deprecated)",
 	}
 

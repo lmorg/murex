@@ -1,6 +1,6 @@
-# `die`
+# Exit after error: `die`
 
-> Terminate murex with an exit number of 1 (deprecated)
+> Terminate murex with an exit number of 1 (removed 7.0)
 
 ## Description
 

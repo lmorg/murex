@@ -61,7 +61,7 @@
   Title: >-
     `?` stderr Pipe
   CategoryID: deprecated
-  SubCategoryIDs: [ deprecated.token ]
+  SubCategoryIDs: [ deprecated.parser ]
   Summary: >-
     Pipes stderr from the left hand command to stdin of the right hand command (removed 7.0)
   Description: |-

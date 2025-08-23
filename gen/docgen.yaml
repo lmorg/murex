@@ -382,7 +382,7 @@ Categories:
       Description: |-
         Builtin commands which have been removed from Murex
 
-    - ID: deprecated.tokens
+    - ID: deprecated.parser
       Title: Tokens And Operators
       #VueIcon: arrows-turn-to-dots
       Description: |-

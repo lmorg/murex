@@ -59,8 +59,8 @@ Hello, World!
   Print a string to the stdout and set it's data-type
 * [Read User Input: `read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
-* [Read With Type: `tread` (removed 7.x)](../deprecated/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+* [Read With Type: `tread`](../deprecated/tread.md):
+  `read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)
 * [Write File (Append): `>>`](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
 * [Write File (Truncate): `>`](../parser/file-truncate.md):
