@@ -16,7 +16,7 @@ all: build
 
 # Build the binary
 .PHONY: build
-build: generate
+build:
 	@echo "Building ${BINARY_NAME}..."
 	@mkdir -p ${BUILD_DIR}
 	go build ${GO_FLAGS} -tags ${BUILD_TAGS} ${LDFLAGS} -o ${BUILD_DIR}/${BINARY_NAME} ${SOURCE_DIR}
@@ -38,10 +38,10 @@ run: build
 
 # Build with dev flags
 .PHONY: build-dev
+build-dev: generate
 build-dev: GO_FLAGS += -gcflags="-N -l" -race -covermode=atomic
 build-dev: BUILD_TAGS += "pprof,trace,no_crash_handler"
-#build-dev: LDFLAGS += -X main.Debug=true
-build-debug: build
+build-dev: build
 
 # Test
 .PHONY: test
