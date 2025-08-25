@@ -125,7 +125,7 @@ binaries.
 
 You will need `go` (Golang) compiler, and `git` installed.
 
-> Go 1.20 or higher is required.
+> Go 1.21 or higher is required.
 
 These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
