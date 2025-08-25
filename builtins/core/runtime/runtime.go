@@ -327,9 +327,9 @@ func dumpAbout() any {
 
 	m := map[string]any{
 		"GoVersion":    info.GoVersion,
-		"GitBranch":    app.Branch,
+		"GitBranch":    app.Branch(),
 		"SemVer":       app.Semver(),
-		"BuildDate":    app.BuildDate,
+		"BuildDate":    app.BuildDate(),
 		"DebugEnabled": debug.Enabled,
 		//"TestEnabled":  p.Scope.Tests != nil,
 		"NumCgoCalls": runtime.NumCgoCall(),
