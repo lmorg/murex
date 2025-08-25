@@ -1,4 +1,4 @@
-# Round Number (`round`)
+# Round Number: `round`
 
 > Round a number by a user defined precision
 
@@ -79,7 +79,7 @@ Rounding to the nearest multiple of `20`:
 
 ## See Also
 
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 
 <hr/>

@@ -1,4 +1,4 @@
-# Next Iteration (`continue`)
+# Next Iteration: `continue`
 
 > Terminate process of a block within a caller function
 
@@ -76,23 +76,23 @@ Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
 
 ## See Also
 
-* [Exit Block (`break`)](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [Exit Function (`return`)](../commands/return.md):
+* [Exit Function: `return`](../commands/return.md):
   Exits current function scope
-* [Exit Murex (`exit`)](../commands/exit.md):
+* [Exit Murex: `exit`](../commands/exit.md):
   Exit murex
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
+* [Exit Scope: `break`](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [If Conditional (`if`)](../commands/if.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
 
 <hr/>

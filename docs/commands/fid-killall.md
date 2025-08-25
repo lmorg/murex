@@ -1,4 +1,4 @@
-# Kill All In Session (`fid-killall`)
+# Kill All In Session: `fid-killall`
 
 > Terminate all running Murex functions in current session
 
@@ -33,25 +33,25 @@ PID (process ID). You can obtain a FID from `fid-list`.
 
 ## See Also
 
-* [Background Process (`bg`)](../commands/bg.md):
+* [Background Process: `bg`](../commands/bg.md):
   Run processes in the background
-* [Check Builtin Exists (`bexists`)](../commands/bexists.md):
+* [Check Builtin Exists: `bexists`](../commands/bexists.md):
   Check which builtins exist
-* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+* [Display Running Functions: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+* [Display Running Functions: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [Foreground Process (`fg`)](../commands/fg.md):
+* [Foreground Process: `fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
+* [Kill Function: `fid-kill`](../commands/fid-kill.md):
   Terminate a running Murex function
 * [Re-Scan $PATH For Executables](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [Shell Runtime (`builtins`)](../commands/runtime.md):
+* [Shell Runtime: `builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

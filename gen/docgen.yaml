@@ -360,3 +360,30 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/changelog-md-cat.tmpl
       DocumentTemplate: gen/changelog-md-doc.tmpl
+
+  # deprecated
+  - ID: deprecated
+    Title: Deprecated Features
+    Summary: >-
+      Deprecated commands, operators and other documented features
+    Description: |-
+      Murex is committed to backwards compatibility. While we do want to continue to grow and improve the shell, this will not come at the expense of long term usability. However sometimes features do need to be removed to keep the shell focused and well maintained.
+    Templates:
+    - OutputPath: docs/deprecated
+      CategoryFile: README.md
+      OutputExt: .md
+      CategoryTemplate: gen/deprecated-md-cat.tmpl
+      DocumentTemplate: gen/deprecated-md-doc.tmpl
+
+    SubCategories:
+    - ID: deprecated.commands
+      Title: Builtins
+      #VueIcon: arrows-turn-to-dots
+      Description: |-
+        Builtin commands which have been removed from Murex
+
+    - ID: deprecated.parser
+      Title: Tokens And Operators
+      #VueIcon: arrows-turn-to-dots
+      Description: |-
+        Tokens, operators, and other syntactic features which have been removed from Murex

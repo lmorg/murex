@@ -1,18 +1,14 @@
 import { navbar } from "vuepress-theme-hope";
 
 export default navbar([
-  //"/",
   {
     text: "Documentation",
     icon: "book",
     children: [
       {
-        text: "Shortcuts",
+        //text: "Documentation",
         prefix: "/",
         children: [
-          { text: "Install", link: "install.html", icon: "download" },
-          { text: "Language Tour", link: "tour.html", icon: "plane-departure" },
-          { text: "Rosetta Stone", link: "user-guide/rosetta-stone.html", icon: "table" },
           { text: "User Guide", link: "user-guide/", icon: "book" },
           { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
           { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },
@@ -21,11 +17,15 @@ export default navbar([
           { text: "Data Types", link: "types/", icon: "file-contract" },
           { text: "Events", link: "events/", icon: "bolt" },
           { text: "Blog", link: "blog/", icon: "comment" },
+          "changelog/",
         ],
       },
     ],
   },
-  "/changelog/",
+  { text: "Install", link: "install.html", icon: "download" },
+  { text: "Tour", link: "tour.html", icon: "plane-departure" },
+  { text: "Cheat Sheet", link: "user-guide/rosetta-stone.html", icon: "table" },
   { text: "Discuss", link: "https://github.com/lmorg/murex/discussions", icon: "comment" },
-  "/contributing",
+  { text: "Contribute", link: "/contributing", icon: "handshake-angle" },
+  //"/contributing",
 ]);

@@ -70,7 +70,7 @@ both agnostic to the bang prefix.
 
 * [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [parser/Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [parser/Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time

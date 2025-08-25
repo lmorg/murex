@@ -1,4 +1,4 @@
-# Sort Array (`msort`)
+# Array Sort: `msort`
 
 > Sorts an array - data type agnostic
 
@@ -54,28 +54,28 @@ output of `msort` into another builtin:
 
 ## See Also
 
-* [Alter Data Structure (`alter` / `~>`)](../commands/alter.md):
+* [Alter Data Structure: `alter`, `~>`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [Append To List (`append`)](../commands/append.md):
+* [Array Append: `append`](../commands/append.md):
   Add data to the end of an array
-* [Count (`count`)](../commands/count.md):
-  Count items in a map, list or array
-* [Create JSON Array (`ja`)](../commands/ja.md):
-  A sophisticated yet simply way to build a JSON array
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
-  Outputs a ranged subset of data from stdin
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
-  Outputs an element from an array, map or table
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
-  Outputs an element from a nested structure
-* [Prepend To List (`prepend`)](../commands/prepend.md):
+* [Array Prepend: `prepend`](../commands/prepend.md):
   Add data to the start of an array
-* [Reverse Array (`mtac`)](../commands/mtac.md):
+* [Array Reverse: `mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [Split String (`jsplit`)](../commands/jsplit.md):
-  Splits stdin into a JSON array based on a regex parameter
-* [Stream New List (`a`)](../commands/a.md):
+* [Count: `count`](../commands/count.md):
+  Count items in a map, list or array
+* [Create JSON Array: `ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
+  Outputs a ranged subset of data from stdin
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
+  Outputs an element from an array, map or table
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
+  Outputs an element from a nested structure
+* [String Split: `jsplit`](../commands/jsplit.md):
+  Splits stdin into a JSON array based on a regex parameter
 
 <hr/>
 

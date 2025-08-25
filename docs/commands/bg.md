@@ -1,4 +1,4 @@
-# Background Process (`bg`)
+# Background Process: `bg`
 
 > Run processes in the background
 
@@ -40,17 +40,17 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
 
 ## See Also
 
-* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+* [Display Running Functions: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Display Running Functions (`jobs`)](../commands/fid-list.md):
+* [Display Running Functions: `jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Foreground Process (`fg`)](../commands/fg.md):
+* [Foreground Process: `fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [Kill All In Session (`fid-killall`)](../commands/fid-killall.md):
+* [Kill All In Session: `fid-killall`](../commands/fid-killall.md):
   Terminate all running Murex functions in current session
-* [Kill Function (`fid-kill`)](../commands/fid-kill.md):
+* [Kill Function: `fid-kill`](../commands/fid-kill.md):
   Terminate a running Murex function
 
 <hr/>

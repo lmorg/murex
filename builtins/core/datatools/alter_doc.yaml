@@ -1,6 +1,6 @@
 - DocumentID: alter
   Title: >+
-    Alter Data Structure (`alter` / `~>`)
+    Alter Data Structure: `alter`, `~>`
   CategoryID: commands
   SubCategoryIDs: [ commands.struct, parser.data ]
   Summary: >-

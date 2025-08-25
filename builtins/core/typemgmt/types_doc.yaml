@@ -1,6 +1,6 @@
 - DocumentID: exec
   Title: >+
-    Execute External Command (`exec`)
+    Execute External Command: `exec`
   CategoryID: commands
   SubCategoryIDs: [ commands.proc ]
   Summary: >-
@@ -83,10 +83,11 @@
 
 - DocumentID: die
   Title: >+
-    `die`
-  CategoryID: commands
+    Exit after error: `die`
+  CategoryID: deprecated
+  SubCategoryIDs: [ deprecated.commands ]
   Summary: >-
-    Terminate murex with an exit number of 1 (deprecated)
+    Terminate murex with an exit number of 1 (removed 7.0)
   Description: |-
     Terminate Murex with an exit number of 1.
 
@@ -112,7 +113,7 @@
 
 - DocumentID: exit
   Title: >+
-    Exit Murex (`exit`)
+    Exit Murex: `exit`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -148,7 +149,7 @@
 
 - DocumentID: devnull
   Title: >+
-    Null (`null`)
+    Null: `null`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -183,7 +184,7 @@
 
 - DocumentID: "true"
   Title: >+
-    True (`true`)
+    True: `true`
   CategoryID: commands
   SubCategoryIDs: [ commands.posix ]
   Summary: >-
@@ -226,7 +227,7 @@
 
 - DocumentID: "false"
   Title: >+
-    False (`false`)
+    False: `false`
   CategoryID: commands
   SubCategoryIDs: [ commands.posix ]
   Summary: >-
@@ -269,7 +270,7 @@
 
 - DocumentID: not-func
   Title: >+
-    Not (`!`)
+    Not: `!`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-
@@ -310,7 +311,7 @@
 
 - DocumentID: cast
   Title: >+
-    Define Type (`cast`)
+    Define Type: `cast`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang, parser.data, parser.pipes ]
   Summary: >-

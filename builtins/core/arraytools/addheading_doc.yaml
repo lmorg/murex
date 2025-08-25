@@ -1,6 +1,6 @@
 - DocumentID: addheading
   Title: >-
-    Add Heading (`addheading`)
+    Add Heading: `addheading`
   CategoryID: commands
   SubCategoryIDs: [ commands.table ]
   Summary: >-

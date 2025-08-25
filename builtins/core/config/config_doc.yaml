@@ -1,6 +1,6 @@
 - DocumentID: config
   Title: >+
-    Shell Configuration And Settings (`config`)
+    Shell Configuration And Settings: `config`
   CategoryID: commands
   SubCategoryIDs: [ commands.shell ]
   Summary: >-

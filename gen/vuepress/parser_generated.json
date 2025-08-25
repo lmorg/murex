@@ -37,27 +37,27 @@
             {
                 "icon": "file-lines",
                 "link": "commands/alter.md",
-                "text": "Alter Data Structure (alter / ~\u003e)"
+                "text": "Alter Data Structure: alter, ~\u003e"
             },
             {
                 "icon": "file-lines",
                 "link": "commands/cast.md",
-                "text": "Define Type (cast)"
+                "text": "Define Type: cast"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/range.md",
-                "text": "Filter By Range [ ..Range ]"
+                "text": "Filter By Range: [ ..Range ]"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/item-index.md",
-                "text": "Get Item ([ Index ])"
+                "text": "Get Item Property: [ Index ]"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/element.md",
-                "text": "Get Nested Element ([[ Element ]])"
+                "text": "Get Nested Element: [[ Element ]]"
             },
             {
                 "icon": "file-lines",
@@ -204,22 +204,27 @@
             {
                 "icon": "file-lines",
                 "link": "commands/cast.md",
-                "text": "Define Type (cast)"
+                "text": "Define Type: cast"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/namedpipe.md",
-                "text": "Read / Write To A Named Pipe (\u003cpipe\u003e)"
+                "text": "Read / Write To A Named Pipe: \u003cpipe\u003e"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/stdin.md",
-                "text": "Read From Stdin (\u003cstdin\u003e)"
+                "text": "Read From Stdin: \u003cstdin\u003e"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/file-append.md",
+                "text": "Write File (Append): \u003e\u003e"
             },
             {
                 "icon": "file-lines",
                 "link": "parser/file-truncate.md",
-                "text": "Truncate File (\u003e)"
+                "text": "Write File (Truncate): \u003e"
             },
             {
                 "icon": "file-lines",
@@ -233,11 +238,6 @@
             },
             {
                 "icon": "file-lines",
-                "link": "parser/file-append.md",
-                "text": "\u003e\u003e Append File"
-            },
-            {
-                "icon": "file-lines",
                 "link": "parser/pipe-posix.md",
                 "text": "| POSIX Pipe"
             }
@@ -245,15 +245,5 @@
         "collapsible": true,
         "icon": "folder",
         "text": "Pipes"
-    },
-    {
-        "icon": "file-lines",
-        "link": "parser/equ.md",
-        "text": "= (arithmetic evaluation)"
-    },
-    {
-        "icon": "file-lines",
-        "link": "parser/pipe-err.md",
-        "text": "? stderr Pipe"
     }
 ]

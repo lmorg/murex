@@ -15,7 +15,7 @@ reserved variable, and thus read only, if you require precision and safety.
 
 ## See Also
 
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`MUREX_EXE` (path)](../variables/murex_exe.md):
   Absolute path to running shell

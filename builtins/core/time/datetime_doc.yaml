@@ -1,6 +1,6 @@
 - DocumentID: datetime
   Title: >+
-    Date And Time Conversion (`datetime`)
+    Date And Time Conversion: `datetime`
   CategoryID: commands
   SubCategoryIDs: [ commands.str ]
   Summary: >-

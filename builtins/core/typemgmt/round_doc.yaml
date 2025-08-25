@@ -1,6 +1,6 @@
 - DocumentID: round
   Title: >+
-    Round Number (`round`)
+    Round Number: `round`
   CategoryID: commands
   SubCategoryIDs: [ commands.num ]
   Summary: >-

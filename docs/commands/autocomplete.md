@@ -1,4 +1,4 @@
-# Tab Autocompletion (`autocomplete`)
+# Tab Autocompletion: `autocomplete`
 
 > Set definitions for tab-completion in the command line
 
@@ -625,23 +625,23 @@ flags.
 
 ## See Also
 
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [Get Data Type (`get-type`)](../commands/get-type.md):
+* [Get Data Type: `get-type`](../commands/get-type.md):
   Returns the data-type of a variable or pipe
-* [Get Item (`[ Index ]`)](../parser/item-index.md):
+* [Get Item Property: `[ Index ]`](../parser/item-index.md):
   Outputs an element from an array, map or table
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Read From Stdin (`<stdin>`)](../parser/stdin.md):
+* [Read From Stdin: `<stdin>`](../parser/stdin.md):
   Read the stdin belonging to the parent code block
-* [Set Command Summary Hint (`summary`)](../commands/summary.md):
+* [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
-* [Switch Conditional (`switch`)](../commands/switch.md):
+* [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

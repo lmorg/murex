@@ -54,15 +54,15 @@ empty Filename string.
 
 ## See Also
 
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
 * [Modules And Packages](../user-guide/modules.md):
   Modules and packages: An Introduction
-* [Murex Package Management (`murex-package`)](../commands/murex-package.md):
+* [Murex Package Manager: `murex-package`](../commands/murex-package.md):
   Murex's package manager
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

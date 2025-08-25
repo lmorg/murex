@@ -1,4 +1,4 @@
-# Stderr Checking In TTY (`tryerr`)
+# Stderr Checking In TTY: `tryerr`
 
 > Handles errors inside a block of code
 
@@ -44,25 +44,25 @@ command.
 
 ## See Also
 
-* [Caught Error Block (`catch`)](../commands/catch.md):
+* [Caught Error Block: `catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe`
-* [Disable Error Handling In Block (`unsafe`)](../commands/unsafe.md):
+* [Disable Error Handling In Block: `unsafe`](../commands/unsafe.md):
   Execute a block of code, always returning a zero exit number
-* [Display Running Functions (`fid-list`)](../commands/fid-list.md):
+* [Display Running Functions: `fid-list`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
-* [Function / Module Defaults (`runmode`)](../commands/runmode.md):
+* [Function / Module Defaults: `runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [If Conditional (`if`)](../commands/if.md):
+* [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+* [Pipe Fail: `trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
 * [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [Stderr Checking In Pipes (`trypipeerr`)](../commands/trypipeerr.md):
+* [Stderr Checking In Pipes: `trypipeerr`](../commands/trypipeerr.md):
   Checks state of each function in a pipeline and exits block on error
-* [Switch Conditional (`switch`)](../commands/switch.md):
+* [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
 
 <hr/>

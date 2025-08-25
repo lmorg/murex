@@ -55,13 +55,13 @@ it doesn't require the OS fork processes.
 
 ## See Also
 
-* [Escape Command Line String (`esccli`)](../commands/esccli.md):
+* [Escape Command Line String: `esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [Escape HTML (`eschtml`)](../commands/eschtml.md):
+* [Escape HTML: `eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [Escape URL (`escurl`)](../commands/escurl.md):
+* [Escape URL: `escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
-* [Quote String (`escape`)](../commands/escape.md):
+* [Quote String: `escape`](../commands/escape.md):
   Escape or unescape input
 * [`!bz2`](../optional/bz2.md):
   Decompress a bz2 file

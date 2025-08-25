@@ -1,6 +1,6 @@
 - DocumentID: open-image
   Title: >-
-    Render Image In Terminal (`open-image`)
+    Render Image In Terminal: `open-image`
   CategoryID: commands
   SubCategoryIDs:
     - commands.io

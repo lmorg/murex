@@ -1,6 +1,6 @@
 - DocumentID: fid-kill
   Title: >+
-    Kill Function (`fid-kill`)
+    Kill Function: `fid-kill`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc
@@ -35,7 +35,7 @@
 
 - DocumentID: fid-killall
   Title: >+
-    Kill All In Session (`fid-killall`)
+    Kill All In Session: `fid-killall`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc

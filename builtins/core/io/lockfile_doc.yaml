@@ -1,6 +1,6 @@
 - DocumentID: lockfile
   Title: >+
-    Lock Files (`lockfile`)
+    Lock Files: `lockfile`
   CategoryID: commands
   SubCategoryIDs: [ commands.fs ]
   Summary: >-

@@ -1,6 +1,6 @@
 - DocumentID: file-truncate
   Title: >+
-    Truncate File (`>`)
+    Write File (Truncate): `>`
   CategoryID: parser
   SubCategoryIDs: [ commands.fs, parser.pipes ]
   Summary: >-
@@ -130,7 +130,7 @@
 
 - DocumentID: file-append
   Title: >-
-     `>>` Append File
+     Write File (Append): `>>`
   CategoryID: parser
   SubCategoryIDs: [ parser.pipes ]
   Summary: >-

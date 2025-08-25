@@ -1,4 +1,4 @@
-# Public Function (`function`)
+# Public Function: `function`
 
 > Define a function block
 
@@ -244,36 +244,36 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [Alias Pointer (`alias`)](../commands/alias.md):
+* [Alias "shortcut": `alias`](../commands/alias.md):
   Create an alias for a command
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [Define Function Arguments (`args`)](../commands/args.md):
+* [Define Function Arguments: `args`](../commands/args.md):
   Command line flag parser for Murex shell scripting
-* [Define Global (`global`)](../commands/global.md):
+* [Define Global: `global`](../commands/global.md):
   Define a global variable and set it's value
 * [Define Method Relationships (`method`)](../commands/method.md):
   Define a methods supported data-types
-* [Define Variable (`set`)](../commands/set.md):
+* [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [Exit Block (`break`)](../commands/break.md):
+* [Exit Scope: `break`](../commands/break.md):
   Terminate execution of a block within your processes scope
-* [Globbing (`g`)](../commands/g.md):
+* [Globbing: `g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Murex Version (`version`)](../commands/version.md):
+* [Integer Operations: `let`](../deprecated/let.md):
+  Evaluate a mathematical function and assign to variable (removed 7.0)
+* [Murex Version: `version`](../commands/version.md):
   Get Murex version
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
 
 <hr/>
 

@@ -1,6 +1,6 @@
 - DocumentID: exitnum
   Title: >+
-    Get Exit Code (`exitnum`)
+    Exit Code: `exitnum`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc
@@ -63,7 +63,7 @@
 
 - DocumentID: man-summary
   Title: >+
-    Man-Page Summary (`man-summary`)
+    Man-Page Summary: `man-summary`
   CategoryID: commands
   SubCategoryIDs:
     - commands.help
@@ -111,7 +111,7 @@
 
 - DocumentID: cd
   Title: >+
-    Change Directory (`cd`)
+    Change Directory: `cd`
   CategoryID: commands
   SubCategoryIDs:
     - commands.posix
@@ -194,7 +194,7 @@
 
 - DocumentID: bexists
   Title: >+
-    Check Builtin Exists (`bexists`)
+    Check Builtin Exists: `bexists`
   CategoryID: commands
   SubCategoryIDs: [ commands.proc ]
   Summary: >-

@@ -18,7 +18,7 @@ document.
 
 ## See Also
 
-* [Define Environmental Variable (`export`)](../commands/export.md):
+* [Define Environmental Variable: `export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up

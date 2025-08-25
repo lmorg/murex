@@ -1,6 +1,6 @@
 - DocumentID: escape
   Title: >+
-    Quote String (`escape`)
+    Quote String: `escape`
   CategoryID: commands
   SubCategoryIDs:
     - commands.esc
@@ -52,7 +52,7 @@
 
 - DocumentID: eschtml
   Title: >+
-    Escape HTML (`eschtml`)
+    Escape HTML: `eschtml`
   CategoryID: commands
   SubCategoryIDs:
     - commands.esc
@@ -112,7 +112,7 @@
 
 - DocumentID: escurl
   Title: >+
-    Escape URL (`escurl`)
+    Escape URL: `escurl`
   CategoryID: commands
   SubCategoryIDs:
     - commands.esc
@@ -172,7 +172,7 @@
 
 - DocumentID: esccli
   Title: >+
-    Escape Command Line String (`esccli`)
+    Escape Command Line String: `esccli`
   CategoryID: commands
   SubCategoryIDs:
     - commands.esc

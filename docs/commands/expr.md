@@ -1,4 +1,4 @@
-# Expressions (`expr`)
+# Expressions: `expr`
 
 > Expressions: mathematical, string comparisons, logical operators
 
@@ -310,9 +310,9 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 
 * [( expression )](../parser/expr-inlined.md):
   Inline expressions
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Strict Types In Expressions](../user-guide/strict-types.md):
   Expressions can auto-convert types or strictly honour data types

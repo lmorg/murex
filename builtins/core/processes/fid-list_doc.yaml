@@ -1,6 +1,6 @@
 - DocumentID: fid-list
   Title: >+
-    Display Running Functions (`fid-list`)
+    Display Running Functions: `fid-list`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc

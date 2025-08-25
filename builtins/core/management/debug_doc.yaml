@@ -1,6 +1,6 @@
 - DocumentID: debug
   Title: >+
-    Debugging Mode (`debug`)
+    Debug Mode: `debug`
   CategoryID: commands
   SubCategoryIDs:
     - commands.shell

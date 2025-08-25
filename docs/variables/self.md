@@ -88,7 +88,7 @@ terminal (TTY) or a pipe?)
   Modules and packages: An Introduction
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex

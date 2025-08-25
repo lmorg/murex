@@ -1,6 +1,6 @@
 - DocumentID: event
   Title: >+
-    Murex Event Subsystem (`event`)
+    Murex Event Subsystem: `event`
   CategoryID: commands
   SubCategoryIDs: [ commands.shell ]
   Summary: >-

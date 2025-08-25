@@ -1,6 +1,6 @@
 - DocumentID: jsplit
   Title: >-
-    Split String (`jsplit`)
+    String Split: `jsplit`
   CategoryID: commands
   SubCategoryIDs:
     - commands.str

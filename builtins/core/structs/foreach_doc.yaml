@@ -1,6 +1,6 @@
 - DocumentID: foreach
   Title: >+
-    For Each In List (`foreach`)
+    For Each In array: `foreach`
   CategoryID: commands
   SubCategoryIDs:
     - commands.lang

@@ -1,6 +1,6 @@
 - DocumentID: which
   Title: >+
-    Location Of Command (`which`)
+    Location / Type Of Command: `which`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc

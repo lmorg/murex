@@ -1,9 +1,10 @@
 - DocumentID: equ
   Title: >+
-    `=` (arithmetic evaluation)
-  CategoryID: parser
+    Arithmetic Evaluation: `=`
+  CategoryID: deprecated
+  SubCategoryIDs: [ deprecated.commands ]
   Summary: >-
-    Evaluate a mathematical function (deprecated)
+    Evaluate a mathematical function (removed 7.0)
   Description: |-
     `=` evaluates a mathematical function and returns it's output
 
@@ -66,10 +67,11 @@
 
 - DocumentID: let
   Title: >+
-    `let`
-  CategoryID: commands
+    Integer Operations: `let`
+  CategoryID: deprecated
+  SubCategoryIDs: [ deprecated.commands ]
   Summary: >-
-    Evaluate a mathematical function and assign to variable (deprecated)
+    Evaluate a mathematical function and assign to variable (removed 7.0)
   Description: |-
     `let` evaluates a mathematical function and then assigns it to a locally
     scoped variable (like `set`)
