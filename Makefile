@@ -1,13 +1,14 @@
 # Variables
 BINARY_NAME=murex
-GOFLAGS=-v
+GO_FLAGS=-v
 BUILD_DIR=./bin
 SOURCE_DIR=.
 
 # Build variables that can be overridden
-BRANCH?=$(shell git rev-parse --abbrev-ref HEAD || echo "unknown")
-BUILD_DATE?=$(shell date -u '+%Y-%m-%d_%H:%M:%S' || echo "unknown")
+BRANCH=$(shell git rev-parse --abbrev-ref HEAD || echo "unknown")
+BUILD_DATE=$(shell date -u '+%Y-%m-%d_%H:%M:%S' || echo "unknown")
 LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDate=${BUILD_DATE}"
+BUILD_TAGS?=$(shell cat builtins/optional/standard-opts.txt || echo "")
 
 # Default target
 .PHONY: all
@@ -18,9 +19,17 @@ all: build
 build: generate
 	@echo "Building ${BINARY_NAME}..."
 	@mkdir -p ${BUILD_DIR}
-	go build ${GOFLAGS} ${LDFLAGS} -o ${BUILD_DIR}/${BINARY_NAME} ${SOURCE_DIR}
+	go build ${GO_FLAGS} -tags ${BUILD_TAGS} ${LDFLAGS} -o ${BUILD_DIR}/${BINARY_NAME} ${SOURCE_DIR}
 	@echo "Build complete: ${BUILD_DIR}/${BINARY_NAME}"
 
+# Install the binary
+.PHONY: install
+install: build
+	@echo "Installing ${BINARY_NAME}..."
+	@cp ${BUILD_DIR}/${BINARY_NAME} /usr/bin/
+	@echo "Updating /etc/shells"
+	$(shell echo "/usr/bin/${BINARY_NAME}" >> /etc/shells)
+	@echo "Installation complete"
 
 # Run the application
 .PHONY: run
@@ -28,21 +37,12 @@ run: build
 	@echo "Running ${BINARY_NAME}..."
 	${BUILD_DIR}/${BINARY_NAME} ${ARGS}
 
-# Run with go run (without building)
-.PHONY: run-direct
-run-direct:
-	go run ${GOFLAGS} ${LDFLAGS} ${MAIN_FILE} ${ARGS}
-
-# Build with debug flags
-.PHONY: build-debug
-build-debug: GOFLAGS += -gcflags="-N -l"
-build-debug: LDFLAGS += -X main.Debug=true
+# Build with dev flags
+.PHONY: build-dev
+build-dev: GO_FLAGS += -gcflags="-N -l" -race
+build-dev: BUILD_TAGS += "pprof,trace,no_crash_handler"
+#build-dev: LDFLAGS += -X main.Debug=true
 build-debug: build
-
-# Build with race detector
-.PHONY: build-race
-build-race: GOFLAGS += -race
-build-race: build
 
 # Test
 .PHONY: test
@@ -81,29 +81,20 @@ generate:
 	@echo "Rerunning code generation..."
 	go generate ./...
 
-# Install the binary
-.PHONY: install
-install: build
-	@echo "Installing ${BINARY_NAME}..."
-	@cp ${BUILD_DIR}/${BINARY_NAME} /usr/bin/
-	shell echo "/usr/bin/${BINARY_NAME}" >> /etc/shells
-	@echo "Installation complete"
-
 # Help
 .PHONY: help
 help:
 	@echo "Available targets:"
 	@echo "  make build          - Build the binary"
 	@echo "  make run            - Build and run the binary"
-	@echo "  make build-debug    - Build with debug symbols"
+	@echo "  make build-dev      - Build with profiling and debug symbols"
 	@echo "  make test           - Run tests"
 	@echo "  make bench          - Run benchmarks"
 	@echo "  make clean          - Remove build artifacts"
 	@echo "  make deps           - Download dependencies"
-	@echo "  make lint           - Lint code"
+	@echo "  make lint           - Lint code (requires golangci-lint)"
 	@echo "  make install        - Install binary to /usr/bin (requires root)"
 	@echo ""
 	@echo "Variables:"
-#	@echo "  VERSION=x.x.x       - Set version (default: dev)"
-#	@echo "  ARGS='...'          - Pass arguments to run target"
-	@echo "  GOFLAGS='...'       - Additional go build flags"
+	@echo "  GO_FLAGS='...'       - Additional go build flags (default: -v)"
+	@echo "  BUILD_TAGS='...'     - Additional go build tags (default: $(shell cat ./builtins/optional/standard-opts.txt))"
