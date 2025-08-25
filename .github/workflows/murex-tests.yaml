@@ -32,7 +32,7 @@ jobs:
 
       - name: Build
         run: |
-          make install
+          make build
 
       - name: Test
         run: |
