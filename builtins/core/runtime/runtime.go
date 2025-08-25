@@ -334,7 +334,8 @@ func dumpAbout() any {
 		//"TestEnabled":  p.Scope.Tests != nil,
 		"NumCgoCalls": runtime.NumCgoCall(),
 		"NumRoutines": runtime.NumGoroutine(),
-		"NumCpus":     runtime.NumCPU(),
+		"NumHostCpus": runtime.NumCPU(),
+		"NumMaxCpus":  runtime.GOMAXPROCS(-1),
 	}
 
 	buildSettings := make(map[string]any)
