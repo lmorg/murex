@@ -27,8 +27,7 @@ build: generate
 install: build
 	@echo "Installing ${BINARY_NAME}..."
 	@cp ${BUILD_DIR}/${BINARY_NAME} /usr/bin/
-	@echo "Updating /etc/shells"
-	$(shell echo "/usr/bin/${BINARY_NAME}" >> /etc/shells)
+	echo "/usr/bin/${BINARY_NAME}" >> /etc/shells
 	@echo "Installation complete"
 
 # Run the application
@@ -39,7 +38,7 @@ run: build
 
 # Build with dev flags
 .PHONY: build-dev
-build-dev: GO_FLAGS += -gcflags="-N -l" -race
+build-dev: GO_FLAGS += -gcflags="-N -l" -race -covermode=atomic
 build-dev: BUILD_TAGS += "pprof,trace,no_crash_handler"
 #build-dev: LDFLAGS += -X main.Debug=true
 build-debug: build
@@ -47,8 +46,8 @@ build-debug: build
 # Test
 .PHONY: test
 test: build
-	mkdir -p ./test/tmp
-	go test ./... -race
+	@mkdir -p ./test/tmp
+	go test ./... -count 1 -race -covermode=atomic
 	${BUILD_DIR}/${BINARY_NAME} . -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
 
 # Benchmark
@@ -81,20 +80,29 @@ generate:
 	@echo "Rerunning code generation..."
 	go generate ./...
 
+# List available build tags
+.PHONY: list-build-tags
+list-build-tags:
+	@find . -name "*.go" -exec grep "//go:build" {} \; \
+	| grep -v -E '(ignore|js|windows|linux|darwin|plan9|solaris|freebsd|openbsd|netbsd|dragonfly|aix)' \
+	| sed -e 's,//go:build ,,;s,!,,;' \
+	| sort -u
+
 # Help
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make build          - Build the binary"
-	@echo "  make run            - Build and run the binary"
-	@echo "  make build-dev      - Build with profiling and debug symbols"
-	@echo "  make test           - Run tests"
-	@echo "  make bench          - Run benchmarks"
-	@echo "  make clean          - Remove build artifacts"
-	@echo "  make deps           - Download dependencies"
-	@echo "  make lint           - Lint code (requires golangci-lint)"
-	@echo "  make install        - Install binary to /usr/bin (requires root)"
+	@echo "  make build           - Build the binary"
+	@echo '  make list-build-tags - list tags supported by `$$BUILD_TAGS`'
+	@echo "  make run             - Build and run the binary"
+	@echo "  make build-dev       - Build with profiling and debug symbols"
+	@echo "  make test            - Run tests"
+	@echo "  make bench           - Run benchmarks"
+	@echo "  make clean           - Remove build artifacts"
+	@echo "  make deps            - Download dependencies"
+	@echo "  make lint            - Lint code (requires golangci-lint)"
+	@echo "  make install         - Install binary to /usr/bin (requires root)"
 	@echo ""
 	@echo "Variables:"
-	@echo "  GO_FLAGS='...'       - Additional go build flags (default: -v)"
-	@echo "  BUILD_TAGS='...'     - Additional go build tags (default: $(shell cat ./builtins/optional/standard-opts.txt))"
+	@echo "  GO_FLAGS='...'       - Additional go build flags (default: ${GO_FLAGS})"
+	@echo "  BUILD_TAGS='...'     - Additional go build tags  (default: $(shell cat ./builtins/optional/standard-opts.txt))"
