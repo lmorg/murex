@@ -91,17 +91,17 @@ list-build-tags:
 # Help
 .PHONY: help
 help:
-	@echo "Available targets:"
-	@echo "  make build           - Build the binary"
+	@echo "Available commands:"
+	@echo "  make build           - Build the Murex"
 	@echo '  make list-build-tags - list tags supported by `$$BUILD_TAGS`'
-	@echo "  make run             - Build and run the binary"
+	@echo "  make run             - Build and run the Murex"
 	@echo "  make build-dev       - Build with profiling and debug symbols"
 	@echo "  make test            - Run tests"
 	@echo "  make bench           - Run benchmarks"
 	@echo "  make clean           - Remove build artifacts"
 	@echo "  make deps            - Download dependencies"
 	@echo "  make lint            - Lint code (requires golangci-lint)"
-	@echo "  make install         - Install binary to /usr/bin (requires root)"
+	@echo "  make install         - Install Murex to /usr/bin (requires root)"
 	@echo ""
 	@echo "Variables:"
 	@echo "  GO_FLAGS='...'       - Additional go build flags (default: ${GO_FLAGS})"
