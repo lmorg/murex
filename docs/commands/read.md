@@ -1,4 +1,4 @@
-# Read User Input (`read`)
+# Read User Input: `read`
 
 > `read` a line of input from the user and store as a variable
 
@@ -92,22 +92,22 @@ with the `--datatype` flag as per the **script usage**.
 
 ## See Also
 
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
-* [Read With Type (`tread`) (removed 7.x)](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
-* [Truncate File (`>`)](../parser/file-truncate.md):
+* [Read With Type: `tread`](../deprecated/tread.md):
+  `read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)
+* [Write File (Append): `>>`](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 * [`%(Brace Quote)`](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [`>>` Append File](../parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
 
 <hr/>
 

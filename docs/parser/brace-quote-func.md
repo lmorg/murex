@@ -50,20 +50,20 @@ characters if you don't want them nested.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Get Pipe Status (`pt`)](../commands/pt.md):
+* [Get Pipe Status: `pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Output With Type Annotation (`tout`)](../commands/tout.md):
+* [Output With Type Annotation: `tout`](../commands/tout.md):
   Print a string to the stdout and set it's data-type
-* [Truncate File (`>`)](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
-* [`>>` Append File](../parser/file-append.md):
+* [Write File (Append): `>>`](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

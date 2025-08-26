@@ -4,6 +4,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/utils/semver"
 )
@@ -14,12 +15,18 @@ const Name = "murex"
 // Version number of $SHELL
 // Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
-	Major     = 7
-	Minor     = 1
-	Revision  = 2007
-	Branch    = "develop"
-	BuildDate = "2025-08-14  12:28:40"
+	Major    = 7
+	Minor    = 1
+	Revision = 3035
 )
+
+var (
+	branch    = "unknown"
+	buildDate = "unknown"
+)
+
+func Branch() string    { return branch }
+func BuildDate() string { return strings.ReplaceAll(buildDate, "_", " ") }
 
 // Copyright is the copyright owner string
 const Copyright = "2018-2025 Laurence Morgan"
@@ -40,7 +47,7 @@ const (
 )
 
 func Version() string {
-	return fmt.Sprintf("%d.%d.%04d (%s)", Major, Minor, Revision, Branch)
+	return fmt.Sprintf("%d.%d.%04d (%s)", Major, Minor, Revision, branch)
 }
 
 func Semver() *semver.Version {

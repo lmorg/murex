@@ -228,7 +228,7 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
-* [If Conditional (`if`)](../commands/if.md):
+* [If Conditional: `if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?

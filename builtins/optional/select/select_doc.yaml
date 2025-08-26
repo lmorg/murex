@@ -1,6 +1,6 @@
 - DocumentID: select
   Title: >-
-    Inline SQL (`select`)
+    Inline SQL: `select`
   CategoryID: optional
   SubCategoryIDs: [ commands.table ]
   Summary: >-

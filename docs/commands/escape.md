@@ -1,4 +1,4 @@
-# Quote String (`escape`)
+# Quote String: `escape`
 
 > Escape or unescape input
 
@@ -47,11 +47,11 @@ escape string to escape -> <stdout>
 
 ## See Also
 
-* [Escape Command Line String (`esccli`)](../commands/esccli.md):
+* [Escape Command Line String: `esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [Escape HTML (`eschtml`)](../commands/eschtml.md):
+* [Escape HTML: `eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [Escape URL (`escurl`)](../commands/escurl.md):
+* [Escape URL: `escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
 
 <hr/>

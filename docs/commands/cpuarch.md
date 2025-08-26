@@ -1,4 +1,4 @@
-# CPU Architecture (`cpuarch`)
+# CPU Architecture: `cpuarch`
 
 > Output the hosts CPU architecture
 
@@ -27,9 +27,9 @@ amd64
 
 ## See Also
 
-* [CPU Count (`cpucount`)](../commands/cpucount.md):
+* [CPU Count: `cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [Operating System (`os`)](../commands/os.md):
+* [Operating System: `os`](../commands/os.md):
   Output the auto-detected OS name
 
 <hr/>

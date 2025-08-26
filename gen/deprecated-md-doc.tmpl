@@ -1,0 +1,59 @@
+{{ if env "DOCGEN_TARGET=vuepress" }}---
+icon: file-code
+description: {{ quote .Summary }}
+category: {{ .CategoryTitle }}
+{{ if .SubCategories }}tag:{{ range $cat := .SubCategories }}
+  - {{ .Title }}{{ end }}{{ end }}
+---
+
+{{ end }}# {{ md .Title }}
+
+**This feature has been deprecated** and thus the following documentation is
+provided for historical reference rather than recommendations for new code.
+
+While we do make every effort to maintain backwards compatibility, sometimes
+deprecations need to be made in order to keep Murex focused and maintainable.
+Please read our [compatibility commitment](https://murex.rocks/compatibility.html)
+for more information on how we approach such changes. Visit the [deprecated section](https://github.com/lmorg/murex/tree/master/docs/deprecated)
+if you need to view other deprecated features.
+
+{{ if .Summary }}
+> {{ md .Summary }}{{ end }}
+
+## Description
+
+{{ md (fn (include .Description)) }}
+
+{{ if .Usage }}## Usage
+
+{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
+
+## Examples
+
+{{ md (fn (include .Examples)) }}{{ end }}{{ if .Flags }}
+
+## Flags
+
+{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
+{{ end }}* `{{ md .Flag }}`
+    {{ md (fn .Description) }}{{ end }}{{ end }}{{ if .Detail }}
+
+## Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+
+## Synonyms
+
+{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
+{{ end }}* `{{ md . }}`{{ end }}
+{{ end }}{{ if .Related }}
+
+## See Also
+
+{{ range $i,$a := .Related }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}
+
+<hr/>
+
+This document was generated from [{{ .SourcePath }}](https://github.com/lmorg/murex/blob/master/{{ .SourcePath }}).

@@ -1,4 +1,4 @@
-# Output With Type Annotation (`tout`)
+# Output With Type Annotation: `tout`
 
 > Print a string to the stdout and set it's data-type
 
@@ -38,15 +38,15 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 * [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [Error String (`err`)](../commands/err.md):
+* [Error String, strerr: `err`](../commands/err.md):
   Print a line to the stderr
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
-* [Prettify JSON](../commands/pretty.md):
+* [Prettify Objects: `pretty`](../commands/pretty.md):
   Prettifies data documents to make it human readable
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)

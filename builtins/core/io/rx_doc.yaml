@@ -1,6 +1,6 @@
 - DocumentID: rx
   Title: >+
-    Regex Matches (`rx`)
+    Filesystem Regex Match: `rx`
   CategoryID: commands
   SubCategoryIDs: [ commands.fs ]
   Summary: >-

@@ -1,6 +1,6 @@
 - DocumentID: element
   Title: >+
-    Get Nested Element (`[[ Element ]]`)
+    Get Nested Element: `[[ Element ]]`
   CategoryID: parser
   SubCategoryIDs: [ commands.struct, parser.data ]
   Summary: >-

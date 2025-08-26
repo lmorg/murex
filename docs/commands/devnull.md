@@ -1,4 +1,4 @@
-# Null (`null`)
+# Null: `null`
 
 > null function. Similar to /dev/null
 
@@ -35,12 +35,12 @@ use the named pipe property rather than piping to null:
 
 ## See Also
 
-* [Exit Block (`break`)](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [Exit Murex (`exit`)](../commands/exit.md):
+* [Exit Murex: `exit`](../commands/exit.md):
   Exit murex
-* [`die`](../commands/die.md):
-  Terminate murex with an exit number of 1 (deprecated)
+* [Exit Scope: `break`](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [Exit after error: `die`](../deprecated/die.md):
+  Terminate murex with an exit number of 1 (removed 7.0)
 
 <hr/>
 

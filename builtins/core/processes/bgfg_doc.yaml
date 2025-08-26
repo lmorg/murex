@@ -1,6 +1,6 @@
 - DocumentID: bg
   Title: >+
-    Background Process (`bg`)
+    Background Process: `bg`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc
@@ -45,7 +45,7 @@
 
 - DocumentID: fg
   Title: >+
-    Foreground Process (`fg`)
+    Foreground Process: `fg`
   CategoryID: commands
   SubCategoryIDs:
     - commands.proc

@@ -130,19 +130,19 @@ parser is still in beta), it is shipped as an additional data-type.
 
 ## See Also
 
-* [Define Type (`cast`)](../commands/cast.md):
+* [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output
-* [For Each In List (`foreach`)](../commands/foreach.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
   Iterate through an array
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Prettify JSON](../commands/pretty.md):
+* [Prettify Objects: `pretty`](../commands/pretty.md):
   Prettifies data documents to make it human readable
-* [Reformat Data type (`format`)](../commands/format.md):
+* [Reformat Data Type: `format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 * [`*` (generic)](../types/generic.md):
   generic (primitive)

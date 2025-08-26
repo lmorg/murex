@@ -1,6 +1,6 @@
 - DocumentID: "autocomplete"
   Title: >+
-    Tab Autocompletion (`autocomplete`)
+    Tab Autocompletion: `autocomplete`
   CategoryID: commands
   SubCategoryIDs: [ commands.shell ]
   Summary: >-

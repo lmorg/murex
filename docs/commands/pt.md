@@ -1,4 +1,4 @@
-# Get Pipe Status (`pt`)
+# Get Pipe Status: `pt`
 
 > Pipe telemetry. Writes data-types and bytes written
 
@@ -29,16 +29,16 @@ curl -s https://example.com/bigfile.bin -> pt |> bigfile.bin
 
 ## See Also
 
-* [Download File (`getfile`)](../commands/getfile.md):
+* [Download File: `getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [Get Request (`get`)](../commands/get.md):
+* [HTTP(S) Get Request: `get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [Post Request (`post`)](../commands/post.md):
+* [HTTP(S) Post Request: `post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [Truncate File (`>`)](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
-* [`>>` Append File](../parser/file-append.md):
+* [Write File (Append): `>>`](../parser/file-append.md):
   Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 
 <hr/>
 

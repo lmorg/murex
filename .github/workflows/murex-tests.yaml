@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ '1.21', '1.22', '1.23', "1.24" ]
+        go-version: [ '1.21', '1.22', '1.23', "1.24", "1.25" ]
     env:
       MUREX_BUILD_FLAGS: --no-colour
       MUREX_TEST_NO_EXEC_DEPS: true
@@ -30,21 +30,17 @@ jobs:
         run: |
           go version
 
-      - name: Go Test
+      - name: Build
         run: |
-          go test ./... -tags $(cat builtins/optional/standard-opts.txt) -count 1 -race
+          make build
 
-      - name: Build native target
+      - name: Test
         run: |
-          go build -tags $(cat builtins/optional/standard-opts.txt) -v github.com/lmorg/murex
-
-      - name: Behavioural tests
-        run: |
-          ./murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; test: run *'
+          make test
 
       - name: Build cross-compiled targets
         run: |
-          ./murex ./test/build_all_platforms.mx --no-colour
+          ./bin/murex ./test/build_all_platforms.mx --no-colour
 
       - name: Build web assembly target
         run: |

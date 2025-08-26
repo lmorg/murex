@@ -1,6 +1,6 @@
 - DocumentID: open
   Title: >+
-    Open File (`open`)
+    Open File: `open`
   CategoryID: commands
   SubCategoryIDs:
     - commands.fs

@@ -143,16 +143,16 @@ Published: 22.04.2023 at 11:43
 
 ## See Also
 
-* [Define Type (`cast`)](../commands/cast.md):
-  Alters the data-type of the previous function without altering its output
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [Output String (`out`)](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
+* [Define Type: `cast`](../commands/cast.md):
+  Alters the data-type of the previous function without altering its output
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [Output String, stdout: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays
 

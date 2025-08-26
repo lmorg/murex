@@ -1,6 +1,6 @@
 - DocumentID: type
   Title: >+
-    Display Command Type (`type`)
+    Display Command Type: `type`
   CategoryID: commands
   SubCategoryIDs:
     - commands.posix

@@ -62,12 +62,12 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--build-date":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(app.BuildDate))
+		_, err := p.Stdout.Writeln([]byte(app.BuildDate()))
 		return err
 
 	case "--branch":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(app.Branch))
+		_, err := p.Stdout.Writeln([]byte(app.Branch()))
 		return err
 
 	case "":
@@ -75,7 +75,7 @@ func cmdVersion(p *lang.Process) error {
 		v := fmt.Sprintf(
 			"%s: %s\nBuilt: %s\nLicense: %s\nCopyright: %s",
 			strings.Title(app.Name), app.Version(),
-			app.BuildDate,
+			app.BuildDate(),
 			app.License,
 			app.Copyright)
 		_, err := p.Stdout.Writeln([]byte(v))

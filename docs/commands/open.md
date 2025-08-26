@@ -1,4 +1,4 @@
-# Open File (`open`)
+# Open File: `open`
 
 > Open a file with a preferred handler
 
@@ -265,21 +265,21 @@ exec open --flags filename
 
 * [Define Handlers For "`open`" (`openagent`)](../commands/openagent.md):
   Creates a handler function for `open`
-* [Download File (`getfile`)](../commands/getfile.md):
+* [Download File: `getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [Execute External Command (`exec`)](../commands/exec.md):
+* [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
-* [Execute Shell Function or Builtin (`fexec`)](../commands/fexec.md):
+* [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [For Each In List (`foreach`)](../commands/foreach.md):
+* [For Each In array: `foreach`](../commands/foreach.md):
   Iterate through an array
-* [Get Request (`get`)](../commands/get.md):
+* [HTTP(S) Get Request: `get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [Output String (`out`)](../commands/out.md):
-  Print a string to the stdout with a trailing new line character
-* [Post Request (`post`)](../commands/post.md):
+* [HTTP(S) Post Request: `post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
+* [Output String, stdout: `out`](../commands/out.md):
+  Print a string to the stdout with a trailing new line character
+* [Shell Configuration And Settings: `config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`*` (generic)](../types/generic.md):
   generic (primitive)

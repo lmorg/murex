@@ -1,4 +1,4 @@
-# For Loop (`for`)
+# For Loop: `for`
 
 > A more familiar iteration loop to existing developers
 
@@ -191,24 +191,24 @@ jsonl
 
 ## See Also
 
-* [Create JSON Array (`ja`)](../commands/ja.md):
+* [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Define Variable (`set`)](../commands/set.md):
-  Define a variable (typically local) and set it's value
-* [Exit Block (`break`)](../commands/break.md):
-  Terminate execution of a block within your processes scope
-* [For Each In List (`foreach`)](../commands/foreach.md):
-  Iterate through an array
-* [For Each In Map (`formap`)](../commands/formap.md):
-  Iterate through a map or other collection of data
-* [If Conditional (`if`)](../commands/if.md):
-  Conditional statement to execute different blocks of code depending on the result of the condition
-* [Loop While (`while`)](../commands/while.md):
-  Loop until condition false
-* [Stream New List (`a`)](../commands/a.md):
+* [Create Streamable Array `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
+* [Define Variable: `set`](../commands/set.md):
+  Define a variable (typically local) and set it's value
+* [Exit Scope: `break`](../commands/break.md):
+  Terminate execution of a block within your processes scope
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [If Conditional: `if`](../commands/if.md):
+  Conditional statement to execute different blocks of code depending on the result of the condition
+* [Integer Operations: `let`](../deprecated/let.md):
+  Evaluate a mathematical function and assign to variable (removed 7.0)
+* [Loop While: `while`](../commands/while.md):
+  Loop until condition false
 
 <hr/>
 

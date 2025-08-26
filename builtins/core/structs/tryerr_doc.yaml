@@ -1,6 +1,6 @@
 - DocumentID: tryerr
   Title: >+
-    Stderr Checking In TTY (`tryerr`)
+    Stderr Checking In TTY: `tryerr`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-
@@ -55,7 +55,7 @@
 
 - DocumentID: trypipeerr
   Title: >+
-    Stderr Checking In Pipes (`trypipeerr`)
+    Stderr Checking In Pipes: `trypipeerr`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-

@@ -141,28 +141,28 @@ if you want to learn more about shell scripting in Murex.
 
 ## See Also
 
-* [Filter By Range `[ ..Range ]`](../parser/range.md):
+* [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
-* [Function / Module Defaults (`runmode`)](../commands/runmode.md):
+* [Function / Module Defaults: `runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [Get Nested Element (`[[ Element ]]`)](../parser/element.md):
+* [Get Nested Element: `[[ Element ]]`](../parser/element.md):
   Outputs an element from a nested structure
 * [Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [Pipe Fail (`trypipe`)](../commands/trypipe.md):
+* [Pipe Fail: `trypipe`](../commands/trypipe.md):
   Checks for non-zero exits of each function in a pipeline
 * [Terminal Hotkeys](../user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [Truncate File (`>`)](../parser/file-truncate.md):
-  Writes stdin to disk - overwriting contents if file already exists
-* [Try Block (`try`)](../commands/try.md):
+* [Try Block: `try`](../commands/try.md):
   Handles non-zero exits inside a block of code
+* [Write File (Append): `>>`](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [Write File (Append): `>>`](../parser/file-append.md):
+  Writes stdin to disk - appending contents if file already exists
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
+  Writes stdin to disk - overwriting contents if file already exists
 * [`&&` And Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [`>>` Append File](../parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
-* [`>>` Append File](../parser/file-append.md):
-  Writes stdin to disk - appending contents if file already exists
 * [`@Array` Sigil](../parser/array.md):
   Expand values as an array
 * [`string` (stringing)](../types/str.md):

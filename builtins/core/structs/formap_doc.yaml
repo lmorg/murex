@@ -1,6 +1,6 @@
 - DocumentID: formap
   Title: >+
-    For Each In Map (`formap`)
+    For Each In Map: `formap`
   CategoryID: commands
   SubCategoryIDs:
     - commands.lang

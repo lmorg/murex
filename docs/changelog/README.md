@@ -6,7 +6,7 @@ Track new features, any breaking changes, and the release history here.
 
 ### 14.04.2025 - [v7.0](../changelog/v7.0.md)
 
-This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.
+Introducing experimental support for XML, new integrations, and several other quality-of-life improvements. Four deprecated builtins have been removed too, which is this release sees an increment of its major version number
 
 
 ### 11.12.2024 - [v6.4](../changelog/v6.4.md)

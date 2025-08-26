@@ -1,7 +1,7 @@
 # This file tests flags by running the murex executable
 
 function murex.flag.try.semicolon {
-    exec: $MUREX_EXE --try -c (err: "foo"; out "bar") 
+    exec: $MUREX_EXE --try -c %(err: "foo"; out "bar") 
 }
 
 test: unit function murex.flag.try.semicolon {
@@ -10,7 +10,7 @@ test: unit function murex.flag.try.semicolon {
 }
 
 function murex.flag.try.pipe {
-    exec: $MUREX_EXE --try -c (err: "foo" -> out "bar") 
+    exec: $MUREX_EXE --try -c %(err: "foo" -> out "bar") 
 }
 
 test: unit function murex.flag.try.pipe {
@@ -19,7 +19,7 @@ test: unit function murex.flag.try.pipe {
 }
 
 function murex.flag.trypipe.semicolon {
-    exec: $MUREX_EXE --trypipe -c (err: "foo"; out "bar") 
+    exec: $MUREX_EXE --trypipe -c %(err: "foo"; out "bar") 
 }
 
 test: unit function murex.flag.trypipe.semicolon {
@@ -28,7 +28,7 @@ test: unit function murex.flag.trypipe.semicolon {
 }
 
 function murex.flag.trypipe.pipe {
-    exec: $MUREX_EXE --trypipe -c (err: "foo" -> out "bar") 
+    exec: $MUREX_EXE --trypipe -c %(err: "foo" -> out "bar") 
 }
 
 test: unit function murex.flag.trypipe.pipe {

@@ -1,6 +1,6 @@
 - DocumentID: unsafe
   Title: >+
-    Disable Error Handling In Block (`unsafe`)
+    Disable Error Handling In Block: `unsafe`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-
@@ -42,7 +42,7 @@
 
 - DocumentID: try
   Title: >+
-    Try Block (`try`)
+    Try Block: `try`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-
@@ -96,7 +96,7 @@
 
 - DocumentID: trypipe
   Title: >+
-    Pipe Fail (`trypipe`)
+    Pipe Fail: `trypipe`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-
@@ -153,7 +153,7 @@
 
 - DocumentID: catch
   Title: >+
-    Caught Error Block (`catch`)
+    Caught Error Block: `catch`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-
@@ -207,7 +207,7 @@
 
 - DocumentID: runmode
   Title: >+
-    Function / Module Defaults (`runmode`)
+    Function / Module Defaults: `runmode`
   CategoryID: commands
   SubCategoryIDs: [ commands.err ]
   Summary: >-

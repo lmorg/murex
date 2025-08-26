@@ -1,4 +1,4 @@
-# Murex Version (`version`)
+# Murex Version: `version`
 
 > Get Murex version
 
@@ -64,22 +64,22 @@ Copyright: 2018-2024 Laurence Morgan
 
 ## See Also
 
-* [Define Function Arguments (`args`)](../commands/args.md):
+* [Define Function Arguments: `args`](../commands/args.md):
   Command line flag parser for Murex shell scripting
-* [Include / Evaluate Murex Code (`source`)](../commands/source.md):
+* [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Private Function (`private`)](../commands/private.md):
-  Define a private function block
-* [Public Function (`function`)](../commands/function.md):
-  Define a function block
-* [Shell Configuration And Settings (`config`)](../commands/config.md):
-  Query or define Murex runtime settings
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
-  Returns runtime information on the internal state of Murex
-* [Tab Autocompletion (`autocomplete`)](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`murex-parser`](../commands/murex-parser.md):
+* [Parse Murex Source: `murex-parser`](../commands/murex-parser.md):
   Runs the Murex parser against a block of code 
+* [Private Function: `private`](../commands/private.md):
+  Define a private function block
+* [Public Function: `function`](../commands/function.md):
+  Define a function block
+* [Shell Configuration And Settings: `config`](../commands/config.md):
+  Query or define Murex runtime settings
+* [Shell Runtime: `runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of Murex
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 
 <hr/>
 

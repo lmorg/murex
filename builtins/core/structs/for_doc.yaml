@@ -1,6 +1,6 @@
 - DocumentID: for
   Title: >+
-    For Loop (`for`)
+    For Loop: `for`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

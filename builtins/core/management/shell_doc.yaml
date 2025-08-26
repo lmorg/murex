@@ -1,6 +1,6 @@
 - DocumentID: summary
   Title: >+
-    Set Command Summary Hint (`summary`)
+    Set Command Summary Hint: `summary`
   SubCategoryIDs:
     - commands.shell
     - commands.help
@@ -60,7 +60,7 @@
 
 - DocumentID: murex-parser
   Title: >+
-    `murex-parser`
+    Parse Murex Source: `murex-parser`
   CategoryID: commands
   Summary: >-
     Runs the Murex parser against a block of code 
@@ -89,7 +89,7 @@
 
 - DocumentID: args
   Title: >+
-    Define Function Arguments (`args`)
+    Define Function Arguments: `args`
   CategoryID: commands
   SubCategoryIDs:
     - commands.lang
@@ -122,7 +122,7 @@
 
 - DocumentID: man-get-flags
   Title: >+
-    Parse Man-Page For Flags (`man-get-flags`)
+    Parse Man-Page For Flags: `man-get-flags`
   CategoryID: commands
   SubCategoryIDs:
     - commands.help

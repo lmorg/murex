@@ -53,12 +53,12 @@ As a C-style function (CSF) vs a sub-shell:
 
 ```
 # CSF
-» datetime(--in {now} --out {unix}) / 60
-28687556.3
+» datetime({py}%H) * 60
+1260
 
 # Sub-shell
-» ${datetime --in {now} --out {unix}} / 60
-28687556.3
+» ${datetime {py}%H}} / 60
+1260
 ```
 
 ### Statement Inlining
@@ -67,12 +67,12 @@ As a C-style function (CSF) vs a sub-shell:
 
 ```
 # CSF
-» echo It is datetime(--in {now} --out {py}%H) o\' clock
-It is 23 o' clock
+» echo It is datetime({py}%H) o\' clock
+It is 21 o' clock
 
 # Sub-shell
-» echo It is ${datetime --in {now} --out {py}%H} o\' clock
-It is 23 o' clock
+» echo It is ${datetime {py}%H} o\' clock
+It is 21 o' clock
 ```
 
 Notice in the example above, `echo`'s parameters are not quoted. This is
@@ -91,25 +91,25 @@ C-style functions do not support being infixed like sub-shells can be:
 
 ```
 # CSF
-» echo "It is datetime(--in {now} --out {py}%H) o\' clock"
-It is datetime(--in {now} --out {py}%H) o' clock
+» echo "It is datetime({py}%H) o\' clock"
+It is datetime({py}%H) o' clock
 
 # Sub-shell
-» echo "It is ${datetime --in {now} --out {py}%H} o\' clock"
-It is 23 o' clock
+» echo "It is ${datetime {py}%H} o\' clock"
+It is 21 o' clock
 ```
 
 ## See Also
 
-* [Date And Time Conversion (`datetime`)](../commands/datetime.md):
+* [Date And Time Conversion: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [Expressions (`expr`)](../commands/expr.md):
+* [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
 * [Language Tour](../Murex/tour.md):
   Getting started with Murex: a quick tour of the next generation of shell scripting
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Output String (`echo`)](../commands/out.md):
+* [Output String, stdecho: `echo`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [sub-shell](../parser/sub-shell.md):
   

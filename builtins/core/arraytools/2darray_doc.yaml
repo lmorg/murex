@@ -1,6 +1,6 @@
 - DocumentID: 2darray
   Title: >-
-    Create 2d Array (`2darray`)
+    Create 2d Array: `2darray`
   CategoryID: commands
   SubCategoryIDs: [ commands.struct ]
   Summary: >-

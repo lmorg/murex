@@ -1,4 +1,4 @@
-# Join Array To String (`mjoin`)
+# Array Merge To String: `mjoin`
 
 > Joins a list or array into a single string
 
@@ -41,7 +41,7 @@ Monday!Tuesday!Wednesday!Thursday!Friday
 
 ## See Also
 
-* [Split String (`jsplit`)](../commands/jsplit.md):
+* [String Split: `jsplit`](../commands/jsplit.md):
   Splits stdin into a JSON array based on a regex parameter
 * [`%[]` Array Builder](../parser/create-array.md):
   Quickly generate arrays

@@ -1,6 +1,6 @@
 - DocumentID: time
   Title: >-
-    Processes Execution Time (`time`)
+    Processes Execution Time: `time`
   CategoryID: commands
   SubCategoryIDs:
     - commands.posix

@@ -1,4 +1,4 @@
-# List Filesystem Objects (`f`)
+# Filesystem Objects: `f`
 
 > Lists or filters file system objects (eg files)
 
@@ -117,10 +117,10 @@ any matches from the `+` flags.
 
 ## See Also
 
-* [Globbing (`g`)](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
-* [Regex Matches (`rx`)](../commands/rx.md):
+* [Filesystem Regex Match: `rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
+* [Globbing: `g`](../commands/g.md):
+  Glob pattern matching for file system objects (eg `*.txt`)
 * [`json`](../types/json.md):
   JavaScript Object Notation (JSON)
 

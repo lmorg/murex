@@ -1,4 +1,4 @@
-# `>>` Append File
+# Write File (Append): `>>`
 
 > Writes stdin to disk - appending contents if file already exists
 
@@ -53,15 +53,15 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
-* [Create Named Pipe (`pipe`)](../commands/pipe.md):
+* [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Output String (`out`)](../commands/out.md):
+* [Output String, stdout: `out`](../commands/out.md):
   Print a string to the stdout with a trailing new line character
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Read / Write To A Named Pipe (`<pipe>`)](../parser/namedpipe.md):
+* [Read / Write To A Named Pipe: `<pipe>`](../parser/namedpipe.md):
   Reads from a Murex named pipe
-* [Truncate File (`>`)](../parser/file-truncate.md):
+* [Write File (Truncate): `>`](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 * [`->` Arrow Pipe](../parser/pipe-arrow.md):
   Pipes stdout from the left hand command to stdin of the right hand command

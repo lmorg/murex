@@ -1,6 +1,6 @@
 - DocumentID: switch
   Title: >+
-    Switch Conditional (`switch`)
+    Switch Conditional: `switch`
   CategoryID: commands
   SubCategoryIDs: [ commands.lang ]
   Summary: >-

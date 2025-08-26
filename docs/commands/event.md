@@ -1,4 +1,4 @@
-# Murex Event Subsystem (`event`)
+# Murex Event Subsystem: `event`
 
 > Event driven programming for shell scripts
 
@@ -88,15 +88,15 @@ onSecondsElapsed
 
 ## See Also
 
-* [For Each In Map (`formap`)](../commands/formap.md):
+* [For Each In Map: `formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [Open File (`open`)](../commands/open.md):
+* [Open File: `open`](../commands/open.md):
   Open a file with a preferred handler
-* [Private Function (`private`)](../commands/private.md):
+* [Private Function: `private`](../commands/private.md):
   Define a private function block
-* [Public Function (`function`)](../commands/function.md):
+* [Public Function: `function`](../commands/function.md):
   Define a function block
-* [Shell Runtime (`runtime`)](../commands/runtime.md):
+* [Shell Runtime: `runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
 
 <hr/>

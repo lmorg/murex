@@ -33,11 +33,11 @@ invoked for command name completion via the REPL shell.
 
 ## See Also
 
-* [CPU Architecture (`cpuarch`)](../commands/cpuarch.md):
+* [CPU Architecture: `cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [CPU Count (`cpucount`)](../commands/cpucount.md):
+* [CPU Count: `cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [Operating System (`os`)](../commands/os.md):
+* [Operating System: `os`](../commands/os.md):
   Output the auto-detected OS name
 
 <hr/>
