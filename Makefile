@@ -1,5 +1,5 @@
 # Variables
-BINARY_NAME=murex
+BINARY_NAME?=murex
 GO_FLAGS=-v
 BUILD_DIR=./bin
 SOURCE_DIR=.
@@ -7,7 +7,8 @@ SOURCE_DIR=.
 # Build variables that can be overridden
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD || echo "unknown")
 BUILD_DATE=$(shell date -u '+%Y-%m-%d_%H:%M:%S' || echo "unknown")
-LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDate=${BUILD_DATE}"
+EXT_LDFLAGS?="-static"
+LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDate=${BUILD_DATE} -extldflags=${EXT_LDFLAGS}"
 BUILD_TAGS?=$(shell cat builtins/optional/standard-opts.txt || echo "")
 
 # Default target
@@ -32,7 +33,7 @@ install: build
 
 # Run the application
 .PHONY: run
-run: build
+run: build-dev
 	@echo "Running ${BINARY_NAME}..."
 	${BUILD_DIR}/${BINARY_NAME} ${ARGS}
 
@@ -63,10 +64,10 @@ clean:
 	@rm -f coverage.out coverage.html
 	@echo "Clean complete"
 
-# Install dependencies
-.PHONY: deps
-deps:
-	go mod download
+# Update dependencies
+.PHONY: update-deps
+update-deps:
+	go get -u ./...
 	go mod tidy
 
 # Lint code (requires golangci-lint)
@@ -87,21 +88,24 @@ list-build-tags:
 	| grep -v -E '(ignore|js|windows|linux|darwin|plan9|solaris|freebsd|openbsd|netbsd|dragonfly|aix)' \
 	| sed -e 's,//go:build ,,;s,!,,;' \
 	| sort -u
+	@echo "sqlite_omit_load_extension\nosusergo\nnetgo"
 
 # Help
 .PHONY: help
 help:
 	@echo "Available commands:"
 	@echo "  make build           - Build the Murex"
+	@echo "  make install         - Install Murex to /usr/bin (requires root)"
 	@echo '  make list-build-tags - list tags supported by `$$BUILD_TAGS`'
-	@echo "  make run             - Build and run the Murex"
+	@echo "  make clean           - Remove build artifacts"
+	@echo ""
+	@echo "Development tools:"
 	@echo "  make build-dev       - Build with profiling and debug symbols"
+	@echo "  make run             - Build and run a dev build of Murex"
 	@echo "  make test            - Run tests"
 	@echo "  make bench           - Run benchmarks"
-	@echo "  make clean           - Remove build artifacts"
-	@echo "  make deps            - Download dependencies"
+	@echo "  make update-deps     - Update all Go dependencies"
 	@echo "  make lint            - Lint code (requires golangci-lint)"
-	@echo "  make install         - Install Murex to /usr/bin (requires root)"
 	@echo ""
 	@echo "Variables:"
 	@echo "  GO_FLAGS='...'       - Additional go build flags (default: ${GO_FLAGS})"
