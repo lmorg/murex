@@ -5,9 +5,7 @@ provided for historical reference rather than recommendations for new code.
 
 While we do make every effort to maintain backwards compatibility, sometimes
 deprecations need to be made in order to keep Murex focused and maintainable.
-Please read our [compatibility commitment](https://murex.rocks/compatibility.html)
-for more information on how we approach such changes. Visit the [deprecated section](https://github.com/lmorg/murex/tree/master/docs/deprecated)
-if you need to view other deprecated features.
+
 
 
 > `read` a line of input from the user and store as a user defined *typed* variable (removed 7.0)
