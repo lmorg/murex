@@ -48,7 +48,7 @@ build-dev: build
 test: build
 	@mkdir -p ./test/tmp
 	go test ./... -count 1 -race -covermode=atomic
-	${BUILD_DIR}/${BINARY_NAME} -c 'g behavioural/*.mx -> foreach f { source $f }; test run *'
+	${BUILD_DIR}/${BINARY_NAME} -c 'g behavioural/*.mx -> foreach f { source $$f }; test run *'
 
 # Benchmark
 .PHONY: bench
