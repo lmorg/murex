@@ -150,7 +150,7 @@ pkg install murex
 @tab Powershell
 This requires `go` (Golang) and `git` to already be installed.
 
-```pwsh
+```powershell
 $env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
 ```
 

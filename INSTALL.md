@@ -114,7 +114,7 @@ GOBIN="$(pwd)" go install -v github.com/lmorg/murex@latest
 
 #### Powershell: Windows
 
-```pwsh
+```powershell
 $env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
 ```
 
