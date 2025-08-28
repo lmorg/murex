@@ -148,9 +148,8 @@ pkg install murex
 ```
 
 @tab Powershell
-This requires `go` (Golang) and `git` to already be installed.
-
 ```powershell
+# This requires `go` (Golang) and `git` to already be installed.
 $env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
 ```
 
