@@ -1,6 +1,7 @@
 package structs
 
 import (
+    "runtime"
     "sync"
     "sync/atomic"
 
@@ -9,7 +10,8 @@ import (
     "github.com/lmorg/murex/lang/types"
 )
 
-const MAX_INT = int(^uint(0) >> 1)
+// No explicit hard cap: user-set --parallel is honored.
+// When --parallel <= 0, default to a multiple of CPUs for safety.
 
 func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []string) error {
     block, varName, err := forEachInitializer(p, additional)
@@ -39,9 +41,10 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 		return err
 	}
 
-	if parallel < 1 {
-		parallel = MAX_INT
-	}
+    if parallel < 1 {
+        parallel = runtime.NumCPU() * 8
+        if parallel < 1 { parallel = 1 }
+    }
 
 	var (
 		iteration = int64(-1)
@@ -59,7 +62,7 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
     }
     // result channel for aggregator
     type result struct{ idx int; out, err []byte }
-    resCh := make(chan result, 64)
+    resCh := make(chan result, parallel*2)
     aggDone := make(chan struct{})
 
     go func() {
