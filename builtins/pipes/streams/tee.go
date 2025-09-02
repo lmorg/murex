@@ -18,18 +18,22 @@ import (
 // Tee is a stream interface with two output streams
 // (like the `tee` command on UNIX/Linux)
 type Tee struct {
-	primary   stdio.Io
-	secondary Stdin
+    primary   stdio.Io
+    secondary *Stdin
 }
 
 // NewTee creates a new tee stdio interface
 func NewTee(primary stdio.Io) (primaryTee *Tee, secondaryTee *Stdin) {
-	primaryTee = new(Tee)
-	primaryTee.primary = primary
-	primaryTee.secondary.max = 0
-	primaryTee.secondary.ctx = context.Background()
-	secondaryTee = &primaryTee.secondary
-	return
+    primaryTee = new(Tee)
+    primaryTee.primary = primary
+    // Create a secondary Stdin with its own cond and unbounded buffer
+    secondary := NewStdinWithContext(context.Background(), nil)
+    secondary.mutex.Lock()
+    secondary.max = 0
+    secondary.mutex.Unlock()
+    primaryTee.secondary = secondary
+    secondaryTee = secondary
+    return
 }
 
 // IsTTY calls the primary STDOUT stream in tee to see if it's a TTY
@@ -78,14 +82,14 @@ func (tee *Tee) ReadAll() ([]byte, error) {
 
 // Write is the standard Writer interface Write() method.
 func (tee *Tee) Write(p []byte) (int, error) {
-	tee.secondary.Write(p)
-	return tee.primary.Write(p)
+    tee.secondary.Write(p)
+    return tee.primary.Write(p)
 }
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
 func (tee *Tee) Writeln(p []byte) (int, error) {
-	tee.secondary.Writeln(p)
-	return tee.primary.Writeln(p)
+    tee.secondary.Writeln(p)
+    return tee.primary.Writeln(p)
 }
 
 // WriteArray performs data type specific buffered writes to an stdio.Io interface
@@ -121,6 +125,6 @@ func (tee *Tee) GetDataType() (dt string) {
 
 // SetDataType defines the murex data type for the stream.Io interface
 func (tee *Tee) SetDataType(dt string) {
-	tee.secondary.SetDataType(dt)
-	tee.primary.SetDataType(dt)
+    tee.secondary.SetDataType(dt)
+    tee.primary.SetDataType(dt)
 }

@@ -129,7 +129,7 @@ func forEachParallelInnerLoopPreparsed(p *lang.Process, tree *[]functions.Functi
     fork.FileRef = p.FileRef
 
     if varName != "!" {
-        err = fork.Variables.Set(p, varName, varValue, dataType)
+        err = fork.Variables.Set(fork.Process, varName, varValue, dataType)
         if err != nil {
             p.Stderr.Writeln([]byte("error: " + err.Error()))
             p.Done()
