@@ -12,15 +12,15 @@ import (
 
 // In is the Stdin interface for term
 type In struct {
-	streams.Stdin
+    *streams.Stdin
 }
 
 func NewIn(dataType string) stdio.Io {
-	t := new(In)
-	t.Stdin = *streams.NewStdin()
-	t.SetDataType(dataType)
-	go backgroundRead(t)
-	return t
+    t := new(In)
+    t.Stdin = streams.NewStdin()
+    t.SetDataType(dataType)
+    go backgroundRead(t)
+    return t
 }
 
 func backgroundRead(t *In) {

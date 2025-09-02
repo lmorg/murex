@@ -1,60 +1,45 @@
 package streams
 
 import (
-	"bufio"
-	"context"
-	"fmt"
-	"io"
+    "bufio"
+    "context"
+    "fmt"
+    "io"
 
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/utils"
+    "github.com/lmorg/murex/config"
+    "github.com/lmorg/murex/lang/stdio"
+    "github.com/lmorg/murex/utils"
 )
 
 // Read is the standard Reader interface Read() method.
 func (stdin *Stdin) Read(p []byte) (i int, err error) {
-	for {
-		select {
-		case <-stdin.ctx.Done():
-			return 0, io.EOF
-		default:
-		}
+    stdin.mutex.Lock()
+    defer stdin.mutex.Unlock()
 
-		stdin.mutex.Lock()
-		l := len(stdin.buffer)
-		deps := stdin.dependents
-		stdin.mutex.Unlock()
+    for {
+        if len(stdin.buffer) > 0 {
+            break
+        }
+        // No data: if no dependents or context canceled then EOF
+        if stdin.dependents < 1 || stdin.ctx.Err() != nil {
+            return 0, io.EOF
+        }
+        stdin.cond.Wait()
+    }
 
-		if l == 0 {
-			if deps < 1 {
-				//if atomic.LoadInt32(&stdin.dependents) < 1 {
-				return 0, io.EOF
-			}
-			continue
-		}
-
-		break
-	}
-
-	stdin.mutex.Lock()
-
-	if len(p) >= len(stdin.buffer) {
-		i = len(stdin.buffer)
-		copy(p, stdin.buffer)
-
-		stdin.buffer = make([]byte, 0)
-
-	} else {
-		i = len(p)
-		copy(p, stdin.buffer[:i])
-
-		stdin.buffer = stdin.buffer[i:]
-	}
-
-	stdin.bRead += uint64(i)
-	stdin.mutex.Unlock()
-
-	return i, err
+    if len(p) >= len(stdin.buffer) {
+        i = len(stdin.buffer)
+        copy(p, stdin.buffer)
+        stdin.buffer = stdin.buffer[:0]
+    } else {
+        i = len(p)
+        copy(p, stdin.buffer[:i])
+        stdin.buffer = stdin.buffer[i:]
+    }
+    stdin.bRead += uint64(i)
+    // Wake potential writers waiting for space
+    stdin.cond.Signal()
+    return i, nil
 }
 
 // ReadLine returns each line in the stream as a callback function

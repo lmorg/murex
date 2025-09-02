@@ -17,10 +17,10 @@ func registerPipe(_ string) (stdio.Io, error) {
 }
 
 type PTY struct {
-	streams.Stdin
+    *streams.Stdin
 }
 
 func NewPTY(width, height int) (*PTY, error) {
-	pty := PTY{*streams.NewStdin()}
-	return &pty, nil
+    pty := PTY{streams.NewStdin()}
+    return &pty, nil
 }

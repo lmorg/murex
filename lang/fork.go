@@ -1,19 +1,20 @@
 package lang
 
 import (
-	"context"
-	"errors"
-	"fmt"
+    "context"
+    "errors"
+    "fmt"
 
-	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/builtins/pipes/term"
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/process"
-	"github.com/lmorg/murex/lang/runmode"
-	"github.com/lmorg/murex/lang/state"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/crash"
+    "github.com/lmorg/murex/builtins/pipes/null"
+    "github.com/lmorg/murex/builtins/pipes/streams"
+    "github.com/lmorg/murex/builtins/pipes/term"
+    "github.com/lmorg/murex/debug"
+    "github.com/lmorg/murex/lang/expressions/functions"
+    "github.com/lmorg/murex/lang/process"
+    "github.com/lmorg/murex/lang/runmode"
+    "github.com/lmorg/murex/lang/state"
+    "github.com/lmorg/murex/lang/types"
+    "github.com/lmorg/murex/utils/crash"
 )
 
 const (
@@ -340,4 +341,77 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	}
 
 	return
+}
+
+// ExecuteTree runs a pre-parsed block (skips ParseBlock) and then compiles/executes it.
+func (fork *Fork) ExecuteTree(tree *[]functions.FunctionT) (exitNum int, err error) {
+    defer crash.Handler()
+
+    forkCheckForNils(fork)
+
+    moduleRunMode := ModuleRunModes[fork.FileRef.Source.Module]
+    if moduleRunMode > 0 && fork.RunMode == 0 {
+        fork.RunMode = moduleRunMode
+    }
+
+    fork.Stdout.Open()
+    fork.Stderr.Open()
+
+    if fork.fidRegistered {
+        defer deregisterProcess(fork.Process)
+    } else {
+        defer fork.SetTerminatedState(true)
+        defer fork.Stdout.Close()
+        defer fork.Stderr.Close()
+    }
+
+    procs, errNo := compile(tree, fork.Process)
+    if errNo != 0 {
+        errMsg := fmt.Sprintf("compilation Error at %d,%d+0 (%s): %s",
+            fork.FileRef.Line, fork.FileRef.Column, fork.FileRef.Source.Module, errMessages[errNo])
+        fork.Stderr.Writeln([]byte(errMsg))
+        return errNo, errors.New(errMsg)
+    }
+    if len(*procs) == 0 {
+        return 0, nil
+    }
+
+    id := fork.Process.Forks.add(procs)
+    defer fork.Process.Forks.delete(id)
+
+    if !fork.Background.Get() {
+        ForegroundProc.Set(&(*procs)[0])
+    }
+
+    switch fork.RunMode {
+    case runmode.Default, runmode.Normal:
+        exitNum = runModeNormal(procs)
+    case runmode.BlockUnsafe, runmode.FunctionUnsafe, runmode.ModuleUnsafe:
+        _ = runModeNormal(procs)
+        exitNum = 0
+    case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
+        exitNum = runModeTry(procs, _TRY_EXIT_NUM)
+    case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
+        exitNum = runModeTryPipe(procs, _TRY_EXIT_NUM)
+    case runmode.BlockTryErr, runmode.FunctionTryErr, runmode.ModuleTryErr:
+        exitNum = runModeTry(procs, _TRY_STDERR)
+    case runmode.BlockTryPipeErr, runmode.FunctionTryPipeErr, runmode.ModuleTryPipeErr:
+        exitNum = runModeTryPipe(procs, _TRY_STDERR)
+    default:
+        panic("unknown run mode")
+    }
+
+    if fork.newTestScope {
+        fork.Tests.ReportMissedTests(fork.Process)
+        testAutoReport, configErr := fork.Config.Get("test", "auto-report", types.Boolean)
+        if configErr == nil && testAutoReport.(bool) {
+            err = fork.Tests.WriteResults(fork.Config, ShellProcess.Stderr)
+            if err != nil {
+                message := fmt.Sprintf("Error generating test results: %s.", err.Error())
+                ShellProcess.Stderr.Writeln([]byte(message))
+            }
+        }
+    }
+
+    return
 }

@@ -1,46 +1,38 @@
 package streams
 
 import (
-	"io"
+    "io"
 
-	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/utils"
+    "github.com/lmorg/murex/lang/stdio"
+    "github.com/lmorg/murex/utils"
 )
 
 // Write is the standard Writer interface Write() method.
 func (stdin *Stdin) Write(p []byte) (int, error) {
-	if len(p) == 0 {
-		return 0, nil
-	}
+    if len(p) == 0 {
+        return 0, nil
+    }
 
-	for {
-		select {
-		case <-stdin.ctx.Done():
-			stdin.mutex.Lock()
-			stdin.buffer = []byte{}
-			stdin.mutex.Unlock()
-			return 0, io.ErrClosedPipe
-		default:
-		}
+    stdin.mutex.Lock()
+    defer stdin.mutex.Unlock()
 
-		//stdin.mutex.RLock()
-		stdin.mutex.Lock()
-		buffSize := len(stdin.buffer)
-		maxBufferSize := stdin.max
-		//stdin.mutex.RUnlock()
-		stdin.mutex.Unlock()
+    for {
+        if stdin.ctx.Err() != nil {
+            stdin.buffer = stdin.buffer[:0]
+            return 0, io.ErrClosedPipe
+        }
+        // If max==0 then unbounded; otherwise wait while at or above max
+        if stdin.max == 0 || len(stdin.buffer) < stdin.max {
+            break
+        }
+        stdin.cond.Wait()
+    }
 
-		if buffSize < maxBufferSize || maxBufferSize == 0 {
-			break
-		}
-	}
-
-	stdin.mutex.Lock()
-	stdin.buffer = appendBytes(stdin.buffer, p...)
-	stdin.bWritten += uint64(len(p))
-	stdin.mutex.Unlock()
-
-	return len(p), nil
+    stdin.buffer = appendBytes(stdin.buffer, p...)
+    stdin.bWritten += uint64(len(p))
+    // Wake potential readers waiting for data
+    stdin.cond.Signal()
+    return len(p), nil
 }
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
