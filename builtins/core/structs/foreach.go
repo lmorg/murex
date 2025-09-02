@@ -1,13 +1,14 @@
 package structs
 
 import (
-	"errors"
-	"fmt"
+    "errors"
+    "fmt"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/mattn/go-runewidth"
+    "github.com/lmorg/murex/lang"
+    "github.com/lmorg/murex/lang/expressions/functions"
+    "github.com/lmorg/murex/lang/parameters"
+    "github.com/lmorg/murex/lang/types"
+    "github.com/mattn/go-runewidth"
 )
 
 func init() {
@@ -100,10 +101,27 @@ func forEachInitializer(p *lang.Process, additional []string) (block []rune, var
 }
 
 func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) error {
-	block, varName, err := forEachInitializer(p, additional)
-	if err != nil {
-		return err
-	}
+    block, varName, err := forEachInitializer(p, additional)
+    if err != nil {
+        return err
+    }
+
+    // Pre-parse the foreach block once
+    var tree *[]functions.FunctionT
+    if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
+        trimmed := block[1 : len(block)-1]
+        t, err := lang.ParseBlock(trimmed)
+        if err != nil {
+            return err
+        }
+        tree = t
+    } else {
+        t, err := lang.ParseBlock(block)
+        if err != nil {
+            return err
+        }
+        tree = t
+    }
 
 	steps, err := getFlagValueInt(flags, foreachStep)
 	if err != nil {
@@ -116,7 +134,7 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 		slice     = make([]any, steps)
 	)
 
-	err = p.Stdin.ReadArrayWithType(p.Context, func(varValue any, dataType string) {
+    err = p.Stdin.ReadArrayWithType(p.Context, func(varValue any, dataType string) {
 		if steps > 0 {
 			varValue, _ = marshal(p, varValue, dataType)
 			slice[step] = varValue
@@ -131,16 +149,16 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 		}
 
 		iteration++
-		forEachInnerLoop(p, block, varName, varValue, dataType, iteration)
-	})
+        forEachInnerLoopPreparsed(p, tree, varName, varValue, dataType, iteration)
+    })
 
 	if err != nil {
 		return err
 	}
 
-	if steps > 0 && step > 0 {
-		forEachInnerLoop(p, block, varName, slice[:step], types.Json, iteration+1)
-	}
+    if steps > 0 && step > 0 {
+        forEachInnerLoopPreparsed(p, tree, varName, slice[:step], types.Json, iteration+1)
+    }
 
 	return nil
 }
@@ -211,4 +229,46 @@ func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue an
 		p.Done()
 		return
 	}
+}
+
+// forEachInnerLoopPreparsed runs using a pre-parsed block tree to avoid per-iteration parsing cost.
+func forEachInnerLoopPreparsed(p *lang.Process, tree *[]functions.FunctionT, varName string, varValue any, dataType string, iteration int) {
+    var b []byte
+    b, err := convertToByte(varValue)
+    if err != nil {
+        p.Done()
+        return
+    }
+
+    if len(b) == 0 || p.HasCancelled() {
+        return
+    }
+
+    if varName != "!" {
+        err = p.Variables.Set(p, varName, varValue, dataType)
+        if err != nil {
+            p.Stderr.Writeln([]byte("error: " + err.Error()))
+            p.Done()
+            return
+        }
+    }
+
+    if !setMetaValues(p, iteration) {
+        return
+    }
+
+    fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
+    fork.Stdin.SetDataType(dataType)
+    _, err = fork.Stdin.Writeln(b)
+    if err != nil {
+        p.Stderr.Writeln([]byte("error: " + err.Error()))
+        p.Done()
+        return
+    }
+    _, err = fork.ExecuteTree(tree)
+    if err != nil {
+        p.Stderr.Writeln([]byte("error: " + err.Error()))
+        p.Done()
+        return
+    }
 }
