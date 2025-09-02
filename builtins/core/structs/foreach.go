@@ -251,8 +251,10 @@ func forEachInnerLoopPreparsed(p *lang.Process, tree *[]functions.FunctionT, var
         return
     }
 
+    fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
+
     if varName != "!" {
-        err = p.Variables.Set(p, varName, varValue, dataType)
+        err = fork.Variables.Set(fork.Process, varName, varValue, dataType)
         if err != nil {
             p.Stderr.Writeln([]byte("error: " + err.Error()))
             p.Done()
@@ -260,11 +262,10 @@ func forEachInnerLoopPreparsed(p *lang.Process, tree *[]functions.FunctionT, var
         }
     }
 
-    if !setMetaValues(p, iteration) {
+    if !setMetaValues(fork.Process, iteration) {
         return
     }
 
-    fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
     fork.Stdin.SetDataType(dataType)
     _, err = fork.Stdin.Writeln(b)
     if err != nil {
