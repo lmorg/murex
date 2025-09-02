@@ -16,23 +16,30 @@ func init() {
 }
 
 const (
-	foreachJmap     = "--jmap"
-	foreachStep     = "--step"
-	foreachParallel = "--parallel"
+    foreachJmap     = "--jmap"
+    foreachStep     = "--step"
+    foreachParallel = "--parallel"
+    foreachOrdered  = "--ordered"
+    foreachUnordered = "--unordered"
 )
 
 var argsForEach = &parameters.Arguments{
-	AllowAdditional: true,
-	Flags: map[string]string{
-		foreachJmap: types.Boolean,
-		"-j":        foreachJmap,
+    AllowAdditional: true,
+    Flags: map[string]string{
+        foreachJmap: types.Boolean,
+        "-j":        foreachJmap,
 
 		foreachStep: types.Integer,
 		"-s":        foreachStep,
 
-		foreachParallel: types.Integer,
-		"-p":            foreachParallel,
-	},
+        foreachParallel: types.Integer,
+        "-p":            foreachParallel,
+
+        foreachOrdered:  types.Boolean,
+        "-o":            foreachOrdered,
+        foreachUnordered: types.Boolean,
+        "-u":            foreachUnordered,
+    },
 }
 
 func cmdForEach(p *lang.Process) error {

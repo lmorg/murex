@@ -6,6 +6,7 @@ import (
 
     "github.com/lmorg/murex/lang"
     "github.com/lmorg/murex/lang/expressions/functions"
+    "github.com/lmorg/murex/lang/types"
 )
 
 const MAX_INT = int(^uint(0) >> 1)
@@ -48,12 +49,54 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 		wait      = make(chan struct{}, parallel)
 	)
 
+    // Ordering: default ordered unless explicitly disabled
+    ordered := true
+    if flags[foreachUnordered] == types.TrueString {
+        ordered = false
+    }
+    if flags[foreachOrdered] == types.TrueString {
+        ordered = true
+    }
+    // result channel for aggregator
+    type result struct{ idx int; out, err []byte }
+    resCh := make(chan result, 64)
+    aggDone := make(chan struct{})
+
+    go func() {
+        if ordered {
+            pending := make(map[int]result)
+            next := 0
+            for r := range resCh {
+                pending[r.idx] = r
+                for {
+                    if v, ok := pending[next]; ok {
+                        if len(v.out) > 0 { _, _ = p.Stdout.Write(v.out) }
+                        if len(v.err) > 0 { _, _ = p.Stderr.Write(v.err) }
+                        delete(pending, next)
+                        next++
+                    } else {
+                        break
+                    }
+                }
+            }
+        } else {
+            for r := range resCh {
+                if len(r.out) > 0 { _, _ = p.Stdout.Write(r.out) }
+                if len(r.err) > 0 { _, _ = p.Stderr.Write(r.err) }
+            }
+        }
+        close(aggDone)
+    }()
+
     err = p.Stdin.ReadArrayWithType(p.Context, func(varValue any, dataType string) {
         i := atomic.AddInt64(&iteration, 1)
         wait <- struct{}{}
         wg.Add(1)
         go func() {
-            forEachParallelInnerLoopPreparsed(p, tree, varName, varValue, dataType, int(i))
+            // run worker
+            forkOut, forkErr := forEachParallelWorkerPreparsed(p, tree, varName, varValue, dataType, int(i))
+            // send to aggregator
+            resCh <- result{idx: int(i), out: forkOut, err: forkErr}
             wg.Done()
             <-wait
         }()
@@ -63,8 +106,10 @@ func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []s
 		return err
 	}
 
-	wg.Wait()
-	return nil
+    wg.Wait()
+    close(resCh)
+    <-aggDone
+    return nil
 }
 
 func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, varValue any, dataType string, iteration int) {
@@ -79,7 +124,7 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		return
 	}
 
-	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+    fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.Name.Set("foreach--parallel")
 	fork.FileRef = p.FileRef
 
@@ -103,19 +148,18 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		p.Done()
 		return
 	}
-	_, err = fork.Execute(block)
-	if err != nil {
-		p.Stderr.Writeln([]byte("error: " + err.Error()))
-		p.Done()
-		return
-	}
-	// Aggregate child output to parent to avoid shared-stream contention during execution
-	if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
-		_, _ = p.Stdout.Write(out)
-	}
-	if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
-		_, _ = p.Stderr.Write(errb)
-	}
+    _, err = fork.Execute(block)
+    if err != nil {
+        p.Stderr.Writeln([]byte("error: " + err.Error()))
+        p.Done()
+        return
+    }
+    if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
+        _, _ = p.Stdout.Write(out)
+    }
+    if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
+        _, _ = p.Stderr.Write(errb)
+    }
 }
 
 // forEachParallelInnerLoopPreparsed uses a pre-parsed tree for each worker iteration.
@@ -131,7 +175,7 @@ func forEachParallelInnerLoopPreparsed(p *lang.Process, tree *[]functions.Functi
         return
     }
 
-	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+    fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
     fork.Name.Set("foreach--parallel")
     fork.FileRef = p.FileRef
 
@@ -155,17 +199,38 @@ func forEachParallelInnerLoopPreparsed(p *lang.Process, tree *[]functions.Functi
         p.Done()
         return
     }
-	_, err = fork.ExecuteTree(tree)
-	if err != nil {
-		p.Stderr.Writeln([]byte("error: " + err.Error()))
-		p.Done()
-		return
-	}
-	// Aggregate child output to parent to avoid shared-stream contention during execution
-	if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
-		_, _ = p.Stdout.Write(out)
-	}
-	if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
-		_, _ = p.Stderr.Write(errb)
-	}
+    _, err = fork.ExecuteTree(tree)
+    if err != nil {
+        p.Stderr.Writeln([]byte("error: " + err.Error()))
+        p.Done()
+        return
+    }
+    if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
+        _, _ = p.Stdout.Write(out)
+    }
+    if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
+        _, _ = p.Stderr.Write(errb)
+    }
+}
+
+// forEachParallelWorkerPreparsed runs a single iteration and returns captured stdout/stderr for aggregation.
+func forEachParallelWorkerPreparsed(p *lang.Process, tree *[]functions.FunctionT, varName string, varValue any, dataType string, iteration int) (stdout, stderr []byte) {
+    var b []byte
+    b, err := convertToByte(varValue)
+    if err != nil || len(b) == 0 || p.HasCancelled() {
+        return nil, nil
+    }
+    fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+    fork.Name.Set("foreach--parallel")
+    fork.FileRef = p.FileRef
+    if varName != "!" {
+        if e := fork.Variables.Set(fork.Process, varName, varValue, dataType); e != nil { return nil, []byte("error: "+e.Error()) }
+    }
+    if !setMetaValues(fork.Process, iteration) { return nil, nil }
+    fork.Stdin.SetDataType(dataType)
+    if _, e := fork.Stdin.Writeln(b); e != nil { return nil, []byte("error: "+e.Error()) }
+    if _, e := fork.ExecuteTree(tree); e != nil { return nil, []byte("error: "+e.Error()) }
+    out, _ := fork.Stdout.ReadAll()
+    errb, _ := fork.Stderr.ReadAll()
+    return out, errb
 }
