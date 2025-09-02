@@ -114,7 +114,11 @@ Iteration 4: [
 * `--jmap`
     Write a `json` map to stdout instead of an array. `--jmap` cannot be used with `--step` nor `--parallel`
 * `--parallel`
-    `<int>` Runs _n_ functions in parallel. Ensures there is always _n_ functions running in the pipeline until all iterations are complete. Thus `--parallel` does not group; use `--step` if you need grouping. If you wish all iterations to run concurrently then _n_ should be set to `0` or a negative number. `--parallel` cannot be used with `--jmap` nor `--step`
+    `<int>` Runs _n_ functions in parallel. Ensures there is always _n_ functions running in the pipeline until all iterations are complete. Thus `--parallel` does not group; use `--step` if you need grouping. If _n_ is `0` or negative then a safe default of `NumCPU()*8` workers is used. `--parallel` cannot be used with `--jmap` nor `--step`
+* `--ordered`
+    Preserve output order based on input index (default). Output from each worker is buffered and emitted in original order.
+* `--unordered`
+    Do not preserve output order; writes results as workers complete. Offers best throughput for I/O-bound tasks.
 * `--step`
     `<int>` Iterates in steps. Value passed to block is an array of items in the step range. However step does not run functions in parallel; use `--parallel` if you need concurrent execution. `--step` cannot be used with `--jmap` nor `--parallel`
 
@@ -360,3 +364,9 @@ jsonl
 <hr/>
 
 This document was generated from [builtins/core/structs/foreach_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/foreach_doc.yaml).
+### Parallel output aggregation
+
+When `--parallel` is used, each worker runs with isolated stdout/stderr and the
+outputs are merged back into the parent stream after the worker completes. By
+default, `--ordered` preserves the original input order. You can disable this
+guarantee with `--unordered` which writes outputs as each worker completes.
