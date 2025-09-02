@@ -79,12 +79,12 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		return
 	}
 
-	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.Name.Set("foreach--parallel")
 	fork.FileRef = p.FileRef
 
 	if varName != "!" {
-		err = fork.Variables.Set(p, varName, varValue, dataType)
+		err = fork.Variables.Set(fork.Process, varName, varValue, dataType)
 		if err != nil {
 			p.Stderr.Writeln([]byte("error: " + err.Error()))
 			p.Done()
@@ -109,6 +109,13 @@ func forEachParallelInnerLoop(p *lang.Process, block []rune, varName string, var
 		p.Done()
 		return
 	}
+	// Aggregate child output to parent to avoid shared-stream contention during execution
+	if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
+		_, _ = p.Stdout.Write(out)
+	}
+	if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
+		_, _ = p.Stderr.Write(errb)
+	}
 }
 
 // forEachParallelInnerLoopPreparsed uses a pre-parsed tree for each worker iteration.
@@ -124,7 +131,7 @@ func forEachParallelInnerLoopPreparsed(p *lang.Process, tree *[]functions.Functi
         return
     }
 
-    fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
     fork.Name.Set("foreach--parallel")
     fork.FileRef = p.FileRef
 
@@ -148,10 +155,17 @@ func forEachParallelInnerLoopPreparsed(p *lang.Process, tree *[]functions.Functi
         p.Done()
         return
     }
-    _, err = fork.ExecuteTree(tree)
-    if err != nil {
-        p.Stderr.Writeln([]byte("error: " + err.Error()))
-        p.Done()
-        return
-    }
+	_, err = fork.ExecuteTree(tree)
+	if err != nil {
+		p.Stderr.Writeln([]byte("error: " + err.Error()))
+		p.Done()
+		return
+	}
+	// Aggregate child output to parent to avoid shared-stream contention during execution
+	if out, rerr := fork.Stdout.ReadAll(); rerr == nil && len(out) > 0 {
+		_, _ = p.Stdout.Write(out)
+	}
+	if errb, rerr := fork.Stderr.ReadAll(); rerr == nil && len(errb) > 0 {
+		_, _ = p.Stderr.Write(errb)
+	}
 }
