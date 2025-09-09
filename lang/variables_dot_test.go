@@ -1,9 +1,7 @@
-//go:build !windows
-// +build !windows
-
 package lang_test
 
 import (
+	"runtime"
 	"testing"
 
 	"github.com/lmorg/murex/test"
@@ -45,6 +43,10 @@ func TestVarGlobal(t *testing.T) {
 }
 
 func TestVarEnv(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skipf("this test isn't supported in Windows because it calls POSIX /usr/bin/env")
+	}
+
 	tests := []test.MurexTest{
 		{
 			Block: `

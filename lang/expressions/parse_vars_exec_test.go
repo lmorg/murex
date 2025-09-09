@@ -3,6 +3,7 @@ package expressions_test
 import (
 	"fmt"
 	"os/user"
+	"regexp"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
@@ -140,11 +141,18 @@ func TestParseVarsTilder(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
+var rxValidUserChars = regexp.MustCompile(`[-._0-9a-zA-Z]+`)
+
 func TestParseVarsTilderPlusNamePositive(t *testing.T) {
 	usr, err := user.Current()
 	if err != nil {
 		t.Errorf("cannot run tests: %s", err.Error())
 		return
+	}
+	userTest := rxValidUserChars.ReplaceAllString(usr.Username, "")
+	if userTest != "" {
+		t.Skipf("cannot run this test case when username (%s) contains the following character(s): '%s'", usr.Username, userTest)
+		//return
 	}
 
 	tests := []test.MurexTest{
