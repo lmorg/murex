@@ -1,3 +1,6 @@
+//go:build !windows
+// +build !windows
+
 package lang_test
 
 import (
@@ -46,14 +49,14 @@ func TestVarEnv(t *testing.T) {
 		{
 			Block: `
 				$ENV.MurexTestVarEnv00 = "lskdjflsakdjfoiwjef;oweijflsd;kjfweo;ij"
-				env -> regexp m/MurexTestVarEnv00/
+				/usr/bin/env -> regexp m/MurexTestVarEnv00/
 			`,
 			Stdout: "MurexTestVarEnv00=lskdjflsakdjfoiwjef;oweijflsd;kjfweo;ij\n",
 		},
 		{
 			Block: `
 				set ENV.MurexTestVarEnv01 = "ertyrtysdf;sldk;flkp;o342--04ik"
-				env -> regexp m/MurexTestVarEnv01/
+				/usr/bin/env -> regexp m/MurexTestVarEnv01/
 			`,
 			Stdout: "MurexTestVarEnv01=ertyrtysdf;sldk;flkp;o342--04ik\n",
 		},
