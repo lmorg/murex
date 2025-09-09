@@ -90,6 +90,30 @@ list-build-tags:
 	| sort -u
 	@echo "sqlite_omit_load_extension\nosusergo\nnetgo"
 
+# readline package development
+local_readline = local/readline
+
+.PHONY: 
+local-dev-readline:
+ifneq "$(wildcard $(local_readline)/.)" ""
+	cd $(local_readline)
+	git pull
+else
+	@mkdir -p local
+	git clone git@github.com:lmorg/readline.git $(local_readline)
+endif
+	cd $(local_readline)
+	go mod edit -replace "github.com/lmorg/readline/v4=./$(local_readline)"
+	go mod tidy
+	@echo ""
+	@echo "Before you push any changes of Murex, you will need to run:"
+	@echo "    make remote-readline"
+
+.PHONY:
+remote-readline:
+	go mod edit -dropreplace=github.com/lmorg/readline/v4
+	go mod tidy
+
 # Help
 .PHONY: help
 help:
