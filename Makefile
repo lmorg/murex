@@ -40,8 +40,8 @@ run: build-dev
 # Build with dev flags
 .PHONY: build-dev
 build-dev: generate
-build-dev: GO_FLAGS += -gcflags="-N -l" -race -covermode=atomic
-build-dev: BUILD_TAGS += "pprof,trace,no_crash_handler"
+build-dev: GO_FLAGS += -gcflags="-N -l" -race
+build-dev: BUILD_TAGS := "$(BUILD_TAGS),pprof,trace,no_crash_handler"
 build-dev: build
 
 # Test
