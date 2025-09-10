@@ -52,7 +52,7 @@ func DbPath() string {
 }
 
 func DbEnabled() bool {
-	return !cachedb.Disabled
+	return cachedb.Enabled.Load()
 }
 
 func ListNamespaces() []string {
