@@ -10,6 +10,7 @@ import (
 
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/cache"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/readline/v4"
 )
 
@@ -51,10 +52,16 @@ func getMacroVars(cmdline string) ([]string, []string, error) {
 			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
 		assigned[match[i]] = true
-		history[match[i]] = append([]string{vars[i]}, history[match[i]]...)
+		if matched := lists.MatchIndexString(history[match[i]], vars[i]); matched != -1 {
+			new, err := lists.RemoveOrdered(history[match[i]], matched)
+			if err != nil {
+				history[match[i]] = new
+			}
+		}
+		history[match[i]] = append(history[match[i]], vars[i])
 	}
 
-	cache.Write(cache.MACRO_VAR_HISTORY, cmdline, history, time.Now().AddDate(10, 0, 0))
+	cache.Write(cache.MACRO_VAR_HISTORY, cmdline, history, time.Now().AddDate(0, 6, 0))
 	return match, vars, nil
 }
 
@@ -85,7 +92,7 @@ func (h macroVarHistory) GetLine(i int) (string, error) {
 
 func (h macroVarHistory) TabCompleter(r []rune, _ int, _ readline.DelayedTabContext) *readline.TabCompleterReturnT {
 	tcr := &readline.TabCompleterReturnT{
-		//Prefix: string(r),
+		Prefix: string(r),
 	}
 
 	for i := range h {
