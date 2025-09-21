@@ -2,14 +2,14 @@
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
-heroText: Murex.Rocks
+heroText: Murex
 tagline: An intuitive and content aware shell for a modern command line
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
     link: tour/
     type: primary
-  - text: " Rosetta Stone"
+  - text: " Cheat sheet"
     icon: table
     link: user-guide/rosetta-stone/
   - text: " Interactive Shell"
@@ -17,45 +17,37 @@ actions:
     link: user-guide/interactive-shell/
   - text: " Install"
     icon: download
-    link: install/ 
+    link: install/
 highlights:
   - header: A Modern shell for the rest of us
     description: Murex carries tons of unique features. Some highlights include...
     features:
-      - title: Content Aware
+      - title: Data Parsing
         icon: file-contract
         details: |-
-          Native support for manipulating data formats such as JSON, YAML, CSV, and others. This allows for seamless integration and manipulation of data in various formats.
-          <br/><br/>
-          <strong>Data types can be explicitly cast and reformatted, but also inferred if preferred.</strong>
+          Native support for data formats such as JSON, YAML, XML, CSV, and others.
         link: types/
 
-      - title: Expressions
+      - title: Expressive
         icon: hashtag
         details: |-
-          Smarter handling of variables and expressions to avoid accidental bugs caused by spaces or incorrect syntax. Resulting in a more reliable and predictable scripting experience.
-          <br/><br/>
-          <strong>Never worry about file names with weird characters, nor running equations in "bc" again.</strong>
-        link: parser/
+          The syntax is more expressive and easier to read and write.
+        link: tour/
 
       - title: Smartly Interactive
         icon: wand-magic-sparkles
         details: |-
           A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
-          <br/><br/>
-          <strong>Navigating the command line is faster, more intuitive and efficient than ever before.</strong>
         link: user-guide/interactive-shell
 
-      - title: Easily Extended
+      - title: Cross-platform
         icon: "puzzle-piece"
         details: |-
-          The built-in package manager makes it very easy to share your configuration, import other peoples namespaced modules, and port your environment between different machines.
-          <br/><br/>
-          <strong>Configure once, use everywhere.</strong>
-        link: user-guide/modules
+          Supports Linux, Windows, macOS, and many other UNIXs.
+        link: install/
 
 copyright: false
-footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
+footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
 ## Getting Started
 
