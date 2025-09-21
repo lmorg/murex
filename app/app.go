@@ -18,7 +18,7 @@ const (
 	Minor     = 0
 	Revision  = 2130
 	Branch    = "website"
-	BuildDate = "2025-09-21  21:48:26"
+	BuildDate = "2025-09-21  22:03:41"
 )
 
 // Copyright is the copyright owner string

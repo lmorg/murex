@@ -9,7 +9,7 @@ actions:
     icon: "plane-departure"
     link: tour/
     type: primary
-  - text: " Cheat sheet"
+  - text: " Cheat Sheet"
     icon: table
     link: user-guide/rosetta-stone/
   - text: " Interactive Shell"
@@ -31,7 +31,9 @@ highlights:
       - title: Expressive
         icon: hashtag
         details: |-
-          The syntax is more expressive and easier to read and write.
+          The syntax is more expressive, and easier to read and write than most other shells.
+
+          ![`5 * 7` is a valid expression](/screenshot-expression-multiplication.png)
         link: tour/
 
       - title: Smartly Interactive
