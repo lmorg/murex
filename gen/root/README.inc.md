@@ -33,7 +33,7 @@ highlights:
         details: |-
           The syntax is more expressive, and easier to read and write than most other shells.
 
-          ![`5 * 7` is a valid expression](/screenshot-expression-multiplication.png)
+          <img alt="[`5 * 7` is a valid expression" href="/screenshot-expression-multiplication.png/>
         link: tour/
 
       - title: Smartly Interactive
