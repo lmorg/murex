@@ -55,11 +55,25 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 	EventsPreview(ctx, interrupt, previewItem, cmdLine, previousLines, size, callback)
 }
 
+func devMessage() {
+	info, ok := godebug.ReadBuildInfo()
+	if !ok {
+		return
+	}
+	for _, settings := range info.Settings {
+		if settings.Key == "-race" && settings.Value == "true" {
+			fmt.Fprintf(os.Stdout, "!!! This is a development build with race detection enabled. Murex performance will be negatively impacted !!!")
+		}
+	}
+}
+
 // Start the interactive shell
 func Start() {
 	defer crash.Handler()
 
 	session.UnixOpenTTY()
+
+	devMessage()
 
 	whatsnew.Display()
 
