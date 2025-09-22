@@ -16,13 +16,15 @@ var (
 	Summary = New()
 )
 
+const _CACHE_TTL_SECONDS = 60 * 5 // 5 minutes
+
 func Get(cmd string, checkManPage bool) (r []rune) {
 	var summary string
 	if cache.Read(cache.HINT_SUMMARY, cmd, &summary) {
 		return r
 	}
 
-	defer func() { cache.Write(cache.HINT_SUMMARY, cmd, string(r), cache.Days(30)) }()
+	defer func() { cache.Write(cache.HINT_SUMMARY, cmd, string(r), cache.Seconds(_CACHE_TTL_SECONDS)) }()
 
 	custom := Summary.Get(cmd)
 	if custom != "" {

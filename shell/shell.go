@@ -153,6 +153,11 @@ func showPrompt() {
 		return expanded
 	}
 
+	Prompt.TabCompleter = tabCompletion
+	Prompt.SyntaxCompleter = syntaxCompletion
+	Prompt.DelayedSyntaxWorker = Spellchecker
+	Prompt.HistoryAutoWrite = false
+
 	for {
 		v, err := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean)
 		if tmux, ok := v.(bool); ok && err == nil && tmux {
@@ -162,10 +167,6 @@ func showPrompt() {
 		signalhandler.Register(true)
 
 		setPromptHistory()
-		Prompt.TabCompleter = tabCompletion
-		Prompt.SyntaxCompleter = syntaxCompletion
-		Prompt.DelayedSyntaxWorker = Spellchecker
-		Prompt.HistoryAutoWrite = false
 
 		getSyntaxHighlighting()
 		getHintTextEnabled()
@@ -338,19 +339,19 @@ func getPreviewSettings() {
 	Prompt.PreviewImages = previewImages.(bool)
 }
 
-var ignoreSpellCheckErr bool
+var ignoreSpellCheckErr atomic.Bool
 
 func Spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
-	if err != nil && !ignoreSpellCheckErr {
-		ignoreSpellCheckErr = true
+	if err != nil && !ignoreSpellCheckErr.Load() {
+		ignoreSpellCheckErr.Store(true)
 		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
 		return r
 	}
 
-	ignoreSpellCheckErr = false // reset ignore status
+	ignoreSpellCheckErr.Store(false) // reset ignore status
 
 	return []rune(new)
 }
