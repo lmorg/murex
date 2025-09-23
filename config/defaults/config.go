@@ -23,7 +23,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "prompt", config.Properties{
 		Description: "Interactive shell prompt",
-		Default:     "{ out 'murex » ' }",
+		Default:     `{ out "${$PWD -> :str: regexp s:~:\~: -> format path -> [-1]} » " }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})

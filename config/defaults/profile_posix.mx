@@ -1,18 +1,18 @@
 function pwd_short {
-    # normalise path to it's short form
-    pwd -> regexp "s#^$HOME#\~#"
+    # normalize path to it's short form
+    $PWD -> :str: regexp s:~:\~: -> format path
 }
 
 config set shell prompt {
     exitnum -> !if {
-        out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {GREEN}»{RESET} "
+        out "{RESET}{YELLOW}${pwd_short|[-1]} {GREEN}»{RESET} "
     } else {
-        out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {RED}»{RESET} "
+        out "{RESET}{YELLOW}${pwd_short|[-1]} {RED}»{RESET} "
     }
 }
 
 config set shell prompt-multiline {
-    len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
+    len = ${pwd_short -> [-1] -> count --bytes} - 1
     printf "%${$len}s » " $linenum
 }
 
