@@ -186,7 +186,7 @@ func showPrompt() {
 		getHintTextEnabled()
 		getHintTextFormatting()
 		getPreviewSettings()
-		cachedHintText = []rune{}
+		_cachedHintText = []rune{}
 		var prompt []byte
 
 		if nLines > 1 {
