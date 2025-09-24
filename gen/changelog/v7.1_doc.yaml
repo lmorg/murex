@@ -1,0 +1,16 @@
+- DocumentID: v7.1
+  Title: >-
+    v7.1
+  CategoryID: changelog
+  DateTime: 2025-09-24 22:00
+  Summary: >-
+    This release focuses mainly on quality-of-life improvements over major headline new features
+  Description: |-
+    {{ include "gen/changelog/v7.1.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - autocomplete
+    - config
+    - integrations
+    - runtime
+    - spellcheck

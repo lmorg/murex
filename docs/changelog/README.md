@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 24.09.2025 - [v7.1](../changelog/v7.1.md)
+
+This release focuses mainly on quality-of-life improvements over major headline new features
+
+
 ### 14.04.2025 - [v7.0](../changelog/v7.0.md)
 
 Introducing experimental support for XML, new integrations, and several other quality-of-life improvements. Four deprecated builtins have been removed too, which is this release sees an increment of its major version number
