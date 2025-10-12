@@ -26,7 +26,7 @@ func Read(namespace string, key string, ptr any) bool {
 	return true
 }
 
-func listDb(ctx context.Context, namespace string) (interface{}, error) {
+func listDb(ctx context.Context, namespace string) (any, error) {
 	return cachedb.List(ctx, namespace)
 }
 
@@ -52,7 +52,7 @@ func DbPath() string {
 }
 
 func DbEnabled() bool {
-	return !cachedb.Disabled
+	return cachedb.Enabled.Load()
 }
 
 func ListNamespaces() []string {

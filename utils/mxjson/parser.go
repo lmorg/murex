@@ -6,7 +6,7 @@ import (
 )
 
 // Parse converts mxjson file into a Go struct
-func Parse(json []byte) (interface{}, error) {
+func Parse(json []byte) (any, error) {
 	if len(json) == 0 {
 		return nil, nil
 	}
@@ -29,35 +29,35 @@ func Parse(json []byte) (interface{}, error) {
 		curly   = newPair() // cursor inside a { block?
 	)
 
-	cannotClose := func() (interface{}, error) {
+	cannotClose := func() (any, error) {
 		return nil, fmt.Errorf("cannot close `%s` at %d(%d,%d): %s", string([]byte{b}), i+1, y, x, err.Error())
 	}
 
-	unexpectedCharacter := func() (interface{}, error) {
+	unexpectedCharacter := func() (any, error) {
 		return nil, fmt.Errorf("unexpected character `%s` at %d(%d,%d)", string([]byte{b}), i+1, y, x)
 	}
 
-	unexpectedColon := func() (interface{}, error) {
+	unexpectedColon := func() (any, error) {
 		return nil, fmt.Errorf("unexpected `%s` at %d(%d,%d). Colons should just be used to separate keys and values", string([]byte{b}), i+1, y, x)
 	}
 
-	unexpectedComma := func() (interface{}, error) {
+	unexpectedComma := func() (any, error) {
 		return nil, fmt.Errorf("unexpected `%s` at %d(%d,%d). Commas should just be used to separate items mid arrays and maps and not for the end value nor to separate keys and values in a map", string([]byte{b}), i+1, y, x)
 	}
 
-	invalidNewLine := func() (interface{}, error) {
+	invalidNewLine := func() (any, error) {
 		return nil, fmt.Errorf("cannot have a new line (eg \\n) within single nor double quotes at %d(%d,%d)", i+1, y, x)
 	}
 
-	cannotOpen := func() (interface{}, error) {
+	cannotOpen := func() (any, error) {
 		return nil, fmt.Errorf("cannot use the brace quotes on key names at %d(%d,%d)", i+1, y, x)
 	}
 
-	cannotReOpen := func() (interface{}, error) {
+	cannotReOpen := func() (any, error) {
 		return nil, fmt.Errorf("quote multiple strings in a key or value block at %d(%d,%d). Strings should be comma separated and inside arrays block (`[` and `]`) where multiple values are expected", i+1, y, x)
 	}
 
-	keysOutsideMap := func() (interface{}, error) {
+	keysOutsideMap := func() (any, error) {
 		return nil, fmt.Errorf("keys outside of map blocks, `{...}`, at %d(%d,%d)", i+1, y, x)
 	}
 
@@ -69,7 +69,7 @@ func Parse(json []byte) (interface{}, error) {
 		return nil
 	}
 
-	/*cannotMixArrayTypes := func() (interface{}, error) {
+	/*cannotMixArrayTypes := func() (any, error) {
 		return nil, fmt.Errorf("Cannot mix array types at %d(%d,%d)", i+1,x,y)
 	}*/
 
@@ -105,7 +105,7 @@ func Parse(json []byte) (interface{}, error) {
 			return storeErr(objects.SetValue(current.String()), pos, y, x)
 
 		default:
-			return fmt.Errorf("unexpected condition in `Parse(json []byte) (interface{}, error).\nThis is likely a murex bug, please log an issue at https://github.com/lmorg/murex/issues`")
+			return fmt.Errorf("unexpected condition in `Parse(json []byte) (any, error).\nThis is likely a murex bug, please log an issue at https://github.com/lmorg/murex/issues`")
 		}
 	}
 

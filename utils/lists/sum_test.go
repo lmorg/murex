@@ -161,137 +161,137 @@ func TestSumFloat64(t *testing.T) {
 
 func TestSumInterface(t *testing.T) {
 	type testSumInterfaceT struct {
-		Source      map[string]interface{}
-		Destination map[string]interface{}
-		Output      map[string]interface{}
+		Source      map[string]any
+		Destination map[string]any
+		Output      map[string]any
 		Error       bool
 	}
 
 	tests := []testSumInterfaceT{
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": 1,
 				"b": 2,
 				"c": 3,
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"a": 9,
 				"b": 7,
 				"c": 5,
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 10,
 				"b": 9,
 				"c": 8,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": "1",
 				"b": "2",
 				"c": "3",
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"a": "9",
 				"b": "7",
 				"c": "5",
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 10,
 				"b": 9,
 				"c": 8,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": 1,
 			},
-			Destination: map[string]interface{}{},
-			Output: map[string]interface{}{
+			Destination: map[string]any{},
+			Output: map[string]any{
 				"a": 1,
 			},
 		},
 		{
-			Source: map[string]interface{}{},
-			Destination: map[string]interface{}{
+			Source: map[string]any{},
+			Destination: map[string]any{
 				"c": 5,
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"c": 5,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": "1",
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"c": 5,
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 1,
 				"c": 5,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": 1,
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"c": "5",
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 1,
 				"c": "5",
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": 1.1,
 				"b": 2.5,
 				"c": 3.9,
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"a": 9.1,
 				"b": 7.5,
 				"c": 5.9,
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 10.2,
 				"b": 10,
 				"c": 9.8,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a": 1.1,
 				"b": "2.5",
 				"c": 3.9,
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"a": "9.1",
 				"b": 7.5,
 				"c": "5.9",
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a": 10.2,
 				"b": 10,
 				"c": 9.8,
 			},
 		},
 		{
-			Source: map[string]interface{}{
+			Source: map[string]any{
 				"a":   1.1,
 				"b":   "2.5",
 				"c":   3.9,
 				"foo": "bar",
 			},
-			Destination: map[string]interface{}{
+			Destination: map[string]any{
 				"a":   "9.1",
 				"b":   7.5,
 				"c":   "5.9",
 				"bar": "foo",
 			},
-			Output: map[string]interface{}{
+			Output: map[string]any{
 				"a":   10.2,
 				"b":   10,
 				"c":   9.8,
@@ -306,7 +306,7 @@ func TestSumInterface(t *testing.T) {
 	for i, test := range tests {
 		jExp := json.LazyLogging(test.Output)
 
-		actual := make(map[string]interface{})
+		actual := make(map[string]any)
 		for k, v := range test.Destination {
 			actual[k] = v
 		}

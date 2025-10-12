@@ -2,7 +2,7 @@ package types
 
 // DataTypeFromInterface returns the Murex data-type expected to be associated
 // with any specific Go data type.
-func DataTypeFromInterface(v interface{}) string {
+func DataTypeFromInterface(v any) string {
 	switch v.(type) {
 	case int:
 		return Integer

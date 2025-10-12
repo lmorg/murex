@@ -9,7 +9,7 @@ import (
 )
 
 // ReadJson is a function for reading a JSON file from disk
-func ReadJson(path string, v interface{}) error {
+func ReadJson(path string, v any) error {
 	file, err := os.OpenFile(path, os.O_RDONLY, 0640)
 	if err != nil {
 		return fmt.Errorf("Cannot open `%s` for read: %s", path, err.Error())

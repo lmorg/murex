@@ -13,6 +13,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/arraytools"   // tools for working with arrays and maps
 	_ "github.com/lmorg/murex/builtins/core/autocomplete" // autocompleter cli tools
 	_ "github.com/lmorg/murex/builtins/core/config"       // config cli tools
+	_ "github.com/lmorg/murex/builtins/core/dag"          // tools for working with Directed Acyclic Graphs
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]
 	_ "github.com/lmorg/murex/builtins/core/escape"       // string escaping

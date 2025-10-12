@@ -135,7 +135,7 @@ func tabCompleter(rl *readline.Instance, b []byte) error {
 	maxRows, _ := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	rl.MaxTabCompleterRows = maxRows.(int)
 
-	var v interface{}
+	var v any
 	err := json.UnmarshalMurex(b, &v)
 	if err != nil {
 		return fmt.Errorf("cannot unmarshal JSON input for `read`'s autocomplete: %s", err.Error())
@@ -153,7 +153,7 @@ func tabCompleter(rl *readline.Instance, b []byte) error {
 			return tcr
 		}
 
-	case []interface{}:
+	case []any:
 		// this is horribly inefficient POC code
 		s := make([]string, len(t))
 		for i := range t {
@@ -189,7 +189,7 @@ func tabCompleter(rl *readline.Instance, b []byte) error {
 			return tcr
 		}
 
-	case map[string]interface{}:
+	case map[string]any:
 		// this is horribly inefficient POC code
 		s := make([]string, len(t))
 		var i int

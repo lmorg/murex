@@ -9,6 +9,7 @@ const (
 	MAN_FLAGS            = "man_flags"
 	AUTOCOMPLETE_DYNAMIC = "autocomplete_dynamic"
 	HINT_SUMMARY         = "hint_summary"
+	MACRO_VAR_HISTORY    = "macro_var_history"
 )
 
 func InitCache() {
@@ -20,6 +21,7 @@ func InitCache() {
 	initNamespace(MAN_FLAGS)
 	initNamespace(AUTOCOMPLETE_DYNAMIC)
 	initNamespace(HINT_SUMMARY)
+	initNamespace(MACRO_VAR_HISTORY)
 }
 
 func initNamespace(namespace string) {

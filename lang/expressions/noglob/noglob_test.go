@@ -52,7 +52,7 @@ func TestWriteNoGlobCmds(t *testing.T) {
 	copy(noGlobCmdsDefault, noGlobCmds)
 	defer copy(noGlobCmds, noGlobCmdsDefault)
 
-	var v interface{}
+	var v any
 
 	v = 13
 	err := WriteNoGlobCmds(v)

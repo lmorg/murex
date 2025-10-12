@@ -521,7 +521,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 	return err
 }
 
-func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) error {
+func processStatementArrays(tree *ParserT, value []rune, v any, exec bool) error {
 	if exec {
 		switch t := v.(type) {
 		case []string:
@@ -548,7 +548,7 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 					return err
 				}
 			}
-		case []interface{}:
+		case []any:
 			for i := range t {
 				s, err := types.ConvertGoType(t[i], types.String)
 				if err != nil {

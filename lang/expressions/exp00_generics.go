@@ -69,7 +69,7 @@ func validateNumericalDataTypes(tree *ParserT, leftNode *astNodeT, rightNode *as
 
 const errCannotCompareBareword = "cannot compare with bareword '%s': strings should be quoted, variables prefixed with `$`"
 
-func compareTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (interface{}, interface{}, error) {
+func compareTypes(tree *ParserT, leftNode *astNodeT, rightNode *astNodeT) (any, any, error) {
 	left, err := leftNode.dt.GetValue()
 	if err != nil {
 		return nil, nil, err

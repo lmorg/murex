@@ -50,8 +50,8 @@ func Chdir(p *lang.Process, path string) error {
 	switch pwdHist.(type) {
 	case []string:
 		pwdHist = append(pwdHist.([]string), pwd)
-	case []interface{}:
-		pwdHist = append(pwdHist.([]interface{}), pwd)
+	case []any:
+		pwdHist = append(pwdHist.([]any), pwd)
 	default:
 		debug.Log(fmt.Sprintf("$%s has become corrupt (%T) so regenerating", GlobalVarName, pwdHist))
 		pwdHist = []string{pwd}

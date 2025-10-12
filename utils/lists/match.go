@@ -9,3 +9,13 @@ func Match(a []string, s string) bool {
 
 	return false
 }
+
+func MatchIndexString(a []string, s string) int {
+	for i := range a {
+		if a[i] == s {
+			return i
+		}
+	}
+
+	return -1
+}

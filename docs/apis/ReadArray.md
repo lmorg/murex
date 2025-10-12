@@ -81,7 +81,7 @@ import (
 
 func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 

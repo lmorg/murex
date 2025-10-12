@@ -5,11 +5,11 @@ import (
 )
 
 // All populates a map of environmental variables
-func All(m map[string]interface{}) {
+func All(m map[string]any) {
 	all(os.Environ(), m)
 }
 
-func all(envs []string, m map[string]interface{}) {
+func all(envs []string, m map[string]any) {
 	for _, env := range envs {
 		key, val := Split(env)
 		m[key] = val

@@ -129,7 +129,7 @@ func testIsMap(b []byte, dt string, property string) (TestStatus, string) {
 	}
 
 	switch v.(type) {
-	case map[string]string, map[string]interface{}, map[interface{}]string, map[interface{}]interface{}:
+	case map[string]string, map[string]any, map[any]string, map[any]any:
 		return TestPassed, tMsgDataFormatValid(property, dt, v)
 
 	default:
@@ -151,7 +151,7 @@ func testIsArray(b []byte, dt string, property string) (TestStatus, string) {
 	}
 
 	switch v.(type) {
-	case []string, []interface{}:
+	case []string, []any:
 		return TestPassed, tMsgDataFormatValid(property, dt, v)
 
 	default:

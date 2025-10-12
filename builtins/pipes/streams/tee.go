@@ -62,7 +62,7 @@ func (tee *Tee) ReadArray(ctx context.Context, callback func([]byte)) error {
 }
 
 // ReadArrayWithType reads an array from STDIN (uses the primary tee stream)
-func (tee *Tee) ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error {
+func (tee *Tee) ReadArrayWithType(ctx context.Context, callback func(any, string)) error {
 	return tee.primary.ReadArrayWithType(ctx, callback)
 }
 

@@ -86,7 +86,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 	}
 
 	var (
-		v  interface{}
+		v  any
 		dt string
 	)
 
@@ -185,7 +185,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 		}
 	}
 
-	var result interface{}
+	var result any
 
 	switch dt {
 	case types.Number, types.Float:

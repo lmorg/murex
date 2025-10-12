@@ -4,6 +4,11 @@ A collection of Murex related documents and personal thoughts.
 
 ## Articles
 
+### 03.07.2025 - [Spying On Applications Via Tmux](../blog/spying_on_applications_via_tmux.md)
+
+> It might surprise some to learn that any application can listen to every keystroke and every application output, via tmux.
+
+
 ### 21.03.2025 - [My Vibe Coding Experiment](../blog/vibe_coding_experiment.md)
 
 > My personal thoughts after trying out "vibe coding" for the first time.

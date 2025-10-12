@@ -51,7 +51,7 @@ func cmdDebugMethod(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	var (
-		j = make(map[string]interface{})
+		j = make(map[string]any)
 		b []byte
 	)
 

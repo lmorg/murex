@@ -5,7 +5,7 @@ import "fmt"
 func Table2Map(v [][]string, callback func(map[string]any) error) error {
 	var (
 		err error
-		//m      = make(map[string]interface{}, len(v[0]))
+		//m      = make(map[string]any, len(v[0]))
 		j      int
 		recLen = len(v[0])
 	)

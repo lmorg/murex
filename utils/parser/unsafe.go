@@ -24,16 +24,16 @@ func GetSafeCmds() []string {
 	return a
 }
 
-// ReadSafeCmds returns an interface{} of the safeCmds.
+// ReadSafeCmds returns an any of the safeCmds.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadSafeCmds() (interface{}, error) {
+func ReadSafeCmds() (any, error) {
 	return GetSafeCmds(), nil
 }
 
 // WriteSafeCmds takes a JSON-encoded string and writes it to the safeCmds
 // slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteSafeCmds(v interface{}) error {
+func WriteSafeCmds(v any) error {
 	switch v := v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v), &safeCmds)

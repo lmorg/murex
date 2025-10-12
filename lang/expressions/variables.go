@@ -20,9 +20,9 @@ var errEmptyRange = "range '@%s[%s]%s' is empty"
 
 // getVar doesn't call formatBytes because variables already store both the
 // string and object representations.
-func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
+func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (any, string, error) {
 	var (
-		value    interface{}
+		value    any
 		dataType string
 		err      error
 		nameS    = string(name)
@@ -70,7 +70,7 @@ func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, s
 
 const errEmptyArray = "array '@%s' is empty"
 
-func (tree *ParserT) getArray(name []rune) (interface{}, error) {
+func (tree *ParserT) getArray(name []rune) (any, error) {
 	var nameS = string(name)
 
 	data, err := tree.p.Variables.GetString(nameS)
@@ -82,13 +82,13 @@ func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 		return nil, fmt.Errorf(errEmptyArray, nameS)
 	}
 
-	var array []interface{}
+	var array []any
 
 	variable := streams.NewStdin()
 	variable.SetDataType(tree.p.Variables.GetDataType(nameS))
 	variable.Write([]byte(data))
 
-	err = variable.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+	err = variable.ReadArrayWithType(tree.p.Context, func(v any, _ string) {
 		array = append(array, v)
 	})
 
@@ -103,7 +103,7 @@ func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 	return array, nil
 }
 
-func (tree *ParserT) setVar(name []rune, value interface{}, dataType string) error {
+func (tree *ParserT) setVar(name []rune, value any, dataType string) error {
 	nameS := string(name)
 	return tree.p.Variables.Set(tree.p, nameS, value, dataType)
 }
@@ -120,7 +120,7 @@ type getVarIndexOrElementT struct {
 	strOrVal varFormatting
 }
 
-func (tree *ParserT) getVarIndexOrElement(getIorE *getVarIndexOrElementT) (interface{}, string, error) {
+func (tree *ParserT) getVarIndexOrElement(getIorE *getVarIndexOrElementT) (any, string, error) {
 	var block []rune
 	if getIorE.isIorE == getVarIsIndex {
 		block = createIndexBlock(getIorE)
@@ -179,13 +179,13 @@ func createRangeBlock(name, key, flags []rune) []rune {
 	return block
 }
 
-func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
-	var array []interface{}
+func (tree *ParserT) getVarRange(name, key, flags []rune) (any, error) {
+	var array []any
 
 	block := createRangeBlock(name, key, flags)
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 	fork.Execute(block)
-	err := fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+	err := fork.Stdout.ReadArrayWithType(tree.p.Context, func(v any, _ string) {
 		array = append(array, v)
 	})
 	if err != nil {
@@ -202,7 +202,7 @@ func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
 
 // formatBytes this isn't used for variables because vars already store both
 // the string and object representations.
-func formatBytes(tree *ParserT, b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {
+func formatBytes(tree *ParserT, b []byte, dataType string, strOrVal varFormatting) (any, error) {
 	if strOrVal == varAsString {
 		return string(b), nil
 	}

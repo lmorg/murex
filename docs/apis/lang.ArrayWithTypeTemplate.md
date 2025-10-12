@@ -32,7 +32,7 @@ import (
 
 func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
@@ -267,10 +267,10 @@ func readArrayWithTypeByMap[K comparable, V any](ctx context.Context, dataType s
 
 ## Parameters
 
-1. `func(interface{}) ([]byte, error)`: data type's marshaller
-2. `func([]byte, interface{}) error`: data type's unmarshaller
+1. `func(any) ([]byte, error)`: data type's marshaller
+2. `func([]byte, any) error`: data type's unmarshaller
 3. `stdio.Io`: stream to read from (eg stdin)
-4. `func(interface{}, string)`: callback function to write each array element, with data type
+4. `func(any, string)`: callback function to write each array element, with data type
 
 ## See Also
 

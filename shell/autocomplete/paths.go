@@ -2,6 +2,7 @@ package autocomplete
 
 import (
 	"context"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -124,7 +125,7 @@ func partialPath(s string) (path, partial string) {
 	return
 }
 
-func matchLocal(s string, includeColon bool) (items []string) {
+func matchLocal(s string) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
 	listExes(path, exes)
@@ -166,7 +167,7 @@ func matchFilesAndDirsOnce(s string, rx *regexp.Regexp) (items []string) {
 	return
 }
 
-func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Regexp, act *AutoCompleteT) (hierarchy []string) {
+func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Regexp, act *AutoCompleteT) []string {
 	s = variables.ExpandString(s)
 
 	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
@@ -180,8 +181,9 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 	}
 
 	//var mutex sync.Mutex
+	var hierarchy []string
 
-	walker := func(walkedPath string, info os.FileInfo, err error) error {
+	walker := func(walkedPath string, d fs.DirEntry, err error) error {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
@@ -194,11 +196,11 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 			return nil
 		}
 
-		if !info.IsDir() && !filesToo {
+		if !d.IsDir() && !filesToo {
 			return nil
 		}
 
-		if info.Name()[0] == '.' && (len(partial) == 0 || partial[0] != '.') {
+		if d.Name()[0] == '.' && (len(partial) == 0 || partial[0] != '.') {
 			return nil
 		}
 
@@ -219,32 +221,29 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		switch {
 		case strings.HasSuffix(s, consts.PathSlash):
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") {
-
 				return filepath.SkipDir
 			}
 
 		case len(split) == 1:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") &&
 				(!strings.HasPrefix(s, ".") || strings.HasPrefix(s, "..")) {
-
 				return filepath.SkipDir
 			}
 
 		default:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") && !strings.HasPrefix(dirs[len(dirs)-2], "..") &&
 				(!strings.HasPrefix(partial, ".") || strings.HasPrefix(partial, "..")) {
-
 				return filepath.SkipDir
 			}
 		}
 
 		if strings.HasPrefix(walkedPath, s) {
 			switch {
-			case info.IsDir():
+			case d.IsDir():
 				//mutex.Lock()
 				hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
 				//mutex.Unlock()
-			case rx != nil && !rx.MatchString(info.Name()):
+			case rx != nil && !rx.MatchString(d.Name()):
 				return nil
 			default:
 				//mutex.Lock()
@@ -266,12 +265,12 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 	success := cache.WalkCompletions(pwd, walker)
 	if !success {
 		go cache.GatherFileCompletions(pwd)
-		filepath.Walk(pwd, walker)
-		return
+		filepath.WalkDir(pwd, walker)
+		return hierarchy
 	}
 
 	go func() {
-		filepath.Walk(pwd, walker)
+		filepath.WalkDir(pwd, walker)
 
 		formatSuggestionsArray(act.ParsedTokens, hierarchy)
 		act.DelayedTabContext.AppendSuggestions(hierarchy)
@@ -282,5 +281,5 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 	}*/
 
-	return
+	return hierarchy
 }

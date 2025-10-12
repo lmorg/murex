@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sync/atomic"
 	"time"
 
 	"github.com/lmorg/murex/debug"
@@ -19,8 +20,8 @@ const (
 )
 
 var (
-	Disabled bool   = true
-	path     string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
+	Enabled atomic.Bool
+	path    string = os.TempDir() + "/murex-temp-cache.db" // allows tests to run without contaminating regular cachedb
 )
 
 func dbConnect() *sql.DB {
@@ -32,7 +33,7 @@ func dbConnect() *sql.DB {
 
 	db.SetMaxOpenConns(1)
 
-	Disabled = false
+	Enabled.Store(true)
 	return db
 }
 
@@ -40,7 +41,7 @@ func CreateTable(namespace string) {
 	db := dbConnect()
 	defer db.Close()
 
-	if Disabled {
+	if !Enabled.Load() {
 		return
 	}
 
@@ -56,14 +57,14 @@ func dbFailed(message string, err error) {
 		os.Stderr.WriteString(fmt.Sprintf("Error %s: %s: '%s'\n%s\n", message, err.Error(), path, consts.IssueTrackerURL))
 		os.Stderr.WriteString("!!! Disabling persistent cache !!!\n")
 	}
-	Disabled = true
+	Enabled.Store(false)
 }
 
 func Read(namespace string, key string, ptr any) bool {
 	db := dbConnect()
 	defer db.Close()
 
-	if Disabled || ptr == nil {
+	if !Enabled.Load() || ptr == nil {
 		return false
 	}
 
@@ -106,7 +107,7 @@ func Write(namespace string, key string, value any, ttl time.Time) {
 	db := dbConnect()
 	defer db.Close()
 
-	if Disabled || value == nil {
+	if !Enabled.Load() || value == nil {
 		return
 	}
 

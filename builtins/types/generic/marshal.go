@@ -12,7 +12,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
+func marshal(_ *lang.Process, iface any) (b []byte, err error) {
 	switch v := iface.(type) {
 	case string:
 		b = []byte(v)
@@ -31,7 +31,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		return*/
 
-	case []interface{}:
+	case []any:
 		for i := range v {
 			b = append(b, iface2str(&v[i])...)
 		}
@@ -45,22 +45,22 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		return mapToArray(v)
 	case map[string]bool:
 		return mapToArray(v)
-	case map[string]interface{}:
+	case map[string]any:
 		return mapToArray(v)
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for s := range v {
 			b = append(b, []byte(fmt.Sprintf("%s\t%s%s", fmt.Sprint(s), fmt.Sprint(v[s]), utils.NewLineString))...)
 		}
 		return
 
-	case map[interface{}]string:
+	case map[any]string:
 		for s := range v {
 			b = append(b, []byte(fmt.Sprintf("%s\t%s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
 		}
 		return
 
-	/*case interface{}:
+	/*case any:
 	return []byte(fmt.Sprintln(iface)), nil*/
 
 	default:
@@ -69,9 +69,9 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	}
 }
 
-func iface2str(iface *interface{}) (b []byte) {
+func iface2str(iface *any) (b []byte) {
 	switch v := (*iface).(type) {
-	case []interface{}:
+	case []any:
 		if len(v) == 0 {
 			return
 		}
@@ -84,7 +84,7 @@ func iface2str(iface *interface{}) (b []byte) {
 	case string:
 		return []byte(v + utils.NewLineString)
 
-	case interface{}:
+	case any:
 		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 
 		//default:
@@ -122,7 +122,7 @@ func tabWriter(v [][]string) ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	table := make([][]string, 1)
 
 	scanner := bufio.NewScanner(p.Stdin)

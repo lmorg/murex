@@ -6,7 +6,7 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
-func parseSourceFile(path string, structure interface{}) {
+func parseSourceFile(path string, structure any) {
 	f := fileReader(path)
 	yml := yaml.NewDecoder(f)
 	yml.KnownFields(true)

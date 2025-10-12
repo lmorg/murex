@@ -23,7 +23,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "prompt", config.Properties{
 		Description: "Interactive shell prompt",
-		Default:     "{ out 'murex » ' }",
+		Default:     `{ out "${$PWD -> :str: regexp s:~:\~: -> format path -> [-1]} » " }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
@@ -102,6 +102,13 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "syntax-completion", config.Properties{
+		Description: "Syntax completion for token pairs in the interactive shell",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
 	c.Define("shell", "hint-text-enabled", config.Properties{
 		Description: "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
 		Default:     true,
@@ -147,7 +154,7 @@ func Config(c *config.Config, isInteractive bool) {
 		defaultTitleBarFunc = `{ out "$(USER)\@$(HOSTNAME):$(PWD)" }`
 	}
 	c.Define("shell", "titlebar-func", config.Properties{
-		Description: "Linux and UNIX only! Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
+		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
 		Default:     defaultTitleBarFunc,
 		DataType:    types.CodeBlock,
 		Global:      true,

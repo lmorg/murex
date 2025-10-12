@@ -33,16 +33,16 @@ func GetNoGlobCmds() []string {
 	return a
 }
 
-// ReadNoGlobCmds returns an interface{} of the noGlobCmds.
+// ReadNoGlobCmds returns an any of the noGlobCmds.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadNoGlobCmds() (interface{}, error) {
+func ReadNoGlobCmds() (any, error) {
 	return GetNoGlobCmds(), nil
 }
 
 // WriteNoGlobCmds takes a JSON-encoded string and writes it to the noGlobCmds
 // slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteNoGlobCmds(v interface{}) error {
+func WriteNoGlobCmds(v any) error {
 	switch v := v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v), &noGlobCmds)

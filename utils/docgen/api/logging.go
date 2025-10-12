@@ -22,15 +22,15 @@ func SetLogger(w io.Writer) {
 	golog.SetOutput(w)
 }
 
-func log(v ...interface{}) {
+func log(v ...any) {
 	if Verbose {
-		golog.Println(append([]interface{}{"[LOG]"}, v...)...)
+		golog.Println(append([]any{"[LOG]"}, v...)...)
 	}
 }
 
-func warning(file string, v ...interface{}) {
+func warning(file string, v ...any) {
 	if Warning || Verbose {
 		warning := fmt.Sprintf("[WARNING] %s:", file)
-		golog.Println(append([]interface{}{warning}, v...)...)
+		golog.Println(append([]any{warning}, v...)...)
 	}
 }

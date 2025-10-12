@@ -54,7 +54,7 @@ func (m *Mail) ReadArray(context.Context, func([]byte)) error {
 }
 
 // ReadArrayWithType is an empty method because you cannot read a sent email
-func (m *Mail) ReadArrayWithType(context.Context, func(interface{}, string)) error {
+func (m *Mail) ReadArrayWithType(context.Context, func(any, string)) error {
 	return errors.New("ReadArrayWithType() is not supported by mail pipes")
 }
 

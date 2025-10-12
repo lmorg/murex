@@ -21,7 +21,7 @@ func cmdRand(p *lang.Process) error {
 	}
 
 	p.Stdout.SetDataType(dt)
-	var v interface{}
+	var v any
 
 	switch dt {
 	case types.Integer, types.Number:

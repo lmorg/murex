@@ -1,4 +1,4 @@
-// go:generate stringify
+//go:generate stringer -type=Property
 
 package functions
 

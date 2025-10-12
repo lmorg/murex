@@ -35,10 +35,10 @@ func tMsgWriteErr(property string, err error) string {
 func tMsgUnmarshalErr(property string, dt string, err error) string {
 	return fmt.Sprintf("Error unmarshalling `%s` for %s: %s", dt, property, err)
 }
-func tMsgDataFormatValid(property string, dt string, v interface{}) string {
+func tMsgDataFormatValid(property string, dt string, v any) string {
 	return fmt.Sprintf("%s data format valid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
 }
-func tMsgDataFormatInvalid(property string, dt string, v interface{}) string {
+func tMsgDataFormatInvalid(property string, dt string, v any) string {
 	return fmt.Sprintf("%s data format invalid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
 }
 

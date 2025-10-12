@@ -17,15 +17,18 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
-var cachedHintText []rune
-
 func hintText(line []rune, pos int) []rune {
 	r := hintExpandVariables(line)
 	if len(r) > 0 {
 		return r
 	}
 
-	pt, _ := parser.Parse(line, 0)
+	pt, _ := parser.Parse(line, pos)
+
+	if pt.FuncName == "" {
+		return HintCodeBlockCached()
+	}
+
 	cmd := pt.FuncName
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
@@ -40,16 +43,11 @@ func hintText(line []rune, pos int) []rune {
 	// check if a custom summary has been set
 	globalExes := autocomplete.GlobalExes.Get()
 	r = hintsummary.Get(cmd, (*globalExes)[cmd])
-
 	if len(r) > 0 {
 		return r
 	}
 
-	if len(cachedHintText) > 0 {
-		return cachedHintText
-	}
-
-	return HintCodeBlock()
+	return HintCodeBlockCached()
 }
 
 func hintCdPreviousPwdHistErr(err error) []rune {
@@ -95,6 +93,16 @@ func hintExpandVariables(line []rune) []rune {
 	return []rune{}
 }
 
+var _cachedHintText []rune
+
+func HintCodeBlockCached() []rune {
+	if len(_cachedHintText) > 0 {
+		return _cachedHintText
+	}
+
+	return HintCodeBlock()
+}
+
 func HintCodeBlock() []rune {
 	ht, fileRef, err := lang.ShellProcess.Config.GetFileRef("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
@@ -121,7 +129,6 @@ func HintCodeBlock() []rune {
 			exitNum, len(b), err2, err)))
 	}
 
-	cachedHintText = []rune(string(b))
-
-	return cachedHintText
+	_cachedHintText = []rune(string(b))
+	return _cachedHintText
 }

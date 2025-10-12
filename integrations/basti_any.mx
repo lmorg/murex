@@ -1,0 +1,30 @@
+!if { which basti } then {
+    return
+}
+
+private autocomplete.basti {
+    # Autocomplete connections for Basti
+
+    cast str
+    trypipe {
+        open .basti.yaml -> [connections] -> [{echo $.k}]
+    }
+}
+
+autocomplete set basti %[
+    {
+        FlagsDesc: {
+            init: "Initialize a target to use with Basti"
+            connect: "Start port forwarding session with the selected target"
+            cleanup: "Remove all resources created by Basti"
+
+            "--help": "Show help"
+            "--version": "Show version number"
+        }
+        FlagValues: {
+            connect: [{
+                Dynamic: %({ autocomplete.basti })
+            }]
+        }
+    }
+]

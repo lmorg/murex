@@ -101,7 +101,7 @@ func TestConvertGoTypeString(t *testing.T) {
 			Out:      "true\nfalse",
 		},
 		{
-			In:       []interface{}{"foo", 1, 2.2, true, "bar"},
+			In:       []any{"foo", 1, 2.2, true, "bar"},
 			DataType: types.String,
 			Out:      "foo\n1\n2.2\ntrue\nbar",
 		},

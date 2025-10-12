@@ -91,11 +91,11 @@ var ports = []int{
 	25,
 }
 
-func getPorts() (interface{}, error) {
+func getPorts() (any, error) {
 	return ports, nil
 }
 
-func setPorts(v interface{}) error {
+func setPorts(v any) error {
 	switch v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v.(string)), &ports)
@@ -159,14 +159,14 @@ var (
 	smtpPassword string
 )
 
-func getPass() (interface{}, error) {
+func getPass() (any, error) {
 	if smtpPassword == "" {
 		return "unset", nil
 	}
 	return "redacted", nil
 }
 
-func setPass(v interface{}) error {
+func setPass(v any) error {
 	switch v.(type) {
 	case string:
 		smtpPassword = v.(string)

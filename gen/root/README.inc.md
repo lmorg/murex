@@ -49,6 +49,11 @@ highlights:
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
+
+## Smart Data
+
+![smart data](vhs-lambda-github-issues.gif?v={{ env "COMMITHASHSHORT" }})
+
 ## Getting Started
 
 * Read the [language tour](/tour.html) to get started.
@@ -114,7 +119,7 @@ Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/int
 
 ## Easy to Install
 
-Install `murex` from your favorite package manager:
+Install `murex` from your favorite package manager or directly from source:
 
 ::: code-tabs#shell
 
@@ -139,9 +144,15 @@ makepkg --syncdeps --install
 pkg install murex
 ```
 
+@tab Powershell
+```powershell
+# This requires `go` (Golang) and `git` to already be installed.
+$env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
+```
+
 :::
 
-More options are available in the [INSTALL](install/) document.
+More details are available in the [INSTALL](install/) document.
 
 {{ else }}# Murex: A Smarter Shell
 
