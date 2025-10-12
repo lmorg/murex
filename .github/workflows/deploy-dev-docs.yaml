@@ -50,7 +50,7 @@ jobs:
           COMMITHASHSHORT: ${{ github.run_number }}
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
-          mv -v *.md *.svg images/* docs/
+          mv -v *.md *.svg images/*.gif docs/
           mv -v gen/vuepress docs/.vuepress
           
           echo Lower case documents...
