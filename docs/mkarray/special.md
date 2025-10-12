@@ -228,7 +228,7 @@ var rangeMoon = map[string]int{
   A sophisticated yet simply way to build a JSON array
 * [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Date And Time Conversion: `datetime`](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)

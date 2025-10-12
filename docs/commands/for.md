@@ -193,7 +193,7 @@ jsonl
 
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Define Variable: `set`](../commands/set.md):
   Define a variable (typically local) and set it's value

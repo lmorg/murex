@@ -44,6 +44,8 @@ const (
 )
 
 func cmdDateTime(p *lang.Process) error {
+	p.Stdout.SetDataType(types.String)
+
 	flags, additional, err := p.Parameters.ParseFlags(&parameters.Arguments{
 		Flags: map[string]string{
 			_FLAG_IN:  types.String,

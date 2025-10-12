@@ -324,7 +324,7 @@ jsonl
 
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Debug Mode: `debug`](../commands/debug.md):
   Debugging information
