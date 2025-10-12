@@ -1,0 +1,14 @@
+autocomplete set freeze %[
+    {
+        FlagsDesc: {
+            -i: "Use an interactive form for configuration options."
+            --interactive:  "Use an interactive form for configuration options."
+        }
+        Dynamic: '{ freeze --help | tabulate --map }'
+        DynamicPreview: '{
+            freeze --help 
+        }'
+        AllowMultiple: true
+        AllowAny: true
+    }
+]
