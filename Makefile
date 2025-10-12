@@ -81,6 +81,12 @@ generate:
 	@echo "Rerunning code generation..."
 	go generate ./...
 
+# Generate animated gifs
+.PHONY: vhs
+vhs: build
+	@echo "Rerunning vhs image generation..."
+	@$(foreach f,$(wildcard gen/vhs/*.tape),vhs ${f};)
+
 # List available build tags
 .PHONY: list-build-tags
 list-build-tags:
