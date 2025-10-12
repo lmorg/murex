@@ -1,0 +1,66 @@
+- DocumentID: markdown
+  Title: >-
+    `csv`
+  CategoryID: types
+  Summary: >-
+    CSV files (and other character delimited tables)
+  Description: |-
+    This data type can be used for not only CSV files but also TSV (tab separated)
+    or any other exotic characters used as a delimiter.
+  Usage:
+  Examples:
+  Hooks:
+    ReadArray(): Treats each new line as a new array element
+    ReadArrayWithType(): "Treats each new line as a new array element, each element is mini `csv` file"
+    ReadMap(): "Works against tables such as the output from `ps -fe` "
+    WriteArray(): Writes a new line per array element
+    ReadIndex(): Indexes treated as table coordinates
+    ReadNotIndex(): Indexes treated as table coordinates
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail: |-
+    The CSV parser is configurable via `config` (see link below for docs on how to
+    use `config`)
+
+    ```
+    » config -> [csv]      
+    {
+        "comment": {
+            "Data-Type": "str",
+            "Default": "#",
+            "Description": "The prefix token for comments in a CSV table.",
+            "Dynamic": false,
+            "Global": false,
+            "Value": "#"
+        },
+        "separator": {
+            "Data-Type": "str",
+            "Default": ",",
+            "Description": "The delimiter for records in a CSV file.",
+            "Dynamic": false,
+            "Global": false,
+            "Value": ","
+        }
+    }
+    ```
+  Associations:
+    Mimes:
+      - application/csv
+      - application/x-csv
+      - text/csv
+      - text/x-csv
+      - +csv
+    Extensions:
+      - csv
+  Synonyms:
+  Related:
+    - generic
+    - str
+    - int
+    - jsonl
+    - select
+    - config
+    - element
+    - index
+    - format
+    - cast
