@@ -160,10 +160,9 @@ html[data-theme="dark"] ::marker {
 
 // Images
 
-img.vhs-lambda-github-issues[data-theme="light"] {
+html[data-theme="light"] img.vhs-lambda-github-issues {
    content: url("vhs-lambda-github-issues-light.gif"); 
 }
-
-img.vhs-lambda-github-issues[data-theme="dark"] {
+html[data-theme="dark"] img.vhs-lambda-github-issues {
    content: url("vhs-lambda-github-issues-dark.gif"); 
 }

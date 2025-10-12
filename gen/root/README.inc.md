@@ -52,10 +52,12 @@ footer: GPLv2 Licensed, Copyright Laurence Morgan
 
 ## Smart Data
 
-![smart data](vhs-lambda-github-issues.gif?v={{ env "COMMITHASHSHORT" }})
+
 
 <!-- markdownlint-disable -->
+
 <img class="vhs-lambda-github-issues">
+
 <!-- markdownlint-restore -->
 
 ## Getting Started
