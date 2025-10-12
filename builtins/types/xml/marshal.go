@@ -6,6 +6,8 @@ import (
 
 	"github.com/clbanning/mxj/v2"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/lists"
 )
 
@@ -22,60 +24,73 @@ func MarshalTTY(v any, isTTY bool) ([]byte, error) {
 }
 
 func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, error) {
-	switch m := v.(type) {
+	switch t := v.(type) {
 	case map[string]any:
-		err := sanitizeKeysMap(m)
+		err := sanitizeKeysMap(t)
 		if err != nil {
 			return nil, err
 		}
 
-		if m[lang.ELEMENT_META_ROOT] != nil {
+		if t[lang.ELEMENT_META_ROOT] != nil {
 			var ok bool
-			defaultRoot, ok = m[lang.ELEMENT_META_ROOT].(string)
+			defaultRoot, ok = t[lang.ELEMENT_META_ROOT].(string)
 			if ok {
-				delete(m, lang.ELEMENT_META_ROOT)
+				delete(t, lang.ELEMENT_META_ROOT)
 				break
 			}
 		}
 
-		if len(m) == 1 {
-			for defaultRoot = range m {
+		if len(t) == 1 {
+			for defaultRoot = range t {
 			}
-			v = m[defaultRoot]
+			v = t[defaultRoot]
 		}
 
 	case []string:
-		if len(m) >= 2 {
-			key := _elementMeta(m[0], lang.ELEMENT_META_ROOT)
+		if len(t) >= 2 {
+			key := _elementMeta(t[0], lang.ELEMENT_META_ROOT)
 			if key == "" {
 				break
 			}
 			defaultRoot = key
-			key = _elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			key = _elementMeta(t[1], lang.ELEMENT_META_ELEMENT)
 			if key == "" {
 				break
 			}
 			defaultElement = key
-			v = m[2:]
+			v = t[2:]
 		}
 
 	case []any:
-		if len(m) >= 2 {
-			key := _elementMeta(m[0], lang.ELEMENT_META_ROOT)
+		if len(t) >= 2 {
+			key := _elementMeta(t[0], lang.ELEMENT_META_ROOT)
 			if key == "" {
 				break
 			}
 			defaultRoot = key
-			key = _elementMeta(m[1], lang.ELEMENT_META_ELEMENT)
+			key = _elementMeta(t[1], lang.ELEMENT_META_ELEMENT)
 			if key == "" {
 				break
 			}
 			defaultElement = key
-			v = m[2:]
+			v = t[2:]
 		}
 
+	case [][]string:
+		var i int
+		table := make([]any, len(t)-1)
+		err := types.Table2Map(t, func(m map[string]any) error {
+			table[i] = m
+			i++
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		v = table
+
 	default:
-		panic(fmt.Sprintf("%T", v))
+		return nil, fmt.Errorf("there is currently no support for %T types in XML. Please raise this as an issue at %s", v, consts.IssueTrackerURL)
 	}
 
 	if isTTY {
