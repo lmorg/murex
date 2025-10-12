@@ -1,6 +1,6 @@
 Output images/vhs-lambda-github-issues.gif
 Set Shell murex
-Set Theme "Catppuccin Mocha"
+Set Theme "Catppuccin Latte"
 Set Height 600
 Set Width 1000
 Set FontSize 14
