@@ -18,41 +18,39 @@ actions:
   - text: " Install"
     icon: download
     link: install/
-highlights:
-  - header: A Modern shell for the rest of us
-    description: Murex carries tons of unique features. Some highlights include...
-    features:
-      - title: Data Parsing
-        icon: file-contract
-        details: |-
-          Native support for data formats such as JSON, YAML, XML, CSV, and others.
-        link: types/
-
-      - title: Expressive
-        icon: hashtag
-        details: |-
-          The syntax is more expressive, and easier to read and write than most other shells.
-        link: tour/
-
-      - title: Smartly Interactive
-        icon: wand-magic-sparkles
-        details: |-
-          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
-        link: user-guide/interactive-shell
-
-      - title: Cross-platform
-        icon: "puzzle-piece"
-        details: |-
-          Supports Linux, Windows, macOS, and many other UNIXs.
-        link: install/
+# highlights:
+#  - header: A Modern shell for the rest of us
+#    description: Murex carries tons of unique features. Some highlights include...
+#    features:
+#      - title: Data Parsing
+#        icon: file-contract
+#        details: |-
+#          Native support for data formats such as JSON, YAML, XML, CSV, and others.
+#        link: types/
+#
+#      - title: Expressive
+#        icon: hashtag
+#        details: |-
+#          The syntax is more expressive, and easier to read and write than most other shells.
+#        link: tour/
+#
+#      - title: Smartly Interactive
+#        icon: wand-magic-sparkles
+#        details: |-
+#          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
+#        link: user-guide/interactive-shell
+#
+#      - title: Cross-platform
+#        icon: "puzzle-piece"
+#        details: |-
+#          Supports Linux, Windows, macOS, and many other UNIXs.
+#        link: install/
 
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
 
 ## Smart Data
-
-
 
 <!-- markdownlint-disable -->
 
