@@ -78,16 +78,15 @@ func marshalTTY(v any, isTTY bool, defaultRoot, defaultElement string) ([]byte, 
 
 	case [][]string:
 		var i int
-		table := make([]any, len(t)-1)
+		v = make([]any, len(t)-1)
 		err := types.Table2Map(t, func(m map[string]any) error {
-			table[i] = m
+			v.([]any)[i] = m
 			i++
 			return nil
 		})
 		if err != nil {
 			return nil, err
 		}
-		v = table
 
 	default:
 		return nil, fmt.Errorf("there is currently no support for %T types in XML. Please raise this as an issue at %s", v, consts.IssueTrackerURL)
