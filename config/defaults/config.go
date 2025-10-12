@@ -102,6 +102,13 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "syntax-completion", config.Properties{
+		Description: "Syntax completion for token pairs in the interactive shell",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
 	c.Define("shell", "hint-text-enabled", config.Properties{
 		Description: "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
 		Default:     true,

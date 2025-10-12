@@ -168,7 +168,6 @@ func showPrompt() {
 	}
 
 	Prompt.TabCompleter = tabCompletion
-	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.DelayedSyntaxWorker = Spellchecker
 	Prompt.HistoryAutoWrite = false
 
@@ -183,6 +182,7 @@ func showPrompt() {
 		setPromptHistory()
 
 		getSyntaxHighlighting()
+		getSyntaxCompletion()
 		getHintTextEnabled()
 		getHintTextFormatting()
 		getPreviewSettings()
@@ -325,6 +325,18 @@ func getSyntaxHighlighting() {
 		Prompt.SyntaxHighlighter = syntaxHighlight
 	} else {
 		Prompt.SyntaxHighlighter = nil
+	}
+}
+
+func getSyntaxCompletion() {
+	completer, err := lang.ShellProcess.Config.Get("shell", "syntax-completion", types.Boolean)
+	if err != nil {
+		completer = false
+	}
+	if completer.(bool) {
+		Prompt.SyntaxCompleter = syntaxCompletion
+	} else {
+		Prompt.SyntaxCompleter = nil
 	}
 }
 
