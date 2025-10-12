@@ -7,6 +7,21 @@ import (
 )
 
 func marshal(p *lang.Process, v any) ([]byte, error) {
+	//switch t := v.(type) {
+	/*case [][]string:
+	var i int
+	table := make([]map[string]any, len(t)-1)
+	err := types.Table2Map(t, func(m map[string]any) error {
+		table[i] = m
+		i++
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(table, p.Stdout.IsTTY())*/
+
+	//default:
 	b, err := json.Marshal(v, p.Stdout.IsTTY())
 	if err == nil {
 		return b, err
@@ -22,6 +37,7 @@ func marshal(p *lang.Process, v any) ([]byte, error) {
 	}
 
 	return []byte{'[', ']'}, nil
+	//}
 }
 
 func unmarshal(p *lang.Process) (v any, err error) {
