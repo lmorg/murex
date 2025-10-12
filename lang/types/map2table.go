@@ -6,7 +6,7 @@ import (
 	"sort"
 )
 
-func MapToTable(v []any, callback func([]string) error) error {
+func MapToTable_Any(v []any, callback func([]string) error) error {
 	if len(v) == 0 {
 		return nil
 	}
@@ -20,8 +20,6 @@ func MapToTable(v []any, callback func([]string) error) error {
 		return err
 	}
 
-	//table := make([][]string, len(v)+1)
-	//table[0] = headings
 	err = callback(headings)
 	if err != nil {
 		return err
@@ -32,10 +30,6 @@ func MapToTable(v []any, callback func([]string) error) error {
 	var j int
 
 	for i := range v {
-		//if reflect.TypeOf(v[i]).Kind() != reflect.Map {
-		//	return nil, fmt.Errorf("expecting map on row %d, instead got a %s", i, reflect.TypeOf(v[i]).Kind().String())
-		//}
-
 		m, ok := v[i].(map[string]any)
 		if !ok {
 			return fmt.Errorf("expecting map on row %d, instead got a %s", i, reflect.TypeOf(v[i]).Kind().String())
@@ -48,6 +42,52 @@ func MapToTable(v []any, callback func([]string) error) error {
 
 		for j = 0; j < lenHeadings; j++ {
 			val, ok := v[i].(map[string]any)[headings[j]]
+			if !ok {
+				return fmt.Errorf("row %d is missing a record name found in the first row: '%s'", i, headings[j])
+			}
+			s, err := ConvertGoType(val, String)
+			if err != nil {
+				return fmt.Errorf("cannot convert a %T (%v) to a %s in record %d: %s", val, val, String, i, err.Error())
+			}
+			slice[j] = s.(string)
+		}
+
+		err = callback(slice)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func MapToTable_MapStringAny(v []map[string]any, callback func([]string) error) error {
+	if len(v) == 0 {
+		return nil
+	}
+
+	headings, err := getMapKeys(v[0])
+	if err != nil {
+		return err
+	}
+
+	err = callback(headings)
+	if err != nil {
+		return err
+	}
+
+	lenHeadings := len(headings)
+	slice := make([]string, lenHeadings)
+	var j int
+
+	for i := range v {
+		if len(v[i]) != len(headings) {
+			return fmt.Errorf("row %d has a different number of records to the first row:\nrow 0 == %d records,\nrow %d == %d records",
+				i, lenHeadings, i, len(v))
+		}
+
+		for j = 0; j < lenHeadings; j++ {
+			val, ok := v[i][headings[j]]
 			if !ok {
 				return fmt.Errorf("row %d is missing a record name found in the first row: '%s'", i, headings[j])
 			}
