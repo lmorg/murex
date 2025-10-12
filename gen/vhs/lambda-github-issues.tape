@@ -2,7 +2,8 @@ Output images/vhs-lambda-github-issues.gif
 Set Shell murex
 Set Theme "Catppuccin Mocha"
 Set Height 600
-Set FontSize 15
+Set Width 1000
+Set FontSize 14
 Set LineHeight 1.3
 Set WindowBar Colorful
 Set BorderRadius 0
@@ -11,15 +12,19 @@ Set MarginFill "#000000"
 Set Padding 10
 Env USER John-Doe
 Env HOME "/Users/John-Doe/"
+#Env GITHUB_API `https://api.github.com/repos/lmorg/murex/issues`
 Sleep 1s
 
 Type `# Lets open a JSON document from Github's API and filter only issues created by "lmorg":
 Enter
-Type `open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login != "lmorg"}] | set issues`
+#Type `$GITHUB_API`
+#Enter
+#Type `open $GITHUB_API | [{ $.v.user.login != "lmorg" }] | set issues`
+Type `open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues`
 Sleep 1s
 Enter
 Sleep 2s
-Type `# The content is JSON but it's not very readable`
+Type `# The content is JSON but it's not very readable...`
 Enter
 Type `$issues`
 Sleep 1s
@@ -27,7 +32,7 @@ Enter
 Sleep 1s
 Type `# ...so lets reformat it into something readable for humans:`
 Enter
-Type `$issues | [{out "$.v.number: $.v.title [$.v.state]"}]`
+Type `$issues | [{ out "$.v.number: $.v.title [$.v.state]" }]`
 Sleep 1s
 Enter
 Sleep 5s
