@@ -52,10 +52,19 @@ footer: GPLv2 Licensed, Copyright Laurence Morgan
 
 ## Smart Data
 
+Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
+
 <!-- markdownlint-disable -->
-
 <img class="vhs-lambda-github-issues">
+<!-- markdownlint-restore -->
 
+## Extremely Expressive
+
+Murex has a flexible syntax that is both succinct enough to allow for fast typing
+in the command line, but also readable shell scripts.
+
+<!-- markdownlint-disable -->
+<img class="vhs-expressive">
 <!-- markdownlint-restore -->
 
 ## Getting Started

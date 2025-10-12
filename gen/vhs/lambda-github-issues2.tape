@@ -1,7 +1,6 @@
-Output images/vhs-lambda-github-issues-dark.gif
+Output images/vhs-lambda-github-issues-light.gif
 Set Shell murex
-Set Theme "Catppuccin Mocha"
-#Set Theme "Catppuccin Latte"
+Set Theme "Catppuccin Latte"
 Set Height 600
 Set Width 1000
 Set FontSize 14
@@ -14,7 +13,6 @@ Set Padding 10
 Env USER John-Doe
 Env HOME "/Users/John-Doe/"
 Sleep 1s
-
 
 Type `# Lets open a JSON document from Github's API and filter only issues created by "lmorg"`
 Enter
