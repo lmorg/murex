@@ -1,4 +1,4 @@
-Output images/vhs-lambda-github-issues.gif
+Output images/vhs-lambda-github-issues-dark.gif
 Set Shell murex
 Set Theme "Catppuccin Mocha"
 #Set Theme "Catppuccin Latte"
@@ -29,7 +29,7 @@ Enter
 Sleep 1s
 Type `# ...so lets reformat it into something readable for humans`
 Enter
-Type `$issues | [{ out "$.v.number: $.v.title [$.v.state]" }]`
+Type `$issues | foreach issue { out "$issue.number: $issue.title [$issue.state]" }`
 Sleep 1s
 Enter
 Sleep 5s

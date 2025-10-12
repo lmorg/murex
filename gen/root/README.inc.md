@@ -54,6 +54,10 @@ footer: GPLv2 Licensed, Copyright Laurence Morgan
 
 ![smart data](vhs-lambda-github-issues.gif?v={{ env "COMMITHASHSHORT" }})
 
+<!-- markdownlint-disable -->
+<img class="vhs-lambda-github-issues">
+<!-- markdownlint-restore -->
+
 ## Getting Started
 
 * Read the [language tour](/tour.html) to get started.

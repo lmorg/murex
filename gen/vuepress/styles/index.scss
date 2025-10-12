@@ -156,3 +156,14 @@ html[data-theme="dark"] ::marker {
 ::marker {
     color: #666666;
 }
+
+
+// Images
+
+img.vhs-lambda-github-issues[data-theme="light"] {
+   content: url("vhs-lambda-github-issues-light.gif"); 
+}
+
+img.vhs-lambda-github-issues[data-theme="dark"] {
+   content: url("vhs-lambda-github-issues-dark.gif"); 
+}
