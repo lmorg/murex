@@ -85,7 +85,10 @@ generate:
 .PHONY: vhs
 vhs: build
 	@echo "Rerunning vhs image generation..."
-	@$(foreach f,$(wildcard gen/vhs/*.tape),vhs ${f};)
+	docgen -verbose -warning -config gen/vhs/docgen.yaml
+	@$(foreach f,$(wildcard gen/vhs/generated/*.tape),vhs ${f};)
+	git add images/vhs* gen/vhs
+	git commit -m "vhs: content updated"
 
 # List available build tags
 .PHONY: list-build-tags
