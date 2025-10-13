@@ -34,18 +34,23 @@ func raiseError(expression []rune, node *astNodeT, pos int, message string) erro
 		pos = 0
 	}
 
+	var nodeValue string
+	if node.Value() != "" {
+		nodeValue = fmt.Sprintf("\nValue     : '%s'", node.Value())
+	}
+
 	if expression != nil {
 		exprRune, exprPos := cropCodeInErrMsg(expression, pos)
 		expr := string(exprRune)
 
-		return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d\nSymbol    : %s\nValue     : '%s'",
+		return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d\nSymbol    : %s%s",
 			message, expr,
 			strings.Repeat(" ", exprPos)+"^", pos+1,
-			node.key.String(), node.Value())
+			node.key.String(), nodeValue)
 
 	} else {
-		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",
-			message, pos+1, node.key.String(), node.Value())
+		return fmt.Errorf("%s at char %d\nSymbol    : %s%s",
+			message, pos+1, node.key.String(), nodeValue)
 
 	}
 }
