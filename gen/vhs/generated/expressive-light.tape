@@ -2,7 +2,6 @@
 # Please do not manually edit this file!
 
 Output images/vhs-expressive-light.gif
-Output images/vhs-expressive-light.webm
 Set Theme "Catppuccin Latte"
 
 Set Shell murex

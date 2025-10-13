@@ -2,7 +2,6 @@
 # Please do not manually edit this file!
 
 Output images/vhs-clever-data-dark.gif
-Output images/vhs-clever-data-dark.webm
 Set Theme "Catppuccin Mocha"
 
 Set Shell murex

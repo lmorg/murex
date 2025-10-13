@@ -11,11 +11,5 @@ html[data-theme="light"] img.vhs-{{ .ID }} {
 html[data-theme="dark"] img.vhs-{{ .ID }} {
    content: url("/vhs-{{ .ID }}-dark.gif"); 
 }
-html[data-theme="light"] video.vhs-{{ .ID }} {
-   content: url("/vhs-{{ .ID }}-light.webm"); 
-}
-html[data-theme="dark"] video.vhs-{{ .ID }} {
-   content: url("/vhs-{{ .ID }}-dark.webm"); 
-}
 
 {{ end }}
