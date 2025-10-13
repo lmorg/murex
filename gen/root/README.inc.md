@@ -2,14 +2,14 @@
 home: true
 icon: home
 heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
-heroText: Murex.Rocks
+heroText: Murex
 tagline: An intuitive and content aware shell for a modern command line
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
     link: tour/
     type: primary
-  - text: " Rosetta Stone"
+  - text: " Cheat Sheet"
     icon: table
     link: user-guide/rosetta-stone/
   - text: " Interactive Shell"
@@ -17,50 +17,64 @@ actions:
     link: user-guide/interactive-shell/
   - text: " Install"
     icon: download
-    link: install/ 
-highlights:
-  - header: A Modern shell for the rest of us
-    description: Murex carries tons of unique features. Some highlights include...
-    features:
-      - title: Content Aware
-        icon: file-contract
-        details: |-
-          Native support for manipulating data formats such as JSON, YAML, CSV, and others. This allows for seamless integration and manipulation of data in various formats.
-          <br/><br/>
-          <strong>Data types can be explicitly cast and reformatted, but also inferred if preferred.</strong>
-        link: types/
-
-      - title: Expressions
-        icon: hashtag
-        details: |-
-          Smarter handling of variables and expressions to avoid accidental bugs caused by spaces or incorrect syntax. Resulting in a more reliable and predictable scripting experience.
-          <br/><br/>
-          <strong>Never worry about file names with weird characters, nor running equations in "bc" again.</strong>
-        link: parser/
-
-      - title: Smartly Interactive
-        icon: wand-magic-sparkles
-        details: |-
-          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
-          <br/><br/>
-          <strong>Navigating the command line is faster, more intuitive and efficient than ever before.</strong>
-        link: user-guide/interactive-shell
-
-      - title: Easily Extended
-        icon: "puzzle-piece"
-        details: |-
-          The built-in package manager makes it very easy to share your configuration, import other peoples namespaced modules, and port your environment between different machines.
-          <br/><br/>
-          <strong>Configure once, use everywhere.</strong>
-        link: user-guide/modules
+    link: install/
+# highlights:
+#  - header: A Modern shell for the rest of us
+#    description: Murex carries tons of unique features. Some highlights include...
+#    features:
+#      - title: Data Parsing
+#        icon: file-contract
+#        details: |-
+#          Native support for data formats such as JSON, YAML, XML, CSV, and others.
+#        link: types/
+#
+#      - title: Expressive
+#        icon: hashtag
+#        details: |-
+#          The syntax is more expressive, and easier to read and write than most other shells.
+#        link: tour/
+#
+#      - title: Smartly Interactive
+#        icon: wand-magic-sparkles
+#        details: |-
+#          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
+#        link: user-guide/interactive-shell
+#
+#      - title: Cross-platform
+#        icon: "puzzle-piece"
+#        details: |-
+#          Supports Linux, Windows, macOS, and many other UNIXs.
+#        link: install/
 
 copyright: false
-footer: GPLv2 Licensed, Copyright © 2017-present Laurence Morgan
+footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
 
 ## Smart Data
 
-![smart data](vhs-lambda-github-issues.gif?v={{ env "COMMITHASHSHORT" }})
+Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
+
+<!-- markdownlint-disable -->
+<img class="vhs-clever-data">
+<!-- markdownlint-restore -->
+
+## Extremely Expressive
+
+Murex has a flexible syntax that is both succinct enough to allow for fast typing
+in the command line, but also readable shell scripts.
+
+<!-- markdownlint-disable -->
+<img class="vhs-expressive">
+<!-- markdownlint-restore -->
+
+## Better Error Handling
+
+Shell scripts are notorious for having leaky failure modes. Murex fixes this
+with familiar features like error handling and unit tests.
+
+<!-- markdownlint-disable -->
+<img class="vhs-better-errors">
+<!-- markdownlint-restore -->
 
 ## Getting Started
 
@@ -73,57 +87,6 @@ This guide includes comparisons with Bash.
 * The [Interactive Shell](/user-guide/interactive-shell.html)
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
-
-## Screenshots
-
-<!-- markdownlint-disable -->
-
-<div class="image-preview">
-  <img src="/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
-</div>
-
-<style>
-  .image-preview {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-preview > img {
-     box-sizing: border-box;
-     width: 33.3% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 719px) {
-    .image-preview > img {
-      width: 50% !important;
-    }
-  }
-
-  @media (max-width: 419px) {
-    .image-preview > img {
-      width: 100% !important;
-    }
-  }
-</style>
-
-<!-- markdownlint-restore -->
-
-Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
 ## Easy to Install
 

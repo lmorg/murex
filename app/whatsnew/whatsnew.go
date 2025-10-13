@@ -10,7 +10,13 @@ import (
 	profilepaths "github.com/lmorg/murex/config/profile/paths"
 )
 
+var Ignore bool
+
 func Display() {
+	if Ignore {
+		return
+	}
+
 	var (
 		version string
 		b       []byte

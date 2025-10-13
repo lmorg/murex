@@ -87,5 +87,6 @@ jobs:
           AWS_DEFAULT_REGION:    eu-west-1
           AWS_DEFAULT_OUTPUT:    json
         run: |
+          mv -v images/*.gif docs/.vuepress/dist
           aws s3 sync docs/.vuepress/dist s3://murex.rocks/master --exclude "*.md" --no-progress
           aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER }}" --paths "/*"

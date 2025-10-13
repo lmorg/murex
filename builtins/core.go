@@ -65,6 +65,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/types/json"        // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonconcat"  // concatenated JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonlines"   // jsonlines data type
+	_ "github.com/lmorg/murex/builtins/types/markdown"    // md data type
 	_ "github.com/lmorg/murex/builtins/types/null"        // null data type
 	_ "github.com/lmorg/murex/builtins/types/numeric"     // formatting numeric data types (int, float, number)
 	_ "github.com/lmorg/murex/builtins/types/paths"       // path and paths data type

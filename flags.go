@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -48,6 +49,7 @@ func readFlags() {
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
 	flag.BoolVar(&fQuiet, "quiet", false, "Suppress messages about loading profiles and modules.")
+	flag.BoolVar(&whatsnew.Ignore, "ignore-whatsnew", false, "Suppress the what's new message which appears once for new versions (not recommended).")
 
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")

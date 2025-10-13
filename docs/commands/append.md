@@ -55,7 +55,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
   Count items in a map, list or array
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output

@@ -1,0 +1,33 @@
+- DocumentID: better-errors
+  Title: >-
+    better-errors
+  CategoryID: vhs
+  Description: |-
+    Type `# Errors appear in red for better visibility`
+    Enter
+    Type `2 + "two"`
+    Enter
+    Sleep 3s
+
+    Type `# Familiar error handling`
+    Enter
+    Type `try {`
+    Enter
+    Type `  echo "before error"`
+    Enter
+    Type `  grep pattern file-does-not-exist`
+    Enter
+    Type `  echo "this line will not execute because 'grep' errors"`
+    Enter
+    Type `}; catch { out "error caught" }`
+    Sleep 2s
+    Enter
+    Sleep 3s
+
+    Type `# Unit tests`
+    Enter
+    Type `test run *`
+    Sleep 2s
+    Enter
+
+    Sleep 5s
