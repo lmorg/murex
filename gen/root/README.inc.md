@@ -67,6 +67,15 @@ in the command line, but also readable shell scripts.
 <img class="vhs-expressive">
 <!-- markdownlint-restore -->
 
+## Better Error Handling
+
+Shell scripts are notorious for having leaky failure modes. Murex fixes this
+with familiar features like error handling and unit tests.
+
+<!-- markdownlint-disable -->
+<img class="vhs-better-errors">
+<!-- markdownlint-restore -->
+
 ## Getting Started
 
 * Read the [language tour](/tour.html) to get started.
@@ -78,57 +87,6 @@ This guide includes comparisons with Bash.
 * The [Interactive Shell](/user-guide/interactive-shell.html)
 guide walks you through using Murex as a command line as opposed to a scripting
 language.
-
-## Screenshots
-
-<!-- markdownlint-disable -->
-
-<div class="image-preview">
-  <img src="/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-hint-text-rsync.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-autocomplete-context-sensitive.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" />
-  <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" />
-</div>
-
-<style>
-  .image-preview {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-preview > img {
-     box-sizing: border-box;
-     width: 33.3% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 719px) {
-    .image-preview > img {
-      width: 50% !important;
-    }
-  }
-
-  @media (max-width: 419px) {
-    .image-preview > img {
-      width: 100% !important;
-    }
-  }
-</style>
-
-<!-- markdownlint-restore -->
-
-Check out the [Language Tour](/tour.html) and [Interactive Shell](user-guide/interactive-shell.html) guides!
 
 ## Easy to Install
 

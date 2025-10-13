@@ -5,6 +5,15 @@
 
 
 
+html[data-theme="light"] img.vhs-better-errors {
+   content: url("/vhs-better-errors-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-better-errors {
+   content: url("/vhs-better-errors-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-clever-data {
    content: url("/vhs-clever-data-light.gif"); 
 }
