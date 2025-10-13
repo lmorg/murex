@@ -1,4 +1,5 @@
 @use "palette" as p;
+@use "images";
 
 h1, h2, h3, h4 {
     font-family: p.$font-title;
@@ -155,21 +156,4 @@ html[data-theme="dark"] ::marker {
 
 ::marker {
     color: #666666;
-}
-
-
-// Images
-
-html[data-theme="light"] img.vhs-lambda-github-issues {
-   content: url("/vhs-lambda-github-issues-light.gif"); 
-}
-html[data-theme="dark"] img.vhs-lambda-github-issues {
-   content: url("/vhs-lambda-github-issues-dark.gif"); 
-}
-
-html[data-theme="light"] img.vhs-expressive {
-   content: url("/vhs-expressive-light.gif"); 
-}
-html[data-theme="dark"] img.vhs-expressive {
-   content: url("/vhs-expressive-dark.gif"); 
 }

@@ -17,7 +17,7 @@ const Name = "murex"
 const (
 	Major    = 7
 	Minor    = 1
-	Revision = 4018
+	Revision = 4020
 )
 
 var (

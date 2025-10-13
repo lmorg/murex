@@ -82,13 +82,13 @@ generate:
 	go generate ./...
 
 # Generate animated gifs
-.PHONY: vhs
-vhs: build
+.PHONY: update-vhs
+update-vhs: build
 	@echo "Rerunning vhs image generation..."
 	docgen -verbose -warning -config gen/vhs/docgen.yaml
 	@$(foreach f,$(wildcard gen/vhs/generated/*.tape),vhs ${f};)
-	git add images/vhs* gen/vhs
-	git commit -m "vhs: content updated"
+	git add images/vhs* gen/vhs gen/vuepress/styles/images.scss
+	git commit -m "vhs: content updated" --no-verify
 
 # List available build tags
 .PHONY: list-build-tags
@@ -138,6 +138,7 @@ help:
 	@echo "  make test            - Run tests"
 	@echo "  make bench           - Run benchmarks"
 	@echo "  make update-deps     - Update all Go dependencies"
+	@echo "  make update-vhs      - Update all VHS-generated animated gifs"
 	@echo "  make lint            - Lint code (requires golangci-lint)"
 	@echo ""
 	@echo "Variables:"
