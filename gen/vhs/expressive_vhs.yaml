@@ -56,7 +56,11 @@
     Type `# Arrays`
     Enter
 
-    Type `%[ 1, 2, three, four, [alpha, beta], {foo: bar, "first code": "hello world"} ]`
+    Type `%[ 1, 2, three, four ]`
+    Enter
+    Sleep 2s
+
+    Type `%[ [alpha, beta], {foo: bar, "first code": "hello world"} ]`
     Enter
     Sleep 2s
 
@@ -68,7 +72,7 @@
     Enter
     Sleep 2s
 
-    Type `%[25-Dec-22..01-Jan-23]`
+    Type `%[26-Dec-22..02-Jan-23]`
     Enter
     Sleep 2s
 
@@ -80,7 +84,7 @@
     Type `# Maps`
     Enter
 
-    Type `%{ seasons: [spring..winter], "moon phases": [new moon..waning crescent] }`
+    Type `%{ seasons: [spring..winter] }`
     Enter
     Sleep 2s
 

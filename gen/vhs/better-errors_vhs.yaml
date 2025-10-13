@@ -3,7 +3,7 @@
     better-errors
   CategoryID: vhs
   Description: |-
-    Type `# Errors appear in red`
+    Type `# Errors appear in red for better visibility`
     Enter
     Type `2 + "two"`
     Enter
@@ -17,7 +17,7 @@
     Enter
     Type `  grep pattern file-does-not-exist`
     Enter
-    Type `  echo "after error"`
+    Type `  echo "this line will not execute because 'grep' errors"`
     Enter
     Type `}; catch { out "error caught" }`
     Sleep 2s
