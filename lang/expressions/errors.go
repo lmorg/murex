@@ -18,7 +18,7 @@ func raiseError(expression []rune, node *astNodeT, pos int, message string) erro
 			exprRune, exprPos := cropCodeInErrMsg(expression, pos)
 			expr := string(exprRune)
 
-			return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d",
+			return fmt.Errorf("%s\nExpression: %s\n            %s\nCharacter : %d",
 				message, expr,
 				strings.Repeat(" ", exprPos)+"^", pos)
 		}
@@ -43,7 +43,7 @@ func raiseError(expression []rune, node *astNodeT, pos int, message string) erro
 		exprRune, exprPos := cropCodeInErrMsg(expression, pos)
 		expr := string(exprRune)
 
-		return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d\nSymbol    : %s%s",
+		return fmt.Errorf("%s\nExpression: %s\n            %s\nCharacter : %d\nSymbol    : %s%s",
 			message, expr,
 			strings.Repeat(" ", exprPos)+"^", pos+1,
 			node.key.String(), nodeValue)
