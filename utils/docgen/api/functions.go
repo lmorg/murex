@@ -34,6 +34,7 @@ var funcMap = template.FuncMap{
 	"otherdocs":    funcOtherDocs,
 	"env":          funcEnv,
 	"fn":           funcFunctions,
+	"tmpl":         funcTemplate,
 	"vuepressmenu": funcVuePressMenu,
 	"dump":         funcDump,
 }
@@ -328,6 +329,24 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	if err := t.Execute(w, nil); err != nil {
+		panic(err.Error())
+	}
+	return w.String()
+}
+
+/************
+ *   tmpl   *
+ ************/
+
+// Takes: string, to use as template
+// Returns: parsed string
+func funcTemplate(s string, ptr *documentValues) string {
+	w := bytes.NewBuffer([]byte{})
+	t, err := template.New("__fn").Funcs(funcMap__fn).Parse(s)
+	if err != nil {
+		panic(err.Error())
+	}
+	if err := t.Execute(w, ptr); err != nil {
 		panic(err.Error())
 	}
 	return w.String()

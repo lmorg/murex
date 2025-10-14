@@ -147,8 +147,12 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Parameters:          d.Parameters,
 		Associations:        d.Associations,
 		DateTime:            dateTime,
-		MetaData:            d.MetaData,
+		DocumentMeta:        d.MetaData,
+		TemplateMeta:        t.MetaData,
+		CategoryMeta:        t.ref.MetaData,
 	}
+
+	dv.Ptr = dv
 
 	if !nest {
 		return dv
@@ -250,7 +254,10 @@ type documentValues struct {
 	Synonyms            []string
 	Related             sortableDocumentValues
 	DateTime            time.Time
-	MetaData            map[string]any
+	DocumentMeta        map[string]any
+	TemplateMeta        map[string]any
+	CategoryMeta        map[string]any
+	Ptr                 *documentValues
 }
 
 type sortableDocumentValues []*documentValues
