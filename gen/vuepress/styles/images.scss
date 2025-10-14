@@ -23,20 +23,20 @@ html[data-theme="dark"] img.vhs-clever-data {
 
 
 
-html[data-theme="light"] img.vhs-cli-preview {
-   content: url("/vhs-cli-preview-light.gif"); 
-}
-html[data-theme="dark"] img.vhs-cli-preview {
-   content: url("/vhs-cli-preview-dark.gif"); 
-}
-
-
-
 html[data-theme="light"] img.vhs-expressive {
    content: url("/vhs-expressive-light.gif"); 
 }
 html[data-theme="dark"] img.vhs-expressive {
    content: url("/vhs-expressive-dark.gif"); 
+}
+
+
+
+html[data-theme="light"] img.vhs-preview-autocomplete {
+   content: url("/vhs-preview-autocomplete-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-preview-autocomplete {
+   content: url("/vhs-preview-autocomplete-dark.gif"); 
 }
 
 

@@ -72,21 +72,8 @@ on what is defined in `autocomplete` and whether you use the traditional
 `->`.
 
 The `|` token will behave much like any other shell however `->` will offer
-suggestions with matching data types (as seen in `runtime --methods`). This is
-a way of helping highlight commands that naturally follow after another in a
-pipeline. Which is particularly important in Murex as it introduces data
-types and dozens of new builtins specifically for working with data structures
-in an intelligent and readable yet succinct way.
-
-You can add your own commands and functions to Murex as methods by defining
-them with `method`. For example if we were to add `jq` as a method:
-
-```
-method define jq {
-    "Stdin":  "json",
-    "Stdout": "@Any"
-}
-```
+suggestions with matching data types. Which makes working working with data
+quick and easy while still intelligent and readable.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
@@ -164,14 +151,12 @@ It can display:
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <figure>
-    <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Previewing a command flag, from the commands <code>man</code> page</figcaption>
-</figure>
-<figure>
-    <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Previewing a file. In this specific instance it is an image</figcaption>
+    <img class="vhs-preview-autocomplete">
+    <figcaption>Inline <code>man</code> page, and file contents</figcaption>
 </figure>
 <!-- markdownlint-restore -->
+{{ else }}
+![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
 {{ end }}
 
 ### Command Line Preview

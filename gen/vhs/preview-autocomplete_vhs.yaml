@@ -1,6 +1,6 @@
-- DocumentID: cli-preview
+- DocumentID: preview-autocomplete
   Title: >-
-    cli-preview
+    preview-autocomplete
   CategoryID: vhs
   MetaData:
     Height: 800
@@ -61,11 +61,11 @@
     Tab
     Sleep 0.5s
     Tab
+    Screenshot images/vhs-{{.ID}}-{{.TemplateMeta.Theme}}.png
     Sleep 0.5s
     Tab
     Sleep 0.5s
     Tab
-    Screenshot images/vhs-cli-preview-{{.TemplateMeta.Theme}}.png
     Sleep 0.5s
     Tab
     Sleep 0.5s
