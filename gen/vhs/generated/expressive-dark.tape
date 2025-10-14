@@ -2,7 +2,7 @@
 # Please do not manually edit this file!
 
 Output images/vhs-expressive-dark.gif
-Set Theme "TemplateMeta Mocha"
+Set Theme "Catppuccin Mocha"
 Set Height 345
 
 Set Shell murex
