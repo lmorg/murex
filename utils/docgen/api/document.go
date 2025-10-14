@@ -73,6 +73,9 @@ type document struct {
 
 	// Automatically pulled from file location
 	SourcePath string `yaml:"-"`
+
+	// Misc items
+	MetaData map[string]any `yaml:"MetaData"`
 }
 
 // AssociationValues are associations registered by murex data-types
@@ -144,6 +147,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Parameters:          d.Parameters,
 		Associations:        d.Associations,
 		DateTime:            dateTime,
+		MetaData:            d.MetaData,
 	}
 
 	if !nest {
@@ -246,6 +250,7 @@ type documentValues struct {
 	Synonyms            []string
 	Related             sortableDocumentValues
 	DateTime            time.Time
+	MetaData            map[string]any
 }
 
 type sortableDocumentValues []*documentValues

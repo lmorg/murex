@@ -1,0 +1,44 @@
+- DocumentID: cli-preview
+  Title: >-
+    cli-preview
+  CategoryID: vhs
+  MetaData:
+    Height: 800
+  Description: |-
+    Type `# You can press F1 at any point to read command guides`
+    Enter
+    Type `tar `
+    Sleep 2s
+    F1
+    
+    Sleep 5s
+    Tab
+    Sleep 1s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+    PageDown
+    Sleep 0.5s
+
+    Sleep 5s

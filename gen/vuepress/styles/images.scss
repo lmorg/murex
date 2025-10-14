@@ -23,6 +23,15 @@ html[data-theme="dark"] img.vhs-clever-data {
 
 
 
+html[data-theme="light"] img.vhs-cli-preview {
+   content: url("/vhs-cli-preview-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-cli-preview {
+   content: url("/vhs-cli-preview-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-expressive {
    content: url("/vhs-expressive-light.gif"); 
 }
