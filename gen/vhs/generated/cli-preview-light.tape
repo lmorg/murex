@@ -15,8 +15,9 @@ Set Margin 2
 Set MarginFill "#888aaa"
 Set Padding 10
 #Set LoopOffset 5
-Env USER John-Doe
-Env HOME "/Users/John-Doe/"
+#Env USER John-Doe
+#Env HOME "/Users/John-Doe/"
+#Env MXTTY ""
 
 Sleep 3s
 
@@ -41,19 +42,52 @@ PageDown
 Sleep 0.5s
 PageDown
 Sleep 0.5s
-PageDown
+PageDown 20
+Sleep 3
+
+Ctrl+U
+
+Type `# You can press F1 to preview files too`
+Enter
+Type `open ./`
+Sleep 2s
+F1
+
 Sleep 0.5s
-PageDown
+Tab
 Sleep 0.5s
-PageDown
+Tab
 Sleep 0.5s
-PageDown
+Tab
 Sleep 0.5s
-PageDown
+Tab
 Sleep 0.5s
-PageDown
+Tab
 Sleep 0.5s
-PageDown
+Tab
+Sleep 2s
+
+
+Backspace 2
+Type `images/blog`
+
 Sleep 0.5s
+Tab
+Sleep 0.5s
+Tab
+Sleep 0.5s
+Tab
+Sleep 0.5s
+Tab
+Sleep 0.5s
+Tab
+Screenshot images/vhs-cli-preview-light.png
+Sleep 0.5s
+Tab
+Sleep 0.5s
+
+Enter 2
+Sleep 1s
+Enter
 
 Sleep 5s

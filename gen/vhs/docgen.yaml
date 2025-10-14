@@ -14,8 +14,12 @@ Categories:
 
     - OutputPath: gen/vhs/generated
       OutputExt: -light.tape
-      DocumentTemplate: gen/vhs/tape-light.tmpl
+      DocumentTemplate: gen/vhs/tape.tmpl
+      MetaData:
+        Theme: light
 
     - OutputPath: gen/vhs/generated
       OutputExt: -dark.tape
-      DocumentTemplate: gen/vhs/tape-dark.tmpl
+      DocumentTemplate: gen/vhs/tape.tmpl
+      MetaData:
+        Theme: dark

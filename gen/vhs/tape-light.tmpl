@@ -1,9 +1,0 @@
-{{ .CategoryDescription }}
-
-Output images/vhs-{{ .ID }}-light.gif
-Set Theme "Catppuccin Latte"
-Set Height {{ if eq .MetaData.Height nil }}345{{ else }}{{ .MetaData.Height }}{{ end }}
-
-{{ file "gen/vhs/tape.inc" }}
-
-{{ .Description }}

@@ -2,7 +2,7 @@
 # Please do not manually edit this file!
 
 Output images/vhs-clever-data-dark.gif
-Set Theme "Catppuccin Mocha"
+Set Theme "TemplateMeta Mocha"
 Set Height 345
 
 Set Shell murex
@@ -15,8 +15,9 @@ Set Margin 2
 Set MarginFill "#888aaa"
 Set Padding 10
 #Set LoopOffset 5
-Env USER John-Doe
-Env HOME "/Users/John-Doe/"
+#Env USER John-Doe
+#Env HOME "/Users/John-Doe/"
+#Env MXTTY ""
 
 Sleep 3s
 

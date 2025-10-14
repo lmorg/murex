@@ -15,8 +15,9 @@ Set Margin 2
 Set MarginFill "#888aaa"
 Set Padding 10
 #Set LoopOffset 5
-Env USER John-Doe
-Env HOME "/Users/John-Doe/"
+#Env USER John-Doe
+#Env HOME "/Users/John-Doe/"
+#Env MXTTY ""
 
 Sleep 3s
 
