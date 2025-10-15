@@ -18,6 +18,7 @@ Set Padding 10
 #Env USER John-Doe
 #Env HOME "/Users/John-Doe/"
 #Env MXTTY ""
+Env AWS_PROFILE example
 
 Sleep 3s
 

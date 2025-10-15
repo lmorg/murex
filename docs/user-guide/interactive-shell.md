@@ -112,8 +112,7 @@ your prompt. The idea behind the **hint text** is to provide clues to you as
 type instructions into the prompt; but without adding distractions. It is there
 to be used if you want it while keeping out of the way when you don't want it.
 
-
-
+![hint-text](/images/vhs-hint-text-dark.gif)
 
 [Read more about Hint Text](/docs/user-guide/hint-text.md).
 
@@ -139,9 +138,7 @@ It can display:
 * contents of text files
 * and even images too!
 
-
 ![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
-
 
 ### Command Line Preview
 

@@ -3,6 +3,7 @@ package modules
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
@@ -13,6 +14,12 @@ import (
 )
 
 func getModule(p *lang.Process) error {
+	pwd, err := os.Getwd()
+	if err == nil {
+		// only run if there isn't an error
+		defer os.Chdir(pwd)
+	}
+
 	modulePath := profilepaths.ModulePath()
 
 	db, err := readPackagesFile(modulePath + profile.PackagesFile)

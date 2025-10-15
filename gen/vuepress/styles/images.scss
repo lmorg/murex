@@ -32,6 +32,15 @@ html[data-theme="dark"] img.vhs-expressive {
 
 
 
+html[data-theme="light"] img.vhs-hint-text {
+   content: url("/vhs-hint-text-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-hint-text {
+   content: url("/vhs-hint-text-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-preview-autocomplete {
    content: url("/vhs-preview-autocomplete-light.gif"); 
 }

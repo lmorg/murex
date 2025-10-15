@@ -150,14 +150,9 @@ It can display:
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img class="vhs-preview-autocomplete">
-    <figcaption>Inline <code>man</code> page, and file contents</figcaption>
-</figure>
+<img class="vhs-preview-autocomplete">
 <!-- markdownlint-restore -->
-{{ else }}
-![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
-{{ end }}
+{{ else }}![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif){{ end }}
 
 ### Command Line Preview
 
