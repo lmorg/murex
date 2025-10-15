@@ -55,7 +55,7 @@ footer: GPLv2 Licensed, Copyright Laurence Morgan
 Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
 
 <!-- markdownlint-disable -->
-<img class="vhs-clever-data">
+<img class="vhs-clever-data centre-image">
 <!-- markdownlint-restore -->
 
 ## Extremely Expressive
@@ -64,7 +64,7 @@ Murex has a flexible syntax that is both succinct enough to allow for fast typin
 in the command line, but also readable shell scripts.
 
 <!-- markdownlint-disable -->
-<img class="vhs-expressive">
+<img class="vhs-expressive centre-image">
 <!-- markdownlint-restore -->
 
 ## Better Error Handling
@@ -73,7 +73,7 @@ Shell scripts are notorious for having leaky failure modes. Murex fixes this
 with familiar features like error handling and unit tests.
 
 <!-- markdownlint-disable -->
-<img class="vhs-better-errors">
+<img class="vhs-better-errors centre-image">
 <!-- markdownlint-restore -->
 
 ## Getting Started
