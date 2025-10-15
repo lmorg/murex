@@ -5,6 +5,6 @@ to be used if you want it while keeping out of the way when you don't want it.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-hint text">
+<img class="vhs-hint-text">
 <!-- markdownlint-restore -->
 {{ else }}![hint-text](/images/vhs-hint-text-dark.gif){{ end }}
