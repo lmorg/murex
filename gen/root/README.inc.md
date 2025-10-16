@@ -4,7 +4,7 @@ icon: home
 #heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex
-tagline: A smarter, more intuitive, productive and readable shell
+tagline: A smarter, more intuitive, productive and readable shell. You'll get more done, and more quickly, with Murex
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
@@ -50,9 +50,6 @@ actions:
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
-A modern, productive, cross-platform command line environment.
-
-With familiar programming-language semantics, intuitive operation, and compact and efficient scripting, you'll get more done and more easily with Murex.
 
 ## Smart Data
 
