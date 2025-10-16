@@ -4,7 +4,7 @@ icon: home
 #heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex
-tagline: A smarter, more intuitive, productive and readable shell. You'll get more done, and more quickly, with Murex
+tagline: A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
