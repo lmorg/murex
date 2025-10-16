@@ -4,7 +4,7 @@ icon: home
 #heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex
-tagline: An intuitive and content aware shell for a modern command line
+tagline: A smarter, more intuitive, productive and readable shell
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
@@ -19,7 +19,9 @@ actions:
   - text: " Install"
     icon: download
     link: install/
-# highlights:
+highlights:
+  - description: >-
+      A modern, productive cross-platform command line environment. With familiar programming-language semantics, intuitive operation and compact and efficient scripting, you'll get more done and more easily with Murex.
 #  - header: A Modern shell for the rest of us
 #    description: Murex carries tons of unique features. Some highlights include...
 #    features:
