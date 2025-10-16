@@ -75,7 +75,7 @@ The `|` token will behave much like any other shell however `->` will offer
 suggestions with matching data types. Which makes working working with data
 quick and easy while still intelligent and readable.
 
-
+![autocomplete preview](/images/vhs-autocompletion-dark.gif)
 
 ## Syntax Completion
 
@@ -131,6 +131,8 @@ This displays a more detailed view of each parameter you're about to pass to a
 command, without you having to run that command nor leave the half-completed
 command line.
 
+![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
+
 It can display:
 * [`man` pages](/docs/integrations/man-pages.md)
 * custom guides like [https://cheat.sh](/docs/integrations/cheatsh.md) and [AI generated docs](/docs/integrations/chatgpt.md)
@@ -138,7 +140,6 @@ It can display:
 * contents of text files
 * and even images too!
 
-![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
 
 ### Command Line Preview
 
