@@ -1,7 +1,8 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}
 home: true
 icon: home
-heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
+#heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
+heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
 heroText: Murex
 tagline: An intuitive and content aware shell for a modern command line
 actions:
