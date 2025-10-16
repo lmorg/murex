@@ -26,6 +26,7 @@ Type `# Errors appear in red for better visibility`
 Enter
 Type `2 + "two"`
 Enter
+Screenshot images/vhs-better-errors-errmsg-dark.png
 Sleep 3s
 
 Type `# Familiar error handling`

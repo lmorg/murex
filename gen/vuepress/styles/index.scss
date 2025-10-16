@@ -157,3 +157,11 @@ html[data-theme="dark"] ::marker {
 ::marker {
     color: #666666;
 }
+
+
+html[data-theme="light"] img.better-errors-errmsg {
+   content: url("/better-errors-errmsg-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-autocompletion {
+   content: url("/better-errors-errmsg-dark.gif"); 
+}

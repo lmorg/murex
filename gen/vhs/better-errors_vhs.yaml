@@ -7,6 +7,7 @@
     Enter
     Type `2 + "two"`
     Enter
+    Screenshot images/vhs-{{.ID}}-errmsg-{{.TemplateMeta.Theme}}.png
     Sleep 3s
 
     Type `# Familiar error handling`

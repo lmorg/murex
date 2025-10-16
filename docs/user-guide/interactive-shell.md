@@ -2,69 +2,29 @@
 
 > What's different about Murex's interactive shell?
 
+Murex's interactive shell is also built around productivity. To achieve this we
+wrote our own state-of-the-art readline library.
+
+Below are just some of the features you can enjoy.
+
 <h2>Table of Contents</h2>
 
 <div id="toc">
 
-- [Overview](#overview)
-- [readline](#readline)
-- [Hotkeys](#hotkeys)
-- [Autocompletion](#autocompletion)
-- [Syntax Completion](#syntax-completion)
-- [Syntax Highlighting](#syntax-highlighting)
-- [Spellchecker](#spellchecker)
+- [Advanced Autocompletion](#advanced-autocompletion)
 - [Hint Text](#hint-text)
-- [Preview](#preview)
-  - [Autocomplete Preview](#autocomplete-preview)
-  - [Command Line Preview](#command-line-preview)
+- [Spellchecker](#spellchecker)
+- [Preview Autocompletions](#preview-autocompletions)
+- [Preview Command Lines](#preview-command-lines)
 - [Safer Pasting](#safer-pasting)
 - [Smarter Error Messages](#smarter-error-messages)
+- [Hotkeys](#hotkeys)
 
 </div>
 
 
 
-## Overview
-
-Aside from Murex being carefully designed with scripting in mind, the
-interactive shell itself is also built around productivity. To achieve this
-we wrote our own readline library. Below is an example of that library in use:
-
-[![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
-
-The above demo includes the following features of Murex's bespoke readline
-library:
-
-* hint text - blue status text below the prompt (the colour is configurable)
-* syntax highlighting (albeit there isn’t much syntax to highlight in the
-  example). This can also be turned off if your preference is to have colours
-  disabled
-* tab-completion in gridded mode (seen when typing `cd`)
-* tab-completion in list view (seen when selecting a process name to `kill`
-  where the process ID was substituted when selected)
-* searching through the tab-completion suggestions (seen in both `cd` and
-  `kill` - enabled by pressing `[ctrl]`+`[f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
-  followed by `[v]`)
-* readline’s warning before pasting multiple lines of data into the buffer and
-  the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[esc]`)
-
-## readline
-
-Murex uses a custom `readline` library to enable support for new features in
-addition to the existing uses you'd normally expect from a shell. It is because
-of this, Murex provides one of the best user experiences of any of the shells
-available today.
-
-## Hotkeys
-
-
-
-A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
-guide.
-
-## Autocompletion
+## Advanced Autocompletion
 
 Autocompletion happen when you press `[tab]` and will differ slightly depending
 on what is defined in `autocomplete` and whether you use the traditional
@@ -77,22 +37,16 @@ quick and easy while still intelligent and readable.
 
 ![autocomplete preview](/images/vhs-autocompletion-dark.gif)
 
-## Syntax Completion
+## Hint Text
 
-Like with most IDEs, Murex will auto close brackets et al.
+The **hint text** is a (typically) blue status line that appears directly below
+your prompt. The idea behind the **hint text** is to provide clues to you as
+type instructions into the prompt; but without adding distractions. It is there
+to be used if you want it while keeping out of the way when you don't want it.
 
-[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
+![hint-text](/images/vhs-hint-text-dark.gif)
 
-## Syntax Highlighting
-
-Pipelines in the interactive terminal are syntax highlighted. This is similar
-to what one expects from an IDE.
-
-Syntax highlighting can be disabled by running:
-
-```
-config set shell syntax-highlighting off
-```
+[Read more about Hint Text](/docs/user-guide/hint-text.md).
 
 ## Spellchecker
 
@@ -105,25 +59,7 @@ for more details.
 
 
 
-## Hint Text
-
-The **hint text** is a (typically) blue status line that appears directly below
-your prompt. The idea behind the **hint text** is to provide clues to you as
-type instructions into the prompt; but without adding distractions. It is there
-to be used if you want it while keeping out of the way when you don't want it.
-
-![hint-text](/images/vhs-hint-text-dark.gif)
-
-[Read more about Hint Text](/docs/user-guide/hint-text.md).
-
-## Preview
-
-Murex supports a couple of full screen preview modes:
-
-* Autocomplete Preview ([read more](#autocomplete-preview))
-* Command Line Preview ([read more](#command-line-preview))
-
-### Autocomplete Preview
+## Preview Autocompletions
 
 > Enabled via `[f1]`
 
@@ -141,7 +77,7 @@ It can display:
 * and even images too!
 
 
-### Command Line Preview
+## Preview Command Lines
 
 > Enabled via `[f9]`
 
@@ -195,6 +131,12 @@ rather than something else you copied hours ago and forgotten about.
 Errors messages in most shells suck. That's why Murex has taken extra care to
 give you as much useful detail as it can.
 
+![autocomplete preview](/images/vhs-better-errors-errmsg-dark.png)
+
+## Hotkeys
+
+A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
+guide.
 
 ## See Also
 
