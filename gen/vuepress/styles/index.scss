@@ -159,16 +159,16 @@ html[data-theme="dark"] ::marker {
 }
 
 
-html[data-theme="light"] img.better-vp-hero-image-errmsg {
+html[data-theme="light"] img.vp-hero-image {
    content: url("/murex-term.png"); 
 }
-html[data-theme="dark"] img.vhs-vp-hero-image {
+html[data-theme="dark"] img.vp-hero-image {
    content: url("/murex-term-dark.png"); 
 }
 
 html[data-theme="light"] img.better-errors-errmsg {
    content: url("/better-errors-errmsg-light.png"); 
 }
-html[data-theme="dark"] img.vhs-autocompletion {
+html[data-theme="dark"] img.better-errors-errmsg {
    content: url("/better-errors-errmsg-dark.png"); 
 }
