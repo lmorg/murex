@@ -19,9 +19,7 @@ actions:
   - text: " Install"
     icon: download
     link: install/
-highlights:
-  - description: >-
-      A modern, productive cross-platform command line environment. With familiar programming-language semantics, intuitive operation and compact and efficient scripting, you'll get more done and more easily with Murex.
+# highlights:
 #  - header: A Modern shell for the rest of us
 #    description: Murex carries tons of unique features. Some highlights include...
 #    features:
@@ -52,6 +50,9 @@ highlights:
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
+A modern, productive, cross-platform command line environment.
+
+With familiar programming-language semantics, intuitive operation, and compact and efficient scripting, you'll get more done and more easily with Murex.
 
 ## Smart Data
 
