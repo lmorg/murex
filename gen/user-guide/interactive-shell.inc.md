@@ -77,13 +77,9 @@ quick and easy while still intelligent and readable.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<br/>
-<figure>
-    <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Context aware data-types without reinventing coreutils</figcaption>
-</figure>
+<img class="vhs-autocompletion">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![autocomplete preview](/images/vhs-autocompletion-dark.gif){{ end }}
 
 ## Syntax Completion
 
@@ -141,6 +137,12 @@ This displays a more detailed view of each parameter you're about to pass to a
 command, without you having to run that command nor leave the half-completed
 command line.
 
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-preview-autocomplete">
+<!-- markdownlint-restore -->
+{{ else }}![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif){{ end }}
+
 It can display:
 * {{link "`man` pages" "man-pages"}}
 * custom guides like {{link "https://cheat.sh" "cheat.sh"}} and {{link "AI generated docs" "chatgpt"}}
@@ -148,11 +150,6 @@ It can display:
 * contents of text files
 * and even images too!
 
-{{ if env "DOCGEN_TARGET=vuepress" }}
-<!-- markdownlint-disable -->
-<img class="vhs-preview-autocomplete">
-<!-- markdownlint-restore -->
-{{ else }}![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif){{ end }}
 
 ### Command Line Preview
 
@@ -165,12 +162,9 @@ complex documents like machine generated JSON becomes very easy.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Command line preview allows a faster way to iterate over a command line logic</figcaption>
-</figure>
+<img class="vhs-preview-commandline">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![autocomplete preview](/images/vhs-preview-commandline-dark.gif){{ end }}
 
 This does come with some risks because most command line operations change you
 systems state. However Murex comes with some guardrails here too:

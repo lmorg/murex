@@ -150,7 +150,7 @@ you're still writing it. This interactivity removes the trial-and-error from
 working with complicated command line incantations. For example parsing parsing
 complex documents like machine generated JSON becomes very easy.
 
-
+![autocomplete preview](/images/vhs-preview-commandline-dark.gif)
 
 This does come with some risks because most command line operations change you
 systems state. However Murex comes with some guardrails here too:

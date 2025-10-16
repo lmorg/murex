@@ -5,6 +5,24 @@
 
 
 
+html[data-theme="light"] img.vhs-autocompletion {
+   content: url("/vhs-autocompletion-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-autocompletion {
+   content: url("/vhs-autocompletion-dark.gif"); 
+}
+
+
+
+html[data-theme="light"] img.vhs-preview-commandline {
+   content: url("/vhs-preview-commandline-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-preview-commandline {
+   content: url("/vhs-preview-commandline-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-better-errors {
    content: url("/vhs-better-errors-light.gif"); 
 }

@@ -27,9 +27,9 @@ Type `murex-package remove murex-module-starship`
 Enter
 Sleep 2s
 Ctrl+L
-Show
 
 Type `# The status bar below provides dynamic command line hints`
+Show
 Enter
 Type `# We call it: Hint Text`
 Enter
