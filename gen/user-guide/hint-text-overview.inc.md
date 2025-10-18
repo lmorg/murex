@@ -5,6 +5,6 @@ to be used if you want it while keeping out of the way when you don't want it.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-hint-text">
+<img class="vhs-hint-text" alt="video demonstrating Murex's 'hint text' status bar">
 <!-- markdownlint-restore -->
-{{ else }}![hint-text](/images/vhs-hint-text-dark.gif){{ end }}
+{{ else }}![video demonstrating Murex's 'hint text' status bar](/images/vhs-hint-text-dark.gif){{ end }}

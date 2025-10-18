@@ -35,7 +35,7 @@ The `|` token will behave much like any other shell however `->` will offer
 suggestions with matching data types. Which makes working working with data
 quick and easy while still intelligent and readable.
 
-![autocomplete preview](/images/vhs-autocompletion-dark.gif)
+![video demonstrating Murex's advanced autocompletion](/images/vhs-autocompletion-dark.gif)
 
 ## Hint Text
 
@@ -44,7 +44,7 @@ your prompt. The idea behind the **hint text** is to provide clues to you as
 type instructions into the prompt; but without adding distractions. It is there
 to be used if you want it while keeping out of the way when you don't want it.
 
-![hint-text](/images/vhs-hint-text-dark.gif)
+![video demonstrating Murex's 'hint text' status bar](/images/vhs-hint-text-dark.gif)
 
 [Read more about Hint Text](/docs/user-guide/hint-text.md).
 
@@ -67,7 +67,7 @@ This displays a more detailed view of each parameter you're about to pass to a
 command, without you having to run that command nor leave the half-completed
 command line.
 
-![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif)
+![video demonstrating different parameters being previewed](/images/vhs-preview-autocomplete-dark.gif)
 
 It can display:
 * [`man` pages](/docs/integrations/man-pages.md)
@@ -86,7 +86,7 @@ you're still writing it. This interactivity removes the trial-and-error from
 working with complicated command line incantations. For example parsing parsing
 complex documents like machine generated JSON becomes very easy.
 
-![autocomplete preview](/images/vhs-preview-commandline-dark.gif)
+![video demonstrating real time command line previews](/images/vhs-preview-commandline-dark.gif)
 
 This does come with some risks because most command line operations change you
 systems state. However Murex comes with some guardrails here too:
@@ -121,17 +121,17 @@ Where Murex differs is that any multi-line text pasted will instantly display
 a warning prompt with one of the options being to view the contents that you're
 about to execute.
 
-
+![video demonstrating safer pasting](/images/vhs-pasting-safety-dark.gif)
 
 This gives you piece-of-mind that you are executing the right clipboard content
 rather than something else you copied hours ago and forgotten about.
 
 ## Smarter Error Messages
 
-Errors messages in most shells suck. That's why Murex has taken extra care to
+Errors messages in most shells are terrible. That's why Murex has taken extra care to
 give you as much useful detail as it can.
 
-![autocomplete preview](/images/vhs-better-errors-errmsg-dark.png)
+![video demonstrating smarter error messages](/images/vhs-better-errors-errmsg-dark.png)
 
 ## Hotkeys
 

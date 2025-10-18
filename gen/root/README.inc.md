@@ -19,33 +19,6 @@ actions:
   - text: " Install"
     icon: download
     link: install/
-# highlights:
-#  - header: A Modern shell for the rest of us
-#    description: Murex carries tons of unique features. Some highlights include...
-#    features:
-#      - title: Data Parsing
-#        icon: file-contract
-#        details: |-
-#          Native support for data formats such as JSON, YAML, XML, CSV, and others.
-#        link: types/
-#
-#      - title: Expressive
-#        icon: hashtag
-#        details: |-
-#          The syntax is more expressive, and easier to read and write than most other shells.
-#        link: tour/
-#
-#      - title: Smartly Interactive
-#        icon: wand-magic-sparkles
-#        details: |-
-#          A uniquely intuitive interactive shell. With command line hints pulled from man pages, AI LLMs, and other intelligent integrations.
-#        link: user-guide/interactive-shell
-#
-#      - title: Cross-platform
-#        icon: "puzzle-piece"
-#        details: |-
-#          Supports Linux, Windows, macOS, and many other UNIXs.
-#        link: install/
 
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
@@ -56,7 +29,7 @@ footer: GPLv2 Licensed, Copyright Laurence Morgan
 Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
 
 <!-- markdownlint-disable -->
-<img class="vhs-clever-data centre-image">
+<img class="vhs-clever-data centre-image" alt="video demonstrating Murex's data capabilities">
 <!-- markdownlint-restore -->
 
 ## Extremely Expressive
@@ -65,7 +38,7 @@ Murex has a flexible syntax that is both succinct enough to allow for fast typin
 in the command line, but also readable shell scripts.
 
 <!-- markdownlint-disable -->
-<img class="vhs-expressive centre-image">
+<img class="vhs-expressive centre-image" alt="video demonstrating various different syntactic features of Murex">
 <!-- markdownlint-restore -->
 
 ## Better Error Handling
@@ -74,20 +47,32 @@ Shell scripts are notorious for having leaky failure modes. Murex fixes this
 with familiar features like error handling and unit tests.
 
 <!-- markdownlint-disable -->
-<img class="vhs-better-errors centre-image">
+<img class="vhs-better-errors centre-image" alt="video demonstrating error handling">
 <!-- markdownlint-restore -->
 
 ## Getting Started
 
-* Read the [language tour](/tour.html) to get started.
+<!-- markdownlint-disable -->
+<img class="banner-interactive centre-image" alt="banner">
+<!-- markdownlint-restore -->
 
-* The [Rosetta Stone](/user-guide/rosetta-stone.html) is a
-great cheatsheet for those wishing to skip the tutorials and jump straight in.
+Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.html).
+Read more about it's unique features.
+
+<!-- markdownlint-disable -->
+<img class="banner-tour centre-image" alt="banner">
+<!-- markdownlint-restore -->
+
+Read the [language tour](/tour.html) to learn about the syntax and how
+shell scripting is easier in Murex.
+
+<!-- markdownlint-disable -->
+<img class="banner-rosetta centre-image" alt="banner">
+<!-- markdownlint-restore -->
+
+The [Rosetta Stone](/user-guide/rosetta-stone.html) is a great cheat sheet for
+those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
-
-* The [Interactive Shell](/user-guide/interactive-shell.html)
-guide walks you through using Murex as a command line as opposed to a scripting
-language.
 
 ## Easy to Install
 

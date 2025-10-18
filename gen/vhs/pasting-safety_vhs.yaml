@@ -1,0 +1,32 @@
+- DocumentID: pasting-safety
+  CategoryID: vhs
+  Description: |-
+    Type `# Murex detects if you're pasting large chunks of text into the terminal
+    Enter
+    Sleep 2
+
+    Hide
+    Escape
+    Type v
+    Sleep 2s
+    Type i
+    Sleep 1
+    Type `out "Shall we play a game?"`
+    Enter
+    Type `if { $game == "Global Thermonuclear War" } then {`
+    Enter
+    Type `    out "Wouldn't you prefer a good game of chess?"`
+    Enter
+    Type `}`
+    Enter
+    Escape
+    Type `:wq`
+    Enter
+    Show
+
+    Sleep 3
+    Type `p`
+    Sleep 3
+
+    Type `n`
+    Sleep 5

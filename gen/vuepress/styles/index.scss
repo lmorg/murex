@@ -166,6 +166,31 @@ html[data-theme="dark"] img.vp-hero-image {
    content: url("/murex-term-dark.png"); 
 }
 
+
+
+html[data-theme="light"] img.banner-tour {
+   content: url("/banner-tour-light.png"); 
+}
+html[data-theme="dark"] img.banner-tour {
+   content: url("/banner-tour-dark.png"); 
+}
+
+html[data-theme="light"] img.banner-interactive {
+   content: url("/banner-interactive-light.png"); 
+}
+html[data-theme="dark"] img.banner-interactive {
+   content: url("/banner-interactive-dark.png"); 
+}
+
+html[data-theme="light"] img.banner-rosetta {
+   content: url("/banner-rosetta-light.png"); 
+}
+html[data-theme="dark"] img.banner-rosetta {
+   content: url("/banner-rosetta-dark.png"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-better-errors-errmsg {
    content: url("/vhs-better-errors-errmsg-light.png"); 
 }

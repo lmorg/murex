@@ -1,0 +1,4 @@
+out "Shall we play a game?"
+if { $game == "Global Thermonuclear War" } then {
+    out "Wouldn't you prefer a good game of chess?"
+}

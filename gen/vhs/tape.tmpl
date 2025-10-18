@@ -1,6 +1,7 @@
 {{ .CategoryDescription }}
 
 Output images/vhs-{{.ID}}-{{.TemplateMeta.Theme}}.gif
+Output gen/vhs/diff/{{.ID}}-{{.TemplateMeta.Theme}}.ascii
 Set Theme {{ if eq .TemplateMeta.Theme "light" }}"Catppuccin Latte"{{ else }}"Catppuccin Mocha"{{ end }}
 Set Height {{ if eq .DocumentMeta.Height nil }}345{{ else }}{{ .DocumentMeta.Height }}{{ end }}
 
@@ -18,6 +19,7 @@ Set Padding 10
 #Env HOME "/Users/John-Doe/"
 #Env MXTTY ""
 Env AWS_PROFILE example
+#Env VHS "true"
 
 Sleep 3s
 

@@ -2,6 +2,7 @@
 # Please do not manually edit this file!
 
 Output images/vhs-autocompletion-light.gif
+Output gen/vhs/diff/autocompletion-light.ascii
 Set Theme "Catppuccin Latte"
 Set Height 345
 
@@ -19,6 +20,7 @@ Set Padding 10
 #Env HOME "/Users/John-Doe/"
 #Env MXTTY ""
 Env AWS_PROFILE example
+#Env VHS "true"
 
 Sleep 3s
 

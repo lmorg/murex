@@ -33,9 +33,9 @@ quick and easy while still intelligent and readable.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-autocompletion">
+<img class="vhs-autocompletion" alt="video demonstrating Murex's advanced autocompletion">
 <!-- markdownlint-restore -->
-{{ else }}![autocomplete preview](/images/vhs-autocompletion-dark.gif){{ end }}
+{{ else }}![video demonstrating Murex's advanced autocompletion](/images/vhs-autocompletion-dark.gif){{ end }}
 
 ## Hint Text
 
@@ -71,9 +71,9 @@ command line.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-preview-autocomplete">
+<img class="vhs-preview-autocomplete" alt="video demonstrating different parameters being previewed">
 <!-- markdownlint-restore -->
-{{ else }}![autocomplete preview](/images/vhs-preview-autocomplete-dark.gif){{ end }}
+{{ else }}![video demonstrating different parameters being previewed](/images/vhs-preview-autocomplete-dark.gif){{ end }}
 
 It can display:
 * {{link "`man` pages" "man-pages"}}
@@ -94,9 +94,9 @@ complex documents like machine generated JSON becomes very easy.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-preview-commandline">
+<img class="vhs-preview-commandline" alt="video demonstrating real time command line previews">
 <!-- markdownlint-restore -->
-{{ else }}![autocomplete preview](/images/vhs-preview-commandline-dark.gif){{ end }}
+{{ else }}![video demonstrating real time command line previews](/images/vhs-preview-commandline-dark.gif){{ end }}
 
 This does come with some risks because most command line operations change you
 systems state. However Murex comes with some guardrails here too:
@@ -133,26 +133,23 @@ about to execute.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Murex presets a menu to double check what you're pasting before the shell executes it</figcaption>
-</figure>
+<img class="vhs-pasting-safety" alt="video demonstrating safer pasting">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating safer pasting](/images/vhs-pasting-safety-dark.gif){{ end }}
 
 This gives you piece-of-mind that you are executing the right clipboard content
 rather than something else you copied hours ago and forgotten about.
 
 ## Smarter Error Messages
 
-Errors messages in most shells suck. That's why Murex has taken extra care to
+Errors messages in most shells are terrible. That's why Murex has taken extra care to
 give you as much useful detail as it can.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<img class="vhs-better-errors-errmsg">
+<img class="vhs-better-errors-errmsg" alt="video demonstrating smarter error messages">
 <!-- markdownlint-restore -->
-{{ else }}![autocomplete preview](/images/vhs-better-errors-errmsg-dark.png){{ end }}
+{{ else }}![video demonstrating smarter error messages](/images/vhs-better-errors-errmsg-dark.png){{ end }}
 
 ## Hotkeys
 

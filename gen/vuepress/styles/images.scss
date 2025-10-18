@@ -14,6 +14,15 @@ html[data-theme="dark"] img.vhs-autocompletion {
 
 
 
+html[data-theme="light"] img.vhs-pasting-safety {
+   content: url("/vhs-pasting-safety-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-pasting-safety {
+   content: url("/vhs-pasting-safety-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-preview-commandline {
    content: url("/vhs-preview-commandline-light.gif"); 
 }
