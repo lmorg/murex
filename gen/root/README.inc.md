@@ -50,31 +50,37 @@ with familiar features like error handling and unit tests.
 <img class="vhs-better-errors centre-image" alt="video demonstrating error handling">
 <!-- markdownlint-restore -->
 
-## Getting Started
+# Getting Started
 
-<!-- markdownlint-disable -->
-<img class="banner-interactive centre-image" alt="banner">
-<!-- markdownlint-restore -->
+## Learn About The Command Line
 
 Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.html).
 Read more about it's unique features.
 
 <!-- markdownlint-disable -->
-<img class="banner-tour centre-image" alt="banner">
+<img class="banner-interactive centre-image" alt="banner">
 <!-- markdownlint-restore -->
+
+## Learn The Syntax
 
 Read the [language tour](/tour.html) to learn about the syntax and how
 shell scripting is easier in Murex.
 
 <!-- markdownlint-disable -->
-<img class="banner-rosetta centre-image" alt="banner">
+<img class="banner-tour centre-image" alt="banner">
 <!-- markdownlint-restore -->
+
+## Cheat Sheet
 
 The [Rosetta Stone](/user-guide/rosetta-stone.html) is a great cheat sheet for
 those wishing to skip the tutorials and jump straight in.
 This guide includes comparisons with Bash.
 
-## Easy to Install
+<!-- markdownlint-disable -->
+<img class="banner-rosetta centre-image" alt="banner">
+<!-- markdownlint-restore -->
+
+# Easy to Install
 
 Install `murex` from your favorite package manager or directly from source:
 
