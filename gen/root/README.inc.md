@@ -2,9 +2,9 @@
 home: true
 icon: home
 #heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
-heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
-heroText: Murex
-tagline: A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
+heroImage: {{ .DocumentMeta.Logo }}?v={{ env "COMMITHASHSHORT" }}
+heroText: {{ .Title }}
+tagline: {{ .Summary }}
 actions:
   - text: " Language Tour"
     icon: "plane-departure"
@@ -124,10 +124,9 @@ More details are available in the [INSTALL](install/) document.
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 [![Official Website](images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
-<img src="https://murex.rocks/murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}" class="no-border">
+[![Official Website]({{ .DocumentMeta.Logo }}?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
-Murex is a shell, like bash / zsh / fish / etc however Murex supports improved
-features and an enhanced UX.
+{{ .Summary }}
 
 A non-exhaustive list features would include:
 

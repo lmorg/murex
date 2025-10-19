@@ -1,6 +1,6 @@
 {{ if env "DOCGEN_TARGET=vuepress" }}---
 description: {{ quote .Summary }}
-{{ end }}{{ md (include .Description) }}{{ if .Related }}
+{{ end }}{{ md (tmpl (include .Description) .Ptr) }}{{ if .Related }}
 
 ## See Also
 
