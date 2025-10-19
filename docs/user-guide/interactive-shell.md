@@ -52,12 +52,10 @@ to be used if you want it while keeping out of the way when you don't want it.
 
 Murex supports inline spellchecking, where errors are underlined. For example
 
-[![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
+![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif)
 
 This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
 for more details.
-
-![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif)
 
 ## Preview Autocompletions
 

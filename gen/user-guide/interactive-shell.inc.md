@@ -47,16 +47,14 @@ quick and easy while still intelligent and readable.
 
 Murex supports inline spellchecking, where errors are underlined. For example
 
-[![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
-
-This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
-for more details.
-
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
 <img class="vhs-spellchecker" alt="video demonstrating spellchecking in Murex">
 <!-- markdownlint-restore -->
 {{ else }}![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif){{ end }}
+
+This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
+for more details.
 
 ## Preview Autocompletions
 

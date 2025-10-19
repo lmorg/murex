@@ -1,0 +1,20 @@
+- DocumentID: spellchecker
+  CategoryID: vhs
+  Description: |-
+    Require aspell
+    Hide
+    Type `config set shell spellcheck-enabled true`
+    Enter
+    Sleep 1s
+    Ctrl+L
+    Show
+
+    Type `# Spelling errors are underlined`
+    Enter
+
+    Type `echo "This contains a spellling mistake"
+    Sleep 3
+    Enter
+
+    Type `git commit -am "flags are also checked, eg" --ammend
+    Sleep 5

@@ -53,7 +53,7 @@ jobs:
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
           mv -v gen/vuepress docs/.vuepress
-          #cp -v images/vhs* images/banner* docs/.vuepress
+          mv -v images/vhs* images/banner* docs/.vuepress
           #cp -v images/vhs* images/banner* docs/.vuepress/dist/
           
           echo Lower case documents...
@@ -93,7 +93,7 @@ jobs:
           AWS_DEFAULT_REGION:    eu-west-1
           AWS_DEFAULT_OUTPUT:    json
         run: |
-          mv -v images/vhs* images/banner* docs/.vuepress/dist/
+          #mv -v images/vhs* images/banner* docs/.vuepress/dist/
           aws s3 sync docs/.vuepress/dist s3://murex.rocks/develop --exclude "*.md" --no-progress --delete
           aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}" --paths "/*"
     
