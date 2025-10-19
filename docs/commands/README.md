@@ -59,6 +59,8 @@ Commands for managing the flow of data between different processes and/or the te
   `read` a line of input from the user and store as a variable
 * [Render Image In Terminal: `open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
 

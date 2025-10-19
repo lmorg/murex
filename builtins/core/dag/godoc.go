@@ -1,2 +1,2 @@
-// Package dag provides a `dag` built in for running commands as Directed Acyclic Graphs
+// Package dag provides a built in commands running command lines as Directed Acyclic Graphs
 package dag

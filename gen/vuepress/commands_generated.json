@@ -54,6 +54,11 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/fanout.md",
+                "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/brace-quote-func.md",
                 "text": "(brace quote)"
             }

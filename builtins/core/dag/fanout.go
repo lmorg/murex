@@ -14,29 +14,33 @@ import (
 )
 
 func init() {
-	lang.DefineMethod("dag", cmdDag, types.Unmarshal, types.Marshal)
+	lang.DefineMethod("fanout", cmdFanout, types.Unmarshal, types.Marshal)
 }
 
-const usage = `
-Usage: dag [ --datatype | --append ] { pipeline } { pipeline } ...`
+var usage = fmt.Sprintf(`
+Usage: fanout [ %s | %s ] { code block } { code block } ...`,
+	fDataType, fConcatenate)
 
 const (
-	fDataType = "--datatype"
-	fAppend   = "--append"
+	fDataType    = "--datatype"
+	fConcatenate = "--concat"
+	fParse       = "--parse"
 )
 
 var args = &parameters.Arguments{
 	AllowAdditional:    true,
 	IgnoreInvalidFlags: false,
 	Flags: map[string]string{
-		fDataType: types.String,
-		"-t":      fDataType,
-		fAppend:   types.Boolean,
-		"-a":      fAppend,
+		fDataType:    types.String,
+		"-t":         fDataType,
+		fConcatenate: types.Boolean,
+		"-c":         fConcatenate,
+		fParse:       types.Boolean,
+		"-p":         fConcatenate,
 	},
 }
 
-func cmdDag(p *lang.Process) error {
+func cmdFanout(p *lang.Process) error {
 	flags, blocks, err := p.Parameters.ParseFlags(args)
 	if err != nil {
 		return err
@@ -104,7 +108,7 @@ func cmdDag(p *lang.Process) error {
 
 	wg.Wait()
 
-	if flags[fAppend] == types.TrueString {
+	if flags[fConcatenate] == types.TrueString {
 		for i := range blocks {
 			if errs[i] != nil {
 				return fmt.Errorf("error returned from pipeline %d: %v", i+1, err)

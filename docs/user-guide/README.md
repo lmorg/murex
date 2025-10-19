@@ -359,6 +359,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Round a number by a user defined precision
 * [Send Signal IPC: `signal`](../commands/signal.md):
   Sends a signal RPC
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
 * [Shell Configuration And Settings: `config`](../commands/config.md):

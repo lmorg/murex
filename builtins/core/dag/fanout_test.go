@@ -10,12 +10,12 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-func TestDagAsFunctionDefault(t *testing.T) {
+func TestFanoutAsFunctionDefault(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `dag {
+			Block: `fanout {
 				out 1
 			} {
 				out 2
@@ -29,12 +29,12 @@ func TestDagAsFunctionDefault(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestDagAsFunctionAppend(t *testing.T) {
+func TestFanoutAsFunctionConcatenate(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `dag --append {
+			Block: `fanout --concat {
 				out 1
 			} {
 				out 2
@@ -48,12 +48,12 @@ func TestDagAsFunctionAppend(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestDagAsFunctionAppendAlias(t *testing.T) {
+func TestFanoutAsFunctionConcatenateAlias(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `dag -a {
+			Block: `fanout -c {
 				out 1
 			} {
 				out 2
@@ -67,24 +67,24 @@ func TestDagAsFunctionAppendAlias(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestDagAsMethodDefault(t *testing.T) {
+func TestFanoutAsMethodDefault(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `%[1..3] -> dag {
+			Block: `%[1..3] -> fanout {
 				get-type stdin -> :str: format json
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag {
+			Block: `%[1..3] -> fanout {
 				%[ ${ <stdin> -> debug -> [[/Data-Type/Murex]] } ]
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag {
+			Block: `%[1..3] -> fanout {
 				-> regexp m/1/
 			} {
 				-> regexp m/2/
@@ -98,24 +98,24 @@ func TestDagAsMethodDefault(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestDagAsMethodAppend(t *testing.T) {
+func TestFanoutAsMethodConcatenate(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `%[1..3] -> dag --append {
+			Block: `%[1..3] -> fanout --concat {
 				get-type stdin -> :str: format json
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag --append {
+			Block: `%[1..3] -> fanout --concat {
 				%[ ${ <stdin> -> debug -> [[/Data-Type/Murex]] } ]
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag --append {
+			Block: `%[1..3] -> fanout --concat {
 				-> regexp m/1/
 			} {
 				-> regexp m/2/
@@ -129,24 +129,24 @@ func TestDagAsMethodAppend(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestDagAsMethodAppendAlias(t *testing.T) {
+func TestFanoutAsMethodConcatenateAlias(t *testing.T) {
 	count.Tests(t, 1)
 
 	tests := []test.MurexTest{
 		{
-			Block: `%[1..3] -> dag -a {
+			Block: `%[1..3] -> fanout -c {
 				get-type stdin -> :str: format json
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag -a {
+			Block: `%[1..3] -> fanout -c {
 				%[ ${ <stdin> -> debug -> [[/Data-Type/Murex]] } ]
 			}`,
 			Stdout: fmt.Sprintf(`["%s"]`, types.Json),
 		},
 		{
-			Block: `%[1..3] -> dag -a {
+			Block: `%[1..3] -> fanout -c {
 				-> regexp m/1/
 			} {
 				-> regexp m/2/
