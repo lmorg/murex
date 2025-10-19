@@ -3,8 +3,8 @@ home: true
 icon: home
 #heroImage: murex-logo-shell.svg?v={{ env "COMMITHASHSHORT" }}
 heroImage: murex-term.png?v={{ env "COMMITHASHSHORT" }}
-heroText: {{ .Title }}
-tagline: {{ .Summary }}
+heroText: Murex
+tagline: A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
 actions:
   - text: " Language Tour"
     icon: "plane-departure"

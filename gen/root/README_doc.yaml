@@ -5,6 +5,6 @@
   Summary:
     A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
   Description: |-
-    {{ tmpl (file "gen/root/README.inc.md") .Ptr }}
+    {{ include "gen/root/README.inc.md" }}
   Synonyms:
   Related:
