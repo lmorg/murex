@@ -124,7 +124,7 @@ More details are available in the [INSTALL](install/) document.
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 [![Official Website](images/website-badge.svg?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
-[![Official Website]({{ .DocumentMeta.Logo }}?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
+[![Official Website](images/{{ .DocumentMeta.Logo }}?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
 {{ .Summary }}
 
