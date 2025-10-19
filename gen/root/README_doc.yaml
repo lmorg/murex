@@ -7,6 +7,6 @@
   Description: |-
     {{ tmpl (file "gen/root/README.inc.md") .Ptr }}
   MetaData:
-    Logo: murex-term.png
+    Logo: murex-term-light.png
   Synonyms:
   Related:

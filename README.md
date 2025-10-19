@@ -5,7 +5,7 @@
 [![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)
 [![Official Website](images/website-badge.svg?v=undef)](https://murex.rocks)
 
-[![Official Website](murex-term.png?v=undef)](https://murex.rocks)
+[![Official Website](murex-term-light.png?v=undef)](https://murex.rocks)
 
 A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
 
