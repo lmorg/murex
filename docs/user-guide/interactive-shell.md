@@ -57,7 +57,7 @@ Murex supports inline spellchecking, where errors are underlined. For example
 This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
 for more details.
 
-
+![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif)
 
 ## Preview Autocompletions
 

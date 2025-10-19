@@ -54,12 +54,9 @@ for more details.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Inline spellchecking</figcaption>
-</figure>
+<img class="vhs-spellchecker" alt="video demonstrating spellchecking in Murex">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif){{ end }}
 
 ## Preview Autocompletions
 

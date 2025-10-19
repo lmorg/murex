@@ -32,6 +32,15 @@ html[data-theme="dark"] img.vhs-preview-commandline {
 
 
 
+html[data-theme="light"] img.vhs-spellchecker {
+   content: url("/vhs-spellchecker-light.gif"); 
+}
+html[data-theme="dark"] img.vhs-spellchecker {
+   content: url("/vhs-spellchecker-dark.gif"); 
+}
+
+
+
 html[data-theme="light"] img.vhs-better-errors {
    content: url("/vhs-better-errors-light.gif"); 
 }
