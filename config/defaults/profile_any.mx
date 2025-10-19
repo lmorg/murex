@@ -820,7 +820,7 @@ autocomplete set !openagent %[
 
 private autocomplete.fid-kill {
 	# Returns a 2D array FIDs
-    fid-list --jsonl -> [ FID Command Parameters ]
+    fid-list --jsonl -> [ FID Command Parameters ] -> [2..] -> foreach --jmap job { out $job[0] } { $job -> [2..] -> mjoin ' ' }
 }
 
 test unit private autocomplete.fid-kill %{
