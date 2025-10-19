@@ -1,4 +1,4 @@
-{{ tmpl "gen/root/README.inc.md" .Ptr }}
+{{ tmpl (file "gen/root/README.inc.md") .Ptr }}
 
 <hr/>
 
