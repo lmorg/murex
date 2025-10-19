@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"maps"
 	"os"
 	"regexp"
 	"sort"
@@ -40,12 +41,13 @@ var funcMap = template.FuncMap{
 }
 
 var funcMap__fn = template.FuncMap{}
+var funcMap__tmpl = template.FuncMap{}
 
 func init() {
-	for k, v := range funcMap {
-		funcMap__fn[k] = v
-	}
+	maps.Copy(funcMap__fn, funcMap)
 	delete(funcMap__fn, "fn")
+
+	maps.Copy(funcMap__tmpl, funcMap)
 }
 
 /************
@@ -342,7 +344,7 @@ func funcFunctions(s string) string {
 // Returns: parsed string
 func funcTemplate(s string, ptr *documentValues) string {
 	w := bytes.NewBuffer([]byte{})
-	t, err := template.New("__fn").Funcs(funcMap__fn).Parse(s)
+	t, err := template.New("__tmpl").Funcs(funcMap__tmpl).Parse(s)
 	if err != nil {
 		panic(err.Error())
 	}
