@@ -52,6 +52,8 @@ jobs:
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
           cp -vR images/* gen/vuepress/public/
+          mkdir -p gen/vuepress/public/images
+          cp -vR images/* gen/vuepress/public/images
           mv -v gen/vuepress docs/.vuepress
           
           echo Lower case documents...

@@ -136,7 +136,7 @@ compression algorithms:
 * `--datatype`
     Defines the datatype for `fanout`'s stdout. Overriding what would otherwise be defined by the stdin for `fanout` 
 * `--parse`
-    Tells `fanout` to expect one parameter and to parse that for each _vertex_. The parameter must be surrounded by curly braces: `{` and `}`. This flag allows for readability improvements where `fanout` _vertices_ can occupy dedicated lines without the need for hacks like dangling escapes `\\`.
+    Tells `fanout` to expect one parameter and to parse that for each _vertex_. The parameter must be surrounded by curly braces: `{` and `}`. This flag allows for readability improvements where `fanout` _vertices_ can occupy dedicated lines without the need for hacks like dangling escapes (ie `\\`LF)
 * `-c`
     alias for `--append`
 * `-p`

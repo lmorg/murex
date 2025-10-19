@@ -143,7 +143,7 @@
       Tells `fanout` to expect one parameter and to parse that for each _vertex_.
       The parameter must be surrounded by curly braces: `{` and `}`. This flag allows
       for readability improvements where `fanout` _vertices_ can occupy dedicated
-      lines without the need for hacks like dangling escapes `\\`.
+      lines without the need for hacks like dangling escapes (ie `\\`LF)
     -p: alias for `--parse`
 
   Detail: |-
