@@ -45,8 +45,8 @@ func StatementParametersParser(expression []rune, p *lang.Process) (string, []st
 		return lang.ExpressionFunctionName, []string{string(p.Parameters.Raw())}, nil
 	}
 
-	tree := NewParser(nil, expression, 0)
-	tree.p = p
+	tree := NewParser(p, expression, 0)
+	//tree.p = p
 	err := tree.ParseStatement(true)
 	if err != nil {
 		return "", nil, err

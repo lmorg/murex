@@ -16,9 +16,13 @@ func ExecuteExpr(p *lang.Process, expression []rune) (*primitives.DataType, erro
 	return tree.executeExpr()
 }
 
-func (tree *ParserT) ParseStatement(exec bool) error {
+func (tree *ParserT) ParseStatement(exec bool, opts ...StatementOpts) error {
 	tree.statement = new(StatementT)
 	tree.charPos = 0
+
+	for _, opt := range opts {
+		opt(tree)
+	}
 
 	err := tree.parseStatement(exec)
 	if err != nil {
@@ -26,4 +30,18 @@ func (tree *ParserT) ParseStatement(exec bool) error {
 	}
 
 	return nil
+}
+
+type StatementOpts func(tree *ParserT)
+
+func WithCommand(cmd string) StatementOpts {
+	return func(tree *ParserT) {
+		tree.statement.SetCommand([]rune(cmd))
+	}
+}
+
+func WithAutoEscapeLineFeed() StatementOpts {
+	return func(tree *ParserT) {
+		tree.ignoreLf = true
+	}
 }

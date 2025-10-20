@@ -29,16 +29,30 @@ type ParserT struct {
 	charPos       int
 	charOffset    int
 	astPos        int
-	startRow      int
 	endRow        int
 	startCol      int
 	endCol        int
 	expression    []rune
 	subExp        bool
 	p             *lang.Process
+	ignoreLf      bool
 	_strictTypes  any
 	_strictArrays any
 	_expandGlob   any
+}
+
+// StatementParameters returns a slice of strings for any parameters in a
+// statement which have been parsed.
+func (tree *ParserT) StatementParameters() []string {
+	return tree.statement.Parameters()
+}
+
+// StatementParametersUnsafe returns the underlying runes of the parameters.
+// This function is mutable and thus considered unsafe for multithreaded use,
+// however it is perfectly fine if the same thread handles the statements and/or
+// the returned slice is guaranteed not to be mutated.
+func (tree *ParserT) StatementParametersUnsafe() [][]rune {
+	return tree.statement.parameters
 }
 
 // prevChar returns the current character, performing bounds checks in the

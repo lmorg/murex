@@ -11,7 +11,7 @@ func (tree *ParserT) parseComment() {
 		case '\\':
 			next := tree.nextChar()
 			if tree.statement != nil && (next == '\r' || next == '\n') {
-				tree.statement.ignoreCrLf = true
+				tree.statement.escapeLf = true
 			}
 
 		}

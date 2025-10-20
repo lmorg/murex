@@ -29,6 +29,40 @@ func TestFanoutAsFunctionDefault(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
+func TestFanoutAsFunctionParse(t *testing.T) {
+	count.Tests(t, 1)
+
+	tests := []test.MurexTest{
+		{
+			Block: `fanout --parse {
+				{ out 1 }
+			    { out 2 }
+				{ out 3 }
+			}`,
+			Stdout: "1\n2\n3\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestFanoutAsFunctionParseAlias(t *testing.T) {
+	count.Tests(t, 1)
+
+	tests := []test.MurexTest{
+		{
+			Block: `fanout -p {
+				{ out 1 }
+			    { out 2 }
+				{ out 3 }
+			}`,
+			Stdout: "1\n2\n3\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
 func TestFanoutAsFunctionConcatenate(t *testing.T) {
 	count.Tests(t, 1)
 
@@ -158,4 +192,58 @@ func TestFanoutAsMethodConcatenateAlias(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestFanoutUnhappyPath(t *testing.T) {
+	count.Tests(t, 1)
+
+	tests := []test.MurexTest{
+		{
+			Block:   `fanout`,
+			Stderr:  `missing`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout --parse`,
+			Stderr:  `missing`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout -p`,
+			Stderr:  `missing`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout --parse {} {}`,
+			Stderr:  `multiple`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout -p {} {}`,
+			Stderr:  `multiple`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout bad`,
+			Stderr:  `not a code block`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout --parse bad`,
+			Stderr:  `parameter should be a block`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout --parse {  }`,
+			Stderr:  `missing vertices`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `fanout --parse { ... }`,
+			Stderr:  `vertex 1 is not a code block`,
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }

@@ -3,23 +3,29 @@ package dag
 import (
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 	"sync/atomic"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/alter"
 )
 
+const fanout = "fanout"
+
 func init() {
-	lang.DefineMethod("fanout", cmdFanout, types.Unmarshal, types.Marshal)
+	lang.DefineMethod(fanout, cmdFanout, types.Unmarshal, types.Marshal)
 }
 
 var usage = fmt.Sprintf(`
-Usage: fanout [ %s | %s ] { code block } { code block } ...`,
-	fDataType, fConcatenate)
+Usage: %s [ %s | %s ] %s   { code block } { code block } ...
+       %s [ %s | %s ] %s { { code block } { code block } ... }`,
+	fanout, fDataType, fConcatenate, strings.Repeat(" ", len(fParse)),
+	fanout, fDataType, fConcatenate, fParse)
 
 const (
 	fDataType    = "--datatype"
@@ -36,12 +42,12 @@ var args = &parameters.Arguments{
 		fConcatenate: types.Boolean,
 		"-c":         fConcatenate,
 		fParse:       types.Boolean,
-		"-p":         fConcatenate,
+		"-p":         fParse,
 	},
 }
 
 func cmdFanout(p *lang.Process) error {
-	flags, blocks, err := p.Parameters.ParseFlags(args)
+	flags, sBlocks, err := p.Parameters.ParseFlags(args)
 	if err != nil {
 		return err
 	}
@@ -59,13 +65,40 @@ func cmdFanout(p *lang.Process) error {
 	}
 	p.Stdout.SetDataType(dt)
 
-	if len(blocks) == 0 {
-		return fmt.Errorf("missing graphs. %s", usage)
+	parse := flags[fParse] == types.TrueString
+
+	switch {
+	case len(sBlocks) == 0:
+		return fmt.Errorf("missing vertices in parameters.\n%s", usage)
+	case parse && len(sBlocks) > 1:
+		return fmt.Errorf("multiple parameters supplied with %s flag. Vertices should be included inside one block.\n%s", fParse, usage)
 	}
 
-	for i := range blocks {
-		if !types.IsBlock([]byte(blocks[i])) {
-			return fmt.Errorf("parameter not a code block: %s%s", blocks[i], usage)
+	rBlocks := make([][]rune, len(sBlocks))
+	for i := range sBlocks {
+		rBlocks[i] = []rune(sBlocks[i])
+	}
+
+	if parse {
+		if !types.IsBlockRune(rBlocks[0]) {
+			return fmt.Errorf("parameter should be a block\n%s", usage)
+		}
+
+		tree := expressions.NewParser(p, types.BlockStripCurlyBrace(rBlocks[0]), 0)
+		err := tree.ParseStatement(true, expressions.WithAutoEscapeLineFeed(), expressions.WithCommand(fanout))
+		if err != nil {
+			return fmt.Errorf("error parsing block for vertices: %v\n%s", err, usage)
+		}
+
+		rBlocks = tree.StatementParametersUnsafe()
+		if len(rBlocks) == 0 {
+			return fmt.Errorf("missing vertices in block.\n%s", usage)
+		}
+	}
+
+	for i := range rBlocks {
+		if !types.IsBlockRune(rBlocks[i]) {
+			return fmt.Errorf("vertex %d is not a code block:\n%s\n%s", i+1, string(rBlocks[i]), usage)
 		}
 	}
 
@@ -73,8 +106,8 @@ func cmdFanout(p *lang.Process) error {
 		wg      sync.WaitGroup
 		fStdin  = lang.F_NO_STDIN
 		bStdin  []byte
-		stdouts = make([]stdio.Io, len(blocks))
-		errs    = make([]error, len(blocks))
+		stdouts = make([]stdio.Io, len(rBlocks))
+		errs    = make([]error, len(rBlocks))
 		exitNum atomic.Int32
 	)
 
@@ -82,25 +115,25 @@ func cmdFanout(p *lang.Process) error {
 		fStdin = lang.F_CREATE_STDIN
 		bStdin, err = p.Stdin.ReadAll()
 		if err != nil {
-			return fmt.Errorf("reading from stdin: %v", err)
+			return fmt.Errorf("error reading from stdin: %v", err)
 		}
 	}
 
-	for i := range blocks {
+	for i := range rBlocks {
 		fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT)
 
 		if p.IsMethod {
 			fork.Stdin.SetDataType(dt)
 			_, err = fork.Stdin.Write(bStdin)
 			if err != nil {
-				return fmt.Errorf("writing to node %d's stdin: %v", i+1, err)
+				return fmt.Errorf("error writing to vertex %d's stdin:\n%v", i+1, err)
 			}
 		}
 		stdouts[i] = fork.Stdout
 		wg.Add(1)
 		go func() {
 			var exit int
-			exit, errs[i] = fork.Execute([]rune(blocks[i]))
+			exit, errs[i] = fork.Execute(rBlocks[i])
 			exitNum.Add(int32(exit))
 			wg.Done()
 		}()
@@ -109,14 +142,14 @@ func cmdFanout(p *lang.Process) error {
 	wg.Wait()
 
 	if flags[fConcatenate] == types.TrueString {
-		for i := range blocks {
+		for i := range rBlocks {
 			if errs[i] != nil {
-				return fmt.Errorf("error returned from pipeline %d: %v", i+1, err)
+				return fmt.Errorf("error returned from vertex %d:\n%v", i+1, err)
 			}
 
 			_, err = io.Copy(p.Stdout, stdouts[i])
 			if errs[i] != nil {
-				return fmt.Errorf("cannot write pipeline %d to stdout: %v", i+1, err)
+				return fmt.Errorf("cannot write vertex %d to stdout:\n%v", i+1, err)
 			}
 		}
 
@@ -126,29 +159,29 @@ func cmdFanout(p *lang.Process) error {
 			b      []byte
 		)
 
-		for i := range blocks {
+		for i := range rBlocks {
 			if errs[i] != nil {
-				return fmt.Errorf("error returned from pipeline %d: %v", i+1, err)
+				return fmt.Errorf("error returned from vertex %d:\n%v", i+1, err)
 			}
 
 			b, err = stdouts[i].ReadAll()
 			if err != nil {
-				return fmt.Errorf("cannot read pipeline %d output: %v", i+1, err)
+				return fmt.Errorf("cannot read vertex %d output:\n%v", i+1, err)
 			}
 
 			v, err := lang.UnmarshalDataBuffered(p, b, dt)
 			if err != nil {
-				return fmt.Errorf("cannot convert pipeline %d output to %s: %v", i+1, dt, err)
+				return fmt.Errorf("cannot convert vertex %d output to %s:\n%v", i+1, dt, err)
 			}
 			merged, err = alter.Merge(p.Context, merged, nil, v)
 			if err != nil {
-				return fmt.Errorf("cannot merge pipeline %d output: %v", i+1, err)
+				return fmt.Errorf("cannot merge vertex %d output:\n%v", i+1, err)
 			}
 		}
 
 		b, err = lang.MarshalData(p, dt, merged)
 		if err != nil {
-			return fmt.Errorf("cannot marshal merged pipelines: %v", err)
+			return fmt.Errorf("cannot marshal merged vertices:\n%v", err)
 		}
 		_, err = p.Stdout.Write(b)
 		if err != nil {

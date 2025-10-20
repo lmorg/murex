@@ -34,7 +34,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				appendToParam(tree, '\\', r)
 				escape = false
 				if (r == ' ' || r == '\t') && tree.nextChar() == '#' {
-					tree.statement.ignoreCrLf = true
+					tree.statement.escapeLf = true
 				}
 				continue
 			}
@@ -42,7 +42,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			switch r {
 			case ' ', '\t':
 				if tree.nextChar() == '#' {
-					tree.statement.ignoreCrLf = true
+					tree.statement.escapeLf = true
 				} else {
 					appendToParam(tree, r)
 				}
@@ -90,8 +90,8 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '\n':
 			// '\' escaped used at end of line
 			tree.crLf()
-			if tree.statement.ignoreCrLf {
-				tree.statement.ignoreCrLf = false
+			if tree.statement.escapeLf || tree.ignoreLf {
+				tree.statement.escapeLf = false
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}

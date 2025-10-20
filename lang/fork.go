@@ -259,9 +259,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	fork.Stdout.Open()
 	fork.Stderr.Open()
 
-	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
-		block = block[1 : len(block)-1]
-	}
+	block = types.BlockStripCurlyBrace(block)
 
 	if fork.fidRegistered {
 		defer deregisterProcess(fork.Process)

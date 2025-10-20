@@ -89,6 +89,15 @@ func IsBlockRune(r []rune) bool {
 	return false
 }
 
+// BlockStripCurlyBrace checks if a block has surrounding curly braces and, if
+// so, removes those braces
+func BlockStripCurlyBrace(block []rune) []rune {
+	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
+		return block[1 : len(block)-1]
+	}
+	return block
+}
+
 func trimSpaceRune(r []rune) []rune {
 	if len(r) == 0 {
 		return []rune{}

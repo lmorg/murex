@@ -18,7 +18,7 @@ terminal. Normally that would be a blocky "pixellated" representation using
 block characters. But if you're running Kitty, Murex will automatically switch
 to Kitty's ANSI escape sequences to render those images beautifully.
 
-![opening an image in Kitty](https://nojs.murex.rocks/images/screenshot-kitty-open.png)
+![opening an image in Kitty](/images/screenshot-kitty-open.png)
 
 ## See Also
 
