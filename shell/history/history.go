@@ -7,6 +7,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 // History exports common functions needed for shell history
@@ -54,6 +57,14 @@ func openHist(filename string) (list []Item, err error) {
 
 // Write item to history file. eg ~/.murex_history
 func (h *History) Write(s string) (int, error) {
+	v, err := lang.ShellProcess.Config.Get("shell", "history-write-enabled", types.Boolean)
+	if err != nil {
+		return len(h.list), err
+	}
+	if !v.(bool) {
+		return len(h.list), nil
+	}
+
 	block := strings.TrimSpace(s)
 
 	item := Item{

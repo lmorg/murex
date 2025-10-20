@@ -317,7 +317,7 @@ func showPrompt() {
 }
 
 func getSyntaxHighlighting() {
-	highlight, err := lang.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
+	highlight, err := lang.ShellProcess.Config.Get("shell", "syntax-highlighting-enabled", types.Boolean)
 	if err != nil {
 		highlight = false
 	}
@@ -329,7 +329,7 @@ func getSyntaxHighlighting() {
 }
 
 func getSyntaxCompletion() {
-	completer, err := lang.ShellProcess.Config.Get("shell", "syntax-completion", types.Boolean)
+	completer, err := lang.ShellProcess.Config.Get("shell", "syntax-completion-enabled", types.Boolean)
 	if err != nil {
 		completer = false
 	}

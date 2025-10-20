@@ -81,7 +81,7 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "history", config.Properties{
+	c.Define("shell", "history-write-enabled", config.Properties{
 		Description: "Write shell history (interactive shell) to disk",
 		Default:     true,
 		DataType:    types.Boolean,
@@ -95,14 +95,14 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "syntax-highlighting", config.Properties{
+	c.Define("shell", "syntax-highlighting-enabled", config.Properties{
 		Description: "Syntax highlighting of murex code when in the interactive shell",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
 
-	c.Define("shell", "syntax-completion", config.Properties{
+	c.Define("shell", "syntax-completion-enabled", config.Properties{
 		Description: "Syntax completion for token pairs in the interactive shell",
 		Default:     true,
 		DataType:    types.Boolean,
