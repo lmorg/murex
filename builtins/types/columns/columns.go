@@ -6,5 +6,6 @@ import (
 )
 
 func init() {
+	lang.RegisterDataType(types.Columns, lang.DataTypeIsTable)
 	lang.RegisterMarshaller(types.Columns, marshal)
 }

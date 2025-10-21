@@ -8,6 +8,8 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.Json, lang.DataTypeIsObject)
+	lang.RegisterDataType(types.Json, lang.DataTypeIsObject)
 	lang.RegisterMarshaller(types.Json, marshal)
 	lang.RegisterUnmarshaller(types.Json, unmarshal)
 	lang.ReadIndexes[types.Json] = index

@@ -13,6 +13,7 @@ import (
 const typeName = "yaml"
 
 func init() {
+	lang.RegisterDataType(typeName, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(typeName, readArray)
 	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
 	stdio.RegisterReadMap(typeName, readMap)

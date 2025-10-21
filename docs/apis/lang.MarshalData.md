@@ -45,30 +45,12 @@ import (
 	"fmt"
 )
 
-// type DeMetaT func(any) error
 type MarshallerT func(*Process, any) ([]byte, error)
 
 var (
-	//_demetaers = make(map[string]DeMetaT)
-
 	// _marshallers defines the Go functions for converting a Go interface into a murex data type
 	_marshallers = make(map[string]MarshallerT)
 )
-
-/*func RegisterDeMetaer(dataType string, demetaer DeMetaT) {
-	if _demetaers[dataType] != nil {
-		panic(fmt.Sprintf("premarshaller already exists for %s", dataType))
-	}
-	_demetaers[dataType] = demetaer
-}
-
-func DeMetaData(dataType string, data any) error {
-	if _demetaers[dataType] == nil {
-		return nil // we shouldn't assume there is a demetaer
-	}
-
-	return _demetaers[dataType](data)
-}*/
 
 func RegisterMarshaller(dataType string, marshaller MarshallerT) {
 	if _marshallers[dataType] != nil {

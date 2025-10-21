@@ -12,6 +12,7 @@ const (
 )
 
 func init() {
+	lang.RegisterDataType(sexpr, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(sexpr, readArrayS)
 	stdio.RegisterReadArrayWithType(sexpr, readArrayWithTypeS)
 	stdio.RegisterReadMap(sexpr, readMapS)
@@ -21,6 +22,7 @@ func init() {
 	lang.RegisterMarshaller(sexpr, marshalS)
 	lang.RegisterUnmarshaller(sexpr, unmarshal)
 
+	lang.RegisterDataType(csexp, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(csexp, readArrayC)
 	stdio.RegisterReadArrayWithType(csexp, readArrayWithTypeC)
 	stdio.RegisterReadMap(csexp, readMapC)

@@ -10,6 +10,7 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.Generic, lang.DataTypeIsList)
 	lang.ReadIndexes[types.Generic] = index
 	lang.ReadNotIndexes[types.Generic] = index
 	lang.RegisterMarshaller(types.Generic, marshal)
@@ -21,6 +22,7 @@ func init() {
 	stdio.RegisterWriteArray(types.Generic, newArrayWriter)
 
 	// descriptive name
+	lang.RegisterDataType("generic", lang.DataTypeIsList)
 	lang.ReadIndexes["generic"] = index
 	lang.ReadNotIndexes["generic"] = index
 	lang.RegisterMarshaller("generic", marshal)

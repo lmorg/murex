@@ -8,6 +8,7 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.String, lang.DataTypeIsList)
 	stdio.RegisterReadArray(types.String, readArray)
 	stdio.RegisterReadArrayWithType(types.String, readArrayWithType)
 	stdio.RegisterReadMap(types.String, readMap)
@@ -34,6 +35,7 @@ func init() {
 	)
 
 	// descriptive name
+	lang.RegisterDataType("string", lang.DataTypeIsList)
 	stdio.RegisterReadArray("string", readArray)
 	stdio.RegisterReadMap("string", readMap)
 	stdio.RegisterWriteArray("string", newArrayWriter)

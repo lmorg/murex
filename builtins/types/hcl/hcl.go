@@ -14,6 +14,7 @@ import (
 const typeName = "hcl"
 
 func init() {
+	lang.RegisterDataType(typeName, lang.DataTypeIsObject)
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 

@@ -7,6 +7,7 @@ import (
 
 func init() {
 	// Register data types
+	lang.RegisterDataType(types.Boolean, lang.DataTypeIsBoolean)
 	lang.RegisterMarshaller(types.Boolean, marshal)
 	lang.RegisterUnmarshaller(types.Boolean, unmarshal)
 }

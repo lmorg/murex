@@ -9,6 +9,7 @@ const dataType = "qs"
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(dataType, lang.DataTypeIsKeyValue)
 	lang.RegisterMarshaller(dataType, marshal)
 	lang.RegisterUnmarshaller(dataType, unmarshal)
 	lang.ReadIndexes[dataType] = index
