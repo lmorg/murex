@@ -75,6 +75,11 @@ update-deps:
 lint:
 	golangci-lint run
 
+.PHONY: build-docgen
+build-docgen:
+	@echo "Building docgen..."
+	go build -v ./utils/docgen
+
 # Generate code
 .PHONY: generate
 generate:

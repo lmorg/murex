@@ -6,6 +6,6 @@ function export.crashes {
 
 test unit function export.crashes %{
     StderrRegex: " variable '.*?' does not exist"
-    DataType:    str
+    StderrType:  *
     ExitNum:     1
 }

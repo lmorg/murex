@@ -6,6 +6,6 @@ function alias.len {
 
 test: unit function alias.len %{
     StdoutMatch: "5"
-    DataType:    num
+    StdoutType:  int
     ExitNum:     0
 }

@@ -7,6 +7,6 @@ function return.nonzero {
 
 test: unit function return.nonzero %{
     StdoutMatch: "goodbye\n"
-    DataType:    str
+    StdoutType:  str
     ExitNum:     13
 }
