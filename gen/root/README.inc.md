@@ -88,34 +88,31 @@ with familiar features like error handling and unit tests.
 {{ end }}
 ## Learn About The Command Line
 
-Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.md).
+Murex features a state-of-the-art [interactive command line]({{if env "DOCGEN_TARGET="}}/docs{{end}}/user-guide/interactive-shell.md).
 Read more about it's unique features.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
 <img class="banner-interactive centre-image" alt="banner">
-<!-- markdownlint-restore -->
-{{ else }}![banner](/images/banner-interactive-light.png){{ end }}
+<!-- markdownlint-restore -->{{ end }}
 
 ## Learn The Syntax
 
-Read the [language tour](/tour.md) to learn about the syntax and how
+Read the [language tour]({{if env "DOCGEN_TARGET="}}/docs{{end}}/tour.md) to learn about the syntax and how
 shell scripting is easier in Murex.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
 <img class="banner-tour centre-image" alt="banner">
-<!-- markdownlint-restore -->
-{{ else }}![banner](/images/banner-tour-light.png){{ end }}
+<!-- markdownlint-restore -->{{ end }}
 
 ## Cheat Sheet
 
-The [Rosetta Stone](/user-guide/rosetta-stone.md) is a great cheat sheet for
+The [Rosetta Stone]({{if env "DOCGEN_TARGET="}}/docs{{end}}/user-guide/rosetta-stone.md) is a great cheat sheet for
 those wishing to skip the tutorials and jump straight in.
 This guide provides comparisons with Bash.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
 <img class="banner-rosetta centre-image" alt="banner">
-<!-- markdownlint-restore -->
-{{ else }}![banner](/images/banner-rosetta-light.png){{ end }}
+<!-- markdownlint-restore -->{{ end }}
 
 # Easy to Install
 

@@ -51,25 +51,25 @@ Visit our [official website](https://murex.rocks) for easier browsing of the doc
 
 ## Learn About The Command Line
 
-Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.md).
+Murex features a state-of-the-art [interactive command line](/docs/user-guide/interactive-shell.md).
 Read more about it's unique features.
 
-![banner](/images/banner-interactive-light.png)
+
 
 ## Learn The Syntax
 
-Read the [language tour](/tour.md) to learn about the syntax and how
+Read the [language tour](/docs/tour.md) to learn about the syntax and how
 shell scripting is easier in Murex.
 
-![banner](/images/banner-tour-light.png)
+
 
 ## Cheat Sheet
 
-The [Rosetta Stone](/user-guide/rosetta-stone.md) is a great cheat sheet for
+The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a great cheat sheet for
 those wishing to skip the tutorials and jump straight in.
 This guide provides comparisons with Bash.
 
-![banner](/images/banner-rosetta-light.png)
+
 
 # Easy to Install
 
