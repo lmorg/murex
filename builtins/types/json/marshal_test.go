@@ -14,8 +14,12 @@ func TestTableToMap(t *testing.T) {
 			Stdout: `[{"a":"1","b":"2","c":"3"}]`,
 		},
 		{
-			Block:  `tout str "a, b, c\n1, 2, 3" -> format json`,
-			Stdout: `["a, b, c","1, 2, 3"]`,
+			Block:  `tout * "a, b, c\n1, 2, 3" -> format json`,
+			Stdout: `[["a,","b,","c"],["1,","2,","3"]]`,
+		},
+		{
+			Block:  `tout csv "a, b, c\n1, 2, 3" -> format jsonl -> format json`,
+			Stdout: `[["a","b","c"],["1","2","3"]]`,
 		},
 	}
 
