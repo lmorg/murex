@@ -21,8 +21,9 @@ Set Padding 10
 #Env MXTTY ""
 Env AWS_PROFILE example
 #Env VHS "true"
-
+Hide
 Sleep 3s
+Show
 
 Type `# Lets open a JSON document from Github's API and filter only issues created by "lmorg"`
 Enter

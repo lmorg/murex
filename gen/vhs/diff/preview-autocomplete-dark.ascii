@@ -1,0 +1,2893 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» tar
+(bsdtar) tar - manipulate tape archives
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» tar
+(bsdtar) tar - manipulate tape archives
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+» tar
+Preserve pathnames. By default, absolute pathnames (those that begin with a / character) have the leading
+ slash removed both when creating archives and extracting from them. Also, tar will refuse to extract arc
+hive entries whose pathnames contain .. or whose target directory would be altered by a symlink. This o…
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     -P, --absolute-paths                                                                             █
+ ┃             Preserve pathnames.  By default, absolute pathnames (those that begin with a / character)█
+ ┃             have the leading slash removed both when creating archives and extracting from them.     █
+ ┃             Also, tar will refuse to extract archive entries whose pathnames contain .. or whose     █
+ ┃             target directory would be altered by a symlink.  This option suppresses these behaviors. █
+ ┃                                                                                                      █
+ ┃     -p, --insecure, --preserve-permissions                                                           █
+ ┃             (x mode only) Preserve file permissions.  Attempt to restore the full permissions,       █
+ ┃             including file modes, file attributes or file flags, extended file attributes and ACLs,  █
+ ┃             if available, for each item extracted from the archive.  This is the reverse of          █
+ ┃             --no-same-permissions and the default if tar is being run as root.  It can be partially  █
+ ┃             overridden by also specifying --no-acls, --no-fflags, --no-mac-metadata or --no-xattrs.  ┃
+ ┃                                                                                                      ┃
+ ┃     --passphrase passphrase                                                                          ┃
+ ┃             The passphrase is used to extract or create an encrypted archive.  Currently, zip is the ┃
+ ┃             only supported format that supports encryption.  You shouldn't use this option unless you┃
+ ┃             realize how insecure use of this option is.                                              ┃
+ ┃                                                                                                      ┃
+ ┃     --posix                                                                                          ┃
+ ┃             (c, r, u mode only) Synonym for --format pax                                             ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Preserve pathnames. By default, absolute pathnames (those that begin with a / character) have the leading
+ slash removed both when creating archives and extracting from them. Also, tar will refuse to extract arc
+hive entries whose pathnames contain .. or whose target directory would be altered by a symlink. This o…
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     --acls  (c, r, u, x modes only) Archive or extract POSIX.1e or NFSv4 ACLs.  This is the reverse  █
+ ┃             of --no-acls and the default behavior in c, r, and u modes (except on Mac OS X) or if tar█
+ ┃r                                                                                                     ┃
+ ┃             is run in x mode as root.  On Mac OS X this option translates extended ACLs to NFSv4     ┃
+ ┃             ACLs.  To store extended ACLs the --mac-metadata option is preferred.                    ┃
+ ┃                                                                                                      ┃
+ ┃     -B, --read-full-blocks                                                                           ┃
+ ┃             Ignored for compatibility with other tar(1) implementations.                             ┃
+ ┃                                                                                                      ┃
+ ┃     -b blocksize, --block-size blocksize                                                             ┃
+ ┃             Specify the block size, in 512-byte records, for tape drive I/O.  As a rule, this        ┃
+ ┃             argument is only needed when reading from or writing to tape drives, and usually not even┃
+ ┃             then as the default block size of 20 records (10240 bytes) is very common.               ┃
+ ┃                                                                                                      ┃
+ ┃     -C directory, --cd directory, --directory directory                                              ┃
+ ┃             In c and r mode, this changes the directory before adding the following files.  In x     ┃
+ ┃             mode, change directories after opening the archive but before extracting entries from the┃
+ ┃             archive.                                                                                 ┃
+ ┃                                                                                                      ┃
+ ┃     --chroot                                                                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(c, r, u, x modes only) Archive or extract POSIX.1e or NFSv4 ACLs. This is the reverse of --no-acls and t
+he default behavior in c, r, and u modes (except on Mac OS X) or if tar is run in x mode as root. On Mac
+OS X this option translates extended ACLs to NFSv4 ACLs. To store extended ACLs the --mac-metadata opti…
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     --acls  (c, r, u, x modes only) Archive or extract POSIX.1e or NFSv4 ACLs.  This is the reverse  █
+ ┃             of --no-acls and the default behavior in c, r, and u modes (except on Mac OS X) or if tar█
+ ┃r                                                                                                     ┃
+ ┃             is run in x mode as root.  On Mac OS X this option translates extended ACLs to NFSv4     ┃
+ ┃             ACLs.  To store extended ACLs the --mac-metadata option is preferred.                    ┃
+ ┃                                                                                                      ┃
+ ┃     -B, --read-full-blocks                                                                           ┃
+ ┃             Ignored for compatibility with other tar(1) implementations.                             ┃
+ ┃                                                                                                      ┃
+ ┃     -b blocksize, --block-size blocksize                                                             ┃
+ ┃             Specify the block size, in 512-byte records, for tape drive I/O.  As a rule, this        ┃
+ ┃             argument is only needed when reading from or writing to tape drives, and usually not even┃
+ ┃             then as the default block size of 20 records (10240 bytes) is very common.               ┃
+ ┃                                                                                                      ┃
+ ┃     -C directory, --cd directory, --directory directory                                              ┃
+ ┃             In c and r mode, this changes the directory before adding the following files.  In x     ┃
+ ┃             mode, change directories after opening the archive but before extracting entries from the┃
+ ┃             archive.                                                                                 ┃
+ ┃                                                                                                      ┃
+ ┃     --chroot                                                                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(c, r, u, x modes only) Archive or extract POSIX.1e or NFSv4 ACLs. This is the reverse of --no-acls and t
+he default behavior in c, r, and u modes (except on Mac OS X) or if tar is run in x mode as root. On Mac
+OS X this option translates extended ACLs to NFSv4 ACLs. To store extended ACLs the --mac-metadata opti…
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     -j, --bzip, --bzip2, --bunzip2                                                                   █
+ ┃             (c mode only) Compress the resulting archive with bzip2(1).  In extract or list modes,   █
+ ┃             this option is ignored.  Note that this tar implementation recognizes bzip2 compression  █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      █
+ ┃     -k, --keep-old-files                                                                             ┃
+ ┃             (x mode only) Do not overwrite existing files.  In particular, if a file appears more    ┃
+ ┃             than once in an archive, later copies will not overwrite earlier copies.                 ┃
+ ┃                                                                                                      ┃
+ ┃     --keep-newer-files                                                                               ┃
+ ┃             (x mode only) Do not overwrite existing files that are newer than the versions appearing ┃
+ ┃             in the archive being extracted.                                                          ┃
+ ┃                                                                                                      ┃
+ ┃     -L, --dereference                                                                                ┃
+ ┃             (c and r modes only) All symbolic links will be followed.  Normally, symbolic links are  ┃
+ ┃             archived as such.  With this option, the target of the link will be archived instead.    ┃
+ ┃                                                                                                      ┃
+ ┃     -l, --check-links                                                                                ┃
+ ┃             (c and r modes only) Issue a warning message unless all links to each file are archived. ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(c mode only) Compress the resulting archive with bzip2(1). In extract or list modes, this option is igno
+red. Note that this tar implementation recognizes bzip2 compression automatically when reading archives.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     -j, --bzip, --bzip2, --bunzip2                                                                   █
+ ┃             (c mode only) Compress the resulting archive with bzip2(1).  In extract or list modes,   █
+ ┃             this option is ignored.  Note that this tar implementation recognizes bzip2 compression  █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      █
+ ┃     -k, --keep-old-files                                                                             ┃
+ ┃             (x mode only) Do not overwrite existing files.  In particular, if a file appears more    ┃
+ ┃             than once in an archive, later copies will not overwrite earlier copies.                 ┃
+ ┃                                                                                                      ┃
+ ┃     --keep-newer-files                                                                               ┃
+ ┃             (x mode only) Do not overwrite existing files that are newer than the versions appearing ┃
+ ┃             in the archive being extracted.                                                          ┃
+ ┃                                                                                                      ┃
+ ┃     -L, --dereference                                                                                ┃
+ ┃             (c and r modes only) All symbolic links will be followed.  Normally, symbolic links are  ┃
+ ┃             archived as such.  With this option, the target of the link will be archived instead.    ┃
+ ┃                                                                                                      ┃
+ ┃     -l, --check-links                                                                                ┃
+ ┃             (c and r modes only) Issue a warning message unless all links to each file are archived. ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(c mode only) Compress the resulting archive with bzip2(1). In extract or list modes, this option is igno
+red. Note that this tar implementation recognizes bzip2 compression automatically when reading archives.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     --chroot                                                                                         █
+ ┃             (x mode only) chroot() to the current directory after processing any -C options and      █
+ ┃             before extracting any files.                                                             ┃
+ ┃                                                                                                      ┃
+ ┃     --clear-nochange-fflags                                                                          ┃
+ ┃             (x mode only) Before removing file system objects to replace them, clear platform-       ┃
+ ┃             specific file attributes or file flags that might prevent removal.                       ┃
+ ┃                                                                                                      ┃
+ ┃     --exclude pattern                                                                                ┃
+ ┃             Do not process files or directories that match the specified pattern.  Note that         ┃
+ ┃             exclusions take precedence over patterns or filenames specified on the command line.     ┃
+ ┃                                                                                                      ┃
+ ┃     --exclude-vcs                                                                                    ┃
+ ┃             Do not process files or directories internally used by the version control systems       ┃
+ ┃             ‘Arch’, ‘Bazaar’, ‘CVS’, ‘Darcs’, ‘Mercurial’, ‘RCS’, ‘SCCS’, ‘SVN’ and ‘git’.           ┃
+ ┃                                                                                                      ┃
+ ┃     --fflags                                                                                         ┃
+ ┃             (c, r, u, x modes only) Archive or extract platform-specific file attributes or file     ┃
+ ┃             flags.  This is the reverse of --no-fflags and the default behavior in c, r, and u modes ┃
+ ┃             or if tar is run in x mode as root.                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(x mode only) chroot() to the current directory after processing any -C options and before extracting any
+ files.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     --chroot                                                                                         █
+ ┃             (x mode only) chroot() to the current directory after processing any -C options and      █
+ ┃             before extracting any files.                                                             ┃
+ ┃                                                                                                      ┃
+ ┃     --clear-nochange-fflags                                                                          ┃
+ ┃             (x mode only) Before removing file system objects to replace them, clear platform-       ┃
+ ┃             specific file attributes or file flags that might prevent removal.                       ┃
+ ┃                                                                                                      ┃
+ ┃     --exclude pattern                                                                                ┃
+ ┃             Do not process files or directories that match the specified pattern.  Note that         ┃
+ ┃             exclusions take precedence over patterns or filenames specified on the command line.     ┃
+ ┃                                                                                                      ┃
+ ┃     --exclude-vcs                                                                                    ┃
+ ┃             Do not process files or directories internally used by the version control systems       ┃
+ ┃             ‘Arch’, ‘Bazaar’, ‘CVS’, ‘Darcs’, ‘Mercurial’, ‘RCS’, ‘SCCS’, ‘SVN’ and ‘git’.           ┃
+ ┃                                                                                                      ┃
+ ┃     --fflags                                                                                         ┃
+ ┃             (c, r, u, x modes only) Archive or extract platform-specific file attributes or file     ┃
+ ┃             flags.  This is the reverse of --no-fflags and the default behavior in c, r, and u modes ┃
+ ┃             or if tar is run in x mode as root.                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+(x mode only) chroot() to the current directory after processing any -C options and before extracting any
+ files.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     -w, --confirmation, --interactive                                                                █
+ ┃             Ask for confirmation for every action.                                                   █
+ ┃                                                                                                      █
+ ┃     -X filename, --exclude-from filename                                                             █
+ ┃             Read a list of exclusion patterns from the specified file.  See --exclude for more       █
+ ┃             information about the handling of exclusions.                                            █
+ ┃                                                                                                      █
+ ┃     --xattrs                                                                                         █
+ ┃             (c, r, u, x modes only) Archive or extract extended file attributes.  This is the reverse█
+ ┃             of --no-xattrs and the default behavior in c, r, and u modes or if tar is run in x mode  █
+ ┃             as root.                                                                                 █
+ ┃                                                                                                      █
+ ┃     -y      (c mode only) Compress the resulting archive with bzip2(1).  In extract or list modes,   █
+ ┃             this option is ignored.  Note that this tar implementation recognizes bzip2 compression  █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      ┃
+ ┃     -Z, --compress, --uncompress                                                                     ┃
+ ┃             (c mode only) Compress the resulting archive with compress(1).  In extract or list modes,┃
+ ┃             this option is ignored.  Note that this tar implementation recognizes compress           ┃
+ ┃             compression automatically when reading archives.                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     -w, --confirmation, --interactive                                                                █
+ ┃             Ask for confirmation for every action.                                                   █
+ ┃                                                                                                      █
+ ┃     -X filename, --exclude-from filename                                                             █
+ ┃             Read a list of exclusion patterns from the specified file.  See --exclude for more       █
+ ┃             information about the handling of exclusions.                                            █
+ ┃                                                                                                      █
+ ┃     --xattrs                                                                                         █
+ ┃             (c, r, u, x modes only) Archive or extract extended file attributes.  This is the reverse█
+ ┃             of --no-xattrs and the default behavior in c, r, and u modes or if tar is run in x mode  █
+ ┃             as root.                                                                                 █
+ ┃                                                                                                      █
+ ┃     -y      (c mode only) Compress the resulting archive with bzip2(1).  In extract or list modes,   █
+ ┃             this option is ignored.  Note that this tar implementation recognizes bzip2 compression  █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      ┃
+ ┃     -Z, --compress, --uncompress                                                                     ┃
+ ┃             (c mode only) Compress the resulting archive with compress(1).  In extract or list modes,┃
+ ┃             this option is ignored.  Note that this tar implementation recognizes compress           ┃
+ ┃             compression automatically when reading archives.                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃             compression automatically when reading archives.                                         █
+ ┃                                                                                                      █
+ ┃     -z, --gunzip, --gzip                                                                             █
+ ┃             (c mode only) Compress the resulting archive with gzip(1).  In extract or list modes,    █
+ ┃             this option is ignored.  Note that this tar implementation recognizes gzip compression   █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      █
+ ┃ENVIRONMENT                                                                                           █
+ ┃     The following environment variables affect the execution of tar:                                 █
+ ┃                                                                                                      █
+ ┃     TAR_READER_OPTIONS                                                                               █
+ ┃             The default options for format readers and compression readers.  The --options option    █
+ ┃             overrides this.                                                                          █
+ ┃                                                                                                      █
+ ┃     TAR_WRITER_OPTIONS                                                                               █
+ ┃             The default options for format writers and compression writers.  The --options option    ┃
+ ┃             overrides this.                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃     LANG    The locale to use.  See environ(7) for more information.                                 ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃             compression automatically when reading archives.                                         █
+ ┃                                                                                                      █
+ ┃     -z, --gunzip, --gzip                                                                             █
+ ┃             (c mode only) Compress the resulting archive with gzip(1).  In extract or list modes,    █
+ ┃             this option is ignored.  Note that this tar implementation recognizes gzip compression   █
+ ┃             automatically when reading archives.                                                     █
+ ┃                                                                                                      █
+ ┃ENVIRONMENT                                                                                           █
+ ┃     The following environment variables affect the execution of tar:                                 █
+ ┃                                                                                                      █
+ ┃     TAR_READER_OPTIONS                                                                               █
+ ┃             The default options for format readers and compression readers.  The --options option    █
+ ┃             overrides this.                                                                          █
+ ┃                                                                                                      █
+ ┃     TAR_WRITER_OPTIONS                                                                               █
+ ┃             The default options for format writers and compression writers.  The --options option    ┃
+ ┃             overrides this.                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃     LANG    The locale to use.  See environ(7) for more information.                                 ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃     TAPE    The default device.  The -f option overrides this.  Please see the description of the -f █
+ ┃             option above for more details.                                                           █
+ ┃                                                                                                      █
+ ┃     TZ      The timezone to use when displaying dates.  See environ(7) for more information.         █
+ ┃                                                                                                      █
+ ┃EXIT STATUS                                                                                           █
+ ┃     The tar utility exits 0 on success, and >0 if an error occurs.                                   █
+ ┃                                                                                                      █
+ ┃EXAMPLES                                                                                              █
+ ┃     The following creates a new archive called file.tar.gz that contains two files source.c and      █
+ ┃     source.h:                                                                                        █
+ ┃           tar -czf file.tar.gz source.c source.h                                                     █
+ ┃                                                                                                      █
+ ┃     To view a detailed table of contents for this archive:                                           █
+ ┃           tar -tvf file.tar.gz                                                                       █
+ ┃                                                                                                      ┃
+ ┃     To extract all entries from the archive on the default tape drive:                               ┃
+ ┃           tar -x                                                                                     ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃     TAPE    The default device.  The -f option overrides this.  Please see the description of the -f █
+ ┃             option above for more details.                                                           █
+ ┃                                                                                                      █
+ ┃     TZ      The timezone to use when displaying dates.  See environ(7) for more information.         █
+ ┃                                                                                                      █
+ ┃EXIT STATUS                                                                                           █
+ ┃     The tar utility exits 0 on success, and >0 if an error occurs.                                   █
+ ┃                                                                                                      █
+ ┃EXAMPLES                                                                                              █
+ ┃     The following creates a new archive called file.tar.gz that contains two files source.c and      █
+ ┃     source.h:                                                                                        █
+ ┃           tar -czf file.tar.gz source.c source.h                                                     █
+ ┃                                                                                                      █
+ ┃     To view a detailed table of contents for this archive:                                           █
+ ┃           tar -tvf file.tar.gz                                                                       █
+ ┃                                                                                                      ┃
+ ┃     To extract all entries from the archive on the default tape drive:                               ┃
+ ┃           tar -x                                                                                     ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃     To examine the contents of an ISO 9660 cdrom image:                                              █
+ ┃           tar -tf image.iso                                                                          █
+ ┃                                                                                                      █
+ ┃     To move file hierarchies, invoke tar as                                                          █
+ ┃           tar -cf - -C srcdir . | tar -xpf - -C destdir                                              █
+ ┃     or more traditionally                                                                            █
+ ┃           cd srcdir ; tar -cf - . | (cd destdir ; tar -xpf -)                                        █
+ ┃                                                                                                      █
+ ┃     In create mode, the list of files and directories to be archived can also include directory      █
+ ┃     change instructions of the form -Cfoo/baz and archive inclusions of the form @archive-file.  For █
+ ┃     example, the command line                                                                        █
+ ┃           tar -c -f new.tar foo1 @old.tgz -C/tmp foo2                                                █
+ ┃     will create a new archive new.tar.  tar will read the file foo1 from the current directory and   █
+ ┃     add it to the output archive.  It will then read each entry from old.tgz and add those entries to█
+ ┃     the output archive.  Finally, it will switch to the /tmp directory and add foo2 to the output    █
+ ┃     archive.                                                                                         ┃
+ ┃                                                                                                      ┃
+ ┃     An input file in mtree(5) format can be used to create an output archive with arbitrary          ┃
+ ┃     ownership, permissions, or names that differ from existing data on disk:                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃     To examine the contents of an ISO 9660 cdrom image:                                              █
+ ┃           tar -tf image.iso                                                                          █
+ ┃                                                                                                      █
+ ┃     To move file hierarchies, invoke tar as                                                          █
+ ┃           tar -cf - -C srcdir . | tar -xpf - -C destdir                                              █
+ ┃     or more traditionally                                                                            █
+ ┃           cd srcdir ; tar -cf - . | (cd destdir ; tar -xpf -)                                        █
+ ┃                                                                                                      █
+ ┃     In create mode, the list of files and directories to be archived can also include directory      █
+ ┃     change instructions of the form -Cfoo/baz and archive inclusions of the form @archive-file.  For █
+ ┃     example, the command line                                                                        █
+ ┃           tar -c -f new.tar foo1 @old.tgz -C/tmp foo2                                                █
+ ┃     will create a new archive new.tar.  tar will read the file foo1 from the current directory and   █
+ ┃     add it to the output archive.  It will then read each entry from old.tgz and add those entries to█
+ ┃     the output archive.  Finally, it will switch to the /tmp directory and add foo2 to the output    █
+ ┃     archive.                                                                                         ┃
+ ┃                                                                                                      ┃
+ ┃     An input file in mtree(5) format can be used to create an output archive with arbitrary          ┃
+ ┃     ownership, permissions, or names that differ from existing data on disk:                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     specified.                                                                                       █
+ ┃                                                                                                      █
+ ┃     There needs to be better support for file selection on both create and extract.                  █
+ ┃                                                                                                      █
+ ┃     There is not yet any support for multi-volume archives.                                          █
+ ┃                                                                                                      █
+ ┃     Converting between dissimilar archive formats (such as tar and cpio) using the @- convention can █
+ ┃     cause hard link information to be lost.  (This is a consequence of the incompatible ways that    █
+ ┃     different archive formats store hardlink information.)                                           █
+ ┃                                                                                                      █
+ ┃macOS 15.7                                  April 23, 2024                                  macOS 15.7█
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃Event `chatgpt`:                                                                                      █
+ ┠╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶█
+ ┃This feature requires an OpenAI API key with write access to /v1/chat/completions. eg                 █
+ ┃                                                                                                      █
+ ┃config set openai preview-exec-api xxxxx                                                              █
+ ┃                                                                                                      █
+ ┃Run `murex-docs integrations/chatgpt` for more details or visit:                                      █
+ ┃https://murex.rocks/integrations/chatgpt                                                              █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     specified.                                                                                       █
+ ┃                                                                                                      █
+ ┃     There needs to be better support for file selection on both create and extract.                  █
+ ┃                                                                                                      █
+ ┃     There is not yet any support for multi-volume archives.                                          █
+ ┃                                                                                                      █
+ ┃     Converting between dissimilar archive formats (such as tar and cpio) using the @- convention can █
+ ┃     cause hard link information to be lost.  (This is a consequence of the incompatible ways that    █
+ ┃     different archive formats store hardlink information.)                                           █
+ ┃                                                                                                      █
+ ┃macOS 15.7                                  April 23, 2024                                  macOS 15.7█
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃Event `chatgpt`:                                                                                      █
+ ┠╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶█
+ ┃This feature requires an OpenAI API key with write access to /v1/chat/completions. eg                 █
+ ┃                                                                                                      █
+ ┃config set openai preview-exec-api xxxxx                                                              █
+ ┃                                                                                                      █
+ ┃Run `murex-docs integrations/chatgpt` for more details or visit:                                      █
+ ┃https://murex.rocks/integrations/chatgpt                                                              █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» tar
+Ask for confirmation for every action.
+ --absolute-paths                   --acls                             --auto-compress
+ --bunzip2                          --bzip                             --bzip2
+ --check-links                      --chroot                           --clear-nochange-fflags
+ --compress                         --confirmation                     --dereference
+ --exclude                          --exclude-vcs                      --fast-read
+ --fflags                           --format                           --gid
+ --gname                            --group                            --gunzip
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     specified.                                                                                       █
+ ┃                                                                                                      █
+ ┃     There needs to be better support for file selection on both create and extract.                  █
+ ┃                                                                                                      █
+ ┃     There is not yet any support for multi-volume archives.                                          █
+ ┃                                                                                                      █
+ ┃     Converting between dissimilar archive formats (such as tar and cpio) using the @- convention can █
+ ┃     cause hard link information to be lost.  (This is a consequence of the incompatible ways that    █
+ ┃     different archive formats store hardlink information.)                                           █
+ ┃                                                                                                      █
+ ┃macOS 15.7                                  April 23, 2024                                  macOS 15.7█
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃Event `chatgpt`:                                                                                      █
+ ┠╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶█
+ ┃This feature requires an OpenAI API key with write access to /v1/chat/completions. eg                 █
+ ┃                                                                                                      █
+ ┃config set openai preview-exec-api xxxxx                                                              █
+ ┃                                                                                                      █
+ ┃Run `murex-docs integrations/chatgpt` for more details or visit:                                      █
+ ┃https://murex.rocks/integrations/chatgpt                                                              █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+»
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open ./
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open ./
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>How To Contribute</h1>                                                                            █
+ ┃                                                                                                      ┃
+ ┃> Murex is community project. We gratefully accept contributions                                      ┃
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Ways To Contribute](#ways-to-contribute)                                                           ┃
+ ┃  - [Writing or Updating Documentation](#writing-or-updating-documentation)                           ┃
+ ┃  - [Writing Integrations](#writing-integrations)                                                     ┃
+ ┃  - [Raising Bug Reports or Feature Requests](#raising-bug-reports-or-feature-requests)               ┃
+ ┃  - [Committing Code](#committing-code)                                                               ┃
+ ┃  - [Blogging](#blogging)                                                                             ┃
+ ┃- [Raising Pull Requests](#raising-pull-requests)                                                     ┃
+ ┃- [Etiquette](#etiquette)                                                                             ┃
+ ┃- [Licensing](#licensing)                                                                             ┃
+ ┃                                                                                                      ┃
+ ┃</div>                                                                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>How To Contribute</h1>                                                                            █
+ ┃                                                                                                      ┃
+ ┃> Murex is community project. We gratefully accept contributions                                      ┃
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Ways To Contribute](#ways-to-contribute)                                                           ┃
+ ┃  - [Writing or Updating Documentation](#writing-or-updating-documentation)                           ┃
+ ┃  - [Writing Integrations](#writing-integrations)                                                     ┃
+ ┃  - [Raising Bug Reports or Feature Requests](#raising-bug-reports-or-feature-requests)               ┃
+ ┃  - [Committing Code](#committing-code)                                                               ┃
+ ┃  - [Blogging](#blogging)                                                                             ┃
+ ┃- [Raising Pull Requests](#raising-pull-requests)                                                     ┃
+ ┃- [Etiquette](#etiquette)                                                                             ┃
+ ┃- [Licensing](#licensing)                                                                             ┃
+ ┃                                                                                                      ┃
+ ┃</div>                                                                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>Download Links</h1>                                                                               █
+ ┃                                                                                                      ┃
+ ┃[![Version](version.svg)](DOWNLOAD.md)                                                                ┃
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Download Links](#download-links)                                                                   ┃
+ ┃  - [Darwin (macOS)](#darwin-macos)                                                                   ┃
+ ┃  - [Linux](#linux)                                                                                   ┃
+ ┃  - [Windows](#windows)                                                                               ┃
+ ┃  - [BSD's](#bsds)                                                                                    ┃
+ ┃    - [DragonflyBSD](#dragonflybsd)                                                                   ┃
+ ┃    - [FreeBSD](#freebsd)                                                                             ┃
+ ┃    - [NetBSD](#netbsd)                                                                               ┃
+ ┃    - [OpenBSD](#openbsd)                                                                             ┃
+ ┃  - [Solaris](#solaris)                                                                               ┃
+ ┃  - [Plan 9](#plan-9)                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>Download Links</h1>                                                                               █
+ ┃                                                                                                      ┃
+ ┃[![Version](version.svg)](DOWNLOAD.md)                                                                ┃
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Download Links](#download-links)                                                                   ┃
+ ┃  - [Darwin (macOS)](#darwin-macos)                                                                   ┃
+ ┃  - [Linux](#linux)                                                                                   ┃
+ ┃  - [Windows](#windows)                                                                               ┃
+ ┃  - [BSD's](#bsds)                                                                                    ┃
+ ┃    - [DragonflyBSD](#dragonflybsd)                                                                   ┃
+ ┃    - [FreeBSD](#freebsd)                                                                             ┃
+ ┃    - [NetBSD](#netbsd)                                                                               ┃
+ ┃    - [OpenBSD](#openbsd)                                                                             ┃
+ ┃  - [Solaris](#solaris)                                                                               ┃
+ ┃  - [Plan 9](#plan-9)                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃FROM docker.io/golang:1.25.0                                                                          █
+ ┃                                                                                                      █
+ ┃# Install system dependencies                                                                         █
+ ┃RUN apt-get update && apt-get install -y \                                                            █
+ ┃    make \                                                                                            █
+ ┃    ca-certificates \                                                                                 █
+ ┃    && rm -rf /var/lib/apt/lists/*                                                                    █
+ ┃                                                                                                      █
+ ┃# Create user with @ symbol in username (simulating AD domain login)                                  █
+ ┃RUN useradd --badname -m -s /bin/bash "jeff@melton.casa"                                              █
+ ┃                                                                                                      █
+ ┃# Set up the problematic PATH environment that causes env command issues                              █
+ ┃USER "jeff@melton.casa"                                                                               █
+ ┃WORKDIR "/home/jeff@melton.casa"                                                                      █
+ ┃RUN mkdir -p .atuin/bin && \                                                                          ┃
+ ┃    echo '# Atuin env setup that breaks tests' > .atuin/bin/env && \                                  ┃
+ ┃    chmod 644 .atuin/bin/env                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃# Copy murex source code                                                                              ┃
+ ┃COPY --chown="jeff@melton.casa":"jeff@melton.casa" . /home/jeff@melton.casa/murex                     ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃FROM docker.io/golang:1.25.0                                                                          █
+ ┃                                                                                                      █
+ ┃# Install system dependencies                                                                         █
+ ┃RUN apt-get update && apt-get install -y \                                                            █
+ ┃    make \                                                                                            █
+ ┃    ca-certificates \                                                                                 █
+ ┃    && rm -rf /var/lib/apt/lists/*                                                                    █
+ ┃                                                                                                      █
+ ┃# Create user with @ symbol in username (simulating AD domain login)                                  █
+ ┃RUN useradd --badname -m -s /bin/bash "jeff@melton.casa"                                              █
+ ┃                                                                                                      █
+ ┃# Set up the problematic PATH environment that causes env command issues                              █
+ ┃USER "jeff@melton.casa"                                                                               █
+ ┃WORKDIR "/home/jeff@melton.casa"                                                                      █
+ ┃RUN mkdir -p .atuin/bin && \                                                                          ┃
+ ┃    echo '# Atuin env setup that breaks tests' > .atuin/bin/env && \                                  ┃
+ ┃    chmod 644 .atuin/bin/env                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃# Copy murex source code                                                                              ┃
+ ┃COPY --chown="jeff@melton.casa":"jeff@melton.casa" . /home/jeff@melton.casa/murex                     ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>Install</h1>                                                                                      █
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Installing From A Package Manager](#installing-from-a-package-manager)                             ┃
+ ┃- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)                     ┃
+ ┃- [Compiling From Source](#compiling-from-source)                                                     ┃
+ ┃  - [Prerequisites](#prerequisites)                                                                   ┃
+ ┃  - [Compiling](#compiling)                                                                           ┃
+ ┃    - [Bash: Linux, MacOS, UNIX](#bash-linux-macos-unix)                                              ┃
+ ┃    - [Powershell: Windows](#powershell-windows)                                                      ┃
+ ┃    - [Makefile: Linux, MacOS, UNIX](#makefile-linux-macos-unix)                                      ┃
+ ┃- [External Dependencies (Optional)](#external-dependencies-optional)                                 ┃
+ ┃                                                                                                      ┃
+ ┃</div>                                                                                                ┃
+ ┃                                                                                                      ┃
+ ┃## Supported Platforms                                                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                                                                      █
+ ┃<h1>Install</h1>                                                                                      █
+ ┃                                                                                                      ┃
+ ┃<h2>Table of Contents</h2>                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃<div id="toc">                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃- [Installing From A Package Manager](#installing-from-a-package-manager)                             ┃
+ ┃- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)                     ┃
+ ┃- [Compiling From Source](#compiling-from-source)                                                     ┃
+ ┃  - [Prerequisites](#prerequisites)                                                                   ┃
+ ┃  - [Compiling](#compiling)                                                                           ┃
+ ┃    - [Bash: Linux, MacOS, UNIX](#bash-linux-macos-unix)                                              ┃
+ ┃    - [Powershell: Windows](#powershell-windows)                                                      ┃
+ ┃    - [Makefile: Linux, MacOS, UNIX](#makefile-linux-macos-unix)                                      ┃
+ ┃- [External Dependencies (Optional)](#external-dependencies-optional)                                 ┃
+ ┃                                                                                                      ┃
+ ┃</div>                                                                                                ┃
+ ┃                                                                                                      ┃
+ ┃## Supported Platforms                                                                                ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                    GNU GENERAL PUBLIC LICENSE                                                        █
+ ┃                       Version 2, June 1991                                                           ┃
+ ┃                                                                                                      ┃
+ ┃ Copyright (C) 1989, 1991 Free Software Foundation, Inc., <http://fsf.org/>                           ┃
+ ┃ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA                                           ┃
+ ┃ Everyone is permitted to copy and distribute verbatim copies                                         ┃
+ ┃ of this license document, but changing it is not allowed.                                            ┃
+ ┃                                                                                                      ┃
+ ┃                            Preamble                                                                  ┃
+ ┃                                                                                                      ┃
+ ┃  The licenses for most software are designed to take away your                                       ┃
+ ┃freedom to share and change it.  By contrast, the GNU General Public                                  ┃
+ ┃License is intended to guarantee your freedom to share and change free                                ┃
+ ┃software--to make sure the software is free for all its users.  This                                  ┃
+ ┃General Public License applies to most of the Free Software                                           ┃
+ ┃Foundation's software and to any other program whose authors commit to                                ┃
+ ┃using it.  (Some other Free Software Foundation software is covered by                                ┃
+ ┃the GNU Lesser General Public License instead.)  You can apply it to                                  ┃
+ ┃your programs, too.                                                                                   ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                    GNU GENERAL PUBLIC LICENSE                                                        █
+ ┃                       Version 2, June 1991                                                           ┃
+ ┃                                                                                                      ┃
+ ┃ Copyright (C) 1989, 1991 Free Software Foundation, Inc., <http://fsf.org/>                           ┃
+ ┃ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA                                           ┃
+ ┃ Everyone is permitted to copy and distribute verbatim copies                                         ┃
+ ┃ of this license document, but changing it is not allowed.                                            ┃
+ ┃                                                                                                      ┃
+ ┃                            Preamble                                                                  ┃
+ ┃                                                                                                      ┃
+ ┃  The licenses for most software are designed to take away your                                       ┃
+ ┃freedom to share and change it.  By contrast, the GNU General Public                                  ┃
+ ┃License is intended to guarantee your freedom to share and change free                                ┃
+ ┃software--to make sure the software is free for all its users.  This                                  ┃
+ ┃General Public License applies to most of the Free Software                                           ┃
+ ┃Foundation's software and to any other program whose authors commit to                                ┃
+ ┃using it.  (Some other Free Software Foundation software is covered by                                ┃
+ ┃the GNU Lesser General Public License instead.)  You can apply it to                                  ┃
+ ┃your programs, too.                                                                                   ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃# Variables                                                                                           █
+ ┃BINARY_NAME?=murex                                                                                    █
+ ┃GO_FLAGS=-v                                                                                           ┃
+ ┃BUILD_DIR=./bin                                                                                       ┃
+ ┃SOURCE_DIR=.                                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃# Build variables that can be overridden                                                              ┃
+ ┃BRANCH=$(shell git rev-parse --abbrev-ref HEAD || echo "unknown")                                     ┃
+ ┃BUILD_DATE=$(shell date -u '+%Y-%m-%d_%H:%M:%S' || echo "unknown")                                    ┃
+ ┃EXT_LDFLAGS?="-static"                                                                                ┃
+ ┃LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDa┃
+ ┃te=${BUILD_DATE} -extldflags=${EXT_LDFLAGS}"                                                          ┃
+ ┃BUILD_TAGS?=$(shell cat builtins/optional/standard-opts.txt || echo "")                               ┃
+ ┃                                                                                                      ┃
+ ┃# Default target                                                                                      ┃
+ ┃.PHONY: all                                                                                           ┃
+ ┃all: build                                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃# Build the binary                                                                                    ┃
+ ┃.PHONY: build                                                                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃# Variables                                                                                           █
+ ┃BINARY_NAME?=murex                                                                                    █
+ ┃GO_FLAGS=-v                                                                                           ┃
+ ┃BUILD_DIR=./bin                                                                                       ┃
+ ┃SOURCE_DIR=.                                                                                          ┃
+ ┃                                                                                                      ┃
+ ┃# Build variables that can be overridden                                                              ┃
+ ┃BRANCH=$(shell git rev-parse --abbrev-ref HEAD || echo "unknown")                                     ┃
+ ┃BUILD_DATE=$(shell date -u '+%Y-%m-%d_%H:%M:%S' || echo "unknown")                                    ┃
+ ┃EXT_LDFLAGS?="-static"                                                                                ┃
+ ┃LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDa┃
+ ┃te=${BUILD_DATE} -extldflags=${EXT_LDFLAGS}"                                                          ┃
+ ┃BUILD_TAGS?=$(shell cat builtins/optional/standard-opts.txt || echo "")                               ┃
+ ┃                                                                                                      ┃
+ ┃# Default target                                                                                      ┃
+ ┃.PHONY: all                                                                                           ┃
+ ┃all: build                                                                                            ┃
+ ┃                                                                                                      ┃
+ ┃# Build the binary                                                                                    ┃
+ ┃.PHONY: build                                                                                         ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃# Murex: A Smarter Shell                                                                              █
+ ┃                                                                                                      █
+ ┃[![Version](version.svg?v=undef)](DOWNLOAD.md)                                                        █
+ ┃[![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://┃
+ ┃github.com/lmorg/murex/actions/workflows/murex-tests.yaml)                                            ┃
+ ┃[![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://┃
+ ┃github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)                                            ┃
+ ┃[![Official Website](images/website-badge.svg?v=undef)](https://murex.rocks)                          ┃
+ ┃                                                                                                      ┃
+ ┃[![Official Website](images/murex-term-light.png?v=undef)](https://murex.rocks)                       ┃
+ ┃                                                                                                      ┃
+ ┃> A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex    ┃
+ ┃                                                                                                      ┃
+ ┃A non-exhaustive list features would include:                                                         ┃
+ ┃                                                                                                      ┃
+ ┃* Support for **additional type information in pipelines**, which can be used                         ┃
+ ┃  for complex data formats like JSON or tables. Meaning all of your existing                          ┃
+ ┃  UNIX tools to work more intelligently and without any additional configuration.                     ┃
+ ┃                                                                                                      ┃
+ ┃* **Usability improvements** such as in-line spell checking, context sensitive                        ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃# Murex: A Smarter Shell                                                                              █
+ ┃                                                                                                      █
+ ┃[![Version](version.svg?v=undef)](DOWNLOAD.md)                                                        █
+ ┃[![Murex Tests](https://github.com/lmorg/murex/actions/workflows/murex-tests.yaml/badge.svg)](https://┃
+ ┃github.com/lmorg/murex/actions/workflows/murex-tests.yaml)                                            ┃
+ ┃[![Deploy Docs](https://github.com/lmorg/murex/actions/workflows/deploy-docs.yaml/badge.svg)](https://┃
+ ┃github.com/lmorg/murex/actions/workflows/deploy-docs.yaml)                                            ┃
+ ┃[![Official Website](images/website-badge.svg?v=undef)](https://murex.rocks)                          ┃
+ ┃                                                                                                      ┃
+ ┃[![Official Website](images/murex-term-light.png?v=undef)](https://murex.rocks)                       ┃
+ ┃                                                                                                      ┃
+ ┃> A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex    ┃
+ ┃                                                                                                      ┃
+ ┃A non-exhaustive list features would include:                                                         ┃
+ ┃                                                                                                      ┃
+ ┃* Support for **additional type information in pipelines**, which can be used                         ┃
+ ┃  for complex data formats like JSON or tables. Meaning all of your existing                          ┃
+ ┃  UNIX tools to work more intelligently and without any additional configuration.                     ┃
+ ┃                                                                                                      ┃
+ ┃* **Usability improvements** such as in-line spell checking, context sensitive                        ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open ./
+(builtin) Open a file with a preferred handler
+ ./CONTRIBUTING.md                  ./DOWNLOAD.md                      ./Dockerfile
+ ./INSTALL.md                       ./LICENSE                          ./Makefile
+ ./README.md                        ./app/                             ./behavioural/
+ ./benchmarks_test.go               ./bin/                             ./builtins/
+ ./compatibility.md                 ./config/                          ./cpu.pprof
+ ./dag.mx                           ./debug/                           ./debug.log
+ ./defaults_test.go                 ./docgen                           ./docs/
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃Event `00-murex-docs`:                                                                                █
+ ┠╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶┨
+ ┃# Open File: `open`                                                                                   ┃
+ ┃                                                                                                      ┃
+ ┃> Open a file with a preferred handler                                                                ┃
+ ┃                                                                                                      ┃
+ ┃## Description                                                                                        ┃
+ ┃                                                                                                      ┃
+ ┃`open` is a smart tool for reading files:                                                             ┃
+ ┃                                                                                                      ┃
+ ┃1. It will read a file from disk or a HTTP(S) endpoints                                               ┃
+ ┃2. Detect the file type via file extension or HTTP header `Content-Type`                              ┃
+ ┃3. It intelligently writes to stdout                                                                  ┃
+ ┃  - If stdout is a TTY it will perform any transformations to render to the                           ┃
+ ┃    terminal (eg using inlining images)                                                               ┃
+ ┃  - If stdout is a pipe then it will write a byte stream with the relevant                            ┃
+ ┃    data-type                                                                                         ┃
+ ┃4. If there are no open handlers then it will fallback to the systems default.                        ┃
+ ┃   eg `open` (on macOS, Linux), `open-xdg` (X11), etc.                                                ┃
+ ┃                                                                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open
+eg: ARCH -- Launch with the given cpu architecture type and subtype; ARCH should be one of any, arm, arm6
+4, arm64e, arm64_32, x86_64, x86_64h, i386. Two integers matching the values for cpu_type_t and cpu_subty
+pe_t can be specified as integers separated by a '/' character, like "12/13" for CPU_TYPE_ARM/CPU_SUBTY…
+ --arch                             --args                             --env
+ --stderr                           --stdin                            --stdout
+ -F                                 -R                                 -W
+ -a                                 -b                                 -e
+ -f                                 -g                                 -h
+ -j                                 -n                                 -s
+ -t                                 -u                                 -b
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃read images/blog/: is a directory                                                                     █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+(builtin) Open a file with a preferred handler
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃read images/blog/: is a directory                                                                     █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+(builtin) Open a file with a preferred handler
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃read images/blog/split_personalities/: is a directory                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃read images/blog/split_personalities/: is a directory                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/conflict.png
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/conflict.png
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/murex.png
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/murex.png
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                       █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/murex.png
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/new.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/new.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/old.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/old.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                         █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/thompson.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Autocomplete Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┃▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄                        █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open images/blog
+images/blog/split_personalities/thompson.jpg
+ images/blog/                       images/blog/split_personalities/   image…personalities/conflict.png
+ image…it_personalities/murex.png   image…plit_personalities/new.jpg   image…plit_personalities/old.jpg
+ image…personalities/thompson.jpg
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open images/blog/split_personalities/thompson.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open images/blog/split_personalities/thompson.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open images/blog/split_personalities/thompson.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # You can press F1 at any point to read command guides
+» # You can press F1 to preview files too
+» open images/blog/split_personalities/thompson.jpg
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+»
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────

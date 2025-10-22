@@ -5,6 +5,7 @@
   Description: |-
     Type '# Unlike other shells, Murex autocompletions can be context specific'
     Enter
+
     Type 'open '
     Ctrl+F
     Type@500ms 'yaml array'

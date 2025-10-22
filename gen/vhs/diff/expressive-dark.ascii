@@ -1,0 +1,1552 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+»
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+(builtin) Write a string to the stdout without new line (deprecated)
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+»
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+»
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+»
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+»
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+»
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+»
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+»
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+»
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+(alias) out => (builtin) Print a string to the stdout with a trailing new line character
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+»
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+»
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+(builtin) A sophisticated yet simple way to stream an array or list (mkarray)
+
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+»
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+»
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────
+» # Expressions
+» (5 + 5) * 2
+20
+» day = datetime( {py}%A )
+» $day
+Wednesday
+» $day == ${ datetime {py}%A }
+true
+» # Parameters
+» echo $PWD[-1] # last element in var
+murex
+» echo @{ a h[i,o] } # an array of parameters
+hi ho
+» echo "The answer to the sum 5 * 5 is" (5 * 5)
+────────────────────────────────────────────────────────────────────────────────

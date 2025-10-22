@@ -21,11 +21,13 @@ Set Padding 10
 #Env MXTTY ""
 Env AWS_PROFILE example
 #Env VHS "true"
-
+Hide
 Sleep 3s
+Show
 
 Type '# Unlike other shells, Murex autocompletions can be context specific'
 Enter
+
 Type 'open '
 Ctrl+F
 Type@500ms 'yaml array'

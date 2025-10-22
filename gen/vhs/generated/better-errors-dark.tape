@@ -21,11 +21,13 @@ Set Padding 10
 #Env MXTTY ""
 Env AWS_PROFILE example
 #Env VHS "true"
-
+Hide
 Sleep 3s
+Show
 
 Type `# Errors appear in red for better visibility`
 Enter
+
 Type `2 + "two"`
 Enter
 Screenshot images/vhs-better-errors-errmsg-dark.png
@@ -35,11 +37,11 @@ Type `# Familiar error handling`
 Enter
 Type `try {`
 Enter
-Type `  echo "before error"`
+Type `    echo "before error"`
 Enter
-Type `  grep pattern file-does-not-exist`
+Type `    grep pattern file-does-not-exist`
 Enter
-Type `  echo "this line will not execute because 'grep' errors"`
+Type `    echo "this line will not execute because 'grep' errors"`
 Enter
 Type `}; catch { out "error caught" }`
 Sleep 2s
@@ -48,6 +50,17 @@ Sleep 3s
 
 Type `# Unit tests`
 Enter
+Type `function zzz_example { out "hello world" }`
+Enter
+Type `test unit function zzz_example %{`
+Enter
+Type `    StdoutMatch: "hello world\n"`
+Enter
+Type `    StdoutType: json`
+Enter
+Type `}`
+Enter
+Sleep 2s
 Type `test run *`
 Sleep 2s
 Enter

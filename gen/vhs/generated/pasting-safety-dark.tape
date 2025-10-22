@@ -21,8 +21,9 @@ Set Padding 10
 #Env MXTTY ""
 Env AWS_PROFILE example
 #Env VHS "true"
-
+Hide
 Sleep 3s
+Show
 
 Type `# Murex detects if you're pasting large chunks of text into the terminal
 Enter

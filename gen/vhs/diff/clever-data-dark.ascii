@@ -1,0 +1,952 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+»
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+(builtin) Define a variable (typically local) and set it's value
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+(builtin) Define a variable (typically local) and set it's value
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+»
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+» # The content is JSON but it's not very readable...
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+» # The content is JSON but it's not very readable...
+»
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+» # The content is JSON but it's not very readable...
+» $issues
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Lets open a JSON document from Github's API and filter only issues created by "lmorg"
+» open https://api.github.com/repos/lmorg/murex/issues | [{ $.v.user.login != "lmorg" }] | set issues
+» # The content is JSON but it's not very readable...
+» $issues
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+        "comments": 8,
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+────────────────────────────────────────────────────────────────────────────────
+        "comments": 8,
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+────────────────────────────────────────────────────────────────────────────────
+        "comments": 8,
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+────────────────────────────────────────────────────────────────────────────────
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+                "color": "ee0701",
+────────────────────────────────────────────────────────────────────────────────
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+                "color": "ee0701",
+────────────────────────────────────────────────────────────────────────────────
+        "comments_url": "https://api.github.com/repos/lmorg/murex/issues/946/comments",
+        "created_at": "2025-09-20T03:00:55Z",
+        "events_url": "https://api.github.com/repos/lmorg/murex/issues/946/events",
+        "html_url": "https://github.com/lmorg/murex/issues/946",
+        "id": 3436482804,
+        "issue_dependencies_summary": {
+            "blocked_by": 0,
+            "blocking": 0,
+            "total_blocked_by": 0,
+            "total_blocking": 0
+        },
+        "labels": [
+            {
+                "color": "ee0701",
+────────────────────────────────────────────────────────────────────────────────
+            {
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+────────────────────────────────────────────────────────────────────────────────
+            {
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+────────────────────────────────────────────────────────────────────────────────
+            {
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+────────────────────────────────────────────────────────────────────────────────
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+                "name": "enhancement",
+────────────────────────────────────────────────────────────────────────────────
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+                "name": "enhancement",
+────────────────────────────────────────────────────────────────────────────────
+                "color": "ee0701",
+                "default": true,
+                "description": "Unexpected behavior",
+                "id": 569625971,
+                "name": "bug",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzE=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/bug"
+            },
+            {
+                "color": "84b6eb",
+                "default": true,
+                "description": "New features",
+                "id": 569625973,
+                "name": "enhancement",
+────────────────────────────────────────────────────────────────────────────────
+                "id": 569625973,
+                "name": "enhancement",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzM=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/enhancement"
+            },
+            {
+                "color": "4CC69F",
+                "default": false,
+                "description": "Feature built. Currently BETA testing in the `develop` branch",
+                "id": 4937566283,
+                "name": "deployed to `develop`",
+                "node_id": "LA_kwDOBSQPns8AAAABJk1ISw",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/deployed%20to%20%60develop%60"
+            }
+────────────────────────────────────────────────────────────────────────────────
+                "id": 569625973,
+                "name": "enhancement",
+                "node_id": "MDU6TGFiZWw1Njk2MjU5NzM=",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/enhancement"
+            },
+            {
+                "color": "4CC69F",
+                "default": false,
+                "description": "Feature built. Currently BETA testing in the `develop` branch",
+                "id": 4937566283,
+                "name": "deployed to `develop`",
+                "node_id": "LA_kwDOBSQPns8AAAABJk1ISw",
+                "url": "https://api.github.com/repos/lmorg/murex/labels/deployed%20to%20%60develop%60"
+            }
+────────────────────────────────────────────────────────────────────────────────

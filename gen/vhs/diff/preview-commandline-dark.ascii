@@ -1,0 +1,1820 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+» open https://api.github.com/repos/lmorg/murex/issues
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃[                                                                                                     ┃
+ ┃    {                                                                                                 ┃
+ ┃        "active_lock_reason": null,                                                                   ┃
+ ┃        "assignee": null,                                                                             ┃
+ ┃        "assignees": [],                                                                              ┃
+ ┃        "author_association": "CONTRIBUTOR",                                                          ┃
+ ┃        "body": "**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \┃
+ ┃u003e fid-kill \n                                                                                     ┃
+ ┃                                                                                        \n 0   [\"3732┃
+ ┃\",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\┃
+ ┃n**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alw┃
+ ┃ays suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN┃
+ ┃/A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if supp┃
+ ┃orted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --n┃
+ ┃o-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at l┃
+ ┃east resulted in selectable output, but the commands run during the autocomplete function itself were ┃
+ ┃also present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wi┃
+ ┃th my patch applied there are 8 results, when really I'm only interested in the one I manually suspend┃
+ ┃ed.\n\nMaybe this is unavoidable though? I can't think of a non-brittle way to filter them out.\n\nPat┃
+ ┃ch:\n\n```\ndiff --git a/config/defaults/profile_any.mx b/config/defaults/profile_any.mx\nindex 672da6┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues
+(builtin) Open a file with a preferred handler
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         ┃
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────┨
+ ┃[                                                                                                     ┃
+ ┃    {                                                                                                 ┃
+ ┃        "active_lock_reason": null,                                                                   ┃
+ ┃        "assignee": null,                                                                             ┃
+ ┃        "assignees": [],                                                                              ┃
+ ┃        "author_association": "CONTRIBUTOR",                                                          ┃
+ ┃        "body": "**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \┃
+ ┃u003e fid-kill \n                                                                                     ┃
+ ┃                                                                                        \n 0   [\"3732┃
+ ┃\",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\┃
+ ┃n**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alw┃
+ ┃ays suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN┃
+ ┃/A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if supp┃
+ ┃orted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --n┃
+ ┃o-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at l┃
+ ┃east resulted in selectable output, but the commands run during the autocomplete function itself were ┃
+ ┃also present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wi┃
+ ┃th my patch applied there are 8 results, when really I'm only interested in the one I manually suspend┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{}]
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         ┃
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────┨
+ ┃[                                                                                                     ┃
+ ┃    {                                                                                                 ┃
+ ┃        "active_lock_reason": null,                                                                   ┃
+ ┃        "assignee": null,                                                                             ┃
+ ┃        "assignees": [],                                                                              ┃
+ ┃        "author_association": "CONTRIBUTOR",                                                          ┃
+ ┃        "body": "**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \┃
+ ┃u003e fid-kill \n                                                                                     ┃
+ ┃                                                                                        \n 0   [\"3732┃
+ ┃\",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\┃
+ ┃n**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alw┃
+ ┃ays suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN┃
+ ┃/A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if supp┃
+ ┃orted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --n┃
+ ┃o-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at l┃
+ ┃east resulted in selectable output, but the commands run during the autocomplete function itself were ┃
+ ┃also present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wi┃
+ ┃th my patch applied there are 8 results, when really I'm only interested in the one I manually suspend┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{}]
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         ┃
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────┨
+ ┃[                                                                                                     ┃
+ ┃    {                                                                                                 ┃
+ ┃        "active_lock_reason": null,                                                                   ┃
+ ┃        "assignee": null,                                                                             ┃
+ ┃        "assignees": [],                                                                              ┃
+ ┃        "author_association": "CONTRIBUTOR",                                                          ┃
+ ┃        "body": "**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \┃
+ ┃u003e fid-kill \n                                                                                     ┃
+ ┃                                                                                        \n 0   [\"3732┃
+ ┃\",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\┃
+ ┃n**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alw┃
+ ┃ays suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN┃
+ ┃/A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if supp┃
+ ┃orted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --n┃
+ ┃o-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at l┃
+ ┃east resulted in selectable output, but the commands run during the autocomplete function itself were ┃
+ ┃also present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wi┃
+ ┃th my patch applied there are 8 results, when really I'm only interested in the one I manually suspend┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.}]
+(builtin) Outputs an element from an array, map or table
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         ┃
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────┨
+ ┃[                                                                                                     ┃
+ ┃    {                                                                                                 ┃
+ ┃        "active_lock_reason": null,                                                                   ┃
+ ┃        "assignee": null,                                                                             ┃
+ ┃        "assignees": [],                                                                              ┃
+ ┃        "author_association": "CONTRIBUTOR",                                                          ┃
+ ┃        "body": "**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \┃
+ ┃u003e fid-kill \n                                                                                     ┃
+ ┃                                                                                        \n 0   [\"3732┃
+ ┃\",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\┃
+ ┃n**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alw┃
+ ┃ays suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN┃
+ ┃/A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if supp┃
+ ┃orted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --n┃
+ ┃o-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at l┃
+ ┃east resulted in selectable output, but the commands run during the autocomplete function itself were ┃
+ ┃also present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wi┃
+ ┃th my patch applied there are 8 results, when really I'm only interested in the one I manually suspend┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.}]
+(builtin) Outputs an element from an array, map or table
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃{"i":1,"k":0,"v":{"active_lock_reason":null,"assignee":null,"assignees":[],"author_association":"CONTR┃
+ ┃IBUTOR","body":"**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \u┃
+ ┃003e fid-kill \n                                                                                      ┃
+ ┃                                                                                       \n 0   [\"3732\┃
+ ┃",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\n┃
+ ┃**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alwa┃
+ ┃ys suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN/┃
+ ┃A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if suppo┃
+ ┃rted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --no┃
+ ┃-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at le┃
+ ┃ast resulted in selectable output, but the commands run during the autocomplete function itself were a┃
+ ┃lso present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wit┃
+ ┃h my patch applied there are 8 results, when really I'm only interested in the one I manually suspende┃
+ ┃d.\n\nMaybe this is unavoidable though? I can't think of a non-brittle way to filter them out.\n\nPatc┃
+ ┃h:\n\n```\ndiff --git a/config/defaults/profile_any.mx b/config/defaults/profile_any.mx\nindex 672da61┃
+ ┃0..2cb559f2 100644\n--- a/config/defaults/profile_any.mx\n+++ b/config/defaults/profile_any.mx\n@@ -82┃
+ ┃0,7 +820,7 @@ autocomplete set !openagent %[\n\n private autocomplete.fid-kill {\n    # Returns a 2D a┃
+ ┃rray FIDs\n-    fid-list --jsonl -\u003e [ FID Command Parameters ]\n+    fid-list --jsonl -\u003e [ F┃
+ ┃ID Command Parameters ] -\u003e [2..] -\u003e foreach --jmap job { out $job[0] } { $job -\u003e [2..] ┃
+ ┃-\u003e mjoin ' ' }\n }\n\n test unit private autocomplete.fid-kill %{\n@@ -847,4 +847,4 @@ autocomple┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.}]
+(builtin) Outputs an element from an array, map or table
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃{"i":1,"k":0,"v":{"active_lock_reason":null,"assignee":null,"assignees":[],"author_association":"CONTR┃
+ ┃IBUTOR","body":"**Describe the bug:**\nWrite `fid-kill `\nPress Tab\n\nOutput resembles\n\n```\n[~] \u┃
+ ┃003e fid-kill \n                                                                                      ┃
+ ┃                                                                                       \n 0   [\"3732\┃
+ ┃",\"[\",\"FID\n 1   Command\n 2   Parameters\n 3   ]\"]\n 4   -setsid\n 5   /usr/bin/murex\"]\n```\n\n┃
+ ┃**Expected behaviour:**\nProper autocomplete values. For example, the current implementation will alwa┃
+ ┃ys suggest `0` first, which if I understand right is the shell process itself!\n\n**Screenshots:**\nN/┃
+ ┃A\n\n**Platform (please complete the following information):**\n - OS, output from `uname -a` if suppo┃
+ ┃rted: 6.16.10-arch1-1\n - Terminal Emulator: Kitty 0.43.1\n - Murex version, output from `version --no┃
+ ┃-app-name`: 7.0.2107\n\n**Additional context**\n\nAttempted a fix via the following patch, which at le┃
+ ┃ast resulted in selectable output, but the commands run during the autocomplete function itself were a┃
+ ┃lso present, cluttering the output. If I open helix and suspend it, when I run `fid-kill`  and tab wit┃
+ ┃h my patch applied there are 8 results, when really I'm only interested in the one I manually suspende┃
+ ┃d.\n\nMaybe this is unavoidable though? I can't think of a non-brittle way to filter them out.\n\nPatc┃
+ ┃h:\n\n```\ndiff --git a/config/defaults/profile_any.mx b/config/defaults/profile_any.mx\nindex 672da61┃
+ ┃0..2cb559f2 100644\n--- a/config/defaults/profile_any.mx\n+++ b/config/defaults/profile_any.mx\n@@ -82┃
+ ┃0,7 +820,7 @@ autocomplete set !openagent %[\n\n private autocomplete.fid-kill {\n    # Returns a 2D a┃
+ ┃rray FIDs\n-    fid-list --jsonl -\u003e [ FID Command Parameters ]\n+    fid-list --jsonl -\u003e [ F┃
+ ┃ID Command Parameters ] -\u003e [2..] -\u003e foreach --jmap job { out $job[0] } { $job -\u003e [2..] ┃
+ ┃-\u003e mjoin ' ' }\n }\n\n test unit private autocomplete.fid-kill %{\n@@ -847,4 +847,4 @@ autocomple┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.}]
+(builtin) Outputs an element from an array, map or table
+ $.i                                                 $.k
+ $.v                                                 $.v.active_lock_reason
+ $.v.assignee                                        $.v.assignees
+ $.v.author_association                              $.v.body
+ $.v.closed_at                                       $.v.closed_by
+ $.v.comments                                        $.v.comments_url
+ $.v.created_at                                      $.v.events_url
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃tiymat                                                                                                █
+ ┃Th0rgal                                                                                               █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}]
+(builtin) Outputs an element from an array, map or table
+ $.v.user.login
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃tiymat                                                                                                █
+ ┃Th0rgal                                                                                               █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}]
+(builtin) Outputs an element from an array, map or table
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃tiymat                                                                                                █
+ ┃Th0rgal                                                                                               █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}]
+(builtin) Outputs an element from an array, map or table
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         █
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃tiymat                                                                                                █
+ ┃Th0rgal                                                                                               █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃tiymat                                                                                                ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort
+(/usr/bin/sort) sort - sort or merge records (lines) of text and binary files
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         █
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃tiymat                                                                                                █
+ ┃Th0rgal                                                                                               █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃tiymat                                                                                                █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃tiymat                                                                                                ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort
+(/usr/bin/sort) sort - sort or merge records (lines) of text and binary files
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort
+(/usr/bin/sort) sort - sort or merge records (lines) of text and binary files
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 █
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┃lmorg                                                                                                 ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort
+eg: =num -- Specify maximum number of files that can be opened by sort at once. This option affects behav
+ior when having many input files or using temporary files. The default value is 16.
+ --batch-size                       --check                            --compress-program
+ --debug                            --dictionary-order                 --files0-from
+ --general-numeric-sort             --heapsort                         --help
+ --human-numeric-sort               --ignore-case                      --ignore-leading-blanks
+ --ignore-nonprinting               --merge                            --mergesort
+ --mmap                             --month-sort                       --numeric-sort
+ --parallel                         --qsort                            --radixsort
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         █
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃orefalo                                                                                               █
+ ┃Th0rgal                                                                                               █
+ ┃tiymat                                                                                                █
+ ┃yonas                                                                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat
+Number the non-blank output lines, starting at 1.
+ -b                                 -e                                 -l
+ -n                                 -s                                 -t
+ -u                                 -v                                 -b
+ -e                                 -l                                 -n
+ -s                                 -t                                 -u
+ -v                                 CONTRIBUTING.md                    DOWNLOAD.md
+ Dockerfile                         INSTALL.md                         LICENSE
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃new commands added to the command line: for your safety, press [f9] to confirm preview reload         █
+ ┠──────────────────────────────────────────────────────────────────────────────────────────────────────█
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃orefalo                                                                                               █
+ ┃Th0rgal                                                                                               █
+ ┃tiymat                                                                                                █
+ ┃yonas                                                                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat
+Number the non-blank output lines, starting at 1.
+ -b                                 -e                                 -l
+ -n                                 -s                                 -t
+ -u                                 -v                                 -b
+ -e                                 -l                                 -n
+ -s                                 -t                                 -u
+ -v                                 CONTRIBUTING.md                    DOWNLOAD.md
+ Dockerfile                         INSTALL.md                         LICENSE
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃orefalo                                                                                               █
+ ┃Th0rgal                                                                                               █
+ ┃tiymat                                                                                                █
+ ┃yonas                                                                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat
+Number the non-blank output lines, starting at 1.
+ -b                                 -e                                 -l
+ -n                                 -s                                 -t
+ -u                                 -v                                 -b
+ -e                                 -l                                 -n
+ -s                                 -t                                 -u
+ -v                                 CONTRIBUTING.md                    DOWNLOAD.md
+ Dockerfile                         INSTALL.md                         LICENSE
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃joshahussey                                                                                           █
+ ┃lmorg                                                                                                 █
+ ┃lokalius                                                                                              █
+ ┃orefalo                                                                                               █
+ ┃Th0rgal                                                                                               █
+ ┃tiymat                                                                                                █
+ ┃yonas                                                                                                 █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat
+Display non-printing characters (see the -v option), and display a dollar sign (‘$’) at the end of each l
+ine.
+ -b                                 -e                                 -l
+ -n                                 -s                                 -t
+ -u                                 -v                                 -b
+ -e                                 -l                                 -n
+ -s                                 -t                                 -u
+ -v                                 CONTRIBUTING.md                    DOWNLOAD.md
+ Dockerfile                         INSTALL.md                         LICENSE
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     1    joshahussey                                                                                 █
+ ┃     2    lmorg                                                                                       █
+ ┃     3    lokalius                                                                                    █
+ ┃     4    orefalo                                                                                     █
+ ┃     5    Th0rgal                                                                                     █
+ ┃     6    tiymat                                                                                      █
+ ┃     7    yonas                                                                                       █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+Number the output lines, starting at 1.
+ -n                                 -n
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     1    joshahussey                                                                                 █
+ ┃     2    lmorg                                                                                       █
+ ┃     3    lokalius                                                                                    █
+ ┃     4    orefalo                                                                                     █
+ ┃     5    Th0rgal                                                                                     █
+ ┃     6    tiymat                                                                                      █
+ ┃     7    yonas                                                                                       █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+(/bin/cat) cat - concatenate and print files
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+ ╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+ ║ Command Line Preview    |    [F1] to exit    |    [ENTER] to commit                                  ║
+ ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃     1    joshahussey                                                                                 █
+ ┃     2    lmorg                                                                                       █
+ ┃     3    lokalius                                                                                    █
+ ┃     4    orefalo                                                                                     █
+ ┃     5    Th0rgal                                                                                     █
+ ┃     6    tiymat                                                                                      █
+ ┃     7    yonas                                                                                       █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┃                                                                                                      █
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+(/bin/cat) cat - concatenate and print files
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Sometimes you want your REPL to be a little more instantaneous
+» # Press F9 to enter the command line previewer
+» open https://api.github.com/repos/lmorg/murex/issues | [{$.v.user.login}] | sort -u | cat -n
+     1  joshahussey
+     2  lmorg
+     3  lokalius
+     4  orefalo
+     5  Th0rgal
+     6  tiymat
+     7  yonas
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────

@@ -5,6 +5,7 @@
   Description: |-
     Type `# Errors appear in red for better visibility`
     Enter
+
     Type `2 + "two"`
     Enter
     Screenshot images/vhs-{{.ID}}-errmsg-{{.TemplateMeta.Theme}}.png
@@ -14,11 +15,11 @@
     Enter
     Type `try {`
     Enter
-    Type `  echo "before error"`
+    Type `    echo "before error"`
     Enter
-    Type `  grep pattern file-does-not-exist`
+    Type `    grep pattern file-does-not-exist`
     Enter
-    Type `  echo "this line will not execute because 'grep' errors"`
+    Type `    echo "this line will not execute because 'grep' errors"`
     Enter
     Type `}; catch { out "error caught" }`
     Sleep 2s
@@ -27,6 +28,17 @@
 
     Type `# Unit tests`
     Enter
+    Type `function zzz_example { out "hello world" }`
+    Enter
+    Type `test unit function zzz_example %{`
+    Enter
+    Type `    StdoutMatch: "hello world\n"`
+    Enter
+    Type `    StdoutType: json`
+    Enter
+    Type `}`
+    Enter
+    Sleep 2s
     Type `test run *`
     Sleep 2s
     Enter
