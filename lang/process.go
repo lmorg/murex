@@ -110,7 +110,7 @@ func writeError(p *Process, err error) []byte {
 		msg = fmt.Sprintf("Error in `%s` (%d,%d)%s ", name, p.FileRef.Line, p.FileRef.Column, separator)
 		indentLen = len(msg) - 4
 	} else {
-		msg = fmt.Sprintf("Error in `%s` (%s %d,%d) ┃\n      Command: %s\n      Error: ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, string(p.raw))
+		msg = fmt.Sprintf("Error in `%s` (%s %d,%d):\n      Command: %s\n      Error: ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, string(p.raw))
 		indentLen = 7
 	}
 
