@@ -74,7 +74,6 @@ It can display:
 * contents of text files
 * and even images too!
 
-
 ## Preview Command Lines
 
 > Enabled via `[f9]`

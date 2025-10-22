@@ -7,7 +7,7 @@
 
 [![Official Website](images/murex-term-light.png?v=undef)](https://murex.rocks)
 
-A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
+> A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
 
 A non-exhaustive list features would include:
 
@@ -24,57 +24,88 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, stdout highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
-## Language Guides
 
-* Read the [language tour](/docs/tour.md) to get started.
+## Smart Data
 
-* The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a
-great cheatsheet for those wishing to skip the tutorials and jump straight in.
-This guide includes comparisons with Bash.
+Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
 
-* The [Interactive Shell](/docs/user-guide/interactive-shell.md)
-guide walks you through using Murex as a command line as opposed to a scripting
-language.
+![video demonstrating Murex's data capabilities](/images/vhs-clever-data-dark.gif)
 
-## Examples
+## Extremely Expressive
 
-### Smart data:
+Murex has a flexible syntax that is both succinct enough to allow for fast typing
+in the command line, but also readable shell scripts.
 
-<img src="images/screenshot-open-foreach.png?v=undef" class="readme">
+![video demonstrating various different syntactic features of Murex](/images/vhs-expressive-dark.gif)
 
-<img src="images/screenshot-ps-select.png?v=undef" class="readme">
+## Better Error Handling
 
-### Inline spellchecking:
+Shell scripts are notorious for having leaky failure modes. Murex fixes this
+with familiar features like error handling and unit tests.
 
-<img src="images/screenshot-spellchecker.png?v=undef" class="readme">
+![vhs-better-errors centre-image](/images/vhs-better-errors-dark.gif)
 
-### Autocomplete:
+# Getting Started
 
-<img src="images/screenshot-kill-autocomplete.png?v=undef" class="readme">
+Visit our [official website](https://murex.rocks) for easier browsing of the documentation.
 
-<img src="images/screenshot-autocomplete-git.png?v=undef" class="readme">
+## Learn About The Command Line
 
-<img src="images/screenshot-history.png?v=undef" class="readme">
+Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.html).
+Read more about it's unique features.
 
-### Preview screen:
+![banner](/images/banner-interactive-light.png)
 
-<img src="images/screenshot-preview-man-page.png?v=undef" class="readme">
+## Learn The Syntax
 
-<img src="images/screenshot-preview-command-line.png?v=undef" class="readme">
+Read the [language tour](/tour.html) to learn about the syntax and how
+shell scripting is easier in Murex.
 
-### Useful error messages:
+![banner](/images/banner-tour-light.png)
 
-<img src="images/screenshot-error-messages.png?v=undef" class="readme">
+## Cheat Sheet
 
-<img src="images/screenshot-paste-safety.png?v=undef" class="readme">
+The [Rosetta Stone](/user-guide/rosetta-stone.html) is a great cheat sheet for
+those wishing to skip the tutorials and jump straight in.
+This guide provides comparisons with Bash.
 
-### Plus More!
+![banner](/images/banner-rosetta-light.png)
 
-Visit the [official website](https://murex.rocks).
+# Easy to Install
 
-## Install instructions
+Install `murex` from your favorite package manager or directly from source:
 
-See [INSTALL](INSTALL.md) for details.
+
+### ArchLinux
+
+From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
+
+```bash
+wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
+makepkg --syncdeps --install 
+```
+
+### FreeBSD Ports
+
+```bash
+pkg install murex
+```
+
+### Homebrew
+
+```bash
+brew install murex
+```
+
+### MacPorts
+
+```bash
+port install murex
+```
+
+
+More details are available in the [INSTALL](INSTALL.md) document.
+
 
 ## Discuss Murex
 

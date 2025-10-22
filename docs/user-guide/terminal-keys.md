@@ -111,7 +111,7 @@ While the fuzzy finder is open, the following keys are assigned roles:
 
 ### Autocomplete Preview
 
-
+![video demonstrating different parameters being previewed](/images/vhs-preview-autocomplete-dark.gif)
 
 The autocomplete preview is a way of quickly examining the contents of a
 function, man page, text file or even image, based on what autocomplete
@@ -143,7 +143,7 @@ While the preview box is open, the following keys are assigned roles:
 
 ### Command Line Preview
 
-
+![video demonstrating real time command line previews](/images/vhs-preview-commandline-dark.gif)
 
 The command line preview enables you to view the output of a command pipeline
 interactively while you type it. ([read more](interactive-shell.md#command-line-preview))

@@ -6,10 +6,6 @@
 <div id="toc">
 
 - [Installing From A Package Manager](#installing-from-a-package-manager)
-  - [ArchLinux](#archlinux)
-  - [FreeBSD Ports](#freebsd-ports)
-  - [Homebrew](#homebrew)
-  - [MacPorts](#macports)
 - [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Compiling From Source](#compiling-from-source)
   - [Prerequisites](#prerequisites)
@@ -40,6 +36,7 @@ There is a more detailed breakdown of known compatibility issues in the
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg?exclude_unsupported=1)](https://repology.org/project/murex/versions)
 
+
 ### ArchLinux
 
 From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
@@ -66,6 +63,7 @@ brew install murex
 ```bash
 port install murex
 ```
+
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -134,10 +132,10 @@ Some of Murex's extended features will have additional external dependencies.
 
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
-  [http://aspell.net](http://aspell.net)
+  ([GNU Aspell](http://aspell.net))
 
 * `git`: This is used by Murex's package manager, `murex-package`.
-  [How to install git](https://github.com/git-guides/install-git)
+  ([How to install git](https://github.com/git-guides/install-git))
 
 ## See Also
 

@@ -68,7 +68,7 @@ develop => origin/develop
 The following screenshot is of a custom hint text using Starship:
 
 <!-- markdownlint-disable -->
-<img src="/screenshot-hint-starship.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
+<img src="/images/screenshot-hint-starship.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
 <!-- markdownlint-restore -->
 
 Source: [https://github.com/orefalo/murex-module-starship](https://github.com/orefalo/murex-module-starship)

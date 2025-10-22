@@ -211,7 +211,7 @@ func showPrompt() {
 				continue
 
 			case readline.ErrEOF:
-				fmt.Fprintln(os.Stdout, utils.NewLineString)
+				fmt.Fprint(os.Stdout, utils.NewLineString, utils.NewLineString)
 				callEventsPrompt(promptops.EOF, nil, -1)
 				lang.Exit(0)
 

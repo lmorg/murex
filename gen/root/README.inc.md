@@ -23,100 +23,6 @@ actions:
 copyright: false
 footer: GPLv2 Licensed, Copyright Laurence Morgan
 ---
-
-## Smart Data
-
-Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
-
-<!-- markdownlint-disable -->
-<img class="vhs-clever-data centre-image" alt="video demonstrating Murex's data capabilities">
-<!-- markdownlint-restore -->
-
-## Extremely Expressive
-
-Murex has a flexible syntax that is both succinct enough to allow for fast typing
-in the command line, but also readable shell scripts.
-
-<!-- markdownlint-disable -->
-<img class="vhs-expressive centre-image" alt="video demonstrating various different syntactic features of Murex">
-<!-- markdownlint-restore -->
-
-## Better Error Handling
-
-Shell scripts are notorious for having leaky failure modes. Murex fixes this
-with familiar features like error handling and unit tests.
-
-<!-- markdownlint-disable -->
-<img class="vhs-better-errors centre-image" alt="video demonstrating error handling">
-<!-- markdownlint-restore -->
-
-# Getting Started
-
-## Learn About The Command Line
-
-Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.html).
-Read more about it's unique features.
-
-<!-- markdownlint-disable -->
-<img class="banner-interactive centre-image" alt="banner">
-<!-- markdownlint-restore -->
-
-## Learn The Syntax
-
-Read the [language tour](/tour.html) to learn about the syntax and how
-shell scripting is easier in Murex.
-
-<!-- markdownlint-disable -->
-<img class="banner-tour centre-image" alt="banner">
-<!-- markdownlint-restore -->
-
-## Cheat Sheet
-
-The [Rosetta Stone](/user-guide/rosetta-stone.html) is a great cheat sheet for
-those wishing to skip the tutorials and jump straight in.
-This guide includes comparisons with Bash.
-
-<!-- markdownlint-disable -->
-<img class="banner-rosetta centre-image" alt="banner">
-<!-- markdownlint-restore -->
-
-# Easy to Install
-
-Install `murex` from your favorite package manager or directly from source:
-
-::: code-tabs#shell
-
-@tab macOS
-```sh
-# via Homebrew:
-brew install murex
-
-# via MacPorts:
-port install murex
-```
-
-@tab ArchLinux
-```sh
-# From AUR: https://aur.archlinux.org/packages/murex
-wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-makepkg --syncdeps --install 
-```
-
-@tab FreeBSD
-```sh
-pkg install murex
-```
-
-@tab Powershell
-```powershell
-# This requires `go` (Golang) and `git` to already be installed.
-$env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
-```
-
-:::
-
-More details are available in the [INSTALL](install/) document.
-
 {{ else }}# Murex: A Smarter Shell
 
 [![Version](version.svg?v={{env "COMMITHASHSHORT"}})](DOWNLOAD.md)
@@ -126,7 +32,7 @@ More details are available in the [INSTALL](install/) document.
 
 [![Official Website](images/{{ .DocumentMeta.Logo }}?v={{ env "COMMITHASHSHORT" }})](https://murex.rocks)
 
-{{ .Summary }}
+> {{ .Summary }}
 
 A non-exhaustive list features would include:
 
@@ -142,59 +48,84 @@ A non-exhaustive list features would include:
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
   blocks, line numbers included in error messages, stdout highlighted in red
   and script testing and debugging frameworks baked into the language itself.
+{{ end }}
 
-## Language Guides
+## Smart Data
 
-* Read the [language tour](/docs/tour.md) to get started.
+Murex has native support for data formats such as JSON, YAML, XML, CSV, and others.
 
-* The [Rosetta Stone](/docs/user-guide/rosetta-stone.md) is a
-great cheatsheet for those wishing to skip the tutorials and jump straight in.
-This guide includes comparisons with Bash.
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-clever-data centre-image" alt="video demonstrating Murex's data capabilities">
+<!-- markdownlint-restore -->
+{{ else }}![video demonstrating Murex's data capabilities](/images/vhs-clever-data-dark.gif){{ end }}
 
-* The [Interactive Shell](/docs/user-guide/interactive-shell.md)
-guide walks you through using Murex as a command line as opposed to a scripting
-language.
+## Extremely Expressive
 
-## Examples
+Murex has a flexible syntax that is both succinct enough to allow for fast typing
+in the command line, but also readable shell scripts.
 
-### Smart data:
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-expressive centre-image" alt="video demonstrating various different syntactic features of Murex">
+<!-- markdownlint-restore -->
+{{ else }}![video demonstrating various different syntactic features of Murex](/images/vhs-expressive-dark.gif){{ end }}
 
-<img src="images/screenshot-open-foreach.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+## Better Error Handling
 
-<img src="images/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+Shell scripts are notorious for having leaky failure modes. Murex fixes this
+with familiar features like error handling and unit tests.
 
-### Inline spellchecking:
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-better-errors centre-image" alt="video demonstrating error handling">
+<!-- markdownlint-restore -->
+{{ else }}![vhs-better-errors centre-image](/images/vhs-better-errors-dark.gif){{ end }}
 
-<img src="images/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+# Getting Started
 
-### Autocomplete:
+{{ if env "DOCGEN_TARGET=" }}Visit our [official website](https://murex.rocks) for easier browsing of the documentation.
+{{ end }}
+## Learn About The Command Line
 
-<img src="images/screenshot-kill-autocomplete.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+Murex features a state-of-the-art [interactive command line](/user-guide/interactive-shell.html).
+Read more about it's unique features.
 
-<img src="images/screenshot-autocomplete-git.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+{{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
+<img class="banner-interactive centre-image" alt="banner">
+<!-- markdownlint-restore -->
+{{ else }}![banner](/images/banner-interactive-light.png){{ end }}
 
-<img src="images/screenshot-history.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+## Learn The Syntax
 
-### Preview screen:
+Read the [language tour](/tour.html) to learn about the syntax and how
+shell scripting is easier in Murex.
 
-<img src="images/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+{{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
+<img class="banner-tour centre-image" alt="banner">
+<!-- markdownlint-restore -->
+{{ else }}![banner](/images/banner-tour-light.png){{ end }}
 
-<img src="images/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+## Cheat Sheet
 
-### Useful error messages:
+The [Rosetta Stone](/user-guide/rosetta-stone.html) is a great cheat sheet for
+those wishing to skip the tutorials and jump straight in.
+This guide provides comparisons with Bash.
 
-<img src="images/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+{{ if env "DOCGEN_TARGET=vuepress" }}<!-- markdownlint-disable -->
+<img class="banner-rosetta centre-image" alt="banner">
+<!-- markdownlint-restore -->
+{{ else }}![banner](/images/banner-rosetta-light.png){{ end }}
 
-<img src="images/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="readme">
+# Easy to Install
 
-### Plus More!
+Install `murex` from your favorite package manager or directly from source:
 
-Visit the [official website](https://murex.rocks).
+{{ tmpl (file "gen/includes/install-package.inc.md") .Ptr }}
 
-## Install instructions
+More details are available in the [INSTALL]({{ if env "DOCGEN_TARGET=vuepress" }}install/{{ else }}INSTALL.md{{ end }}) document.
 
-See [INSTALL](INSTALL.md) for details.
-
+{{ if env "DOCGEN_TARGET=" }}
 ## Discuss Murex
 
 Discussions presently happen in [Github discussions](https://github.com/lmorg/murex/discussions).

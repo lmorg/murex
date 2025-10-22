@@ -11,10 +11,6 @@ title: {{ quote $doc.Title }}
 <div id="toc">
 
 - [Installing From A Package Manager](#installing-from-a-package-manager)
-  - [ArchLinux](#archlinux)
-  - [FreeBSD Ports](#freebsd-ports)
-  - [Homebrew](#homebrew)
-  - [MacPorts](#macports)
 - [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Compiling From Source](#compiling-from-source)
   - [Prerequisites](#prerequisites)
@@ -44,59 +40,9 @@ There is a more detailed breakdown of known compatibility issues in the
 > updated with future releases.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg?exclude_unsupported=1)](https://repology.org/project/murex/versions)
-{{ if env "DOCGEN_TARGET=vuepress" }}
-::: code-tabs#shell
 
-@tab macOS
-```sh
-# via Homebrew:
-brew install murex
+{{ tmpl (file "gen/includes/install-package.inc.md") .Ptr }}
 
-# via MacPorts:
-port install murex
-```
-
-@tab ArchLinux
-```sh
-# From AUR: https://aur.archlinux.org/packages/murex
-wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-makepkg --syncdeps --install 
-```
-
-@tab FreeBSD
-```sh
-pkg install murex
-```
-
-:::
-{{ else }}
-### ArchLinux
-
-From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
-
-```bash
-wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-makepkg --syncdeps --install 
-```
-
-### FreeBSD Ports
-
-```bash
-pkg install murex
-```
-
-### Homebrew
-
-```bash
-brew install murex
-```
-
-### MacPorts
-
-```bash
-port install murex
-```
-{{ end }}
 ## Pre-Compiled Binaries (HTTPS download)
 
 [![Version](version.svg)](DOWNLOAD.md)
@@ -182,7 +128,7 @@ Some of Murex's extended features will have additional external dependencies.
 
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
-  [http://aspell.net](http://aspell.net)
+  ([GNU Aspell](http://aspell.net))
 
 * `git`: This is used by Murex's package manager, `murex-package`.
-  [How to install git](https://github.com/git-guides/install-git)
+  ([How to install git](https://github.com/git-guides/install-git))
