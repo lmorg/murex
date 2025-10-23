@@ -2,15 +2,26 @@
   Title: >-
     v7.1
   CategoryID: changelog
-  DateTime: 2025-09-24 22:00
+  DateTime: 2025-10-23 22:35
   Summary: >-
-    This release focuses mainly on quality-of-life improvements over major headline new features
+    This release focuses mainly on bugfixes and quality-of-life with the exception
+    of three **experimental** new major additions:
+    * `foreach` now supports running processes in parallel
+    * `fanout` is a new builtin that allows sending stdout to the stdin of many processes
+    * `md` is a new datatype added. Currently only supports rendering markdown tables but more features will follow in future releases
   Description: |-
     {{ include "gen/changelog/v7.1.inc.md" }}
   Related:
     - CONTRIBUTING
     - autocomplete
     - config
-    - integrations
+    - select
     - runtime
+    - foreach
+    - fanout
+    - test
+    - datetime
+    - fid-kill
+    - interactive-shell
+    - integrations
     - spellcheck

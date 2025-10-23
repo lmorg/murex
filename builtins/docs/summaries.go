@@ -422,7 +422,7 @@ func init() {
 		"changelog/v6.3":                  "This is a massive release ahead of the v7.0. This brings notifications of  new deprecations, new builtins, new flags, improved CI/CD flow, and changes to the website. Unfortunately it also carries 3 breaking changes.",
 		"changelog/v6.4":                  "This change brings a number of ergonomic improvements to job control, `datetime` and working with structures.",
 		"changelog/v7.0":                  "Introducing experimental support for XML, new integrations, and several other quality-of-life improvements. Four deprecated builtins have been removed too, which is this release sees an increment of its major version number",
-		"changelog/v7.1":                  "This release focuses mainly on quality-of-life improvements over major headline new features",
+		"changelog/v7.1":                  "This release focuses mainly on bugfixes and quality-of-life with the exception of three **experimental** new major additions: * `foreach` now supports running processes in parallel * `fanout` is a new builtin that allows sending stdout to the stdin of many processes * `md` is a new datatype added. Currently only supports rendering markdown tables but more features will follow in future releases",
 		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
 		"deprecated/die":                  "Terminate murex with an exit number of 1 (removed 7.0)",
 		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
