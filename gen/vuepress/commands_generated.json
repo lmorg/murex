@@ -118,6 +118,33 @@
         "children": [
             {
                 "icon": "file-lines",
+                "link": "commands/formap.md",
+                "text": "For Each In Map: formap"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/foreach.md",
+                "text": "For Each In array: foreach"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/for.md",
+                "text": "For Loop: for"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/while.md",
+                "text": "Loop While: while"
+            }
+        ],
+        "collapsible": true,
+        "icon": "folder",
+        "text": "Looping / Iteration"
+    },
+    {
+        "children": [
+            {
+                "icon": "file-lines",
                 "link": "commands/alias.md",
                 "text": "Alias \"shortcut\": alias"
             },
@@ -800,6 +827,11 @@
                 "icon": "file-lines",
                 "link": "commands/function.md",
                 "text": "Public Function: function"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fanout.md",
+                "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
             },
             {
                 "icon": "file-lines",

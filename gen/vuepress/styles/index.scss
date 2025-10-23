@@ -139,7 +139,7 @@ blockquote {
     }
 }
 
-// Make inlined `fixed width` text less distracting in dark mode
+/*// Make inlined `fixed width` text less distracting in dark mode
 html[data-theme="dark"] code {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
     color: #d0d5d0;
@@ -148,7 +148,7 @@ html[data-theme="dark"] code {
 // But lets not apply the above values to code blocks
 html[data-theme="dark"] pre.language-text code {
     background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 0%) !important;
-}
+}*/
 
 html[data-theme="dark"] ::marker {
     color: #666666;

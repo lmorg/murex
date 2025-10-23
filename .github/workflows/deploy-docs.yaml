@@ -94,6 +94,7 @@ jobs:
           AWS_DEFAULT_OUTPUT:    json
           CLOUDFRONT_ID:         ${{ github.ref == 'refs/heads/master' && secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER || secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
         run: |
+          mv -v images/vhs* images/banner* docs/.vuepress/dist/
           aws s3 sync docs/.vuepress/dist s3://murex.rocks/develop --exclude "*.md" --no-progress --delete
           aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_ID}" --paths "/*"
     
