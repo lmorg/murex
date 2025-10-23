@@ -6,7 +6,10 @@ Track new features, any breaking changes, and the release history here.
 
 ### 23.10.2025 - [v7.1](../changelog/v7.1.md)
 
-This release focuses mainly on bugfixes and quality-of-life with the exception of three **experimental** new major additions: * `foreach` now supports running processes in parallel * `fanout` is a new builtin that allows sending stdout to the stdin of many processes * `md` is a new datatype added. Currently only supports rendering markdown tables but more features will follow in future releases
+This release focuses mainly on bugfixes and quality-of-life with the exception of three **experimental** new major additions:
+* `foreach` now supports running processes in parallel
+* `fanout` is a new builtin that allows sending stdout to the stdin of many processes
+* `md` is a new datatype added. Currently only supports rendering markdown tables but more features will follow in future releases
 
 
 ### 14.04.2025 - [v7.0](../changelog/v7.0.md)
