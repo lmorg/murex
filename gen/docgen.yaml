@@ -30,6 +30,11 @@ Categories:
       VueIcon: floppy-disk
       Description: |-
         Commands for working with files and/or the filesystem.
+    - ID: commands.loop
+      Title: Looping / Iteration
+      VueIcon: rotate-left
+      Description: |-
+        Operations for looping and iteration
     - ID: commands.posix
       Title: Defined by POSIX
       VueIcon: server

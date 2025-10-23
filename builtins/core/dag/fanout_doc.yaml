@@ -2,7 +2,9 @@
   Title: >+
     Send pipes to multiple processes: `fanout` (EXPERIMENTAL)
   CategoryID: commands
-  SubCategoryIDs: [ commands.io ]
+  SubCategoryIDs:
+    - commands.io
+    - commands.lang
   Summary: >-
     Copies stdin and sends it to multiple pipelines, collating their output
   Description: |-

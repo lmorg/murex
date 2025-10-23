@@ -85,6 +85,19 @@ Commands for working with files and/or the filesystem.
 * [Write File (Truncate): `>`](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
 
+### Looping / Iteration
+
+Operations for looping and iteration
+
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [For Loop: `for`](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Loop While: `while`](../commands/while.md):
+  Loop until condition false
+
 ### Defined by POSIX
 
 Commands defined by POSIX.
@@ -386,6 +399,8 @@ Various commands that enable control flow, error handling and other important ch
   Define a private function block
 * [Public Function: `function`](../commands/function.md):
   Define a function block
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
 

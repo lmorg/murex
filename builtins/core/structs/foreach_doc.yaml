@@ -5,6 +5,7 @@
   SubCategoryIDs:
     - commands.lang
     - commands.list
+    - commands.loop
   Summary: >-
     Iterate through an array
   Description: |-
