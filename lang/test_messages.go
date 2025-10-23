@@ -36,10 +36,10 @@ func tMsgUnmarshalErr(property string, dt string, err error) string {
 	return fmt.Sprintf("Error unmarshalling `%s` for %s: %s", dt, property, err)
 }
 func tMsgDataFormatValid(property string, dt string, v any) string {
-	return fmt.Sprintf("%s data format valid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
+	return fmt.Sprintf("%s data format valid. Datatype `%s` unmarshalled as `%T`", property, dt, v)
 }
 func tMsgDataFormatInvalid(property string, dt string, v any) string {
-	return fmt.Sprintf("%s data format invalid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
+	return fmt.Sprintf("%s data format invalid. Datatype `%s` unmarshalled as `%T`", property, dt, v)
 }
 
 func tMsgCompileErr(property string, err error) string {
@@ -50,7 +50,7 @@ func tMsgNoneZeroExit(property string, exitnum int) string {
 }
 
 func tMsgExitNumMismatch(exp int, act int) string {
-	return fmt.Sprintf("ExitNum mismatch. Exp: %d, act: %d", exp, act)
+	return fmt.Sprintf("ExitNum mismatch. Expected: %d, actual: %d", exp, act)
 }
 func tMsgExitNumMatch() string {
 	return "ExitNum matches expected"
@@ -64,14 +64,14 @@ func tMsgExitNumZero(property string) string {
 }
 
 func tMsgDataTypeMismatch(stdType string, act string) string {
-	return fmt.Sprintf("Data-type mismatch on %s. act: '%s'", stdType, act)
+	return fmt.Sprintf("Datatype mismatch on %s. Got: '%s'", stdType, act)
 }
 func tMsgDataTypeMatch(stdType string) string {
-	return fmt.Sprintf("Expected data-type matched on %s", stdType)
+	return fmt.Sprintf("Expected datatype matched on %s", stdType)
 }
 
 func tMsgStringMismatch(property string, std []byte) string {
-	return fmt.Sprintf("%s string mismatch. act: '%s'", property, std)
+	return fmt.Sprintf("%s string mismatch. Got: '%s'", property, std)
 }
 func tMsgStringMatch(property string) string {
 	return fmt.Sprintf("%s matches expected string", property)
@@ -81,7 +81,7 @@ func tMsgRegexCompileErr(property string, err error) string {
 	return fmt.Sprintf("%s could not compile: %s", property, err)
 }
 func tMsgRegexMismatch(property string, std []byte) string {
-	return fmt.Sprintf("%s expression did not match. act: '%s'", property, std)
+	return fmt.Sprintf("%s expression did not match. Got: '%s'", property, std)
 }
 func tMsgRegexMatch(property string) string {
 	return fmt.Sprintf("%s matches expected regex expression", property)
