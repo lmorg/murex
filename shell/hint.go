@@ -17,21 +17,28 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
-var cachedHintText []rune
-
 func hintText(line []rune, pos int) []rune {
 	r := hintExpandVariables(line)
 	if len(r) > 0 {
 		return r
 	}
 
-	pt, _ := parser.Parse(line, 0)
+	pt, _ := parser.Parse(line, pos)
+
+	if pt.FuncName == "" {
+		return HintCodeBlockCached()
+	}
+
 	cmd := pt.FuncName
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := variables.ExpandString(pt.Parameters[0])
 		if path == "-" {
-			return hintCdPrevious()
+			hint, ok := hintCdPrevious()
+			if ok {
+				return []rune("Change directory: " + string(hint))
+			}
+			return hint
 		}
 		path = utils.NormalisePath(path)
 		return []rune("Change directory: " + path)
@@ -40,38 +47,33 @@ func hintText(line []rune, pos int) []rune {
 	// check if a custom summary has been set
 	globalExes := autocomplete.GlobalExes.Get()
 	r = hintsummary.Get(cmd, (*globalExes)[cmd])
-
 	if len(r) > 0 {
 		return r
 	}
 
-	if len(cachedHintText) > 0 {
-		return cachedHintText
-	}
-
-	return HintCodeBlock()
+	return HintCodeBlockCached()
 }
 
 func hintCdPreviousPwdHistErr(err error) []rune {
 	return []rune(fmt.Sprintf("unable to decode $PWDHIST: %s", err.Error()))
 }
 
-func hintCdPrevious() []rune {
+func hintCdPrevious() ([]rune, bool) {
 	pwdHist, err := lang.ShellProcess.Variables.GetValue("PWDHIST")
 	if err != nil {
-		return hintCdPreviousPwdHistErr(err)
+		return hintCdPreviousPwdHistErr(err), false
 	}
 
 	pwdStrings, err := lists.GenericToString(pwdHist)
 	if err != nil {
-		return hintCdPreviousPwdHistErr(err)
+		return hintCdPreviousPwdHistErr(err), false
 	}
 
 	if len(pwdStrings) < 2 {
-		return []rune("already at first directory in $PWDHIST")
+		return []rune("already at first directory in $PWDHIST"), false
 	}
 
-	return []rune(pwdStrings[len(pwdStrings)-2])
+	return []rune(pwdStrings[len(pwdStrings)-2]), true
 }
 
 func hintExpandVariables(line []rune) []rune {
@@ -93,6 +95,16 @@ func hintExpandVariables(line []rune) []rune {
 	}
 
 	return []rune{}
+}
+
+var _cachedHintText []rune
+
+func HintCodeBlockCached() []rune {
+	if len(_cachedHintText) > 0 {
+		return _cachedHintText
+	}
+
+	return HintCodeBlock()
 }
 
 func HintCodeBlock() []rune {
@@ -121,7 +133,6 @@ func HintCodeBlock() []rune {
 			exitNum, len(b), err2, err)))
 	}
 
-	cachedHintText = []rune(string(b))
-
-	return cachedHintText
+	_cachedHintText = []rune(string(b))
+	return _cachedHintText
 }

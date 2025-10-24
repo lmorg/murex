@@ -3,8 +3,10 @@
     Murex
   CategoryID: Murex
   Summary:
-    A smarter $SHELL and scripting environment with advanced features designed for safety and productivity. Murex is a modern shell
+    A smarter, more intuitive, and readable shell. You'll get more done, and more easily, with Murex
   Description: |-
-    {{ include "gen/root/README.inc.md" }}
+    {{ tmpl (file "gen/root/README.inc.md") .Ptr }}
+  MetaData:
+    Logo: murex-term-light.png
   Synonyms:
   Related:

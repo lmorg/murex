@@ -36,10 +36,10 @@ Return the 2nd element in an array:
 
 ### Used with config
 
-Return the data-type and description of **config shell syntax-highlighting**:
+Return the data-type and description of **config shell syntax-highlighting-enabled**:
 
 ```
-» config -> [[ /shell/syntax-highlighting/Data-Type ]]
+» config -> [[ /shell/syntax-highlighting-enabled/Data-Type ]]
 bool
 ```
 
@@ -56,16 +56,16 @@ start from zero (`0`).
 following are all valid parameters:
 
 ```
-» config -> [[ ,shell,syntax-highlighting,Data-Type ]]
+» config -> [[ ,shell,syntax-highlighting-enabled,Data-Type ]]
 bool
 
-» config -> [[ >shell>syntax-highlighting>Data-Type ]]
+» config -> [[ >shell>syntax-highlighting-enabled>Data-Type ]]
 bool
 
-» config -> [[ \|shell\|syntax-highlighting\|Data-Type ]]
+» config -> [[ \|shell\|syntax-highlighting-enabled\|Data-Type ]]
 bool
 
-» config -> [[ 😅shell😅syntax-highlighting😅Data-Type ]]
+» config -> [[ 😅shell😅syntax-highlighting-enabled😅Data-Type ]]
 bool
 ```
 
@@ -77,7 +77,7 @@ However there are a few of caveats:
 
     ```
     # Would fail because the semi-colon is an unescaped / unquoted shell token
-    config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+    config -> [[ ;shell-syntax-highlighting-enabled;Data-Type ]]
     ```
 
 2. Please also make sure you don't use a character that is also used inside
@@ -85,9 +85,9 @@ However there are a few of caveats:
    following would fail:
 
     ```
-    # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
+    # Would fail because 'syntax-highlighting-enabled' and 'Data-Type' both also contain
     # the separator character
-    config -> [[ -shell-syntax-highlighting-Data-Type ]]
+    config -> [[ -shell-syntax-highlighting-enabled-Data-Type ]]
 
     # Would fail because you cannot escape key names (escaping happens at the
     # shell parser level rather than command parameter level)
@@ -102,10 +102,10 @@ to quote **element** parameters is to quote specific key names or the entire
 path:
 
 ```
-» config -> [[ /shell/"syntax-highlighting"/Data-Type ]]
+» config -> [[ /shell/"syntax-highlighting-enabled"/Data-Type ]]
 bool
 
-» config -> [[ "|shell|syntax-highlighting|Data-Type" ]]
+» config -> [[ "|shell|syntax-highlighting-enabled|Data-Type" ]]
 bool
 ```
 
@@ -123,7 +123,7 @@ bool
   Count items in a map, list or array
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin

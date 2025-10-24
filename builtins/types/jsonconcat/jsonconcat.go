@@ -9,6 +9,7 @@ const name = "jsonc"
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(name, lang.DataTypeIsObject)
 	lang.RegisterMarshaller(name, marshal)
 	lang.RegisterUnmarshaller(name, unmarshal)
 	lang.ReadIndexes[name] = index

@@ -59,7 +59,7 @@ func CommandLine(ctx context.Context, block []rune, _ string, _ bool, size *read
 
 	b, ioErr := fork.Stdout.ReadAll()
 	if fork.Stdout.GetDataType() == types.Json {
-		var v interface{}
+		var v any
 		err = json.Unmarshal(b, &v)
 		if err != nil {
 			goto output
@@ -91,7 +91,8 @@ output:
 		}
 		s, _, _ := previewParse(b, size)
 		for i := range s {
-			s[i] = ansi.ExpandConsts("{RED}") + s[i] + ansi.ExpandConsts("{RESET}") + strings.Repeat(" ", size.Width-len(s[i]))
+			padding := max(size.Width-len(s[i]), 0)
+			s[i] = ansi.ExpandConsts("{RED}") + s[i] + ansi.ExpandConsts("{RESET}") + strings.Repeat(" ", padding)
 		}
 		sPreview = append(sPreview, s...)
 	}

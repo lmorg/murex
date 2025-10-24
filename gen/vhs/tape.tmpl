@@ -1,0 +1,27 @@
+{{ .CategoryDescription }}
+
+Output images/vhs-{{.ID}}-{{.TemplateMeta.Theme}}.gif
+Output gen/vhs/diff/{{.ID}}-{{.TemplateMeta.Theme}}.ascii
+Set Theme {{ if eq .TemplateMeta.Theme "light" }}"Catppuccin Latte"{{ else }}"Catppuccin Mocha"{{ end }}
+Set Height {{ if eq .DocumentMeta.Height nil }}345{{ else }}{{ .DocumentMeta.Height }}{{ end }}
+
+Set Shell murex
+Set Width 1000
+Set FontSize 14
+Set LineHeight 1.3
+Set WindowBar Colorful
+Set BorderRadius 0
+Set Margin 2
+Set MarginFill "#888aaa"
+Set Padding 10
+#Set LoopOffset 5
+#Env USER John-Doe
+#Env HOME "/Users/John-Doe/"
+#Env MXTTY ""
+Env AWS_PROFILE example
+#Env VHS "true"
+Hide
+Sleep 3s
+Show
+
+{{ tmpl .Description .Ptr }}

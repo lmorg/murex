@@ -1,0 +1,37 @@
+- DocumentID: preview-commandline
+  CategoryID: vhs
+  MetaData:
+    Height: 800
+  Description: |-
+    Type `# Sometimes you want your REPL to be a little more instantaneous`
+    Enter
+    Type `# Press F9 to enter the command line previewer`
+    Enter    
+    Type `open https://api.github.com/repos/lmorg/murex/issues `
+    Sleep 3s
+    F9
+    Sleep 2s
+    Type `| [{}]`
+    Left 2
+    Type@500ms `$.`
+    F9
+    Sleep 1s
+    Tab
+    Type@500ms `v.user.login`
+    Escape
+    Right 2
+    Type@500ms ` | sort `
+    F9
+    Sleep 1s
+    Tab
+    Type@500ms `-u | cat `
+    F9
+    Sleep 1s
+    Tab
+    Type@500ms `-n`
+    Enter
+    Sleep 3s
+    Enter
+    Sleep 2s
+    Enter
+    Sleep 5s

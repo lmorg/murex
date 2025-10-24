@@ -78,10 +78,10 @@ func sourceModuleLocate(p *lang.Process, name string) error {
 func sourceModuleExecute(p *lang.Process, mod *profile.Module) error {
 	if mod.Preload != "" {
 		f, err := os.Open(mod.PreloadPath())
-		defer f.Close()
 		if err != nil {
 			return fmt.Errorf("cannot open preload script: %v", err)
 		}
+		defer f.Close()
 		err = sourceExecReader(p, f, mod.PreloadPath(), fmt.Sprintf("%s/%s", mod.Package, mod.Name))
 		if err != nil {
 			return fmt.Errorf("error executing preload script: %v", err)
@@ -89,10 +89,10 @@ func sourceModuleExecute(p *lang.Process, mod *profile.Module) error {
 	}
 
 	f, err := os.Open(mod.Path())
-	defer f.Close()
 	if err != nil {
 		return fmt.Errorf("cannot open module script: %v", err)
 	}
+	defer f.Close()
 	err = sourceExecReader(p, f, mod.Path(), fmt.Sprintf("%s/%s", mod.Package, mod.Name))
 	if err != nil {
 		return fmt.Errorf("error executing module script: %v", err)

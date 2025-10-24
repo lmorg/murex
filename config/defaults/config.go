@@ -23,7 +23,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "prompt", config.Properties{
 		Description: "Interactive shell prompt",
-		Default:     "{ out 'murex » ' }",
+		Default:     `{ out "${$PWD -> :str: regexp s:~:\~: -> format path -> [-1]} » " }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
@@ -81,7 +81,7 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "history", config.Properties{
+	c.Define("shell", "history-write-enabled", config.Properties{
 		Description: "Write shell history (interactive shell) to disk",
 		Default:     true,
 		DataType:    types.Boolean,
@@ -95,8 +95,15 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "syntax-highlighting", config.Properties{
+	c.Define("shell", "syntax-highlighting-enabled", config.Properties{
 		Description: "Syntax highlighting of murex code when in the interactive shell",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "syntax-completion-enabled", config.Properties{
+		Description: "Syntax completion for token pairs in the interactive shell",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
@@ -147,7 +154,7 @@ func Config(c *config.Config, isInteractive bool) {
 		defaultTitleBarFunc = `{ out "$(USER)\@$(HOSTNAME):$(PWD)" }`
 	}
 	c.Define("shell", "titlebar-func", config.Properties{
-		Description: "Linux and UNIX only! Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
+		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
 		Default:     defaultTitleBarFunc,
 		DataType:    types.CodeBlock,
 		Global:      true,

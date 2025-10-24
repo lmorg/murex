@@ -6,7 +6,26 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+func marshal(p *lang.Process, v any) ([]byte, error) {
+	switch t := v.(type) {
+	case [][]string:
+		if lang.GetDataTypeLayout(p.Stdin.GetDataType()) != lang.DataTypeIsTable {
+			break
+		}
+
+		var i int
+		table := make([]map[string]any, len(t)-1)
+		err := types.Table2Map(t, func(m map[string]any) error {
+			table[i] = m
+			i++
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		return json.Marshal(table, p.Stdout.IsTTY())
+	}
+
 	b, err := json.Marshal(v, p.Stdout.IsTTY())
 	if err == nil {
 		return b, err
@@ -52,19 +71,3 @@ func unmarshal(p *lang.Process) (v any, err error) {
 
 	return
 }
-
-/*func unmarshalJsonLines(b []byte) (v interface{}, err error) {
-	var jsonl []interface{}
-
-	lines := bytes.Split(b, []byte{'\n'})
-	for _, line := range lines {
-		err = json.Unmarshal(line, &v)
-		if err != nil {
-			return nil, fmt.Errorf("Unable to unmarshal index %d in jsonlines: %s", len(jsonl), err)
-		}
-		jsonl = append(jsonl, v)
-	}
-
-	return jsonl, err
-}
-*/

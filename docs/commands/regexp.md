@@ -304,7 +304,7 @@ subject to this restriction.
   Creates a map from two data sources
 * [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Prettify Objects: `pretty`](../commands/pretty.md):
   Prettifies data documents to make it human readable

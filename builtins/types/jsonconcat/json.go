@@ -11,6 +11,7 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.Json, lang.DataTypeIsObject)
 	lang.Marshallers[types.Json] = marshal
 	lang.Unmarshallers[types.Json] = unmarshal
 	lang.ReadIndexes[types.Json] = index

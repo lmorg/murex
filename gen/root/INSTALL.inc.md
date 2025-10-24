@@ -11,16 +11,14 @@ title: {{ quote $doc.Title }}
 <div id="toc">
 
 - [Installing From A Package Manager](#installing-from-a-package-manager)
-  - [ArchLinux](#archlinux)
-  - [FreeBSD Ports](#freebsd-ports)
-  - [Homebrew](#homebrew)
-  - [MacPorts](#macports)
 - [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Compiling From Source](#compiling-from-source)
   - [Prerequisites](#prerequisites)
   - [Compiling](#compiling)
+    - [Bash: Linux, MacOS, UNIX](#bash-linux-macos-unix)
+    - [Powershell: Windows](#powershell-windows)
+    - [Makefile: Linux, MacOS, UNIX](#makefile-linux-macos-unix)
 - [External Dependencies (Optional)](#external-dependencies-optional)
-- [Recommended Terminal Typeface](#recommended-terminal-typeface)
 
 </div>
 
@@ -43,32 +41,7 @@ There is a more detailed breakdown of known compatibility issues in the
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg?exclude_unsupported=1)](https://repology.org/project/murex/versions)
 
-### ArchLinux
-
-From AUR: [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
-
-```bash
-wget -O PKGBUILD 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex'
-makepkg --syncdeps --install 
-```
-
-### FreeBSD Ports
-
-```bash
-pkg install murex
-```
-
-### Homebrew
-
-```bash
-brew install murex
-```
-
-### MacPorts
-
-```bash
-port install murex
-```
+{{ tmpl (file "gen/includes/install-package.inc.md") .Ptr }}
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -98,7 +71,7 @@ binaries.
 
 You will need `go` (Golang) compiler, and `git` installed.
 
-> Go 1.20 or higher is required.
+> Go 1.21 or higher is required.
 
 These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
@@ -112,13 +85,42 @@ package manager first but see further reading below if you get stuck.
 ### Compiling
 
 Installation from source is as simple as the following one liner:
+{{ if env "DOCGEN_TARGET=vuepress" }}
+::: code-tabs#shell
+
+@tab Bash
+```bash
+GOBIN="$(pwd)" go install -v github.com/lmorg/murex@latest
+```
+
+@tab Powershell
+```powershell
+$env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
+```
+
+:::
+{{ else }}
+#### Bash: Linux, MacOS, UNIX
 
 ```bash
 GOBIN="$(pwd)" go install -v github.com/lmorg/murex@latest
 ```
 
-However you can change the `GOBIN` value to point to any writable location you
-wish.
+#### Powershell: Windows
+
+```powershell
+$env:GOBIN="$(pwd)"; & go install -v github.com/lmorg/murex@latest
+```
+{{ end }}
+#### Makefile: Linux, MacOS, UNIX
+
+We also provide a `Makefile`.
+
+This is convenient if you already have the source downloaded or want to taylor
+the install. For example reintroduce a deprecated builtin, add optional
+builtins, or utilize a different backend library for networking and/or sqlite3.
+
+For options available in the Makefile, run `make help`.
 
 ## External Dependencies (Optional)
 
@@ -126,16 +128,7 @@ Some of Murex's extended features will have additional external dependencies.
 
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
-  [http://aspell.net](http://aspell.net)
+  ([GNU Aspell](http://aspell.net))
 
 * `git`: This is used by Murex's package manager, `murex-package`.
-  [How to install git](https://github.com/git-guides/install-git)
-
-## Recommended Terminal Typeface
-
-This is obviously just a subjective matter and everyone will have their own
-personal preference. However if I was asked what my preference was then that
-would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean typeface
-based off Source Code Pro but with a few added ligatures - albeit subtle ones
-designed to make Haskell more readable. Those ligatures also suite Murex
-pretty well. So the overall experience is a clean and readable terminal.
+  ([How to install git](https://github.com/git-guides/install-git))

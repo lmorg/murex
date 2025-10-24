@@ -20,9 +20,9 @@ func GetMimes() map[string]string {
 	return mimes
 }
 
-// ReadMimes returns an interface{} of mimes.
+// ReadMimes returns an any of mimes.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadMimes() (interface{}, error) {
+func ReadMimes() (any, error) {
 	return mimes, nil
 }
 
@@ -31,9 +31,9 @@ func GetFileExts() map[string]string {
 	return fileExts
 }
 
-// ReadFileExtensions returns an interface{} of fileExts.
+// ReadFileExtensions returns an any of fileExts.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadFileExtensions() (interface{}, error) {
+func ReadFileExtensions() (any, error) {
 	return fileExts, nil
 }
 
@@ -42,8 +42,8 @@ func GetDefaultMimes() map[string]string {
 	return defaultMimes
 }
 
-// ReadDefaultMimes returns an interface{} of default MIMEs.
+// ReadDefaultMimes returns an any of default MIMEs.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadDefaultMimes() (interface{}, error) {
+func ReadDefaultMimes() (any, error) {
 	return defaultMimes, nil
 }

@@ -12,21 +12,21 @@ import (
 var Enabled bool
 
 // Log writes a debug message
-func Log(data ...interface{}) {
+func Log(data ...any) {
 	if Enabled {
 		log.Println(data...)
 	}
 }
 
 // Logf writes a debug message using [fmt.Printf] arguments.
-func Logf(format string, v ...interface{}) {
+func Logf(format string, v ...any) {
 	if Enabled {
 		log.Println(fmt.Sprintf(format, v...))
 	}
 }
 
 // Json encode an object then write it as a debug message
-func Json(context string, data interface{}) {
+func Json(context string, data any) {
 	if Enabled {
 		b, _ := json.MarshalIndent(data, "", "\t")
 		Log(context, "JSON:"+string(b))
@@ -34,7 +34,7 @@ func Json(context string, data interface{}) {
 }
 
 // Dump is used for runtime output of the status of various debug modes
-func Dump() interface{} {
+func Dump() any {
 	type status struct {
 		Debug bool
 	}

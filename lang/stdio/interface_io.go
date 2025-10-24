@@ -22,7 +22,7 @@ type Io interface {
 	Read([]byte) (int, error)
 	ReadLine(callback func([]byte)) error
 	ReadArray(ctx context.Context, callback func([]byte)) error
-	ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error
+	ReadArrayWithType(ctx context.Context, callback func(any, string)) error
 	ReadMap(*config.Config, func(*Map)) error
 	ReadAll() ([]byte, error)
 
@@ -40,7 +40,7 @@ type Io interface {
 
 type Map struct {
 	Key      string
-	Value    interface{}
+	Value    any
 	DataType string
 	Last     bool
 }

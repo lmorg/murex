@@ -8,6 +8,7 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.Null, lang.DataTypeIsUnknown)
 	lang.RegisterMarshaller(types.Null, marshal)
 	lang.RegisterUnmarshaller(types.Null, unmarshal)
 	stdio.RegisterWriteArray(types.Null, newArrayWriter)

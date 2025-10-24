@@ -3,6 +3,8 @@ name: Deploy Docs
 on:
   push:
     branches:
+      - develop
+      - website
       - master
     paths:
       - "**/*.md"
@@ -14,6 +16,7 @@ on:
       - "**/*.jpeg"
       - "**/*.gif"
       - "**/*.svg"
+      - "package.json"
   
   workflow_dispatch:
 
@@ -22,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ "1.24" ]
+        go-version: [ "1.25" ]
 
     steps:
       - name: Checkout
@@ -49,6 +52,8 @@ jobs:
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
           mv -v *.md *.svg docs/
+          mkdir -p gen/vuepress/public/images
+          cp -vR images/* gen/vuepress/public/images
           mv -v gen/vuepress docs/.vuepress
           
           echo Lower case documents...
@@ -70,6 +75,7 @@ jobs:
       - name: Build Docs
         env:
           NODE_OPTIONS: --max_old_space_size=8192
+          NODE_ENV: DEV
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
@@ -79,13 +85,17 @@ jobs:
           cp -v docs/.vuepress/dist/install.html      docs/.vuepress/dist/INSTALL.html
           cp -v docs/.vuepress/dist/download.html     docs/.vuepress/dist/DOWNLOAD.html
           cp -v docs/.vuepress/dist/contributing.html docs/.vuepress/dist/CONTRIBUTING.html
-  
+
       - name: Deploy Docs
         env:
           AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
           AWS_DEFAULT_REGION:    eu-west-1
           AWS_DEFAULT_OUTPUT:    json
+          CLOUDFRONT_ID:         ${{ github.ref == 'refs/heads/master' && secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER || secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
+          S3_PREFIX:             ${{ github.ref == 'refs/heads/master' && 'master' || 'develop' }}
         run: |
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/master --exclude "*.md" --no-progress
-          aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER }}" --paths "/*"
+          mv -v images/vhs* images/banner* docs/.vuepress/dist/
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/${S3_PREFIX} --exclude "*.md" --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_ID}" --paths "/*"
+    

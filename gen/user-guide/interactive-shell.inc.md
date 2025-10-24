@@ -1,70 +1,26 @@
+Murex's interactive shell is also built around productivity. To achieve this we
+wrote our own state-of-the-art readline library.
+
+Below are just some of the features you can enjoy.
+
 {{ if env "DOCGEN_TARGET=" }}<h2>Table of Contents</h2>
 
 <div id="toc">
 
-- [Overview](#overview)
-- [readline](#readline)
-- [Hotkeys](#hotkeys)
-- [Autocompletion](#autocompletion)
-- [Syntax Completion](#syntax-completion)
-- [Syntax Highlighting](#syntax-highlighting)
-- [Spellchecker](#spellchecker)
+- [Advanced Autocompletion](#advanced-autocompletion)
 - [Hint Text](#hint-text)
-- [Preview](#preview)
-  - [Autocomplete Preview](#autocomplete-preview)
-  - [Command Line Preview](#command-line-preview)
+- [Spellchecker](#spellchecker)
+- [Preview Autocompletions](#preview-autocompletions)
+- [Preview Command Lines](#preview-command-lines)
 - [Safer Pasting](#safer-pasting)
 - [Smarter Error Messages](#smarter-error-messages)
+- [Hotkeys](#hotkeys)
 
 </div>
 
 {{ end }}
 
-## Overview
-
-Aside from Murex being carefully designed with scripting in mind, the
-interactive shell itself is also built around productivity. To achieve this
-we wrote our own readline library. Below is an example of that library in use:
-
-[![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
-
-The above demo includes the following features of Murex's bespoke readline
-library:
-
-* hint text - blue status text below the prompt (the colour is configurable)
-* syntax highlighting (albeit there isn’t much syntax to highlight in the
-  example). This can also be turned off if your preference is to have colours
-  disabled
-* tab-completion in gridded mode (seen when typing `cd`)
-* tab-completion in list view (seen when selecting a process name to `kill`
-  where the process ID was substituted when selected)
-* searching through the tab-completion suggestions (seen in both `cd` and
-  `kill` - enabled by pressing `[ctrl]`+`[f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
-  followed by `[v]`)
-* readline’s warning before pasting multiple lines of data into the buffer and
-  the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[esc]`)
-
-## readline
-
-Murex uses a custom `readline` library to enable support for new features in
-addition to the existing uses you'd normally expect from a shell. It is because
-of this, Murex provides one of the best user experiences of any of the shells
-available today.
-
-## Hotkeys
-
-{{ if env "DOCGEN_TARGET=vuepress" }}
-<!-- markdownlint-disable -->
-<a href="terminal-keys.html" alt="supported hotkeys"><img src="/keyboard.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/></a>
-<!-- markdownlint-restore -->
-{{ end }}
-
-A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
-guide.
-
-## Autocompletion
+## Advanced Autocompletion
 
 Autocompletion happen when you press `[tab]` and will differ slightly depending
 on what is defined in `autocomplete` and whether you use the traditional
@@ -72,66 +28,14 @@ on what is defined in `autocomplete` and whether you use the traditional
 `->`.
 
 The `|` token will behave much like any other shell however `->` will offer
-suggestions with matching data types (as seen in `runtime --methods`). This is
-a way of helping highlight commands that naturally follow after another in a
-pipeline. Which is particularly important in Murex as it introduces data
-types and dozens of new builtins specifically for working with data structures
-in an intelligent and readable yet succinct way.
-
-You can add your own commands and functions to Murex as methods by defining
-them with `method`. For example if we were to add `jq` as a method:
-
-```
-method define jq {
-    "Stdin":  "json",
-    "Stdout": "@Any"
-}
-```
+suggestions with matching data types. Which makes working working with data
+quick and easy while still intelligent and readable.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<br/>
-<figure>
-    <img src="/screenshot-ps-select.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Context aware data-types without reinventing coreutils</figcaption>
-</figure>
+<img class="vhs-autocompletion" alt="video demonstrating Murex's advanced autocompletion">
 <!-- markdownlint-restore -->
-{{ end }}
-
-## Syntax Completion
-
-Like with most IDEs, Murex will auto close brackets et al.
-
-[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
-
-## Syntax Highlighting
-
-Pipelines in the interactive terminal are syntax highlighted. This is similar
-to what one expects from an IDE.
-
-Syntax highlighting can be disabled by running:
-
-```
-config set shell syntax-highlighting off
-```
-
-## Spellchecker
-
-Murex supports inline spellchecking, where errors are underlined. For example
-
-[![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
-
-This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
-for more details.
-
-{{ if env "DOCGEN_TARGET=vuepress" }}
-<!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-spellchecker.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Inline spellchecking</figcaption>
-</figure>
-<!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating Murex's advanced autocompletion](/images/vhs-autocompletion-dark.gif){{ end }}
 
 ## Hint Text
 
@@ -139,20 +43,32 @@ for more details.
 
 {{link "Read more about Hint Text" "hint-text"}}.
 
-## Preview
+## Spellchecker
 
-Murex supports a couple of full screen preview modes:
+Murex supports inline spellchecking, where errors are underlined. For example
 
-* Autocomplete Preview ([read more](#autocomplete-preview))
-* Command Line Preview ([read more](#command-line-preview))
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-spellchecker" alt="video demonstrating spellchecking in Murex">
+<!-- markdownlint-restore -->
+{{ else }}![video demonstrating spellchecking in Murex](/images/vhs-spellchecker-dark.gif){{ end }}
 
-### Autocomplete Preview
+This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
+for more details.
+
+## Preview Autocompletions
 
 > Enabled via `[f1]`
 
 This displays a more detailed view of each parameter you're about to pass to a
 command, without you having to run that command nor leave the half-completed
 command line.
+
+{{ if env "DOCGEN_TARGET=vuepress" }}
+<!-- markdownlint-disable -->
+<img class="vhs-preview-autocomplete" alt="video demonstrating different parameters being previewed">
+<!-- markdownlint-restore -->
+{{ else }}![video demonstrating different parameters being previewed](/images/vhs-preview-autocomplete-dark.gif){{ end }}
 
 It can display:
 * {{link "`man` pages" "man-pages"}}
@@ -161,20 +77,7 @@ It can display:
 * contents of text files
 * and even images too!
 
-{{ if env "DOCGEN_TARGET=vuepress" }}
-<!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-preview-man-page.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Previewing a command flag, from the commands <code>man</code> page</figcaption>
-</figure>
-<figure>
-    <img src="/screenshot-preview-image.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Previewing a file. In this specific instance it is an image</figcaption>
-</figure>
-<!-- markdownlint-restore -->
-{{ end }}
-
-### Command Line Preview
+## Preview Command Lines
 
 > Enabled via `[f9]`
 
@@ -185,12 +88,9 @@ complex documents like machine generated JSON becomes very easy.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-preview-command-line.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Command line preview allows a faster way to iterate over a command line logic</figcaption>
-</figure>
+<img class="vhs-preview-commandline" alt="video demonstrating real time command line previews">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating real time command line previews](/images/vhs-preview-commandline-dark.gif){{ end }}
 
 This does come with some risks because most command line operations change you
 systems state. However Murex comes with some guardrails here too:
@@ -227,27 +127,25 @@ about to execute.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-paste-safety.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Murex presets a menu to double check what you're pasting before the shell executes it</figcaption>
-</figure>
+<img class="vhs-pasting-safety" alt="video demonstrating safer pasting">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating safer pasting](/images/vhs-pasting-safety-dark.gif){{ end }}
 
 This gives you piece-of-mind that you are executing the right clipboard content
 rather than something else you copied hours ago and forgotten about.
 
 ## Smarter Error Messages
 
-Errors messages in most shells suck. That's why Murex has taken extra care to
+Errors messages in most shells are terrible. That's why Murex has taken extra care to
 give you as much useful detail as it can.
 
 {{ if env "DOCGEN_TARGET=vuepress" }}
 <!-- markdownlint-disable -->
-<figure>
-    <img src="/screenshot-error-messages.png?v={{ env "COMMITHASHSHORT" }}" class="centre-image"/>
-    <figcaption>Meaningful error messages</figcaption>
-</figure>
-
+<img class="vhs-better-errors-errmsg" alt="video demonstrating smarter error messages">
 <!-- markdownlint-restore -->
-{{ end }}
+{{ else }}![video demonstrating smarter error messages](/images/vhs-better-errors-errmsg-dark.png){{ end }}
+
+## Hotkeys
+
+A full breakdown of supported hotkeys is available in the [terminal-keys](terminal-keys.md)
+guide.

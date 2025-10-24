@@ -59,7 +59,7 @@ unwanted "noise" is stripped from the output.
   A sophisticated yet simply way to build a JSON array
 * [Create Map: `map`](../commands/map.md):
   Creates a map from two data sources
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin

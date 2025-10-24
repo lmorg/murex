@@ -87,7 +87,7 @@ func (conf *Config) ExistsAndGlobal(app, key string) (exists, global bool) {
 	return
 }
 
-// Get retrieves a setting from the Config. Returns an interface{} for the value and err for any failures
+// Get retrieves a setting from the Config. Returns an any for the value and err for any failures
 //
 //	app == tooling name
 //	key == name of setting
@@ -97,7 +97,7 @@ func (conf *Config) Get(app, key, dataType string) (any, error) {
 	return v, err
 }
 
-// GetFileRef retrieves a setting from the Config. Returns an interface{} for the value and err for any failures
+// GetFileRef retrieves a setting from the Config. Returns an any for the value and err for any failures
 func (conf *Config) GetFileRef(app, key, dataType string) (any, *ref.File, error) {
 	conf.mutex.RLock()
 

@@ -20,7 +20,7 @@ func indexPaths(p *lang.Process, params []string) error {
 		return err
 	}
 
-	marshaller := func(v interface{}) ([]byte, error) {
+	marshaller := func(v any) ([]byte, error) {
 		return marshalPaths(nil, v)
 	}
 

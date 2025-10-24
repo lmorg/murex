@@ -56,7 +56,7 @@ func ListNamespaces() []string {
 
 	namespaces := []string{}
 
-	if Disabled {
+	if !Enabled.Load() {
 		return namespaces
 	}
 

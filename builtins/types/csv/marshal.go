@@ -12,7 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
+func marshal(p *lang.Process, iface any) ([]byte, error) {
 	inputType := p.Stdin.GetDataType()
 
 	var b []byte
@@ -33,7 +33,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 	}
 
 	leftTrim := leftTrimV.(bool) && (inputType == types.Generic || inputType == types.String)
-
+switchCondition:
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
@@ -61,7 +61,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			}
 		}
 
-	case []interface{}:
+	case []any:
 		if len(v) == 0 {
 			w.Flush()
 			return buf.Bytes(), w.Error()
@@ -77,14 +77,37 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			break
 		}
 
-		err = types.MapToTable(v, func(s []string) error { return w.Write(s) })
+		err = types.MapToTable_Any(v, func(s []string) error { return w.Write(s) })
 		if err != nil {
 			return nil, err
 		}
 
+	case []map[string]any:
+		err = types.MapToTable_MapStringAny(v, func(s []string) error { return w.Write(s) })
+		if err != nil {
+			return nil, err
+		}
+
+	case map[string]any:
+		const xmlDefaultElement = "list"
+		if len(v) != 1 {
+			return buf.Bytes(), fmt.Errorf("cannot marshal %T data into a `%s`", v, typeName)
+		}
+		el, ok := v[xmlDefaultElement]
+		if !ok {
+			return buf.Bytes(), fmt.Errorf("cannot marshal %T data into a `%s`\nmissing %s element", v, typeName, xmlDefaultElement)
+		}
+
+		switch t := el.(type) {
+		case []any, []map[string]any:
+			iface = t
+			goto switchCondition
+		default:
+			return buf.Bytes(), fmt.Errorf("cannot marshal %T data into a `%s`\n%s element is not an array", v, typeName, xmlDefaultElement)
+		}
+
 	default:
-		err = fmt.Errorf("cannot marshal %T data into a `%s`", v, typeName)
-		return buf.Bytes(), err
+		return buf.Bytes(), fmt.Errorf("cannot marshal %T data into a `%s`", v, typeName)
 	}
 
 	w.Flush()
@@ -92,7 +115,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	csvReader := enc.NewReader(p.Stdin)
 	csvReader.TrimLeadingSpace = true
 

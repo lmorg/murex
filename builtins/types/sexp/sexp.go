@@ -12,6 +12,7 @@ const (
 )
 
 func init() {
+	lang.RegisterDataType(sexpr, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(sexpr, readArrayS)
 	stdio.RegisterReadArrayWithType(sexpr, readArrayWithTypeS)
 	stdio.RegisterReadMap(sexpr, readMapS)
@@ -21,6 +22,7 @@ func init() {
 	lang.RegisterMarshaller(sexpr, marshalS)
 	lang.RegisterUnmarshaller(sexpr, unmarshal)
 
+	lang.RegisterDataType(csexp, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(csexp, readArrayC)
 	stdio.RegisterReadArrayWithType(csexp, readArrayWithTypeC)
 	stdio.RegisterReadMap(csexp, readMapC)
@@ -45,7 +47,7 @@ func readIndexC(p *lang.Process, params []string) error { return readIndex(p, pa
 func readIndexS(p *lang.Process, params []string) error { return readIndex(p, params, false) }
 
 func readIndex(p *lang.Process, params []string, canonical bool) (err error) {
-	var se interface{}
+	var se any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -57,17 +59,17 @@ func readIndex(p *lang.Process, params []string, canonical bool) (err error) {
 		return err
 	}
 
-	marshaller := func(iface interface{}) ([]byte, error) {
+	marshaller := func(iface any) ([]byte, error) {
 		return sexp.Marshal(iface, canonical)
 	}
 
 	return lang.IndexTemplateObject(p, params, &se, marshaller)
 }
 
-func marshalC(_ *lang.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, true) }
-func marshalS(_ *lang.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, false) }
+func marshalC(_ *lang.Process, v any) ([]byte, error) { return sexp.Marshal(v, true) }
+func marshalS(_ *lang.Process, v any) ([]byte, error) { return sexp.Marshal(v, false) }
 
-func unmarshal(p *lang.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v any, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

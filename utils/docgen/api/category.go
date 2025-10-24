@@ -24,6 +24,9 @@ type category struct {
 	SubCategories []*category `yaml:"SubCategories"`
 
 	Templates []templates `yaml:"Templates"`
+
+	// Misc items
+	MetaData map[string]any `yaml:"MetaData"`
 }
 
 func (c *category) SubCategoryByID(id string) (*category, error) {
@@ -53,6 +56,9 @@ type templates struct {
 
 	// Category template for the category (like an index.html type page)
 	CategoryTemplate string `yaml:"CategoryTemplate"`
+
+	// Misc items
+	MetaData map[string]any `yaml:"MetaData"`
 
 	docTemplate *template.Template
 	catTemplate *template.Template
@@ -90,6 +96,7 @@ func (t templates) CategoryValues(docs documents) *categoryValues {
 		DateTime:      dt,
 		SubCategories: t.SubCategoryValues(docs, t.ref),
 		UncatDocs:     t.UncategorisedValues(docs, t.ref),
+		Meta:          t.ref.MetaData,
 	}
 }
 
@@ -141,6 +148,7 @@ func (t templates) subCategoryValues(docs documents, cat *category) *categoryVal
 		Documents:     dv,
 		DateTime:      dt,
 		SubCategories: t.SubCategoryValues(docs, cat),
+		Meta:          cat.MetaData,
 	}
 }
 
@@ -153,4 +161,5 @@ type categoryValues struct {
 	DateTime      []*documentValues
 	SubCategories []*categoryValues
 	UncatDocs     []*documentValues
+	Meta          map[string]any
 }

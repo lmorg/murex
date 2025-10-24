@@ -25,12 +25,12 @@ func testArrayWithTypeTemplate(t *testing.T, dataType string, tests []testArrayW
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	marshal := func(v interface{}) ([]byte, error) {
+	marshal := func(v any) ([]byte, error) {
 		p := lang.NewTestProcess()
 		return lang.MarshalData(p, dataType, v)
 	}
 
-	unmarshal := func(b []byte, v interface{}) error {
+	unmarshal := func(b []byte, v any) error {
 		p := lang.NewTestProcess()
 		p.Stdin = streams.NewStdin()
 		_, err := p.Stdin.Write(b)
@@ -54,10 +54,10 @@ func testArrayWithTypeTemplate(t *testing.T, dataType string, tests []testArrayW
 		}
 
 		var (
-			values    []interface{}
+			values    []any
 			dataTypes []string
 		)
-		callback := func(v interface{}, dt string) {
+		callback := func(v any, dt string) {
 			switch t := v.(type) {
 			case []byte:
 				values = append(values, string(t))

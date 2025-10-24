@@ -26,7 +26,7 @@ func ReadArray(ctx context.Context, read Io, callback func([]byte)) error {
 }
 
 // ReadArrayWithType is a template function for stdio.Io
-func ReadArrayWithType(ctx context.Context, read Io, callback func(interface{}, string)) error {
+func ReadArrayWithType(ctx context.Context, read Io, callback func(any, string)) error {
 	dt := read.GetDataType()
 
 	fnReadArray := readArrayWithType[dt]

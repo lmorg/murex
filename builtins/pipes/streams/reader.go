@@ -114,7 +114,7 @@ func (r *Reader) ReadArray(ctx context.Context, callback func([]byte)) error {
 }
 
 // ReadArrayWithType returns a data type-specific array returned via a callback function
-func (r *Reader) ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error {
+func (r *Reader) ReadArrayWithType(ctx context.Context, callback func(any, string)) error {
 	return stdio.ReadArrayWithType(ctx, r, callback)
 }
 

@@ -12,7 +12,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
+func marshal(p *lang.Process, iface any) (b []byte, err error) {
 	w, err := NewParser(nil, p.Config)
 	if err != nil {
 		return
@@ -35,7 +35,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		return
 
-	case []interface{}:
+	case []any:
 		for i := range v {
 			j, err := json.Marshal(v[i])
 			s := string(j)
@@ -64,7 +64,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 
 		return
 
-	case map[string]interface{}:
+	case map[string]any:
 		var headings []string
 		for key := range v {
 			headings = append(headings, key)
@@ -86,7 +86,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 
 		return
 
-	case map[interface{}]string:
+	case map[any]string:
 		var headings []string
 		for key := range v {
 			headings = append(headings, fmt.Sprint(key))
@@ -103,7 +103,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 
 		return
 
-	case map[interface{}]interface{}:
+	case map[any]any:
 		var headings []string
 
 		for key := range v {
@@ -152,7 +152,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 		os.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
-	case []map[string]interface{}:
+	case []map[string]any:
 		var headings []string
 
 		for slice := range v {
@@ -179,7 +179,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 		os.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
-	case []map[interface{}]string:
+	case []map[any]string:
 		var headings []string
 
 		for slice := range v {
@@ -206,7 +206,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 		os.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
-	case []map[interface{}]interface{}:
+	case []map[any]any:
 		var headings []string
 
 		for slice := range v {
@@ -240,7 +240,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 	}
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	csvReader, err := NewParser(p.Stdin, p.Config)
 	if err != nil {
 		return nil, err

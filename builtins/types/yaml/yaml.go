@@ -6,13 +6,13 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/types"
 	yaml "gopkg.in/yaml.v3"
 )
 
 const typeName = "yaml"
 
 func init() {
+	lang.RegisterDataType(typeName, lang.DataTypeIsObject)
 	stdio.RegisterReadArray(typeName, readArray)
 	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
 	stdio.RegisterReadMap(typeName, readMap)
@@ -37,7 +37,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 	return lang.ArrayTemplate(ctx, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(any, string)) error {
 	return lang.ArrayWithTypeTemplate(ctx, typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
@@ -58,7 +58,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 }
 
 func readIndex(p *lang.Process, params []string) error {
-	var jInterface interface{}
+	var jInterface any
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
@@ -71,33 +71,4 @@ func readIndex(p *lang.Process, params []string) error {
 	}
 
 	return lang.IndexTemplateObject(p, params, &jInterface, yaml.Marshal)
-}
-
-func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
-	switch t := v.(type) {
-	case [][]string:
-		var i int
-		table := make([]map[string]any, len(t)-1)
-		err := types.Table2Map(t, func(m map[string]any) error {
-			table[i] = m
-			i++
-			return nil
-		})
-		if err != nil {
-			return nil, err
-		}
-		return yaml.Marshal(table)
-	default:
-		return yaml.Marshal(v)
-	}
-}
-
-func unmarshal(p *lang.Process) (v interface{}, err error) {
-	b, err := p.Stdin.ReadAll()
-	if err != nil {
-		return
-	}
-
-	err = yaml.Unmarshal(b, &v)
-	return
 }

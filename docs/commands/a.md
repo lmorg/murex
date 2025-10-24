@@ -1,4 +1,4 @@
-# Create Streamable Array `a`
+# Create Streamable Array: `a`
 
 > A sophisticated yet simple way to stream an array or list (mkarray)
 

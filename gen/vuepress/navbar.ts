@@ -12,7 +12,7 @@ export default navbar([
           { text: "User Guide", link: "user-guide/", icon: "book" },
           { text: "Integrations", link: "integrations/", icon: "puzzle-piece" },
           { text: "Operators And Tokens", link: "parser/", icon: "hashtag" },
-          { text: "Builtins Commands", link: "commands/", icon: "cubes" },
+          { text: "Builtin Commands", link: "commands/", icon: "cubes" },
           { text: "Special Variables", link: "variables/", icon: "dollar" },
           { text: "Data Types", link: "types/", icon: "file-contract" },
           { text: "Events", link: "events/", icon: "bolt" },

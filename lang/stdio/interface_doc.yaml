@@ -81,8 +81,8 @@
     {{ include "lang/define_array.go" }}
     ```
   Parameters:
-  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
-  - "`func([]byte, interface{}) error`: data type's unmarshaller"
+  - "`func(any) ([]byte, error)`: data type's marshaller"
+  - "`func([]byte, any) error`: data type's unmarshaller"
   - "`stdio.Io`: stream to read from (eg stdin)"
   - "`func([]byte)`: callback function to write each array element"
   Related:
@@ -146,7 +146,7 @@
     pipelines.
   Parameters:
   - "`stdio.Io`: stream to read from (eg stdin)"
-  - "`func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element"
+  - "`func(any, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element"
   Related:
   - WriteArray
   - ReadMap
@@ -186,10 +186,10 @@
     {{ include "lang/define_array_type.go" }}
     ```
   Parameters:
-  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
-  - "`func([]byte, interface{}) error`: data type's unmarshaller"
+  - "`func(any) ([]byte, error)`: data type's marshaller"
+  - "`func([]byte, any) error`: data type's unmarshaller"
   - "`stdio.Io`: stream to read from (eg stdin)"
-  - "`func(interface{}, string)`: callback function to write each array element, with data type"
+  - "`func(any, string)`: callback function to write each array element, with data type"
   Related:
   - ReadArrayWithType
   - ReadArray
@@ -221,7 +221,7 @@
     ### A Collection of Functions
 
     `WriteArray()` should return a `struct` that satisfies the following
-    `interface{}`:
+    `any`:
     
     ```go
     {{ include "lang/stdio/interface_aw.go" }}
@@ -421,8 +421,8 @@
   Parameters:
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   - "`[]string`: slice of parameters used in `[` / `![` "
-  - "`*interface{}`: a pointer to the data structure being indexed"
-  - "`func(interface{}) ([]byte, error)`: data type marshaller function"
+  - "`*any`: a pointer to the data structure being indexed"
+  - "`func(any) ([]byte, error)`: data type marshaller function"
   Related:
   - ReadArray
   - ReadArrayWithType
@@ -465,7 +465,7 @@
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   - "`[]string`: slice of parameters used in `[` / `![` "
   - "`chan []string`: a channel for rows (each element in the slice is a column within the row). This allows tables to be stream-able"
-  - "`func(interface{}) ([]byte, error)`: data type marshaller function"
+  - "`func(any) ([]byte, error)`: data type marshaller function"
   Related:
   - ReadArray
   - ReadArrayWithType

@@ -19,7 +19,7 @@ type Parser struct {
 	Headings  bool
 }
 
-// NewParser creates a new CSV reader and writer - albeit it doesn't conform to Go's io.Reader / io.Writer interface{}.
+// NewParser creates a new CSV reader and writer - albeit it doesn't conform to Go's io.Reader / io.Writer any.
 // The sensible thing might have been to create this as a marshaller but it's written now and works so little point
 // breaking it at this point in time.
 func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err error) {

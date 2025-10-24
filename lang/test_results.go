@@ -24,6 +24,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/readline/v4"
+	"github.com/mattn/go-runewidth"
 )
 
 // SetStreams is called when a particular test case is run. eg
@@ -71,17 +73,11 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 
 // WriteResults is the reporting tool
 func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
-	params := func(exec string, params []string) (s string) {
+	params := func(exec string, params []string) string {
 		if len(params) > 1 {
-			//s = exec + " '" + strings.Join(params, "' '") + "'"
-			s = exec + " " + strings.Join(params, " ")
-		} else {
-			s = exec
+			return exec + " " + strings.Join(params, " ")
 		}
-		if len(s) > 50 {
-			s = s[:49] + "…"
-		}
-		return
+		return exec
 	}
 
 	escape := func(s string) string {
@@ -91,7 +87,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return s
 	}
 
-	left := func(s string) string {
+	/*left := func(s string) string {
 		crop, err := config.Get("test", "crop-message", types.Integer)
 		if err != nil || crop.(int) == 0 {
 			return s
@@ -102,6 +98,13 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		}
 
 		return s[:crop.(int)-1] + "…"
+	}*/
+
+	indent := func(s string) string {
+		if s == "\n-" || s == "\n" {
+			return ""
+		}
+		return codes.Bold + strings.ReplaceAll(s, "\n", "\n         ") + codes.Reset
 	}
 
 	tests.mutex.Lock()
@@ -165,6 +168,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		if ansiColour.(bool) {
 			reset = codes.Reset
 		}
+		termWidth := readline.GetTermWidth()
 		for _, r := range tests.Results.results {
 			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
 				continue
@@ -187,8 +191,8 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				reset, colour, r.Status, reset,
 				r.TestName,
 				r.LineNumber, r.ColNumber,
-				params(r.Exec, r.Params),
-				left(escape(r.Message)),
+				runewidth.Truncate(params(r.Exec, r.Params), termWidth-31, "…"),
+				indent("\n"+r.Message),
 			)
 
 			pipe.Writeln([]byte(s))

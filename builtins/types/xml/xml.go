@@ -7,6 +7,7 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(typeName, lang.DataTypeIsMarkup)
 	lang.RegisterMarshaller(typeName, marshal)
 	lang.RegisterUnmarshaller(typeName, UnmarshalFromProcess)
 	lang.ReadIndexes[typeName] = index

@@ -64,7 +64,7 @@ function signal.SIGUSR1.trap {
 
 test unit function signal.SIGUSR1.trap %{
     StdoutMatch: "waiting for signal...\nSIGUSR1 received...\n"
-    DataType:    str
+    StdoutType:  *
     ExitNum:     0
 }
 ```

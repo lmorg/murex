@@ -2,7 +2,9 @@
   Title: >+
     For Loop: `for`
   CategoryID: commands
-  SubCategoryIDs: [ commands.lang ]
+  SubCategoryIDs:
+    - commands.lang
+    - commands.loop
   Summary: >-
     A more familiar iteration loop to existing developers
   Description: |-

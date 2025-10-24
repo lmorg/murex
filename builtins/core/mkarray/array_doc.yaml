@@ -1,6 +1,6 @@
 - DocumentID: a
   Title: >+
-    Create Streamable Array `a`
+    Create Streamable Array: `a`
   CategoryID: commands
   SubCategoryIDs:
     - commands.list

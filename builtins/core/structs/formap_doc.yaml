@@ -6,6 +6,7 @@
     - commands.lang
     - commands.table
     - commands.struct
+    - commands.loop
   Summary: >-
     Iterate through a map or other collection of data
   Description: |-

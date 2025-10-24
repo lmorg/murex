@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang"
 )
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (any, error) {
 	var log []apachelogs.AccessLine
 
 	p.Stdin.ReadLine(func(b []byte) {

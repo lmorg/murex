@@ -1,0 +1,166 @@
+- DocumentID: fanout
+  Title: >+
+    Send pipes to multiple processes: `fanout` (EXPERIMENTAL)
+  CategoryID: commands
+  SubCategoryIDs:
+    - commands.io
+    - commands.lang
+  Summary: >-
+    Copies stdin and sends it to multiple pipelines, collating their output
+  Description: |-
+    `fanout` allows the the output of one process to be copied to multiple
+    pipelines (also known as _vertices_) in a one-to-many approach.
+
+    Where normal pipelines would follow the logic of having the output of process
+    A connected to the input of process B. With `fanout`, you can connect that pipe
+    to many processes (_vertices_) without worrying about any contentions reading
+    from the pipe nor race conditions.
+
+    Each _vertex_ runs in parallel from the moment `fanout` is invoked. And
+    `fanout` will wait until all _vertices_ have complete before `fanout` exits.
+
+    ### Data Types
+
+    By default, the datatype of stdout will match the datatype of stdin.
+
+    ### Merging Rules
+
+    By default, stdout of each _vertex_ will merged according to the rules of
+    that particular datatype and data structure.
+
+    #### Arrays
+
+    With arrays, `fanout` will preserve the order of the array based on the order
+    of the _vertices_ and NOT by the order in which a _vertex_ completes.
+    
+    This means that even if _vertex_ B completes before _vertex_ A, _vertex_ B's
+    output will still appear after _vertex_ A in the array.
+
+    #### Maps
+
+    Maps in most document formats (eg JSON) do not preserve ordering. So this means
+    _vertex_ B could appear before _vertex_ A, or even overwrite any values defined
+    by the output of _vertex_ A.
+
+    The order of precedence for when output from _vertices_ are merged will still
+    follow the order the _vertices_ were defined in the parameters of `fanout`.
+
+    So _vertex_ C and D could overwrite _vertex_ B and A, and _vertex_ B could only
+    overwrite _vertex_ A.
+
+    ### Concatenate
+
+    To combine the output of each _vertex_ in `fanout` as a simple byte stream, use
+    the `--concat` flag.
+
+    The output of each _vertex_ will be written to `fanout`'s stdout in the order
+    in which the _vertices_ were defined in `fanout`'s  parameters. So there is no
+    risk of one _vertex's_ output getting jumbled with the output of another
+    _vertex_.
+
+  Usage: |-
+    ```
+    <stdin> -> fanout [ flags ] { code block } { code block } { code block } ... -> <stdout>
+    ```
+
+    ```
+    <stdin> -> fanout [ flags ] --parse {
+      { code block }
+      { code block }
+      { code block }
+      ...
+    } -> <stdout>
+    ```
+
+    See below for a list of optional flags.
+  Examples: |-
+    ### Merge (default behavior)
+
+    #### Arrays
+
+    The following example will merge the output of four different _vertices_ into
+    one JSON array:
+
+    ```
+    » dag --datatype json { %[four] } { %[two] } { %[one] } { %[three] }
+    [
+        "four",
+        "two",
+        "one",
+        "three"
+    ]
+    ```
+
+    #### Maps
+
+    The following example will merge the output of four different _vertices_ into
+    one JSON object:
+
+    ```
+    » dag --datatype json { %{4: four} } { %{2: two} } { %{1: one} } { %{3: three} }
+    {
+        "1": "one",
+        "2": "two",
+        "3": "three",
+        "4": "four"
+    }
+    ```
+
+    # Concatenate
+
+    Compare the file size of Murex after it has been deflated by different
+    compression algorithms:
+
+    ```
+    » open $MUREX_EXE -> fanout --concat --parse {
+      { printf 'File type:\t' }
+      { -> file - }
+
+      { printf 'Original size:\t' }
+      { -> wc -c }
+
+      { printf 'xz:\t\t' }
+      { -> xz -c | wc -c }
+
+      { printf 'bzip2:\t\t' }
+      { -> bzip2 -c | wc -c }
+
+      { printf 'gzip:\t\t' }
+      { -> gzip -c | wc -c }
+    }
+    ```
+
+
+  Flags:
+    --concat: >-
+      Combines the output of each _vertex_ as a byte stream
+    -c: alias for `--append`
+
+    --datatype: >-
+      Defines the datatype for `fanout`'s stdout. Overriding what would otherwise
+      be defined by the stdin for `fanout` 
+    -t: alias for `--datatype`
+
+    --parse: >-
+      Tells `fanout` to expect one parameter and to parse that for each _vertex_.
+      The parameter must be surrounded by curly braces: `{` and `}`. This flag allows
+      for readability improvements where `fanout` _vertices_ can occupy dedicated
+      lines without the need for hacks like dangling escapes (ie `\\`LF)
+    -p: alias for `--parse`
+
+  Detail: |-
+    `fanout` is inspired by the theory of directed acyclic graphs (DAG) where:
+
+    > [DAG]s consist of vertices and edges (also called arcs), with each edge
+    > directed from one vertex to another, such that following those directions
+    > will never form a closed loop. A directed graph is a DAG if and only if it
+    > can be topologically ordered, by arranging the vertices as a linear
+    > ordering that is consistent with all edge directions.
+
+    (source: [Wikipedia](https://en.wikipedia.org/wiki/Directed_acyclic_graph))
+
+    ![an example of a directed acyclic graphs (DAG)](/images/dag.png)
+  Synonyms:
+  Related:
+  - pipe
+  - namedpipe

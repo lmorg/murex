@@ -1,4 +1,5 @@
 @use "palette" as p;
+@use "images";
 
 h1, h2, h3, h4 {
     font-family: p.$font-title;
@@ -136,22 +137,18 @@ blockquote {
       color: p.$code-color;
       background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 5%) !important;
     }
-    /*.vp-code-tab-nav {
-      padding-bottom:20px
-    }
-    .vp-code-tab .line-numbers-mode {
-      border-width:0px;
-      padding-top:1px;
-      padding-bottom:1px
-    }
-    // The following is needed for some code block styles to fix vertical alignment
-    /*pre,
-    code {
-      padding-top:3px!important;
-      padding-bottom:3px!important;
-    }*/
 }
 
+/*// Make inlined `fixed width` text less distracting in dark mode
+html[data-theme="dark"] code {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 10%) !important;
+    color: #d0d5d0;
+}
+
+// But lets not apply the above values to code blocks
+html[data-theme="dark"] pre.language-text code {
+    background-color: rgba(red(p.$code-color), green(p.$code-color), blue(p.$code-color), 0%) !important;
+}*/
 
 html[data-theme="dark"] ::marker {
     color: #666666;
@@ -159,4 +156,44 @@ html[data-theme="dark"] ::marker {
 
 ::marker {
     color: #666666;
+}
+
+
+html[data-theme="light"] img.vp-hero-image {
+   content: url("/murex-term-light.png"); 
+}
+html[data-theme="dark"] img.vp-hero-image {
+   content: url("/murex-term-dark.png"); 
+}
+
+
+
+html[data-theme="light"] img.banner-tour {
+   content: url("/banner-tour-light.png"); 
+}
+html[data-theme="dark"] img.banner-tour {
+   content: url("/banner-tour-dark.png"); 
+}
+
+html[data-theme="light"] img.banner-interactive {
+   content: url("/banner-interactive-light.png"); 
+}
+html[data-theme="dark"] img.banner-interactive {
+   content: url("/banner-interactive-dark.png"); 
+}
+
+html[data-theme="light"] img.banner-rosetta {
+   content: url("/banner-rosetta-light.png"); 
+}
+html[data-theme="dark"] img.banner-rosetta {
+   content: url("/banner-rosetta-dark.png"); 
+}
+
+
+
+html[data-theme="light"] img.vhs-better-errors-errmsg {
+   content: url("/vhs-better-errors-errmsg-light.png"); 
+}
+html[data-theme="dark"] img.vhs-better-errors-errmsg {
+   content: url("/vhs-better-errors-errmsg-dark.png"); 
 }

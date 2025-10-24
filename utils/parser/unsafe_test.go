@@ -56,7 +56,7 @@ func TestWriteSafeCmds(t *testing.T) {
 	copy(safeCmdsDefault, safeCmds)
 	defer copy(safeCmds, safeCmdsDefault)
 
-	var v interface{}
+	var v any
 
 	v = 13
 	err := WriteSafeCmds(v)

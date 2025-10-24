@@ -182,9 +182,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 					incManPage = true
 
 				default:
-					if f.IgnorePrefix {
+					switch {
+					case f.AllowSubstring && strings.Contains(s, partial):
+						fallthrough
+					case f.IgnorePrefix:
 						items = append(items, "\x02"+s)
-					} else if strings.HasPrefix(s, partial) {
+					case strings.HasPrefix(s, partial):
 						items = append(items, s[len(partial):])
 					}
 				}
@@ -237,24 +240,23 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			}
 
 			stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
-				if f.IgnorePrefix {
-					value, _ := types.ConvertGoType(readmap.Value, types.String)
-					value = strings.Replace(value.(string), "\r", "", -1)
-					value = strings.Replace(value.(string), "\n", " ", -1)
+				value, _ := types.ConvertGoType(readmap.Value, types.String)
+				value = strings.ReplaceAll(value.(string), "\r", "")
+				value = strings.ReplaceAll(value.(string), "\n", " ")
 
+				switch {
+				case f.AllowSubstring && strings.Contains(readmap.Key, partial):
+					fallthrough
+
+				case f.IgnorePrefix:
 					key := "\x02" + readmap.Key
-
 					if timeout {
 						items[key] = value.(string)
 					} else {
 						act.appendDef(key, value.(string))
 					}
 
-				} else if strings.HasPrefix(readmap.Key, partial) {
-					value, _ := types.ConvertGoType(readmap.Value, types.String)
-					value = strings.Replace(value.(string), "\r", "", -1)
-					value = strings.Replace(value.(string), "\n", " ", -1)
-
+				case strings.HasPrefix(readmap.Key, partial):
 					if timeout {
 						items[readmap.Key[len(partial):]] = value.(string)
 					} else {

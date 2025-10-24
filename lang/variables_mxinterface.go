@@ -1,8 +1,8 @@
 package lang
 
 type MxInterface interface {
-	GetValue() interface{}
+	GetValue() any
 	GetString() string
-	Set(interface{}, []string) error
+	Set(any, []string) error
 	New(string) (MxInterface, error)
 }

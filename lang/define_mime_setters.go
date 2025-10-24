@@ -53,7 +53,7 @@ func SetFileExtensions(dt string, extension ...string) {
 
 // WriteMimes takes a JSON-encoded string and writes it to the mimes map.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteMimes(v interface{}) error {
+func WriteMimes(v any) error {
 	switch v := v.(type) {
 	case string:
 		newMimes := make(map[string]string)
@@ -72,7 +72,7 @@ func WriteMimes(v interface{}) error {
 // WriteFileExtensions takes a JSON-encoded string and writes it to the
 // fileExts map.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteFileExtensions(v interface{}) error {
+func WriteFileExtensions(v any) error {
 	switch v := v.(type) {
 	case string:
 		newFileExts := make(map[string]string)
@@ -91,7 +91,7 @@ func WriteFileExtensions(v interface{}) error {
 // WriteDefaultMimes takes a JSON-encoded string and writes it to the default
 // MIMEs map.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteDefaultMimes(v interface{}) error {
+func WriteDefaultMimes(v any) error {
 	switch v := v.(type) {
 	case string:
 		newDefaultMimes := make(map[string]string)

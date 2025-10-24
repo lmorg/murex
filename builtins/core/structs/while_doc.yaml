@@ -2,7 +2,9 @@
   Title: >+
     Loop While: `while`
   CategoryID: commands
-  SubCategoryIDs: [ commands.lang ]
+  SubCategoryIDs:
+    - commands.lang
+    - commands.loop
   Summary: >-
     Loop until condition false
   Description: |-

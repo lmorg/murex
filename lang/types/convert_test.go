@@ -8,9 +8,9 @@ import (
 )
 
 type test struct {
-	In       interface{}
+	In       any
 	DataType string
-	Out      interface{}
+	Out      any
 	Error    bool
 }
 
@@ -108,19 +108,19 @@ func TestConvertGoTypeBaseline(t *testing.T) {
 func TestConvertGoTypeJsonToNumber(t *testing.T) {
 	tests := []test{
 		{
-			In:       []interface{}{1, 2, 3},
+			In:       []any{1, 2, 3},
 			DataType: types.Integer,
 			Out:      0,
 			Error:    true,
 		},
 		{
-			In:       []interface{}{1, 2, 3},
+			In:       []any{1, 2, 3},
 			DataType: types.Float,
 			Out:      0,
 			Error:    true,
 		},
 		{
-			In:       []interface{}{1, 2, 3},
+			In:       []any{1, 2, 3},
 			DataType: types.Number,
 			Out:      0,
 			Error:    true,

@@ -18,7 +18,7 @@ type StatementT struct {
 	canHaveZeroLenStr bool // to get around $VARS being empty or unset
 	possibleGlob      bool // to signal to NextParameter of a possible glob
 	asStatement       bool // force murex to parse expression as statement
-	ignoreCrLf        bool // allow '\' to escape a new line
+	escapeLf          bool // allow '\' to escape a new line
 	validFunction     bool // allow function(parameters...) in statement
 }
 
@@ -43,6 +43,12 @@ func (st *StatementT) Parameters() []string {
 	return params
 }
 
+func (st *StatementT) SetCommand(cmd []rune) {
+	st.command = cmd
+	st.possibleGlob = false
+	st.validFunction = true
+}
+
 func (tree *ParserT) nextParameter() error {
 	st := tree.statement
 
@@ -50,9 +56,10 @@ func (tree *ParserT) nextParameter() error {
 
 	case len(st.command) == 0:
 		// no command yet so this must be a command
-		st.command = st.paramTemp
-		st.possibleGlob = false
-		st.validFunction = true
+		st.SetCommand(st.paramTemp)
+		//st.command = st.paramTemp
+		//st.possibleGlob = false
+		//st.validFunction = true
 
 	case st.possibleGlob:
 		// glob

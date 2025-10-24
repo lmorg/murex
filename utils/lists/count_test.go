@@ -158,14 +158,14 @@ func TestCountBool(t *testing.T) {
 
 func TestCountInterface(t *testing.T) {
 	type testCountT struct {
-		List   []interface{}
+		List   []any
 		Output map[string]int
 		Error  bool
 	}
 
 	tests := []testCountT{
 		{
-			List: []interface{}{1.11, 2.2, 3, "a", "b", "c", true, 2.2, 1.11, 1.11, "b", "c", "c"},
+			List: []any{1.11, 2.2, 3, "a", "b", "c", true, 2.2, 1.11, 1.11, "b", "c", "c"},
 			Output: map[string]int{
 				"1.11":           3,
 				"2.2":            2,

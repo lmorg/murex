@@ -114,7 +114,7 @@ func (ut *UnitTests) Run(p *Process, function string) bool {
 }
 
 // Dump the defined unit tests in a JSONable structure
-func (ut *UnitTests) Dump() interface{} {
+func (ut *UnitTests) Dump() any {
 	ut.mutex.Lock()
 	dump := ut.units
 	ut.mutex.Unlock()

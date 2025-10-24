@@ -215,11 +215,10 @@ func execFork(p *Process, argv []string) error {
 	}*/
 
 	err := cmd.Wait()
-	if err != nil {
-		if !strings.HasPrefix(err.Error(), "signal:") {
-			//mxdtR.Close()
-			return err
-		}
+	if err != nil && !strings.HasPrefix(err.Error(), "signal:") && err.Error() != "wait: no child processes" {
+		//mxdtR.Close()
+		debug.Log(err)
+		return err
 	}
 
 	//mxdtR.Close()

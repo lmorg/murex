@@ -40,7 +40,7 @@ func cmdAutocomplete(p *lang.Process) error {
 func get(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	var v interface{}
+	var v any
 	cmd, err := p.Parameters.String(1)
 	if err != nil {
 		v = autocomplete.ExesFlags

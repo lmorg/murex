@@ -89,7 +89,7 @@ required.
 
 ## See Also
 
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin

@@ -46,7 +46,7 @@ runtime --unmarshallers
   Count items in a map, list or array
 * [Create JSON Array: `ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Left Sub-String: `left`](../commands/left.md):
   Left substring every item in a list

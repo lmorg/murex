@@ -1,0 +1,1147 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+»
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+»
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+
+
+
+
+
+
+
+
+
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+»
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+»
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+»
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+»
+
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+(builtin) Handles non-zero exits inside a block of code
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »
+
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+(alias) out => (builtin) Print a string to the stdout with a trailing new line character
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────
+» # Errors appear in red for better visibility
+» 2 + "two"
+Error in `2` (0,1) ┃ Not a valid expression:
+                   ┃     cannot Add non-numeric data types, right is QuoteDouble
+                   ┃     Expression: 2 + "two"
+                   ┃                   ^
+                   ┃     Character : 3
+                   ┃     Symbol    : Add
+                   ┃ Nor a valid statement:
+                   ┃     exec: "2": executable file not found in $PATH
+» # Familiar error handling
+» try {
+2 »    echo "before error"
+3 »    grep pattern file-does-not-exist
+────────────────────────────────────────────────────────────────────────────────

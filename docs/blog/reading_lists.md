@@ -143,7 +143,7 @@ Published: 22.04.2023 at 11:43
 
 ## See Also
 
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Define Type: `cast`](../commands/cast.md):
   Alters the data-type of the previous function without altering its output

@@ -16,8 +16,8 @@ func NewModuleVars() *ModuleVars {
 	return mod
 }
 
-func (mod *ModuleVars) GetValues(p *Process) interface{} {
-	m := make(map[string]interface{})
+func (mod *ModuleVars) GetValues(p *Process) any {
+	m := make(map[string]any)
 	v := mod.v(p)
 
 	v.mutex.Lock()
@@ -41,13 +41,13 @@ func (mod *ModuleVars) GetDataType(p *Process, name string) (dt string) {
 	return
 }
 
-func (mod *ModuleVars) Set(p *Process, value interface{}, changePath []string, dataType string) (err error) {
+func (mod *ModuleVars) Set(p *Process, value any, changePath []string, dataType string) (err error) {
 	if len(changePath) == 0 {
 		return fmt.Errorf("invalid use of $%s. Expecting a module variable name, eg `$%s.example`", _VAR_MODULE, _VAR_MODULE)
 	}
 
 	switch t := value.(type) {
-	case map[string]interface{}:
+	case map[string]any:
 		return mod.set(p, changePath[0], t[changePath[0]], dataType)
 
 	default:
@@ -55,7 +55,7 @@ func (mod *ModuleVars) Set(p *Process, value interface{}, changePath []string, d
 	}
 }
 
-func (mod *ModuleVars) set(p *Process, path string, value interface{}, dataType string) error {
+func (mod *ModuleVars) set(p *Process, path string, value any, dataType string) error {
 	return mod.v(p).Set(p, path, value, dataType)
 }
 

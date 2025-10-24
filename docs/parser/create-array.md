@@ -179,7 +179,7 @@ arrays. For more details on these please refer to the documents for each format
   A sophisticated yet simply way to build a JSON array
 * [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Expressions: `expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators

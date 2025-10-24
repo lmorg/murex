@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"maps"
 	"os"
 	"regexp"
 	"sort"
@@ -34,17 +35,19 @@ var funcMap = template.FuncMap{
 	"otherdocs":    funcOtherDocs,
 	"env":          funcEnv,
 	"fn":           funcFunctions,
+	"tmpl":         funcTemplate,
 	"vuepressmenu": funcVuePressMenu,
 	"dump":         funcDump,
 }
 
 var funcMap__fn = template.FuncMap{}
+var funcMap__tmpl = template.FuncMap{}
 
 func init() {
-	for k, v := range funcMap {
-		funcMap__fn[k] = v
-	}
+	maps.Copy(funcMap__fn, funcMap)
 	delete(funcMap__fn, "fn")
+
+	maps.Copy(funcMap__tmpl, funcMap)
 }
 
 /************
@@ -309,7 +312,7 @@ func funcEnv(env string) any {
 	}
 
 	key, value := envvars.Split(env)
-	v := make(map[string]interface{})
+	v := make(map[string]any)
 	envvars.All(v)
 	s, _ := v[key].(string)
 	return s == value
@@ -328,6 +331,24 @@ func funcFunctions(s string) string {
 		panic(err.Error())
 	}
 	if err := t.Execute(w, nil); err != nil {
+		panic(err.Error())
+	}
+	return w.String()
+}
+
+/************
+ *   tmpl   *
+ ************/
+
+// Takes: string, to use as template
+// Returns: parsed string
+func funcTemplate(s string, ptr *documentValues) string {
+	w := bytes.NewBuffer([]byte{})
+	t, err := template.New("__tmpl").Funcs(funcMap__tmpl).Parse(s)
+	if err != nil {
+		panic(err.Error())
+	}
+	if err := t.Execute(w, ptr); err != nil {
 		panic(err.Error())
 	}
 	return w.String()

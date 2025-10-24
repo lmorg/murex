@@ -8,6 +8,8 @@ import (
 
 func init() {
 	// Register data type
+	lang.RegisterDataType(types.Path, lang.DataTypeIsObject)
+	lang.RegisterDataType(types.Paths, lang.DataTypeIsObject)
 	lang.RegisterMarshaller(types.Path, marshalPath)
 	lang.RegisterMarshaller(types.Paths, marshalPaths)
 	lang.RegisterUnmarshaller(types.Path, unmarshalPath)

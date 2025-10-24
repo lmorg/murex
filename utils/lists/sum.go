@@ -18,7 +18,7 @@ func SumFloat64(dst, src map[string]float64) {
 	}
 }
 
-func SumInterface(dst, src map[string]interface{}) error {
+func SumInterface(dst, src map[string]any) error {
 	for key, v := range src {
 		f1, err := types.ConvertGoType(dst[key], types.Float)
 		if err != nil {

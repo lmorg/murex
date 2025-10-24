@@ -1,0 +1,14 @@
+- DocumentID: spying_on_applications_via_tmux
+  Title: >-
+    Spying On Applications Via Tmux
+  CategoryID: blog
+  DateTime: 2025-07-03 21:31
+  Summary: >-
+    It might surprise some to learn that any application can listen to every keystroke and every application output, via tmux.
+  Description: |-
+    {{ include "gen/blog/spying_on_applications_via_tmux.inc.md" }}
+  Synonyms:
+  Related:
+    - iterm2
+    - mxtty
+

@@ -1,0 +1,11 @@
+id,name,email,department,role,hire_date,location,manager_id,active_status
+1,John Smith,john.smith@company.com,Engineering,Senior Developer,2019-05-15,San Francisco,5,true
+2,Emily Johnson,emily.j@company.com,Marketing,Marketing Specialist,2020-02-10,New York,6,true
+3,Michael Brown,m.brown@company.com,Engineering,DevOps Engineer,2018-11-23,Austin,5,true
+4,Sarah Davis,sarah.d@company.com,HR,HR Manager,2017-08-01,Chicago,9,true
+5,David Wilson,d.wilson@company.com,Engineering,Engineering Manager,2016-04-12,San Francisco,9,true
+6,Jennifer Lee,j.lee@company.com,Marketing,Marketing Director,2015-09-30,New York,9,true
+7,Robert Taylor,robert.t@company.com,Finance,Financial Analyst,2021-01-15,Boston,8,true
+8,Lisa Anderson,l.anderson@company.com,Finance,Finance Director,2014-07-22,Boston,9,false
+9,James Martin,j.martin@company.com,Executive,CTO,2012-03-10,San Francisco,null,true
+10,Amanda White,a.white@company.com,Engineering,Junior Developer,2022-06-05,Austin,5,true

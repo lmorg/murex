@@ -32,6 +32,7 @@ wasm_exec.js
 *.prof
 *.pprof
 *local.*
+/local/*
 
 debug.log
 

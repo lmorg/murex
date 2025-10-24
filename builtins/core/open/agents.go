@@ -66,7 +66,7 @@ func (oa *openAgents) Unset(dataType string) error {
 }
 
 // Dump returns the entire OpenAgent table
-func (oa *openAgents) Dump() interface{} {
+func (oa *openAgents) Dump() any {
 	oa.mutex.Lock()
 	defer oa.mutex.Unlock()
 

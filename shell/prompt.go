@@ -91,12 +91,12 @@ func writeTitlebar() {
 }
 
 // ConfigReadGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos
-func ConfigReadGetCursorPos() (interface{}, error) {
+func ConfigReadGetCursorPos() (any, error) {
 	return Prompt.EnableGetCursorPos, nil
 }
 
 // ConfigWriteGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos
-func ConfigWriteGetCursorPos(v interface{}) error {
+func ConfigWriteGetCursorPos(v any) error {
 	switch v := v.(type) {
 	case bool:
 		Prompt.EnableGetCursorPos = v

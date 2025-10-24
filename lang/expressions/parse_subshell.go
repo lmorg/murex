@@ -74,7 +74,7 @@ func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (*p
 }
 
 func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) (*primitives.Value, error) {
-	var slice []interface{}
+	var slice []any
 	val := new(primitives.Value)
 	var err error
 
@@ -93,7 +93,7 @@ func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) (*pr
 			slice = append(slice, string(b))
 		})
 	case varAsValue:
-		err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+		err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v any, _ string) {
 			slice = append(slice, v)
 		})
 	default:

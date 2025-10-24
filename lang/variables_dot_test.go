@@ -1,6 +1,7 @@
 package lang_test
 
 import (
+	"runtime"
 	"testing"
 
 	"github.com/lmorg/murex/test"
@@ -42,18 +43,22 @@ func TestVarGlobal(t *testing.T) {
 }
 
 func TestVarEnv(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skipf("this test isn't supported in Windows because it calls POSIX /usr/bin/env")
+	}
+
 	tests := []test.MurexTest{
 		{
 			Block: `
 				$ENV.MurexTestVarEnv00 = "lskdjflsakdjfoiwjef;oweijflsd;kjfweo;ij"
-				env -> regexp m/MurexTestVarEnv00/
+				/usr/bin/env -> regexp m/MurexTestVarEnv00/
 			`,
 			Stdout: "MurexTestVarEnv00=lskdjflsakdjfoiwjef;oweijflsd;kjfweo;ij\n",
 		},
 		{
 			Block: `
 				set ENV.MurexTestVarEnv01 = "ertyrtysdf;sldk;flkp;o342--04ik"
-				env -> regexp m/MurexTestVarEnv01/
+				/usr/bin/env -> regexp m/MurexTestVarEnv01/
 			`,
 			Stdout: "MurexTestVarEnv01=ertyrtysdf;sldk;flkp;o342--04ik\n",
 		},

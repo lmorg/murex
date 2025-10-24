@@ -100,16 +100,21 @@ func writeError(p *Process, err error) []byte {
 		}
 	}
 
-	var indentLen int
-	if p.FileRef.Source.Module == app.ShellModule {
-		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
-		indentLen = len(msg) - 2
-	} else {
-		msg = fmt.Sprintf("Error in `%s` (%s %d,%d):\n      Command: %s\n      Error: ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, string(p.raw))
-		indentLen = 6 + 5
+	var separator = ":"
+	if strings.Count(err.Error(), "\n") > 0 {
+		separator = " ┃"
 	}
 
-	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", indentLen)+"> ")
+	var indentLen int
+	if p.FileRef.Source.Module == app.ShellModule {
+		msg = fmt.Sprintf("Error in `%s` (%d,%d)%s ", name, p.FileRef.Line, p.FileRef.Column, separator)
+		indentLen = len(msg) - 4
+	} else {
+		msg = fmt.Sprintf("Error in `%s` (%s %d,%d):\n      Command: %s\n      Error: ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, string(p.raw))
+		indentLen = 7
+	}
+
+	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", indentLen)+"┃ ")
 	return []byte(msg + sErr)
 }
 
@@ -348,7 +353,7 @@ executeProcess:
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
 			_, cpErr := ParseExpression(p.raw, 0, false)
-			err = fmt.Errorf("Not a valid expression:\n    %v\nNor a valid statement:\n    %v",
+			err = fmt.Errorf("\033[4mNot a valid expression\033[24m:\n    %v\n\033[4mNor a valid statement\033[24m:\n    %v",
 				indentError(cpErr), indentError(err))
 		}
 	}

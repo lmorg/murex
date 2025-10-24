@@ -199,7 +199,7 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Manage Murex named pipes
 * [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Create Temporary File: `tmp`](../commands/tmp.md):
   Create a temporary file and write to it
@@ -359,6 +359,8 @@ The [Language Tour](/tour.md) is a great introduction into the Murex language.
   Round a number by a user defined precision
 * [Send Signal IPC: `signal`](../commands/signal.md):
   Sends a signal RPC
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
 * [Shell Configuration And Settings: `config`](../commands/config.md):

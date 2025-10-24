@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"regexp"
-	"runtime"
 	godebug "runtime/debug"
 	"strings"
 	"sync/atomic"
@@ -26,7 +24,6 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/cd"
-	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/crash"
 	"github.com/lmorg/murex/utils/spellcheck"
@@ -58,21 +55,35 @@ func callEventsPreview(ctx context.Context, interrupt string, previewItem string
 	EventsPreview(ctx, interrupt, previewItem, cmdLine, previousLines, size, callback)
 }
 
+func devMessage() {
+	info, ok := godebug.ReadBuildInfo()
+	if !ok {
+		return
+	}
+	for _, settings := range info.Settings {
+		if settings.Key == "-race" && settings.Value == "true" {
+			fmt.Fprintf(os.Stdout, "!!! This is a development build with race detection enabled. Murex performance will be negatively impacted !!!")
+		}
+	}
+}
+
 // Start the interactive shell
 func Start() {
 	defer crash.Handler()
 
 	session.UnixOpenTTY()
 
+	devMessage()
+
 	whatsnew.Display()
 
 	lang.ShellProcess.StartTime = time.Now()
 
-	// disable this for Darwin (macOS) because the messages it pops up might
+	/*// disable this for Darwin (macOS) because the messages it pops up might
 	// spook many macOS users.
 	if runtime.GOOS != "darwin" {
 		go cache.GatherFileCompletions(".")
-	}
+	}*/
 
 	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
 	if err != nil {
@@ -156,6 +167,10 @@ func showPrompt() {
 		return expanded
 	}
 
+	Prompt.TabCompleter = tabCompletion
+	Prompt.DelayedSyntaxWorker = Spellchecker
+	Prompt.HistoryAutoWrite = false
+
 	for {
 		v, err := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean)
 		if tmux, ok := v.(bool); ok && err == nil && tmux {
@@ -165,16 +180,13 @@ func showPrompt() {
 		signalhandler.Register(true)
 
 		setPromptHistory()
-		Prompt.TabCompleter = tabCompletion
-		Prompt.SyntaxCompleter = syntaxCompletion
-		Prompt.DelayedSyntaxWorker = Spellchecker
-		Prompt.HistoryAutoWrite = false
 
 		getSyntaxHighlighting()
+		getSyntaxCompletion()
 		getHintTextEnabled()
 		getHintTextFormatting()
 		getPreviewSettings()
-		cachedHintText = []rune{}
+		_cachedHintText = []rune{}
 		var prompt []byte
 
 		if nLines > 1 {
@@ -199,7 +211,7 @@ func showPrompt() {
 				continue
 
 			case readline.ErrEOF:
-				fmt.Fprintln(os.Stdout, utils.NewLineString)
+				fmt.Fprint(os.Stdout, utils.NewLineString, utils.NewLineString)
 				callEventsPrompt(promptops.EOF, nil, -1)
 				lang.Exit(0)
 
@@ -304,55 +316,8 @@ func showPrompt() {
 	}
 }
 
-var rxMacroVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
-
-func getMacroVars(s string) ([]string, []string, error) {
-	var err error
-
-	if !rxMacroVar.MatchString(s) {
-		return nil, nil, nil
-	}
-
-	assigned := make(map[string]bool)
-
-	match := rxMacroVar.FindAllString(s, -1)
-	vars := make([]string, len(match))
-	for i := range match {
-		if assigned[match[i]] {
-			continue
-		}
-
-		for {
-			rl := readline.NewInstance()
-			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
-				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
-			)))
-			rl.History = new(readline.NullHistory)
-			vars[i], err = rl.Readline()
-			if err != nil {
-				return nil, nil, err
-			}
-			if vars[i] != "" {
-				break
-			}
-			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
-		}
-		assigned[match[i]] = true
-	}
-
-	return match, vars, nil
-}
-
-func expandMacroVars(s string, match, vars []string) string {
-	for i := range match {
-		s = strings.ReplaceAll(s, match[i], vars[i])
-	}
-
-	return s
-}
-
 func getSyntaxHighlighting() {
-	highlight, err := lang.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
+	highlight, err := lang.ShellProcess.Config.Get("shell", "syntax-highlighting-enabled", types.Boolean)
 	if err != nil {
 		highlight = false
 	}
@@ -360,6 +325,18 @@ func getSyntaxHighlighting() {
 		Prompt.SyntaxHighlighter = syntaxHighlight
 	} else {
 		Prompt.SyntaxHighlighter = nil
+	}
+}
+
+func getSyntaxCompletion() {
+	completer, err := lang.ShellProcess.Config.Get("shell", "syntax-completion-enabled", types.Boolean)
+	if err != nil {
+		completer = false
+	}
+	if completer.(bool) {
+		Prompt.SyntaxCompleter = syntaxCompletion
+	} else {
+		Prompt.SyntaxCompleter = nil
 	}
 }
 
@@ -388,18 +365,19 @@ func getPreviewSettings() {
 	Prompt.PreviewImages = previewImages.(bool)
 }
 
-var ignoreSpellCheckErr bool
+var ignoreSpellCheckErr atomic.Bool
 
 func Spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
-	if err != nil && !ignoreSpellCheckErr {
-		ignoreSpellCheckErr = true
+	if err != nil && !ignoreSpellCheckErr.Load() {
+		ignoreSpellCheckErr.Store(true)
 		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
+		return r
 	}
 
-	ignoreSpellCheckErr = false // reset ignore status
+	ignoreSpellCheckErr.Store(false) // reset ignore status
 
 	return []rune(new)
 }

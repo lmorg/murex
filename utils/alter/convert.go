@@ -5,8 +5,8 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func StrToInterface(s string) interface{} {
-	var new interface{}
+func StrToInterface(s string) any {
+	var new any
 
 	err := json.Unmarshal([]byte(s), &new)
 	if err == nil {

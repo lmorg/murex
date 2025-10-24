@@ -123,7 +123,7 @@ that pipes created in modules should be prefixed with the name of its package.
   A sophisticated yet simply way to build a JSON array
 * [Create Named Pipe: `pipe`](../commands/pipe.md):
   Manage Murex named pipes
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Read From Stdin: `<stdin>`](../parser/stdin.md):
   Read the stdin belonging to the parent code block

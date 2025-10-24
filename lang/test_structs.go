@@ -72,8 +72,8 @@ func (tr *TestResults) Len() int {
 	return i
 }
 
-// Dump returns the slice for runtime diagnositics
-func (tr *TestResults) Dump() interface{} {
+// Dump returns the slice for runtime diagnostics
+func (tr *TestResults) Dump() any {
 	return tr.results
 }
 
@@ -188,7 +188,7 @@ func (tests *Tests) State(name string, block []rune) error {
 }
 
 // Dump is used for `runtime --tests`
-func (tests *Tests) Dump() interface{} {
+func (tests *Tests) Dump() any {
 	tests.mutex.Lock()
 
 	names := make([]string, 0)
@@ -203,7 +203,7 @@ func (tests *Tests) Dump() interface{} {
 
 	tests.mutex.Unlock()
 
-	return map[string]interface{}{
+	return map[string]any{
 		"test":  names,
 		"state": states,
 		"unit":  GlobalUnitTests.Dump(),

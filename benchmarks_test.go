@@ -18,6 +18,28 @@ func BenchmarkAForeachN(b *testing.B) {
 	}
 }
 
+func BenchmarkAForeachNoVarN(b *testing.B) {
+	lang.InitEnv()
+
+	block := fmt.Sprintf(`a [1..%d] -> foreach ! { out "iteration (unknown) of %d" }`, b.N, b.N)
+
+	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute([]rune(block))
+	if err != nil {
+		b.Error(err.Error())
+	}
+}
+
+func BenchmarkAForeachDotVarN(b *testing.B) {
+	lang.InitEnv()
+
+	block := fmt.Sprintf(`a [1..%d] -> foreach ! { out "$.i of %d" }`, b.N, b.N)
+
+	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute([]rune(block))
+	if err != nil {
+		b.Error(err.Error())
+	}
+}
+
 func BenchmarkJaForeachN(b *testing.B) {
 	lang.InitEnv()
 

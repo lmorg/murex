@@ -59,6 +59,8 @@ Commands for managing the flow of data between different processes and/or the te
   `read` a line of input from the user and store as a variable
 * [Render Image In Terminal: `open-image`](../commands/open-image.md):
   Renders bitmap image data on your terminal
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [`(brace quote)`](../parser/brace-quote-func.md):
   Write a string to the stdout without new line (deprecated)
 
@@ -82,6 +84,19 @@ Commands for working with files and/or the filesystem.
   Renders bitmap image data on your terminal
 * [Write File (Truncate): `>`](../parser/file-truncate.md):
   Writes stdin to disk - overwriting contents if file already exists
+
+### Looping / Iteration
+
+Operations for looping and iteration
+
+* [For Each In Map: `formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
+* [For Each In array: `foreach`](../commands/foreach.md):
+  Iterate through an array
+* [For Loop: `for`](../commands/for.md):
+  A more familiar iteration loop to existing developers
+* [Loop While: `while`](../commands/while.md):
+  Loop until condition false
 
 ### Defined by POSIX
 
@@ -134,7 +149,7 @@ Commands that operate against a list or array.
   A sophisticated yet simply way to build a JSON array
 * [Create New Array: `ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [Create Streamable Array `a`](../commands/a.md):
+* [Create Streamable Array: `a`](../commands/a.md):
   A sophisticated yet simple way to stream an array or list (mkarray)
 * [Filter By Range: `[ ..Range ]`](../parser/range.md):
   Outputs a ranged subset of data from stdin
@@ -384,6 +399,8 @@ Various commands that enable control flow, error handling and other important ch
   Define a private function block
 * [Public Function: `function`](../commands/function.md):
   Define a function block
+* [Send pipes to multiple processes: `fanout` (EXPERIMENTAL)](../commands/fanout.md):
+  Copies stdin and sends it to multiple pipelines, collating their output
 * [Switch Conditional: `switch`](../commands/switch.md):
   Blocks of cascading conditionals
 

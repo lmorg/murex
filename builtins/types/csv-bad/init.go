@@ -8,6 +8,8 @@ import (
 const typeName = "csvbad"
 
 func init() {
+	lang.RegisterDataType(typeName, lang.DataTypeIsTable)
+
 	//stdio.RegisterReadArray(typeName, readArray)
 	stdio.RegisterReadMap(typeName, readMap)
 

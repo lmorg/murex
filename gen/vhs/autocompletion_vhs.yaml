@@ -1,0 +1,69 @@
+- DocumentID: autocompletion
+  CategoryID: vhs
+  MetaData:
+    #Height: 200
+  Description: |-
+    Type '# Unlike other shells, Murex autocompletions can be context specific'
+    Enter
+
+    Type 'open '
+    Ctrl+F
+    Type@500ms 'yaml array'
+    Enter
+    Type ` -> `
+    Tab
+    Type@1s `[[ /0/Tit`
+    Enter
+    Type `]]`
+    Enter
+    Sleep 2s
+
+    Type '# Fuzzy Find autocompletion allows you to search for items without knowing the full name or path'
+    Enter
+    Type '# Press ctrl+f to search'
+    Enter
+    Type `open `
+    Ctrl+F
+    Sleep 1s
+    Type@500ms `png`
+    Sleep 1s
+    Type@500ms ` murex`
+    Sleep 1s
+    Type@500ms ` blog`
+    Sleep 2s
+    Enter
+    Sleep 1s
+    Enter
+    Sleep 2s
+
+    Type '# For some completions, you can even use Fuzzy Find against the descriptions'
+    Enter
+    Type `git `
+    Sleep 2s
+    Ctrl+F
+    Sleep 2s
+    Type@500ms `create`
+    Sleep 2s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1s
+    Ctrl+U
+
+    Type '# You can also use Fuzzy Find to search through your shell history
+    Enter
+    Type '# Pressing ctrl+r for history recall'
+    Enter
+    Ctrl+R
+    Sleep 2s
+    Type `install`
+    Sleep 1s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1s
+    Down
+    Sleep 1.5s
+    Ctrl+U

@@ -34,7 +34,7 @@ func (t *Null) ReadLine(func([]byte)) error { return nil }
 func (t *Null) ReadArray(context.Context, func([]byte)) error { return nil }
 
 // ReadArrayWithType - null interface
-func (t *Null) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
+func (t *Null) ReadArrayWithType(context.Context, func(any, string)) error { return nil }
 
 // ReadMap - null interface
 func (t *Null) ReadMap(*config.Config, func(*stdio.Map)) error { return nil }

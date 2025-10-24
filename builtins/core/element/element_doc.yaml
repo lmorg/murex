@@ -34,10 +34,10 @@
 
     ### Used with config
 
-    Return the data-type and description of **config shell syntax-highlighting**:
+    Return the data-type and description of **config shell syntax-highlighting-enabled**:
 
     ```
-    » config -> [[ /shell/syntax-highlighting/Data-Type ]]
+    » config -> [[ /shell/syntax-highlighting-enabled/Data-Type ]]
     bool
     ```
   Flags:
@@ -53,16 +53,16 @@
     following are all valid parameters:
 
     ```
-    » config -> [[ ,shell,syntax-highlighting,Data-Type ]]
+    » config -> [[ ,shell,syntax-highlighting-enabled,Data-Type ]]
     bool
 
-    » config -> [[ >shell>syntax-highlighting>Data-Type ]]
+    » config -> [[ >shell>syntax-highlighting-enabled>Data-Type ]]
     bool
 
-    » config -> [[ \|shell\|syntax-highlighting\|Data-Type ]]
+    » config -> [[ \|shell\|syntax-highlighting-enabled\|Data-Type ]]
     bool
 
-    » config -> [[ 😅shell😅syntax-highlighting😅Data-Type ]]
+    » config -> [[ 😅shell😅syntax-highlighting-enabled😅Data-Type ]]
     bool
     ```
 
@@ -74,7 +74,7 @@
 
         ```
         # Would fail because the semi-colon is an unescaped / unquoted shell token
-        config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+        config -> [[ ;shell-syntax-highlighting-enabled;Data-Type ]]
         ```
 
     2. Please also make sure you don't use a character that is also used inside
@@ -82,9 +82,9 @@
        following would fail:
 
         ```
-        # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
+        # Would fail because 'syntax-highlighting-enabled' and 'Data-Type' both also contain
         # the separator character
-        config -> [[ -shell-syntax-highlighting-Data-Type ]]
+        config -> [[ -shell-syntax-highlighting-enabled-Data-Type ]]
 
         # Would fail because you cannot escape key names (escaping happens at the
         # shell parser level rather than command parameter level)
@@ -99,10 +99,10 @@
     path:
 
     ```
-    » config -> [[ /shell/"syntax-highlighting"/Data-Type ]]
+    » config -> [[ /shell/"syntax-highlighting-enabled"/Data-Type ]]
     bool
 
-    » config -> [[ "|shell|syntax-highlighting|Data-Type" ]]
+    » config -> [[ "|shell|syntax-highlighting-enabled|Data-Type" ]]
     bool
     ```
   Synonyms:

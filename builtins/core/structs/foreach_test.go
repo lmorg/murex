@@ -54,3 +54,59 @@ func TestForEach(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestForEachStep(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `%[1..12] -> foreach --step 3 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3]\nIteration 2: [4,5,6]\nIteration 3: [7,8,9]\nIteration 4: [10,11,12]\n",
+		},
+		{
+			Block:  `%[1..13] -> foreach --step 3 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3]\nIteration 2: [4,5,6]\nIteration 3: [7,8,9]\nIteration 4: [10,11,12]\nIteration 5: [13]\n",
+		},
+		{
+			Block:  `%[1..14] -> foreach --step 3 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3]\nIteration 2: [4,5,6]\nIteration 3: [7,8,9]\nIteration 4: [10,11,12]\nIteration 5: [13,14]\n",
+		},
+		{
+			Block:  `%[1..15] -> foreach --step 3 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3]\nIteration 2: [4,5,6]\nIteration 3: [7,8,9]\nIteration 4: [10,11,12]\nIteration 5: [13,14,15]\n",
+		},
+		{
+			Block:  `%[1..16] -> foreach --step 3 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3]\nIteration 2: [4,5,6]\nIteration 3: [7,8,9]\nIteration 4: [10,11,12]\nIteration 5: [13,14,15]\nIteration 6: [16]\n",
+		},
+		/////
+		{
+			Block:  `%[1..10] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\n",
+		},
+		{
+			Block:  `%[1..11] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11]\n",
+		},
+		{
+			Block:  `%[1..12] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11,12]\n",
+		},
+		{
+			Block:  `%[1..13] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11,12,13]\n",
+		},
+		{
+			Block:  `%[1..14] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11,12,13,14]\n",
+		},
+		{
+			Block:  `%[1..15] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11,12,13,14,15]\n",
+		},
+		{
+			Block:  `%[1..16] -> foreach --step 5 value { out "Iteration $.i: $value" }`,
+			Stdout: "Iteration 1: [1,2,3,4,5]\nIteration 2: [6,7,8,9,10]\nIteration 3: [11,12,13,14,15]\nIteration 4: [16]\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

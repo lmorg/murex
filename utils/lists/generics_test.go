@@ -15,7 +15,7 @@ func TestGenericToString(t *testing.T) {
 		Error    bool
 	}{
 		{
-			Source:   []interface{}{1, 2, 3},
+			Source:   []any{1, 2, 3},
 			Expected: []string{"1", "2", "3"},
 			Error:    false,
 		},
@@ -25,7 +25,7 @@ func TestGenericToString(t *testing.T) {
 			Error:    true,
 		},
 		{
-			Source:   []interface{}{"1", "2", "3"},
+			Source:   []any{"1", "2", "3"},
 			Expected: []string{"1", "2", "3"},
 			Error:    false,
 		},
