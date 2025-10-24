@@ -93,8 +93,9 @@ jobs:
           AWS_DEFAULT_REGION:    eu-west-1
           AWS_DEFAULT_OUTPUT:    json
           CLOUDFRONT_ID:         ${{ github.ref == 'refs/heads/master' && secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER || secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
+          S3_PREFIX:             ${{ github.ref == 'refs/heads/master' && 'master' || 'develop' }}
         run: |
           mv -v images/vhs* images/banner* docs/.vuepress/dist/
-          aws s3 sync docs/.vuepress/dist s3://murex.rocks/develop --exclude "*.md" --no-progress --delete
+          aws s3 sync docs/.vuepress/dist s3://murex.rocks/${S3_PREFIX} --exclude "*.md" --no-progress --delete
           aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_ID}" --paths "/*"
     
