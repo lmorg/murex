@@ -11,38 +11,39 @@ import (
 
 func TestAliasParamParsing(t *testing.T) {
 	alias := fmt.Sprintf("GoTest-alias-%d-", rand.Int())
+	const errMissingCommand = "missing command to alias"
 
 	tests := []test.MurexTest{
 		// errors
 
 		{
-			Block:  fmt.Sprintf(`alias %s%d`, alias, -1),
-			Stderr: "no command supplied",
+			Block:   fmt.Sprintf(`alias %s%d`, alias, -1),
+			Stderr:  errMissingCommand,
 			ExitNum: 1,
 		},
 		{
-			Block:  fmt.Sprintf(`alias %s%d `, alias, -2),
-			Stderr: "no command supplied",
+			Block:   fmt.Sprintf(`alias %s%d `, alias, -2),
+			Stderr:  errMissingCommand,
 			ExitNum: 1,
 		},
 		{
-			Block:  fmt.Sprintf(`alias %s%d=`, alias, -3),
-			Stderr: "no command supplied",
+			Block:   fmt.Sprintf(`alias %s%d=`, alias, -3),
+			Stderr:  errMissingCommand,
 			ExitNum: 1,
 		},
 		{
-			Block:  fmt.Sprintf(`alias %s%d= `, alias, -4),
-			Stderr: "no command supplied",
+			Block:   fmt.Sprintf(`alias %s%d= `, alias, -4),
+			Stderr:  errMissingCommand,
 			ExitNum: 1,
 		},
 		{
-			Block:  fmt.Sprintf(`alias %s%d =`, alias, -1),
-			Stderr: "no command supplied",
+			Block:   fmt.Sprintf(`alias %s%d =`, alias, -5),
+			Stderr:  errMissingCommand,
 			ExitNum: 1,
 		},
 		{
-			Block:  fmt.Sprintf(`alias %s%d foobar`, alias, -1),
-			Stderr: "invalid syntax",
+			Block:   fmt.Sprintf(`alias %s%d foobar`, alias, -6),
+			Stderr:  "invalid syntax",
 			ExitNum: 1,
 		},
 
@@ -112,8 +113,40 @@ func TestAliasParamParsing(t *testing.T) {
 			Block:  fmt.Sprintf(`alias %s%d		=		foo bar; alias -> [%s%d]`, alias, 12, alias, 12),
 			Stdout: "[\"foo\",\"bar\"]",
 		},
+	}
 
+	test.RunMurexTestsRx(tests, t)
+}
 
+func TestAliasCopy(t *testing.T) {
+	token := fmt.Sprintf("GoTest-alias-copy-%d-", rand.Int())
+
+	tests := []test.MurexTest{
+		{
+			Block: fmt.Sprintf(`
+				summary %[1]s-foo-%[2]d foobar-%[2]d
+				alias %[1]s-bar-%[2]d = %[1]s-foo-%[2]d
+				runtime --summaries -> [%[1]s-bar-%[2]d]
+			`, token, 0),
+			Stderr:  "not found",
+			ExitNum: 1,
+		},
+		{
+			Block: fmt.Sprintf(`
+				summary %[1]s-foo-%[2]d foobar-%[2]d
+				alias --copy %[1]s-bar-%[2]d = %[1]s-foo-%[2]d
+				runtime --summaries -> [%[1]s-bar-%[2]d]
+			`, token, 1),
+			Stdout: "^foobar-1$",
+		},
+		{
+			Block: fmt.Sprintf(`
+				autocomplete set %[1]s-foo-%[2]d %%[{Flags: [ "foobar-%[2]d" ]}]
+				alias --copy %[1]s-bar-%[2]d = %[1]s-foo-%[2]d
+				runtime --autocomplete -> [[ /%[1]s-foo-%[2]d/FlagValues/0/Flags/0 ]]
+			`, token, 2),
+			Stdout: "^foobar-2$",
+		},
 	}
 
 	test.RunMurexTestsRx(tests, t)

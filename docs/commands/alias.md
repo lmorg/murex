@@ -14,7 +14,7 @@ IMPORTANT: aliases in Murex are not macros and are therefore different than
 ## Usage
 
 ```
-alias alias=command parameter parameter
+alias [ --copy | -c ] alias=command parameter parameter ...
 
 !alias command
 ```
@@ -59,6 +59,13 @@ In some ways this makes `alias` a little less flexible than it might
 otherwise be. However the design of this is to keep `alias` focused on it's
 core objective. To implement the above aliasing, you can use `function`
 instead.
+
+## Flags
+
+* `--copy`
+    copies `method`, `summary` and `autocomplete` of destination command. `autocomplete` is only copied if alias does not include parameters.
+* `-c`
+    alias for `--copy`
 
 ## Detail
 
@@ -123,29 +130,23 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [Define Environmental Variable: `export`](../commands/export.md):
-  Define an environmental variable and set it's value
-* [Define Global: `global`](../commands/global.md):
-  Define a global variable and set it's value
 * [Define Method Relationships (`method`)](../commands/method.md):
   Define a methods supported data-types
-* [Define Variable: `set`](../commands/set.md):
-  Define a variable (typically local) and set it's value
 * [Execute External Command: `exec`](../commands/exec.md):
   Runs an executable
 * [Execute Function or Builtin: `fexec`](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [Globbing: `g`](../commands/g.md):
-  Glob pattern matching for file system objects (eg `*.txt`)
 * [Include / Evaluate Murex Code: `source`](../commands/source.md):
   Import Murex code from another file or code block
-* [Integer Operations: `let`](../deprecated/let.md):
-  Evaluate a mathematical function and assign to variable (removed 7.0)
 * [Private Function: `private`](../commands/private.md):
   Define a private function block
 * [Public Function: `function`](../commands/function.md):
   Define a function block
+* [Set Command Summary Hint: `summary`](../commands/summary.md):
+  Defines a summary help text for a command
+* [Tab Autocompletion: `autocomplete`](../commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 
 <hr/>
 
-This document was generated from [builtins/core/structs/function_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/function_doc.yaml).
+This document was generated from [builtins/core/structs/alias_doc.yaml](https://github.com/lmorg/murex/blob/master/builtins/core/structs/alias_doc.yaml).
