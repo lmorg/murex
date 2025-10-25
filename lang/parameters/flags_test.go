@@ -13,7 +13,7 @@ type flagTest struct {
 	Parameters []string
 	Arguments  parameters.Arguments
 
-	ExpFlags      map[string]string
+	ExpFlags      map[string]any
 	ExpAdditional []string
 
 	Error bool
@@ -30,9 +30,9 @@ func TestFlags(t *testing.T) {
 					"--number": types.Number,
 				},
 			},
-			ExpFlags: map[string]string{
+			ExpFlags: map[string]any{
 				"--string": "--test",
-				"--number": "-5",
+				"--number": -5,
 			},
 			ExpAdditional: nil,
 			Error:         false,
@@ -47,9 +47,9 @@ func TestFlags(t *testing.T) {
 					"--number": types.Number,
 				},
 			},
-			ExpFlags: map[string]string{
+			ExpFlags: map[string]any{
 				"--string": "--test",
-				"--number": "-5",
+				"--number": -5,
 			},
 			ExpAdditional: []string{"foobar"},
 			Error:         false,
@@ -64,7 +64,7 @@ func TestFlags(t *testing.T) {
 					"--number": types.Number,
 				},
 			},
-			ExpFlags:      map[string]string{},
+			ExpFlags:      map[string]any{},
 			ExpAdditional: []string{"foobar", "--string", "--test", "--number", "-5"},
 			Error:         false,
 		},
@@ -78,7 +78,7 @@ func TestFlags(t *testing.T) {
 					"--number": types.Number,
 				},
 			},
-			ExpFlags:      map[string]string{},
+			ExpFlags:      map[string]any{},
 			ExpAdditional: []string{"foobar", "--string", "--test", "--number", "-5"},
 			Error:         false,
 		},
@@ -88,17 +88,18 @@ func TestFlags(t *testing.T) {
 
 	for i, test := range tests {
 		if test.ExpFlags == nil {
-			test.ExpFlags = make(map[string]string)
+			test.ExpFlags = make(map[string]any)
 		}
 		if test.ExpAdditional == nil {
 			test.ExpAdditional = make([]string, 0)
 		}
 
-		flags, additional, err := parameters.ParseFlags(test.Parameters, &test.Arguments)
+		flagsT, additional, err := parameters.ParseFlags(test.Parameters, &test.Arguments)
+		flags := flagsT.GetMap()
 
-		if flags == nil {
-			flags = make(map[string]string)
-		}
+		//if flags == nil {
+		//	flags = make(map[string]*parameters.FlagValueT)
+		//}
 		if additional == nil {
 			additional = make([]string, 0)
 		}

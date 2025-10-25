@@ -95,6 +95,27 @@ func (f *funcID) ListAll() fidList {
 	return procs
 }
 
+// List processes registered in the FID (Function ID) table - return as a ordered list
+func (f *funcID) List(options ...OptFidList) fidList {
+	f.mutex.Lock()
+	procs := make(fidList, len(f.list))
+	var i int
+	for _, p := range f.list {
+	fid:
+		for i := range options {
+			if !options[i](p) {
+				continue fid
+			}
+		}
+		procs[i] = p
+		i++
+	}
+	f.mutex.Unlock()
+
+	sort.Sort(procs)
+	return procs
+}
+
 // Dump returns a list of FIDs in a format for `runtime` builtin
 func (f *funcID) Dump() any {
 	fidList := f.ListAll()
