@@ -74,7 +74,7 @@ func cmdAlias(p *lang.Process) error {
 		return aliasErr(err, name)
 	}
 
-	if flags[fAliasCopy] == types.TrueString {
+	if flags.GetValue(fAliasCopy).Boolean() {
 		cmdAliasCopy(p, name, params)
 	}
 

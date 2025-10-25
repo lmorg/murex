@@ -59,9 +59,9 @@ func cmdDateTime(p *lang.Process) error {
 	}
 
 	var (
-		fIn    = flags[_FLAG_IN]
-		fOut   = flags[_FLAG_OUT]
-		fValue = flags[_FLAG_VAL]
+		fIn    = flags.GetValue(_FLAG_IN).String()
+		fOut   = flags.GetValue(_FLAG_OUT).String()
+		fValue = flags.GetValue(_FLAG_VAL).String()
 	)
 
 	switch len(additional) {

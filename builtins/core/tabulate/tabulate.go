@@ -102,10 +102,10 @@ func cmdTabulate(p *lang.Process) error {
 		//iValStart   int // where the value starts when column wraps and keyVal used
 	)
 
-	for flag, value := range f {
+	for flag, value := range f.GetMap() {
 		switch flag {
 		case fSeparator:
-			separator = value
+			separator = value.(string)
 		case fSplitComma:
 			splitComma = true
 		case fSplitSpace:
@@ -115,7 +115,7 @@ func cmdTabulate(p *lang.Process) error {
 		case fKeyVal:
 			keyVal = true
 		case fJoiner:
-			joiner = value
+			joiner = value.(string)
 		case fMap:
 			keyVal = true
 		case fColumnWraps:
@@ -149,7 +149,7 @@ func cmdTabulate(p *lang.Process) error {
 			p.Name.String(), types.String, types.Generic, dt)
 	}
 
-	if f[fMap] == "" {
+	if !f.GetValue(fMap).Boolean() {
 		p.Stdout.SetDataType("csv")
 		w = csv.NewWriter(p.Stdout)
 	} else {

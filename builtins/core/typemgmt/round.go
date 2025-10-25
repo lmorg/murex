@@ -53,8 +53,8 @@ func cmdRound(p *lang.Process) error {
 	}
 	precision := v.(float64)
 
-	roundDown := flags[flagRoundDown] == types.TrueString
-	roundUp := flags[flagRoundUp] == types.TrueString
+	roundDown := flags.GetValue(flagRoundDown).Boolean()
+	roundUp := flags.GetValue(flagRoundUp).Boolean()
 
 	if roundUp && roundDown {
 		return fmt.Errorf("you cannot use both %s/-d and %s/-u flags together", flagRoundDown, flagRoundUp)

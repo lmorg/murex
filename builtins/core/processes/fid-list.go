@@ -8,11 +8,10 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	lang.DefineFunction("fid-list", cmdFidList, types.JsonLines)
+	lang.DefineFunction("fid-list", cmdFidListOld, types.JsonLines)
 
 	defaults.AppendProfile(`
 		autocomplete set fid-list { [{
@@ -35,7 +34,7 @@ func getParams(p *lang.Process) string {
 	return s
 }
 
-func cmdFidList(p *lang.Process) error {
+func cmdFidListOld(p *lang.Process) error {
 	flag, _ := p.Parameters.String(0)
 	switch flag {
 	case "":
@@ -68,26 +67,6 @@ func cmdFidList(p *lang.Process) error {
 	default:
 		return cmdFidListHelp(p)
 	}
-}
-
-func cmdFidListHelp(p *lang.Process) error {
-	flags := map[string]string{
-		"--csv":        "Outputs as CSV table",
-		"--jsonl":      "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
-		"--tty":        "Outputs as a human readable table. This is the default mode when outputting to a TTY",
-		"--stopped":    "JSON map of all stopped processes running under murex",
-		"--background": "JSON map of all background processes running under murex",
-		"--jobs":       "List stopped or background processes (similar to POSIX jobs)",
-		"--help":       "Displays a list of parameters",
-	}
-	p.Stdout.SetDataType(types.Json)
-	b, err := json.Marshal(flags, p.Stdout.IsTTY())
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
-	return err
 }
 
 func cmdFidListTTY(p *lang.Process) error {

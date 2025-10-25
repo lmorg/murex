@@ -74,83 +74,78 @@ func cmdCount(p *lang.Process) error {
 		return err
 	}
 
-	if len(flags) == 0 {
-		flags[argTotal] = types.TrueString
-	}
-
-	for f := range flags {
-		switch f {
-		case argDuplications:
-			v, err := countDuplications(p)
-			if err != nil {
-				p.Stdout.SetDataType(types.Null)
-				return err
-			}
-
-			b, err := json.Marshal(v, p.Stdout.IsTTY())
-			if err != nil {
-				p.Stdout.SetDataType(types.Null)
-				return err
-			}
-
-			p.Stdout.SetDataType(types.Json)
-			_, err = p.Stdout.Write(b)
-			return err
-
-		case argUnique:
-			v, err := countUnique(p)
-			if err != nil {
-				p.Stdout.SetDataType(types.Null)
-				return err
-			}
-
-			p.Stdout.SetDataType(types.Integer)
-			_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
-			return err
-
-		case argTotal:
-			v, err := countTotal(p)
-			if err != nil {
-				p.Stdout.SetDataType(types.Null)
-				return err
-			}
-
-			p.Stdout.SetDataType(types.Integer)
-			_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
-			return err
-
-		case argSum, argSumStrict:
-			f, err := countSum(p, flags[argSumStrict] == types.TrueString)
-			if err != nil {
-				p.Stdout.SetDataType(types.Null)
-				return err
-			}
-
-			p.Stdout.SetDataType(types.Number)
-			_, err = p.Stdout.Write([]byte(types.FloatToString(f)))
-			return err
-
-		case argBytes:
-			p.Stdout.SetDataType(types.Integer)
-			b, err := p.Stdin.ReadAll()
-			if err != nil {
-				return err
-			}
-			_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", len(b))))
-			return err
-
-		case argRunes:
-			p.Stdout.SetDataType(types.Integer)
-			b, err := p.Stdin.ReadAll()
-			if err != nil {
-				return err
-			}
-			_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", utf8.RuneCount(b))))
+	switch {
+	case flags.GetValue(argDuplications).Boolean():
+		v, err := countDuplications(p)
+		if err != nil {
+			p.Stdout.SetDataType(types.Null)
 			return err
 		}
-	}
 
-	return nil
+		b, err := json.Marshal(v, p.Stdout.IsTTY())
+		if err != nil {
+			p.Stdout.SetDataType(types.Null)
+			return err
+		}
+
+		p.Stdout.SetDataType(types.Json)
+		_, err = p.Stdout.Write(b)
+		return err
+
+	case flags.GetValue(argUnique).Boolean():
+		v, err := countUnique(p)
+		if err != nil {
+			p.Stdout.SetDataType(types.Null)
+			return err
+		}
+
+		p.Stdout.SetDataType(types.Integer)
+		_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
+		return err
+
+	case flags.GetValue(argSum).Boolean(), flags.GetValue(argSumStrict).Boolean():
+		f, err := countSum(p, flags.GetValue(argSumStrict).Boolean())
+		if err != nil {
+			p.Stdout.SetDataType(types.Null)
+			return err
+		}
+
+		p.Stdout.SetDataType(types.Number)
+		_, err = p.Stdout.Write([]byte(types.FloatToString(f)))
+		return err
+
+	case flags.GetValue(argBytes).Boolean():
+		p.Stdout.SetDataType(types.Integer)
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", len(b))))
+		return err
+
+	case flags.GetValue(argRunes).Boolean():
+		p.Stdout.SetDataType(types.Integer)
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Write([]byte(fmt.Sprintf("%d", utf8.RuneCount(b))))
+		return err
+
+	case flags.GetValue(argTotal).Boolean():
+		fallthrough
+
+	default:
+		v, err := countTotal(p)
+		if err != nil {
+			p.Stdout.SetDataType(types.Null)
+			return err
+		}
+
+		p.Stdout.SetDataType(types.Integer)
+		_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
+		return err
+	}
 }
 
 func countDuplications(p *lang.Process) (map[string]int, error) {
