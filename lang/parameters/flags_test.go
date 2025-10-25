@@ -37,6 +37,51 @@ func TestFlags(t *testing.T) {
 			ExpAdditional: nil,
 			Error:         false,
 		},
+		{
+			Parameters: []string{"foobar", "--string", "--test", "--number", "-5"},
+			Arguments: parameters.Arguments{
+				StrictFlagPlacement: false,
+				AllowAdditional:     true,
+				Flags: map[string]string{
+					"--string": types.String,
+					"--number": types.Number,
+				},
+			},
+			ExpFlags: map[string]string{
+				"--string": "--test",
+				"--number": "-5",
+			},
+			ExpAdditional: []string{"foobar"},
+			Error:         false,
+		},
+		{
+			Parameters: []string{"foobar", "--string", "--test", "--number", "-5"},
+			Arguments: parameters.Arguments{
+				StrictFlagPlacement: true,
+				AllowAdditional:     true,
+				Flags: map[string]string{
+					"--string": types.String,
+					"--number": types.Number,
+				},
+			},
+			ExpFlags:      map[string]string{},
+			ExpAdditional: []string{"foobar", "--string", "--test", "--number", "-5"},
+			Error:         false,
+		},
+		{
+			Parameters: []string{"--", "foobar", "--string", "--test", "--number", "-5"},
+			Arguments: parameters.Arguments{
+				StrictFlagPlacement: false,
+				AllowAdditional:     true,
+				Flags: map[string]string{
+					"--string": types.String,
+					"--number": types.Number,
+				},
+			},
+			ExpFlags:      map[string]string{},
+			ExpAdditional: []string{"foobar", "--string", "--test", "--number", "-5"},
+			Error:         false,
+		},
 	}
 
 	count.Tests(t, len(tests))

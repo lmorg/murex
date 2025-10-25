@@ -33,8 +33,9 @@ var argsAlias = &parameters.Arguments{
 		fAliasCopy: types.Boolean,
 		"-c":       fAliasCopy,
 	},
-	AllowAdditional:    true,
-	IgnoreInvalidFlags: false,
+	AllowAdditional:     true,
+	IgnoreInvalidFlags:  false,
+	StrictFlagPlacement: true,
 }
 
 func aliasErr(err error, name string) error {

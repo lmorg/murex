@@ -9,9 +9,10 @@ import (
 
 // Arguments is a struct which holds the allowed flags supported when parsing the flags (with ParseFlags)
 type Arguments struct {
-	AllowAdditional    bool
-	IgnoreInvalidFlags bool
-	Flags              map[string]string
+	AllowAdditional     bool
+	IgnoreInvalidFlags  bool
+	StrictFlagPlacement bool
+	Flags               map[string]string
 }
 
 const invalidParameters = "invalid parameters"
@@ -27,21 +28,32 @@ const invalidParameters = "invalid parameters"
 //		     "--bool": "bool",
 //		     "-b": "--bool"
 //	  }
-func ParseFlags(params []string, args *Arguments) (flags map[string]string, additional []string, err error) {
-	var previous string
-	flags = make(map[string]string)
-	additional = make([]string, 0)
+//
+// Returns:
+// 1. map of flags,
+// 2. additional parameters,
+// 3. error
+func ParseFlags(params []string, args *Arguments) (map[string]string, []string, error) {
+	var (
+		previous    string
+		flags       = make(map[string]string)
+		additional  = make([]string, 0)
+		ignoreFlags bool
+	)
 
 	for i := range params {
 	scanFlags:
 		switch {
+		case ignoreFlags:
+			additional = append(additional, params[i])
+
 		case strings.HasPrefix(params[i], "-"):
 			switch {
+			case args.AllowAdditional && params[i] == "--":
+				ignoreFlags = true
 			case strings.HasPrefix(args.Flags[params[i]], "-"):
 				params[i] = args.Flags[params[i]]
 				goto scanFlags
-			//case previous != "":
-			//	return nil, nil, fmt.Errorf("%s: flag found without value: `%s`", invalidParameters, previous)
 			case args.Flags[params[i]] == types.Boolean:
 				flags[params[i]] = types.TrueString
 			case args.Flags[params[i]] != "":
@@ -64,6 +76,9 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 				return nil, nil, fmt.Errorf("%s: parameter found without a flag: `%s`", invalidParameters, params[i])
 			}
 			additional = append(additional, params[i])
+			if args.StrictFlagPlacement {
+				ignoreFlags = true
+			}
 		}
 	}
 
@@ -71,7 +86,7 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 		return nil, nil, fmt.Errorf("%s: flag found without value: `%s`", invalidParameters, previous)
 	}
 
-	return
+	return flags, additional, nil
 }
 
 // ParseFlags - this instance of ParseFlags is a wrapper function for ParseFlags (above) so you can use inside your

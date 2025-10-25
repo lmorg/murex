@@ -395,6 +395,8 @@ Various commands that enable control flow, error handling and other important ch
   Reads the stdin and exit number from previous process and not's it's condition
 * [Null: `null`](../commands/devnull.md):
   null function. Similar to /dev/null
+* [Parse Murex Source: `murex-parser`](../commands/murex-parser.md):
+  Runs the Murex parser against a block of code 
 * [Private Function: `private`](../commands/private.md):
   Define a private function block
 * [Public Function: `function`](../commands/function.md):
@@ -436,10 +438,7 @@ Tools for providing help and hints, useful when working inside the interactive s
 * [Set Command Summary Hint: `summary`](../commands/summary.md):
   Defines a summary help text for a command
 
-### Uncategorised
 
-* [Parse Murex Source: `murex-parser`](../commands/murex-parser.md):
-  Runs the Murex parser against a block of code 
 
 ## Optional Builtins
 
