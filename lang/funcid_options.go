@@ -1,9 +1,5 @@
 package lang
 
-import (
-	"fmt"
-)
-
 type OptFidList func(*Process) bool
 
 func FidWithIsBackground(include bool) OptFidList {
@@ -29,7 +25,6 @@ func FidWithIsChildOf(fid uint32, include bool) OptFidList {
 		proc := p.Parent
 
 		for {
-			fmt.Printf("FidWithIsChildOf %d\n", proc.Id)
 			if proc.Id == fid {
 				return include
 			}
@@ -45,7 +40,6 @@ func FidWithIsChildOf(fid uint32, include bool) OptFidList {
 
 func FidWithIsFork(include bool) OptFidList {
 	return func(p *Process) bool {
-		fmt.Printf("%d %s: (%v == %v) == %v\n", p.Id, p.Name.String(), p.IsFork, include, p.IsFork == include)
 		return p.IsFork == include
 	}
 }

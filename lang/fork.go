@@ -95,7 +95,7 @@ type Fork struct {
 	preview       bool
 }
 
-const ForkSuffix = " (fork)"
+//const ForkSuffix = " (fork)"
 
 // Fork will create a new handle for executing a code block
 func (p *Process) Fork(flags int) *Fork {
@@ -107,7 +107,7 @@ func (p *Process) Fork(flags int) *Fork {
 	trace(fork.Process)
 	fork.raw = p.raw
 
-	fork.State.Set(state.MemAllocated)
+	fork.State.Set(state.FunctionGroup)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.HasJobId.Set(flags&F_ASSIGN_JOBID != 0 || p.HasJobId.Get())
 
@@ -116,6 +116,7 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.OperatorLogicOr = p.OperatorLogicOr
 	fork.IsNot = p.IsNot
 	fork.IsFork = true
+	fork.Parent = p //p.Parent
 
 	fork.Previous = p.Previous
 	fork.Next = p.Next
@@ -132,7 +133,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 	if flags&F_FUNCTION != 0 {
 		fork.Scope = fork.Process
-		fork.Parent = fork.Process
+		//fork.Parent = fork.Process
 		fork.Context, fork.Done = context.WithCancel(context.Background())
 		fork.Kill = fork.Done
 
@@ -160,24 +161,24 @@ func (p *Process) Fork(flags int) *Fork {
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
-			fork.Parent = p.Parent
+			//fork.Parent = p.Parent
 			fork.Variables = p.Variables
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			fork.Parent = p.Parent
+			//fork.Parent = p.Parent
 			fork.Variables = p.Variables
-			fork.Name.Append(ForkSuffix)
+			//.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 			//fork.IsFork = true
 
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
-			fork.Parent = p.Parent
+			//fork.Parent = p.Parent
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
-			fork.Name.Append(ForkSuffix)
+			//fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 			//fork.IsFork = true

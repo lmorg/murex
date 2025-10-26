@@ -21,8 +21,9 @@ const _PipeToken_name = "PipeTokenNonePipeTokenPosixPipeTokenArrowPipeTokenGener
 var _PipeToken_index = [...]uint8{0, 13, 27, 41, 57, 74, 89}
 
 func (i PipeToken) String() string {
-	if i < 0 || i >= PipeToken(len(_PipeToken_index)-1) {
+	idx := int(i) - 0
+	if i < 0 || idx >= len(_PipeToken_index)-1 {
 		return "PipeToken(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _PipeToken_name[_PipeToken_index[i]:_PipeToken_index[i+1]]
+	return _PipeToken_name[_PipeToken_index[idx]:_PipeToken_index[idx+1]]
 }

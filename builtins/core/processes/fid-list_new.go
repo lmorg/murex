@@ -28,15 +28,17 @@ func init() {
 }
 
 const (
-	fCsv           = "--csv"
-	fJsonL         = "--jsonl"
-	fTty           = "--tty"
-	fJobs          = "--jobs"
-	fStopped       = "--stopped"
-	fBackground    = "--background"
-	fExcChildrenOf = "--exc-children-of"
-	fIncChildrenOf = "--inc-children-of"
-	fHelp          = "--help"
+	fCsv            = "--csv"
+	fJsonL          = "--jsonl"
+	fTty            = "--tty"
+	fJobs           = "--jobs"
+	fStopped        = "--stopped"
+	fBackground     = "--background"
+	fIncChildrenOf  = "--children-of"
+	fExcChildrenOf  = "--no-children-of"
+	fIncFnContainer = "--function-groups"
+	fExcFnContainer = "--no-function-groups"
+	fHelp           = "--help"
 )
 
 var argsFidList = &parameters.Arguments{
@@ -52,8 +54,10 @@ var argsFidList = &parameters.Arguments{
 		fStopped:    types.Boolean,
 		fBackground: types.Boolean,
 
-		fIncChildrenOf: types.Integer,
-		fExcChildrenOf: types.Integer,
+		fIncChildrenOf:  types.Integer,
+		fExcChildrenOf:  types.Integer,
+		fIncFnContainer: types.Boolean,
+		fExcFnContainer: types.Boolean,
 
 		fHelp: types.Boolean,
 	},
@@ -65,8 +69,7 @@ func cmdFidListNew(p *lang.Process) error {
 		return err
 	}
 
-	options := []lang.OptFidList{lang.FidWithIsFork(false)}
-	//options := []lang.OptFidList{}
+	options := []lang.OptFidList{}
 
 	if v, ok := flags.GetNullable(fIncChildrenOf); ok {
 		options = append(options, lang.FidWithIsChildOf(uint32(v.Integer()), true))
@@ -74,6 +77,14 @@ func cmdFidListNew(p *lang.Process) error {
 
 	if v, ok := flags.GetNullable(fExcChildrenOf); ok {
 		options = append(options, lang.FidWithIsChildOf(uint32(v.Integer()), false))
+	}
+
+	if _, ok := flags.GetNullable(fIncFnContainer); ok {
+		options = append(options, lang.FidWithIsFork(false))
+	}
+
+	if _, ok := flags.GetNullable(fExcFnContainer); ok {
+		options = append(options, lang.FidWithIsFork(false))
 	}
 
 	procs := lang.GlobalFIDs.List(options...)
@@ -110,15 +121,17 @@ func cmdFidListNew(p *lang.Process) error {
 
 func cmdFidListNewHelp(p *lang.Process) error {
 	flags := map[string]string{
-		fCsv:           "Outputs as CSV table",
-		fJsonL:         "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
-		fTty:           "Outputs as a human readable table. This is the default mode when outputting to a TTY",
-		fStopped:       "JSON map of all stopped processes running under murex",
-		fBackground:    "JSON map of all background processes running under murex",
-		fJobs:          "List stopped or background processes (similar to POSIX jobs)",
-		fIncChildrenOf: "<int> Include only children of FID",
-		fExcChildrenOf: "<int> Exclude all children of FID",
-		fHelp:          "Displays a list of parameters",
+		fCsv:            "Outputs as CSV table",
+		fJsonL:          "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
+		fTty:            "Outputs as a human readable table. This is the default mode when outputting to a TTY",
+		fStopped:        "JSON map of all stopped processes running under murex",
+		fBackground:     "JSON map of all background processes running under murex",
+		fJobs:           "List stopped or background processes (similar to POSIX jobs)",
+		fIncChildrenOf:  "<int> Include only children of FID",
+		fExcChildrenOf:  "<int> Exclude all children of FID",
+		fIncFnContainer: "Include only function containers",
+		fExcFnContainer: "Exclude all function containers",
+		fHelp:           "Displays a list of parameters",
 	}
 	p.Stdout.SetDataType(types.Json)
 	b, err := json.Marshal(flags, p.Stdout.IsTTY())
@@ -132,11 +145,11 @@ func cmdFidListNewHelp(p *lang.Process) error {
 
 func cmdFidListNewTTY(p *lang.Process, procs []*lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
-	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %7s  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
+	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %7s  %-13s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
 		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
 
 	for _, process := range procs {
-		s := fmt.Sprintf("%7d  %7d  %7d  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
+		s := fmt.Sprintf("%7d  %7d  %7d  %-13s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
 			process.Id,
 			process.Parent.Id,
 			process.Scope.Id,
