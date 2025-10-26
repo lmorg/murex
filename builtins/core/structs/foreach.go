@@ -42,12 +42,14 @@ func cmdForEach(p *lang.Process) error {
 		return err
 	}
 
+	foreachParallelVal, foreachParallelOk := flags.GetNullable(foreachParallel)
+
 	switch {
 	case flags.GetValue(foreachJmap).Boolean():
 		return cmdForEachJmap(p)
 
-	case flags.GetValue(foreachParallel).Integer() != 0:
-		return cmdForEachParallel(p, flags.GetValue(foreachParallel).Integer(), additional)
+	case foreachParallelOk:
+		return cmdForEachParallel(p, foreachParallelVal.Integer(), additional)
 
 	default:
 		return cmdForEachDefault(p, flags.GetValue(foreachStep).Integer(), additional)
