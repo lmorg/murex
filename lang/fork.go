@@ -115,6 +115,7 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.OperatorLogicAnd = p.OperatorLogicAnd
 	fork.OperatorLogicOr = p.OperatorLogicOr
 	fork.IsNot = p.IsNot
+	fork.IsFork = true
 
 	fork.Previous = p.Previous
 	fork.Next = p.Next
@@ -169,7 +170,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
-			fork.IsFork = true
+			//fork.IsFork = true
 
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
@@ -179,7 +180,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
-			fork.IsFork = true
+			//fork.IsFork = true
 		}
 
 		if flags&F_NEW_CONFIG != 0 {

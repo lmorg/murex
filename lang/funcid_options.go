@@ -1,33 +1,51 @@
 package lang
 
+import (
+	"fmt"
+)
+
 type OptFidList func(*Process) bool
 
-func FidWithBackground(background bool) OptFidList {
+func FidWithIsBackground(include bool) OptFidList {
 	return func(p *Process) bool {
-		return p.Background.Get() == background
+		return p.Background.Get() == include
 	}
 }
 
-func FidWithStopped(stopped bool) OptFidList {
+func FidWithIsStopped(include bool) OptFidList {
 	return func(p *Process) bool {
 		select {
 		case <-p.HasStopped:
-			return true && stopped
+			return include
 		default:
-			return false && stopped
+			return !include
 		}
 	}
 }
 
-func FidWithIsChildOf(fid uint32, isChild bool) OptFidList {
+func FidWithIsChildOf(fid uint32, include bool) OptFidList {
 	return func(p *Process) bool {
-		pp := p.Parent
-		for pp.Id != ShellProcess.Id {
-			if p.Id == fid {
-				return true && isChild
+
+		proc := p.Parent
+
+		for {
+			fmt.Printf("FidWithIsChildOf %d\n", proc.Id)
+			if proc.Id == fid {
+				return include
 			}
-			pp = pp.Parent
+
+			proc = proc.Parent
+
+			if proc.Id == ShellProcess.Id {
+				return !include
+			}
 		}
-		return false && isChild
+	}
+}
+
+func FidWithIsFork(include bool) OptFidList {
+	return func(p *Process) bool {
+		fmt.Printf("%d %s: (%v == %v) == %v\n", p.Id, p.Name.String(), p.IsFork, include, p.IsFork == include)
+		return p.IsFork == include
 	}
 }

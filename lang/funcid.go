@@ -97,22 +97,23 @@ func (f *funcID) ListAll() fidList {
 
 // List processes registered in the FID (Function ID) table - return as a ordered list
 func (f *funcID) List(options ...OptFidList) fidList {
-	f.mutex.Lock()
-	procs := make(fidList, len(f.list))
-	var i int
-	for _, p := range f.list {
-	fid:
-		for i := range options {
-			if !options[i](p) {
-				continue fid
-			}
-		}
-		procs[i] = p
-		i++
-	}
-	f.mutex.Unlock()
+	fids := f.ListAll()
 
-	sort.Sort(procs)
+	var procs fidList
+
+	for _, p := range fids {
+		//fmt.Printf("start: %d %s\n", p.Id, p.Name.String())
+		inc := true
+		for opt := range options {
+			//fmt.Printf("opt %d: %d %s\n", opt, p.Id, p.Name.String())
+			inc = inc && options[opt](p)
+		}
+		if inc {
+			procs = append(procs, p)
+		}
+		//fmt.Printf("end: %d %s\n", p.Id, p.Name.String())
+	}
+
 	return procs
 }
 

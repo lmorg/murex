@@ -3,6 +3,7 @@ package processes
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/state"
@@ -11,9 +12,9 @@ import (
 )
 
 func init() {
-	lang.DefineFunction("fid-list-new", cmdFidListNew, types.JsonLines)
+	lang.DefineFunction("fid-list", cmdFidListNew, types.JsonLines)
 
-	/*defaults.AppendProfile(`
+	defaults.AppendProfile(`
 	autocomplete set fid-list { [{
 		"DynamicDesc": ({ fid-list --help })
 	}] }
@@ -23,7 +24,7 @@ func init() {
 		"in": "null",
 		"out": "*"
 	}
-	config eval shell safe-commands { -> append jobs }`)*/
+	config eval shell safe-commands { -> append jobs }`)
 }
 
 const (
@@ -64,45 +65,60 @@ func cmdFidListNew(p *lang.Process) error {
 		return err
 	}
 
+	options := []lang.OptFidList{lang.FidWithIsFork(false)}
+	//options := []lang.OptFidList{}
+
+	if v, ok := flags.GetNullable(fIncChildrenOf); ok {
+		options = append(options, lang.FidWithIsChildOf(uint32(v.Integer()), true))
+	}
+
+	if v, ok := flags.GetNullable(fExcChildrenOf); ok {
+		options = append(options, lang.FidWithIsChildOf(uint32(v.Integer()), false))
+	}
+
+	procs := lang.GlobalFIDs.List(options...)
+
 	switch {
 	case flags.GetValue(fCsv).Boolean():
-		return cmdFidListCSV(p)
+		return cmdFidListNewCSV(p, procs)
 
 	case flags.GetValue(fJsonL).Boolean():
-		return cmdFidListPipe(p)
+		return cmdFidListNewPipe(p, procs)
 
 	case flags.GetValue(fTty).Boolean():
-		return cmdFidListTTY(p)
+		return cmdFidListNewTTY(p, procs)
 
 	case flags.GetValue(fJobs).Boolean():
 		return cmdJobs(p)
 
 	case flags.GetValue(fStopped).Boolean():
-		return cmdJobsStopped(p)
+		return cmdJobsNewStopped(p, procs)
 
 	case flags.GetValue(fBackground).Boolean():
-		return cmdJobsBackground(p)
+		return cmdJobsNewBackground(p, procs)
 
 	case flags.GetValue(fHelp).Boolean():
-		return cmdFidListHelp(p)
+		return cmdFidListNewHelp(p)
 
 	default:
 		if p.Stdout.IsTTY() {
-			return cmdFidListTTY(p)
+			return cmdFidListNewTTY(p, procs)
 		}
-		return cmdFidListPipe(p)
+		return cmdFidListNewPipe(p, procs)
 	}
 }
 
-func cmdFidListHelp(p *lang.Process) error {
+func cmdFidListNewHelp(p *lang.Process) error {
 	flags := map[string]string{
-		"--csv":        "Outputs as CSV table",
-		"--jsonl":      "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
-		"--tty":        "Outputs as a human readable table. This is the default mode when outputting to a TTY",
-		"--stopped":    "JSON map of all stopped processes running under murex",
-		"--background": "JSON map of all background processes running under murex",
-		"--jobs":       "List stopped or background processes (similar to POSIX jobs)",
-		"--help":       "Displays a list of parameters",
+		fCsv:           "Outputs as CSV table",
+		fJsonL:         "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
+		fTty:           "Outputs as a human readable table. This is the default mode when outputting to a TTY",
+		fStopped:       "JSON map of all stopped processes running under murex",
+		fBackground:    "JSON map of all background processes running under murex",
+		fJobs:          "List stopped or background processes (similar to POSIX jobs)",
+		fIncChildrenOf: "<int> Include only children of FID",
+		fExcChildrenOf: "<int> Exclude all children of FID",
+		fHelp:          "Displays a list of parameters",
 	}
 	p.Stdout.SetDataType(types.Json)
 	b, err := json.Marshal(flags, p.Stdout.IsTTY())
