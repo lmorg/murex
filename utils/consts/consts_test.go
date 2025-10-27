@@ -10,11 +10,11 @@ import (
 func TestTempDir(t *testing.T) {
 	count.Tests(t, 1)
 
-	if TempDir == "" {
+	if TmpDir() == "" {
 		t.Error("No temp directory specified")
 	}
 
-	if TempDir == tempDir {
-		t.Log("ioutil.TempDir() failed so using fallback path:", tempDir)
+	if TmpDir() == _TMP_DIR {
+		t.Log("ioutil.TempDir() failed so using fallback path:", _TMP_DIR)
 	}
 }

@@ -34,7 +34,7 @@ func NewTempFile(reader io.Reader, ext string) (*TempFile, error) {
 		return nil, err
 	}
 
-	name := consts.TempDir + hex.EncodeToString(h.Sum(nil)) + "-" + strconv.Itoa(os.Getpid()) + ext
+	name := consts.TmpDir() + hex.EncodeToString(h.Sum(nil)) + "-" + strconv.Itoa(os.Getpid()) + ext
 
 	file, err := os.Create(name)
 	if err != nil {
