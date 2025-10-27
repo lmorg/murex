@@ -25,7 +25,7 @@ func cmdEscape(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
-	if p.Parameters.Len() == 0 {
+	if p.IsMethod {
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
@@ -56,7 +56,7 @@ func cmdHtml(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
-	if p.Parameters.Len() == 0 {
+	if p.IsMethod {
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
@@ -83,7 +83,7 @@ func cmdUrl(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
-	if p.Parameters.Len() == 0 {
+	if p.IsMethod {
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
