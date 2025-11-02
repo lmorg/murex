@@ -13,7 +13,9 @@ BUILD_TAGS?=$(shell cat builtins/optional/standard-opts.txt || echo "")
 
 # Default target
 .PHONY: all
+all: generate
 all: build
+all: build-wasm
 
 # Build the binary
 .PHONY: build
@@ -39,10 +41,23 @@ run: build-dev
 
 # Build with dev flags
 .PHONY: build-dev
-build-dev: generate
 build-dev: GO_FLAGS += -gcflags="-N -l" -race
 build-dev: BUILD_TAGS := "$(BUILD_TAGS),pprof,trace,no_crash_handler"
 build-dev: build
+
+# Build with TinyGo instead of default Go binary
+.PHONY: build-tinygo
+build-tinygo: LDFLAGS=-ldflags "-X github.com/lmorg/murex/app.branch=${BRANCH} -X github.com/lmorg/murex/app.buildDate=${BUILD_DATE}"
+build-tinygo: BUILD_TAGS := "$(BUILD_TAGS),tinygo,no_cachedb,no_cmd_select,no_pty"
+build-tinygo:
+	@echo "Building ${BINARY_NAME} using TinyGo..."
+	tinygo build -x -tags ${BUILD_TAGS}
+
+# Build WASM
+.PHONY: build-wasm
+build-wasm: export GOOS=js
+build-wasm: export GOARCH=wasm
+build-wasm: build-tinygo
 
 # Test
 .PHONY: test

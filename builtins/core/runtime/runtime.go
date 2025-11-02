@@ -352,8 +352,8 @@ func dumpAbout() any {
 		"Alloc":           humannumbers.Bytes(mem.Alloc),
 		"SessionLifeTime": humannumbers.Bytes(mem.TotalAlloc),
 		"Sys":             humannumbers.Bytes(mem.Sys),
-		"NumGC":           mem.NumGC,
-		"NumForcedGC":     mem.NumForcedGC,
+		"NumGC":           memNumGC(&mem),
+		"NumForcedGC":     memNumForcedGC(&mem),
 	}
 
 	return m

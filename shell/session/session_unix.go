@@ -1,5 +1,5 @@
-//go:build !js && !windows && !plan9
-// +build !js,!windows,!plan9
+//go:build !js && !windows && !plan9 && !tinygo
+// +build !js,!windows,!plan9,!tinygo
 
 package session
 
