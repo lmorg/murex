@@ -2,60 +2,86 @@
     return
 }
 
-autocomplete: <!null> set yarn ({[
+private yarn.autocomplete.1 {
+    cast json
+    autocomplete = %{}
+    
+    trypipe <!null> {
+        g ${yarn <!null> bin}/* \
+        -> regexp s,^.*/,, \
+        -> foreach --jmap bin { $bin } { out "yarn bin" } \
+        -> set autocomplete
+    }
+
+    trypipe <!null> {
+        $autocomplete <~ ${ yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map }
+    }
+}
+
+test unit private yarn.autocomplete.1 %{
+    StdoutType:        json
+    StdoutIsMap:       true
+    StdoutGreaterThan: 10
+}
+
+
+
+private yarn.autocomplete.commands {
+    yarn help \
+    -> [Commands..Run]re \
+    -> [:1] \
+    -> cast str \
+    -> foreach --jmap cmd { $cmd } { yarn help $cmd -> [Usage..Options]rebt }
+}
+
+test unit private yarn.autocomplete.commands %{
+    StdoutType:        json
+    StdoutIsMap:       true
+    StdoutGreaterThan: 10
+}
+
+bg <!null> {
+    MODULE.yarn_autocomplete_commands = yarn.autocomplete.commands()
+}
+
+autocomplete set yarn %[
     {
-        "CacheTTL": 30,
-        "Dynamic": ({
-            g: ${yarn <!null> bin}/* -> regexp: s,^.*/,,
-        }),
-        "FlagsDesc": ${
-            trypipe <!null> {
-                yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
-            }
-        },
-        "Optional": true,
-        "AllowMultiple": true,
-        "AllowNoFlagValue": true,
-        "FlagValues": {"*": [
-            { "IncDirs": true },
-            { "Goto": "/0" }
-        ]}
-    },
-    {
-        "DynamicDesc": ({
-            cast json
-            if { g: package.json } then {
-                open package.json -> [ scripts ]
-            }
-        }),
-        "Optional": true
-    },
-    {
-        "Flags": ${
-            trypipe <!null> {
-                yarn help -> [Commands..Run]re -> [:1] -> cast str -> format json
-            }
-        },
-        "FlagValues": {
-            ${
-                trypipe <!null> {
-                    yarn help -> [Commands..Run]re -> [:1] -> foreach MOD_cmd {
-                        out ("$MOD_cmd":
-                            [{
-                                "DynamicDesc": ({ 
-                                    yarn help $MOD_cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
-                                }),
-                                "AllowMultiple": true,
-                                "AllowNoFlagValue": true,
-                                "FlagValues": {"*": [
-                                    { "IncDirs": true },
-                                    { "Goto": "/2/add/0" }
-                                ]}
-                            }],)
-                    }
-                }
-            }
-            "": [{ }]
+        CacheTTL:         120
+        DynamicDesc:      '{yarn.autocomplete.1}' 
+        Optional:         true
+        AllowMultiple:    true
+        AllowNoFlagValue: true
+        FlagValues: {
+            "*": [
+                { IncDirs: true }
+                { Goto:    "/0" }
+            ]
         }
     }
-]})
+    {
+        DynamicDesc: '{
+            cast json
+            if { g package.json } then {
+                open package.json -> [ scripts ]
+            }
+        }'
+        Optional: true
+    }
+    /#{
+        DynamicDesc: '{ $MODULE.yarn_autocomplete_commands }'
+        FlagValues: {
+            "*": [{
+                DynamicDesc: '{ 
+                                    yarn help $MOD_cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                })
+                                AllowMultiple: true
+                                AllowNoFlagValue: true
+                                FlagValues: {"*": [
+                                    { IncDirs: true }
+                                    { Goto: "/2/add/0" }
+                                ]}
+                            }],)
+            }]
+        }
+    }#/
+]
