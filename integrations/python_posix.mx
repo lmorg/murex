@@ -1,0 +1,23 @@
+function venv.mx {
+    # Enter a Python virtual environment from a Murex shell
+
+    venv = $1 ?? ".venv/bin/activate"
+
+    out "Entering venv: $(venv)..."
+
+    out "
+        config set shell prompt '{
+            out %((venv) \$PWD[-1] {BLUE}»{RESET} )
+        }'
+        config set shell prompt-multiline '{
+            len = \${pwd_short -> [-1] -> count --bytes} - 1
+            printf %((venv) %\${\$len}s » ) \$linenum
+        }'
+        out 'Type `exit` or ctrl+d to return'
+    " -> tmp -> set murex_init
+
+    bash -c %(
+        source $venv
+        $MUREX_EXE -quiet -ignore-whatsnew -i -execute source $murex_init
+    )
+}
