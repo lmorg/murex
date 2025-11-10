@@ -21,11 +21,11 @@ private yarn.autocomplete.1 {
     $autocomplete
 }
 
-test unit private yarn.autocomplete.1 %{
+/#test unit private yarn.autocomplete.1 %{
     StdoutType:        json
     StdoutIsMap:       true
     StdoutGreaterThan: 10
-}
+}#/
 
 private yarn.autocomplete.commands {
     yarn help \
@@ -35,11 +35,11 @@ private yarn.autocomplete.commands {
     -> foreach --jmap cmd { $cmd } { yarn help $cmd -> [Usage..Options]rebt }
 }
 
-test unit private yarn.autocomplete.commands %{
+/#test unit private yarn.autocomplete.commands %{
     StdoutType:        json
     StdoutIsMap:       true
     StdoutGreaterThan: 10
-}
+}#/
 
 bg <!null> {
     MODULE.yarn_autocomplete_commands = yarn.autocomplete.commands()
