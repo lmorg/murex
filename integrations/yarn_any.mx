@@ -7,15 +7,18 @@ private yarn.autocomplete.1 {
     autocomplete = %{}
     
     trypipe <!null> {
-        g ${yarn <!null> bin}/* \
-        -> regexp s,^.*/,, \
-        -> foreach --jmap bin { $bin } { out "yarn bin" } \
-        -> set autocomplete
+        autocomplete <~ ${
+            g ${yarn <!null> bin}/* \
+            -> regexp s,^.*/,, \
+            -> foreach --jmap bin { $bin } { out "yarn bin" }
+        }
     }
 
     trypipe <!null> {
-        $autocomplete <~ ${ yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map }
+        autocomplete <~ ${ yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map }
     }
+
+    $autocomplete
 }
 
 test unit private yarn.autocomplete.1 %{
@@ -23,8 +26,6 @@ test unit private yarn.autocomplete.1 %{
     StdoutIsMap:       true
     StdoutGreaterThan: 10
 }
-
-
 
 private yarn.autocomplete.commands {
     yarn help \
