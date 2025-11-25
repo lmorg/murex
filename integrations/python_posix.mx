@@ -1,23 +1,39 @@
 function venv.mx {
     # Enter a Python virtual environment from a Murex shell
+    
+    venv     = $1 ?? ".venv"
+    activate = "$(venv)/bin/activate"
 
-    venv = $1 ?? ".venv/bin/activate"
+    if { g $activate } else {
+        err "Cannot start Python virtual environment because"
+        err "file does not exist: $activate"
+        return
+    }
 
-    out "Entering venv: $(venv)..."
+    out "Entering Python virtual environment: $(venv)..."
+
+    export MUREX_OLD_PROMPT    = ${ config get shell prompt           -> base64 }
+    export MUREX_OLD_PROMPT_ML = ${ config get shell prompt-multiline -> base64 }
 
     out "
-        config set shell prompt '{
-            out %((venv) \$PWD[-1] {BLUE}»{RESET} )
-        }'
-        config set shell prompt-multiline '{
-            len = \${pwd_short -> [-1] -> count --bytes} - 1
-            printf %((venv) %\${\$len}s » ) \$linenum
-        }'
+        function _old_prompt    \${ \$ENV.MUREX_OLD_PROMPT    -> base64 -d }
+        function _old_prompt_ml \${ \$ENV.MUREX_OLD_PROMPT_ML -> base64 -d }
+
+        config set shell prompt {
+            out %(($venv) \${_old_prompt})
+        }
+
+        config set shell prompt-multiline {
+            out %(($venv) \${_old_prompt_ml})
+        }
+
+        alias pydoc = python -m pydoc
+
         out 'Type `exit` or ctrl+d to return'
     " -> tmp -> set murex_init
 
-    bash -c %(
-        source $venv
-        $MUREX_EXE -quiet -ignore-whatsnew -i -execute source $murex_init
+    bash -e -c %(
+        source $venv/bin/activate
+        $MUREX_EXE -load-modules -quiet -ignore-whatsnew -i -execute source $murex_init
     )
 }
