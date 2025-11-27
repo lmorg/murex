@@ -61,9 +61,9 @@ build-wasm: build-tinygo
 
 # Test
 .PHONY: test
-test: build
+test:
 	@mkdir -p ./test/tmp
-	go test ./... -count 1 -race -covermode=atomic
+	go test ./... -count 1 -race -covermode=atomic -tags "$(BUILD_TAGS),no_crash_handler"
 	${BUILD_DIR}/${BINARY_NAME} -c 'g behavioural/*.mx -> foreach f { source $$f }; test run *'
 
 # Benchmark
