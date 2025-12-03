@@ -106,7 +106,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 			}
 		}
 
-		// this is ugly but Go's JSON marshaller is better behaved than Murexes on with empty values
+		// this is ugly but Go's JSON marshaller is more correct than Murexes with empty values
 		if dt == types.Json {
 			b, err := right.Marshal()
 			if err != nil {
@@ -136,7 +136,7 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 
 				v, err = types.ConvertGoType(right.Value, dt)
 				if err != nil {
-					raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+					return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 				}
 			}
 		}
@@ -154,95 +154,12 @@ func expAssign(tree *ParserT, overwriteType bool) error {
 	})
 }
 
-/*func expAssignAdd(tree *ParserT) error {
-	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
-	if err != nil {
-		return err
-	}
-
-	if err = convertAssigneeToBareword(tree, leftNode); err != nil {
-		return err
-	}
-
-	right, err := rightNode.dt.GetValue()
-	if err != nil {
-		return err
-	}
-
-	if leftNode.key != symbols.Bareword {
-		return raiseError(tree.expression, leftNode, 0, fmt.Sprintf(
-			"left side of %s should be a bareword, instead got %s",
-			tree.currentSymbol().key, leftNode.key))
-	}
-
-	v, dt, err := tree.getVar(leftNode.value, varAsValue)
-	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
-			// var doesn't exist and we have strict types disabled so lets create var
-			v, dt, err = float64(0), types.Number, nil
-		} else {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-		}
-	}
-
-	var result any
-
-	switch dt {
-	case types.Number, types.Float:
-		if right.Primitive != primitives.Number {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
-		}
-		result = v.(float64) + right.Value.(float64)
-
-	case types.Integer:
-		if right.Primitive != primitives.Number {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
-		}
-		result = float64(v.(int)) + right.Value.(float64)
-
-	case types.Boolean:
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot %s %s", tree.currentSymbol().key, dt))
-
-	case types.Null:
-		switch right.Primitive {
-		case primitives.String:
-			result = right.Value.(string)
-		case primitives.Number:
-			result = right.Value.(float64)
-		default:
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
-		}
-
-	default:
-		if right.Primitive != primitives.String {
-			return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-				"cannot %s %s to %s", tree.currentSymbol().key, right.Primitive, dt))
-		}
-		result = v.(string) + right.Value.(string)
-	}
-
-	err = tree.setVar(leftNode.value, result, right.DataType)
-	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
-	}
-
-	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
-		pos: tree.ast[tree.astPos].pos,
-		dt:  primitives.NewPrimitive(primitives.Null, nil),
-	})
-}*/
-
 type assFnT func(float64, float64) float64
 
-func _assAdd(lv float64, rv float64) float64   { return lv + rv }
-func _assSub(lv float64, rv float64) float64   { return lv - rv }
-func _assMulti(lv float64, rv float64) float64 { return lv * rv }
-func _assDiv(lv float64, rv float64) float64   { return lv / rv }
+func _assAdd(lv float64, rv float64) float64 { return lv + rv }
+func _assSub(lv float64, rv float64) float64 { return lv - rv }
+func _assMul(lv float64, rv float64) float64 { return lv * rv }
+func _assDiv(lv float64, rv float64) float64 { return lv / rv }
 
 func expAssignAndOperate(tree *ParserT, operation assFnT) error {
 	leftNode, rightNode, err := tree.getLeftAndRightSymbols()
@@ -362,6 +279,13 @@ func expAssignMerge(tree *ParserT) error {
 			err.Error()))
 	}
 
+	/*if dt == "" || dt == types.Null {
+		dt = right.DataType
+	}
+	b, err := lang.MarshalData(tree.p, dt, merged)
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}*/
 	err = tree.setVar(leftNode.value, merged, dt)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
