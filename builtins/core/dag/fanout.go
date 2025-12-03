@@ -52,7 +52,7 @@ func cmdFanout(p *lang.Process) error {
 		return err
 	}
 
-	dt := flags[fDataType]
+	dt := flags.GetValue(fDataType).String()
 	if dt == "" {
 		if p.IsMethod {
 			dt = p.Stdin.GetDataType()
@@ -65,7 +65,7 @@ func cmdFanout(p *lang.Process) error {
 	}
 	p.Stdout.SetDataType(dt)
 
-	parse := flags[fParse] == types.TrueString
+	parse := flags.GetValue(fParse).Boolean()
 
 	switch {
 	case len(sBlocks) == 0:
@@ -141,7 +141,7 @@ func cmdFanout(p *lang.Process) error {
 
 	wg.Wait()
 
-	if flags[fConcatenate] == types.TrueString {
+	if flags.GetValue(fConcatenate).Boolean() {
 		for i := range rBlocks {
 			if errs[i] != nil {
 				return fmt.Errorf("error returned from vertex %d:\n%v", i+1, err)

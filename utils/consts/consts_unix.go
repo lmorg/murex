@@ -7,6 +7,6 @@ const (
 	// PathSlash is an OS specific directory separator
 	PathSlash = "/"
 
-	// tempDir is the location of temp directory if it cannot be automatically determind
-	tempDir = "/tmp/murex/"
+	// _TMP_DIR is the location of temp directory if it cannot be automatically determined
+	_TMP_DIR = "/tmp/murex/"
 )

@@ -9,13 +9,8 @@ import (
 
 const MAX_INT = int(^uint(0) >> 1)
 
-func cmdForEachParallel(p *lang.Process, flags map[string]string, additional []string) error {
+func cmdForEachParallel(p *lang.Process, parallel int, additional []string) error {
 	block, varName, err := forEachInitializer(p, additional)
-	if err != nil {
-		return err
-	}
-
-	parallel, err := getFlagValueInt(flags, foreachParallel)
 	if err != nil {
 		return err
 	}

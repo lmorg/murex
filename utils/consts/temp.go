@@ -6,22 +6,22 @@ import (
 	"github.com/lmorg/murex/app"
 )
 
-// TempDir is the location of temp directory
-var TempDir string
+// temporaryDirectory is the location of tmp directory
+var temporaryDirectory string
 
 func init() {
 	var err error
 
-	TempDir, err = os.MkdirTemp("", app.Name)
-	if err != nil || TempDir == "" {
-		TempDir = tempDir
+	temporaryDirectory, err = os.MkdirTemp("", app.Name)
+	if err != nil || temporaryDirectory == "" {
+		temporaryDirectory = _TMP_DIR
 	}
 
-	if TempDir[len(TempDir)-1:] != PathSlash {
-		TempDir += PathSlash
+	if temporaryDirectory[len(temporaryDirectory)-1:] != PathSlash {
+		temporaryDirectory += PathSlash
 	}
 
-	createDirIfNotExist(TempDir)
+	createDirIfNotExist(temporaryDirectory)
 }
 
 func createDirIfNotExist(dir string) {
@@ -35,4 +35,8 @@ func createDirIfNotExist(dir string) {
 			}
 		}
 	}
+}
+
+func TmpDir() string {
+	return temporaryDirectory
 }

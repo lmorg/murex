@@ -42,15 +42,17 @@ func cmdForEach(p *lang.Process) error {
 		return err
 	}
 
+	foreachParallelVal, foreachParallelOk := flags.GetNullable(foreachParallel)
+
 	switch {
-	case flags[foreachJmap] == types.TrueString:
+	case flags.GetValue(foreachJmap).Boolean():
 		return cmdForEachJmap(p)
 
-	case flags[foreachParallel] != "":
-		return cmdForEachParallel(p, flags, additional)
+	case foreachParallelOk:
+		return cmdForEachParallel(p, foreachParallelVal.Integer(), additional)
 
 	default:
-		return cmdForEachDefault(p, flags, additional)
+		return cmdForEachDefault(p, flags.GetValue(foreachStep).Integer(), additional)
 	}
 }
 
@@ -61,15 +63,6 @@ func convertToByte(v any) ([]byte, error) {
 	}
 
 	return []byte(s.(string)), nil
-}
-
-func getFlagValueInt(flags map[string]string, flagName string) (int, error) {
-	v, err := types.ConvertGoType(flags[flagName], types.Integer)
-	if err != nil {
-		return 0, fmt.Errorf(`expecting integer for %s, instead got "%s": %s`, flagName, flags[flagName], err.Error())
-	}
-
-	return v.(int), nil
 }
 
 func forEachInitializer(p *lang.Process, additional []string) (block []rune, varName string, err error) {
@@ -99,13 +92,8 @@ func forEachInitializer(p *lang.Process, additional []string) (block []rune, var
 	return
 }
 
-func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) error {
+func cmdForEachDefault(p *lang.Process, steps int, additional []string) error {
 	block, varName, err := forEachInitializer(p, additional)
-	if err != nil {
-		return err
-	}
-
-	steps, err := getFlagValueInt(flags, foreachStep)
 	if err != nil {
 		return err
 	}

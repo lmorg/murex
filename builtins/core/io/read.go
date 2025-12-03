@@ -58,12 +58,12 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 	}
 
 	if len(additional) == 0 {
-		prompt = flags[flagReadPrompt]
-		varName = flags[flagReadVariable]
-		defaultVal = flags[flagReadDefault]
-		datatype := flags[flagReadDataType]
-		mask = flags[flagReadMask]
-		complete = flags[flagReadComplete]
+		prompt = flags.GetValue(flagReadPrompt).String()
+		varName = flags.GetValue(flagReadVariable).String()
+		defaultVal = flags.GetValue(flagReadDefault).String()
+		datatype := flags.GetValue(flagReadDataType).String()
+		mask = flags.GetValue(flagReadMask).String()
+		complete = flags.GetValue(flagReadComplete).String()
 
 		if datatype != "" {
 			dt = datatype
