@@ -3,7 +3,7 @@
 ## Description
 
 Murex is highly customizable, as every good shell should be. However the Murex
-community believe that extendability and support for customizations are no
+community believes that extendability and support for customizations are no
 substitute for good defaults.
     
 Murex aims to provide you with the best support for your wider command line
