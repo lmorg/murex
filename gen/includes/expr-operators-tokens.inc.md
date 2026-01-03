@@ -259,7 +259,7 @@ They are supported in both expressions and statements.
 
 ### Terminators
 
-"LF" refers to the life feed character, which is a new line.
+"LF" refers to the line feed character, which is a new line.
 
 | Token    | Name              | Operation                                 |
 |----------|-------------------|-------------------------------------------|
@@ -271,7 +271,7 @@ They are supported in both expressions and statements.
 Any character can be escaped via `\` to signal it isn't a token. However some
 characters have special meanings when escaped.
 
-"LF" refers to the life feed character, which is a new line.
+"LF" refers to the line feed character, which is a new line.
 
 | Token    | Name              | Operation                                  |
 |----------|-------------------|--------------------------------------------|
