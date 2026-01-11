@@ -5,9 +5,9 @@ package consts
 
 const (
 	// PathSlash is an OS specific directory separator.
-	// Normally in Windows this would be a \ but lets standardise everything in murex to be /
+	// Normally in Windows this would be a \ but lets standardize everything in murex to be /
 	PathSlash = "/"
 
-	// tempDir is the location of temp directory if it cannot be automatically determind
-	tempDir = `c:/temp/murex/`
+	// _TMP_DIR is the location of temp directory if it cannot be automatically determined
+	_TMP_DIR = `c:/temp/murex/`
 )

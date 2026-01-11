@@ -32,8 +32,9 @@ const _RunMode_name = "DefaultNormalBlockUnsafeFunctionUnsafeModuleUnsafeBlockTr
 var _RunMode_index = [...]uint8{0, 7, 13, 24, 38, 50, 58, 70, 81, 96, 107, 122, 136, 154, 163, 176, 188, 204}
 
 func (i RunMode) String() string {
-	if i < 0 || i >= RunMode(len(_RunMode_index)-1) {
+	idx := int(i) - 0
+	if i < 0 || idx >= len(_RunMode_index)-1 {
 		return "RunMode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _RunMode_name[_RunMode_index[i]:_RunMode_index[i+1]]
+	return _RunMode_name[_RunMode_index[idx]:_RunMode_index[idx+1]]
 }

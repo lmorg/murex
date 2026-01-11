@@ -77,5 +77,5 @@ func fileExists(path string) bool {
 }
 
 func lockFilePath(key string) string {
-	return consts.TempDir + key + ".lockfile"
+	return consts.TmpDir() + key + ".lockfile"
 }

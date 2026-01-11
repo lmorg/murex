@@ -4,7 +4,9 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
+	cmdautocomplete "github.com/lmorg/murex/builtins/core/autocomplete"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -87,4 +89,20 @@ func TestAutocomplete(t *testing.T) {
 		t.Logf("  Expected: %s", expected)
 		t.Logf("  Actual: %s", string(stdout))
 	}
+}
+
+// Bugfix: panic in autocomplete:
+// https://github.com/lmorg/murex/issues/953
+func TestAutocompleteIssue953(t *testing.T) {
+	count.Tests(t, 1)
+
+	tests := []test.MurexTest{
+		{
+			Block:   `autocomplete set foobar %[]`,
+			Stderr:  cmdautocomplete.ErrEmptyAutocomplete.Error(),
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }

@@ -1,5 +1,5 @@
-//go:build windows || plan9 || js
-// +build windows plan9 js
+//go:build windows || plan9 || js || no_pty
+// +build windows plan9 js no_pty
 
 package lang
 
