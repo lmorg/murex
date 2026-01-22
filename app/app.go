@@ -17,7 +17,7 @@ const Name = "murex"
 const (
 	Major    = 7
 	Minor    = 2
-	Revision = 73
+	Revision = 74
 )
 
 var (
@@ -29,7 +29,7 @@ func Branch() string    { return branch }
 func BuildDate() string { return strings.ReplaceAll(buildDate, "_", " ") }
 
 // Copyright is the copyright owner string
-const Copyright = "2018-2025 Laurence Morgan"
+const Copyright = "2018-2026 Laurence Morgan"
 
 // License is the projects software license
 const License = "GPL v2"
