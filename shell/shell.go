@@ -94,7 +94,7 @@ func Start() {
 	}
 
 	lang.Interactive = true
-	Prompt.TempDirectory = consts.TempDir
+	Prompt.TempDirectory = consts.TmpDir()
 
 	definePromptHistory()
 	Prompt.AutocompleteHistory = autocompleteHistoryLine

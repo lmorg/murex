@@ -2,7 +2,6 @@ package httpclient
 
 import (
 	"context"
-	"crypto/tls"
 	"net"
 	"net/http"
 	neturl "net/url"
@@ -24,58 +23,27 @@ const (
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
 // Request generates a HTTP request
-func Request(ctx context.Context, method, url string, body stdio.Io, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
-	toStr, err := conf.Get("http", "timeout", types.String)
+func Request(ctx context.Context, method, url string, body stdio.Io, conf *config.Config, setTimeout bool) (*http.Response, error) {
+	client, err := createClient(conf, setTimeout)
 	if err != nil {
-		return
-	}
-	toDur, err := time.ParseDuration(toStr.(string) + "s")
-	if err != nil {
-		return
-	}
-
-	insecure, err := conf.Get("http", "insecure", types.Boolean)
-	if err != nil {
-		return
-	}
-
-	var client *http.Client
-	if setTimeout {
-		tr := http.Transport{
-			Dial:            dialTimeout(toDur, toDur),
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
-		}
-
-		client = &http.Client{
-			Timeout:   toDur,
-			Transport: &tr,
-		}
-
-	} else {
-		tr := http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
-		}
-
-		client = &http.Client{
-			Transport: &tr,
-		}
+		return nil, err
 	}
 
 	userAgent, err := conf.Get("http", "user-agent", types.String)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	request, err := http.NewRequest(method, url, body)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	request = request.WithContext(ctx)
 
 	urlParsed, err := neturl.Parse(url)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	if body != nil {
@@ -92,16 +60,14 @@ func Request(ctx context.Context, method, url string, body stdio.Io, conf *confi
 
 	redirects, err := conf.Get("http", "redirect", types.Boolean)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	if redirects.(bool) {
-		response, err = client.Do(request)
-	} else {
-		response, err = client.Transport.RoundTrip(request)
+		return client.Do(request)
 	}
 
-	return
+	return client.Transport.RoundTrip(request)
 }
 
 // dialTimeout function unashamedly copy and pasted from:

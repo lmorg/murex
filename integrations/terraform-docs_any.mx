@@ -1,3 +1,5 @@
+summary terraform-docs "A utility to generate documentation from Terraform modules in various output formats"
+
 autocomplete set terraform-docs %[
     {
         DynamicDesc: '{

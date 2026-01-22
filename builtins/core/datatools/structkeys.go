@@ -32,19 +32,18 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	separator := flags["--separator"]
+	separator := flags.GetValue("--separator").String()
 	if separator == "" {
 		separator = "/"
 	}
 
-	depth := flags["--depth"]
-	if depth == "" && len(additional) == 1 {
-		depth = additional[0]
+	depth := flags.GetValue("--depth").Integer()
+	if depth == 0 && len(additional) == 1 {
+		depth, _ = strconv.Atoi(additional[0])
 	}
 
-	nDeep, _ := strconv.Atoi(depth)
-	if nDeep < 1 {
-		nDeep = -1
+	if depth == 0 {
+		depth = -1
 	}
 
 	dt := p.Stdin.GetDataType()
@@ -60,7 +59,7 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	err = objectkeys.Recursive(p.Context, "", v, dt, separator, aw.WriteString, nDeep)
+	err = objectkeys.Recursive(p.Context, "", v, dt, separator, aw.WriteString, depth)
 	if err != nil {
 		return err
 	}
