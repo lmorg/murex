@@ -1,0 +1,19 @@
+- DocumentID: v7.2
+  Title: >-
+    v7.2
+  CategoryID: changelog
+  DateTime: 2026-02-01 12:00
+  Summary: >-
+    This release brings several improvements in scripting environments for Javascript/Typescript and Python support. Core features include the new `--copy` flag for aliases to inherit shell configuration, and bugfixes to address autocomplete panics, expression error handling, and 3rd party integration issues.
+  Description: |-
+    {{ include "gen/changelog/v7.2.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - integrations
+    - alias
+    - args
+    - autocomplete
+    - fid-list
+    - escape
+    - expressions
+

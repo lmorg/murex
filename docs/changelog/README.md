@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 01.02.2026 - [v7.2](../changelog/v7.2.md)
+
+This release brings several improvements in scripting environments for Javascript/Typescript and Python support. Core features include the new `--copy` flag for aliases to inherit shell configuration, and bugfixes to address autocomplete panics, expression error handling, and 3rd party integration issues.
+
+
 ### 23.10.2025 - [v7.1](../changelog/v7.1.md)
 
 This release focuses mainly on bugfixes and quality-of-life with the exception of three **experimental** new major additions:
