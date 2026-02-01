@@ -74,7 +74,7 @@ This step refers only to `${VERSION}.inc.md`:
 
 ## Special Thanks
 
-Thank yous for this release goes to ${LIST_OF_USERS_WHO_CONTRIBUTED} for your code, testing and feedback.
+Thank yous for this release go to ${LIST_OF_USERS_WHO_CONTRIBUTED} for your code, testing and feedback.
 
 Also thank you to everyone in the [discussions group](https://github.com/lmorg/murex/discussions) and all who raise bug reports.
 
