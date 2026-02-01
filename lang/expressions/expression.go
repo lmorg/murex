@@ -101,7 +101,7 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 		case symbols.AssignAndDivide:
 			err = expAssignAndOperate(tree, _assDiv)
 		case symbols.AssignAndMultiply:
-			err = expAssignAndOperate(tree, _assMulti)
+			err = expAssignAndOperate(tree, _assMul)
 		case symbols.AssignOrMerge:
 			err = expAssignMerge(tree)
 

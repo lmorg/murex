@@ -90,6 +90,11 @@ func (ic *internalCacheT) Write(key string, value *[]byte, ttl time.Time) {
 		return
 	}
 
+	if ttl.Before(time.Now().Add(59 * time.Minute)) {
+		// lets not bother writing anything to cache.db if the TTL < 1 hr
+		return
+	}
+
 	ic.mutex.Lock()
 	ic.cache[key] = &cacheItemT{value, ttl}
 	ic.mutex.Unlock()

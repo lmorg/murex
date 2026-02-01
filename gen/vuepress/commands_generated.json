@@ -820,6 +820,11 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/murex-parser.md",
+                "text": "Parse Murex Source: murex-parser"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/private.md",
                 "text": "Private Function: private"
             },
@@ -911,10 +916,5 @@
         "collapsible": true,
         "icon": "folder",
         "text": "Help and Hint Tools"
-    },
-    {
-        "icon": "file-lines",
-        "link": "commands/murex-parser.md",
-        "text": "Parse Murex Source: murex-parser"
     }
 ]

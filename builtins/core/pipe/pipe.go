@@ -42,12 +42,12 @@ func cmdPipe(p *lang.Process) error {
 		return errors.New("no name specified for named pipe. Usage: `pipe name [ --pipe-type creation-data ]")
 	}
 
-	if len(flags) > 1 {
-		return errors.New("too many types of pipe specified. Please use only one flag per")
+	if flags.Len() > 1 {
+		return errors.New("too many types of pipe specified. Please use only one flag per command invocation")
 	}
 
-	for flag := range flags {
-		return lang.GlobalPipes.CreatePipe(additional[0], flag[2:], flags[flag])
+	for flag := range flags.GetMap() {
+		return lang.GlobalPipes.CreatePipe(additional[0], flag[2:], flags.GetValue(flag).String())
 	}
 
 	for _, name := range additional {

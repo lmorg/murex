@@ -28,9 +28,6 @@ func cmdAutocomplete(p *lang.Process) error {
 	case "set":
 		return set(p)
 
-	//case "cache-dynamic":
-	//	return cacheDynamic(p)
-
 	default:
 		p.Stdout.SetDataType(types.Null)
 		return errors.New("Not a valid mode. Please use `get` or `set`")
@@ -56,6 +53,8 @@ func get(p *lang.Process) error {
 	_, err = p.Stdout.Writeln(b)
 	return err
 }
+
+var ErrEmptyAutocomplete = errors.New("empty autocomplete")
 
 func set(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
@@ -91,6 +90,10 @@ func set(p *lang.Process) error {
 	err = json.UnmarshalMurex(jf, &flags)
 	if err != nil {
 		return err
+	}
+
+	if len(flags) == 0 {
+		return ErrEmptyAutocomplete
 	}
 
 	// So we don't have nil values in JSON

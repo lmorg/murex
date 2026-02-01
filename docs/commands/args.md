@@ -78,10 +78,58 @@ $args[Additional] -> foreach flag {
 }
 ```
 
+## Detail
+
+### Flags vs Parameters
+
+#### Flags
+
+Flags are any values pass via `-` or `--` prefixed labels. For example
+`--datatype str` would assign the value `str` to the flag name `--datatype`.
+
+Flags can be `str`, `int` `num` `bool`. These values will be type checked and
+`args` will return an error if a user passes (for example) alpha character to
+a numeric flag.
+
+Boolean flags do not require `true` nor `false` values to be included; the
+absence of a boolean flag automatically sets it to _false_, while the presence
+automatically sets it to _true_.
+
+#### Parameters
+
+Parameters are any values that are not assigned to a flag. For example
+`cat file1.txt file2.txt file3.txt`.
+
+#### Allowing Flag-like Parameters
+
+Sometimes you'll want parameters that look like flags. For example
+`calculator -3 + 2` where `-3` might normally be considered a flag.
+
+There are two ways you can force `args` to read values as a parameter:
+
+1. **User controlled**: the user can use the `--` flag to denote that everything
+   which follows is a parameter. eg `calculator -- -3 + 2`.
+
+2. **Developer controlled**: A better option is to enable `StrictFlagPlacement`
+   and have the first parameter be non-flag option. Eg
+   `calculator print -3 + 2`. With `StrictFlagPlacement`, anything including
+   and proceeding a parameter will always be parsed as a parameter regardless
+   of whether it looks like a flag or not.
+
+(here, `calculator` is a hypothetical command)
+
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by Murex
+* [`bool`](../types/bool.md):
+  Boolean (primitive)
+* [`int`](../types/int.md):
+  Whole number (primitive)
+* [`num` (number)](../types/num.md):
+  Floating point number (primitive)
+* [`str` (string)](../types/str.md):
+  string (primitive)
 
 <hr/>
 

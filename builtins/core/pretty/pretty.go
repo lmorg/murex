@@ -48,11 +48,11 @@ func cmdPretty(p *lang.Process) error {
 	}
 
 	switch {
-	case flags[fDataType] != "":
-		return prettyType(p, flags[fDataType], flags[fStrict] == types.TrueString)
+	case flags.GetValue(fDataType).String() != "":
+		return prettyType(p, flags.GetValue(fDataType).String(), flags.GetValue(fStrict).Boolean())
 
 	default:
-		return prettyType(p, p.Stdin.GetDataType(), flags[fStrict] == types.TrueString)
+		return prettyType(p, p.Stdin.GetDataType(), flags.GetValue(fStrict).Boolean())
 	}
 }
 

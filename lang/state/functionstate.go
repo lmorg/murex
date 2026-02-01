@@ -8,6 +8,7 @@ type FunctionState int32
 // The different states available to FunctionState:
 const (
 	Undefined FunctionState = iota
+	FunctionGroup
 	MemAllocated
 	Assigned
 	Starting

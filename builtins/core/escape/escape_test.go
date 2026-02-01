@@ -1,43 +1,42 @@
-package escape
+package escape_test
 
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/expressions"
-	_ "github.com/lmorg/murex/builtins/types/string"
-	"github.com/lmorg/murex/lang/types"
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 
 func TestEscape(t *testing.T) {
-	// as stdin
+	tests := []test.MurexTest{
+		// method
 
-	test.RunMethodTest(
-		t, cmdEscape, "escape",
-		`hello world`, types.String, nil,
-		`"hello world"`, nil)
+		{
+			Block:  `tout str hello world -> escape`,
+			Stdout: `"hello world"`,
+		},
+		{
+			Block:  `tout str '"hello world"' -> escape`,
+			Stdout: `"\"hello world\""`,
+		},
 
-	test.RunMethodTest(
-		t, cmdEscape, "escape",
-		`"hello world"`, types.String, nil,
-		`"\"hello world\""`, nil)
+		// parameter
 
-	// as a parameter
+		{
+			Block:  `escape hello world`,
+			Stdout: `"hello world"`,
+		},
+		{
+			Block:  `escape "hello world"`,
+			Stdout: `"hello world"`,
+		},
+		{
+			Block:  `escape '"hello world"'`,
+			Stdout: `"\"hello world\""`,
+		},
+	}
 
-	test.RunMethodTest(
-		t, cmdEscape, "escape",
-		``, types.String, []string{`hello`, `world`},
-		`"hello world"`, nil)
-
-	test.RunMethodTest(
-		t, cmdEscape, "escape",
-		``, types.String, []string{"hello world"},
-		`"hello world"`, nil)
-
-	test.RunMethodTest(
-		t, cmdEscape, "escape",
-		``, types.String, []string{`"hello world"`},
-		`"\"hello world\""`, nil)
+	test.RunMurexTests(tests, t)
 }
 
 func TestEscapeBang(t *testing.T) {
@@ -67,35 +66,36 @@ func TestEscapeBang(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestHtml(t *testing.T) {
-	// as stdin
+func TestHTML(t *testing.T) {
+	tests := []test.MurexTest{
+		// method
 
-	test.RunMethodTest(
-		t, cmdHtml, "eschtml",
-		`foo & bar`, types.String, nil,
-		`foo &amp; bar`, nil)
+		{
+			Block:  `tout str foo & bar -> eschtml`,
+			Stdout: `foo &amp; bar`,
+		},
+		{
+			Block:  `tout str '"foo & bar"' -> eschtml`,
+			Stdout: `&#34;foo &amp; bar&#34;`,
+		},
 
-	test.RunMethodTest(
-		t, cmdHtml, "eschtml",
-		`"foo & bar"`, types.String, nil,
-		`&#34;foo &amp; bar&#34;`, nil)
+		// parameter
 
-	// as a parameter
+		{
+			Block:  `eschtml foo & bar`,
+			Stdout: `foo &amp; bar`,
+		},
+		{
+			Block:  `eschtml "foo & bar"`,
+			Stdout: `foo &amp; bar`,
+		},
+		{
+			Block:  `eschtml '"foo & bar"'`,
+			Stdout: `&#34;foo &amp; bar&#34;`,
+		},
+	}
 
-	test.RunMethodTest(
-		t, cmdHtml, "escape",
-		``, types.String, []string{`foo`, `&`, `bar`},
-		`foo &amp; bar`, nil)
-
-	test.RunMethodTest(
-		t, cmdHtml, "escape",
-		``, types.String, []string{"foo & bar"},
-		`foo &amp; bar`, nil)
-
-	test.RunMethodTest(
-		t, cmdHtml, "escape",
-		``, types.String, []string{`"foo & bar"`},
-		`&#34;foo &amp; bar&#34;`, nil)
+	test.RunMurexTests(tests, t)
 }
 
 func TestHtmlBang(t *testing.T) {
@@ -110,25 +110,27 @@ func TestHtmlBang(t *testing.T) {
 }
 
 func TestUrl(t *testing.T) {
-	// as stdin
+	tests := []test.MurexTest{
+		// method
 
-	test.RunMethodTest(
-		t, cmdUrl, "escurl",
-		`foo bar`, types.String, nil,
-		`foo%20bar`, nil)
+		{
+			Block:  `tout str foo bar -> escurl`,
+			Stdout: `foo%20bar`,
+		},
 
-	// as a parameter
+		// parameter
 
-	test.RunMethodTest(
-		t, cmdUrl, "escurl",
-		``, types.String, []string{`foo`, `bar`},
-		`foo%20bar`, nil)
+		{
+			Block:  `escurl foo bar`,
+			Stdout: `foo%20bar`,
+		},
+		{
+			Block:  `escurl "foo bar"`,
+			Stdout: `foo%20bar`,
+		},
+	}
 
-	test.RunMethodTest(
-		t, cmdUrl, "escurl",
-		``, types.String, []string{"foo bar"},
-		`foo%20bar`, nil)
-
+	test.RunMurexTests(tests, t)
 }
 
 func TestUrlBang(t *testing.T) {
@@ -143,16 +145,20 @@ func TestUrlBang(t *testing.T) {
 }
 
 func TestCli(t *testing.T) {
-	// as stdin
-
-	test.RunMethodTest(
-		t, cmdEscapeCli, "esccli",
-		`foo bar`, types.String, nil,
-		"foo\\ bar\n", nil)
-}
-
-func TestCli2(t *testing.T) {
 	tests := []test.MurexTest{
+		// method
+
+		{
+			Block:  `tout str foo bar -> esccli`,
+			Stdout: "foo\\ bar\n",
+		},
+		{
+			Block:  `tout str '"foo bar"' -> esccli`,
+			Stdout: "\\\"foo\\ bar\\\"\n",
+		},
+
+		// parameter
+
 		{
 			Block:  `esccli foo bar`,
 			Stdout: "foo bar\n",

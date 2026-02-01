@@ -39,7 +39,7 @@ func cmdArgs(p *lang.Process) (err error) {
 
 	type flags struct {
 		Self       string
-		Flags      map[string]string
+		Flags      map[string]any
 		Additional []string
 		Error      string
 	}
@@ -57,11 +57,13 @@ func cmdArgs(p *lang.Process) (err error) {
 		jObj.Self = p.Scope.Name.String()
 	}
 
-	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(params, &args)
+	var flagsT *parameters.FlagsT
+	flagsT, jObj.Additional, err = parameters.ParseFlags(params, &args)
 	if err != nil {
 		jObj.Error = err.Error()
 		p.ExitNum = 1
 	}
+	jObj.Flags = flagsT.GetMap()
 
 	b, err = json.Marshal(jObj, false)
 	if err != nil {
@@ -192,7 +194,7 @@ func cmdManParser(p *lang.Process) error {
 	}
 
 	var b []byte
-	if cmdFlags[manArgDescriptions] == types.TrueString {
+	if cmdFlags.GetValue(manArgDescriptions).Boolean() {
 		b, err = json.Marshal(descriptions, p.Stdout.IsTTY())
 	} else {
 		b, err = json.Marshal(flags, p.Stdout.IsTTY())

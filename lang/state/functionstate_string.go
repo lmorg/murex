@@ -9,23 +9,25 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[Undefined-0]
-	_ = x[MemAllocated-1]
-	_ = x[Assigned-2]
-	_ = x[Starting-3]
-	_ = x[Executing-4]
-	_ = x[Executed-5]
-	_ = x[Terminating-6]
-	_ = x[AwaitingGC-7]
-	_ = x[Stopped-8]
+	_ = x[FunctionGroup-1]
+	_ = x[MemAllocated-2]
+	_ = x[Assigned-3]
+	_ = x[Starting-4]
+	_ = x[Executing-5]
+	_ = x[Executed-6]
+	_ = x[Terminating-7]
+	_ = x[AwaitingGC-8]
+	_ = x[Stopped-9]
 }
 
-const _FunctionState_name = "UndefinedMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGCStopped"
+const _FunctionState_name = "UndefinedFunctionGroupMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGCStopped"
 
-var _FunctionState_index = [...]uint8{0, 9, 21, 29, 37, 46, 54, 65, 75, 82}
+var _FunctionState_index = [...]uint8{0, 9, 22, 34, 42, 50, 59, 67, 78, 88, 95}
 
 func (i FunctionState) String() string {
-	if i < 0 || i >= FunctionState(len(_FunctionState_index)-1) {
+	idx := int(i) - 0
+	if i < 0 || idx >= len(_FunctionState_index)-1 {
 		return "FunctionState(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _FunctionState_name[_FunctionState_index[i]:_FunctionState_index[i+1]]
+	return _FunctionState_name[_FunctionState_index[idx]:_FunctionState_index[idx+1]]
 }

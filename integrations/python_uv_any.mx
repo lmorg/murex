@@ -1,0 +1,69 @@
+if { which uv } then {
+    private uv.summary {
+        # Automatically populate the command summary for `uv`
+        uv --help -> [..1]
+    }
+
+    summary uv fexec(private /builtin/integrations_python_uv_any/uv.summary)
+
+    private uv.autocomplete {
+        # Autocompletions for `uv`
+
+        config set proc strict-arrays false
+
+        parameters = ${
+            trypipe <!null> { @PARAMS -> [...-]re }
+        } ?: %[]
+
+        uv @parameters --help \
+        -> tabulate --column-wraps --split-comma --map --key-inc-hint
+    }
+
+    private uv.preview {
+        # Man page for `uv` preview
+
+        config set proc strict-arrays false
+
+        parameters = ${
+            try <!null> { @PARAMS -> [...-]re }
+        } ?: %[]
+
+        uv help @parameters
+    }
+
+    autocomplete set uv %[
+        {
+            DynamicDesc:    '{ uv.autocomplete }'
+            DynamicPreview: '{ uv.preview }'
+            AllowMultiple:  true
+            AllowAny:       true
+        }
+    ]
+
+    test unit private uv.summary %{
+        StdoutType:  *
+        StdoutRegex: Python
+    }
+
+    test unit private uv.autocomplete %{
+        StdoutType:  json
+        StdoutIsMap: true
+    }
+
+    test unit private uv.preview %{
+        StdoutType:  *
+    }
+}
+
+if { which uvx } then {
+    summary uvx ${ uvx --help -> [..1] }
+
+    autocomplete set uvx %[
+        {
+            DynamicDesc: '{ uvx --help -> tabulate --column-wraps --split-comma --map --key-inc-hint }'
+            DynamicPreview: '{ uv --help }'
+            AllowMultiple: true
+            AllowAny: true
+        }
+    ]
+}

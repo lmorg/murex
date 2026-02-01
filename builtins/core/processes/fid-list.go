@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func init() {
-	lang.DefineFunction("fid-list", cmdFidList, types.JsonLines)
+/*func init() {
+	lang.DefineFunction("fid-list", cmdFidListOld, types.JsonLines)
 
 	defaults.AppendProfile(`
 		autocomplete set fid-list { [{
@@ -25,7 +24,7 @@ func init() {
 			"out": "*"
 		}
 		config eval shell safe-commands { -> append jobs }`)
-}
+}*/
 
 func getParams(p *lang.Process) string {
 	s := string(p.Parameters.Raw())
@@ -35,7 +34,7 @@ func getParams(p *lang.Process) string {
 	return s
 }
 
-func cmdFidList(p *lang.Process) error {
+func cmdFidListOld(p *lang.Process) error {
 	flag, _ := p.Parameters.String(0)
 	switch flag {
 	case "":

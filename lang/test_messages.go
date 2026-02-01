@@ -71,7 +71,7 @@ func tMsgDataTypeMatch(stdType string) string {
 }
 
 func tMsgStringMismatch(property string, std []byte) string {
-	return fmt.Sprintf("%s string mismatch. Got: '%s'", property, std)
+	return fmt.Sprintf("%s string mismatch. Got: %s", property, std)
 }
 func tMsgStringMatch(property string) string {
 	return fmt.Sprintf("%s matches expected string", property)
@@ -81,7 +81,7 @@ func tMsgRegexCompileErr(property string, err error) string {
 	return fmt.Sprintf("%s could not compile: %s", property, err)
 }
 func tMsgRegexMismatch(property string, std []byte) string {
-	return fmt.Sprintf("%s expression did not match. Got: '%s'", property, std)
+	return fmt.Sprintf("%s expression did not match. Got: %s", property, std)
 }
 func tMsgRegexMatch(property string) string {
 	return fmt.Sprintf("%s matches expected regex expression", property)

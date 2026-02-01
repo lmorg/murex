@@ -158,12 +158,12 @@ func cmdRuntime(p *lang.Process) error {
 		return err
 	}
 
-	if len(f) == 0 {
+	if f.Len() == 0 {
 		return errors.New("please include one or more parameters")
 	}
 
 	ret := make(map[string]any)
-	for flag := range f {
+	for flag := range f.GetMap() {
 		switch flag {
 		case fVars:
 			ret[flag[2:]] = p.Scope.Variables.Dump()
@@ -352,8 +352,8 @@ func dumpAbout() any {
 		"Alloc":           humannumbers.Bytes(mem.Alloc),
 		"SessionLifeTime": humannumbers.Bytes(mem.TotalAlloc),
 		"Sys":             humannumbers.Bytes(mem.Sys),
-		"NumGC":           mem.NumGC,
-		"NumForcedGC":     mem.NumForcedGC,
+		"NumGC":           memNumGC(&mem),
+		"NumForcedGC":     memNumForcedGC(&mem),
 	}
 
 	return m
