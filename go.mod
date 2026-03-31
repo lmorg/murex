@@ -1,6 +1,6 @@
 module github.com/lmorg/murex
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
@@ -17,8 +17,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.33
 	github.com/pelletier/go-toml v1.9.5
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
-	golang.org/x/sys v0.40.0
-	golang.org/x/text v0.33.0
+	golang.org/x/sys v0.41.0
+	golang.org/x/text v0.35.0
 	gopkg.in/yaml.v3 v3.0.1
 	modernc.org/sqlite v1.44.3
 )
@@ -35,10 +35,7 @@ require (
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96 // indirect
-	golang.org/x/image v0.35.0 // indirect
-	golang.org/x/mod v0.32.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/tools v0.41.0 // indirect
+	golang.org/x/image v0.38.0 // indirect
 	modernc.org/libc v1.67.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect

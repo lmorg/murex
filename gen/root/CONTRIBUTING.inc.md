@@ -88,7 +88,7 @@ It might seem counterintuitive that raising issues is a form of contribution
 but without feedback Murex cannot provide the out-of-box experience it aims to.
 So bug reports and feature requests do help.
 
-These can be raised on our [Github issue tracker](github.com/lmorg/murex/issues).
+These can be raised on our [Github issue tracker](https://github.com/lmorg/murex/issues).
 
 ### Committing Code
 

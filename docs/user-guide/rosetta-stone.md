@@ -113,7 +113,7 @@ if you want to learn more about shell scripting in Murex.
 | Accessing an element | n/a | `$object_name[key]` (immutable) <br/><br/> `$object_name.key` [[5]](#footnotes) (mutable) <br/><br/> `object \| [key]` |
 | Printing multiple elements | n/a | `$object_name[key1 key2]` <br/><br/> `object \| [key1 key2]` |
 | Accessing a nested element | n/a | `$object_name[[.path.to.element]]` (immutable) [[4]](#footnotes)<br/><br/> `$object_name.path.to.element` (mutable)<br/><br/> `object \| [[.path.to.element]]` [[4]](#footnotes)<br/><br/>
-| [Iterating through an map](../commands/formap.md) | n/a | `object \| formap key value { $key; $value }` <br/><br/> eg `%{Bob: {age: 10}, Richard: {age: 20}, Sally: {age: 30} } \| formap name person { out "$name is $person[age] years old" }` |
+| [Iterating through a map](../commands/formap.md) | n/a | `object \| formap key value { $key; $value }` <br/><br/> eg `%{Bob: {age: 10}, Richard: {age: 20}, Sally: {age: 30} } \| formap name person { out "$name is $person[age] years old" }` |
 
 ### Sub-shells
 | Description   | Bash          | Murex  |

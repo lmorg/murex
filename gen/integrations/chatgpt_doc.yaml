@@ -24,7 +24,7 @@
     `~/.murex_profile` (see {{link "profile" "profile"}} for more details):
 
     ```
-    config set preview-exec-api xxxxx
+    config set openai preview-exec-api xxxxx
     ```
 
     (where **xxxxx** is replaced with your OpenAI API key)
@@ -80,7 +80,7 @@
     However you can change that via **preview-exec-model**. For example
 
     ```
-    config set preview-exec-model gpt-4-turbo
+    config set openai preview-exec-model gpt-4-turbo
     ```
 
     You may need to clear the cache to see any changes:
@@ -89,7 +89,7 @@
     runtime --clear-cache
     ```
 
-    ## Customising the prompt
+    ## Customizing the prompt
 
     The default prompt passed to ChatGPT can be viewed via `config get openai
     preview-exec-prompt`.

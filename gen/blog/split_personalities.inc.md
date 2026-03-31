@@ -213,7 +213,7 @@ The write-many read-once tendencies of the interactive terminal and the
 write-once read-many demands of scripting might be difficult to consolidate
 but I do think it is achievable and I'm not convinced the current heavy weights
 do a good job at addressing those conflicting concerns. Whereas alternative
-shells like [Oil](https://www.oilshell.org/), [Elfish](https://elv.sh/) and
+shells like [Oil](https://www.oilshell.org/), [Elvish](https://elv.sh/) and
 [Murex](https://github.com/lmorg/murex) seem to be putting a lot more thought
 into this problem and it is really exciting seeing the different ideas that are
 being produced.
