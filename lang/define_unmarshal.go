@@ -47,8 +47,10 @@ func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (any, err
 	fork := parent.Fork(F_BACKGROUND | F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
 	defer fork.Kill()
 
-	_, err := fork.Stdin.Write(b)
+	fork.Stdin.Open()
 	defer fork.Stdin.Close()
+
+	_, err := fork.Stdin.Write(b)
 	if err != nil {
 		return nil, fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())
 	}
