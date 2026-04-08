@@ -28,4 +28,8 @@ function define-force-tty-func (CMD: str) {
             summary $CMD ${man-summary $CMD}
         }
     }
+
+    if { man-summary $CMD } then {
+        summary $CMD man-summary()
+    }
 }
