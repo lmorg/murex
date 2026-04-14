@@ -5,10 +5,32 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
+
+func TestUnmarshalDataBufferedDebug(t *testing.T) {
+	count.Tests(t, 1)
+
+	input := `["a","b","c"]`
+
+	lang.InitEnv()
+
+	debug.Enabled = true
+	defer func() { debug.Enabled = false }()
+
+	v, err := lang.UnmarshalDataBuffered(lang.ShellProcess, []byte(input), types.Json)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if fmt.Sprintf("%v", v) != "[a b c]" {
+		t.Errorf("unexpected output: %v", v)
+	}
+}
 
 func TestUnmarshalArrayJsonString(t *testing.T) {
 	count.Tests(t, 1)
