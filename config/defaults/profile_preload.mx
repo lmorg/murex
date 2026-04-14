@@ -14,22 +14,24 @@ if { os darwin && %[ /opt/homebrew/bin/brew ] -> f +x } then {
 
 function define-force-tty-func (CMD: str) {
     # Fixes programs which expect STDERR to be a TTY
-    if { which $CMD } then {
-        function $CMD "{
-            # Wrapper script around `$CMD`
+    !if { which $CMD } then {
+        return
+    }
+    
+    function $CMD "{
+        # Wrapper script around `$CMD`
             
-            config set proc strict-arrays false
-            config set proc force-tty true
+        config set proc strict-arrays false
+        config set proc force-tty true
             
-            exec $CMD \@PARAMS
-        }"
+        exec $CMD \@PARAMS
+    }"
 
-        trypipe <!null> {
-            summary $CMD ${man-summary $CMD}
-        }
+    trypipe <!null> {
+        summary $CMD ${man-summary $CMD}
     }
 
     if { man-summary $CMD } then {
-        summary $CMD man-summary()
+        summary $CMD man-summary($cmd)
     }
 }
