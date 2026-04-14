@@ -4,15 +4,15 @@
 
 ## Description
 
-`while` loops until loops until **condition** is false.
+`while` loops until **condition** is false.
 
 Normally the **conditional** and executed code block are 2 separate parameters
 however you can call `while` with just 1 parameter where the code block acts
-as both the conditional and the code to be ran.
+as both the conditional and the code to be run.
 
 ## Usage
 
-### Until true
+### While true (until false)
 
 ```
 while { condition } { code-block } -> <stdout>
@@ -20,7 +20,7 @@ while { condition } { code-block } -> <stdout>
 while { code-block } -> <stdout>
 ```
 
-### Until false
+### While false (until true)
 
 ```
 !while { condition } { code-block } -> <stdout>
@@ -54,7 +54,7 @@ true
 false
 ```
 
-### Until false
+### While false (until true)
 
 `while` **$i** is _NOT_ greater than or equal to **5**
 
