@@ -236,6 +236,22 @@ func TestExpCompareNonComparableNonStrict(t *testing.T) {
 			Expression: `2 < %[1,2,3]`,
 			Expected:   false,
 		},
+		{
+			Expression: `%[1,2,3] <= 2`,
+			Expected:   false,
+		},
+		{
+			Expression: `2 >= %[1,2,3]`,
+			Expected:   true,
+		},
+		{
+			Expression: `%[1,2,3] >= 2`,
+			Expected:   true,
+		},
+		{
+			Expression: `2 <= %[1,2,3]`,
+			Expected:   false,
+		},
 	}
 
 	testExpression(t, tests, false)
