@@ -28,10 +28,6 @@ function define-force-tty-func (CMD: str) {
     }"
 
     trypipe <!null> {
-        summary $CMD ${man-summary $CMD}
-    }
-
-    if { man-summary $CMD } then {
-        summary $CMD man-summary($cmd)
+        summary $CMD man-summary($CMD)
     }
 }
