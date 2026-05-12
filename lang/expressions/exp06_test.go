@@ -181,3 +181,26 @@ func TestExpLessThanOrEqual(t *testing.T) {
 
 	testExpression(t, tests, true)
 }
+
+// TestExpGtLtArrayVsNumber is a regression test for
+// https://github.com/lmorg/murex/issues/982 where comparing an
+// (uncomparable) array against a number panicked with an interface
+// conversion error instead of returning a clean result.
+func TestExpGtLtArrayVsNumber(t *testing.T) {
+	tests := []expressionTestT{
+		{
+			Expression: `%[a b c] < 2`,
+			Expected:   false,
+		},
+		{
+			Expression: `%[a b c] > 2`,
+			Expected:   true,
+		},
+		{
+			Expression: `%[a b c] >= 2`,
+			Expected:   true,
+		},
+	}
+
+	testExpression(t, tests, false)
+}
