@@ -16,8 +16,8 @@ const Name = "murex"
 // Format of version string should be "$(Major).$(Minor).$(Revision) ($Branch)"
 const (
 	Major    = 7
-	Minor    = 2
-	Revision = 1007
+	Minor    = 3
+	Revision = 1008
 )
 
 var (

@@ -19,7 +19,10 @@ func TestUnmarshalDataBufferedDebug(t *testing.T) {
 	lang.InitEnv()
 
 	debug.Enabled = true
-	defer func() { debug.Enabled = false }()
+	t.Cleanup(func() {
+		lang.WaitForProcessCleanup()
+		debug.Enabled = false
+	})
 
 	v, err := lang.UnmarshalDataBuffered(lang.ShellProcess, []byte(input), types.Json)
 	if err != nil {
