@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/lmorg/murex/app"
@@ -67,7 +68,15 @@ var (
 
 	// ShellExitNum is for when running murex in interactive shell mode
 	ShellExitNum int
+
+	// processCleanupWG tracks asynchronous process cleanup work.
+	processCleanupWG sync.WaitGroup
 )
+
+// WaitForProcessCleanup waits for asynchronous process cleanup goroutines to finish.
+func WaitForProcessCleanup() {
+	processCleanupWG.Wait()
+}
 
 func DefineFunction(name string, fn func(*Process) error, StdoutDataType string) {
 	GoFunctions[name] = fn
@@ -453,7 +462,9 @@ func deregisterProcess(p *Process) {
 		ForegroundProc.Set(p.Next)
 	}
 
+	processCleanupWG.Add(1)
 	go func() {
+		defer processCleanupWG.Done()
 		p.State.Set(state.AwaitingGC)
 		GlobalFIDs.Deregister(p.Id)
 		if p.HasJobId.Get() {

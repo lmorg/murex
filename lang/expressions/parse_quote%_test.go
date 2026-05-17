@@ -90,6 +90,11 @@ func TestParseQuoteParen(t *testing.T) {
 				pos:      3,
 			},
 			{
+				input:    `%(foo-!$(b)-bar)`,
+				expected: `foo-true-bar`,
+				pos:      2,
+			},
+			{
 				input:    `%(foo-\$bar-bar)`,
 				expected: `foo-\-bar`,
 				pos:      5,

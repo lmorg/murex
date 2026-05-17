@@ -20,3 +20,4 @@ autocomplete set su %[{
     IncManPage: true
 }]
 
+define-force-tty-func su

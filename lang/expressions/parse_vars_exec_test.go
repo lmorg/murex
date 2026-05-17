@@ -60,6 +60,85 @@ func TestParseVarsScalar(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
+func TestParseVarsLogicalNot(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `TestParseVarsLogicalNot0=true;!$(TestParseVarsLogicalNot0)`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:  `TestParseVarsLogicalNot1=false;!$(TestParseVarsLogicalNot1)`,
+			Stdout: `true`,
+		},
+		{
+			Block:   `TestParseVarsLogicalNot2=1;!$(TestParseVarsLogicalNot2)`,
+			Stdout:  `false`,
+			ExitNum: 1,
+		},
+		{
+			Block:  `TestParseVarsLogicalNot3=0;!$(TestParseVarsLogicalNot3)`,
+			Stdout: `true`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsLogicalNotStatement(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsLogicalNotStatement0=true;out !$(TestParseVarsLogicalNotStatement0)`,
+			Stdout: "false\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotStatement1=false;out !$(TestParseVarsLogicalNotStatement1)`,
+			Stdout: "true\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotStatement2=1;out !$(TestParseVarsLogicalNotStatement2)`,
+			Stdout: "false\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotStatement3=0;out !$(TestParseVarsLogicalNotStatement3)`,
+			Stdout: "true\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsLogicalNotBuilders(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsLogicalNotBuilders0=true;%(!$(TestParseVarsLogicalNotBuilders0))`,
+			Stdout: `false`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders1=false;%(!$(TestParseVarsLogicalNotBuilders1))`,
+			Stdout: `true`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders2=true;%[!$(TestParseVarsLogicalNotBuilders2)]`,
+			Stdout: `[false]`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders3=false;%[!$(TestParseVarsLogicalNotBuilders3)]`,
+			Stdout: `[true]`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders4=true;%{a:!$(TestParseVarsLogicalNotBuilders4)}`,
+			Stdout: `{"a":false}`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders5=false;%{a:!$(TestParseVarsLogicalNotBuilders5)}`,
+			Stdout: `{"a":true}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
 func TestParseVarsArray(t *testing.T) {
 	tests := []test.MurexTest{
 		{
