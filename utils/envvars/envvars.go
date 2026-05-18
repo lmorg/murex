@@ -2,6 +2,7 @@ package envvars
 
 import (
 	"os"
+	"strings"
 )
 
 // All populates a map of environmental variables
@@ -36,4 +37,13 @@ func Split(env string) (string, string) {
 	default:
 		return env[:i], env[i+1:]
 	}
+}
+
+func List() []string {
+	envs := os.Environ()
+	for i := range envs {
+		envs[i] = strings.SplitN(envs[i], "=", 2)[0]
+	}
+
+	return envs
 }
