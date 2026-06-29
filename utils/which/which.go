@@ -2,10 +2,9 @@ package which
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
-
-	"github.com/lmorg/murex/utils/consts"
 )
 
 // Which works similarly to the UNIX command with the same name.
@@ -21,18 +20,14 @@ func Which(cmd string) string {
 			return cmd
 		}
 		return ""
-	} else {
-		// cmd is not explicitly a path, just search $PATH, don't attempt to reoslve absolute path
-		for _, path := range SplitPath(os.Getenv("PATH")) {
-			fullPath := path + consts.PathSlash + cmd
-			fi, err := os.Stat(fullPath)
-			if err == nil && fi.Mode().IsRegular() {
-				return fullPath
-			}
-		}
+	}
 
+	// cmd is not explicitly a path, just search $PATH
+	path, err := exec.LookPath(cmd)
+	if err != nil {
 		return ""
 	}
+	return path
 }
 
 // WhichIgnoreFail will always return a best guess of the executable
