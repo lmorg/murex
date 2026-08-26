@@ -253,9 +253,23 @@ func TestParseStatement(t *testing.T) {
 			Exec: false,
 		},
 		{
+			Statement: `echo !$(bob)`,
+			Args: []string{
+				"echo", "!$(bob)",
+			},
+			Exec: false,
+		},
+		{
 			Statement: `echo $bob`,
 			Args: []string{
 				"echo", "",
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo !$(bob)`,
+			Args: []string{
+				"echo", "true",
 			},
 			Exec: true,
 		},

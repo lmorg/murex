@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -26,6 +27,7 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/crash"
+	"github.com/lmorg/murex/utils/mxtty"
 	"github.com/lmorg/murex/utils/spellcheck"
 	"github.com/lmorg/readline/v4"
 )
@@ -180,6 +182,7 @@ func showPrompt() {
 		signalhandler.Register(true)
 
 		setPromptHistory()
+		publishDictionary(lang.ShellProcess)
 
 		getSyntaxHighlighting()
 		getSyntaxCompletion()
@@ -370,7 +373,10 @@ var ignoreSpellCheckErr atomic.Bool
 func Spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
-	if err != nil && !ignoreSpellCheckErr.Load() {
+	if err != nil {
+		if ignoreSpellCheckErr.Load() {
+			return r
+		}
 		ignoreSpellCheckErr.Store(true)
 		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
@@ -380,4 +386,19 @@ func Spellchecker(r []rune) []rune {
 	ignoreSpellCheckErr.Store(false) // reset ignore status
 
 	return []rune(new)
+}
+
+type _mxapcConfigDictionaryT struct {
+	Exclude []string `json:"history"`
+}
+
+func publishDictionary(p *lang.Process) {
+	if !mxtty.IsTtyphoon() {
+		return
+	}
+
+	err := mxtty.WriteApcJson("config", "dictionary", _mxapcConfigDictionaryT{Exclude: spellcheck.Exclusions(p)})
+	if err != nil {
+		debug.Log(err)
+	}
 }

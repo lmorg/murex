@@ -474,3 +474,17 @@ func (mf *MurexFuncs) UpdateMap(m map[string]bool) {
 		m[name] = true
 	}
 }
+
+func (mf *MurexFuncs) List() []string {
+	mf.mutex.Lock()
+	defer mf.mutex.Unlock()
+
+	slice := make([]string, len(mf.fn))
+	var i int
+
+	for name := range mf.fn {
+		slice[i] = name
+	}
+
+	return slice
+}

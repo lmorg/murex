@@ -41,19 +41,3 @@ func Write(title []byte) error {
 
 func Icon(title []byte) error { return nil }
 func Tmux(title []byte) error { return errors.New("tmux not supported on Windows") }
-
-func sanitize(b []byte) []byte {
-	newb := make([]byte, len(b))
-	copy(newb, b)
-
-	for i := range newb {
-		if newb[i] == '\r' {
-			newb[i] = ' '
-		}
-		if newb[i] < 32 || newb[i] == 127 {
-			newb[i] = 32
-		}
-	}
-
-	return newb
-}

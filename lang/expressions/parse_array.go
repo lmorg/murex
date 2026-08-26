@@ -146,6 +146,29 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				slice = append(slice, v)
 			}
 
+		case '!':
+			if tree.nextChar() == '$' {
+				r, _, _, fn, err := tree.parseVarLogicalNotExpr(exec)
+				if err != nil {
+					return nil, nil, err
+				}
+
+				if exec {
+					v, err := fn()
+					if err != nil {
+						return nil, nil, err
+					}
+					slice = append(slice, v.Value)
+				} else {
+					slice = append(slice, string(r))
+				}
+
+				continue
+			}
+
+			value := tree.parseArrayBareword()
+			slice = append(slice, formatArrayValue(value))
+
 		case '~':
 			// tilde
 			home, err := tree.parseVarTilde(exec)

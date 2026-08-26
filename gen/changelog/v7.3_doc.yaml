@@ -1,0 +1,17 @@
+- DocumentID: v7.3
+  Title: >-
+    v7.3
+  CategoryID: changelog
+  DateTime: 2026-05-18 12:00
+  Summary: >-
+    This release focuses on expression-engine robustness and TTY integrations. It introduces `!$(variable)` logical-not expansion, restores force-TTY integrations, and includes multiple fixes for comparison panics and process I/O handling.
+  Description: |-
+    {{ include "gen/changelog/v7.3.inc.md" }}
+  Related:
+    - CONTRIBUTING
+    - expressions
+    - integrations
+    - variables
+    - unmarshal
+    - su
+    - readline

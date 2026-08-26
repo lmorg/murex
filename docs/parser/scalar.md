@@ -39,6 +39,17 @@ $(scalar)
 _Enclosed_ syntax supports any unicode characters however the variable name
 needs to be surrounded by parenthesis. See examples below.
 
+### Logical-Not Syntax (expressions)
+
+You can negate a variable's logical value in expressions with:
+
+```
+!$(variable)
+```
+
+This syntax resolves the variable's truthy / falsy value and then returns
+the inverse (`true` becomes `false`, and `false` becomes `true`).
+
 
 
 ## Examples
