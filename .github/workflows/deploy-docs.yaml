@@ -51,9 +51,9 @@ jobs:
           COMMITHASHSHORT: ${{ github.run_number }}
         run: |
           ./docgen -panic -warning -config gen/docgen.yaml
-          mv -- -v *.md *.svg docs/
+          mv -v -- *.md *.svg docs/
           mkdir -p gen/vuepress/public/images
-          cp -- -vR images/* gen/vuepress/public/images
+          cp -vR -- images/* gen/vuepress/public/images
           mv -v gen/vuepress docs/.vuepress
           
           echo Lower case documents...
@@ -98,7 +98,7 @@ jobs:
           CLOUDFRONT_ID:         ${{ github.ref == 'refs/heads/master' && secrets.CLOUDFRONT_DISTRIBUTION_ID_MASTER || secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
           S3_PREFIX:             ${{ github.ref == 'refs/heads/master' && 'master' || 'develop' }}
         run: |
-          mv -- -v images/vhs* images/banner* docs/.vuepress/dist/
+          mv -v -- images/vhs* images/banner* docs/.vuepress/dist/
           aws s3 sync docs/.vuepress/dist s3://murex.rocks/${S3_PREFIX} --exclude "*.md" --no-progress --delete
           aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_ID}" --paths "/*"
     
