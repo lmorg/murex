@@ -73,7 +73,7 @@ jobs:
           package-manager-cache: false
 
       - name: Install Node dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Build Docs
         env:
