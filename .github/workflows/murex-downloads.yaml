@@ -117,7 +117,7 @@ jobs:
           
           echo "$MUREXVERSION" > VERSION
           
-          mv VERSION *.html *.svg gen/website/assets/* ./docs ./images ./website-cache/
+          mv -- VERSION *.html *.svg gen/website/assets/* ./docs ./images ./website-cache/
 
       - name: Deploy Docs
         env:
