@@ -14,6 +14,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/multiplication.md",
+                "text": "* Multiplication Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/addition.md",
+                "text": "+ Addition Operator"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/addition.md",
                 "text": "+ Addition Operator"
             },
@@ -21,6 +31,16 @@
                 "icon": "file-lines",
                 "link": "parser/subtraction.md",
                 "text": "- Subtraction Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/subtraction.md",
+                "text": "- Subtraction Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/division.md",
+                "text": "/ Division Operator"
             },
             {
                 "icon": "file-lines",
@@ -41,8 +61,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/alter.md",
+                "text": "Alter Data Structure: alter, ~\u003e"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/cast.md",
                 "text": "Define Type: cast"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/cast.md",
+                "text": "Define Type: cast"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/range.md",
+                "text": "Filter By Range: [ ..Range ]"
             },
             {
                 "icon": "file-lines",
@@ -56,8 +91,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/item-index.md",
+                "text": "Get Item Property: [ Index ]"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/element.md",
                 "text": "Get Nested Element: [[ Element ]]"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/element.md",
+                "text": "Get Nested Element: [[ Element ]]"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/assign-or-merge.md",
+                "text": "\u003c~ Assign Or Merge"
             },
             {
                 "icon": "file-lines",
@@ -78,6 +128,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/multiply-by.md",
+                "text": "*= Multiply By Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/add-with.md",
+                "text": "+= Add With Operator"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/add-with.md",
                 "text": "+= Add With Operator"
             },
@@ -88,8 +148,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/subtract-by.md",
+                "text": "-= Subtract By Operator"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/divide-by.md",
                 "text": "/= Divide By Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/divide-by.md",
+                "text": "/= Divide By Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/assign-or-merge.md",
+                "text": "\u003c~ Assign Or Merge"
             },
             {
                 "icon": "file-lines",
@@ -110,6 +185,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/elvis.md",
+                "text": "?: Elvis Operator"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/null-coalescing.md",
+                "text": "?? Null Coalescing Operator"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/null-coalescing.md",
                 "text": "?? Null Coalescing Operator"
             }
@@ -127,8 +212,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/scalar.md",
+                "text": "$Scalar Sigil (eg variables)"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/array.md",
                 "text": "@Array Sigil"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/array.md",
+                "text": "@Array Sigil"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/tilde.md",
+                "text": "~ Home Sigil"
             },
             {
                 "icon": "file-lines",
@@ -149,8 +249,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/double-quote.md",
+                "text": "\"Double Quote\""
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/brace-quote.md",
                 "text": "%(Brace Quote)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/brace-quote.md",
+                "text": "%(Brace Quote)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/create-array.md",
+                "text": "%[] Array Builder"
             },
             {
                 "icon": "file-lines",
@@ -164,8 +279,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/create-object.md",
+                "text": "%{} Object Builder"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/single-quote.md",
                 "text": "'Single Quote'"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/single-quote.md",
+                "text": "'Single Quote'"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/curly-brace.md",
+                "text": "{ Curly Brace }"
             },
             {
                 "icon": "file-lines",
@@ -186,8 +316,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/expr-inlined.md",
+                "text": "( expression )"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/c-style-fun.md",
                 "text": "C-style functions"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/c-style-fun.md",
+                "text": "C-style functions"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/lambda.md",
+                "text": "[{ Lambda }]"
             },
             {
                 "icon": "file-lines",
@@ -208,8 +353,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/cast.md",
+                "text": "Define Type: cast"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/namedpipe.md",
                 "text": "Read / Write To A Named Pipe: \u003cpipe\u003e"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/namedpipe.md",
+                "text": "Read / Write To A Named Pipe: \u003cpipe\u003e"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/stdin.md",
+                "text": "Read From Stdin: \u003cstdin\u003e"
             },
             {
                 "icon": "file-lines",
@@ -223,6 +383,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/file-append.md",
+                "text": "Write File (Append): \u003e\u003e"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/file-truncate.md",
+                "text": "Write File (Truncate): \u003e"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/file-truncate.md",
                 "text": "Write File (Truncate): \u003e"
             },
@@ -233,8 +403,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/pipe-arrow.md",
+                "text": "-\u003e Arrow Pipe"
+            },
+            {
+                "icon": "file-lines",
                 "link": "parser/pipe-generic.md",
                 "text": "=\u003e Generic Pipe"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/pipe-generic.md",
+                "text": "=\u003e Generic Pipe"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/pipe-posix.md",
+                "text": "| POSIX Pipe"
             },
             {
                 "icon": "file-lines",

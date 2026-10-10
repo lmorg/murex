@@ -14,8 +14,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/pipe.md",
+                "text": "Create Named Pipe: pipe"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/err.md",
                 "text": "Error String, strerr: err"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/err.md",
+                "text": "Error String, strerr: err"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/pt.md",
+                "text": "Get Pipe Status: pt"
             },
             {
                 "icon": "file-lines",
@@ -29,8 +44,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/out.md",
+                "text": "Output String, stdout: out"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/tout.md",
                 "text": "Output With Type Annotation: tout"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/tout.md",
+                "text": "Output With Type Annotation: tout"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/namedpipe.md",
+                "text": "Read / Write To A Named Pipe: \u003cpipe\u003e"
             },
             {
                 "icon": "file-lines",
@@ -44,6 +74,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/stdin.md",
+                "text": "Read From Stdin: \u003cstdin\u003e"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/read.md",
+                "text": "Read User Input: read"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/read.md",
                 "text": "Read User Input: read"
             },
@@ -54,8 +94,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/open-image.md",
+                "text": "Render Image In Terminal: open-image"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/fanout.md",
                 "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fanout.md",
+                "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/brace-quote-func.md",
+                "text": "(brace quote)"
             },
             {
                 "icon": "file-lines",
@@ -76,8 +131,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/tmp.md",
+                "text": "Create Temporary File: tmp"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/f.md",
                 "text": "Filesystem Objects: f"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/f.md",
+                "text": "Filesystem Objects: f"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/rx.md",
+                "text": "Filesystem Regex Match: rx"
             },
             {
                 "icon": "file-lines",
@@ -91,6 +161,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/g.md",
+                "text": "Globbing: g"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/lockfile.md",
+                "text": "Lock Files: lockfile"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/lockfile.md",
                 "text": "Lock Files: lockfile"
             },
@@ -101,8 +181,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/open.md",
+                "text": "Open File: open"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/open-image.md",
                 "text": "Render Image In Terminal: open-image"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/open-image.md",
+                "text": "Render Image In Terminal: open-image"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/file-truncate.md",
+                "text": "Write File (Truncate): \u003e"
             },
             {
                 "icon": "file-lines",
@@ -123,6 +218,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/formap.md",
+                "text": "For Each In Map: formap"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/foreach.md",
+                "text": "For Each In array: foreach"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/foreach.md",
                 "text": "For Each In array: foreach"
             },
@@ -130,6 +235,16 @@
                 "icon": "file-lines",
                 "link": "commands/for.md",
                 "text": "For Loop: for"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/for.md",
+                "text": "For Loop: for"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/while.md",
+                "text": "Loop While: while"
             },
             {
                 "icon": "file-lines",
@@ -150,8 +265,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/alias.md",
+                "text": "Alias \"shortcut\": alias"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/cd.md",
                 "text": "Change Directory: cd"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/cd.md",
+                "text": "Change Directory: cd"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/type.md",
+                "text": "Display Command Type: type"
             },
             {
                 "icon": "file-lines",
@@ -165,8 +295,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/expr.md",
+                "text": "Expressions: expr"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/false.md",
                 "text": "False: false"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/false.md",
+                "text": "False: false"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/which.md",
+                "text": "Location / Type Of Command: which"
             },
             {
                 "icon": "file-lines",
@@ -180,6 +325,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/out.md",
+                "text": "Output String, stdout: out"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/time.md",
+                "text": "Processes Execution Time: time"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/time.md",
                 "text": "Processes Execution Time: time"
             },
@@ -187,6 +342,16 @@
                 "icon": "file-lines",
                 "link": "commands/read.md",
                 "text": "Read User Input: read"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/read.md",
+                "text": "Read User Input: read"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/true.md",
+                "text": "True: true"
             },
             {
                 "icon": "file-lines",
@@ -207,8 +372,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/prefix.md",
+                "text": "Add Prefix: prefix"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/suffix.md",
                 "text": "Add Suffix: suffix"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/suffix.md",
+                "text": "Add Suffix: suffix"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/append.md",
+                "text": "Array Append: append"
             },
             {
                 "icon": "file-lines",
@@ -222,8 +402,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/mjoin.md",
+                "text": "Array Merge To String: mjoin"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/prepend.md",
                 "text": "Array Prepend: prepend"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/prepend.md",
+                "text": "Array Prepend: prepend"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/mtac.md",
+                "text": "Array Reverse: mtac"
             },
             {
                 "icon": "file-lines",
@@ -237,8 +432,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/msort.md",
+                "text": "Array Sort: msort"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/list.case.md",
                 "text": "Change Text Case: list.case"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/list.case.md",
+                "text": "Change Text Case: list.case"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/count.md",
+                "text": "Count: count"
             },
             {
                 "icon": "file-lines",
@@ -252,8 +462,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/ja.md",
+                "text": "Create JSON Array: ja"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/ta.md",
                 "text": "Create New Array: ta"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/ta.md",
+                "text": "Create New Array: ta"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/a.md",
+                "text": "Create Streamable Array: a"
             },
             {
                 "icon": "file-lines",
@@ -267,8 +492,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/range.md",
+                "text": "Filter By Range: [ ..Range ]"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/foreach.md",
                 "text": "For Each In array: foreach"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/foreach.md",
+                "text": "For Each In array: foreach"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/item-index.md",
+                "text": "Get Item Property: [ Index ]"
             },
             {
                 "icon": "file-lines",
@@ -282,6 +522,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/left.md",
+                "text": "Left Sub-String: left"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/format.md",
+                "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data Type: format"
             },
@@ -292,8 +542,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/regexp.md",
+                "text": "Regex Patterns: regexp"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/right.md",
                 "text": "Right Sub-String: right"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/right.md",
+                "text": "Right Sub-String: right"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/match.md",
+                "text": "String Match: match"
             },
             {
                 "icon": "file-lines",
@@ -314,8 +579,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/list.case.md",
+                "text": "Change Text Case: list.case"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/datetime.md",
                 "text": "Date And Time Conversion: datetime"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/datetime.md",
+                "text": "Date And Time Conversion: datetime"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/esccli.md",
+                "text": "Escape Command Line String: esccli"
             },
             {
                 "icon": "file-lines",
@@ -329,8 +609,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/eschtml.md",
+                "text": "Escape HTML: eschtml"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/escurl.md",
                 "text": "Escape URL: escurl"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/escurl.md",
+                "text": "Escape URL: escurl"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/rand.md",
+                "text": "Generate Random Sequence: rand"
             },
             {
                 "icon": "file-lines",
@@ -344,8 +639,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/left.md",
+                "text": "Left Sub-String: left"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/pretty.md",
                 "text": "Prettify Objects: pretty"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/pretty.md",
+                "text": "Prettify Objects: pretty"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/escape.md",
+                "text": "Quote String: escape"
             },
             {
                 "icon": "file-lines",
@@ -359,6 +669,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/format.md",
+                "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/regexp.md",
+                "text": "Regex Patterns: regexp"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/regexp.md",
                 "text": "Regex Patterns: regexp"
             },
@@ -366,6 +686,16 @@
                 "icon": "file-lines",
                 "link": "commands/right.md",
                 "text": "Right Sub-String: right"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/right.md",
+                "text": "Right Sub-String: right"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/jsplit.md",
+                "text": "String Split: jsplit"
             },
             {
                 "icon": "file-lines",
@@ -386,8 +716,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/expr.md",
+                "text": "Expressions: expr"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/rand.md",
                 "text": "Generate Random Sequence: rand"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/rand.md",
+                "text": "Generate Random Sequence: rand"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/round.md",
+                "text": "Round Number: round"
             },
             {
                 "icon": "file-lines",
@@ -408,8 +753,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/alter.md",
+                "text": "Alter Data Structure: alter, ~\u003e"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/count.md",
                 "text": "Count: count"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/count.md",
+                "text": "Count: count"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/2darray.md",
+                "text": "Create 2d Array: 2darray"
             },
             {
                 "icon": "file-lines",
@@ -423,8 +783,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/map.md",
+                "text": "Create Map: map"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/formap.md",
                 "text": "For Each In Map: formap"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/formap.md",
+                "text": "For Each In Map: formap"
+            },
+            {
+                "icon": "file-lines",
+                "link": "parser/item-index.md",
+                "text": "Get Item Property: [ Index ]"
             },
             {
                 "icon": "file-lines",
@@ -438,6 +813,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "parser/element.md",
+                "text": "Get Nested Element: [[ Element ]]"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/struct-keys.md",
+                "text": "List object keys: struct-keys"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/struct-keys.md",
                 "text": "List object keys: struct-keys"
             },
@@ -445,6 +830,16 @@
                 "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/format.md",
+                "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/tabulate.md",
+                "text": "Transformation Tools: tabulate"
             },
             {
                 "icon": "file-lines",
@@ -465,6 +860,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/addheading.md",
+                "text": "Add Heading: addheading"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/formap.md",
+                "text": "For Each In Map: formap"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/formap.md",
                 "text": "For Each In Map: formap"
             },
@@ -475,8 +880,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "optional/select.md",
+                "text": "Inline SQL: select"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/format.md",
                 "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/format.md",
+                "text": "Reformat Data Type: format"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/tabulate.md",
+                "text": "Transformation Tools: tabulate"
             },
             {
                 "icon": "file-lines",
@@ -497,6 +917,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/cpuarch.md",
+                "text": "CPU Architecture: cpuarch"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/cpucount.md",
+                "text": "CPU Count: cpucount"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/cpucount.md",
                 "text": "CPU Count: cpucount"
             },
@@ -504,6 +934,16 @@
                 "icon": "file-lines",
                 "link": "commands/export.md",
                 "text": "Define Environmental Variable: export"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/export.md",
+                "text": "Define Environmental Variable: export"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/os.md",
+                "text": "Operating System: os"
             },
             {
                 "icon": "file-lines",
@@ -524,8 +964,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/alias.md",
+                "text": "Alias \"shortcut\": alias"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/history.md",
                 "text": "Command Line History: history"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/history.md",
+                "text": "Command Line History: history"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/pipe.md",
+                "text": "Create Named Pipe: pipe"
             },
             {
                 "icon": "file-lines",
@@ -539,8 +994,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/debug.md",
+                "text": "Debug Mode: debug"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/openagent.md",
                 "text": "Define Handlers For \"open\" (openagent)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/openagent.md",
+                "text": "Define Handlers For \"open\" (openagent)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/method.md",
+                "text": "Define Method Relationships (method)"
             },
             {
                 "icon": "file-lines",
@@ -554,8 +1024,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/fexec.md",
+                "text": "Execute Function or Builtin: fexec"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/source.md",
                 "text": "Include / Evaluate Murex Code: source"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/source.md",
+                "text": "Include / Evaluate Murex Code: source"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/event.md",
+                "text": "Murex Event Subsystem: event"
             },
             {
                 "icon": "file-lines",
@@ -569,8 +1054,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/murex-package.md",
+                "text": "Murex Package Manager: murex-package"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/version.md",
                 "text": "Murex Version: version"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/version.md",
+                "text": "Murex Version: version"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/private.md",
+                "text": "Private Function: private"
             },
             {
                 "icon": "file-lines",
@@ -584,8 +1084,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/function.md",
+                "text": "Public Function: function"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/murex-update-exe-list.md",
                 "text": "Re-Scan $PATH For Executables"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/murex-update-exe-list.md",
+                "text": "Re-Scan $PATH For Executables"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/summary.md",
+                "text": "Set Command Summary Hint: summary"
             },
             {
                 "icon": "file-lines",
@@ -599,6 +1114,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/config.md",
+                "text": "Shell Configuration And Settings: config"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/runtime.md",
+                "text": "Shell Runtime: runtime"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/runtime.md",
                 "text": "Shell Runtime: runtime"
             },
@@ -606,6 +1131,16 @@
                 "icon": "file-lines",
                 "link": "commands/test.md",
                 "text": "Shell Script Tests: test"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/test.md",
+                "text": "Shell Script Tests: test"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/autocomplete.md",
+                "text": "Tab Autocompletion: autocomplete"
             },
             {
                 "icon": "file-lines",
@@ -626,6 +1161,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/key-code.md",
+                "text": "ASCII And ANSI Escape Sequences: key-code"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/esccli.md",
+                "text": "Escape Command Line String: esccli"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/esccli.md",
                 "text": "Escape Command Line String: esccli"
             },
@@ -636,8 +1181,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/eschtml.md",
+                "text": "Escape HTML: eschtml"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/escurl.md",
                 "text": "Escape URL: escurl"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/escurl.md",
+                "text": "Escape URL: escurl"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/escape.md",
+                "text": "Quote String: escape"
             },
             {
                 "icon": "file-lines",
@@ -658,8 +1218,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/bg.md",
+                "text": "Background Process: bg"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/bexists.md",
                 "text": "Check Builtin Exists: bexists"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/bexists.md",
+                "text": "Check Builtin Exists: bexists"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fid-list.md",
+                "text": "Display Running Functions: fid-list"
             },
             {
                 "icon": "file-lines",
@@ -673,8 +1248,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/exec.md",
+                "text": "Execute External Command: exec"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/exitnum.md",
                 "text": "Exit Code: exitnum"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/exitnum.md",
+                "text": "Exit Code: exitnum"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fg.md",
+                "text": "Foreground Process: fg"
             },
             {
                 "icon": "file-lines",
@@ -688,8 +1278,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/source.md",
+                "text": "Include / Evaluate Murex Code: source"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/fid-killall.md",
                 "text": "Kill All In Session: fid-killall"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fid-killall.md",
+                "text": "Kill All In Session: fid-killall"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fid-kill.md",
+                "text": "Kill Function: fid-kill"
             },
             {
                 "icon": "file-lines",
@@ -703,8 +1308,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/which.md",
+                "text": "Location / Type Of Command: which"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/time.md",
                 "text": "Processes Execution Time: time"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/time.md",
+                "text": "Processes Execution Time: time"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/signal.md",
+                "text": "Send Signal IPC: signal"
             },
             {
                 "icon": "file-lines",
@@ -725,8 +1345,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/args.md",
+                "text": "Define Function Arguments: args"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/global.md",
                 "text": "Define Global: global"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/global.md",
+                "text": "Define Global: global"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/cast.md",
+                "text": "Define Type: cast"
             },
             {
                 "icon": "file-lines",
@@ -740,8 +1375,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/set.md",
+                "text": "Define Variable: set"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/return.md",
                 "text": "Exit Function: return"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/return.md",
+                "text": "Exit Function: return"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/exit.md",
+                "text": "Exit Murex: exit"
             },
             {
                 "icon": "file-lines",
@@ -755,8 +1405,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/break.md",
+                "text": "Exit Scope: break"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/expr.md",
                 "text": "Expressions: expr"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/expr.md",
+                "text": "Expressions: expr"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/formap.md",
+                "text": "For Each In Map: formap"
             },
             {
                 "icon": "file-lines",
@@ -770,8 +1435,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/foreach.md",
+                "text": "For Each In array: foreach"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/for.md",
                 "text": "For Loop: for"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/for.md",
+                "text": "For Loop: for"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/get-type.md",
+                "text": "Get Data Type: get-type"
             },
             {
                 "icon": "file-lines",
@@ -785,8 +1465,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/if.md",
+                "text": "If Conditional: if"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/is-null.md",
                 "text": "Is Value Null: is-null"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/is-null.md",
+                "text": "Is Value Null: is-null"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/and.md",
+                "text": "Logic And Statements: and"
             },
             {
                 "icon": "file-lines",
@@ -800,8 +1495,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/or.md",
+                "text": "Logic Or Statements: or"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/while.md",
                 "text": "Loop While: while"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/while.md",
+                "text": "Loop While: while"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/continue.md",
+                "text": "Next Iteration: continue"
             },
             {
                 "icon": "file-lines",
@@ -815,8 +1525,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/not-func.md",
+                "text": "Not: !"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/devnull.md",
                 "text": "Null: null"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/devnull.md",
+                "text": "Null: null"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/murex-parser.md",
+                "text": "Parse Murex Source: murex-parser"
             },
             {
                 "icon": "file-lines",
@@ -830,6 +1555,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/private.md",
+                "text": "Private Function: private"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/function.md",
+                "text": "Public Function: function"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/function.md",
                 "text": "Public Function: function"
             },
@@ -837,6 +1572,16 @@
                 "icon": "file-lines",
                 "link": "commands/fanout.md",
                 "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/fanout.md",
+                "text": "Send pipes to multiple processes: fanout (EXPERIMENTAL)"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/switch.md",
+                "text": "Switch Conditional: switch"
             },
             {
                 "icon": "file-lines",
@@ -857,8 +1602,23 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/catch.md",
+                "text": "Caught Error Block: catch"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/unsafe.md",
                 "text": "Disable Error Handling In Block: unsafe"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/unsafe.md",
+                "text": "Disable Error Handling In Block: unsafe"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/runmode.md",
+                "text": "Function / Module Defaults: runmode"
             },
             {
                 "icon": "file-lines",
@@ -872,6 +1632,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/trypipe.md",
+                "text": "Pipe Fail: trypipe"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/trypipeerr.md",
+                "text": "Stderr Checking In Pipes: trypipeerr"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/trypipeerr.md",
                 "text": "Stderr Checking In Pipes: trypipeerr"
             },
@@ -879,6 +1649,16 @@
                 "icon": "file-lines",
                 "link": "commands/tryerr.md",
                 "text": "Stderr Checking In TTY: tryerr"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/tryerr.md",
+                "text": "Stderr Checking In TTY: tryerr"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/try.md",
+                "text": "Try Block: try"
             },
             {
                 "icon": "file-lines",
@@ -899,6 +1679,16 @@
             },
             {
                 "icon": "file-lines",
+                "link": "commands/man-summary.md",
+                "text": "Man-Page Summary: man-summary"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/murex-docs.md",
+                "text": "Murex's Offline Documentation: murex-docs"
+            },
+            {
+                "icon": "file-lines",
                 "link": "commands/murex-docs.md",
                 "text": "Murex's Offline Documentation: murex-docs"
             },
@@ -906,6 +1696,16 @@
                 "icon": "file-lines",
                 "link": "commands/man-get-flags.md",
                 "text": "Parse Man-Page For Flags: man-get-flags"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/man-get-flags.md",
+                "text": "Parse Man-Page For Flags: man-get-flags"
+            },
+            {
+                "icon": "file-lines",
+                "link": "commands/summary.md",
+                "text": "Set Command Summary Hint: summary"
             },
             {
                 "icon": "file-lines",
