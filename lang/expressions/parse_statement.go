@@ -444,6 +444,37 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 			}
 
+		case '!':
+			tree.statement.validFunction = false
+			switch {
+			case tree.nextChar() == '$':
+				var tokenise bool
+				tokenise = tree.tokeniseScalar()
+				execScalar := exec && tokenise
+				value, _, _, fn, err := tree.parseVarLogicalNotExpr(execScalar)
+				if err != nil {
+					return raiseError(tree.expression, nil, tree.charPos, err.Error())
+				}
+
+				if execScalar {
+					val, err := fn()
+					if err != nil {
+						return err
+					}
+					s, err := types.ConvertGoType(val.Value, types.String)
+					if err != nil {
+						return err
+					}
+					appendToParam(tree, []rune(s.(string))...)
+					tree.statement.canHaveZeroLenStr = true
+				} else {
+					appendToParam(tree, value...)
+				}
+
+			default:
+				appendToParam(tree, r)
+			}
+
 		case '@':
 			tree.statement.validFunction = false
 			prev := tree.prevChar()

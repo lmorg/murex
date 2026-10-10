@@ -82,3 +82,17 @@ func (a *Aliases) UpdateMap(m map[string]bool) {
 		m[name] = true
 	}
 }
+
+func (a *Aliases) List() []string {
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+
+	slice := make([]string, len(a.aliases))
+	var i int
+
+	for name := range a.aliases {
+		slice[i] = name
+	}
+
+	return slice
+}

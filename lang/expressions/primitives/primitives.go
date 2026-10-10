@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-//go:generate stringer -linecomment -type=Primitive
+//go:generate go tool stringer -linecomment -type=Primitive
 type Primitive int
 
 const (

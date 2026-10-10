@@ -4,7 +4,6 @@
 package ansititle
 
 import (
-	"bytes"
 	"errors"
 	"os"
 
@@ -85,16 +84,4 @@ func formatTmux(title []byte) []byte {
 	copy(ansi[len(ansi)-2:], []byte{27, '\\'})
 
 	return ansi
-}
-
-func sanitize(b []byte) []byte {
-	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
-	// replace all control characters with space
-	for i := range b {
-		if b[i] < 32 || b[i] == 127 {
-			b[i] = 32
-		}
-	}
-
-	return b
 }

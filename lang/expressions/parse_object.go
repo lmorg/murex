@@ -171,6 +171,37 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 				}
 			}
 
+		case '!':
+			if tree.nextChar() == '$' {
+				r, _, _, fn, err := tree.parseVarLogicalNotExpr(exec)
+				if err != nil {
+					return nil, nil, err
+				}
+
+				if exec {
+					val, err := fn()
+					if err != nil {
+						return nil, nil, err
+					}
+					err = o.UpdateInterface(val.Value)
+					if err != nil {
+						return nil, nil, err
+					}
+				} else {
+					err = o.UpdateInterface(string(r))
+					if err != nil {
+						return nil, nil, err
+					}
+				}
+
+				continue
+			}
+
+			err := o.AppendRune(r)
+			if err != nil {
+				return nil, nil, err
+			}
+
 		case '~':
 			// tilde
 			home, err := tree.parseVarTilde(exec)

@@ -1,6 +1,6 @@
 package state
 
-//go:generate stringer -type=FunctionState
+//go:generate go tool stringer -type=FunctionState
 
 // FunctionState is what the point along the murex pipeline a lang.Process is at
 type FunctionState int32

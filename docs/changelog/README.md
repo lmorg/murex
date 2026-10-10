@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 18.05.2026 - [v7.3](../changelog/v7.3.md)
+
+This release focuses on expression-engine robustness and TTY integrations. It introduces `!$(variable)` logical-not expansion, restores force-TTY integrations, and includes multiple fixes for comparison panics and process I/O handling.
+
+
 ### 01.02.2026 - [v7.2](../changelog/v7.2.md)
 
 This release brings several improvements for scripting environments in Javascript/Typescript and Python support. Core features include the new `--copy` flag for aliases to inherit shell configuration, and bugfixes to address autocomplete panics, expression error handling, and 3rd party integration issues.

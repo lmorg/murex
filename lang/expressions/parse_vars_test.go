@@ -20,6 +20,11 @@ func TestParseVarsScalarSymbol(t *testing.T) {
 				expected: `$foo[[/1]]`,
 				pos:      -1,
 			},
+			{
+				input:    `!$(foo)`,
+				expected: `!$(foo)`,
+				pos:      -1,
+			},
 		},
 	}
 

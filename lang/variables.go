@@ -939,3 +939,23 @@ func DumpVariables(p *Process) map[string]any {
 
 	return m
 }
+
+func ListVariables(p *Process) []string {
+	slice := envvars.List()
+
+	GlobalVariables.mutex.Lock()
+	for name := range GlobalVariables.vars {
+		slice = append(slice, name)
+	}
+	GlobalVariables.mutex.Unlock()
+
+	p.Variables.mutex.Lock()
+	for name := range p.Variables.vars {
+		slice = append(slice, name)
+	}
+	p.Variables.mutex.Unlock()
+
+	slice = append(slice, ReservedVariableNames...)
+
+	return slice
+}

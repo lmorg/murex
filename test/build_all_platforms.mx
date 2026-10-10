@@ -52,7 +52,7 @@ targets = %{
     darwin:    [      amd64       arm64         ]
     solaris:   [      amd64                     ]
     plan9:     [ 386  amd64  arm                ]
-    windows:   [ 386  amd64  arm  arm64         ]
+    windows:   [ 386  amd64       arm64         ]
 }
 
 status = 0

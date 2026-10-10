@@ -54,15 +54,16 @@ parsed by the following rules of operation
 Order of operations:
 1. expression or statement discovery
 2. sub-shells / sub-expressions
-3. multiplication / division (expressions only)
-4. addition / subtraction (expressions only)
-5. immutable merge
-6. comparisons, eg greater than (expressions only)
-7. logical and (sub-expressions only)
-8. logical or (sub-expressions only)
-9. elvis (expressions only)
-10. assign (expressions only)
-11. _left_ to _right_
+3. variable stage (expressions only)
+4. multiplication / division (expressions only)
+5. addition / subtraction (expressions only)
+6. immutable merge
+7. comparisons, eg greater than (expressions only)
+8. logical and (sub-expressions only)
+9. logical or (sub-expressions only)
+10. elvis (expressions only)
+11. assign (expressions only)
+12. _left_ to _right_
 
 ### Expression Or Statement Discovery
 

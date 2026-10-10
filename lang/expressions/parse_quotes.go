@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
@@ -146,6 +147,26 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 				} else {
 					value = append(value, scalar...)
 				}
+			}
+
+		case r == '!' && tree.nextChar() == '$':
+			r, _, _, fn, err := tree.parseVarLogicalNotExpr(exec)
+			if err != nil {
+				return nil, err
+			}
+
+			if exec {
+				val, err := fn()
+				if err != nil {
+					return nil, err
+				}
+				s, err := types.ConvertGoType(val.Value, types.String)
+				if err != nil {
+					return nil, err
+				}
+				value = append(value, []rune(s.(string))...)
+			} else {
+				value = append(value, r...)
 			}
 
 		case r == '~':

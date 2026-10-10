@@ -1,6 +1,6 @@
 package io
 
-//go:generate stringer -linecomment -type=fFlagsT
+//go:generate go tool stringer -linecomment -type=fFlagsT
 
 type fFlagsT rune
 

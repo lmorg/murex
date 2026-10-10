@@ -1,6 +1,6 @@
 package symbols
 
-//go:generate stringer -type=Exp
+//go:generate go tool stringer -type=Exp
 type Exp int
 
 const (

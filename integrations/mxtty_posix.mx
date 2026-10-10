@@ -33,6 +33,7 @@ event onPrompt output-block=after {
     
     json_payload = %{
         CmdLine: $event.Interrupt.CmdLine
+        EnvVars: $ENV
     }
 
     tout str %({ESC}_begin;output-block;$(json_payload){ESC}\)

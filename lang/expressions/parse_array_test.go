@@ -91,6 +91,11 @@ func TestParseArray(t *testing.T) {
 				pos:      20,
 			},
 			{
+				input:    "%[!$(TestParseArray)]",
+				expected: `[true]`,
+				pos:      19,
+			},
+			{
 				input:    "%[@TestParseArray]",
 				expected: `[]`,
 				pos:      16,
@@ -260,4 +265,22 @@ func TestParseArrayNestedExpr(t *testing.T) {
 	}
 
 	testParserObject(t, tests)
+}
+
+func TestParseArrayNot(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseArrayNotTrue = true; %[!$(TestParseArrayNotTrue), !$(TestParseArrayNotTrue)]`,
+			Stdout: `[false,false]`,
+		},
+		{
+			Block:  `TestParseArrayNotFalse = false; %[!$(TestParseArrayNotFalse), !$(TestParseArrayNotFalse)]`,
+			Stdout: `[true,true]`,
+		},
+				{
+			Block:  `TestParseArrayNotTrue = true; TestParseArrayNotFalse = false; %[!$(TestParseArrayNotTrue), !$(TestParseArrayNotFalse)]`,
+			Stdout: `[false,true]`,
+		},
+	}
+	test.RunMurexTests(tests, t)
 }

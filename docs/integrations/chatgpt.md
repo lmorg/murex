@@ -21,7 +21,7 @@ To enable, you must add your OpenAI key to your profile, which is typically
 `~/.murex_profile` (see [profile](/docs/user-guide/profile.md) for more details):
 
 ```
-config set preview-exec-api xxxxx
+config set openai preview-exec-api xxxxx
 ```
 
 (where **xxxxx** is replaced with your OpenAI API key)
@@ -77,7 +77,7 @@ The **gpt-3.5-turbo** model is used by default because it is quick and cheap.
 However you can change that via **preview-exec-model**. For example
 
 ```
-config set preview-exec-model gpt-4-turbo
+config set openai preview-exec-model gpt-4-turbo
 ```
 
 You may need to clear the cache to see any changes:
@@ -86,7 +86,7 @@ You may need to clear the cache to see any changes:
 runtime --clear-cache
 ```
 
-## Customising the prompt
+## Customizing the prompt
 
 The default prompt passed to ChatGPT can be viewed via `config get openai
 preview-exec-prompt`.

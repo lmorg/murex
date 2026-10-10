@@ -31,7 +31,7 @@ func expGtLt(tree *ParserT, compareFloat ltGtFT, compareString ltGtST) error {
 		value = compareFloat(convertNumber(lv), convertNumber(rv))
 
 	case string:
-		value = compareString(lv.(string), rv.(string))
+		value = compareString(convertString(lv), convertString(rv))
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -64,4 +64,15 @@ func convertNumber(v any) float64 {
 		return 0
 	}
 	return f.(float64)
+}
+
+func convertString(v any) string {
+	if s, ok := v.(string); ok {
+		return s
+	}
+	s, err := types.ConvertGoType(v, types.String)
+	if err != nil {
+		return fmt.Sprint(v)
+	}
+	return s.(string)
 }

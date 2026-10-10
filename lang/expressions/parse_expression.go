@@ -123,6 +123,19 @@ func (tree *ParserT) parseExpression(exec, incLogicalOps bool) error {
 				// not like
 				tree.appendAst(symbols.NotLike)
 				tree.charPos++
+			case '$':
+				runes, v, mxDt, fn, err := tree.parseVarLogicalNotExpr(exec)
+				if err != nil {
+					return err
+				}
+
+				if exec {
+					dt := primitives.NewFunction(fn)
+					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
+				} else {
+					dt := primitives.NewScalar(mxDt, v)
+					tree.appendAstWithPrimitive(symbols.Scalar, dt, runes...)
+				}
 			default:
 				//  might be a function
 				if !isBareChar(tree.nextChar()) {

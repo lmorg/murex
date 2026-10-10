@@ -1,4 +1,4 @@
-//go:generate stringer -type=Property
+//go:generate go tool stringer -type=Property
 
 package functions
 

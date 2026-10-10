@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"os"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -74,4 +76,40 @@ func String(line string) (string, error) {
 	})
 
 	return line, err
+}
+
+func Exclusions(p *lang.Process) []string {
+	exclusions := autocomplete.GlobalExes.List()
+	exclusions = append(exclusions, lang.MxFunctions.List()...)
+	exclusions = append(exclusions, goFuncList()...)
+	exclusions = append(exclusions, lang.GlobalAliases.List()...)
+	exclusions = append(exclusions, lang.ListVariables(p)...)
+	exclusions = append(exclusions, userdictionary.Get()...)
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		return exclusions
+	}
+
+	files, err := os.ReadDir(pwd)
+	if err != nil {
+		return exclusions
+	}
+
+	for i := range files {
+		exclusions = append(exclusions, strings.Split(files[i].Name(), ".")...)
+	}
+
+	return exclusions
+}
+
+func goFuncList() []string {
+	slice := make([]string, len(lang.GoFunctions))
+	var i int
+
+	for name := range lang.GoFunctions {
+		slice[i] = name
+	}
+
+	return slice
 }

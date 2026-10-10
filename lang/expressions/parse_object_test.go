@@ -78,6 +78,16 @@ func TestParseObject(t *testing.T) {
 				pos:      13,
 			},
 			{
+				input:    `%{a:!$(a)}`,
+				expected: `{"a":true}`,
+				pos:      8,
+			},
+			{
+				input:    `%{!$(a):b}`,
+				expected: `{"true":"b"}`,
+				pos:      8,
+			},
+			{
 				input:    `%{nan:-}`,
 				expected: `{"NaN":"-"}`,
 				pos:      6,
