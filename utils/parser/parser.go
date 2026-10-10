@@ -1,6 +1,6 @@
 package parser
 
-//go:generate stringer -type=PipeToken
+//go:generate go tool stringer -type=PipeToken
 
 import (
 	"regexp"
