@@ -9,9 +9,10 @@
     {{ include "gen/changelog/v7.3.inc.md" }}
   Related:
     - CONTRIBUTING
-    - expressions
+    - scalar
     - integrations
-    - variables
     - unmarshal
-    - su
     - readline
+    - which
+    - onPrompt
+    - event
