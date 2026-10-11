@@ -1,9 +1,20 @@
-package ansititle
+package terminal
 
 import (
-	"bytes"
+	"os"
 	"regexp"
+	"unicode"
+	"unicode/utf8"
 )
+
+func write(ansi []byte) error {
+	if ansi == nil {
+		return nil
+	}
+
+	_, err := os.Stdout.Write(ansi)
+	return err
+}
 
 // rxAnsiEscape matches ANSI escape sequences that occupy zero visible
 // columns on screen. Stripping these before measuring is required for
@@ -40,13 +51,18 @@ var rxAnsiEscape = regexp.MustCompile(
 
 func sanitize(b []byte) []byte {
 	b = rxAnsiEscape.ReplaceAll(b, nil)
-	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
-	// replace all control characters with space
-	for i := range b {
-		if b[i] < 32 || b[i] == 127 {
-			b[i] = 32
+	sanitized := make([]byte, 0, len(b))
+	for len(b) > 0 {
+		character, size := utf8.DecodeRune(b)
+		switch {
+		case character == '\r':
+		case unicode.IsControl(character) || character == utf8.RuneError && size == 1:
+			sanitized = append(sanitized, ' ')
+		default:
+			sanitized = append(sanitized, b[:size]...)
 		}
+		b = b[size:]
 	}
 
-	return b
+	return sanitized
 }

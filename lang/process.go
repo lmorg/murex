@@ -16,8 +16,8 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/crash"
+	"github.com/lmorg/murex/utils/terminal"
 )
 
 var (
@@ -289,7 +289,7 @@ executeProcess:
 		}
 
 		if tmux.(bool) {
-			ansititle.Tmux([]byte(name))
+			terminal.TitleTmux([]byte(name))
 		}
 
 	}
