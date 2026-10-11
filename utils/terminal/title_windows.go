@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package ansititle
+package terminal
 
 import (
 	"errors"

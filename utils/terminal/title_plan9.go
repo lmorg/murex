@@ -1,7 +1,7 @@
 //go:build plan9
 // +build plan9
 
-package ansititle
+package terminal
 
 func Write(title []byte) error { return nil }
 func Icon(title []byte) error  { return nil }

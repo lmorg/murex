@@ -13,7 +13,6 @@ import (
 	"github.com/lmorg/murex/app/whatsnew"
 	"github.com/lmorg/murex/builtins/events/onPrompt/promptops"
 	"github.com/lmorg/murex/builtins/pipes/term"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
@@ -27,8 +26,8 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/crash"
-	"github.com/lmorg/murex/utils/mxtty"
 	"github.com/lmorg/murex/utils/spellcheck"
+	"github.com/lmorg/murex/utils/terminal"
 	"github.com/lmorg/readline/v4"
 )
 
@@ -182,7 +181,7 @@ func showPrompt() {
 		signalhandler.Register(true)
 
 		setPromptHistory()
-		publishDictionary(lang.ShellProcess)
+		terminal.PublishDictionary(lang.ShellProcess)
 
 		getSyntaxHighlighting()
 		getSyntaxCompletion()
@@ -196,6 +195,8 @@ func showPrompt() {
 			prompt = getMultilinePrompt(nLines)
 		} else {
 			callEventsPrompt(promptops.Before, nil, -1)
+			terminal.PromptBegin()
+
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -291,9 +292,10 @@ func showPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEventsPrompt(promptops.After, block, -1)
-
 			go func() {
+				callEventsPrompt(promptops.After, block, -1)
+				terminal.CommandBegin(string(expanded))
+
 				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 				fork.FileRef = ref.NewModule(app.ShellModule)
 				fork.Stderr = term.NewErr(ansi.IsAllowed())
@@ -310,7 +312,8 @@ func showPrompt() {
 				godebug.FreeOSMemory()
 
 				callEventsPrompt(promptops.CommandCompletion, block, exitNum)
-
+				terminal.CommandFinished(exitNum)
+				terminal.WorkingDirectory()
 				lang.ShowPrompt <- true
 			}()
 
@@ -386,19 +389,4 @@ func Spellchecker(r []rune) []rune {
 	ignoreSpellCheckErr.Store(false) // reset ignore status
 
 	return []rune(new)
-}
-
-type _mxapcConfigDictionaryT struct {
-	Exclude []string `json:"history"`
-}
-
-func publishDictionary(p *lang.Process) {
-	if !mxtty.IsTtyphoon() {
-		return
-	}
-
-	err := mxtty.WriteApcJson("config", "dictionary", _mxapcConfigDictionaryT{Exclude: spellcheck.Exclusions(p)})
-	if err != nil {
-		debug.Log(err)
-	}
 }
