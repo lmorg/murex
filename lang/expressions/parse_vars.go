@@ -35,10 +35,14 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, any, st
 	return runes, v, mxDt, nil, err
 }
 
+func (tree *ParserT) isLogicalNotVar() bool {
+	return tree.nextChar() == '$' && tree.charPos+2 < len(tree.expression) && tree.expression[tree.charPos+2] == '('
+}
+
 func (tree *ParserT) parseVarLogicalNotExpr(exec bool) ([]rune, any, string, primitives.FunctionT, error) {
 	startPos := tree.charPos
 
-	if tree.nextChar() != '$' || tree.charPos+2 >= len(tree.expression) || tree.expression[tree.charPos+2] != '(' {
+	if !tree.isLogicalNotVar() {
 		return nil, nil, "", nil, raiseError(
 			tree.expression, nil, tree.charPos, "expecting variable token '$(' after logical-not token '!'")
 	}
