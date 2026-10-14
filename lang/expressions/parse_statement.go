@@ -447,7 +447,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '!':
 			tree.statement.validFunction = false
 			switch {
-			case tree.nextChar() == '$':
+			case tree.isLogicalNotVar():
 				var tokenise bool
 				tokenise = tree.tokeniseScalar()
 				execScalar := exec && tokenise
