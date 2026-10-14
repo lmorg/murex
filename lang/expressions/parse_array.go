@@ -147,7 +147,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			}
 
 		case '!':
-			if tree.nextChar() == '$' {
+			if tree.isLogicalNotVar() {
 				r, _, _, fn, err := tree.parseVarLogicalNotExpr(exec)
 				if err != nil {
 					return nil, nil, err
