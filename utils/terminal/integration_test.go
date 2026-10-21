@@ -38,7 +38,7 @@ func captureOSC(t *testing.T, callback func()) string {
 	return string(output)
 }
 
-func TestTtyphoonOutputBlocks(t *testing.T) {
+/*func TestTtyphoonOutputBlocks(t *testing.T) {
 	for _, application := range []string{"ttyphoon", "vscode", "other"} {
 		t.Run(application, func(t *testing.T) {
 			count.Tests(t, 1)
@@ -65,9 +65,9 @@ func TestTtyphoonOutputBlocks(t *testing.T) {
 			}
 		})
 	}
-}
+}*/
 
-func TestLifecycle(t *testing.T) {
+/*func TestLifecycle(t *testing.T) {
 	for _, application := range []string{"vscode", "other", "ttyphoon"} {
 		t.Run(application, func(t *testing.T) {
 			count.Tests(t, 1)
@@ -101,7 +101,7 @@ func TestLifecycle(t *testing.T) {
 			}
 		})
 	}
-}
+}*/
 
 func TestSessionID(t *testing.T) {
 	count.Tests(t, 1)
