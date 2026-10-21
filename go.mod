@@ -43,3 +43,5 @@ require (
 )
 
 tool golang.org/x/tools/cmd/stringer
+
+replace github.com/lmorg/readline/v4 => ./local/readline

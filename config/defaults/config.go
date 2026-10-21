@@ -330,6 +330,12 @@ func Config(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
+	c.Define("proc", "echo-title", config.Properties{
+		Description: "Echo shell function names to the terminal emulators window title",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
 	c.Define("proc", "echo-tmux", config.Properties{
 		Description: "Echo shell function names to the tmux window name",
 		Default:     false,
