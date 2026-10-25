@@ -51,7 +51,7 @@ func (tree *ParserT) parseFunction(exec bool, cmd []rune, strOrVal varFormatting
 		val.DataType = fork.Stdout.GetDataType()
 		val.Value, err = formatBytes(tree, b, val.DataType, strOrVal)
 		if err != nil {
-			return nil, fmt.Errorf("function `%s` STDOUT conversion error: %s", string(cmd), err.Error())
+			return val, fmt.Errorf("function `%s` STDOUT conversion error: %s", string(cmd), err.Error())
 		}
 
 		return val, err
