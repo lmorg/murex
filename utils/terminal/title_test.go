@@ -98,7 +98,11 @@ func TestFormatTitle(t *testing.T) {
 			Title:  "1234567890",
 			Format: []byte{27, ']', '2', ';', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 27, '\\'},
 		},
-		// TODO: test unicode
+		// unicode
+		{
+			Title:  "Hello, 世界",
+			Format: append([]byte{27, ']', '2', ';'}, []byte("Hello, 世界\x1b\\")...),
+		},
 	}
 
 	count.Tests(t, len(tests))
@@ -169,7 +173,11 @@ func TestFormatIcon(t *testing.T) {
 			Title:  "1234567890",
 			Format: []byte{27, ']', '1', ';', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 27, '\\'},
 		},
-		// TODO: test unicode
+		// unicode
+		{
+			Title:  "Hello, 世界",
+			Format: append([]byte{27, ']', '1', ';'}, []byte("Hello, 世界\x1b\\")...),
+		},
 	}
 
 	count.Tests(t, len(tests))
@@ -240,7 +248,11 @@ func TestFormatTmux(t *testing.T) {
 			Title:  "1234567890",
 			Format: []byte{27, 'k', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 27, '\\'},
 		},
-		// TODO: test unicode
+		// unicode
+		{
+			Title:  "Hello, 世界",
+			Format: []byte("\x1bkHello, 世界\x1b\\"),
+		},
 	}
 
 	count.Tests(t, len(tests))
