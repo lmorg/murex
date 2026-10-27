@@ -1,0 +1,13 @@
+- DocumentID: v7.4
+  Title: >-
+    v7.4
+  CategoryID: changelog
+  DateTime: 2026-10-27 17:14
+  Summary: >-
+    This release adds enhanced terminal emulator integrations and includes bugfixes for expression parsing & evaluation, plus ANSI escape-code constants.
+  Description: |-
+    {{ include "gen/changelog/v7.4.inc.md" }}
+  Related:
+    - integrations
+    - scalar
+    - CONTRIBUTING
