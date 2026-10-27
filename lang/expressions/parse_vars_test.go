@@ -6,6 +6,26 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
+func TestParseVarsLogical(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.Scalar,
+		tests: []expTestT{
+			{
+				input:    `$(foo)`,
+				expected: `$(foo)`,
+				pos:      -1,
+			},
+			{
+				input:    `!$(foo)`,
+				expected: `!$(foo)`,
+				pos:      -1,
+			},
+		},
+	}
+
+	testParserSymbol(t, tests)
+}
+
 func TestParseVarsScalarSymbol(t *testing.T) {
 	tests := expTestsT{
 		symbol: symbols.Scalar,
@@ -49,5 +69,4 @@ func TestParseVarsScalarSymbol(t *testing.T) {
 	}
 
 	testParserSymbol(t, tests)
-}
-*/
+}*/

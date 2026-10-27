@@ -63,12 +63,12 @@ func (tree *ParserT) parseVarLogicalNotExpr(exec bool) ([]rune, any, string, pri
 			fn := func() (*primitives.Value, error) {
 				value, _, err := tree.getVar(path, varAsValue)
 				if err != nil {
-					return nil, err
+					return &primitives.Value{DataType: types.Boolean, Value: true}, nil //err
 				}
 
 				s, err := types.ConvertGoType(value, types.String)
 				if err != nil {
-					return nil, err
+					return &primitives.Value{DataType: types.Boolean, Value: true}, nil //err
 				}
 
 				return &primitives.Value{Value: !types.IsTrueString(s.(string), 0), DataType: types.Boolean}, nil
