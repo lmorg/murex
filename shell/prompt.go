@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansititle"
+	"github.com/lmorg/murex/utils/terminal"
 )
 
 func getPrompt() []byte {
@@ -84,10 +84,10 @@ func writeTitlebar() {
 
 	if exitNum != 0 || err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Invalid titlebar-func: %V", err)))
-		ansititle.Write([]byte(app.Name))
+		terminal.Title([]byte(app.Name))
 	}
 
-	ansititle.Write(b)
+	terminal.Title(b)
 }
 
 // ConfigReadGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos

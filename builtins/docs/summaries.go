@@ -425,6 +425,7 @@ func init() {
 		"changelog/v7.1":                  "This release focuses mainly on bugfixes and quality-of-life with the exception of three **experimental** new major additions:\n* `foreach` now supports running processes in parallel\n* `fanout` is a new builtin that allows sending stdout to the stdin of many processes\n* `md` is a new datatype added. Currently only supports rendering markdown tables but more features will follow in future releases",
 		"changelog/v7.2":                  "This release brings several improvements for scripting environments in Javascript/Typescript and Python support. Core features include the new `--copy` flag for aliases to inherit shell configuration, and bugfixes to address autocomplete panics, expression error handling, and 3rd party integration issues.",
 		"changelog/v7.3":                  "This release focuses on expression-engine robustness and TTY integrations. It introduces `!$(variable)` logical-not expansion, restores force-TTY integrations, and includes multiple fixes for comparison panics and process I/O handling.",
+		"changelog/v7.4":                  "This release adds enhanced terminal emulator integrations and includes bugfixes for expression parsing & evaluation, plus ANSI escape-code constants.",
 		"deprecated/equ":                  "Evaluate a mathematical function (removed 7.0)",
 		"deprecated/die":                  "Terminate murex with an exit number of 1 (removed 7.0)",
 		"deprecated/let":                  "Evaluate a mathematical function and assign to variable (removed 7.0)",
@@ -1093,5 +1094,6 @@ func init() {
 		"changelog/v7.1":                  "changelog/v7.1",
 		"changelog/v7.2":                  "changelog/v7.2",
 		"changelog/v7.3":                  "changelog/v7.3",
+		"changelog/v7.4":                  "changelog/v7.4",
 	}
 }

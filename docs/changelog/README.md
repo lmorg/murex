@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 27.10.2026 - [v7.4](../changelog/v7.4.md)
+
+This release adds enhanced terminal emulator integrations and includes bugfixes for expression parsing & evaluation, plus ANSI escape-code constants.
+
+
 ### 18.05.2026 - [v7.3](../changelog/v7.3.md)
 
 This release focuses on expression-engine robustness and TTY integrations. It introduces `!$(variable)` logical-not expansion, restores force-TTY integrations, and includes multiple fixes for comparison panics and process I/O handling.

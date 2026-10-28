@@ -1,7 +1,7 @@
 //go:build windows
 // +build windows
 
-package ansititle
+package terminal
 
 import (
 	"errors"
@@ -14,7 +14,7 @@ import (
 
 var ErrNotTTY = errors.New("not a TTY")
 
-func Write(title []byte) error {
+func Title(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return ErrNotTTY
@@ -39,5 +39,5 @@ func Write(title []byte) error {
 	return nil
 }
 
-func Icon(title []byte) error { return nil }
-func Tmux(title []byte) error { return errors.New("tmux not supported on Windows") }
+func Icon(title []byte) error      { return nil }
+func TitleTmux(title []byte) error { return errors.New("tmux not supported on Windows") }

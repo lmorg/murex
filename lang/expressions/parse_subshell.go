@@ -104,7 +104,7 @@ func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) (*pr
 	}
 
 	if len(slice) == 0 && tree.StrictArrays() {
-		return nil, fmt.Errorf(errEmptyArray, "{"+string(block)+"}")
+		return val, fmt.Errorf(errEmptyArray, "{"+string(block)+"}")
 	}
 
 	val.Value = slice

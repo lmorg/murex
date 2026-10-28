@@ -16,8 +16,8 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/crash"
+	"github.com/lmorg/murex/utils/terminal"
 )
 
 var (
@@ -249,6 +249,11 @@ func executeProcess(p *Process) {
 		tmux = false
 	}
 
+	title, err := p.Config.Get("proc", "echo-title", types.Boolean)
+	if err != nil {
+		title = false
+	}
+
 	var parsedAlias bool
 
 	n, params, err := ParseStatementParameters(p.raw, p)
@@ -289,7 +294,11 @@ executeProcess:
 		}
 
 		if tmux.(bool) {
-			ansititle.Tmux([]byte(name))
+			terminal.TitleTmux([]byte(name))
+		}
+
+		if title.(bool) {
+			terminal.Title([]byte(name))
 		}
 
 	}

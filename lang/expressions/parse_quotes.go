@@ -149,7 +149,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 				}
 			}
 
-		case r == '!' && tree.nextChar() == '$':
+		case r == '!' && tree.isLogicalNotVar():
 			r, _, _, fn, err := tree.parseVarLogicalNotExpr(exec)
 			if err != nil {
 				return nil, err

@@ -35,10 +35,14 @@ func (tree *ParserT) parseVarScalarExpr(exec, execScalars bool) ([]rune, any, st
 	return runes, v, mxDt, nil, err
 }
 
+func (tree *ParserT) isLogicalNotVar() bool {
+	return tree.nextChar() == '$' && tree.charPos+2 < len(tree.expression) && tree.expression[tree.charPos+2] == '('
+}
+
 func (tree *ParserT) parseVarLogicalNotExpr(exec bool) ([]rune, any, string, primitives.FunctionT, error) {
 	startPos := tree.charPos
 
-	if tree.nextChar() != '$' || tree.charPos+2 >= len(tree.expression) || tree.expression[tree.charPos+2] != '(' {
+	if !tree.isLogicalNotVar() {
 		return nil, nil, "", nil, raiseError(
 			tree.expression, nil, tree.charPos, "expecting variable token '$(' after logical-not token '!'")
 	}
@@ -59,12 +63,12 @@ func (tree *ParserT) parseVarLogicalNotExpr(exec bool) ([]rune, any, string, pri
 			fn := func() (*primitives.Value, error) {
 				value, _, err := tree.getVar(path, varAsValue)
 				if err != nil {
-					return &primitives.Value{DataType: types.Boolean, Value: true}, nil //err
+					return nil, err
 				}
 
 				s, err := types.ConvertGoType(value, types.String)
 				if err != nil {
-					return &primitives.Value{DataType: types.Boolean, Value: true}, nil //err
+					return nil, err
 				}
 
 				return &primitives.Value{Value: !types.IsTrueString(s.(string), 0), DataType: types.Boolean}, nil
