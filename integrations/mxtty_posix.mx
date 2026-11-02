@@ -13,38 +13,3 @@ function csv-table {
 }
 
 alias ps = csv-table ps
-
-/#function ls {
-    config set proc strict-arrays false
-
-    if { $SELF.TTY && @PARAMS } then {
-        
-        tout str '{ESC}_begin;csv{ESC}\'
-        exec ls -la -> [2..] -> format csv -> cast *
-        tout str '{ESC}_end;csv;{"CreateHeadings":true}{ESC}\'
-
-    } else {
-        exec ls @PARAMS
-    }
-}#/
-
-event onPrompt output-block=after {
-    <stdin> -> set event
-    
-    json_payload = %{
-        CmdLine: $event.Interrupt.CmdLine
-        EnvVars: $ENV
-    }
-
-    tout str %({ESC}_begin;output-block;$(json_payload){ESC}\)
-}
-
-event onPrompt output-block=command-completion {
-    <stdin> -> set event
-
-    json_payload = %{
-        ExitNum: $event.Interrupt.ExitNum
-    }
-
-    tout str %({ESC}_end;output-block;$(json_payload){ESC}\)
-}

@@ -8,9 +8,9 @@ const (
 	Blink      = "\x1b[5m"
 	Invert     = "\x1b[7m"
 
-	NormalIntensity = "\x1b[2m"
+	NormalIntensity = "\x1b[22m"
 	NoUnderscore    = "\x1b[24m"
-	NoBlink         = "\x1b[2m"
+	NoBlink         = "\x1b[25m"
 	NoInvert        = "\x1b[27m"
 )
 
@@ -25,14 +25,14 @@ const (
 	FgCyan    = "\x1b[36m"
 	FgWhite   = "\x1b[37m"
 
-	FgBlackBright   = "\x1b[1;30m"
-	FgRedBright     = "\x1b[1;31m"
-	FgGreenBright   = "\x1b[1;32m"
-	FgYellowBright  = "\x1b[1;33m"
-	FgBlueBright    = "\x1b[1;34m"
-	FgMagentaBright = "\x1b[1;35m"
-	FgCyanBright    = "\x1b[1;36m"
-	FgWhiteBright   = "\x1b[1;37m"
+	FgBlackBright   = "\x1b[90m"
+	FgRedBright     = "\x1b[91m"
+	FgGreenBright   = "\x1b[92m"
+	FgYellowBright  = "\x1b[93m"
+	FgBlueBright    = "\x1b[94m"
+	FgMagentaBright = "\x1b[95m"
+	FgCyanBright    = "\x1b[96m"
+	FgWhiteBright   = "\x1b[97m"
 )
 
 // Background colours
@@ -46,14 +46,14 @@ const (
 	BgCyan    = "\x1b[46m"
 	BgWhite   = "\x1b[47m"
 
-	BgBlackBright   = "\x1b[1;40m"
-	BgRedBright     = "\x1b[1;41m"
-	BgGreenBright   = "\x1b[1;42m"
-	BgYellowBright  = "\x1b[1;43m"
-	BgBlueBright    = "\x1b[1;44m"
-	BgMagentaBright = "\x1b[1;45m"
-	BgCyanBright    = "\x1b[1;46m"
-	BgWhiteBright   = "\x1b[1;47m"
+	BgBlackBright   = "\x1b[100m"
+	BgRedBright     = "\x1b[101m"
+	BgGreenBright   = "\x1b[102m"
+	BgYellowBright  = "\x1b[103m"
+	BgBlueBright    = "\x1b[104m"
+	BgMagentaBright = "\x1b[105m"
+	BgCyanBright    = "\x1b[106m"
+	BgWhiteBright   = "\x1b[107m"
 )
 
 // Clear terminal

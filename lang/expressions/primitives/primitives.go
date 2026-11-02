@@ -52,14 +52,14 @@ func NewFunction(fn FunctionT) *DataType {
 func NewScalar(mxdt string, value any) *DataType {
 	return &DataType{
 		v: &Value{
-			Primitive: DataType2Primitive(mxdt),
+			Primitive: dataType2Primitive(mxdt),
 			DataType:  mxdt,
 			Value:     value,
 		},
 	}
 }
 
-func DataType2Primitive(dt string) Primitive {
+func dataType2Primitive(dt string) Primitive {
 	switch dt {
 	case types.Number, types.Integer, types.Float:
 		return Number
@@ -103,8 +103,11 @@ func (dt *DataType) GetValue() (*Value, error) {
 
 		var err error
 		dt.v, err = dt.fn()
-		dt.v.Primitive = DataType2Primitive(dt.v.DataType)
-		return dt.v, err
+		if err != nil {
+			return nil, err
+		}
+		dt.v.Primitive = dataType2Primitive(dt.v.DataType)
+		return dt.v, nil
 	}
 
 	if dt.v.DataType == "" {

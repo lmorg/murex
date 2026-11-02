@@ -66,117 +66,117 @@ var constants = map[string][]byte{
 	"BS-ASCII": {127},
 
 	// ASCII escape sequences
-	"CURSOR-UP":         {27, 91, 65},
-	"CURSOR-DOWN":       {27, 91, 66},
-	"CURSOR-FORWARDS":   {27, 91, 67},
-	"CURSOR-BACKWARDS":  {27, 91, 68},
-	"CURSOR-HOME":       {27, 91, 72},
-	"CURSOR-HOME-VT100": {27, 91, 49, 126},
-	"CURSOR-END":        {27, 91, 70},
-	"CURSOR-END-VT100":  {27, 91, 52, 126},
+	"CURSOR-UP":         {27, '[', 'A'},
+	"CURSOR-DOWN":       {27, '[', 'B'},
+	"CURSOR-FORWARDS":   {27, '[', 'C'},
+	"CURSOR-BACKWARDS":  {27, '[', 'D'},
+	"CURSOR-HOME":       {27, '[', 'H'},
+	"CURSOR-HOME-VT100": {27, '[', '1', '~'},
+	"CURSOR-END":        {27, '[', 'F'},
+	"CURSOR-END-VT100":  {27, '[', '4', '~'},
 
-	"INS":    {27, 91, 50, 126},
-	"INSERT": {27, 91, 50, 126},
-	"DEL":    {27, 91, 51, 126},
-	"DELETE": {27, 91, 51, 126},
+	"INS":    {27, '[', '2', '~'},
+	"INSERT": {27, '[', '2', '~'},
+	"DEL":    {27, '[', '3', '~'},
+	"DELETE": {27, '[', '3', '~'},
 
 	// Function keys
-	"F1-VT100": {27, 79, 80},
-	"F2-VT100": {27, 79, 81},
-	"F3-VT100": {27, 79, 82},
-	"F4-VT100": {27, 79, 83},
-	"F1-VT220": {27, 91, 49, 49, 126},
-	"F2-VT220": {27, 91, 49, 50, 126},
-	"F3-VT220": {27, 91, 49, 51, 126},
-	"F4-VT220": {27, 91, 49, 52, 126},
-	"F1":       {27, 79, 80},
-	"F2":       {27, 79, 81},
-	"F3":       {27, 79, 82},
-	"F4":       {27, 79, 83},
-	"F5":       {27, 91, 49, 53, 126},
-	"F6":       {27, 91, 49, 55, 126},
-	"F7":       {27, 91, 49, 56, 126},
-	"F8":       {27, 91, 49, 57, 126},
-	"F9":       {27, 91, 50, 48, 126},
-	"F10":      {27, 91, 50, 49, 126},
-	"F11":      {27, 91, 50, 51, 126},
-	"F12":      {27, 91, 50, 52, 126},
+	"F1-VT100": {27, 'O', 'P'},
+	"F2-VT100": {27, 'O', 'Q'},
+	"F3-VT100": {27, 'O', 'R'},
+	"F4-VT100": {27, 'O', 'S'},
+	"F1-VT220": {27, '[', '1', '1', '~'},
+	"F2-VT220": {27, '[', '1', '2', '~'},
+	"F3-VT220": {27, '[', '1', '3', '~'},
+	"F4-VT220": {27, '[', '1', '4', '~'},
+	"F1":       {27, 'O', 'P'},
+	"F2":       {27, 'O', 'Q'},
+	"F3":       {27, 'O', 'R'},
+	"F4":       {27, 'O', 'S'},
+	"F5":       {27, '[', '1', '5', '~'},
+	"F6":       {27, '[', '1', '7', '~'},
+	"F7":       {27, '[', '1', '8', '~'},
+	"F8":       {27, '[', '1', '9', '~'},
+	"F9":       {27, '[', '2', '0', '~'},
+	"F10":      {27, '[', '2', '1', '~'},
+	"F11":      {27, '[', '2', '3', '~'},
+	"F12":      {27, '[', '2', '4', '~'},
 
 	// alt-num
-	"ALT-0": {27, 48},
-	"ALT-1": {27, 49},
-	"ALT-2": {27, 50},
-	"ALT-3": {27, 51},
-	"ALT-4": {27, 52},
-	"ALT-5": {27, 53},
-	"ALT-6": {27, 54},
-	"ALT-7": {27, 55},
-	"ALT-8": {27, 56},
-	"ALT-9": {27, 57},
+	"ALT-0": {27, '0'},
+	"ALT-1": {27, '1'},
+	"ALT-2": {27, '2'},
+	"ALT-3": {27, '3'},
+	"ALT-4": {27, '4'},
+	"ALT-5": {27, '5'},
+	"ALT-6": {27, '6'},
+	"ALT-7": {27, '7'},
+	"ALT-8": {27, '8'},
+	"ALT-9": {27, '9'},
 
 	// control sequence
-	"CSI": {27, 91},
+	"CSI": {27, '['},
 }
 
 var sgr = map[string][]byte{
 	// text effects
-	"RESET":      {27, 91, 48, 109},
-	"BOLD":       {27, 91, 49, 109},
-	"ITALIC":     {27, 91, 51, 109}, // Not commonly supported in terminals
-	"UNDERSCORE": {27, 91, 52, 109},
-	"UNDERLINE":  {27, 91, 52, 109},
-	"UNDEROFF":   {27, 91, '2', '4', 109},
-	"BLINK":      {27, 91, 53, 109},
-	"INVERT":     {27, 91, 55, 109},
+	"RESET":      {27, '[', '0', 'm'},
+	"BOLD":       {27, '[', '1', 'm'},
+	"ITALIC":     {27, '[', '3', 'm'}, // Not commonly supported in terminals
+	"UNDERSCORE": {27, '[', '4', 'm'},
+	"UNDERLINE":  {27, '[', '4', 'm'},
+	"UNDEROFF":   {27, '[', '2', '4', 'm'},
+	"BLINK":      {27, '[', '5', 'm'},
+	"INVERT":     {27, '[', '7', 'm'},
 
-	"ALT-FONT-1": {27, 91, 49, 49, 109}, // Not commonly supported in terminals
-	"ALT-FONT-2": {27, 91, 49, 50, 109}, // Not commonly supported in terminals
-	"ALT-FONT-3": {27, 91, 49, 51, 109}, // Not commonly supported in terminals
-	"ALT-FONT-4": {27, 91, 49, 52, 109}, // Not commonly supported in terminals
-	"ALT-FONT-5": {27, 91, 49, 53, 109}, // Not commonly supported in terminals
-	"ALT-FONT-6": {27, 91, 49, 54, 109}, // Not commonly supported in terminals
-	"ALT-FONT-7": {27, 91, 49, 55, 109}, // Not commonly supported in terminals
-	"ALT-FONT-8": {27, 91, 49, 56, 109}, // Not commonly supported in terminals
-	"ALT-FONT-9": {27, 91, 49, 57, 109}, // Not commonly supported in terminals
-	"FRAKTUR":    {27, 91, 50, 48, 109}, // Not commonly supported in terminals
+	"ALT-FONT-1": {27, '[', '1', '1', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-2": {27, '[', '1', '2', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-3": {27, '[', '1', '3', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-4": {27, '[', '1', '4', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-5": {27, '[', '1', '5', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-6": {27, '[', '1', '6', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-7": {27, '[', '1', '7', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-8": {27, '[', '1', '8', 'm'}, // Not commonly supported in terminals
+	"ALT-FONT-9": {27, '[', '1', '9', 'm'}, // Not commonly supported in terminals
+	"FRAKTUR":    {27, '[', '2', '0', 'm'}, // Not commonly supported in terminals
 
 	// text colours
-	"BLACK":   {27, 91, 51, 48, 109},
-	"RED":     {27, 91, 51, 49, 109},
-	"GREEN":   {27, 91, 51, 50, 109},
-	"YELLOW":  {27, 91, 51, 51, 109},
-	"BLUE":    {27, 91, 51, 52, 109},
-	"MAGENTA": {27, 91, 51, 53, 109},
-	"CYAN":    {27, 91, 51, 54, 109},
-	"WHITE":   {27, 91, 51, 55, 109},
+	"BLACK":   {27, '[', '3', '0', 'm'},
+	"RED":     {27, '[', '3', '1', 'm'},
+	"GREEN":   {27, '[', '3', '2', 'm'},
+	"YELLOW":  {27, '[', '3', '3', 'm'},
+	"BLUE":    {27, '[', '3', '4', 'm'},
+	"MAGENTA": {27, '[', '3', '5', 'm'},
+	"CYAN":    {27, '[', '3', '6', 'm'},
+	"WHITE":   {27, '[', '3', '7', 'm'},
 
-	"BLACK-BRIGHT":   {27, 91, 49, 59, 51, 48, 109},
-	"RED-BRIGHT":     {27, 91, 49, 59, 51, 48, 109},
-	"GREEN-BRIGHT":   {27, 91, 49, 59, 51, 48, 109},
-	"YELLOW-BRIGHT":  {27, 91, 49, 59, 51, 48, 109},
-	"BLUE-BRIGHT":    {27, 91, 49, 59, 51, 48, 109},
-	"MAGENTA-BRIGHT": {27, 91, 49, 59, 51, 48, 109},
-	"CYAN-BRIGHT":    {27, 91, 49, 59, 51, 48, 109},
-	"WHITE-BRIGHT":   {27, 91, 49, 59, 51, 48, 109},
+	"BLACK-BRIGHT":   {27, '[', '9', '0', 'm'},
+	"RED-BRIGHT":     {27, '[', '9', '1', 'm'},
+	"GREEN-BRIGHT":   {27, '[', '9', '2', 'm'},
+	"YELLOW-BRIGHT":  {27, '[', '9', '3', 'm'},
+	"BLUE-BRIGHT":    {27, '[', '9', '4', 'm'},
+	"MAGENTA-BRIGHT": {27, '[', '9', '5', 'm'},
+	"CYAN-BRIGHT":    {27, '[', '9', '6', 'm'},
+	"WHITE-BRIGHT":   {27, '[', '9', '7', 'm'},
 
 	// background colours
-	"BG-BLACK":   {27, 91, 52, 48, 109},
-	"BG-RED":     {27, 91, 52, 49, 109},
-	"BG-GREEN":   {27, 91, 52, 50, 109},
-	"BG-YELLOW":  {27, 91, 52, 51, 109},
-	"BG-BLUE":    {27, 91, 52, 52, 109},
-	"BG-MAGENTA": {27, 91, 52, 53, 109},
-	"BG-CYAN":    {27, 91, 52, 54, 109},
-	"BG-WHITE":   {27, 91, 52, 55, 109},
+	"BG-BLACK":   {27, '[', '4', '0', 'm'},
+	"BG-RED":     {27, '[', '4', '1', 'm'},
+	"BG-GREEN":   {27, '[', '4', '2', 'm'},
+	"BG-YELLOW":  {27, '[', '4', '3', 'm'},
+	"BG-BLUE":    {27, '[', '4', '4', 'm'},
+	"BG-MAGENTA": {27, '[', '4', '5', 'm'},
+	"BG-CYAN":    {27, '[', '4', '6', 'm'},
+	"BG-WHITE":   {27, '[', '4', '7', 'm'},
 
-	"BG-BLACK-BRIGHT":   {27, 91, 49, 59, 52, 48, 109},
-	"BG-RED-BRIGHT":     {27, 91, 49, 59, 52, 48, 109},
-	"BG-GREEN-BRIGHT":   {27, 91, 49, 59, 52, 48, 109},
-	"BG-YELLOW-BRIGHT":  {27, 91, 49, 59, 52, 48, 109},
-	"BG-BLUE-BRIGHT":    {27, 91, 49, 59, 52, 48, 109},
-	"BG-MAGENTA-BRIGHT": {27, 91, 49, 59, 52, 48, 109},
-	"BG-CYAN-BRIGHT":    {27, 91, 49, 59, 52, 48, 109},
-	"BG-WHITE-BRIGHT":   {27, 91, 49, 59, 52, 48, 109},
+	"BG-BLACK-BRIGHT":   {27, '[', '1', '0', '0', 'm'},
+	"BG-RED-BRIGHT":     {27, '[', '1', '0', '1', 'm'},
+	"BG-GREEN-BRIGHT":   {27, '[', '1', '0', '2', 'm'},
+	"BG-YELLOW-BRIGHT":  {27, '[', '1', '0', '3', 'm'},
+	"BG-BLUE-BRIGHT":    {27, '[', '1', '0', '4', 'm'},
+	"BG-MAGENTA-BRIGHT": {27, '[', '1', '0', '5', 'm'},
+	"BG-CYAN-BRIGHT":    {27, '[', '1', '0', '6', 'm'},
+	"BG-WHITE-BRIGHT":   {27, '[', '1', '0', '7', 'm'},
 }
 ```
 

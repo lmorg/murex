@@ -223,9 +223,9 @@ func TestEnvVarsAll(t *testing.T) {
 				`c=c`,
 			},
 			Expected: map[string]string{
-				"a": "a",
+				"a":       "a",
 				"TIMEFMT": "\n================\nCPU	%P\nuser	%*U\nsystem	%*S\ntotal	%*E",
-				"c": "c",
+				"c":       "c",
 			},
 			Error: false,
 		},
@@ -265,7 +265,7 @@ func testEnvVarsAll(t *testing.T, tests []envAllTestT) {
 				t.Errorf("Key/value mistmatch in test %d", i)
 				t.Logf("  Key:       `%s`", k)
 				t.Logf("  Exp Value: `%s`", test.Expected[k])
-				t.Logf("  Act Value: `%s`", actual[k].(string))
+				t.Logf("  Act Value: `%s`", actual[k])
 				t.Logf("  Expected:\n%s", testJsonEncode(test.Expected))
 				t.Logf("  Actual:\n%s", testJsonEncode(actual))
 			}

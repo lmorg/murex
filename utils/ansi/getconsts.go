@@ -33,9 +33,9 @@ func getConsts(r rune) string {
 	case 7:
 		return "{BELL}"
 	case 10:
-		return "{CR}"
-	case 13:
 		return "{LF}"
+	case 13:
+		return "{CR}"
 	case 27:
 		return "{ESC}"
 

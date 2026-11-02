@@ -4,7 +4,12 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
+	"github.com/lmorg/murex/test/count"
 )
 
 func TestParseSubShellScalar(t *testing.T) {
@@ -162,6 +167,40 @@ func TestParseSubShellEmptyArrayBugFix(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+// https://github.com/lmorg/murex/issues/1010
+func TestParseSubShellEmptyArrayStrictModeReturnsError(t *testing.T) {
+	count.Tests(t, 1)
+
+	defaults.Config(config.InitConf, false)
+	lang.InitEnv()
+
+	p := lang.NewTestProcess()
+	if err := p.Config.Set("proc", "strict-arrays", true, nil); err != nil {
+		t.Fatal(err)
+	}
+
+	dt, err := expressions.ExecuteExpr(p, []rune(`@{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}`))
+	if err != nil {
+		t.Fatalf("ExecuteExpr() error = %v", err)
+	}
+
+	var evalErr error
+	var panicked bool
+	func() {
+		defer func() {
+			panicked = recover() != nil
+		}()
+		_, evalErr = dt.GetValue()
+	}()
+
+	if panicked {
+		t.Fatal("GetValue() panicked instead of returning the empty-array error")
+	}
+	if evalErr == nil {
+		t.Fatal("GetValue() error = nil, want an empty-array error")
+	}
 }
 
 func TestParseSubShellArrayJson(t *testing.T) {

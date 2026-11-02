@@ -295,3 +295,20 @@ func TestParseExprMinusMinus(t *testing.T) {
 
 	test.RunMurexTestsRx(tests, t)
 }
+
+func TestParseExpressionBugFix1010(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   "config set proc strict-arrays true; TestParseExpressionBugFix1010 = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}",
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   "tout(int abc)",
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

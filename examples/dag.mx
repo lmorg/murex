@@ -1,0 +1,30 @@
+#!/usr/bin/env murex
+
+/#
+    This example compresses a STDIN into memory using different compression tools,
+    and then compares the file size of each.
+
+    The point of the exercise is to run these tasks in parallel but report the
+    output together using the `fanout` builtin.
+
+    You should pipe the file you want to compress, eg
+    
+        cat largefile -> ./dag.mx
+#/
+
+-> fanout --concat --parse {
+	{ printf 'File type:\t' }
+	{ -> file - }
+
+	{ printf 'Original size:\t' }
+	{ -> wc -c }
+
+	{ printf 'xz:\t\t' }
+	{ -> xz -c | wc -c }
+
+	{ printf 'bzip2:\t\t' }
+	{ -> bzip2 -c | wc -c }
+
+	{ printf 'gzip:\t\t' }
+	{ -> gzip -c | wc -c }
+}

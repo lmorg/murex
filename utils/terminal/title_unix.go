@@ -1,7 +1,7 @@
 //go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
-package ansititle
+package terminal
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ import (
 
 var ErrNotTTY = errors.New("not a TTY")
 
-func Write(title []byte) error {
+func Title(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return ErrNotTTY
@@ -60,7 +60,7 @@ func formatIcon(title []byte) []byte {
 	return ansi
 }
 
-func Tmux(title []byte) error {
+func TitleTmux(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return ErrNotTTY

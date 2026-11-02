@@ -134,6 +134,69 @@ func TestParseVarsLogicalNotBuilders(t *testing.T) {
 			Block:  `TestParseVarsLogicalNotBuilders5=false;%{a:!$(TestParseVarsLogicalNotBuilders5)}`,
 			Stdout: `{"a":true}`,
 		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders6=true;out %(foo-!$(TestParseVarsLogicalNotBuilders6)-bar)`,
+			Stdout: "foo-false-bar\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotBuilders7=false;out %(foo-!$(TestParseVarsLogicalNotBuilders7)-bar)`,
+			Stdout: "foo-true-bar\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsLogicalNotLiteral(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `%{foo:!bar}`,
+			Stdout: `{"foo":"!bar"}`,
+		},
+		{
+			Block:  `%{!!!foo:!bar}`,
+			Stdout: `{"!!!foo":"!bar"}`,
+		},
+		{
+			Block:  `%{a:!1}`,
+			Stdout: `{"a":"!1"}`,
+		},
+		{
+			Block:  `%{a:!true}`,
+			Stdout: `{"a":"!true"}`,
+		},
+		{
+			Block:  `%{a:!null}`,
+			Stdout: `{"a":"!null"}`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral0="bar";out "abc!$TestParseVarsLogicalNotLiteral0"`,
+			Stdout: "abc!bar\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral1="bar";out "!$TestParseVarsLogicalNotLiteral1"`,
+			Stdout: "!bar\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral2="bar";%{a:"!$TestParseVarsLogicalNotLiteral2"}`,
+			Stdout: `{"a":"!bar"}`,
+		},
+		{
+			Block:  `out hi!$`,
+			Stdout: "hi!$\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral3="bar";%[!$TestParseVarsLogicalNotLiteral3]`,
+			Stdout: `["!","bar"]`,
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral4="bar";out %(foo-!$TestParseVarsLogicalNotLiteral4-bar)`,
+			Stdout: "foo-!bar-bar\n",
+		},
+		{
+			Block:  `TestParseVarsLogicalNotLiteral5="bar";out abc!$TestParseVarsLogicalNotLiteral5`,
+			Stdout: "abc!bar\n",
+		},
 	}
 
 	test.RunMurexTests(tests, t)

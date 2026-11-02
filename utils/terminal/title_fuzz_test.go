@@ -1,7 +1,7 @@
 //go:build !js && !windows && !plan9
 // +build !js,!windows,!plan9
 
-package ansititle
+package terminal
 
 import (
 	"testing"
