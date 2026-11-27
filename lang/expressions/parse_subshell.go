@@ -1,6 +1,7 @@
 package expressions
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
@@ -68,6 +69,14 @@ func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (*p
 
 	b = utils.CrLfTrim(b)
 	val.DataType = fork.Stdout.GetDataType()
+
+	// If the subshell output is a non-empty simple string (no newlines) but the data type is
+	// Generic (tabular), treat it as a string to match user expectations for command
+	// substitution. This makes `${ printf abc } == "abc"` work correctly.
+	// Empty output is left as Generic to preserve null/table semantics.
+	if val.DataType == types.Generic && len(b) > 0 && !bytes.Contains(b, []byte("\n")) {
+		val.DataType = types.String
+	}
 
 	val.Value, err = formatBytes(tree, b, val.DataType, strOrVal)
 	return val, err
