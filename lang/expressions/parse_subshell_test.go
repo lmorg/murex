@@ -228,3 +228,36 @@ func TestParseSubShellBugFixJsonStr(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+// https://github.com/lmorg/murex/issues/1015
+func TestParseSubShellScalarStringComparison(t *testing.T) {
+	tests := []test.MurexTest{
+		// Direct comparison: subshell output should be treated as string
+		{
+			Block:  `out ( ${ printf abc } == "abc" )`,
+			Stdout: "true\n",
+		},
+		// Variable assignment then comparison
+		{
+			Block:  `$x = ${ printf abc }; out ( $x == "abc" )`,
+			Stdout: "true\n",
+		},
+		// Explicit cast to string
+		{
+			Block:  `out ( ${ printf abc -> cast str } == "abc" )`,
+			Stdout: "true\n",
+		},
+		// Multiline output should remain Generic (tabular), not match string comparison
+		{
+			Block:  `out ( ${ printf "abc\ndef" } == "abc\ndef" )`,
+			Stdout: "false\n",
+		},
+		// Empty output should remain Generic, not match empty string comparison
+		{
+			Block:  `out ( ${ printf "" } == "" )`,
+			Stdout: "false\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
